@@ -1,0 +1,86 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "web" middleware group. Make something great!
+|
+*/
+// ===========
+// User Route
+// ===========
+Route::post('/fetch-provinces', 'App\Http\Controllers\HomeController@fetchProvinces')->name('fetch-provinces');
+Route::get('/', 'App\Http\Controllers\nurse\HomeController@index_main')->name('home_main');
+Route::get('/term-and-condition', 'App\Http\Controllers\nurse\HomeController@term_and_condition')->name('term-and-condition');
+Route::get('/contact', 'App\Http\Controllers\nurse\HomeController@contact')->name('contact');
+Route::get('/about', 'App\Http\Controllers\nurse\HomeController@about')->name('about');
+Route::get('/privacy', 'App\Http\Controllers\nurse\HomeController@privacy')->name('privacy');
+Route::post('/save-contact', 'App\Http\Controllers\HomeController@saveContact')->name('save-contact');
+Route::post('/getNurseTypeJobs', 'App\Http\Controllers\HomeController@getNurseTypeJobs')->name('getNurseTypeJobs');
+Route::post('/getSubSpecialties', 'App\Http\Controllers\HomeController@getSubSpecialties')->name('getSubSpecialties');
+
+
+Route::prefix('medical-facilities')->name('medical-facilities.')->namespace('App\Http\Controllers\medical_facilities')->group(function () {
+  Route::get('/', 'HomeController@index_main')->name('medical_facilities_home_main');
+  Route::get('/medical-facilities-registraion', 'HomeController@registraion')->name('medical-facilities-registraion');
+  
+  Route::middleware('nurse_middle')->group(function () {
+     });
+});
+
+Route::prefix('agencies')->name('agencies.')->namespace('App\Http\Controllers\agencies')->group(function () {
+  Route::get('/', 'HomeController@index_main')->name('agencies_home_main');
+  Route::get('/agencies-registraion', 'HomeController@registraion')->name('agencies-registraion');
+ 
+  
+  Route::middleware('nurse_middle')->group(function () {
+     });
+});
+Route::prefix('nurse')->name('nurse.')->namespace('App\Http\Controllers\nurse')->group(function () {
+
+  Route::get('/forgot-password', 'HomeController@forgotPassword')->name('forgot-password');
+  Route::post('/forgot-password', 'HomeController@SendResetPasswordLink')->name('send-reset-password-link');
+  Route::post('/addnewsletter', 'HomeController@addnewsletters')->name('addnewsletter');
+  Route::post('/contact_us_data', 'HomeController@contact_us_data')->name('contact_us_data');
+
+  Route::get('/reset-password/{token}/{lp}', 'HomeController@ResetPassword')->name('reset-password');
+  Route::post('/reset-password', 'HomeController@UpdatePassword')->name('update-password');
+
+  Route::post('/userloginAction', 'HomeController@userloginAction')->name('userloginAction');
+  Route::post('/mail-exist', 'HomeController@mail_exist')->name('mail-exist');
+
+  Route::get('/fetch-subspecialty', 'HomeController@fetchSubspecialty')->name('fetch-subspecialty');
+  Route::get('/logout', 'HomeController@logout')->name('logout');
+  Route::get('/login', 'HomeController@login')->name('login');
+
+  Route::get('/', 'HomeController@index')->name('home');
+
+  Route::get('/nurse-register', 'HomeController@nurse_register')->name('nurse-register');
+  Route::get('/email-verification-pending', 'HomeController@emailVerificationPending')->name('email-verification-pending');
+  Route::get('/resent-verification', 'HomeController@resentVerification')->name('resent-verification-link');
+  Route::get('/email-verification/{token}', 'HomeController@email_verification')->name('email-verification');
+  Route::post('/do-nurse-register', 'HomeController@do_nurse_register')->name('do-nurse-register');
+  
+  Route::get('/profile-under-reviewed', 'HomeController@profileUnderReviewed')->name('profile-under-reviewed');
+  Route::middleware('nurse_middle')->group(function () {
+    Route::get('/my-profile', 'HomeController@manage_profile')->name('my-profile');
+    Route::get('/dashboard', 'HomeController@dashboard')->name('dashboard');
+    Route::post('/changepassword', 'HomeController@changepassword')->name('changepassword');
+    Route::post('/updateProfile', 'HomeController@updateProfile')->name('updateProfile');
+    Route::post('/user-upload-image', 'HomeController@upload_profile_image')->name('user-upload-image');
+    Route::post('/change_password', 'HomeController@change_password')->name('change_password');
+    Route::post('/update-profession', 'HomeController@update_profession')->name('update-profession');
+    Route::post('/update-profession-user-ahpra_numberI', 'HomeController@update_profession_ahpra_numberI')->name('update-profession-user-ahpra_numberI');
+    Route::post('/update-profession-user-eligibility', 'HomeController@update_eligibility_to_work')->name('update-profession-user-eligibility');
+    Route::post('/update-profession-user-children', 'HomeController@update_children_to_work')->name('update-profession-user-children');
+    Route::post('/update-profession-user-police-check', 'HomeController@update_police_check_to_work')->name('update-profession-user-police-check');
+    Route::post('/update-profession-user-emergency', 'HomeController@update_emergency')->name('update-profession-user-emergency');
+    Route::post('/update-profession-profile-setting', 'HomeController@update_profession_profile_setting')->name('update-profession-profile-setting');
+  });
+});
