@@ -150,6 +150,16 @@ class SpecialityRepository extends BaseRepository{
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
         }
     }
+
+    // harshita's code
+    public function getAllSubSpeciality(){
+        try {
+            return $this->newSpecialityData->where('parent','!=','0')->orderBy('id', 'desc')->get();
+        } catch(\Exception $e){
+            Log::error("Error in SpecialityRepository.getAllSubSpeciality(): " . $e->getMessage());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
     
    
 }

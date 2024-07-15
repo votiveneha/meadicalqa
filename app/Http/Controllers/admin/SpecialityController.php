@@ -216,6 +216,44 @@ class SpecialityController extends Controller
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
         }
     }
+
+    // harshita's code
+
+    // Sub Job Specialities List  data in database
+    public function SubsubjobSpecialitiesList(Request $request)
+    {
+        try {
+         
+            $specialityData = $this->specialityRepository->getAllSubSpeciality();
+
+            $subspecialityData  =  $this->specialityRepository->getAllSpeciality(['parent'=>$request->id]);
+            
+            $speciality=$this->specialityRepository->get_specialities(['id' => $request->id]);
+           
+            return view('admin.sub-sub-speciality-list-job',compact('specialityData','speciality','subspecialityData'));
+        } catch (\Exception $e) {
+            log::error('Error in SpecialityController/subjobSpecialitiesList :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+
+    // Sub Job Specialities List  data in database
+    public function SubmenujobSpecialitiesList(Request $request)
+    {
+        try {
+         
+            $specialityData = $this->specialityRepository->getAllSubSpeciality();
+
+            $subspecialityData  =  $this->specialityRepository->getAllSpeciality(['parent'=>$request->id]);
+            
+            $speciality=$this->specialityRepository->get_specialities(['id' => $request->id]);
+           
+            return view('admin.sub-menu-speciality-list-job',compact('specialityData','speciality','subspecialityData'));
+        } catch (\Exception $e) {
+            log::error('Error in SpecialityController/SubmenujobSpecialitiesList :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
     
 
    

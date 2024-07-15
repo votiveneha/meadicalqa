@@ -113,7 +113,8 @@ class HomeController extends Controller
     public function getNurseTypeJobs(Request $request)
     {
         $selectedNurseTypes = $request->nurseTypes;
-
+        //print_r($selectedNurseTypes);die;
+ 
         // Query the database to fetch nurse type jobs based on the selected nurse types
         $nurseTypeJobs = SpecialityModel::whereIn('parent', $selectedNurseTypes)->get();
 
@@ -130,6 +131,18 @@ class HomeController extends Controller
         // Return the nurse type jobs data as JSON response
         return response()->json($selectedspecialties);
     }
+
+    public function getNurseSpecialties(Request $request)
+    {
+        $selectedspecialties = $request->nurseTypeSpecialities;
+        //print_r($selectedspecialties);
+        //Query the database to fetch nurse type jobs based on the selected nurse types
+        $selectedspecialties = PractitionerTypeModel::where('np_speciality', "np")->get();
+
+        // Return the nurse type jobs data as JSON response
+        return response()->json($selectedspecialties);
+    }
+
     public function termsCondition()
     {
         $termsconditionData  = $this->contentRepository->getTermsCondition();

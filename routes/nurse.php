@@ -24,7 +24,7 @@ Route::get('/privacy', 'App\Http\Controllers\nurse\HomeController@privacy')->nam
 Route::post('/save-contact', 'App\Http\Controllers\HomeController@saveContact')->name('save-contact');
 Route::post('/getNurseTypeJobs', 'App\Http\Controllers\HomeController@getNurseTypeJobs')->name('getNurseTypeJobs');
 Route::post('/getSubSpecialties', 'App\Http\Controllers\HomeController@getSubSpecialties')->name('getSubSpecialties');
-
+Route::post('/getNursepractitionorSpecialities', 'App\Http\Controllers\HomeController@getNurseSpecialties')->name('getNursepractitionorSpecialities');
 
 Route::prefix('medical-facilities')->name('medical-facilities.')->namespace('App\Http\Controllers\medical_facilities')->group(function () {
   Route::get('/', 'HomeController@index_main')->name('medical_facilities_home_main');

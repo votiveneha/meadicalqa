@@ -64,8 +64,8 @@ $nameSpeciality = str_replace("'", "", $speciality->name);
                                                 aria-label="Delete" data-bs-original-title="Delete">
                                                 Delete
                                             </button>
-                                            <a href="{{route('admin.SubsubjobSpecialitiesList', ['id'=>$item->id])}}" class="btn btn-secondary btn-sm" id="add_sub_speciality">
-                                                View sub job specialities
+                                            <a href="{{route('admin.SubSpecialitiesjobList', ['id'=>$item->id])}}" class="btn btn-secondary btn-sm" id="add_sub_speciality">
+                                                View sub speciality job types
                                             </a>
                                         </div>
                                     </td>

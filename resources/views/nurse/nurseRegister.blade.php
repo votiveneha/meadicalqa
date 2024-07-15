@@ -1,7 +1,10 @@
 @extends('nurse.layouts.layout')
 @section('css')
-
+<link rel="stylesheet" 
+              href= 
+"https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/select2.min.css" />
 <style type="text/css">
+
   #container {
     /*  max-width: 550px;  */
   }
@@ -146,20 +149,39 @@
 
                 <div class="form-group">
                   <label class="form-label" for="input-1">Type of Nurse?</label>
-                  <select class="form-input mr-10 select-active" name="nurseType[]" id="nurseType" multiple>
+                  <select class="form-input mr-10 country" name="nurseType[]"
+                    multiple="true" id="nurseType"
+                    > 
+                      @php $specialty = specialty();$spcl=$specialty[0]->id;@endphp
+                    @foreach($specialty as $spl)
+                    <option value="{{ $spl->id }}">{{ $spl->name }}</option>
+                    @endforeach
+                  </select> 
+                  <!-- <select class="form-input mr-10 select-active" name="nurseType[]" id="nurseType" multiple>
                     @php $specialty = specialty();$spcl=$specialty[0]->id;@endphp
                     @foreach($specialty as $spl)
                     <option value="{{ $spl->id }}">{{ $spl->name }}</option>
                     @endforeach
-                  </select>
+                  </select> -->
                 </div>
                 <span id="reqnurseTypeId" class="reqError valley"></span>
 
                 <div id="nurse_select">
                   <!-- <div id="nurse_select"  style="display: none;"> -->
                   <div class="form-group" id="subspecialtyGroup">
-                    <label class="form-label" for="input-1">Type of Nurse Job</label>
-                    <select class="form-input mr-10 select-active" name="nurseTypeJob[]" id="nurseTypeJob" multiple>
+                    <label class="form-label" for="input-1">Types of Nursing Jobs</label>
+                    <select class="form-input mr-10" name="nurseTypeJob[]" id="nurseTypeJob" multiple>
+
+                    </select>
+                  </div>
+                  <span id="reqnurseTypeJobId" class="reqError valley"></span>
+                </div>
+
+                <div id="nurse_practitioner">
+                  <!-- <div id="nurse_select"  style="display: none;"> -->
+                  <div class="form-group" id="subspecialtyGroup">
+                    <label class="form-label" for="input-1">Nurse Practitioner (NP) sub speciality</label>
+                    <select class="form-input mr-10 select-active" name="nurse_practitioner_speciality[]" id="nurse_practitioner_speciality" multiple>
 
                     </select>
                   </div>
@@ -168,22 +190,14 @@
 
 
 
-                <div class="form-group">
-                  <label class="form-label" for="input-1">What level are you?</label>
-                  <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
-                  <select class="form-input mr-10 select-active" name="assistent_level">
-                    
-                    @for($i = 1; $i <= 30; $i++) <option value="{{ $i }}">{{ $i }}{{ $i == 1 ? 'st' : ($i == 2 ? 'nd' : ($i == 3 ? 'rd' : 'th')) }} Year</option>
-                      @endfor
-                  </select>
-                </div>
+                
                 <span id="reqassistent_level" class="reqError valley"></span>
 
 
                 <div class="" id="mid_select">
                   <div class="form-group">
                     <label class="form-label" for="input-1">Specialties</label>
-                    <select class="form-input mr-10 select-active" name="specialties[]" id="specialties" multiple>
+                    <select class="form-input mr-10 specialties" name="specialties[]" id="specialties" multiple>
                     
                       @php $JobSpecialties = JobSpecialties(); @endphp
                       @foreach($JobSpecialties as $ptl)
@@ -200,10 +214,18 @@
                     </select>
                     <span id="reqsubSpecialties" class="reqError valley"></span>
                   </div>
-
+                  <div class="form-group">
+                    <label class="form-label" for="input-1">What level are you?</label>
+                    <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
+                    <select class="form-input mr-10 select-active" name="assistent_level">
+                      
+                      @for($i = 1; $i <= 30; $i++) <option value="{{ $i }}">{{ $i }}{{ $i == 1 ? 'st' : ($i == 2 ? 'nd' : ($i == 3 ? 'rd' : 'th')) }} Year</option>
+                        @endfor
+                    </select>
+                  </div>
                   <div class="" id="mid_select">
                     <div class="form-group">
-                      <label class="form-label" for="input-1">NURSE & MIDWIFE DEGREE</label>
+                      <label class="form-label" for="input-1">Nurse & Midwife degree</label>
                       <select class="form-input mr-10 select-active" name="degree[]" multiple>
                       
                         @php $nurse_midwife_degree = nurse_midwife_degree(); @endphp
@@ -237,7 +259,7 @@
               <div class="col-lg-5 col-md-6 col-sm-12 mx-auto">
                 <div class="text-center">
                   <!-- <p class="font-sm text-brand-2">Register </p> -->
-                  <h2 class="mt-10 mb-5 text-brand-1 fs_24">You’re moments away from job opportunities</h2>
+                  <h2 class="mt-10 mb-5 text-brand-1 fs_24">You are moments away from job opportunities</h2>
                 </div>
 
                 <div class="login-register text-start mt-20" action="#">
@@ -273,10 +295,10 @@
                           @php $country_phone_code = country_phone_code();@endphp
                           @forelse($country_phone_code as $cpc)
                           @if($cpc->phonecode!='0')
-                          <option data-countryCode="GB" value="{{ $cpc->phonecode}}">(+{{ $cpc->phonecode}})</option>
+                          <option data-countryCode="GB" value="{{ $cpc->phonecode}}" @if($cpc->name == "Australia") selected @endif>(+{{ $cpc->name}})</option>
                           @endif
                           @empty
-                          @endforelse
+                          <!-- @endforelse -->
                         </select>
                       </div>
                       <div class="col-md-9">
@@ -478,13 +500,13 @@
 
     // Validate nurseType select
     if ($('[name="nurseType[]"]').val() == '') {
-      document.getElementById("reqnurseTypeId").innerHTML = "*  Please select which type of nurse you are.";
+      document.getElementById("reqnurseTypeId").innerHTML = "* Please select one or more Type of nurse";
       isValid = false;
     }
     if ($('#nurse_select').css('display') !== 'none') {
       // Validate nurseTypeJob select nurseTypeJob
       if ($('[name="nurseTypeJob[]"]').val() == '') {
-        document.getElementById("reqnurseTypeJobId").innerHTML = "*  Please select alteast option .";
+        document.getElementById("reqnurseTypeJobId").innerHTML = "* Please select one or more Type of Nursing Jobs";
         isValid = false;
 
       }
@@ -839,36 +861,95 @@
     });
   });
 </script>
+ <script src= 
+"https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/select2.min.js"> 
+       </script> 
 <script>
-  $(document).ready(function() {
-    $('#nurseType').change(function() {
-      var selectedValues = $(this).val();
-      if (selectedValues && selectedValues.length > 0) {
-        $.ajax({
-          url: "{{ route('getNurseTypeJobs') }}",
-          type: "POST",
-          data: {
-            nurseTypes: selectedValues,
-            _token: '{{ csrf_token() }}'
-          },
-          dataType: 'json',
-          success: function(response) {
-            $('#nurse_select').show();
-            $('#nurseTypeJob').empty();
-            $.each(response, function(index, job) {
-              $('#nurseTypeJob').append('<option value="' + job.id + '">' + job.name + '</option>');
-            });
-          },
-          error: function(xhr, status, error) {
-            console.error(error);
-          }
-        });
-      } else {
-        $('#nurse_select').hide();
-        $('#nurseTypeJob').empty();
-      }
-    });
+   $(document).ready(function () { 
+                //Select2 
+                $(".country").select2(); 
+                $(".specialties").select2();
+                $("#nurseTypeJob").select2();
+                
+                $(".country").change(function () {
+                  var selectedValues = $(this).val();
+                  if (selectedValues && selectedValues.length > 0) {
+                    $.ajax({
+                      url: "{{ route('getNurseTypeJobs') }}",
+                      type: "POST",
+                      data: {
+                        nurseTypes: selectedValues,
+                        _token: '{{ csrf_token() }}'
+                      },
+                      dataType: 'json',
+                      success: function(response) {
+                        $('#nurse_select').show();
+                        $('#nurseTypeJob').empty();
+                        $.each(response, function(index, job) {
+                          $('#nurseTypeJob').append('<option value="' + job.id + '">' + job.name + '</option>');
+                        });
+                      },
+                      error: function(xhr, status, error) {
+                        console.error(error);
+                      }
+                    });
+                  } else {
+                    $('#nurse_select').hide();
+                    $('#nurseTypeJob').empty();
+                  }
+                });
+            }); 
+ $("#nurseTypeJob").change(function () {
+  var selectedValues = $(this).val();
+  $.ajax({
+    url: "{{ route('getNursepractitionorSpecialities') }}",
+    type: "POST",
+    data: {
+      nurseTypeSpecialities: selectedValues,
+      _token: '{{ csrf_token() }}'
+    },
+    dataType: 'json',
+    success: function(response) {
+      // $('#nurse_select').show();
+      // $('#nurseTypeJob').empty();
+      $.each(response, function(index, job) {
+        $('#nurse_practitioner_speciality').append('<option value="' + job.id + '">' + job.name + '</option>');
+      });
+    },
+    error: function(xhr, status, error) {
+      console.error(error);
+    }
   });
+ });
+  // $(document).ready(function() {
+  //   $('#nurseType').change(function() {
+  //     var selectedValues = $(this).val();
+  //     if (selectedValues && selectedValues.length > 0) {
+  //       $.ajax({
+  //         url: "{{ route('getNurseTypeJobs') }}",
+  //         type: "POST",
+  //         data: {
+  //           nurseTypes: selectedValues,
+  //           _token: '{{ csrf_token() }}'
+  //         },
+  //         dataType: 'json',
+  //         success: function(response) {
+  //           $('#nurse_select').show();
+  //           $('#nurseTypeJob').empty();
+  //           $.each(response, function(index, job) {
+  //             $('#nurseTypeJob').append('<option value="' + job.id + '">' + job.name + '</option>');
+  //           });
+  //         },
+  //         error: function(xhr, status, error) {
+  //           console.error(error);
+  //         }
+  //       });
+  //     } else {
+  //       $('#nurse_select').hide();
+  //       $('#nurseTypeJob').empty();
+  //     }
+  //   });
+  // });
 </script>
 <script>
   $(document).ready(function() {
