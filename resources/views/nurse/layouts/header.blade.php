@@ -39,10 +39,15 @@
               </li>
 
               <li class="">
-                <a class='{{ request()->is('medical-facilities') ?"active":"" }} hover-up' href='{{ route("medical-facilities.medical_facilities_home_main") }}'>Medical Facilities</a>
+                <a class='{{ request()->is('medical-facilities') ?"active":"" }} hover-up' href='{{ route("medical-facilities.medical_facilities_home_main") }}'>Healthcare Facilities</a>
               </li>
               <li class="">
-                <a class='{{ request()->is('agencies') ?"active":"" }}' href='{{ route("agencies.agencies_home_main") }}'>Agencies</a>
+                <a class='{{ request()->is('agencies') ?"active":"" }} hover-up' href='{{ route("agencies.agencies_home_main") }}'>Agencies</a>
+              </li>
+              <li class="">
+
+                <a class='{{ request()->is('contact') ?"active":"" }} hover-up' href='{{ route("contact") }}'>Nurse Care at Home
+</a>
               </li>
               <li class="">
 
@@ -58,6 +63,7 @@
           <div class="block-signin d-flex align-items-center gap-3 justify-content-end">
             <!-- <a class='text-link-bd-btom hover-up' href='nurse_signup.php'>Become a Nurse</a> -->
             <a class='btn btn-default btn-shadow hover-up' href='{{ route("nurse.login") }}'>Sign in</a>
+            <a class='btn btn-default btn-shadow hover-up' href='{{ route("nurse.nurse-register") }}'>Sign up</a>
             <!-- @if(request()->is('') || request()->is('/'))
             <a class='btn btn-default btn-shadow hover-up' href='{{ route("nurse.home") }}'>Sign in</a>
             @elseif(request()->is('nurse'))
