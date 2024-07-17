@@ -3,16 +3,16 @@
 @php
 $nameSpeciality = str_replace("'", "", $speciality->name);
 @endphp
-<x-card-component parentHeading="Sub Job Specialities Type ({{$nameSpeciality}})" childHeading="Sub Job Specialities Type  Management" parentUrl="{{route('admin.dashboard')}}" />
+<x-card-component parentHeading="Job Specialities Subtype ({{$nameSpeciality}})" childHeading="Job Specialities Subtype  Management" parentUrl="{{route('admin.dashboard')}}" />
     <div class="card w-100  overflow-hidden ">
         <div class="card-header pb-0 p-4">
             <div class="d-flex align-items-center justify-content-between">
                 <div>
-                    <h5 class="card-title fw-semibold mb-0">Sub Job Specialities List</h5>
+                    <h5 class="card-title fw-semibold mb-0">Job Specialities Subtype List</h5>
                 </div>
                 <div>
                     <a href="" data-bs-toggle="modal" data-bs-target="#add_Subspeciality" class="btn btn-primary text-nowrap btn-sm">Add
-                    Sub Job Specialities Type </a>
+                    Job Specialities Subtype</a>
                 </div>
             </div>
         </div>
@@ -29,7 +29,7 @@ $nameSpeciality = str_replace("'", "", $speciality->name);
                                 <h6 class="fs-4 fw-semibold mb-0">Job Specialities </h6>
                             </th> -->
                             <th>
-                                <h6 class="fs-4 fw-semibold mb-0"> Job Specialities Type</h6>
+                                <h6 class="fs-4 fw-semibold mb-0"> Job Specialities Subtype</h6>
                             </th>
                             <th>
                                 <h6 class="fs-4 fw-semibold ">Action</h6>
@@ -65,7 +65,7 @@ $nameSpeciality = str_replace("'", "", $speciality->name);
                                                 Delete
                                             </button>
                                             <a href="{{route('admin.SubSpecialitiesjobList', ['id'=>$item->id])}}" class="btn btn-secondary btn-sm" id="add_sub_speciality">
-                                                View sub speciality job types
+                                                View job specialities subtype
                                             </a>
                                         </div>
                                     </td>

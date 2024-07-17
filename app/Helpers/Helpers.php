@@ -33,7 +33,7 @@ function sub_specialty($specialty_id)
 
 function JobSpecialties()
 {
-        $JobSpecialties =  PractitionerTypeModel::where('status', '1')->where('parent','0')->where('np_speciality','!=', 'NP')->orderBy('id', 'desc')->get();
+        $JobSpecialties =  PractitionerTypeModel::where('status', '1')->where('parent','0')->orderBy('id', 'desc')->get();
         return $JobSpecialties;
 }
 function SubJobSpecialties()
@@ -58,7 +58,7 @@ function practitioner_type_by_id($practitioner)
 }
 function country_phone_code()
 {
-    $country_phone_code = CountryModel::where('status', '1')->select('phonecode', 'name')->groupBy('phonecode')->orderBy("phonecode", "asc")->get();
+    $country_phone_code = CountryModel::where('status', '1')->select('phonecode','name')->groupBy('phonecode')->orderBy("phonecode", "asc")->get();
     return $country_phone_code;
 }
 function country_id($country_phone_code)

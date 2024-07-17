@@ -3,7 +3,7 @@
 @php
 $nameSpeciality = str_replace("'", "", $speciality->name);
 @endphp
-<x-card-component parentHeading="Sub Job Specialities Type ({{$nameSpeciality}})" childHeading="Sub Job Specialities Type  Management" parentUrl="{{route('admin.dashboard')}}" />
+<x-card-component parentHeading="Job Specialities Subtype({{$nameSpeciality}})" childHeading="Job Specialities Subtype  Management" parentUrl="{{route('admin.dashboard')}}" />
     <div class="card w-100  overflow-hidden ">
         <div class="card-header pb-0 p-4">
             <div class="d-flex align-items-center justify-content-between">
@@ -65,7 +65,7 @@ $nameSpeciality = str_replace("'", "", $speciality->name);
                                                 Delete
                                             </button>
                                             <a href="{{route('admin.SubsubjobSpecialitiesList', ['id'=>$item->id])}}" class="btn btn-secondary btn-sm" id="add_sub_speciality">
-                                                View sub job specialities
+                                                View job specialities subtype
                                             </a>
                                         </div>
                                     </td>

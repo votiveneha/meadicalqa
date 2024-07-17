@@ -1,15 +1,15 @@
 @extends('admin.layouts.layout')
 @section('content')
-<x-card-component parentHeading="Profession List" childHeading="Profession Management" parentUrl="{{route('admin.dashboard')}}" />
+<x-card-component parentHeading="Type of Nurse Job List" childHeading="Type Of Nurse Job List" parentUrl="{{route('admin.dashboard')}}" />
     <div class="card w-100  overflow-hidden ">
         <div class="card-header pb-0 p-4">
             <div class="d-flex align-items-center justify-content-between">
                 <div>
-                    <h5 class="card-title fw-semibold mb-0">Profession  List</h5>
+                    <h5 class="card-title fw-semibold mb-0">Type Of Nurse Job List</h5>
                 </div>
                 <div>
                     <a href="" data-bs-toggle="modal" data-bs-target="#add_Speciality" class="btn btn-primary text-nowrap btn-sm">Add
-                        Profession </a>
+                        Type of Nurse Job</a>
                 </div>
             </div>
         </div>
@@ -23,7 +23,7 @@
                                 <h6 class="fs-4 fw-semibold mb-0">Sn.</h6>
                             </th>
                             <th>
-                                <h6 class="fs-4 fw-semibold mb-0"> Profession</h6>
+                                <h6 class="fs-4 fw-semibold mb-0">Nurse Job Type</h6>
                             </th>
                             <th>
                                 <h6 class="fs-4 fw-semibold ">Action</h6>

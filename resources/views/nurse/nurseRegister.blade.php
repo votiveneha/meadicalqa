@@ -209,7 +209,22 @@
 
                   <div class="form-group">
                     <label class="form-label" for="input-1">Sub Specialties</label>
-                    <select class="form-input mr-10 select-active" name="subSpecialties[]" id="subSpecialties" multiple>
+                    <select class="form-input mr-10" name="subSpecialties[]" id="subSpecialties" multiple>
+                     
+                    </select>
+                    <span id="reqsubSpecialties" class="reqError valley"></span>
+                  </div>
+
+                  <div class="form-group surgicalSpec">
+                    <label class="form-label" for="input-1"> Sub Specialties(<span class="sub_speciality"></span>)</label>
+                    <select class="form-input mr-10" name="surgicalsubSpecialties[]" id="surgicalsubSpecialties" multiple>
+                     
+                    </select>
+                    <span id="reqsubSpecialties" class="reqError valley"></span>
+                  </div>
+                  <div class="form-group surgicalSubSpec">
+                    <label class="form-label" for="input-1"> Sub Specialties(<span class="sub_sub_speciality"></span>)</label>
+                    <select class="form-input mr-10 select-active" name="surgicalsuboneSpecialties[]" id="surgicalsuboneSpecialties" multiple>
                      
                     </select>
                     <span id="reqsubSpecialties" class="reqError valley"></span>
@@ -295,7 +310,7 @@
                           @php $country_phone_code = country_phone_code();@endphp
                           @forelse($country_phone_code as $cpc)
                           @if($cpc->phonecode!='0')
-                          <option data-countryCode="GB" value="{{ $cpc->phonecode}}" @if($cpc->name == "Australia") selected @endif>(+{{ $cpc->name}})</option>
+                          <option data-countryCode="GB" value="{{ $cpc->phonecode}}" @if($cpc->name == "Australia") selected @endif>(+{{ $cpc->phonecode}})</option>
                           @endif
                           @empty
                           <!-- @endforelse -->
@@ -870,6 +885,8 @@
                 $(".country").select2(); 
                 $(".specialties").select2();
                 $("#nurseTypeJob").select2();
+                $("#subSpecialties").select2();
+                $("#surgicalsubSpecialties").select2();
                 
                 $(".country").change(function () {
                   var selectedValues = $(this).val();
@@ -887,6 +904,79 @@
                         $('#nurseTypeJob').empty();
                         $.each(response, function(index, job) {
                           $('#nurseTypeJob').append('<option value="' + job.id + '">' + job.name + '</option>');
+                        });
+                      },
+                      error: function(xhr, status, error) {
+                        console.error(error);
+                      }
+                    });
+                  } else {
+                    $('#nurse_select').hide();
+                    $('#nurseTypeJob').empty();
+                  }
+                });
+                $(".surgicalSpec").hide();
+                $(".surgicalSubSpec").hide();
+                var subSpecialtiesArray = [];
+                $("#subSpecialties").change(function () {
+                  var selectedValues = $(this).val();
+                  if (selectedValues && selectedValues.length > 0) {
+                    $.ajax({
+                      url: "{{ route('getsurgicalSpeciality') }}",
+                      type: "POST",
+                      data: {
+                        surgical_speciality: selectedValues,
+                        _token: '{{ csrf_token() }}'
+                      },
+                      dataType: 'json',
+                      success: function(response) {
+
+                        if(response.length>0){
+                          var selectedValuesText = $("#subSpecialties option:selected").text();
+                          subSpecialtiesArray.push(selectedValuesText);
+                           
+                          console.log("selectedValuesText",subSpecialtiesArray.join(","));
+                          $(".sub_speciality").text(subSpecialtiesArray);
+                          $(".surgicalSpec").show();
+                        }
+                        
+                        $.each(response, function(index, job) {
+                          $('#surgicalsubSpecialties').append('<option value="' + job.id + '">' + job.name + '</option>');
+                        });
+                      },
+                      error: function(xhr, status, error) {
+                        console.error(error);
+                      }
+                    });
+                  } else {
+                    $('#nurse_select').hide();
+                    $('#nurseTypeJob').empty();
+                  }
+                });
+                var sub_subSpecialtiesArray = [];
+                $("#surgicalsubSpecialties").change(function () {
+
+                  var selectedValues = $(this).val();
+                  if (selectedValues && selectedValues.length > 0) {
+                    $.ajax({
+                      url: "{{ route('getsurgicalSubSpeciality') }}",
+                      type: "POST",
+                      data: {
+                        surgical_sub_speciality: selectedValues,
+                        _token: '{{ csrf_token() }}'
+                      },
+                      dataType: 'json',
+                      success: function(response) {
+                        if(response.length>0){
+                          var selectedValuesText = $("#surgicalsubSpecialties option:selected").text();
+                          sub_subSpecialtiesArray.push(selectedValuesText) 
+                          console.log("selectedValuesText",sub_subSpecialtiesArray.join(","));
+                          $(".sub_sub_speciality").text(sub_subSpecialtiesArray.replace(":",""));
+                          $(".surgicalSubSpec").show();
+                        }
+                        
+                        $.each(response, function(index, job) {
+                          $('#surgicalsuboneSpecialties').append('<option value="' + job.id + '">' + job.name + '</option>');
                         });
                       },
                       error: function(xhr, status, error) {

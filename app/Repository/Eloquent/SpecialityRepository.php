@@ -160,6 +160,15 @@ class SpecialityRepository extends BaseRepository{
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
         }
     }
+
+    public function getAllSubJob($byWhere){
+        try {
+            return $this->model->where('parent','!=',0)->orderBy('id', 'desc')->get();
+        } catch(\Exception $e){
+            Log::error("Error in SpecialityRepository.getAll(): " . $e->getMessage());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
     
    
 }
