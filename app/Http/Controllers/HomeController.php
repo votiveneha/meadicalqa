@@ -90,6 +90,10 @@ class HomeController extends Controller
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
         }
     }
+
+    public function nurseCareHome(Request $request){
+        return view("nurse.nurse_care_home");
+    }
     /* about us page  */
     public function aboutUs()
     {
@@ -135,9 +139,9 @@ class HomeController extends Controller
     public function getNurseSpecialties(Request $request)
     {
         $selectedspecialties = $request->nurseTypeSpecialities;
-        //print_r($selectedspecialties);
+        //print_r($selectedspecialties);die;
         //Query the database to fetch nurse type jobs based on the selected nurse types
-        $selectedspecialties = PractitionerTypeModel::where('parent', $selectedspecialties)->get();
+        $selectedspecialties = SpecialityModel::where('parent', $selectedspecialties)->get();
 
         // Return the nurse type jobs data as JSON response
         return response()->json($selectedspecialties);

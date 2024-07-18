@@ -33,7 +33,7 @@ function sub_specialty($specialty_id)
 
 function JobSpecialties()
 {
-        $JobSpecialties =  PractitionerTypeModel::where('status', '1')->where('parent','0')->orderBy('id', 'desc')->get();
+        $JobSpecialties =  PractitionerTypeModel::where('status', '1')->where('parent','0')->orderBy('id', 'asc')->get();
         return $JobSpecialties;
 }
 function SubJobSpecialties()

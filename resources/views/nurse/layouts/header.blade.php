@@ -20,7 +20,7 @@
                   @php $nurseTypeData =nurse_Type_header();@endphp
                   @if($nurseTypeData)
                   @foreach ($nurseTypeData as $key => $items)
-                  <li> <a href='{{ route("nurse.login") }}' class="active"> {{ $items->name}}</a></li>
+                  <li> <a href='{{ route("nurse.login") }}'> {{ $items->name}}</a></li>
                   @endforeach
                   @endif
                   <li> <a href='{{ route("nurse.login") }}'>JOBS by specialties <i class="fa-solid fa-caret-right fs-6"></i></a>
@@ -45,8 +45,8 @@
                 <a class='{{ request()->is('agencies') ?"active":"" }} hover-up' href='{{ route("agencies.agencies_home_main") }}'>Agencies</a>
               </li>
               <li class="">
-
-                <a class='{{ request()->is('contact') ?"active":"" }} hover-up' href='{{ route("contact") }}'>Nurse Care at Home
+                
+                <a class='{{ request()->is('nurseCareHome') ?"active":"" }} hover-up' href='{{ route("nurseCareHome") }}'>Nurse Care at Home
 </a>
               </li>
               <li class="">
@@ -149,15 +149,16 @@
   @if(!email_verified())
   <div class="container-fluid">
     <div class="alert alert-warning mt-2" role="alert">
-      <span class="d-flex align-items-center justify-content-center "><img src="{{ asset('nurse/assets/imgs/info.png') }}" width="25px;" alt="info" class="mx-2"> To get full access, Please verify your email first, If you didn't receive mail then <a href="javascript:void(0);" class="link-opacity-100 mx-1" style="color: black;text-decoration-line: underline;
-  text-decoration-style: straight;" onclick="return resendEmailLink()"><b> click here to Resend </b></a>.</span>
+      <span class="d-flex align-items-center justify-content-center "><img src="{{ asset('nurse/assets/imgs/info.png') }}" width="25px;" alt="info" class="mx-2"> Thank you for signing up with us. To get full access, please verify your email first. If you didn't receive the email, <a href="javascript:void(0);" class="link-opacity-100 mx-1" style="color: black;text-decoration-line: underline;
+  text-decoration-style: straight;" onclick="return resendEmailLink()"><b> click here to resend it.</b></a></span>
     </div>
   </div>
   @endif
   @if(!account_verified())
   <div class="container-fluid">
     <div class="alert alert-warning mt-2" role="alert">
-      <span class="d-flex align-items-center justify-content-center "><img src="{{ asset('nurse/assets/imgs/info.png') }}" width="25px;" alt="info" class="mx-2"> Your profile is in under review, Generally, it takes 2-3 business days, We will inform you asap. NOTE: Until you profile is in pending state you cant apply on jobs , Your profile will be invisible.</span>
+      <span class="d-flex align-items-center justify-content-center "><img src="{{ asset('nurse/assets/imgs/info.png') }}" width="25px;" alt="info" class="mx-2">Thank you for verifying you email. We are currently reviewing your details and will get in touch with you shortly.</span><span class="d-flex align-items-center justify-content-center "> Note: Until your profile is in a pending state, you can't apply for jobs, and your profile will be invisible.</span>
+
     </div>
   </div>
   @endif

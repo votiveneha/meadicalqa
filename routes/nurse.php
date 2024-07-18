@@ -23,6 +23,7 @@ Route::get('/about', 'App\Http\Controllers\nurse\HomeController@about')->name('a
 Route::get('/privacy', 'App\Http\Controllers\nurse\HomeController@privacy')->name('privacy');
 Route::post('/save-contact', 'App\Http\Controllers\HomeController@saveContact')->name('save-contact');
 Route::post('/getNurseTypeJobs', 'App\Http\Controllers\HomeController@getNurseTypeJobs')->name('getNurseTypeJobs');
+Route::get('/nurseCareHome', 'App\Http\Controllers\HomeController@nurseCareHome')->name('nurseCareHome');
 Route::post('/getSubSpecialties', 'App\Http\Controllers\HomeController@getSubSpecialties')->name('getSubSpecialties');
 Route::post('/getNursepractitionorSpecialities', 'App\Http\Controllers\HomeController@getNurseSpecialties')->name('getNursepractitionorSpecialities');
 Route::post('/getsurgicalSpeciality', 'App\Http\Controllers\HomeController@getsurgicalSpeciality')->name('getsurgicalSpeciality');

@@ -254,6 +254,21 @@ class SpecialityController extends Controller
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
         }
     }
+
+    // Sub Profession  data in database
+    public function SubtypeofNurse(Request $request)
+    {
+        try {
+            $specialityData  =  $this->specialityRepository->getAllSubJob(['parent'=>0]);
+            $subspecialityData  =  $this->specialityRepository->getAllJob(['parent'=>$request->id]);
+           
+            $speciality=$this->specialityRepository->get(['id' => $request->id]);
+            return view('admin.nurse-job-sub-type-list',compact('specialityData','speciality','subspecialityData'));
+        } catch (\Exception $e) {
+            log::error('Error in SpecialityController/subspecialityList :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
     
 
    

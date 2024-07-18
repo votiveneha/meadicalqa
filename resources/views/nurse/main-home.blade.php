@@ -53,7 +53,7 @@
     </div>
   </section>
 
-  <section class="section-box pt-50 pb-50 bg-light">
+  <!-- <section class="section-box pt-50 pb-50 bg-light">
     <div class="container">
       <div class="text-center">
         <h2 class="section-title mb-10 wow animate__animated animate__fadeInUp">A SPECIALIZED NURSE AT HOME WHEN YOUR NEED
@@ -122,7 +122,7 @@
         </div>
       </div>
     </div>
-  </section>      
+  </section>       -->
   <section class="section-box pt-50 pb-50 bg-light">
     <div class="container">
       <div class="text-center">

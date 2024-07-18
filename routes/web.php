@@ -42,6 +42,8 @@ Route::prefix('/admin')->name('admin.')->namespace('App\Http\Controllers\admin')
           Route::post('/updateSubspeciality', 'SpecialityController@updateSubspeciality')->name('updateSubspeciality');
           Route::post('/deleteSubspeciality', 'SpecialityController@deleteSubspeciality')->name('deleteSubspeciality');  
           Route::post('/getSubspeciality', 'SpecialityController@getSubspeciality')->name('getSubspeciality'); 
+          Route::get('/practitionersubtypeList/{id}', 'SpecialityController@SubtypeofNurse')->name('practitionersubtypeList');
+
 
           // Speciality Managemenent
           Route::get('/specialityList', 'SpecialityController@specialityNewList')->name('specialityList');

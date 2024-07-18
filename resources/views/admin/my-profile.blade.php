@@ -48,7 +48,7 @@
                                                 placeholder="" accept='image/*'>
                                             @if (auth()->guard('admin')->user()->image)
                                                 <img class="mt-3"
-                                                    src="{{ url('public/storage/' . auth()->guard('admin')->user()->image) }}"
+                                                    src="{{ url('storage/app/public/' . auth()->guard('admin')->user()->image) }}"
                                                     alt="{{ auth()->guard('admin')->user()->name }}"
                                                     style="height: 100px;width:100px">
                                             @endif

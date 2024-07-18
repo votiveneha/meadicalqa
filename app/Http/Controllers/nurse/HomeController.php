@@ -195,6 +195,8 @@ class HomeController extends Controller
             
             $companyinsert['nursetype'] = json_encode($request->nurseType);
             $companyinsert['nurseTypeJob'] = json_encode($request->nurseTypeJob);
+            $companyinsert['nurseTypeJob'] = json_encode($request->nurseTypeJob);
+            $companyinsert['nurse_practitioner_speciality'] = json_encode($request->nurse_practitioner_speciality);
             $companyinsert['assistent_level'] = $request->assistent_level;
             $companyinsert['specialties'] = json_encode($request->specialties);
             $companyinsert['subSpecialties'] = json_encode($request->subSpecialties);

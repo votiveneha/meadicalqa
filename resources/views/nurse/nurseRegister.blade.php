@@ -281,12 +281,12 @@
                   
                   <div class="form-group">
                     <label class="form-label" for="input-1"> First Name *</label>
-                    <input class="form-control" type="text" required="" name="fullname" id="firstNameI" placeholder="Enter Your First name">
+                    <input class="form-control" type="text" required="" name="fullname" id="firstNameI" placeholder="Enter Your First name" onkeydown="return /[a-z]/i.test(event.key)">
                     <span id="reqTxtfirstNameI" class="reqError valley"></span>
                   </div>
                   <div class="form-group">
                     <label class="form-label" for="input-1">Last Name *</label>
-                    <input class="form-control" type="text" required="" name="lastname" id="lastNameI" placeholder="Enter Your Last name">
+                    <input class="form-control" type="text" required="" name="lastname" id="lastNameI" placeholder="Enter Your Last name" onkeydown="return /[a-z]/i.test(event.key)">
                     <span id="reqTxtlastNameI" class="reqError valley"></span>
                   </div>
 
@@ -317,7 +317,7 @@
                         </select>
                       </div>
                       <div class="col-md-9">
-                        <input class="form-control numbers" type="text" required="" name="contact" id="contactI" placeholder="1234567890">
+                        <input class="form-control numbers" type="text" required="" name="contact" id="contactI" placeholder="1234567890" maxlength="10" pattern="[0-9]{4}">
                         <span id="reqTxtcontactI" class="reqError valley"></span>
                       </div>
                     </div>
@@ -327,7 +327,7 @@
                   </div>
                   <div class="form-group">
                     <label class="form-label" for="input-4">Post Code *</label>
-                    <input class="form-control numbers" type="text" required="" name="post_code" id="post_codeI" placeholder="123456">
+                    <input class="form-control numbers" type="text" required="" name="post_code" id="post_codeI" placeholder="123456" maxlength="10">
                     <span id="reqTxtpost_codeI" class="reqError valley"></span>
                   </div>
                   <div class="form-group">
@@ -637,6 +637,20 @@
 
     }
 
+    var emailError = document.getElementById("reqTxtemailI");
+        var confirmEmailError = document.getElementById("reqTxtconfirmEmail");
+
+    if (emailI.trim() !== confirmEmail.trim()) {
+            emailError.textContent = "Emails do not match";
+            confirmEmailError.textContent = "Emails do not match";
+            returnValue = false;
+        } else {
+            emailError.textContent = "";
+            confirmEmailError.textContent = "";
+        }
+
+
+
     var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
     if (emailI.match(mailformat)) {
@@ -650,6 +664,7 @@
       returnValue = false;
 
     }
+
    
     if (firstNameI.trim() == "") {
 
@@ -703,7 +718,15 @@
 
     }
 
-    if (confirm_passwordI.trim() == "") {
+    if (passwordI.length < 6) {
+
+      document.getElementById("reqTxtpasswordI").innerHTML = "*  Your password must be at least 6 characters long";
+
+      returnValue = false;
+
+    }
+
+    if (confirm_passwordI == "") {
 
       document.getElementById("reqTxtconfirm_passwordI").innerHTML = "* Please Enter the Confirm password.";
 
@@ -967,11 +990,12 @@
                       },
                       dataType: 'json',
                       success: function(response) {
+                        console.log("response",response);
                         if(response.length>0){
                           var selectedValuesText = $("#surgicalsubSpecialties option:selected").text();
                           sub_subSpecialtiesArray.push(selectedValuesText) 
                           console.log("selectedValuesText",sub_subSpecialtiesArray.join(","));
-                          $(".sub_sub_speciality").text(sub_subSpecialtiesArray.replace(":",""));
+                          $(".sub_sub_speciality").text(sub_subSpecialtiesArray);
                           $(".surgicalSubSpec").show();
                         }
                         
@@ -989,6 +1013,7 @@
                   }
                 });
             }); 
+ $('#nurse_practitioner').hide(); 
  $("#nurseTypeJob").change(function () {
   var selectedValues = $(this).val();
   $.ajax({
@@ -1000,7 +1025,9 @@
     },
     dataType: 'json',
     success: function(response) {
-      // $('#nurse_select').show();
+      if(response.length>0){
+        $('#nurse_practitioner').show();
+      }
       // $('#nurseTypeJob').empty();
       $.each(response, function(index, job) {
         $('#nurse_practitioner_speciality').append('<option value="' + job.id + '">' + job.name + '</option>');
