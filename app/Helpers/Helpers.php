@@ -17,7 +17,7 @@ use App\Models\EmergencyContactModel;
 
 function specialty()
 {
-        $specialty_data =  SpecialityModel::where('parent', '0')->orderBy('id', 'desc')->get();
+        $specialty_data =  SpecialityModel::where('parent', '0')->orderBy('id', 'asc')->get();
         return $specialty_data;
 }
 function specialty_name_by_id($specialty)

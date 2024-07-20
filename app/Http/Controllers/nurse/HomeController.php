@@ -579,7 +579,7 @@ class HomeController extends Controller
             return back()->with('error', 'No user found with this email. None of the accounts are associated with this detail.');
         } elseif (Auth::guard('nurse_middle')->attempt(['email' => $request->email, 'password' => $request->password])) {
 
-            return redirect('/nurse/dashboard')->with('success', 'You are Logged in sucessfully.');
+            return redirect('/nurse/my-profile')->with('success', 'You are Logged in sucessfully.');
         } else {
             return back()->with('error', 'Invalid login details.');
         }

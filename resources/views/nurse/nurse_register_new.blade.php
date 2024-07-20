@@ -149,8 +149,8 @@
 
                 <div class="form-group">
                   <label class="form-label" for="input-1">Type of Nurse?</label>
-                  <select class="form-input mr-10 country" name="nurseType[]"
-                    multiple="true" id="nurseType"
+                  <select class="form-input mr-10 country" name="nurseType"
+                     id="nurseType"
                     > 
                       @php $specialty = specialty();$spcl=$specialty[0]->id;@endphp
                     @foreach($specialty as $spl)
@@ -708,35 +708,13 @@
 
     }
 
-    // if (passwordI.length < 8) {
+    if (passwordI.length < 6) {
 
-    //   document.getElementById("reqTxtpasswordI").innerHTML = "*  Your password must be at least 8-12 characters long";
-
-    //   returnValue = false;
-
-    // }
-    var pattern = /^.*(?=.{8,12})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%&!-_]).*$/;
-
-    if (!pattern.test(passwordI)) {
-
-      document.getElementById("reqTxtpasswordI").innerHTML = "Enter minimum 8-12 chars with atleast 1 number, lower, upper & special(@#$%&!-_&) char.";
+      document.getElementById("reqTxtpasswordI").innerHTML = "*  Your password must be at least 6 characters long";
 
       returnValue = false;
 
     }
-
-    //var str = passwordI;
-
-
-    for (var i=0; i<passwordI.length; i++) {
-
-      if ( passwordI.indexOf(passwordI[i]) !== passwordI.lastIndexOf(passwordI[i]) ) {
-        document.getElementById("reqTxtpasswordI").innerHTML = "characters can not be repeat";
-        returnValue = false;
-      }
-    }
-    alert(returnValue);
-
 
     if (confirm_passwordI == "") {
 
@@ -929,14 +907,15 @@
 <script>
    $(document).ready(function () { 
                 //Select2 
-                $(".country").select2(); 
+                // $(".country").select2(); 
                 $(".specialties").select2();
                 $("#nurseTypeJob").select2();
                 $("#subSpecialties").select2();
                 $("#surgicalsubSpecialties").select2();
                 
-                $(".country").change(function () {
+                $("#nurseType").change(function () {
                   var selectedValues = $(this).val();
+                  console.log("selectedValues",selectedValues);
                   if (selectedValues && selectedValues.length > 0) {
                     $.ajax({
                       url: "{{ route('getNurseTypeJobs') }}",
@@ -1123,9 +1102,7 @@
       }
     });
   });
-
 </script>
-
 <script>
     function emailVerification() {
         var email = document.getElementById("emailI").value;
@@ -1141,8 +1118,6 @@
             confirmEmailError.textContent = "";
         }
     }
-
-  
 </script>
 
 @endsection
