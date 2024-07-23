@@ -120,7 +120,7 @@ class HomeController extends Controller
         //print_r($selectedNurseTypes);die;
  
         // Query the database to fetch nurse type jobs based on the selected nurse types
-        $nurseTypeJobs = SpecialityModel::whereIn('parent', $selectedNurseTypes)->get();
+        $nurseTypeJobs = SpecialityModel::where('parent', $selectedNurseTypes)->get();
 
         // Return the nurse type jobs data as JSON response
         return response()->json($nurseTypeJobs);

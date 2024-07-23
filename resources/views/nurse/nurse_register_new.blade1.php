@@ -3,6 +3,7 @@
 <link rel="stylesheet" 
               href= 
 "https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/select2.min.css" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.12/css/intlTelInput.css" rel="stylesheet" />
 <style type="text/css">
 
   #container {
@@ -92,27 +93,34 @@
     border: 1px solid #000 !important;
     border-radius: 4px !important;
     cursor: default !important;
-    float: left !important;
-    margin-right: 5px !important;
-    margin-top: 5px !important;
     color: #fff !important;
-    padding: 2px 10px 5px !important;
+  float: left;
+    padding: 0;
+    padding-right: 0.75rem;
+    margin-top: calc(0.375rem - 2px);
+    margin-right: 0.375rem;
+      padding-bottom: 3px;
+        white-space: normal;
+    line-height: 20px;
   }
 
   .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
     color: #fff !important;
-    cursor: pointer !important;
-    display: inline-block !important;
-    font-weight: bold !important;
-    margin-right: 10px !important;
     font-size: 20px !important;
+  float: left;
+    padding-right: 3px;
+    padding-left: 3px;
+    margin-right: 1px;
+    margin-left: 3px;
+    font-weight: 700;
+  line-height: 20px;
   }
 </style>
 @endsection
 @section('content')
 
 <main class="main">
-  <section class="pt-100 login-register">
+  <section class="pt-100 login-register nurse-reglog">
 
     <div id="container" class="container mt-5">
       <div class="row justify-content-center">
@@ -135,8 +143,8 @@
         @csrf
         <div class="step step-1">
           <!-- Step 1 form fields here -->
-          <div class="row ">
-            <div class="col-lg-5 col-md-6 col-sm-12 mx-auto">
+          <div class="row form-block">
+            <div class="col-lg-9 col-md-6 col-sm-12 mx-auto">
               <div class="text-center">
                 <!-- <p class="font-sm text-brand-2">Register </p> -->
                 <h2 class="mt-10 mb-5 text-brand-1 fs_24">In just a few minutes, you will be able to apply for the ideal shift or permanent position</h2>
@@ -147,7 +155,7 @@
               <div class="login-register text-start mt-20" action="#">
 
 
-                <div class="form-group">
+              <!-- <div class="form-group drp--clr">
                   <label class="form-label" for="input-1">Type of Nurse?</label>
                   <select class="form-input mr-10 country" name="nurseType[]"
                     multiple="true" id="nurseType"
@@ -162,12 +170,296 @@
                     @foreach($specialty as $spl)
                     <option value="{{ $spl->id }}">{{ $spl->name }}</option>
                     @endforeach
-                  </select> -->
-                </div>
+                 <!-- </select> -->
+              <!-- </div> -->
+         
+         
+       <div class="condition_set">   
+         <div class="form-group drp--clr">
+          <label class="form-label" for="input-1">Type of Nurse?</label>
+            <ul id="type-of-nurse" style="display:none;">
+              <li data-value="Entry level nursing">Entry level nursing</li>
+              <li data-value="Registered Nurses (RNs)">Registered Nurses (RNs)</li>
+              <li data-value="Advanced Practice Registered Nurses (APRNs)">Advanced Practice Registered Nurses (APRNs)</li>
+            </ul>
+          <select class="js-example-basic-multiple" data-list-id="type-of-nurse" name="states[]" multiple="multiple"></select>
+         </div>
+       </div>
+
+        
+       <div class="result--show">
+        <div class="form-group drp--clr d-none" id="elnj">
+          <label class="form-label" for="input-2">Entry level nursing <br>Jobs</label>
+            <ul id="entry-level-nursing" style="display:none;">
+              <li data-value="Certified Nursing Assistant (CNAs)">Certified Nursing Assistant (CNAs)</li>
+              <li data-value="Certified Nurse-Midwife (CNM)">Certified Nurse-Midwife (CNM)</li>
+                      <li data-value="Enrolled Nurse (Ens)">Enrolled Nurse (Ens)</li>
+                      <li data-value="Enrolled Nurse (notation)">Enrolled Nurse (notation)</li>
+                      <li data-value="Enrolled Nurse (meds)">Enrolled Nurse (meds)</li>
+                      <li data-value="Enrolled Nurse  (IVs)">Enrolled Nurse  (IVs)</li>
+                      <li data-value="Enrolled Nurse (Student)">Enrolled Nurse (Student)</li>
+                      <li data-value="Licensed Practical Nurse (LPNs)">Licensed Practical Nurse (LPNs)</li>
+                      <li data-value="Midwife Assistant">Midwife Assistant</li>
+                      <li data-value="Midwife Student">Midwife Student</li>
+                      <li data-value="Nurse Assistant">Nurse Assistant</li>
+                      <li data-value="Temporary Nurse Aide">Temporary Nurse Aide</li>
+              <!-- Add more list items as needed -->
+            </ul>
+          <select class="js-example-basic-multiple" data-list-id="entry-level-nursing" name="states[]" multiple="multiple"></select>
+        </div>
+
+        <div class="form-group drp--clr d-none" id="rns">
+          <label class="form-label" for="input-3">Registered Nurses (RNs) <br>Jobs</label>
+            <ul id="registerd-nurse" style="display:none;">
+              <li data-value="Academic Nurse Writer">Academic Nurse Writer</li>
+              <li data-value="Addiction/ Substance Abuse Nurse">Addiction/ Substance Abuse Nurse</li>
+              <li data-value="Aesthetic/Cosmetic Nurse">Aesthetic/Cosmetic Nurse</li>
+              <li data-value="Air Force Nurse">Air Force Nurse</li>
+              <li data-value="Allergy/Allergen Immunotherapy Nurse">Allergy/Allergen Immunotherapy Nurse</li>
+              <li data-value="Ambulatory Care Nurse">Ambulatory Care Nurse</li>
+              <li data-value="Army Nurse">Army Nurse</li>
+              <li data-value="Bariatric Nurse">Bariatric Nurse</li>
+              <li data-value="Bioterrorism Nurse">Bioterrorism Nurse</li>
+              <li data-value="Blood Management Nurse">Blood Management Nurse</li>
+              <li data-value="Burn Registered Nurse">Burn Registered Nurse</li>
+              <li data-value="Camp Registered Nurse">Camp Registered Nurse</li>
+              <li data-value="Cardiac Care Nurse">Cardiac Care Nurse</li>
+              <li data-value="Cardiac Catheterization Nurse">Cardiac Catheterization Nurse</li>
+              <li data-value="Cardiovascular Intensive Care Unit Nurse">Cardiovascular Intensive Care Unit Nurse</li>
+              <li data-value="Case Management Nurse">Case Management Nurse</li>
+              <li data-value="Certified Diabetes Educator">Certified Diabetes Educator</li>
+              <li data-value="Certified Nursing Assistant (CNA)">Certified Nursing Assistant (CNA)</li>
+              <li data-value="Charge Nurse">Charge Nurse</li>
+              <li data-value="Chronic Pain Nurse">Chronic Pain Nurse</li>
+              <li data-value="Clinical Nurse Instructor">Clinical Nurse Instructor</li>
+              <li data-value="Community Health Nurse">Community Health Nurse</li>
+              <li data-value="Correctional Nurse">Correctional Nurse</li>
+              <li data-value="Crisis Nurse">Crisis Nurse</li>
+              <li data-value="Critical Care Transport Nurse">Critical Care Transport Nurse</li>
+              <li data-value="Day Infusion Treatments Nurse">Day Infusion Treatments Nurse</li>
+              <li data-value="Cruise Ship Nurse">Cruise Ship Nurse</li>
+              <li data-value="Dermatology Nurse">Dermatology Nurse</li>
+              <li data-value="Developmental Disability Nurse">Developmental Disability Nurse</li>
+              <li data-value="Diabetes Nurse">Diabetes Nurse</li>
+              <li data-value="Dialysis Nurse">Dialysis Nurse</li>
+              <li data-value="Director of Nursing">Director of Nursing</li>
+              <li data-value="Disaster Management Nurse">Disaster Management Nurse</li>
+              <li data-value="Disney Nurse">Disney Nurse</li>
+              <li data-value="Domestic Violence Nurse">Domestic Violence Nurse</li>
+              <li data-value="Emergency Room (ER) Nurse">Emergency Room (ER) Nurse</li>
+              <li data-value="Endocrine Nurse">Endocrine Nurse</li>
+              <li data-value="Endoscopy Nurse">Endoscopy Nurse</li>
+              <li data-value="Enterostomy Nurse">Enterostomy Nurse</li>
+              <li data-value="Fertility Nurse">Fertility Nurse</li>
+              <li data-value="Flight Nurse">Flight Nurse</li>
+              <li data-value="Float Pool Nurse">Float Pool Nurse</li>
+              <li data-value="Forensic Nurse">Forensic Nurse</li>
+              <li data-value="Gastroenterology Nurse">Gastroenterology Nurse</li>
+              <li data-value="Genetic Nurse">Genetic Nurse</li>
+              <li data-value="General Practice (GP) Nurse">General Practice (GP) Nurse</li>
+              <li data-value="Geriatric Nurse">Geriatric Nurse</li>
+              <li data-value="Gynecology Nurse">Gynecology Nurse</li>
+              <li data-value="Health Assessment Nurse">Health Assessment Nurse</li>
+              <li data-value="Health Policy Nurse">Health Policy Nurse</li>
+              <li data-value="Hematology Nurse">Hematology Nurse</li>
+              <li data-value="HIV/AIDS Nurse">HIV/AIDS Nurse</li>
+              <li data-value="Holistic Care Nurse">Holistic Care Nurse</li>
+              <li data-value="Home Health Nurse">Home Health Nurse</li>
+              <li data-value="Hospice Care Nurse">Hospice Care Nurse</li>
+              <li data-value="In vitro Fertilization (IVF) Nurse">In vitro Fertilization (IVF) Nurse</li>
+              <li data-value="Infection Control Nurse">Infection Control Nurse</li>
+              <li data-value="Informaticists Nurse">Informaticists Nurse</li>
+              <li data-value="Infusion Nurse">Infusion Nurse</li>
+              <li data-value="Intensive Care Unit (ICU) / Critical Care Nurse">Intensive Care Unit (ICU) / Critical Care Nurse</li>
+              <li data-value="International Medicine Nurse">International Medicine Nurse</li>
+              <li data-value="Labor and Delivery Nurse">Labor and Delivery Nurse</li>
+              <li data-value="Lactation Consultant Nurse">Lactation Consultant Nurse</li>
+              <li data-value="Legal Nurse Consultant">Legal Nurse Consultant</li>
+              <li data-value="LGBTQ Nurse">LGBTQ Nurse</li>
+              <li data-value="Licensed Practical Nurse (LPN)">Licensed Practical Nurse (LPN)</li>
+              <li data-value="Long-Term Care Nurse">Long-Term Care Nurse</li>
+              <li data-value="Maternity Nurse">Maternity Nurse</li>
+              <li data-value="Medical Administration">Medical Administration</li>
+              <li data-value="Medical Equipment Manufacturing">Medical Equipment Manufacturing</li>
+              <li data-value="Medical-Surgical Nurse">Medical-Surgical Nurse</li>
+              <li data-value="Mental Health Nurse">Mental Health Nurse</li>
+              <li data-value="Men's Health Nurse">Men's Health Nurse</li>
+              <li data-value="Midwife Nurse">Midwife Nurse</li>
+              <li data-value="Military Registered Nurse">Military Registered Nurse</li>
+              <li data-value="Mother-Baby Nurse">Mother-Baby Nurse</li>
+              <li data-value="Neonatal Nurse">Neonatal Nurse</li>
+              <li data-value="Neonatal Intensive Care Unit (NICU) Nurse">Neonatal Intensive Care Unit (NICU) Nurse</li>
+              <li data-value="Nephrology Nurse">Nephrology Nurse</li>
+              <li data-value="Neuro ICU Nurse">Neuro ICU Nurse</li>
+              <li data-value="Neurology Nurse">Neurology Nurse</li>
+              <li data-value="Neuroscience Nurse">Neuroscience Nurse</li>
+              <li data-value="Newborn Nursery Nurse">Newborn Nursery Nurse</li>
+              <li data-value="Nurse Administrator">Nurse Administrator</li>
+              <li data-value="Nurse Attorney">Nurse Attorney</li>
+              <li data-value="Nurse Case Manager">Nurse Case Manager</li>
+              <li data-value="Nurse Educator">Nurse Educator</li>
+              <li data-value="Nurse Facilitator">Nurse Facilitator</li>
+              <li data-value="Nurse Health Coach">Nurse Health Coach</li>
+              <li data-value="Nurse Midwife">Nurse Midwife</li>
+              <li data-value="Nurse Navigator">Nurse Navigator</li>
+              <li data-value="Nurse Recruiter">Nurse Recruiter</li>
+              <li data-value="Nurse Writer">Nurse Writer</li>
+              <li data-value="Nursing Home Nurse">Nursing Home Nurse</li>
+              <li data-value="Nutrition Nurse">Nutrition Nurse</li>
+              <li data-value="Obstetric (OB)/ Labor Delivery (L&D) Nurse">Obstetric (OB)/ Labor Delivery (L&D) Nurse</li>
+              <li data-value="Occupational Health Nurse">Occupational Health Nurse</li>
+              <li data-value="Oncology Nurse">Oncology Nurse</li>
+              <li data-value="Operating Room (OR) / Surgical Nurse">Operating Room (OR) / Surgical Nurse</li>
+              <li data-value="Ophthalmic Nurse">Ophthalmic Nurse</li>
+              <li data-value="Orthopedic Nurse">Orthopedic Nurse</li>
+              <li data-value="Ostomy Nurse">Ostomy Nurse</li>
+              <li data-value="Otorhinolaryngology Nurse">Otorhinolaryngology Nurse</li>
+              <li data-value="Pain Management Nurse">Pain Management Nurse</li>
+              <li data-value="Palliative Care Nurse">Palliative Care Nurse</li>
+              <li data-value="Parish Registered Nurse">Parish Registered Nurse</li>
+              <li data-value="Pediatric Care Nurse">Pediatric Care Nurse</li>
+              <li data-value="Pediatric Intensive Care Nurse">Pediatric Intensive Care Nurse</li>
+              <li data-value="Perinatal Nurse">Perinatal Nurse</li>
+              <li data-value="Perioperative Nurse">Perioperative Nurse</li>
+              <li data-value="Pharmaceutical Research Nurse">Pharmaceutical Research Nurse</li>
+              <li data-value="Plastic Surgery Nurse">Plastic Surgery Nurse</li>
+              <li data-value="Poison Control Registered Nurse">Poison Control Registered Nurse</li>
+              <li data-value="Post-Anesthesia Care Unit (PACU) Nurse">Post-Anesthesia Care Unit (PACU) Nurse</li>
+              <li data-value="Postpartum Nurse">Postpartum Nurse</li>
+              <li data-value="Primary Care Nurse">Primary Care Nurse</li>
+              <li data-value="Private Duty Nurse">Private Duty Nurse</li>
+              <li data-value="Progressive Care Unit (PCU) Nurse">Progressive Care Unit (PCU) Nurse</li>
+              <li data-value="Psychiatric Nurse">Psychiatric Nurse</li>
+              <li data-value="Public Health Nurse">Public Health Nurse</li>
+              <li data-value="Pulmonary Nurse">Pulmonary Nurse</li>
+              <li data-value="Quality Assurance Nurse">Quality Assurance Nurse</li>
+              <li data-value="Quality Improvement Nurse">Quality Improvement Nurse</li>
+              <li data-value="Radiology Nurse">Radiology Nurse</li>
+              <li data-value="Registered Nurse First Assistant (RNFA)">Registered Nurse First Assistant (RNFA)</li>
+              <li data-value="Rehabilitation Nurse">Rehabilitation Nurse</li>
+              <li data-value="Research Nurse">Research Nurse</li>
+              <li data-value="Respiratory Nurse">Respiratory Nurse</li>
+              <li data-value="Rheumatology Nurse">Rheumatology Nurse</li>
+              <li data-value="RN Case Manager">RN Case Manager</li>
+              <li data-value="Rural/Remote Area Health Nurse">Rural/Remote Area Health Nurse</li>
+              <li data-value="School Nurse">School Nurse</li>
+              <li data-value="Sexual Assault Nurse Examiner (SANE)">Sexual Assault Nurse Examiner (SANE)</li>
+              <li data-value="Student Registered Nurse">Student Registered Nurse</li>
+              <li data-value="Sub-acute Nurse">Sub-acute Nurse</li>
+              <li data-value="Substance Abuse Nurse">Substance Abuse Nurse</li>
+              <li data-value="Surgical Nurse">Surgical Nurse</li>
+              <li data-value="Teaching Nurse">Teaching Nurse</li>
+              <li data-value="Telehealth Nurse">Telehealth Nurse</li>
+              <li data-value="Telemetry Nurse">Telemetry Nurse</li>
+              <li data-value="Telephone Triage Nurse">Telephone Triage Nurse</li>
+              <li data-value="Temporary Nurse Aide">Temporary Nurse Aide</li>
+              <li data-value="Toxicology Nurse">Toxicology Nurse</li>
+              <li data-value="Transcultural Nurse">Transcultural Nurse</li>
+              <li data-value="Transplant Nurse">Transplant Nurse</li>
+              <li data-value="Trauma Nurse">Trauma Nurse</li>
+              <li data-value="Travel Nurse">Travel Nurse</li>
+              <li data-value="Triage Nurse">Triage Nurse</li>
+              <li data-value="Urology Nurse">Urology Nurse</li>
+              <li data-value="Utilization Management Nurse">Utilization Management Nurse</li>
+              <li data-value="Utilization Review Nurse">Utilization Review Nurse</li>
+              <li data-value="Vascular Access Nurse">Vascular Access Nurse</li>
+              <li data-value="Wound Care Nurse">Wound Care Nurse</li>
+              <!-- Add more list items as needed -->
+            </ul>
+          <select class="js-example-basic-multiple" data-list-id="registerd-nurse" name="states[]" multiple="multiple"></select>
+        </div>
+
+        <div class="form-group drp--clr d-none" id="aprn">
+          <label class="form-label" for="input-4">Advanced Practice Registered Nurses (APRNs) <br>Jobs</label>
+            <ul id="advanced-practice" style="display:none;">
+              <li data-value="Academic Nurse Educator">Academic Nurse Educator</li>
+              <li data-value="Administrator Nurse">Administrator Nurse</li>
+              <li data-value="Nurse Anesthetist (CRNA)">Nurse Anesthetist (CRNA)</li>
+              <li data-value="Clinical Nurse Educator">Clinical Nurse Educator</li>
+              <li data-value="Midwife Nurse">Midwife Nurse</li>
+              <li data-value="Nurse Manager">Nurse Manager</li>
+              <li data-value="Nurse Practitioner (NP)">Nurse Practitioner (NP)</li>
+              <li data-value="Chief Nursing Officer">Chief Nursing Officer</li>
+              <li data-value="Clinical Nurse Specialist">Clinical Nurse Specialist</li>
+              <li data-value="Clinical Nurse Leader (CNL)">Clinical Nurse Leader (CNL)</li>
+              <!-- Add more list items as needed -->
+            </ul>
+          <select class="js-example-basic-multiple" data-list-id="advanced-practice" name="states[]" multiple="multiple"></select>
+        </div>
+       </div>
+
+         
+  
+  <script>
+   $(document).ready(function() {
+    function initializeSelect2(selector) {
+        $(selector).each(function() {
+            var $select = $(this);
+            var listId = $select.data('list-id');
+            var $list = $('#' + listId);
+
+            $list.find('li').each(function() {
+                var value = $(this).data('value');
+                var text = $(this).text();
+                $select.append(new Option(text, value));
+            });
+
+            $select.select2({
+                placeholder: 'Select options',
+                allowClear: true,
+                width: '100%'  // Ensure the dropdown width is 100%
+            });
+
+            $select.on('select2:open', function() {
+                var $dropdown = $('.select2-container--open .select2-dropdown');
+                var searchBoxHtml = `
+                    <div class="extra-search-container">
+                        <input type="text" class="extra-search-box" placeholder="Search...">
+                        <button class="clear-button" type="button">&times;</button>
+                    </div>`;
+
+                if ($dropdown.find('.extra-search-container').length === 0) {
+                    $dropdown.prepend(searchBoxHtml);
+                }
+
+                var $searchBox = $('.extra-search-box');
+                var $clearButton = $('.clear-button');
+
+                $searchBox.on('input', function() {
+                    var searchTerm = $(this).val().toLowerCase();
+                    $('.select2-results__option').each(function() {
+                        var text = $(this).text().toLowerCase();
+                        if (text.includes(searchTerm)) {
+                            $(this).show();
+                        } else {
+                            $(this).hide();
+                        }
+                    });
+
+                    $clearButton.toggle($searchBox.val().length > 0);
+                });
+
+                $clearButton.on('click', function() {
+                    $searchBox.val('');
+                    $searchBox.trigger('input');
+                });
+            });
+        });
+    }
+
+    // Initialize all select elements with the common class
+    initializeSelect2('.js-example-basic-multiple');
+  
+  
+});
+</script>
+
+
+   
                 <span id="reqnurseTypeId" class="reqError valley"></span>
 
-                <div id="nurse_select">
-                  <!-- <div id="nurse_select"  style="display: none;"> -->
+                <!-- <div id="nurse_select">
+                  
                   <div class="form-group" id="subspecialtyGroup">
                     <label class="form-label" for="input-1">Types of Nursing Jobs</label>
                     <select class="form-input mr-10" name="nurseTypeJob[]" id="nurseTypeJob" multiple>
@@ -175,7 +467,7 @@
                     </select>
                   </div>
                   <span id="reqnurseTypeJobId" class="reqError valley"></span>
-                </div>
+                </div> -->
 
                 <div id="nurse_practitioner">
                   <!-- <div id="nurse_select"  style="display: none;"> -->
@@ -229,7 +521,7 @@
                     </select>
                     <span id="reqsubSpecialties" class="reqError valley"></span>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group level-drp">
                     <label class="form-label" for="input-1">What level are you?</label>
                     <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
                     <select class="form-input mr-10 select-active" name="assistent_level">
@@ -254,6 +546,8 @@
                   </div>
 
                 </div>
+        
+        <div class="step_nxt">
                 <div class="d-flex align-items-center justify-content-between">
                   <!-- 
                   <button type="button" class="btn btn-border-brand-2 prev-step">Previous</button> -->
@@ -261,6 +555,7 @@
                   <button type="button" class="btn btn-default w-100 next-step">Next</button>
                   <!-- <button type="button" class="btn btn-default next-step">Next</button> -->
                 </div>
+        </div>
               </div>
             </div>
 
@@ -305,7 +600,7 @@
                     <label class="form-label" for="input-3">Mobile Number *</label>
 
                     <div class="row">
-                      <div class="col-md-3">
+                      <!-- <div class="col-md-3">
                         <select name="countryCode" id="countryCode" class="form-control" placeholder="C. Code" aria-label="Default select example">
                           @php $country_phone_code = country_phone_code();@endphp
                           @forelse($country_phone_code as $cpc)
@@ -313,10 +608,11 @@
                           <option data-countryCode="GB" value="{{ $cpc->phonecode}}" @if($cpc->name == "Australia") selected @endif>(+{{ $cpc->phonecode}})</option>
                           @endif
                           @empty
-                          <!-- @endforelse -->
+                          @endforelse
                         </select>
-                      </div>
-                      <div class="col-md-9">
+                      </div> -->
+                      <div class="col-md-12">
+                        <input type="hidden" name="countryCode" id="countryCode">
                         <input class="form-control numbers" type="text" required="" name="contact" id="contactI" placeholder="1234567890" maxlength="10" pattern="[0-9]{4}">
                         <span id="reqTxtcontactI" class="reqError valley"></span>
                       </div>
@@ -348,8 +644,8 @@
                   <!--</div>-->
                 </div>
 
-                <div class="d-flex align-items-center justify-content-between">
-
+                
+        <div class="d-flex align-items-center justify-content-between">
                   <button type="button" class="btn btn-border-brand-2 prev-step">Previous</button>
                   <!--<a type="button" class="btn btn-default" href="email_verification.php">Submit &amp; Register</a>-->
                   <button onclick="dosignup()" class="btn btn-default px-5 py-8  rounded-2 mb-0 submit-btn-120" type="submit"><span class="resetpassword">Submit &amp; Register</span>
@@ -358,6 +654,7 @@
                     </div>
                   </button>
                 </div>
+        
 
 
 
@@ -624,7 +921,7 @@
     returnValue = true;
     if (emailI.trim() == "") {
 
-      document.getElementById("reqTxtemailI").innerHTML = "* Please enter the email address.";
+      document.getElementById("reqTxtemailI").innerHTML = "* Please enter the Email address.";
 
       returnValue = false;
 
@@ -649,7 +946,7 @@
 
     } else {
 
-      document.getElementById("reqTxtemailI").innerHTML = "* Please enter the  email address.";
+      document.getElementById("reqTxtemailI").innerHTML = "* Please enter the  Email address.";
 
       returnValue = false;
 
@@ -708,35 +1005,13 @@
 
     }
 
-    // if (passwordI.length < 8) {
+    if (passwordI.length < 6) {
 
-    //   document.getElementById("reqTxtpasswordI").innerHTML = "*  Your password must be at least 8-12 characters long";
-
-    //   returnValue = false;
-
-    // }
-    var pattern = /^.*(?=.{8,12})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%&!-_]).*$/;
-
-    if (!pattern.test(passwordI)) {
-
-      document.getElementById("reqTxtpasswordI").innerHTML = "Enter minimum 8-12 chars with atleast 1 number, lower, upper & special(@#$%&!-_&) char.";
+      document.getElementById("reqTxtpasswordI").innerHTML = "*  Your password must be at least 6 characters long";
 
       returnValue = false;
 
     }
-
-    //var str = passwordI;
-
-
-    for (var i=0; i<passwordI.length; i++) {
-
-      if ( passwordI.indexOf(passwordI[i]) !== passwordI.lastIndexOf(passwordI[i]) ) {
-        document.getElementById("reqTxtpasswordI").innerHTML = "characters can not be repeat";
-        returnValue = false;
-      }
-    }
-    alert(returnValue);
-
 
     if (confirm_passwordI == "") {
 
@@ -748,7 +1023,7 @@
 
     if (passwordI != confirm_passwordI) {
 
-      document.getElementById("reqTxtconfirm_passwordI").innerHTML = "Password and Confirm password do not match.";
+      document.getElementById("reqTxtconfirm_passwordI").innerHTML = "Password And Confirm password did not match.";
 
       returnValue = false;
 
@@ -926,7 +1201,67 @@
  <script src= 
 "https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/select2.min.js"> 
        </script> 
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.12/js/intlTelInput.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.js"></script>
 <script>
+  $(document).ready(function() {
+  var phoneInputID = "#contactI";
+  var input = document.querySelector(phoneInputID);
+  var iti = window.intlTelInput(input, {
+    // allowDropdown: false,
+    // autoHideDialCode: false,
+    // autoPlaceholder: "off",
+    // dropdownContainer: document.body,
+    // excludeCountries: ["us"],
+    formatOnDisplay: true,
+    // geoIpLookup: function(callback) {
+    //   $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+    //     var countryCode = (resp && resp.country) ? resp.country : "";
+    //     callback(countryCode);
+    //   });
+    // },
+    hiddenInput: "full_number",
+    initialCountry: "AU",
+    // localizedCountries: { 'de': 'Deutschland' },
+    // nationalMode: false,
+    // onlyCountries: ['us', 'gb', 'ch', 'ca', 'do'],
+    // placeholderNumberType: "MOBILE",
+    preferredCountries: ['AU'],
+    // separateDialCode: true,
+    utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/11.0.14/js/utils.js"
+  });
+
+
+  $(phoneInputID).on("countrychange", function(event) {
+
+    // Get the selected country data to know which country is selected.
+    var selectedCountryData = iti.getSelectedCountryData();
+    console.log("selectedCountryData",selectedCountryData.dialCode);
+    $("#countryCode").val(selectedCountryData.dialCode);
+    //alert($("#contactI").intlTelInput("getSelectedCountryData").dialCode);
+    // Get an example number for the selected country to use as placeholder.
+    newPlaceholder = intlTelInputUtils.getExampleNumber(selectedCountryData.iso2, true, intlTelInputUtils.numberFormat.INTERNATIONAL),
+
+      // Reset the phone number input.
+      iti.setNumber("");
+
+    // Convert placeholder as exploitable mask by replacing all 1-9 numbers with 0s
+    mask = newPlaceholder.replace(/[1-9]/g, "0");
+
+    // Apply the new mask for the input
+    $(this).mask(mask);
+  });
+
+
+  // When the plugin loads for the first time, we have to trigger the "countrychange" event manually, 
+  // but after making sure that the plugin is fully loaded by associating handler to the promise of the 
+  // plugin instance.
+
+  iti.promise.then(function() {
+    $(phoneInputID).trigger("countrychange");
+  });
+
+});
    $(document).ready(function () { 
                 //Select2 
                 $(".country").select2(); 
@@ -1123,9 +1458,7 @@
       }
     });
   });
-
 </script>
-
 <script>
     function emailVerification() {
         var email = document.getElementById("emailI").value;
@@ -1141,8 +1474,6 @@
             confirmEmailError.textContent = "";
         }
     }
-
-  
 </script>
 
 @endsection

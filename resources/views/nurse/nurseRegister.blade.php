@@ -76,7 +76,7 @@
 
   span.select2.select2-container {
     padding: 5px !important;
-    width: 100 !important;
+    width: 100% !important;
   }
 
 
@@ -92,27 +92,34 @@
     border: 1px solid #000 !important;
     border-radius: 4px !important;
     cursor: default !important;
-    float: left !important;
-    margin-right: 5px !important;
-    margin-top: 5px !important;
     color: #fff !important;
-    padding: 2px 10px 5px !important;
+	float: left;
+    padding: 0;
+    padding-right: 0.75rem;
+    margin-top: calc(0.375rem - 2px);
+    margin-right: 0.375rem;
+	padding-bottom: 3px;
+	white-space: normal;
+    line-height: 20px;
   }
 
   .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
     color: #fff !important;
-    cursor: pointer !important;
-    display: inline-block !important;
-    font-weight: bold !important;
-    margin-right: 10px !important;
     font-size: 20px !important;
+	float: left;
+    padding-right: 3px;
+    padding-left: 3px;
+    margin-right: 1px;
+    margin-left: 3px;
+    font-weight: 700;
+	line-height: 20px;
   }
 </style>
 @endsection
 @section('content')
 
 <main class="main">
-  <section class="pt-100 login-register">
+  <section class="pt-100 login-register nurse-reglog">
 
     <div id="container" class="container mt-5">
       <div class="row justify-content-center">
@@ -135,8 +142,8 @@
         @csrf
         <div class="step step-1">
           <!-- Step 1 form fields here -->
-          <div class="row ">
-            <div class="col-lg-5 col-md-6 col-sm-12 mx-auto">
+          <div class="row form-block">
+            <div class="col-lg-9 col-md-6 col-sm-12 mx-auto">
               <div class="text-center">
                 <!-- <p class="font-sm text-brand-2">Register </p> -->
                 <h2 class="mt-10 mb-5 text-brand-1 fs_24">In just a few minutes, you will be able to apply for the ideal shift or permanent position</h2>
@@ -147,7 +154,7 @@
               <div class="login-register text-start mt-20" action="#">
 
 
-                <div class="form-group">
+              <!-- <div class="form-group drp--clr">
                   <label class="form-label" for="input-1">Type of Nurse?</label>
                   <select class="form-input mr-10 country" name="nurseType[]"
                     multiple="true" id="nurseType"
@@ -162,12 +169,176 @@
                     @foreach($specialty as $spl)
                     <option value="{{ $spl->id }}">{{ $spl->name }}</option>
                     @endforeach
-                  </select> -->
-                </div>
+                 <!-- </select> -->
+              <!-- </div> -->
+			   
+			   
+			 <div class="condition_set">   
+   <div class="form-group drp--clr">
+        <label class="form-label" for="input-1">Type of Nurse?</label>
+            <ul id="type-of-nurse" style="display:none;">
+                @php $specialty = specialty();$spcl=$specialty[0]->id;@endphp
+                @foreach($specialty as $spl)
+                <li id="entry-level-nursing" data-value="{{ $spl->id }}">{{ $spl->name }}</li>
+                @endforeach
+                <!-- <li id="registered-nurses-rns" data-value="Registered Nurses (RNs)">Registered Nurses (RNs)</li>
+                <li id="advanced-reg-nurses" data-value="Advanced Practice Registered Nurses (APRNs)">Advanced Practice Registered Nurses (APRNs)</li> -->
+            </ul>
+        <select class="js-example-basic-multiple" data-list-id="type-of-nurse" name="states[]" multiple="multiple"></select>
+   </div>
+</div>
+
+<div class="result--show ">
+    <div class="form-group drp--clr d-none" id="elnj">
+        <label class="form-label" for="input-2">Entry level nursing</label>
+            <?php
+              $nurseTypeJobs = DB::table("practitioner_type")->where('parent', "2")->get();
+            ?>
+            <ul id="entry-level-nursing-jobs" style="display:none;">
+                @foreach($nurseTypeJobs as $ntj)
+                  <li data-value="Certified Nursing Assistant (CNAs)">{{ $ntj->name }}</li>
+                @endforeach
+                <!-- <li data-value="Certified Nursing Assistant (CNAs)">Certified Nursing Assistant (CNAs)</li>
+                <li data-value="Certified Nurse-Midwife (CNM)">Certified Nurse-Midwife (CNM)</li>
+                <li data-value="Enrolled Nurse (Ens)">Enrolled Nurse (Ens)</li>
+                <li data-value="Enrolled Nurse (notation)">Enrolled Nurse (notation)</li>
+                <li data-value="Enrolled Nurse (meds)">Enrolled Nurse (meds)</li>
+                <li data-value="Enrolled Nurse  (IVs)">Enrolled Nurse  (IVs)</li>
+                <li data-value="Enrolled Nurse (Student)">Enrolled Nurse (Student)</li>
+                <li data-value="Licensed Practical Nurse (LPNs)">Licensed Practical Nurse (LPNs)</li>
+                <li data-value="Midwife Assistant">Midwife Assistant</li>
+                <li data-value="Midwife Student">Midwife Student</li>
+                <li data-value="Nurse Assistant">Nurse Assistant</li>
+                <li data-value="Temporary Nurse Aide">Temporary Nurse Aide</li> -->
+                <!-- Add more list items as needed -->
+            </ul>
+        <select class="js-example-basic-multiple" data-list-id="entry-level-nursing-jobs" name="states[]" multiple="multiple"></select>
+    </div>
+
+    <div class="form-group drp--clr d-none" id="rns">
+        <label class="form-label" for="input-3">Registered Nurses (RNs) <br>Jobs</label>
+            <?php
+              $nurseTypeJobs = DB::table("practitioner_type")->where('parent', "1")->get();
+            ?>
+            <ul id="registerd-nurse-jobs" style="display:none;">
+                @foreach($nurseTypeJobs as $ntj)
+                  <li data-value="Certified Nursing Assistant (CNAs)">{{ $ntj->name }}</li>
+                @endforeach
+                
+            </ul>
+        <select class="js-example-basic-multiple" data-list-id="registerd-nurse-jobs" name="states[]" multiple="multiple"></select>
+    </div>
+
+    <div class="form-group drp--clr d-none" id="aprns">
+        <label class="form-label" for="input-4">Advanced Practice Registered Nurses (APRNs) <br>Jobs</label>
+        <?php
+              $nurseTypeJobs = DB::table("practitioner_type")->where('parent', "3")->get();
+            ?>
+            <ul id="advanced-reg-nurses-jobs" style="display:none;">
+                @foreach($nurseTypeJobs as $ntj)
+                  <li data-value="Certified Nursing Assistant (CNAs)">{{ $ntj->name }}</li>
+                @endforeach
+				
+                <!-- Add more list items as needed -->
+            </ul>
+        <select class="js-example-basic-multiple" data-list-id="advanced-reg-nurses-jobs" name="states[]" multiple="multiple"></select>
+    </div>
+</div>
+
+<script>
+        $(document).ready(function() {
+            // Convert list items to select options
+            $('#options-list li').each(function() {
+                var value = $(this).data('value');
+                var text = $(this).text();
+                $('.js-example-basic-multiple').append(new Option(text, value));
+            });
+
+            // Initialize select2 with search box functionality
+            $('.js-example-basic-multiple').select2({
+                placeholder: 'Select options',
+                allowClear: true,
+                width: '100%'  // Ensure the dropdown width is 100%
+            });
+
+            // Add an additional search box to the dropdown
+            $('.js-example-basic-multiple').on('select2:open', function() {
+                var searchBoxHtml = `
+                    <div class="extra-search-container">
+                        <input type="text" class="extra-search-box" placeholder="Search...">
+                        <button class="clear-button" type="button">&times;</button>
+                    </div>`;
+                
+                if ($('.select2-results').find('.extra-search-container').length === 0) {
+                    $('.select2-results').prepend(searchBoxHtml);
+                }
+
+                var $searchBox = $('.extra-search-box');
+                var $clearButton = $('.clear-button');
+
+                $searchBox.on('input', function() {
+                    var searchTerm = $(this).val().toLowerCase();
+                    $('.select2-results__option').each(function() {
+                        var text = $(this).text().toLowerCase();
+                        if (text.includes(searchTerm)) {
+                            $(this).show();
+                        } else {
+                            $(this).hide();
+                        }
+                    });
+
+                    $clearButton.toggle($searchBox.val().length > 0);
+                });
+
+                $clearButton.on('click', function() {
+                    $searchBox.val('');
+                    $searchBox.trigger('input');
+                });
+            });
+        });
+    </script>
+<script>
+$(document).ready(function() {
+    // Initialize Select2 for each select element with class .js-example-basic-multiple
+    $('.js-example-basic-multiple').each(function() {
+        let listId = $(this).data('list-id');
+        let items = [];
+        
+        $('#' + listId + ' li').each(function() {
+            items.push({ id: $(this).data('value'), text: $(this).text() });
+        });
+        
+        $(this).select2({
+            data: items
+        });
+    });
+
+    // Show corresponding job lists when an option is selected in the first select
+    $('.js-example-basic-multiple[data-list-id="type-of-nurse"]').on('change', function() {
+        let selectedValues = $(this).val();
+        
+        $('.result--show .form-group').addClass('d-none');
+        
+        if (selectedValues.includes("2")) {
+            $('#elnj').removeClass('d-none');
+        }
+        if (selectedValues.includes("1")) {
+            $('#rns').removeClass('d-none');
+        }
+        if (selectedValues.includes("3")) {
+            $('#aprns').removeClass('d-none');
+        }
+    });
+});
+</script>
+
+
+
+   
                 <span id="reqnurseTypeId" class="reqError valley"></span>
 
-                <div id="nurse_select">
-                  <!-- <div id="nurse_select"  style="display: none;"> -->
+                <!-- <div id="nurse_select">
+                  
                   <div class="form-group" id="subspecialtyGroup">
                     <label class="form-label" for="input-1">Types of Nursing Jobs</label>
                     <select class="form-input mr-10" name="nurseTypeJob[]" id="nurseTypeJob" multiple>
@@ -175,7 +346,7 @@
                     </select>
                   </div>
                   <span id="reqnurseTypeJobId" class="reqError valley"></span>
-                </div>
+                </div> -->
 
                 <div id="nurse_practitioner">
                   <!-- <div id="nurse_select"  style="display: none;"> -->
@@ -229,7 +400,7 @@
                     </select>
                     <span id="reqsubSpecialties" class="reqError valley"></span>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group level-drp">
                     <label class="form-label" for="input-1">What level are you?</label>
                     <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
                     <select class="form-input mr-10 select-active" name="assistent_level">
@@ -254,6 +425,8 @@
                   </div>
 
                 </div>
+				
+				<div class="step_nxt">
                 <div class="d-flex align-items-center justify-content-between">
                   <!-- 
                   <button type="button" class="btn btn-border-brand-2 prev-step">Previous</button> -->
@@ -261,6 +434,7 @@
                   <button type="button" class="btn btn-default w-100 next-step">Next</button>
                   <!-- <button type="button" class="btn btn-default next-step">Next</button> -->
                 </div>
+				</div>
               </div>
             </div>
 
@@ -348,8 +522,8 @@
                   <!--</div>-->
                 </div>
 
-                <div class="d-flex align-items-center justify-content-between">
-
+                
+				<div class="d-flex align-items-center justify-content-between">
                   <button type="button" class="btn btn-border-brand-2 prev-step">Previous</button>
                   <!--<a type="button" class="btn btn-default" href="email_verification.php">Submit &amp; Register</a>-->
                   <button onclick="dosignup()" class="btn btn-default px-5 py-8  rounded-2 mb-0 submit-btn-120" type="submit"><span class="resetpassword">Submit &amp; Register</span>
@@ -358,6 +532,7 @@
                     </div>
                   </button>
                 </div>
+				
 
 
 
@@ -624,7 +799,7 @@
     returnValue = true;
     if (emailI.trim() == "") {
 
-      document.getElementById("reqTxtemailI").innerHTML = "* Please enter the email address.";
+      document.getElementById("reqTxtemailI").innerHTML = "* Please enter the Email address.";
 
       returnValue = false;
 
@@ -649,7 +824,7 @@
 
     } else {
 
-      document.getElementById("reqTxtemailI").innerHTML = "* Please enter the  email address.";
+      document.getElementById("reqTxtemailI").innerHTML = "* Please enter the  Email address.";
 
       returnValue = false;
 
@@ -708,35 +883,13 @@
 
     }
 
-    // if (passwordI.length < 8) {
+    if (passwordI.length < 6) {
 
-    //   document.getElementById("reqTxtpasswordI").innerHTML = "*  Your password must be at least 8-12 characters long";
-
-    //   returnValue = false;
-
-    // }
-    var pattern = /^.*(?=.{8,12})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%&!-_]).*$/;
-
-    if (!pattern.test(passwordI)) {
-
-      document.getElementById("reqTxtpasswordI").innerHTML = "Enter minimum 8-12 chars with atleast 1 number, lower, upper & special(@#$%&!-_&) char.";
+      document.getElementById("reqTxtpasswordI").innerHTML = "*  Your password must be at least 6 characters long";
 
       returnValue = false;
 
     }
-
-    //var str = passwordI;
-
-
-    for (var i=0; i<passwordI.length; i++) {
-
-      if ( passwordI.indexOf(passwordI[i]) !== passwordI.lastIndexOf(passwordI[i]) ) {
-        document.getElementById("reqTxtpasswordI").innerHTML = "characters can not be repeat";
-        returnValue = false;
-      }
-    }
-    alert(returnValue);
-
 
     if (confirm_passwordI == "") {
 
@@ -748,7 +901,7 @@
 
     if (passwordI != confirm_passwordI) {
 
-      document.getElementById("reqTxtconfirm_passwordI").innerHTML = "Password and Confirm password do not match.";
+      document.getElementById("reqTxtconfirm_passwordI").innerHTML = "Password And Confirm password did not match.";
 
       returnValue = false;
 
@@ -1123,9 +1276,7 @@
       }
     });
   });
-
 </script>
-
 <script>
     function emailVerification() {
         var email = document.getElementById("emailI").value;
@@ -1141,8 +1292,6 @@
             confirmEmailError.textContent = "";
         }
     }
-
-  
 </script>
 
 @endsection
