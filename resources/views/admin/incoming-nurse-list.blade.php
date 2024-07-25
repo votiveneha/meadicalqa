@@ -50,6 +50,7 @@
                                 <th>
                                     <h6 class="fs-4 fw-semibold mb-0">Email</h6>
                                 </th>
+                                <th class="fs-4 fw-semibold mb-0">Date</th>
                                 <th>
                                     <h6 class="fs-4 fw-semibold mb-0 text-end">Action</h6>
                                 </th>
@@ -87,6 +88,11 @@
                                         <td>
                                             <div class="">
                                                 <span class="mb-0 fw-normal fs-3">{{ $item->email }}</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="">
+                                                <span class="mb-0 fw-normal fs-3">{{ \Carbon\Carbon::parse($item->created_at)->format('d-m-Y') }}</span>
                                             </div>
                                         </td>
                                         <td>

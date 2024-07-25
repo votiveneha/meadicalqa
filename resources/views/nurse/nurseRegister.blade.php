@@ -187,7 +187,7 @@
                 @endforeach
                 
             </ul>
-        <select class="js-example-basic-multiple" data-list-id="type-of-nurse" name="states[]" multiple="multiple"></select>
+        <select class="js-example-basic-multiple" data-list-id="type-of-nurse" id="nurse_type" name="states[]" multiple="multiple"></select>
    </div>
 </div>
 
@@ -822,29 +822,36 @@ $(document).ready(function() {
   var currentStep = 1;
   var updateProgressBar;
 
-
+  var nurse_array = [];
   $(document).ready(function() {
     $('#multi-step-form').find('.step').slice(1).hide();
     var nurse_array = [];
     $(".next-step").click(function() {
    
-      for
+      var nurse_type = $('#nurse_type').select2('data');
+      
 
-      if (currentStep == 1) {
-        
-        if (validateForm() == false) {
-          return false;
-        } 
-
-        currentStep++;
-        $(".step-" + currentStep).addClass("animate__animated animate__fadeOutLeft");
-
-        setTimeout(function() {
-          $(".step").removeClass("animate__animated animate__fadeOutLeft").hide();
-          $(".step-" + currentStep).show().addClass("animate__animated animate__fadeInRight");
-          updateProgressBar();
-        }, 500);
+      for(var i = 0;i<nurse_type.length;i++){
+        nurse_array.push({id:nurse_type[i].id,name:nurse_type[i].text});
       }
+
+      console.log("nurse_array",nurse_array);
+
+      // if (currentStep == 1) {
+        
+      //   if (validateForm() == false) {
+      //     return false;
+      //   } 
+
+      //   currentStep++;
+      //   $(".step-" + currentStep).addClass("animate__animated animate__fadeOutLeft");
+
+      //   setTimeout(function() {
+      //     $(".step").removeClass("animate__animated animate__fadeOutLeft").hide();
+      //     $(".step-" + currentStep).show().addClass("animate__animated animate__fadeInRight");
+      //     updateProgressBar();
+      //   }, 500);
+      // }
     });
 
     $(".prev-step").click(function() {
