@@ -42,10 +42,13 @@ class HomeController extends Controller
 
     protected $specialityServices;
     protected $specialityRepository;
+    protected $authServices;
+
   
-    public function __construct(SpecialityServices $specialityServices , SpecialityRepository $specialityRepository){
+    public function __construct(SpecialityServices $specialityServices , SpecialityRepository $specialityRepository,AuthServices $authServices){
         $this->specialityServices = $specialityServices;
         $this->specialityRepository = $specialityRepository;
+        $this->authServices = $authServices;
        
     }
     public function index($message = '')
@@ -854,7 +857,10 @@ class HomeController extends Controller
     }
      public function updateProfile(UserUpdateProfile $request)
     {
+
+       
         try {
+
             $run = $this->authServices->updateAdminProfile($request);
              if ($run) {
                 return response()->json(['status' => '2', 'message' => __('message.statusTwo',['parameter' =>'Profile'])]);

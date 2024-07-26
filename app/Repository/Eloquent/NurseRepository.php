@@ -24,6 +24,14 @@ class NurseRepository extends BaseRepository{
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
         }
     }
+    public function getcompleteprofileNurseList(){
+        try {
+            return $this->model->where(['type'=>'1','emailVerified'=>'1','user_stage' => '4'])->orderBy('id', 'desc')->get();
+        } catch(\Exception $e){
+            Log::error("Error in NurseRepository.getcompleteprofileNurseList(): " . $e->getMessage());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
     public function getCustomerList(){
         try {
             return $this->model->where(['type'=>'0','user_stage' => '1'])->orderBy('id', 'desc')->get();

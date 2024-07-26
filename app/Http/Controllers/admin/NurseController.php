@@ -31,6 +31,17 @@ class NurseController extends Controller
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
         }
     }
+    public function completeprofileNurseList()
+    {
+        try {
+            $completeprofileUsers  = $this->nurseRepository->getcompleteprofileNurseList();
+            // dd($incomingNurseUsers);
+            return view('admin.complete-profile-nurse-list',compact('completeprofileUsers'));
+        } catch (\Exception $e) {
+            log::error('Error in NurseController/incommingNurseList :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
     public function customerList()
     {
         try {

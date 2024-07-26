@@ -157,7 +157,8 @@
   @if(!account_verified())
   <div class="container-fluid">
     <div class="alert alert-warning mt-2" role="alert">
-      <span class="d-flex align-items-center justify-content-center "><img src="{{ asset('nurse/assets/imgs/info.png') }}" width="25px;" alt="info" class="mx-2">Thank you for verifying you email. We are currently reviewing your details and will get in touch with you shortly.</span><span class="d-flex align-items-center justify-content-center "> Note: Until your profile is in a pending state, you can't apply for jobs, and your profile will be invisible.</span>
+      <span class="d-flex align-items-center justify-content-center "><img src="{{ asset('nurse/assets/imgs/info.png') }}" width="25px;" alt="info" class="mx-2">Thank you for verifying your email.Until your profile is approved, you won't be able to apply for jobs, and your profile will remain invisible.
+</span>
 
     </div>
   </div>

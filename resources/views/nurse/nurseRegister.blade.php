@@ -313,7 +313,8 @@
 <div class="paediatric_surgical_div">
     
     <div class="surgicalpad_row_data form-group drp--clr d-none col-md-12">
-        <label class="form-label" for="input-1">Paediatric Surgical Preoperative and Postoperative Care:</label>
+        <label class="form-label" for="input-1">Paediatric Surgical Preop. and Postop. Care:
+</label>
            <?php
             $speciality_padsurgicalrow_data = DB::table("speciality")->where('parent', '285')->get();
             $r = 1;
@@ -323,7 +324,7 @@
                 <li data-value="{{ $ssrd->id }}">{{ $ssrd->name }}</li>
                 @endforeach
             </ul>
-        <select class="js-example-basic-multiple" data-list-id="surgical_rowpad_box" name="states[]" multiple="multiple"></select>
+        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_rowpad_box" name="states[]" multiple="multiple"></select>
     </div>
 </div>
 <div class="specialty_sub_boxes row">
@@ -376,14 +377,15 @@
                 <li data-value="{{ $ssd->id }}">{{ $ssd->name }}</li>
                  @endforeach
             </ul>
-        <select class="js-example-basic-multiple" data-list-id="neonatal_care" name="states[]" multiple="multiple"></select>
+        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="neonatal_care" name="states[]" multiple="multiple"></select>
     </div>
     <?php
         $speciality_surgical_datap = DB::table("speciality")->where('parent', '285')->get();
         $q = 1;
     ?>
     @foreach($speciality_surgical_datap as $ssd)
-    <div class="surgical_rowp form-group drp--clr drpdown-set d-none col-md-4">
+     <input type="hidden" name="speciality_result" class="surgical_rowp_result-{{ $q }}" value="{{ $ssd->id }}">
+    <div class="surgical_rowp surgical_rowp-{{ $q }} form-group drp--clr drpdown-set d-none col-md-4">
         <label class="form-label" for="input-1">{{ $ssd->name }}</label>
            <?php
             $speciality_surgicalsub_data = DB::table("speciality")->where('parent', $ssd->id)->orderBy('name')->get();
@@ -393,10 +395,10 @@
                 <li data-value="{{ $sssd->id }}">{{ $sssd->name }}</li>
                 @endforeach
             </ul>
-        <select class="js-example-basic-multiple" data-list-id="surgical_operative_carep-{{ $q }}" name="states[]" multiple="multiple"></select>
+        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_operative_carep-{{ $q }}" name="states[]" multiple="multiple"></select>
     </div>
     <?php
-        $w++;
+        $q++;
     ?>
     @endforeach
 </div>
@@ -410,8 +412,8 @@
                     </select>
                   </div>
                   <div class="" id="mid_select">
-                    <div class="form-group">
-                      <label class="form-label" for="input-1">Nurse & Midwife degree</label>
+                    <div class="form-group drp--clr drpdown-set">
+                      <!-- <label class="form-label" for="input-1">Nurse & Midwife degree</label>
                       <select class="form-input mr-10 select-active" name="degree[]" multiple>
                         <?php
                           $nurse_midwife_degree = DB::table("degree")->where('status', '1')->orderBy('name')->get();
@@ -421,7 +423,18 @@
                         <option value="{{ $ptl->id }}">{{ $ptl->name }}</option>
                         @endforeach
                       </select>
-                      <span id="reqdegree" class="reqError valley"></span>
+                      <span id="reqdegree" class="reqError valley"></span> -->
+                      <label class="form-label" for="input-1">Nurse & Midwife degree</label>
+                       <?php
+                        $nurse_midwife_degree = DB::table("degree")->where('status', '1')->orderBy('name')->get();
+                       ?>
+                        <ul id="nurse_degree" style="display:none;">
+                             @foreach($nurse_midwife_degree as $ptl)
+                              <li data-value="{{ $ptl->id }}">{{ $ptl->name }}</li>
+                              
+                              @endforeach
+                        </ul>
+                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="nurse_degree" name="states[]" multiple="multiple"></select>
                     </div>
 
                   </div>
@@ -553,14 +566,14 @@ $(document).ready(function() {
     // Initialize Select2 for each select element with class .js-example-basic-multiple
     $('.js-example-basic-multiple').each(function() {
         let listId = $(this).data('list-id');
-
+        //alert(listId);
         let items = [];
-        console.log("listId",listId);
+        console.log("listId1",listId);
         $('#' + listId + ' li').each(function() {
-            console.log("value",$(this).data('value'));
+            console.log("value1",$(this).text());
             items.push({ id: $(this).data('value'), text: $(this).text() });
         });
-        console.log("items",items);
+        console.log("items1",items);
         $(this).select2({
             data: items
         });
@@ -608,9 +621,11 @@ $(document).ready(function() {
         console.log("nurse_len",nurse_len);
 
         //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
-        if(selectedValues == 179){
+        if(selectedValues.includes("179")){
             $('.np_submenu').removeClass('d-none');
             console.log("selectedValues",selectedValues);
+        }else{
+            $('.np_submenu').addClass('d-none');
         }
         
         
@@ -638,6 +653,7 @@ $(document).ready(function() {
                 
             }else{
                 $('#specility_level-'+k).addClass('d-none');
+                
             }
         }
         
@@ -729,12 +745,17 @@ $(document).ready(function() {
         console.log("selectedValues",selectedValues);
         //$('.result--show .form-group').addClass('d-none');
 
-        if(selectedValues == 250){
+        if(selectedValues.includes('250')){
             $('.neonatal_row').removeClass('d-none');
+        }else{
+            $('.neonatal_row').addClass('d-none');
         }
 
-        if(selectedValues == 285){
-            $('.surgical_rowp').removeClass('d-none');
+        if(selectedValues.includes('285')){
+            $('.surgicalpad_row_data').removeClass('d-none');
+        }else{
+            $('.surgicalpad_row_data').addClass('d-none');
+            
         }
 
         // for(var k = 1;k<=speciality_entry;k++){
@@ -750,6 +771,38 @@ $(document).ready(function() {
         // }
     });
 
+    $('.js-example-basic-multiple[data-list-id="surgical_rowpad_box"]').on('change', function() {
+        let selectedValues = $(this).val();
+        //alert("hello");
+        var speciality_entry = $("#surgical_rowpad_box li").length;
+        console.log("speciality_entry",speciality_entry);
+        $(".surgical_rowp").wrapAll("<div class='col-md-12 row surgical_rowp_data'>");
+        $(".surgical_rowp_data").insertAfter(".surgicalpad_row_data");
+
+        
+            $(".neonatal_row").wrapAll("<div class='col-md-12 row neonatal_row_data'>");
+            $(".neonatal_row_data").insertAfter("#specility_level-3");
+
+        //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
+
+        console.log("selectedValues",selectedValues);
+        //$('.result--show .form-group').addClass('d-none');
+
+        
+
+        for(var k = 1;k<=speciality_entry;k++){
+            var speciality_result_val = $(".surgical_rowp_result-"+k).val();
+            //alert(speciality_result_val);
+            if(selectedValues.includes(speciality_result_val)){
+
+                $('.surgical_rowp-'+k).removeClass('d-none');
+                
+            }else{
+                $('.surgical_rowp-'+k).addClass('d-none');
+            }
+        }
+    });
+
     $('.js-example-basic-multiple[data-list-id="speciality_entry-2"]').on('change', function() {
         let selectedValues = $(this).val();
         //alert("hello");
@@ -763,8 +816,10 @@ $(document).ready(function() {
         console.log("selectedValues",selectedValues);
         //$('.result--show .form-group').addClass('d-none');
 
-        if(selectedValues == 233){
+        if(selectedValues.includes("233")){
             $('.surgicalobs_row').removeClass('d-none');
+        }else{
+            $('.surgicalobs_row').addClass('d-none');
         }
 
         // for(var k = 1;k<=speciality_entry;k++){
