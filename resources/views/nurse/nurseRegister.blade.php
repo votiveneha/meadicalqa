@@ -112,6 +112,13 @@
     font-weight: 700;
 	line-height: 20px;
   }
+
+.registration_progress {
+    font-weight: 900;
+    background-color: black;
+    color: #fff;
+}
+
 </style>
 @endsection
 @section('content')
@@ -128,8 +135,8 @@
 
 
           <div class="step-container d-flex justify-content-between">
-            <div class="step-circle" onclick="displayStep(1)">1</div>
-            <div class="step-circle" onclick="displayStep(2)">2</div>
+            <div class="step-circle first_step registration_progress" onclick="displayStep(1)">1</div>
+            <div class="step-circle second_step" onclick="displayStep(2)">2</div>
             <!-- <div class="step-circle" onclick="displayStep(3)">3</div> -->
           </div>
         </div>
@@ -198,7 +205,7 @@
     ?>
     @foreach($specialty as $spl)
     <?php
-        $nursing_data = DB::table("practitioner_type")->where('parent', $spl->id)->get();
+        $nursing_data = DB::table("practitioner_type")->where('parent', $spl->id)->orderBy('name')->get();
     ?>
     <input type="hidden" name="nursing_result" class="nursing_result-{{ $i }}" value="{{ $spl->id }}">
     <div class="nursing_data form-group drp--clr d-none" id="nursing_level-{{ $i }}">
@@ -282,13 +289,46 @@
         ?>
     @endforeach
 </div>
+<div class="surgical_div">
+    
+    <div class="surgical_row_data form-group drp--clr d-none col-md-12">
+        <label class="form-label" for="input-1">Surgical Preoperative and Postoperative Care:</label>
+           <?php
+            $speciality_surgicalrow_data = DB::table("speciality")->where('parent', '96')->get();
+            $r = 1;
+           ?>
+            <ul id="surgical_row_box" style="display:none;">
+                @foreach($speciality_surgicalrow_data as $ssrd)
+                <li data-value="{{ $ssrd->id }}">{{ $ssrd->name }}</li>
+                @endforeach
+            </ul>
+        <select class="js-example-basic-multiple" data-list-id="surgical_row_box" name="states[]" multiple="multiple"></select>
+    </div>
+</div>
+<div class="paediatric_surgical_div">
+    
+    <div class="surgicalpad_row_data form-group drp--clr d-none col-md-12">
+        <label class="form-label" for="input-1">Paediatric Surgical Preoperative and Postoperative Care:</label>
+           <?php
+            $speciality_padsurgicalrow_data = DB::table("speciality")->where('parent', '285')->get();
+            $r = 1;
+           ?>
+            <ul id="surgical_rowpad_box" style="display:none;">
+                @foreach($speciality_padsurgicalrow_data as $ssrd)
+                <li data-value="{{ $ssrd->id }}">{{ $ssrd->name }}</li>
+                @endforeach
+            </ul>
+        <select class="js-example-basic-multiple" data-list-id="surgical_rowpad_box" name="states[]" multiple="multiple"></select>
+    </div>
+</div>
 <div class="specialty_sub_boxes row">
     <?php
         $speciality_surgical_data = DB::table("speciality")->where('parent', '96')->get();
         $w = 1;
     ?>
     @foreach($speciality_surgical_data as $ssd)
-    <div class="surgical_row form-group drp--clr d-none col-md-4">
+    <input type="hidden" name="speciality_result" class="speciality_surgical_result-{{ $w }}" value="{{ $ssd->id }}">
+    <div class="surgical_row-{{ $w }} form-group drp--clr d-none col-md-4">
         <label class="form-label" for="input-1">{{ $ssd->name }}</label>
            <?php
             $speciality_surgicalsub_data = DB::table("speciality")->where('parent', $ssd->id)->get();
@@ -335,23 +375,24 @@
     </div>
     <?php
         $speciality_surgical_datap = DB::table("speciality")->where('parent', '285')->get();
-        $q = 1;
+        $m = 1;
     ?>
     @foreach($speciality_surgical_datap as $ssd)
-    <div class="surgical_rowp form-group drp--clr d-none col-md-4">
+    <input type="hidden" name="specialitypad_result" class="speciality_surgicalpad_result-{{ $m }}" value="{{ $ssd->id }}">
+    <div class="surgical_rowpad-{{ $m }} form-group drp--clr d-none col-md-4">
         <label class="form-label" for="input-1">{{ $ssd->name }}</label>
            <?php
             $speciality_surgicalsub_data = DB::table("speciality")->where('parent', $ssd->id)->get();
            ?>
-            <ul id="surgical_operative_carep-{{ $q }}" style="display:none;">
+            <ul id="surgicalpad_operative_carep-{{ $m }}" style="display:none;">
                 @foreach($speciality_surgicalsub_data as $sssd)
                 <li data-value="{{ $sssd->id }}">{{ $sssd->name }}</li>
                 @endforeach
             </ul>
-        <select class="js-example-basic-multiple" data-list-id="surgical_operative_carep-{{ $q }}" name="states[]" multiple="multiple"></select>
+        <select class="js-example-basic-multiple" data-list-id="surgicalpad_operative_carep-{{ $m }}" name="states[]" multiple="multiple"></select>
     </div>
     <?php
-        $w++;
+        $m++;
     ?>
     @endforeach
 </div>
@@ -516,7 +557,7 @@ $(document).ready(function() {
         console.log("nurse_len",nurse_len);
 
         //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
-        if(selectedValues == 179){
+        if(selectedValues.includes("179")){
             $('.np_submenu').removeClass('d-none');
             console.log("selectedValues",selectedValues);
         }
@@ -560,14 +601,17 @@ $(document).ready(function() {
         //alert("hello");
         var speciality_entry = $("#speciality_entry-1 li").length;
         console.log("speciality_entry",speciality_entry);
-
+        $(".surgical_row").wrapAll("<div class='col-md-12 row surgical_row_data'>");
+        $(".surgical_row_data").insertAfter("#specility_level-1");
         //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
 
-        console.log("selectedValues",selectedValues);
+        console.log("selectedValues",selectedValues.includes("96"));
         //$('.result--show .form-group').addClass('d-none');
 
-        if(selectedValues == 96){
-            $('.surgical_row').removeClass('d-none');
+        if(selectedValues.includes("96")){
+            $('.surgical_row_data').removeClass('d-none');
+        }else{
+            $('.surgical_row_data').addClass('d-none');
         }
 
         
@@ -585,27 +629,68 @@ $(document).ready(function() {
         // }
     });
 
+     $('.js-example-basic-multiple[data-list-id="surgical_row_box"]').on('change', function() {
+        let selectedValues = $(this).val();
+        //alert("hello");
+        var speciality_entry = $("#speciality_entry-1 li").length;
+        console.log("speciality_entry",speciality_entry);
+        // $(".surgical_row").wrapAll("<div class='col-md-12 row surgical_row_data'>");
+        $(".specialty_sub_boxes").insertAfter(".surgical_row_data");
+        //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
+
+        console.log("selectedValues",selectedValues);
+        //$('.result--show .form-group').addClass('d-none');
+
+        // if(selectedValues.includes("97")){
+        //     $('.surgical_row').removeClass('d-none');
+        // }else{
+        //     $('.surgical_row').addClass('d-none');
+        // }
+
+        
+
+        for(var k = 1;k<=speciality_entry;k++){
+            var speciality_result_val = $(".speciality_surgical_result-"+k).val();
+            //alert(speciality_result_val);
+            if(selectedValues.includes(speciality_result_val)){
+
+                $('.surgical_row-'+k).removeClass('d-none');
+                
+            }else{
+                $('.surgical_row-'+k).addClass('d-none');
+            }
+        }
+    });
+
     $('.js-example-basic-multiple[data-list-id="speciality_entry-3"]').on('change', function() {
         let selectedValues = $(this).val();
         //alert("hello");
         var speciality_entry = $("#speciality_entry-3 li").length;
         console.log("speciality_entry",speciality_entry);
+        $(".surgical_rowp").wrapAll("<div class='col-md-12 row surgical_rowp_data'>");
+        $(".surgical_rowp_data").insertAfter("#specility_level-3");
+
+        
+            $(".neonatal_row").wrapAll("<div class='col-md-12 row neonatal_row_data'>");
+            $(".neonatal_row_data").insertAfter("#specility_level-3");
+       
+        
 
         //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
 
         console.log("selectedValues",selectedValues);
         //$('.result--show .form-group').addClass('d-none');
 
-        if(selectedValues == 250){
+        if(selectedValues.includes("250")){
             $('.neonatal_row').removeClass('d-none');
         }
 
-        if(selectedValues == 285){
-            $('.surgical_rowp').removeClass('d-none');
+        if(selectedValues.includes("285")){
+            $('.surgicalpad_row_data').removeClass('d-none');
         }
 
         // for(var k = 1;k<=speciality_entry;k++){
-        //     var speciality_result_val = $(".speciality_result-"+k).val();
+        //     var speciality_result_val = $(".specialitypad_result-"+k).val();
         //     //alert(speciality_result_val);
         //     if(selectedValues.includes(speciality_result_val)){
 
@@ -617,18 +702,53 @@ $(document).ready(function() {
         // }
     });
 
-    $('.js-example-basic-multiple[data-list-id="speciality_entry-2"]').on('change', function() {
+    $('.js-example-basic-multiple[data-list-id="surgical_rowpad_box"]').on('change', function() {
         let selectedValues = $(this).val();
         //alert("hello");
-        var speciality_entry = $("#speciality_entry-1 li").length;
-        console.log("speciality_entry",speciality_entry);
+        var speciality_entry = $("#surgical_rowpad_box li").length;
+        console.log("speciality_entry_pad",speciality_entry);
+        $(".surgical_rowp").wrapAll("<div class='col-md-12 row surgical_rowp_data'>");
+        $(".surgical_rowp_data").insertAfter("#specility_level-3");
+
+        
+            $(".neonatal_row").wrapAll("<div class='col-md-12 row neonatal_row_data'>");
+            $(".neonatal_row_data").insertAfter("#specility_level-3");
+       
+        
 
         //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
 
         console.log("selectedValues",selectedValues);
         //$('.result--show .form-group').addClass('d-none');
 
-        if(selectedValues == 233){
+
+        for(var k = 1;k<=speciality_entry;k++){
+            var speciality_result_val = $(".speciality_surgicalpad_result-"+k).val();
+            //alert(speciality_result_val);
+            if(selectedValues.includes(speciality_result_val)){
+
+                $('.surgical_rowpad-'+k).removeClass('d-none');
+                
+            }else{
+                $('.surgical_rowpad-'+k).addClass('d-none');
+            }
+        }
+    });
+
+    $('.js-example-basic-multiple[data-list-id="speciality_entry-2"]').on('change', function() {
+        let selectedValues = $(this).val();
+        //alert("hello");
+        var speciality_entry = $("#speciality_entry-1 li").length;
+        console.log("speciality_entry",speciality_entry);
+        $(".surgicalobs_row").wrapAll("<div class='col-md-12 row surgicalobs_row_data'>");
+        $(".surgicalobs_row_data").insertAfter("#specility_level-2");
+
+        //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
+
+        console.log("selectedValues",selectedValues);
+        //$('.result--show .form-group').addClass('d-none');
+
+        if(selectedValues.includes("233")){
             $('.surgicalobs_row').removeClass('d-none');
         }
 
@@ -830,28 +950,29 @@ $(document).ready(function() {
    
       var nurse_type = $('#nurse_type').select2('data');
       
-
+      $(".first_step").removeClass("registration_progress");
+      $(".second_step").addClass("registration_progress");
       for(var i = 0;i<nurse_type.length;i++){
         nurse_array.push({id:nurse_type[i].id,name:nurse_type[i].text});
       }
 
       console.log("nurse_array",nurse_array);
 
-      // if (currentStep == 1) {
+      if (currentStep == 1) {
         
-      //   if (validateForm() == false) {
-      //     return false;
-      //   } 
+        if (validateForm() == false) {
+          return false;
+        } 
 
-      //   currentStep++;
-      //   $(".step-" + currentStep).addClass("animate__animated animate__fadeOutLeft");
+        currentStep++;
+        $(".step-" + currentStep).addClass("animate__animated animate__fadeOutLeft");
 
-      //   setTimeout(function() {
-      //     $(".step").removeClass("animate__animated animate__fadeOutLeft").hide();
-      //     $(".step-" + currentStep).show().addClass("animate__animated animate__fadeInRight");
-      //     updateProgressBar();
-      //   }, 500);
-      // }
+        setTimeout(function() {
+          $(".step").removeClass("animate__animated animate__fadeOutLeft").hide();
+          $(".step-" + currentStep).show().addClass("animate__animated animate__fadeInRight");
+          updateProgressBar();
+        }, 500);
+      }
     });
 
     $(".prev-step").click(function() {
