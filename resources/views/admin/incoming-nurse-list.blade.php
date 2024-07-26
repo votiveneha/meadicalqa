@@ -24,6 +24,17 @@
         </div>
         <div class="card w-100  overflow-hidden ">
             <div class="card-body p-3 px-md-4">
+                <div class="card-header pb-0 p-4">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <h5 class="card-title fw-semibold mb-0">Incoming Nurse List</h5>
+                        </div>
+                        <div>
+                            <a href="{{ route('admin.add_nurse')}}"  class="btn btn-primary text-nowrap">Add
+                                Nurse</a>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="table-responsive rounded-2 mb-4">
                     <table class="table border table-striped table-bordered text-nowrap" id="dataTable">

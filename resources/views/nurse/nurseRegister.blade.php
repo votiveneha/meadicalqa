@@ -413,8 +413,10 @@
                     <div class="form-group">
                       <label class="form-label" for="input-1">Nurse & Midwife degree</label>
                       <select class="form-input mr-10 select-active" name="degree[]" multiple>
-                      
-                        @php $nurse_midwife_degree = nurse_midwife_degree(); @endphp
+                        <?php
+                          $nurse_midwife_degree = DB::table("degree")->where('status', '1')->orderBy('name')->get();
+                        ?>
+                        
                         @foreach($nurse_midwife_degree as $ptl)
                         <option value="{{ $ptl->id }}">{{ $ptl->name }}</option>
                         @endforeach
@@ -1261,23 +1263,23 @@ $(document).ready(function() {
 
     
 
-    var pattern = /^.*(?=.{8,12})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%&!-_]).*$/;
+    var pattern = /^.*(?=.{7,12})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%&!-_]).*$/;
 
     if (!pattern.test(passwordI)) {
 
-      document.getElementById("reqTxtpasswordI").innerHTML = "Enter minimum 8-12 chars with atleast 1 number, lower, upper & special(@#$%&!-_&) char.";
+      document.getElementById("reqTxtpasswordI").innerHTML = "Password length should be 7 Characters with atleast 1 number, lower, upper & special(@#$%&!-_&) characters.";
 
       returnValue = false;
 
     }
 
-    for (var i=0; i<passwordI.length; i++) {
+    // for (var i=0; i<passwordI.length; i++) {
 
-      if ( passwordI.indexOf(passwordI[i]) !== passwordI.lastIndexOf(passwordI[i]) ) {
-        document.getElementById("reqTxtpasswordI").innerHTML = "Characters can not be repeat";
-        returnValue = false;
-      }
-    }
+    //   if ( passwordI.indexOf(passwordI[i]) !== passwordI.lastIndexOf(passwordI[i]) ) {
+    //     document.getElementById("reqTxtpasswordI").innerHTML = "Characters can not be repeat";
+    //     returnValue = false;
+    //   }
+    // }
 
     if (confirm_passwordI == "") {
 
