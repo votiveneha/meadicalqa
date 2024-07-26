@@ -66,6 +66,7 @@ Route::prefix('/admin')->name('admin.')->namespace('App\Http\Controllers\admin')
         // Nurse Managemenent
         Route::get('/customer-list', 'NurseController@customerList')->name('customer-list');
         Route::get('/incoming-nurse-list', 'NurseController@incommingNurseList')->name('incoming-nurse-list'); 
+        Route::get('/complete-profile-nurse-list', 'NurseController@completeprofileNurseList')->name('complete-nurse-nurse-list'); 
         Route::get('/approved-nurse-list', 'NurseController@activeNurseList')->name('approved-nurse-list');
         Route::post('/change-status', 'NurseController@changeStatus')->name('change-status');
         Route::post('/change-status-delete', 'NurseController@changeStatusDelete')->name('change-status-delete');
