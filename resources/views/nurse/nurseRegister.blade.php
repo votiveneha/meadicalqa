@@ -193,7 +193,7 @@
                 @endforeach
                 
             </ul>
-        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="type-of-nurse" name="states[]" multiple="multiple"></select>
+        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="type-of-nurse" name="nurseType[]" multiple="multiple"></select>
    </div>
 </div>
 
@@ -218,7 +218,7 @@
                 @endforeach
                 <!-- Add more list items as needed -->
             </ul>
-        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="nursing_entry-{{ $i }}" name="states[]" multiple="multiple"></select>
+        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="nursing_entry-{{ $i }}" name="nursing_type_{{ $i }}[]" multiple="multiple"></select>
     </div>
     <?php
         $i++;
@@ -240,11 +240,11 @@
         <label class="form-label" for="input-1">Nurse Practitioner (NP):</label>
             <ul id="nurse_practitioner_menu" style="display:none;">
                 @foreach($np_data as $nd)
-                <li id="entry-level-nursing" data-value="Entry level nursing">{{ $nd->name }}</li>
+                <li data-value="{{ $nd->id }}">{{ $nd->name }}</li>
                 @endforeach
                 
             </ul>
-        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="nurse_practitioner_menu" name="states[]" multiple="multiple"></select>
+        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="nurse_practitioner_menu" name="nurse_practitioner_menu[]" multiple="multiple"></select>
         
    </div>
    
@@ -266,7 +266,7 @@
                 @endforeach
                 
             </ul>
-        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="specialties" name="states[]" multiple="multiple"></select>
+        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="specialties" name="specialties[]" multiple="multiple"></select>
    </div>
 </div>
 <div class="speciality_boxes row result--show">
@@ -287,7 +287,7 @@
                     @endforeach
                     <!-- Add more list items as needed -->
                 </ul>
-            <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="speciality_entry-{{ $l }}" name="states[]" multiple="multiple"></select>
+            <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="speciality_entry-{{ $l }}" name="speciality_entry_{{ $l }}[]" multiple="multiple"></select>
         </div>
         <?php
             $l++;
@@ -307,7 +307,7 @@
                 <li data-value="{{ $ssrd->id }}">{{ $ssrd->name }}</li>
                 @endforeach
             </ul>
-        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_row_box" name="states[]" multiple="multiple"></select>
+        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_row_box" name="surgical_row_box[]" multiple="multiple"></select>
     </div>
 </div>
 <div class="paediatric_surgical_div">
@@ -324,7 +324,7 @@
                 <li data-value="{{ $ssrd->id }}">{{ $ssrd->name }}</li>
                 @endforeach
             </ul>
-        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_rowpad_box" name="states[]" multiple="multiple"></select>
+        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_rowpad_box" name="surgical_rowpad_box[]" multiple="multiple"></select>
     </div>
 </div>
 <div class="specialty_sub_boxes row">
@@ -344,7 +344,7 @@
                 <li data-value="{{ $sssd->id }}">{{ $sssd->name }}</li>
                 @endforeach
             </ul>
-        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_operative_care-{{ $w }}" name="states[]" multiple="multiple"></select>
+        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_operative_care-{{ $w }}" name="surgical_operative_care_{{ $w }}[]" multiple="multiple"></select>
     </div>
     <?php
         $w++;
@@ -363,7 +363,7 @@
                 <li data-value="{{ $ssd->id }}">{{ $ssd->name }}</li>
                  @endforeach
             </ul>
-        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_obs_care" name="states[]" multiple="multiple"></select>
+        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_obs_care" name="surgical_obs_care[]" multiple="multiple"></select>
     </div>
     <?php
         $speciality_surgical_datamater = DB::table("speciality")->where('parent', '250')->get();
@@ -377,7 +377,7 @@
                 <li data-value="{{ $ssd->id }}">{{ $ssd->name }}</li>
                  @endforeach
             </ul>
-        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="neonatal_care" name="states[]" multiple="multiple"></select>
+        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="neonatal_care" name="neonatal_care[]" multiple="multiple"></select>
     </div>
     <?php
         $speciality_surgical_datap = DB::table("speciality")->where('parent', '285')->get();
@@ -395,7 +395,7 @@
                 <li data-value="{{ $sssd->id }}">{{ $sssd->name }}</li>
                 @endforeach
             </ul>
-        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_operative_carep-{{ $q }}" name="states[]" multiple="multiple"></select>
+        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_operative_carep-{{ $q }}" name="surgical_operative_carep_{{ $q }}[]" multiple="multiple"></select>
     </div>
     <?php
         $q++;
@@ -434,7 +434,7 @@
                               
                               @endforeach
                         </ul>
-                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="nurse_degree" name="states[]" multiple="multiple"></select>
+                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="nurse_degree" name="degree[]" multiple="multiple"></select>
                     </div>
 
                   </div>
@@ -1015,12 +1015,15 @@ $(document).ready(function() {
 
   $(document).ready(function() {
     $('#multi-step-form').find('.step').slice(1).hide();
-    var nurse_array = [];
+    
     $(".next-step").click(function() {
    
       $(".first_step").removeClass("registration_progress");
       $(".second_step").addClass("registration_progress");
 
+      
+
+      
       if (currentStep == 1) {
         
         if (validateForm() == false) {
@@ -1346,7 +1349,7 @@ $(document).ready(function() {
 
     if (passwordI != confirm_passwordI) {
 
-      document.getElementById("reqTxtconfirm_passwordI").innerHTML = "Password And Confirm password did not match.";
+      document.getElementById("reqTxtconfirm_passwordI").innerHTML = "Password and Confirm password do not match";
 
       returnValue = false;
 
