@@ -38,7 +38,12 @@ class AuthServices
            
             $companyinsert['country'] = $request->country;
             $companyinsert['state'] = $request->state;
+            $companyinsert['gender'] = $request->gender;
             $companyinsert['city'] = $request->city;
+            $companyinsert['date_of_birth'] = $request->date_of_birth;
+            $companyinsert['home_address'] = $request->home_address;
+            $companyinsert['emergency_conact_numeber'] = $request->emergency_conact_numeber;
+            $companyinsert['emergergency_contact_email'] = $request->emergergency_contact_email;
            
             $companyinsert['created_at'] = Carbon::now('Asia/Kolkata');
 

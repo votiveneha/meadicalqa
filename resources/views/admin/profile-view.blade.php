@@ -48,8 +48,8 @@
                                 </div>
                             </div>
                             <div class="w-100">
-                                <div class="d-flex justify-content-between">
-                                    <h5 class="fs-5 mb-2 fw-bolder"> {{ ucwords($profileData->name) }} </h5>
+                                <div class="d-flex justify-content-between"> 
+                                    <h5 class="fs-5 mb-2 fw-bolder"> {{ ucwords($profileData->name)." ".ucwords($profileData->lastname) }} </h5>
                                     <h5 class="fs-5 mb-2 fw-bolder"> </h5>
 
                                 </div>
@@ -105,31 +105,31 @@
                     <li class="nav-item" role="presentation">
                         <a class="nav-link active" data-bs-toggle="tab" href="#navpill-111" role="tab"
                             aria-selected="true">
-                            <span>Details</span>
+                            <span>Basic Details</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
                         <a class="nav-link" data-bs-toggle="tab" href="#navpill-222" role="tab" aria-selected="false"
                             tabindex="-1">
-                            <span>Profession Verification </span>
+                            <span>Professional Information</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
                         <a class="nav-link" data-bs-toggle="tab" href="#navpill-333" role="tab" aria-selected="false"
                             tabindex="-1">
-                            <span> Police Check Verification</span>
+                            <span>Education and Certifications</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
                         <a class="nav-link" data-bs-toggle="tab" href="#navpill-444" role="tab" aria-selected="false"
                             tabindex="-1">
-                            <span>Eligibility For Work</span>
+                            <span>Experience</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
                         <a class="nav-link" data-bs-toggle="tab" href="#navpill-555" role="tab" aria-selected="false"
                             tabindex="-1">
-                            <span>Children Work</span>
+                            <span>Financial Details</span>
                         </a>
                     </li>
                 </ul>
@@ -139,27 +139,29 @@
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
-                                    <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center ">Details </h3>
+                                    <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center ">Basic Details</h3>
                                 </div>
                                 <div class="card-body p-3 px-md-4">
                                     <div class="col-md-12">
                                         <div class="row">
                                             <div class="col-md-6 mt-3">
                                                 <div class="d-flex gap-3 flex-wrap">
-                                                    <strong>Do you have work rights in Austrailia? : </strong>
-                                                    <span>{{ $profileData->work_right == 0 ? 'No' : 'Yes' }}</span>
+                                                    {{-- <strong>Do you have work rights in Austrailia? : </strong>
+                                                    <span>{{ $profileData->work_right == 0 ? 'No' : 'Yes' }}</span> --}}
+                                                    <strong>Date of Birth : </strong>
+                                                    <span></span>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 mt-3">
                                                 <div class="d-flex gap-3 flex-wrap">
                                                 <!-- specialty_name_by_id -->
-                                                    <strong>Profession : </strong><span> - - - </span>
+                                                    <strong>Gender: </strong><span> - - - </span>
                                                 </div>
                                             </div>
                     
                                             <div class="col-md-6 mt-3">
                                                 <div class="d-flex gap-3 flex-wrap">
-                                                    <strong>Practitioner type : </strong>
+                                                    <strong>Nationality: </strong>
                                                     <!-- specialty_name_by_id -->
                                                    <span> - - -  </span>
                                                 </div>
@@ -168,13 +170,13 @@
                     
                                             <div class="col-md-6 mt-3">
                                                 <div class="d-flex gap-3 flex-wrap">
-                                                    <strong> Assistant in Nursing level : </strong> <span>{{ $profileData->assistent_level}}</span>
+                                                    <strong> Home Address : </strong> <span> - - -  </span>
                                                 </div>
                                             </div>
                                             @if($profileData->country_code)
                                                 <div class="col-md-6 mt-3">
                                                     <div class="d-flex gap-3 flex-wrap">
-                                                        <strong> Country  : </strong> <span>{{ country_name($profileData->country_code)}}</span>
+                                                        <strong>Emergency Contact Information : </strong> <span> - - -  </span>
                                                     </div>
                                                 </div>
                                             @endif
@@ -232,7 +234,7 @@
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
-                                    <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center ">Profession Verification 
+                                    <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center ">Professional Information
                                     </h3>
                                 </div>
                                 <div class="card-body p-3 px-md-4">
@@ -321,7 +323,7 @@
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
-                                    <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center "> Police Check Verification 
+                                    <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center "> Education and Certifications 
                                     </h3>
                                 </div>
                                 <div class="card-body p-3 px-md-4">
@@ -387,7 +389,7 @@
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
-                                    <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center ">Eligibility For Work</h3>
+                                    <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center ">Experience</h3>
                                 </div>
                                 <div class="card-body p-3 px-md-4">
                                     <div class="col-md-12">
@@ -444,7 +446,7 @@
                                                     <div class="col-md-6 mt-3">
                                                         <div class="d-flex gap-3 flex-wrap">
                                                             <strong>Passport Country Of Issue: </strong>
-                                                            <span>{{country_name($eligibilityToWorkData->passport_country_of_Issue)}}</span>
+                                                            <span>{{country_name_new($eligibilityToWorkData->passport_country_of_Issue)}}</span>
                                                         </div>
                                                     </div>
                                                     @endif
@@ -477,7 +479,7 @@
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
-                                    <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center ">Children Work</h3>
+                                    <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center ">Financial Details</h3>
                                 </div>
                                 <div class="card-body p-3 px-md-4">
                                     <div class="col-md-12">

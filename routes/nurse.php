@@ -85,5 +85,6 @@ Route::prefix('nurse')->name('nurse.')->namespace('App\Http\Controllers\nurse')-
     Route::post('/update-profession-user-police-check', 'HomeController@update_police_check_to_work')->name('update-profession-user-police-check');
     Route::post('/update-profession-user-emergency', 'HomeController@update_emergency')->name('update-profession-user-emergency');
     Route::post('/update-profession-profile-setting', 'HomeController@update_profession_profile_setting')->name('update-profession-profile-setting');
+    Route::post('/updateProfession', 'HomeController@updateProfession')->name('updateProfession');
   });
 });

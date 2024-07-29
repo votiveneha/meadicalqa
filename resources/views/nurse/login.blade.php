@@ -77,8 +77,8 @@
                                                 <!--<div class="d-flex justify-content-end"><a href="{{ route('nurse.forgot-password')}}">Forget password?</a></div>-->
                 <div class="login_footer form-group d-flex justify-content-between">
                   <label class="cb-container">
-                    <input type="checkbox"><span class="text-small"> Remember me</span><span class="checkmark"></span>
-                  </label><a class='text-muted' href="{{ route('nurse.forgot-password')}}">Forgot Password</a>
+                    <input type="checkbox"><span class="text-small"> Remember me</span><span class="checkmark" style="border-color: #000000 !important"></span>
+                  </label><a class='text-muted' href="{{ route('nurse.forgot-password')}}">Forgot Password?</a>
                   
                   
                 </div>

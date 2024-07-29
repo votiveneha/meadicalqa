@@ -88,6 +88,12 @@ function country_name($country_id)
         $lastRecord = CountryModel::where('iso2', $country_id)->first();
         return $lastRecord->name;
 }
+function country_name_new($country_id)
+{
+
+        $lastRecord = CountryModel::where('id', $country_id)->first();
+        return $lastRecord->name;
+}
 function year_level()
 {
         $lastRecord = LevelYearModel::where('status','1')->get();

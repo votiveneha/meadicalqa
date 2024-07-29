@@ -567,6 +567,34 @@ function pad(number) {
     });
     return false;
   }
+  function myFunction1(){
+    alert("hello");
+    $.ajax({
+      url: "{{ route('nurse.updateProfession') }}",
+      type: "POST",
+      cache: false,
+      contentType: false,
+      processData: false,
+      data: new FormData($('#profession_form')[0]),
+      dataType: 'json',
+      beforeSend: function() {
+        $('#submitProfession').prop('disabled', true);
+        $('#submitProfession').text('Process....');
+      },
+      success: function(res) {
+        $('#submitProfession').prop('disabled', false);
+        $('#submitProfession').text('Update Profile');
+        if(res == "hello"){
+          alert("hello");
+        }
+          
+        
+      }
+      
+    });
+    return false;
+  }
+  
   </script>
 <!-- =================================
 
@@ -611,7 +639,18 @@ function pad(number) {
         $('#signup_btn').text('Update Password');
         console.log(eror);
         for (var err in eror.responseJSON.errors) {
-          $("#ChangePassword").find("[name='" + err + "']").after("<div class='text-danger'>" + eror.responseJSON.errors[err] + "</div>");
+          console.log(eror.responseJSON.errors[err]);
+          if(eror.responseJSON.errors[err] == "The password field is required."){
+            $("#ChangePassword").find("[name='" + err + "']").after("<div class='text-danger'>The new password is required.</div>");
+          }else{
+            if(eror.responseJSON.errors[err] == "The password confirmation field is required."){
+              $("#ChangePassword").find("[name='" + err + "']").after("<div class='text-danger'>The confirm new password is required.</div>");
+            }else{
+              $("#ChangePassword").find("[name='" + err + "']").after("<div class='text-danger'>" + eror.responseJSON.errors[err] + "</div>");
+            }
+            
+          }
+          
         }
       }
     });

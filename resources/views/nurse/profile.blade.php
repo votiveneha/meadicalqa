@@ -1,4 +1,61 @@
 @extends('nurse.layouts.layout')
+
+@section('css')
+<link href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.12/css/intlTelInput.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="{{ url('/public') }}/nurse/assets/css/jquery.ui.datepicker.monthyearpicker.css">
+<style type="text/css">
+  .hide_profile_image{
+    display: none !important;
+  }
+  span.select2.select2-container {
+    padding: 5px !important;
+    width: 100% !important;
+  }
+
+
+  .select2-container--default .select2-selection--multiple {
+    background-color: white !important;
+    border: 1px solid #0000 !important;
+    border-radius: 4px !important;
+    cursor: text !important;
+  }
+
+  .select2-container--default .select2-selection--multiple .select2-selection__choice {
+    background-color: #000 !important;
+    border: 1px solid #000 !important;
+    border-radius: 4px !important;
+    cursor: default !important;
+    color: #fff !important;
+  float: left;
+    padding: 0;
+    padding-right: 0.75rem;
+    margin-top: calc(0.375rem - 2px);
+    margin-right: 0.375rem;
+  padding-bottom: 0px;
+  white-space: normal;
+    line-height: 20px;
+  }
+
+  .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+    color: #fff !important;
+    font-size: 20px !important;
+  float: left;
+    padding-right: 3px;
+    padding-left: 3px;
+    margin-right: 1px;
+    margin-left: 3px;
+    font-weight: 700;
+  line-height: 20px;
+  }
+  .registration_progress {
+    font-weight: 900;
+    background-color: black;
+    color: #fff;
+}
+</style>
+@endsection
+
 @section('content')
 
 
@@ -33,8 +90,8 @@
               <ul class="nav" role="tablist">
                 <li><a class="btn btn-border aboutus-icon mb-20 active" href="#tab-my-profile" data-bs-toggle="tab" role="tab" aria-controls="tab-my-profile" aria-selected="true">My Profile</a></li>
                 <li><a class="btn btn-border recruitment-icon mb-20" href="#tab-my-profile-setting" data-bs-toggle="tab" role="tab" aria-controls="tab-my-profile-setting" aria-selected="false">Setting</a></li>
-               <li><a class="btn btn-border recruitment-icon mb-20" onclick="coming_soon()"  data-bs-toggle="tab" role="tab" aria-controls="tab-my-jobs" aria-selected="false">Profession</a></li>
-                <li><a class="btn btn-border recruitment-icon mb-20"  onclick="coming_soon()" data-bs-toggle="tab" role="tab" aria-controls="tab-myclearance-jobs" aria-selected="false">Clearance</a></li>
+               <li><a href="#tab-my-jobs" id="my_profession" class="btn btn-border recruitment-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-my-jobs" aria-selected="false">Profession</a></li>
+                <li><a href="#tab-myclearance-jobs" class="btn btn-border recruitment-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-myclearance-jobs" aria-selected="false">Clearance</a></li>
                 <li><a class="btn btn-border people-icon mb-20" onclick="coming_soon()" data-bs-toggle="tab" role="tab" aria-controls="tab-saved-jobs" aria-selected="false">Education</a></li>
                 <li><a class="btn btn-border aboutus-icon mb-20" onclick="coming_soon()" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true">Experience</a></li>
                 <li><a class="btn btn-border recruitment-icon mb-20" onclick="coming_soon()" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu5" aria-selected="false">Contacts</a></li>
@@ -75,11 +132,16 @@
 
 
               <div class="tab-pane fade show active" id="tab-my-profile" role="tabpanel" aria-labelledby="tab-my-profile">
-                <h3 class="mt-30 mb-15 color-brand-1">My Account</h3><a class="font-md color-text-paragraph-2" href="#">Update your profile</a>
-                <div class="mt-35 mb-40 box-info-profie d-flex align-items-center">
+                <h3 class="mt-30 mb-15 color-brand-1">My Account</h3>
+                <div class="profile_update_heading">
+                  <a class="font-md color-text-paragraph-2" href="#">Update your profile</a>
+                </div>
+                
+                <div class="mt-35 mb-40 box-info-profie d-flex align-items-center upload_image">
+                  
                   <div class="image-profile">
+                    
                     <form id="upload_profileimage" method="post" onsubmit="return upload_profileimage(event)">
-
                       <img alt="{{  Auth::guard('nurse_middle')->user()->name }}" style="object-fit:cover;border-radius: 16px;display: block;width: 85px;height: 85px;" src="{{ asset( Auth::guard('nurse_middle')->user()->profile_img)}}">
 
 
@@ -96,55 +158,81 @@
                   </form>
                 </div>
                 <div class="row form-contact">
-                  <div class="col-lg-6 col-md-12">
+                  <div class="col-lg-12 col-md-12 update_profile">
                     <form class="" id="EditProfile" onsubmit="return editedprofile()" method="POST">
                       @csrf
+                      <div class="row">
+                        <div class="form-group col-md-6">
+                          <label class="font-sm color-text-mutted mb-10">First Name *</label>
+                          <input class="form-control" type="text" name="fullname" id="firstNameI" placeholder="Steven Job" value="{{  Auth::guard('nurse_middle')->user()->name }}">
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label class="font-sm color-text-mutted mb-10">Last Name *</label>
+                          <input class="form-control" type="text" name="lastname" id="lastNameI" placeholder="Enter Your Last name" value="{{  Auth::guard('nurse_middle')->user()->lastname }}">
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label class="font-sm color-text-mutted mb-10">Email *</label>
+                          <input class="form-control" type="text" name="email" id="emailI" readonly value="{{  Auth::guard('nurse_middle')->user()->email }}">
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label class="form-label" for="input-3">Mobile Number *</label>
 
-                      <div class="form-group">
-                        <label class="font-sm color-text-mutted mb-10">First Name *</label>
-                        <input class="form-control" type="text" name="fullname" id="firstNameI" placeholder="Steven Job" value="{{  Auth::guard('nurse_middle')->user()->name }}">
-                      </div>
-                      <div class="form-group">
-                        <label class="font-sm color-text-mutted mb-10">Last Name *</label>
-                        <input class="form-control" type="text" name="lastname" id="lastNameI" placeholder="Enter Your Last name" value="{{  Auth::guard('nurse_middle')->user()->lastname }}">
-                      </div>
-                      <div class="form-group">
-                        <label class="font-sm color-text-mutted mb-10">Email *</label>
-                        <input class="form-control" type="text" name="email" id="emailI" readonly value="{{  Auth::guard('nurse_middle')->user()->email }}">
-                      </div>
-                      <div class="form-group">
-                        <label class="form-label" for="input-3">Mobile Number *</label>
-
-                        <div class="row">
-                          <div class="col-md-3">
-                            <select name="countryCode" id="countryCode" class="form-control" placeholder="C. Code" aria-label="Default select example">
-                              @php $country_phone_code = country_phone_code();@endphp
-                              @forelse($country_phone_code as $cpc)
-                              @if($cpc->phonecode!='0')
-                              <!-- <option data-countryCode="GB" {{ Auth::guard('nurse_middle')->user()->country_code == $cpc->phonecode ? 'selected' : '' }} value="{{ $cpc->phonecode }}">(+{{ $cpc->phonecode }})</option> -->
-                              <option data-countryCode="GB" {{ Auth::guard('nurse_middle')->user()->country_code == $cpc->phonecode ? 'selected' : '' }} value="{{ $cpc->phonecode }}">{{ $cpc->phonecode }}</option>
-                              @endif
-                              @empty
-                              @endforelse
-                            </select>
+                          <div class="row">
+                            <!-- <div class="col-md-3">
+                              <select name="countryCode" id="countryCode" class="form-control" placeholder="C. Code" aria-label="Default select example">
+                                @php $country_phone_code = country_phone_code();@endphp
+                                @forelse($country_phone_code as $cpc)
+                                @if($cpc->phonecode!='0')
+                                <option data-countryCode="GB" {{ Auth::guard('nurse_middle')->user()->country_code == $cpc->phonecode ? 'selected' : '' }} value="{{ $cpc->phonecode }}">(+{{ $cpc->phonecode }})</option>
+                                <option data-countryCode="GB" {{ Auth::guard('nurse_middle')->user()->country_code == $cpc->phonecode ? 'selected' : '' }} value="{{ $cpc->phonecode }}">{{ $cpc->phonecode }}</option>
+                                @endif
+                                @empty
+                                @endforelse
+                              </select>
+                            </div> -->
+                            <div class="col-md-12">
+                              <input type="hidden" name="countryCode" id="countryCode">
+                              <input class="form-control numbers" type="text" required="" name="contact" id="contactI" value="{{  Auth::guard('nurse_middle')->user()->phone }}" placeholder="1234567890">
+                              <span id="reqTxtcontactI" class="reqError text-danger valley"></span>
+                            </div>
                           </div>
-                          <div class="col-md-9">
-                            <input class="form-control numbers" type="text" required="" name="contact" id="contactI" value="{{  Auth::guard('nurse_middle')->user()->phone }}" placeholder="1234567890">
-                            <span id="reqTxtcontactI" class="reqError text-danger valley"></span>
+
+
+
+                        </div>
+                        <div class="col-lg-6">
+                          <div class="form-group">
+                            <label class="font-sm color-text-mutted mb-10">Date Of Birth</label>
+                            <input class="form-control" type="text" name="date_of_birth" id="date_of_birth" value="{{ Auth::guard('nurse_middle')->user()->date_of_birth }}">
                           </div>
                         </div>
-
-
-
+                         <div class="col-lg-6">
+                          <div class="">
+                            <label class="font-sm color-text-mutted mb-10">Gender</label>
+                            <div class="form-check">
+                              <input type="radio" class="" id="gender" name="gender" value="Male" @if(Auth::guard("nurse_middle")->user()->gender == "Male") checked @endif>
+                              <label class="form-check-label" for="radio1">Male</label>
+                            </div>
+                            <div class="form-check">
+                              <input type="radio" class="" id="gender" name="gender" value="Female" @if(Auth::guard('nurse_middle')->user()->gender == "Female") checked @endif>
+                              <label class="form-check-label" for="radio1">Female</label>
+                            </div>
+                            
+                          </div>
+                        </div>
+                        <div class="form-group col-md-12">
+                          <label class="font-sm color-text-mutted mb-10">Bio</label>
+                          <textarea class="form-control" rows="4" name="bio">{{ Auth::guard('nurse_middle')->user()->bio }}</textarea>
+                        </div>
+                        <div class="form-group">
+                          <label class="font-sm color-text-mutted mb-10">Personal website</label>
+                          <input class="form-control" type="url" name="website" value="{{  Auth::guard('nurse_middle')->user()->personal_website }}">
+                        </div>
                       </div>
-                      <div class="form-group">
-                        <label class="font-sm color-text-mutted mb-10">Bio</label>
-                        <textarea class="form-control" rows="4" name="bio">{{ Auth::guard('nurse_middle')->user()->bio }}</textarea>
-                      </div>
-                      <div class="form-group">
-                        <label class="font-sm color-text-mutted mb-10">Personal website</label>
-                        <input class="form-control" type="url" name="website" value="{{  Auth::guard('nurse_middle')->user()->personal_website }}">
-                      </div>
+                      
+                      
+                      
+                      
                       <div class="row">
                         <!--<div class="col-lg-6">-->
                         <!--  <div class="form-group">-->
@@ -202,6 +290,41 @@
                             <input class="form-control" type="text" name="post_code" value="{{  Auth::guard('nurse_middle')->user()->post_code }}">
                           </div>
                         </div>
+                        
+                       
+                        <div class="col-lg-6">
+                          <div class="form-group">
+                            <label class="font-sm color-text-mutted mb-10">Home Address</label>
+                            <input class="form-control" type="text" name="home_address" value="{{ Auth::guard('nurse_middle')->user()->home_address }}">
+                          </div>
+                        </div>
+                        <h6 class="emergency_text">
+                          Emergency Contact Information
+                        </h6>
+                        <div class="col-lg-6 row">
+                          <div class="form-group col-lg-6">
+                            <label class="font-sm color-text-mutted mb-10">Mobile No</label>
+                            
+                            <div class="col-md-12">
+                              <input type="hidden" name="emergency_countryCode" id="emergency_countryCode">
+                              <input class="form-control numbers" type="text" required="" name="emergency_conact_numeber" id="contactI_emergency" placeholder="1234567890" value="{{ Auth::guard('nurse_middle')->user()->emergency_conact_numeber }}">
+                              <span id="reqTxtcontactI" class="reqError valley"></span>
+                            </div>
+                            
+                          </div>
+                        </div>
+                        <div class="col-lg-6 row">
+                          <div class="form-group col-lg-6">
+                            <label class="font-sm color-text-mutted mb-10">Email*</label>
+                            
+                            <div class="col-md-12">
+                              
+                              <input class="form-control" type="email" required="" name="emergergency_contact_email" id="emergergency_contact_email" placeholder="Email" value="{{ Auth::guard('nurse_middle')->user()->emergergency_contact_email }}">
+                              
+                            </div>
+                            
+                          </div>
+                        </div>
                         <div class="box-button mt-15">
                           <button class="btn btn-apply-big font-md font-bold"@if(!email_verified())  disabled  @endif type="submit" id="submitfrm">Save Changes</button>
                         </div>
@@ -209,16 +332,16 @@
                     </form>
                   </div>
 
-                  <div class="col-lg-6 col-md-12">
+                  <div class="col-lg-12 col-md-12 change_password_div" style="display: none;">
                     <!-- <div class="border-bottom pt-10 pb-10 mb-30"></div> -->
-                    <h6 class="color-orange mb-20">Change your password</h6>
+                    <h6 class="mb-20">Change your password</h6>
                     <form class="" id="ChangePassword" onsubmit="return ChangePassword()" method="POST">
                       @csrf
                       <div class="row">
 
                         <div class="form-group mb-3">
 
-                          <label for="exampleInputEmail1" class="form-label">Old Password</label>
+                          <label for="exampleInputEmail1" class="form-label">Old Password *</label>
 
                           <input type="password" name="old_password" id="old_password" class="form-control readonly-field" placeholder="">
 
@@ -227,13 +350,13 @@
 
                         <div class="col-lg-6">
                           <div class="form-group">
-                            <label class="font-sm color-text-mutted mb-10">Password</label>
+                            <label class="form-label">New Password *</label>
                             <input class="form-control" type="password" name="password" id="password" class="form-control readonly-field" placeholder="">
                           </div>
                         </div>
                         <div class="col-lg-6">
                           <div class="form-group">
-                            <label class="font-sm color-text-mutted mb-10">Re-Password *</label>
+                            <label class="form-label">Confirm New Password *</label>
                             <input class="form-control" type="password" name="password_confirmation" id="password_confirmation" class="form-control readonly-field" placeholder="">
                           </div>
                         </div>
@@ -265,238 +388,280 @@
 
                 <div class="card shadow-sm border-0 p-4 mt-30">
                   <h3 class="mt-0 color-brand-1 mb-2">Profession</h3>
-                  <a class="font-md color-text-paragraph-2" href="#">Add your profession/s here, and any relevant registrations and qualifications</a>
-                  <form id="multi-step-form" enctype="multipart/form-data">
+                  <!-- <a class="font-md color-text-paragraph-2" href="#">Add your profession/s here, and any relevant registrations and qualifications</a> -->
+                  <form id="profession_form" onsubmit="myFunction1()" method="POST">
                     @csrf
-                    <div class="form-group">
-                      <label class="form-label" for="input-1">Profession</label>
-                      <select class="form-control" name="profession" id="specialtyId">
+                     <div class="condition_set">   
+                       <div class="form-group drp--clr">
+                            <label class="form-label" for="input-1">Type of Nurse?</label>
+                                <input type="hidden" name="ntype" class="ntype" value="{{ Auth::guard('nurse_middle')->user()->nurseType }}">
+                                <ul id="type-of-nurse" style="display:none;">
+                                    @php $specialty = specialty();$spcl=$specialty[0]->id;@endphp
+                                    <?php
+                                        $j = 1;
+                                    ?>
+                                    @foreach($specialty as $spl)
+                                        <li id="nursing_menus-{{ $j }}" data-value="{{ $spl->id }}">{{ $spl->name }}</li>
+                                        <?php
+                                            $j++;
+                                        ?>
+                                    @endforeach
+                                    
+                                </ul>
 
-                        <option value="">Select</option>
-                        @php
-                        $profession_data =profession_data();
-                        $specialty = specialty();
-                        $spcl=$specialty[0]->id;
-                        $valspecial=Auth::guard('nurse_middle')->user()->profession;
+                            <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="type-of-nurse" name="nurseType[]" id="nurse_type" multiple="multiple"></select>
+                       </div>
+                    </div> 
 
-                        @endphp
-
-                        <?php
-
-                        if ($profession_data != 'null') {
-                          $valspecial = $profession_data->profession;
-                        }
-                        ?>
-                        @foreach($specialty as $spl)
-                        <option value="{{ $spl->id }}" {{ $valspecial == $spl->id ? 'selected' : '' }}>{{ $spl->name }}</option>
-                        @endforeach
-                      </select>
-                    </div>
                     <span id="reqTxtspecialtyId" class="reqError text-danger valley"></span>
-
-                    @php $sub_specialty = sub_specialty($spcl); $count=count($sub_specialty);@endphp
-
-
-                    @if($count > 0)
-                    @php
-                    $profession_data =profession_data();
-                    $valspecialpractitioner_type=Auth::guard('nurse_middle')->user()->practitionertype;
-                    @endphp
-
+                    <div class="result--show ">
+  <div class="container p-0">
+    <div class="row g-2">
+    @php $specialty = specialty();$spcl=$specialty[0]->id;@endphp
+    <?php
+        $i = 1;
+    ?>
+    <input type="hidden" name="nursing_result_one" class="nursing_result_one" value="{{ Auth::guard('nurse_middle')->user()->entry_level_nursing }}">
+    <input type="hidden" name="nursing_result_two" class="nursing_result_two" value="{{ Auth::guard('nurse_middle')->user()->registered_nurses }}">
+    <input type="hidden" name="nursing_result_three" class="nursing_result_three" value="{{ Auth::guard('nurse_middle')->user()->advanced_practioner }}">
+    <input type="hidden" name="np_result" class="np_result" value="{{ Auth::guard('nurse_middle')->user()->nurse_prac }}">
+    <input type="hidden" name="specialties_result" class="specialties_result" value="{{ Auth::guard('nurse_middle')->user()->specialties }}">
+    <input type="hidden" name="adults_result" class="adults_result" value="{{ Auth::guard('nurse_middle')->user()->adults }}">
+    <input type="hidden" name="maternity_result" class="maternity_result" value="{{ Auth::guard('nurse_middle')->user()->maternity }}">
+    <input type="hidden" name="padneonatal_result" class="padneonatal_result" value="{{ Auth::guard('nurse_middle')->user()->paediatrics_neonatal }}">
+    <input type="hidden" name="community_result" class="community_result" value="{{ Auth::guard('nurse_middle')->user()->community }}">
+    <input type="hidden" name="surgical_preoperative_result" class="surgical_preoperative_result" value="{{ Auth::guard('nurse_middle')->user()->surgical_preoperative }}">
+    <input type="hidden" name="operatingroom_result" class="operatingroom_result" value="{{ Auth::guard('nurse_middle')->user()->operating_room }}">
+    <input type="hidden" name="operatingscout_result" class="operatingscout_result" value="{{ Auth::guard('nurse_middle')->user()->operating_room_scout }}">
+    <input type="hidden" name="operatingscrub_result" class="operatingscrub_result" value="{{ Auth::guard('nurse_middle')->user()->operating_room_scrub }}">
+    <input type="hidden" name="surgical_ob_result" class="surgical_ob_result" value="{{ Auth::guard('nurse_middle')->user()->surgical_obstrics_gynacology }}">
+    <input type="hidden" name="neonatal_care_result" class="neonatal_care_result" value="{{ Auth::guard('nurse_middle')->user()->neonatal_care }}">
+    <input type="hidden" name="paedia_surgical_result" class="paedia_surgical_result" value="{{ Auth::guard('nurse_middle')->user()->paedia_surgical_preoperative }}">
+    <input type="hidden" name="pad_op_room_result" class="pad_op_room_result" value="{{ Auth::guard('nurse_middle')->user()->pad_op_room }}">
+    <input type="hidden" name="pad_qr_scout_result" class="pad_qr_scout_result" value="{{ Auth::guard('nurse_middle')->user()->pad_qr_scout }}">
+    <input type="hidden" name="pad_qr_scrub_result" class="pad_qr_scrub_result" value="{{ Auth::guard('nurse_middle')->user()->pad_qr_scrub }}">
+    <input type="hidden" name="nurse_degree" class="nurse_degree" value="{{ Auth::guard('nurse_middle')->user()->degree }}">
+    @foreach($specialty as $spl)
+    <?php
+        $nursing_data = DB::table("practitioner_type")->where('parent', $spl->id)->orderBy('name')->get();
+    ?>
+    <input type="hidden" name="nursing_result" class="nursing_result-{{ $i }}" value="{{ $spl->id }}">
+    <div class="nursing_data form-group drp--clr col-md-4 drpdown-set" id="nursing_level-{{ $i }}">
+        <label class="form-label" for="input-2">{{ $spl->name }}</label>
+            <ul id="nursing_entry-{{ $i }}" style="display:none;">
+                @foreach($nursing_data as $nd)
+                <li data-value="{{ $nd->id }}">{{ $nd->name }}</li>
+                
+                @endforeach
+                <!-- Add more list items as needed -->
+            </ul>
+        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="nursing_entry-{{ $i }}" name="nursing_type_{{ $i }}[]" multiple="multiple"></select>
+    </div>
+    <?php
+        $i++;
+    ?>
+    @endforeach
+    </div>
+    
+    </div>
+</div>
+<div class="np_submenu">
+    
+    <div class="form-group drp--clr">
+        <?php
+            $np_data = DB::table("practitioner_type")->where('parent', '179')->get();
+        ?>
+        
+        <label class="form-label" for="input-1">Nurse Practitioner (NP):</label>
+            <ul id="nurse_practitioner_menu" style="display:none;">
+                @foreach($np_data as $nd)
+                <li data-value="{{ $nd->id }}">{{ $nd->name }}</li>
+                @endforeach
+                
+            </ul>
+        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="nurse_practitioner_menu" name="nurse_practitioner_menu[]" multiple="multiple"></select>
+        
+   </div>
+   
+</div>
+<div class="condition_set">   
+   <div class="form-group drp--clr">
+        <input type="hidden" name="sub_speciality_value" class="sub_speciality_value" value="">
+        <label class="form-label" for="input-1">Specialties</label>
+            <ul id="specialties" style="display:none;">
+                @php $JobSpecialties = JobSpecialties(); @endphp
+                <?php
+                    $k = 1;
+                ?>
+                @foreach($JobSpecialties as $ptl)
+                    <li id="nursing_menus-{{ $k }}" data-value="{{ $ptl->id }}">{{ $ptl->name }}</li>
                     <?php
-
-                    if ($profession_data != 'null') {
-                      $valspecialpractitioner_type = $profession_data->practitioner_type;
-                    }
+                        $k++;
                     ?>
-
-
-                    <div class="form-group" id="subspecialtyGroup">
-                      <label class="form-label" for="input-1">Practitioner Type</label>
-                      <select class="form-control" name="practitioner_type" id="subspecialtyId">
-                        @foreach($sub_specialty as $sspl)
-                        <option value="{{ $sspl->id }}" {{ $valspecialpractitioner_type == $sspl->id ? 'selected' : '' }}>{{ $sspl->name }}</option>
-                        @endforeach
-                      </select>
-                    </div>
-                    <span id="reqsubspecialtyId" class="reqError text-danger valley"></span>
-                    @endif
-
-
-
-
-
-                    <div class="form-group">
-                      <label class="form-label" for="input-1">Year Level</label>
-                      <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
-                      <select class="form-control " name="assistent_level" id="assistent_level">
-                        @php $year_level = year_level();@endphp
-                        @php
-                        $profession_data =profession_data();
-                        $valyear_level=Auth::guard('nurse_middle')->user()->assistent_level;
-                        @endphp
+                @endforeach
+                
+            </ul>
+        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="specialties" name="specialties[]" multiple="multiple"></select>
+   </div>
+</div>
+<div class="speciality_boxes row result--show">
+    <?php
+        $l = 1;
+    ?>
+    @foreach($JobSpecialties as $ptl)
+        <?php
+            $speciality_data = DB::table("speciality")->where('parent', $ptl->id)->get();
+        ?>
+        <input type="hidden" name="speciality_result" class="speciality_result-{{ $l }}" value="{{ $ptl->id }}">
+        <div class="speciality_data form-group drp--clr drpdown-set col-md-6" id="specility_level-{{ $l }}">
+            <label class="form-label" for="input-2">{{ $ptl->name }}</label>
+                <ul id="speciality_entry-{{ $l }}" style="display:none;">
+                    @foreach($speciality_data as $sd)
+                    <li data-value="{{ $sd->id }}">{{ $sd->name }}</li>
+                    
+                    @endforeach
+                    <!-- Add more list items as needed -->
+                </ul>
+            <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="speciality_entry-{{ $l }}" name="speciality_entry_{{ $l }}[]" multiple="multiple"></select>
+        </div>
+        <?php
+            $l++;
+        ?>
+    @endforeach
+</div>
+<div class="surgical_div">
+    
+    <div class="surgical_row_data form-group drp--clr col-md-12">
+        <label class="form-label" for="input-1">Surgical Preoperative and Postoperative Care:</label>
+           <?php
+            $speciality_surgicalrow_data = DB::table("speciality")->where('parent', '96')->get();
+            $r = 1;
+           ?>
+            <ul id="surgical_row_box" style="display:none;">
+                @foreach($speciality_surgicalrow_data as $ssrd)
+                <li data-value="{{ $ssrd->id }}">{{ $ssrd->name }}</li>
+                @endforeach
+            </ul>
+        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_row_box" name="surgical_row_box[]" multiple="multiple"></select>
+    </div>
+</div>
+<div class="specialty_sub_boxes row">
+    <?php
+        $speciality_surgical_data = DB::table("speciality")->where('parent', '96')->get();
+        $w = 1;
+    ?>
+    @foreach($speciality_surgical_data as $ssd)
+    <input type="hidden" name="speciality_result" class="speciality_surgical_result-{{ $w }}" value="{{ $ssd->id }}">
+    <div class="surgical_row-{{ $w }} form-group drp--clr drpdown-set d-none col-md-4">
+        <label class="form-label" for="input-1">{{ $ssd->name }}</label>
+           <?php
+            $speciality_surgicalsub_data = DB::table("speciality")->where('parent', $ssd->id)->get();
+           ?>
+            <ul id="surgical_operative_care-{{ $w }}" style="display:none;">
+                @foreach($speciality_surgicalsub_data as $sssd)
+                <li data-value="{{ $sssd->id }}">{{ $sssd->name }}</li>
+                @endforeach
+            </ul>
+        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_operative_care-{{ $w }}" name="surgical_operative_care_{{ $w }}[]" multiple="multiple"></select>
+    </div>
+    <?php
+        $w++;
+    ?>
+    @endforeach
+    <?php
+        $speciality_surgical_datamater = DB::table("speciality")->where('parent', '233')->get();
+        $p = 1;
+    ?>
+    
+    <div class="surgicalobs_row form-group drp--clr drpdown-set col-md-12">
+        <label class="form-label" for="input-1">Surgical Obstetrics and Gynecology (OB/GYN):</label>
+           
+            <ul id="surgical_obs_care" style="display:none;">
+               @foreach($speciality_surgical_datamater as $ssd)
+                <li data-value="{{ $ssd->id }}">{{ $ssd->name }}</li>
+                 @endforeach
+            </ul>
+        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_obs_care" name="surgical_obs_care[]" multiple="multiple"></select>
+    </div>
+    <?php
+        $speciality_surgical_datamater = DB::table("speciality")->where('parent', '250')->get();
+        
+    ?>
+    <div class="neonatal_row form-group drp--clr drpdown-set col-md-12">
+        <label class="form-label" for="input-1">Neonatal Care:</label>
+           
+            <ul id="neonatal_care" style="display:none;">
+               @foreach($speciality_surgical_datamater as $ssd)
+                <li data-value="{{ $ssd->id }}">{{ $ssd->name }}</li>
+                 @endforeach
+            </ul>
+        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="neonatal_care" name="neonatal_care[]" multiple="multiple"></select>
+    </div>
+    <?php
+        $speciality_surgical_datap = DB::table("speciality")->where('parent', '285')->get();
+        $q = 1;
+    ?>
+    @foreach($speciality_surgical_datap as $ssd)
+     <input type="hidden" name="speciality_result" class="surgical_rowp_result-{{ $q }}" value="{{ $ssd->id }}">
+    <div class="surgical_rowp surgical_rowp-{{ $q }} form-group drp--clr drpdown-set col-md-4">
+        <label class="form-label" for="input-1">{{ $ssd->name }}</label>
+           <?php
+            $speciality_surgicalsub_data = DB::table("speciality")->where('parent', $ssd->id)->orderBy('name')->get();
+           ?>
+            <ul id="surgical_operative_carep-{{ $q }}" style="display:none;">
+                @foreach($speciality_surgicalsub_data as $sssd)
+                <li data-value="{{ $sssd->id }}">{{ $sssd->name }}</li>
+                @endforeach
+            </ul>
+        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_operative_carep-{{ $q }}" name="surgical_operative_carep_{{ $q }}[]" multiple="multiple"></select>
+    </div>
+    <?php
+        $q++;
+    ?>
+    @endforeach
+</div>
+<div class="form-group level-drp">
+                    <label class="form-label" for="input-1">What is your level of experience?</label>
+                    <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
+                    <select class="form-input mr-10 select-active" name="assistent_level">
+                      
+                      @for($i = 1; $i <= 30; $i++) <option value="{{ $i }}">{{ $i }}{{ $i == 1 ? 'st' : ($i == 2 ? 'nd' : ($i == 3 ? 'rd' : 'th')) }} Year</option>
+                        @endfor
+                    </select>
+                  </div>
+                  <div class="" id="mid_select">
+                    <div class="form-group drp--clr drpdown-set">
+                      <!-- <label class="form-label" for="input-1">Nurse & Midwife degree</label>
+                      <select class="form-input mr-10 select-active" name="degree[]" multiple>
                         <?php
-
-                        if ($profession_data != 'null') {
-                          $valyear_level = $profession_data->year_level;
-                        }
+                          $nurse_midwife_degree = DB::table("degree")->where('status', '1')->orderBy('name')->get();
                         ?>
-                        <option value="">Select</option>
-                        @foreach($year_level as $yl)
-                        <option value="{{ $yl->name }}" {{ $valyear_level == $yl->name ? 'selected' : '' }}>{{ $yl->name }}</option>
+                        
+                        @foreach($nurse_midwife_degree as $ptl)
+                        <option value="{{ $ptl->id }}">{{ $ptl->name }}</option>
                         @endforeach
                       </select>
-                    </div>
-                    <span id="reqassistent_level" class="reqError text-danger valley"></span>
-
-
-
-                    <div class="form-group">
-                      <label class="form-label" for="input-1">Evidence Type</label>
-                      <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
-                      <select class="form-control" name="evidence_type" id="evidence_type">
-                        @php $evidence_list = evidence_list();@endphp
-                        <?php
-                        $valsevidence_type = '';
-                        if ($profession_data != 'null') {
-                          $valsevidence_type = $profession_data->evidence_type;
-                        }
-                        ?>
-                        <option value="">Select</option>
-                        @foreach($evidence_list as $el)
-                        <option value="{{ $el->id }}" {{ $valsevidence_type == $el->id ? 'selected' : '' }}>{{ $el->name }}</option>
-                        @endforeach
-                      </select>
-                    </div>
-                    <span id="reqevidence_type" class="reqError text-danger valley"></span>
-
-
-                    <div class="form-group">
-                      <label class="form-label" for="input-1">Evidence of year level</label> <?php
-                                                                                              if ($profession_data != 'null') {
-                                                                                                $valspecialimage = $profession_data->evidence_of_year_level;
-                                                                                                if ($valspecialimage != 'null' && $valspecialimage != '') {
-                                                                                              ?>
-
-                          <a href="{{ asset($valspecialimage) }}" target="_blank">
-
-                            <span class="btn-primary badge badge-primary">Show</span>
-                          </a>
-
-                      <?php
-                                                                                                }
-                                                                                              } else {
-                                                                                                $valspecialimage = '/nurse/assets/imgs/evidence_of_year_level1712557746.png';
-                                                                                              }
-                      ?>
-                      <input type="file" name="image_evidence" id="image_evidenceI" class="form-control h-100" accept="image/*">
-                      <?php
-                      if ($profession_data != 'null') {
-                        $valspecialimage = $profession_data->evidence_of_year_level;
-                        if ($valspecialimage != 'null' && $valspecialimage != '') {
-                      ?>
-
-                          <a href="{{ asset($valspecialimage) }}" target="_blank" class="mt-2">
-                            <img src="{{ asset($valspecialimage) }}" width="50px;" height="50px" />
-
-                          </a>
-
-                      <?php
-                        }
-                      } else {
-                        $valspecialimage = '/nurse/assets/imgs/evidence_of_year_level1712557746.png';
-                      }
-                      ?>
+                      <span id="reqdegree" class="reqError valley"></span> -->
+                      <label class="form-label" for="input-1">Nurse & Midwife degree</label>
+                       <?php
+                        $nurse_midwife_degree = DB::table("degree")->where('status', '1')->orderBy('name')->get();
+                       ?>
+                        <ul id="nurse_degree" style="display:none;">
+                             @foreach($nurse_midwife_degree as $ptl)
+                              <li data-value="{{ $ptl->id }}">{{ $ptl->name }}</li>
+                              
+                              @endforeach
+                        </ul>
+                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="nurse_degree" name="degree[]" multiple="multiple"></select>
                     </div>
 
-
-                    <span id="reqaimage_evidence" class="reqError text-danger valley"></span>
-
-                    <?php
-                    if ($profession_data != 'null') {
-                      $status = $profession_data->status;
-                      if ($status == '2') {
-
-                        echo  '<br> Status:  <span class="btn-danger badge badge-danger">Rejected</span>';
-                    ?>
-                        <input type="hidden" name="action" value="1">
-                        <div class="alert alert-danger mt-2" role="alert">Reason : Your Detail has been rejectd due
-                          <b> {{ $profession_data->reason }} </b> . Please Resubmit the details.
-                        </div>
-                        <div class="d-flex align-items-center justify-content-between">
-                          <button onclick="doprofession()" class="btn btn-default px-5 py-8  rounded-2 mb-0 submit-btn-120" type="submit"><span class="resetpassword">Re-Submit</span>
-                            <div class="spinner-border submit-btn-1" role="status" style="display:none;">
-                              <span class="sr-only">Loading...</span>
-                            </div>
-                          </button>
-                        </div>
-                      <?php    } elseif ($status == '0') {
-                        echo  ' Status: <span class="btn-warning badge badge-warning">Pending</span>';
-                        echo ' <div class="alert alert-warning mt-2 " role="alert">
-                                     Your request has been successfully submitted.Its in pending state, We will back to you as soon as possible.
-                            </div>';
-                      } elseif ($status == '1') {
-                        echo  'Status: <span class="btn-success badge badge-success">Approved</span>';
-                      } else {
-                      ?>
-
-
-                        <div class="d-flex align-items-center justify-content-between">
-                          <button onclick="doprofession()" @if(!email_verified())  disabled  @endif class="btn btn-default px-5 py-8  rounded-2 mb-0 submit-btn-120" type="submit"><span class="resetpassword">Submit</span>
-                            <div class="spinner-border submit-btn-1" role="status" style="display:none;">
-                              <span class="sr-only">Loading...</span>
-                            </div>
-                          </button>
-                        </div><?php
-                            }
-                          } else {
-                              ?>
-                      <input type="hidden" name="action" value="0">
-                      <div class="d-flex align-items-center justify-content-between">
-                        <button onclick="doprofession()" @if(!email_verified())  disabled  @endif class="btn btn-default px-5 py-8  rounded-2 mb-0 submit-btn-120" type="submit"><span class="resetpassword">Submit</span>
-                          <div class="spinner-border submit-btn-1" role="status" style="display:none;">
-                            <span class="sr-only">Loading...</span>
-                          </div>
-                        </button>
-                      </div>
-                    <?php
-
-                          }
-                    ?>
+                  </div>         
+                  <div class="box-button mt-15">
+                          <button class="btn btn-apply-big font-md font-bold" type="submit" id="submitProfession">Save Changes</button>
+                        </div>          
                   </form>
                 </div>
-                <!--==========-->
-                <!--REGISTRATION-->
-                <!--==========-->
-                <div class="card shadow-sm border-0 p-4 mt-30">
-                  <h3 class="mt-0 color-brand-1 mb-2">REGISTRATION</h3>
-                  <a class="font-md color-text-paragraph-2" href="#">If your practitioner type requires a registration, provide it here</a>
-                  <form id="multi-step-form-registration" enctype="multipart/form-data">
-                    @csrf
-                    <div class="row">
-                      <div class="col-md-3">
-                        <select name="ahpra_code" id="ahpra_codeI" class="form-control" placeholder="C. Code" aria-label="Default select example">
-                          <option data-countryCode="NMW" {{ Auth::guard('nurse_middle')->user()->ahpra_code =='NMW' ? 'selected' : '' }} value="NMW">NMW</option>
-                          <option data-countryCode="MED" {{ Auth::guard('nurse_middle')->user()->ahpra_code =='MED' ? 'selected' : '' }} value="MED">MED</option>
-                        </select>
-                      </div>
-                      <div class="col-md-6">
-                        <input class="form-control numbers" type="text" required="" name="ahpra_number" id="ahpra_numberI" value="{{  Auth::guard('nurse_middle')->user()->ahpra_number }}" placeholder="00000000000">
-                        <span id="reqTxtahpra_numberI" class="reqError text-danger valley"></span>
-                      </div>
-
-                      <div class="col-md-3">
-                        <div class="d-flex align-items-center justify-content-between">
-                          <button onclick="doprofessionregistration()" @if(!email_verified())  disabled  @endif class="btn btn-default px-5 py-8  rounded-2 mb-0 submit-btn-120" type="submit"><span class="resetpassword">Submit</span>
-                            <div class="spinner-border submit-btn-1" role="status" style="display:none;">
-                              <span class="sr-only">Loading...</span>
-                            </div>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </form>
-                </div>
+                
 
 
               </div>
@@ -631,23 +796,7 @@
 
                       <span id="reqasupport_document" class="reqError text-danger valley"></span>
 
-                      <?php
-                      if ($profession_data != 'null') {
-                        $status = $profession_data->status;
-
-                      ?>
-                        <input type="hidden" name="action" value="0">
-                        <div class="d-flex align-items-center justify-content-between">
-                          <button onclick="doeligibility_to_work()" class="btn btn-default px-5 py-8  rounded-2 mb-0 submit-btn-120" type="submit"><span class="resetpassword">Submit</span>
-                            <div class="spinner-border submit-btn-1" role="status" style="display:none;">
-                              <span class="sr-only">Loading...</span>
-                            </div>
-                          </button>
-                        </div>
-                      <?php
-
-                      }
-                      ?>
+                     
                   </form>
                 </div>
                 <!--==========-->
@@ -1190,7 +1339,251 @@
 
 @endsection
 @section('js')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.12/js/intlTelInput.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
+  <script src="{{ url('/public') }}/nurse/assets/js/jquery.ui.datepicker.monthyearpicker.js"></script>
+   <script src= 
+"https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/select2.min.js"> 
+       </script> 
 <script type="text/javascript">
+
+
+
+  $('.js-example-basic-multiple').each(function() {
+        let listId = $(this).data('list-id');
+        //alert(listId);
+        let items = [];
+        console.log("listId1",listId);
+        $('#' + listId + ' li').each(function() {
+            console.log("value1",$(this).text());
+            items.push({ id: $(this).data('value'), text: $(this).text() });
+        });
+        console.log("items1",items);
+        $(this).select2({
+            data: items
+        });
+
+          //$("#type-of-nurse").select2({'val': 3});
+          
+    });
+  //$("#type-of-nurse").val([1,2,3], null, false);
+  //$("#type-of-nurse").select2().select 2("val", [1,2,3]);
+  var nurse_type = JSON.parse($(".ntype").val());
+  var entry_level = JSON.parse($(".nursing_result_one").val());
+  var registered_nurses = JSON.parse($(".nursing_result_two").val());
+  var advanced_practioner = JSON.parse($(".nursing_result_three").val());
+  var specialties = JSON.parse($(".specialties_result").val());
+  var nurse_prac = JSON.parse($(".np_result").val());
+  var adults = JSON.parse($(".adults_result").val());
+  var maternity = JSON.parse($(".maternity_result").val());
+  var paediatrics_neonatal = JSON.parse($(".padneonatal_result").val());
+  var community = JSON.parse($(".community_result").val());
+  var surgical_preoperative = JSON.parse($(".surgical_preoperative_result").val());
+  var operating_room = JSON.parse($(".operatingroom_result").val());
+  var operating_room_scout = JSON.parse($(".operatingscout_result").val());
+  var operating_room_scrub = JSON.parse($(".operatingscrub_result").val());
+  var surgical_obstrics_gynacology = JSON.parse($(".surgical_ob_result").val());
+  var neonatal_care = JSON.parse($(".neonatal_care_result").val());
+  var paedia_surgical_preoperative = JSON.parse($(".paedia_surgical_result").val());
+  var pad_op_room = JSON.parse($(".pad_op_room_result").val());
+  var pad_qr_scout = JSON.parse($(".pad_qr_scout_result").val());
+  var pad_qr_scrub = JSON.parse($(".pad_qr_scrub_result").val());
+  var nurse_degree = JSON.parse($(".nurse_degree").val());
+  console.log("nurse_type",neonatal_care);
+
+  $('#nurse_type').select2().val(nurse_type).trigger('change');
+  $('.js-example-basic-multiple[data-list-id="nursing_entry-1"]').select2().val(entry_level).trigger('change');
+  $('.js-example-basic-multiple[data-list-id="nursing_entry-2"]').select2().val(registered_nurses).trigger('change');
+  $('.js-example-basic-multiple[data-list-id="nursing_entry-3"]').select2().val(advanced_practioner).trigger('change');
+  $('.js-example-basic-multiple[data-list-id="nurse_practitioner_menu"]').select2().val(nurse_prac).trigger('change');
+  $('.js-example-basic-multiple[data-list-id="specialties"]').select2().val(specialties).trigger('change');
+  $('.js-example-basic-multiple[data-list-id="speciality_entry-1"]').select2().val(adults).trigger('change');
+  $('.js-example-basic-multiple[data-list-id="speciality_entry-2"]').select2().val(maternity).trigger('change');
+  $('.js-example-basic-multiple[data-list-id="speciality_entry-3"]').select2().val(paediatrics_neonatal).trigger('change');
+  $('.js-example-basic-multiple[data-list-id="speciality_entry-4"]').select2().val(community).trigger('change');
+  $('.js-example-basic-multiple[data-list-id="surgical_row_box"]').select2().val(surgical_preoperative).trigger('change');
+  $('.js-example-basic-multiple[data-list-id="surgical_operative_care-1"]').select2().val(operating_room).trigger('change');
+  $('.js-example-basic-multiple[data-list-id="surgical_operative_care-2"]').select2().val(operating_room_scout).trigger('change');
+  $('.js-example-basic-multiple[data-list-id="surgical_operative_care-3"]').select2().val(operating_room_scrub).trigger('change');
+  $('.js-example-basic-multiple[data-list-id="surgical_obs_care"]').select2().val(surgical_obstrics_gynacology).trigger('change');
+  $('.js-example-basic-multiple[data-list-id="neonatal_care"]').select2().val(neonatal_care).trigger('change');
+  $('.js-example-basic-multiple[data-list-id="surgical_rowpad_box"]').select2().val(paedia_surgical_preoperative).trigger('change');
+  $('.js-example-basic-multiple[data-list-id="surgical_operative_carep-1"]').select2().val(pad_op_room).trigger('change');
+  $('.js-example-basic-multiple[data-list-id="surgical_operative_carep-2"]').select2().val(pad_qr_scout).trigger('change');
+  $('.js-example-basic-multiple[data-list-id="surgical_operative_carep-3"]').select2().val(pad_qr_scrub).trigger('change');
+  $('.js-example-basic-multiple[data-list-id="nurse_degree"]').select2().val(nurse_degree).trigger('change');
+  
+  $(".change_password_link").click(function(){
+
+    window.history.replaceState(null, null, "?page=change_password");
+
+    var url_string = window.location.href; 
+    var url = new URL(url_string);
+    var c = url.searchParams.get("page");
+    console.log(c);
+
+    if(c == "change_password"){
+      $(".upload_image").addClass("hide_profile_image");
+      $(".profile_update_heading").hide();
+      $(".update_profile").hide();
+      $(".change_password_div").show();
+    }
+
+  });
+  var url_string = window.location.href; 
+    var url = new URL(url_string);
+    var c = url.searchParams.get("page");
+    console.log(c);
+
+    if(c == "change_password"){
+      $(".upload_image").addClass("hide_profile_image");
+      $(".profile_update_heading").hide();
+      $(".update_profile").hide();
+      $(".change_password_div").show();
+    }
+
+    $("#my_profession").click(function(){
+
+    window.history.replaceState(null, null, "?page=profession");
+
+    var url_string = window.location.href; 
+    var url = new URL(url_string);
+    var c = url.searchParams.get("page");
+    console.log(c);
+
+    if(c == "profession"){
+      $("#tab-my-profile").hide();
+      
+      $("#tab-my-jobs").show();
+    }
+
+  });
+  var url_string = window.location.href; 
+    var url = new URL(url_string);
+    var c = url.searchParams.get("page");
+    console.log(c);
+
+    if(c == "profession"){
+      $("#tab-my-profile").hide();
+      $("#tab-my-jobs").css("opacity","1");
+      $("#tab-my-jobs").show();
+    }
+
+    var phoneInputID = "#contactI_emergency";
+  var input = document.querySelector(phoneInputID);
+  var iti = window.intlTelInput(input, {
+    // allowDropdown: false,
+    // autoHideDialCode: false,
+    // autoPlaceholder: "off",
+    // dropdownContainer: document.body,
+    // excludeCountries: ["us"],
+    formatOnDisplay: true,
+    // geoIpLookup: function(callback) {
+    //   $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+    //     var countryCode = (resp && resp.country) ? resp.country : "";
+    //     callback(countryCode);
+    //   });
+    // },
+    hiddenInput: "full_number",
+    initialCountry: "AU",
+    // localizedCountries: { 'de': 'Deutschland' },
+    // nationalMode: false,
+    // onlyCountries: ['us', 'gb', 'ch', 'ca', 'do'],
+    // placeholderNumberType: "MOBILE",
+    preferredCountries: ['AU'],
+    // separateDialCode: true,
+    utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/11.0.14/js/utils.js"
+  });
+
+  $(phoneInputID).on("countrychange", function(event) {
+
+    // Get the selected country data to know which country is selected.
+    var selectedCountryData = iti.getSelectedCountryData();
+    console.log("selectedCountryData",selectedCountryData.dialCode);
+    $("#emergency_countryCode").val(selectedCountryData.dialCode);
+    //alert($("#contactI").intlTelInput("getSelectedCountryData").dialCode);
+    // Get an example number for the selected country to use as placeholder.
+    newPlaceholder = intlTelInputUtils.getExampleNumber(selectedCountryData.iso2, true, intlTelInputUtils.numberFormat.INTERNATIONAL),
+
+      // Reset the phone number input.
+      iti.setNumber("");
+
+    // Convert placeholder as exploitable mask by replacing all 1-9 numbers with 0s
+    mask = newPlaceholder.replace(/[1-9]/g, "0");
+
+    // Apply the new mask for the input
+    $(this).mask(mask);
+  });
+
+
+  // When the plugin loads for the first time, we have to trigger the "countrychange" event manually, 
+  // but after making sure that the plugin is fully loaded by associating handler to the promise of the 
+  // plugin instance.
+
+  iti.promise.then(function() {
+    $(phoneInputID).trigger("countrychange");
+  });
+
+  var phoneInputID1 = "#contactI";
+  var input1 = document.querySelector(phoneInputID1);
+  var iti1 = window.intlTelInput(input1, {
+    // allowDropdown: false,
+    // autoHideDialCode: false,
+    // autoPlaceholder: "off",
+    // dropdownContainer: document.body,
+    // excludeCountries: ["us"],
+    formatOnDisplay: true,
+    // geoIpLookup: function(callback) {
+    //   $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+    //     var countryCode = (resp && resp.country) ? resp.country : "";
+    //     callback(countryCode);
+    //   });
+    // },
+    hiddenInput: "full_number",
+    initialCountry: "AU",
+    // localizedCountries: { 'de': 'Deutschland' },
+    // nationalMode: false,
+    // onlyCountries: ['us', 'gb', 'ch', 'ca', 'do'],
+    // placeholderNumberType: "MOBILE",
+    preferredCountries: ['AU'],
+    // separateDialCode: true,
+    utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/11.0.14/js/utils.js"
+  });
+
+  $(phoneInputID1).on("countrychange", function(event) {
+
+    // Get the selected country data to know which country is selected.
+    var selectedCountryData = iti.getSelectedCountryData();
+    console.log("selectedCountryData",selectedCountryData.dialCode);
+    $("#countryCode").val(selectedCountryData.dialCode);
+    //alert($("#contactI").intlTelInput("getSelectedCountryData").dialCode);
+    // Get an example number for the selected country to use as placeholder.
+    newPlaceholder = intlTelInputUtils.getExampleNumber(selectedCountryData.iso2, true, intlTelInputUtils.numberFormat.INTERNATIONAL),
+
+      // Reset the phone number input.
+      iti.setNumber("");
+
+    // Convert placeholder as exploitable mask by replacing all 1-9 numbers with 0s
+    mask = newPlaceholder.replace(/[1-9]/g, "0");
+
+    // Apply the new mask for the input
+    $(this).mask(mask);
+  });
+
+
+  // When the plugin loads for the first time, we have to trigger the "countrychange" event manually, 
+  // but after making sure that the plugin is fully loaded by associating handler to the promise of the 
+  // plugin instance.
+
+  iti1.promise.then(function() {
+    $(phoneInputID1).trigger("countrychange");
+  });
+
+  $( function() {
+    $( "#date_of_birth" ).datepicker();
+  } );
+  
   $(document).ready(function() {
     $('#specialtyId').change(function() {
       var specialtyId = $(this).val();

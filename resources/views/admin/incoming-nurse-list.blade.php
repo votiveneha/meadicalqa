@@ -29,10 +29,10 @@
                         <div>
                             <h5 class="card-title fw-semibold mb-0">Incoming Nurse List</h5>
                         </div>
-                        <div>
+                        {{-- <div>
                             <a href="{{ route('admin.add_nurse')}}"  class="btn btn-primary text-nowrap">Add
                                 Nurse</a>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
 

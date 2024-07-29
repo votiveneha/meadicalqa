@@ -133,8 +133,8 @@
 
                   <a class="font-xs color-text-paragraph-2 icon-down" data-bs-toggle="dropdown" style="cursor:pointer;"> <img alt="{{  Auth::guard('nurse_middle')->user()->name }}" src="{{ asset( Auth::guard('nurse_middle')->user()->profile_img)}}"><strong class="color-brand-1" >{{ Auth::guard('nurse_middle')->user()->name }}</strong></a>
                   <ul class="dropdown-menu dropdown-menu-light dropdown-menu-end" aria-labelledby="dropdownProfisle">
-                    <!-- <li> --><a href='{{ route("nurse.my-profile") }}' class="dropdown-item">Profile</a><!-- </li> -->
-                    <!--  <li> --><a href="#" class="dropdown-item">change Password</a><!-- </li> -->
+                    <!-- <li> --><a href='{{ route("nurse.my-profile") }}' class="dropdown-item ">Profile</a><!-- </li> -->
+                    <!--  <li> --><a style="cursor: pointer;" class="dropdown-item change_password_link">change Password</a><!-- </li> -->
                     <!-- <li> --><a href='{{ route("nurse.logout") }}' class="dropdown-item">Logout</a><!-- </li> -->
                   </ul>
                 </div>
