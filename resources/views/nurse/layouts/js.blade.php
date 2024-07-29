@@ -1,14 +1,38 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.js"></script>
 <script>
  $(document).ready(function() {
  /*------------------------------------------
 
     --------------------------------------------
 
+
+
     Country Dropdown Change Event
 
     --------------------------------------------
 
     --------------------------------------------*/
+    $('#nurse_support').owlCarousel({
+    loop:true,
+    margin:10,
+    nav:true,
+    responsive:{
+        0:{
+            items:1
+        },
+        600:{
+            items:3
+        },
+        1000:{
+            items:5
+        }
+    }
+})
+
+    $(".need_support_btn").click(function(){
+      $(".nurse_support_slider").toggle();
+    });
 
     $('#countryI').on('change', function() {
 
