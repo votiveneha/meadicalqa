@@ -53,7 +53,11 @@
     </div>
   </section>
 
+<<<<<<< HEAD
   <section class="section-box pt-50 pb-50 bg-light">
+=======
+  <!-- <section class="section-box pt-50 pb-50 bg-light">
+>>>>>>> 425eac6978e978511a3366992717b590a8fd3bbe
     <div class="container">
       <div class="text-center">
         <h2 class="section-title mb-10 wow animate__animated animate__fadeInUp">A SPECIALIZED NURSE AT HOME WHEN YOUR NEED
@@ -122,7 +126,11 @@
         </div>
       </div>
     </div>
+<<<<<<< HEAD
   </section>      
+=======
+  </section>       -->
+>>>>>>> 425eac6978e978511a3366992717b590a8fd3bbe
   <section class="section-box pt-50 pb-50 bg-light">
     <div class="container">
       <div class="text-center">

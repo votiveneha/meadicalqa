@@ -1,12 +1,9 @@
 @extends('nurse.layouts.layout')
 @section('css')
-<<<<<<< HEAD
 <link rel="stylesheet" 
               href= 
 "https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/select2.min.css" />
-=======
 <link href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.12/css/intlTelInput.css" rel="stylesheet" />
->>>>>>> 425eac6978e978511a3366992717b590a8fd3bbe
 <style type="text/css">
 
   #container {
@@ -80,7 +77,7 @@
 
   span.select2.select2-container {
     padding: 5px !important;
-    width: 100% !important;
+    width: 100 !important;
   }
 
 
@@ -102,8 +99,8 @@
     padding-right: 0.75rem;
     margin-top: calc(0.375rem - 2px);
     margin-right: 0.375rem;
-  padding-bottom: 0px;
-  white-space: normal;
+      padding-bottom: 3px;
+        white-space: normal;
     line-height: 20px;
   }
 
@@ -118,11 +115,6 @@
     font-weight: 700;
   line-height: 20px;
   }
-  .registration_progress {
-    font-weight: 900;
-    background-color: black;
-    color: #fff;
-}
 </style>
 @endsection
 @section('content')
@@ -139,8 +131,8 @@
 
 
           <div class="step-container d-flex justify-content-between">
-            <div class="step-circle first_step registration_progress" onclick="displayStep(1)">1</div>
-            <div class="step-circle second_step" onclick="displayStep(2)">2</div>
+            <div class="step-circle" onclick="displayStep(1)">1</div>
+            <div class="step-circle" onclick="displayStep(2)">2</div>
             <!-- <div class="step-circle" onclick="displayStep(3)">3</div> -->
           </div>
         </div>
@@ -152,11 +144,10 @@
         <div class="step step-1">
           <!-- Step 1 form fields here -->
           <div class="row form-block">
-            <div class="col-lg-12 col-md-6 col-sm-12 mx-auto">
+            <div class="col-lg-9 col-md-6 col-sm-12 mx-auto">
               <div class="text-center">
                 <!-- <p class="font-sm text-brand-2">Register </p> -->
-                <h2 class="mt-10 mb-5 text-brand-1 fs_24">Please select your level and specialties<br>
-        You can select multiple options</h2>
+                <h2 class="mt-10 mb-5 text-brand-1 fs_24">In just a few minutes, you will be able to apply for the ideal shift or permanent position</h2>
 
                 <!-- <h2 class="mt-10 mb-5 text-brand-1 fs_24">Tell us about your qualifications</h2> -->
 
@@ -179,13 +170,296 @@
                     @foreach($specialty as $spl)
                     <option value="{{ $spl->id }}">{{ $spl->name }}</option>
                     @endforeach
-<<<<<<< HEAD
-                  </select> -->
-                </div>
+                 <!-- </select> -->
+              <!-- </div> -->
+         
+         
+       <div class="condition_set">   
+         <div class="form-group drp--clr">
+          <label class="form-label" for="input-1">Type of Nurse?</label>
+            <ul id="type-of-nurse" style="display:none;">
+              <li data-value="Entry level nursing">Entry level nursing</li>
+              <li data-value="Registered Nurses (RNs)">Registered Nurses (RNs)</li>
+              <li data-value="Advanced Practice Registered Nurses (APRNs)">Advanced Practice Registered Nurses (APRNs)</li>
+            </ul>
+          <select class="js-example-basic-multiple" data-list-id="type-of-nurse" name="states[]" multiple="multiple"></select>
+         </div>
+       </div>
+
+        
+       <div class="result--show">
+        <div class="form-group drp--clr d-none" id="elnj">
+          <label class="form-label" for="input-2">Entry level nursing <br>Jobs</label>
+            <ul id="entry-level-nursing" style="display:none;">
+              <li data-value="Certified Nursing Assistant (CNAs)">Certified Nursing Assistant (CNAs)</li>
+              <li data-value="Certified Nurse-Midwife (CNM)">Certified Nurse-Midwife (CNM)</li>
+                      <li data-value="Enrolled Nurse (Ens)">Enrolled Nurse (Ens)</li>
+                      <li data-value="Enrolled Nurse (notation)">Enrolled Nurse (notation)</li>
+                      <li data-value="Enrolled Nurse (meds)">Enrolled Nurse (meds)</li>
+                      <li data-value="Enrolled Nurse  (IVs)">Enrolled Nurse  (IVs)</li>
+                      <li data-value="Enrolled Nurse (Student)">Enrolled Nurse (Student)</li>
+                      <li data-value="Licensed Practical Nurse (LPNs)">Licensed Practical Nurse (LPNs)</li>
+                      <li data-value="Midwife Assistant">Midwife Assistant</li>
+                      <li data-value="Midwife Student">Midwife Student</li>
+                      <li data-value="Nurse Assistant">Nurse Assistant</li>
+                      <li data-value="Temporary Nurse Aide">Temporary Nurse Aide</li>
+              <!-- Add more list items as needed -->
+            </ul>
+          <select class="js-example-basic-multiple" data-list-id="entry-level-nursing" name="states[]" multiple="multiple"></select>
+        </div>
+
+        <div class="form-group drp--clr d-none" id="rns">
+          <label class="form-label" for="input-3">Registered Nurses (RNs) <br>Jobs</label>
+            <ul id="registerd-nurse" style="display:none;">
+              <li data-value="Academic Nurse Writer">Academic Nurse Writer</li>
+              <li data-value="Addiction/ Substance Abuse Nurse">Addiction/ Substance Abuse Nurse</li>
+              <li data-value="Aesthetic/Cosmetic Nurse">Aesthetic/Cosmetic Nurse</li>
+              <li data-value="Air Force Nurse">Air Force Nurse</li>
+              <li data-value="Allergy/Allergen Immunotherapy Nurse">Allergy/Allergen Immunotherapy Nurse</li>
+              <li data-value="Ambulatory Care Nurse">Ambulatory Care Nurse</li>
+              <li data-value="Army Nurse">Army Nurse</li>
+              <li data-value="Bariatric Nurse">Bariatric Nurse</li>
+              <li data-value="Bioterrorism Nurse">Bioterrorism Nurse</li>
+              <li data-value="Blood Management Nurse">Blood Management Nurse</li>
+              <li data-value="Burn Registered Nurse">Burn Registered Nurse</li>
+              <li data-value="Camp Registered Nurse">Camp Registered Nurse</li>
+              <li data-value="Cardiac Care Nurse">Cardiac Care Nurse</li>
+              <li data-value="Cardiac Catheterization Nurse">Cardiac Catheterization Nurse</li>
+              <li data-value="Cardiovascular Intensive Care Unit Nurse">Cardiovascular Intensive Care Unit Nurse</li>
+              <li data-value="Case Management Nurse">Case Management Nurse</li>
+              <li data-value="Certified Diabetes Educator">Certified Diabetes Educator</li>
+              <li data-value="Certified Nursing Assistant (CNA)">Certified Nursing Assistant (CNA)</li>
+              <li data-value="Charge Nurse">Charge Nurse</li>
+              <li data-value="Chronic Pain Nurse">Chronic Pain Nurse</li>
+              <li data-value="Clinical Nurse Instructor">Clinical Nurse Instructor</li>
+              <li data-value="Community Health Nurse">Community Health Nurse</li>
+              <li data-value="Correctional Nurse">Correctional Nurse</li>
+              <li data-value="Crisis Nurse">Crisis Nurse</li>
+              <li data-value="Critical Care Transport Nurse">Critical Care Transport Nurse</li>
+              <li data-value="Day Infusion Treatments Nurse">Day Infusion Treatments Nurse</li>
+              <li data-value="Cruise Ship Nurse">Cruise Ship Nurse</li>
+              <li data-value="Dermatology Nurse">Dermatology Nurse</li>
+              <li data-value="Developmental Disability Nurse">Developmental Disability Nurse</li>
+              <li data-value="Diabetes Nurse">Diabetes Nurse</li>
+              <li data-value="Dialysis Nurse">Dialysis Nurse</li>
+              <li data-value="Director of Nursing">Director of Nursing</li>
+              <li data-value="Disaster Management Nurse">Disaster Management Nurse</li>
+              <li data-value="Disney Nurse">Disney Nurse</li>
+              <li data-value="Domestic Violence Nurse">Domestic Violence Nurse</li>
+              <li data-value="Emergency Room (ER) Nurse">Emergency Room (ER) Nurse</li>
+              <li data-value="Endocrine Nurse">Endocrine Nurse</li>
+              <li data-value="Endoscopy Nurse">Endoscopy Nurse</li>
+              <li data-value="Enterostomy Nurse">Enterostomy Nurse</li>
+              <li data-value="Fertility Nurse">Fertility Nurse</li>
+              <li data-value="Flight Nurse">Flight Nurse</li>
+              <li data-value="Float Pool Nurse">Float Pool Nurse</li>
+              <li data-value="Forensic Nurse">Forensic Nurse</li>
+              <li data-value="Gastroenterology Nurse">Gastroenterology Nurse</li>
+              <li data-value="Genetic Nurse">Genetic Nurse</li>
+              <li data-value="General Practice (GP) Nurse">General Practice (GP) Nurse</li>
+              <li data-value="Geriatric Nurse">Geriatric Nurse</li>
+              <li data-value="Gynecology Nurse">Gynecology Nurse</li>
+              <li data-value="Health Assessment Nurse">Health Assessment Nurse</li>
+              <li data-value="Health Policy Nurse">Health Policy Nurse</li>
+              <li data-value="Hematology Nurse">Hematology Nurse</li>
+              <li data-value="HIV/AIDS Nurse">HIV/AIDS Nurse</li>
+              <li data-value="Holistic Care Nurse">Holistic Care Nurse</li>
+              <li data-value="Home Health Nurse">Home Health Nurse</li>
+              <li data-value="Hospice Care Nurse">Hospice Care Nurse</li>
+              <li data-value="In vitro Fertilization (IVF) Nurse">In vitro Fertilization (IVF) Nurse</li>
+              <li data-value="Infection Control Nurse">Infection Control Nurse</li>
+              <li data-value="Informaticists Nurse">Informaticists Nurse</li>
+              <li data-value="Infusion Nurse">Infusion Nurse</li>
+              <li data-value="Intensive Care Unit (ICU) / Critical Care Nurse">Intensive Care Unit (ICU) / Critical Care Nurse</li>
+              <li data-value="International Medicine Nurse">International Medicine Nurse</li>
+              <li data-value="Labor and Delivery Nurse">Labor and Delivery Nurse</li>
+              <li data-value="Lactation Consultant Nurse">Lactation Consultant Nurse</li>
+              <li data-value="Legal Nurse Consultant">Legal Nurse Consultant</li>
+              <li data-value="LGBTQ Nurse">LGBTQ Nurse</li>
+              <li data-value="Licensed Practical Nurse (LPN)">Licensed Practical Nurse (LPN)</li>
+              <li data-value="Long-Term Care Nurse">Long-Term Care Nurse</li>
+              <li data-value="Maternity Nurse">Maternity Nurse</li>
+              <li data-value="Medical Administration">Medical Administration</li>
+              <li data-value="Medical Equipment Manufacturing">Medical Equipment Manufacturing</li>
+              <li data-value="Medical-Surgical Nurse">Medical-Surgical Nurse</li>
+              <li data-value="Mental Health Nurse">Mental Health Nurse</li>
+              <li data-value="Men's Health Nurse">Men's Health Nurse</li>
+              <li data-value="Midwife Nurse">Midwife Nurse</li>
+              <li data-value="Military Registered Nurse">Military Registered Nurse</li>
+              <li data-value="Mother-Baby Nurse">Mother-Baby Nurse</li>
+              <li data-value="Neonatal Nurse">Neonatal Nurse</li>
+              <li data-value="Neonatal Intensive Care Unit (NICU) Nurse">Neonatal Intensive Care Unit (NICU) Nurse</li>
+              <li data-value="Nephrology Nurse">Nephrology Nurse</li>
+              <li data-value="Neuro ICU Nurse">Neuro ICU Nurse</li>
+              <li data-value="Neurology Nurse">Neurology Nurse</li>
+              <li data-value="Neuroscience Nurse">Neuroscience Nurse</li>
+              <li data-value="Newborn Nursery Nurse">Newborn Nursery Nurse</li>
+              <li data-value="Nurse Administrator">Nurse Administrator</li>
+              <li data-value="Nurse Attorney">Nurse Attorney</li>
+              <li data-value="Nurse Case Manager">Nurse Case Manager</li>
+              <li data-value="Nurse Educator">Nurse Educator</li>
+              <li data-value="Nurse Facilitator">Nurse Facilitator</li>
+              <li data-value="Nurse Health Coach">Nurse Health Coach</li>
+              <li data-value="Nurse Midwife">Nurse Midwife</li>
+              <li data-value="Nurse Navigator">Nurse Navigator</li>
+              <li data-value="Nurse Recruiter">Nurse Recruiter</li>
+              <li data-value="Nurse Writer">Nurse Writer</li>
+              <li data-value="Nursing Home Nurse">Nursing Home Nurse</li>
+              <li data-value="Nutrition Nurse">Nutrition Nurse</li>
+              <li data-value="Obstetric (OB)/ Labor Delivery (L&D) Nurse">Obstetric (OB)/ Labor Delivery (L&D) Nurse</li>
+              <li data-value="Occupational Health Nurse">Occupational Health Nurse</li>
+              <li data-value="Oncology Nurse">Oncology Nurse</li>
+              <li data-value="Operating Room (OR) / Surgical Nurse">Operating Room (OR) / Surgical Nurse</li>
+              <li data-value="Ophthalmic Nurse">Ophthalmic Nurse</li>
+              <li data-value="Orthopedic Nurse">Orthopedic Nurse</li>
+              <li data-value="Ostomy Nurse">Ostomy Nurse</li>
+              <li data-value="Otorhinolaryngology Nurse">Otorhinolaryngology Nurse</li>
+              <li data-value="Pain Management Nurse">Pain Management Nurse</li>
+              <li data-value="Palliative Care Nurse">Palliative Care Nurse</li>
+              <li data-value="Parish Registered Nurse">Parish Registered Nurse</li>
+              <li data-value="Pediatric Care Nurse">Pediatric Care Nurse</li>
+              <li data-value="Pediatric Intensive Care Nurse">Pediatric Intensive Care Nurse</li>
+              <li data-value="Perinatal Nurse">Perinatal Nurse</li>
+              <li data-value="Perioperative Nurse">Perioperative Nurse</li>
+              <li data-value="Pharmaceutical Research Nurse">Pharmaceutical Research Nurse</li>
+              <li data-value="Plastic Surgery Nurse">Plastic Surgery Nurse</li>
+              <li data-value="Poison Control Registered Nurse">Poison Control Registered Nurse</li>
+              <li data-value="Post-Anesthesia Care Unit (PACU) Nurse">Post-Anesthesia Care Unit (PACU) Nurse</li>
+              <li data-value="Postpartum Nurse">Postpartum Nurse</li>
+              <li data-value="Primary Care Nurse">Primary Care Nurse</li>
+              <li data-value="Private Duty Nurse">Private Duty Nurse</li>
+              <li data-value="Progressive Care Unit (PCU) Nurse">Progressive Care Unit (PCU) Nurse</li>
+              <li data-value="Psychiatric Nurse">Psychiatric Nurse</li>
+              <li data-value="Public Health Nurse">Public Health Nurse</li>
+              <li data-value="Pulmonary Nurse">Pulmonary Nurse</li>
+              <li data-value="Quality Assurance Nurse">Quality Assurance Nurse</li>
+              <li data-value="Quality Improvement Nurse">Quality Improvement Nurse</li>
+              <li data-value="Radiology Nurse">Radiology Nurse</li>
+              <li data-value="Registered Nurse First Assistant (RNFA)">Registered Nurse First Assistant (RNFA)</li>
+              <li data-value="Rehabilitation Nurse">Rehabilitation Nurse</li>
+              <li data-value="Research Nurse">Research Nurse</li>
+              <li data-value="Respiratory Nurse">Respiratory Nurse</li>
+              <li data-value="Rheumatology Nurse">Rheumatology Nurse</li>
+              <li data-value="RN Case Manager">RN Case Manager</li>
+              <li data-value="Rural/Remote Area Health Nurse">Rural/Remote Area Health Nurse</li>
+              <li data-value="School Nurse">School Nurse</li>
+              <li data-value="Sexual Assault Nurse Examiner (SANE)">Sexual Assault Nurse Examiner (SANE)</li>
+              <li data-value="Student Registered Nurse">Student Registered Nurse</li>
+              <li data-value="Sub-acute Nurse">Sub-acute Nurse</li>
+              <li data-value="Substance Abuse Nurse">Substance Abuse Nurse</li>
+              <li data-value="Surgical Nurse">Surgical Nurse</li>
+              <li data-value="Teaching Nurse">Teaching Nurse</li>
+              <li data-value="Telehealth Nurse">Telehealth Nurse</li>
+              <li data-value="Telemetry Nurse">Telemetry Nurse</li>
+              <li data-value="Telephone Triage Nurse">Telephone Triage Nurse</li>
+              <li data-value="Temporary Nurse Aide">Temporary Nurse Aide</li>
+              <li data-value="Toxicology Nurse">Toxicology Nurse</li>
+              <li data-value="Transcultural Nurse">Transcultural Nurse</li>
+              <li data-value="Transplant Nurse">Transplant Nurse</li>
+              <li data-value="Trauma Nurse">Trauma Nurse</li>
+              <li data-value="Travel Nurse">Travel Nurse</li>
+              <li data-value="Triage Nurse">Triage Nurse</li>
+              <li data-value="Urology Nurse">Urology Nurse</li>
+              <li data-value="Utilization Management Nurse">Utilization Management Nurse</li>
+              <li data-value="Utilization Review Nurse">Utilization Review Nurse</li>
+              <li data-value="Vascular Access Nurse">Vascular Access Nurse</li>
+              <li data-value="Wound Care Nurse">Wound Care Nurse</li>
+              <!-- Add more list items as needed -->
+            </ul>
+          <select class="js-example-basic-multiple" data-list-id="registerd-nurse" name="states[]" multiple="multiple"></select>
+        </div>
+
+        <div class="form-group drp--clr d-none" id="aprn">
+          <label class="form-label" for="input-4">Advanced Practice Registered Nurses (APRNs) <br>Jobs</label>
+            <ul id="advanced-practice" style="display:none;">
+              <li data-value="Academic Nurse Educator">Academic Nurse Educator</li>
+              <li data-value="Administrator Nurse">Administrator Nurse</li>
+              <li data-value="Nurse Anesthetist (CRNA)">Nurse Anesthetist (CRNA)</li>
+              <li data-value="Clinical Nurse Educator">Clinical Nurse Educator</li>
+              <li data-value="Midwife Nurse">Midwife Nurse</li>
+              <li data-value="Nurse Manager">Nurse Manager</li>
+              <li data-value="Nurse Practitioner (NP)">Nurse Practitioner (NP)</li>
+              <li data-value="Chief Nursing Officer">Chief Nursing Officer</li>
+              <li data-value="Clinical Nurse Specialist">Clinical Nurse Specialist</li>
+              <li data-value="Clinical Nurse Leader (CNL)">Clinical Nurse Leader (CNL)</li>
+              <!-- Add more list items as needed -->
+            </ul>
+          <select class="js-example-basic-multiple" data-list-id="advanced-practice" name="states[]" multiple="multiple"></select>
+        </div>
+       </div>
+
+         
+  
+  <script>
+   $(document).ready(function() {
+    function initializeSelect2(selector) {
+        $(selector).each(function() {
+            var $select = $(this);
+            var listId = $select.data('list-id');
+            var $list = $('#' + listId);
+
+            $list.find('li').each(function() {
+                var value = $(this).data('value');
+                var text = $(this).text();
+                $select.append(new Option(text, value));
+            });
+
+            $select.select2({
+                placeholder: 'Select options',
+                allowClear: true,
+                width: '100%'  // Ensure the dropdown width is 100%
+            });
+
+            $select.on('select2:open', function() {
+                var $dropdown = $('.select2-container--open .select2-dropdown');
+                var searchBoxHtml = `
+                    <div class="extra-search-container">
+                        <input type="text" class="extra-search-box" placeholder="Search...">
+                        <button class="clear-button" type="button">&times;</button>
+                    </div>`;
+
+                if ($dropdown.find('.extra-search-container').length === 0) {
+                    $dropdown.prepend(searchBoxHtml);
+                }
+
+                var $searchBox = $('.extra-search-box');
+                var $clearButton = $('.clear-button');
+
+                $searchBox.on('input', function() {
+                    var searchTerm = $(this).val().toLowerCase();
+                    $('.select2-results__option').each(function() {
+                        var text = $(this).text().toLowerCase();
+                        if (text.includes(searchTerm)) {
+                            $(this).show();
+                        } else {
+                            $(this).hide();
+                        }
+                    });
+
+                    $clearButton.toggle($searchBox.val().length > 0);
+                });
+
+                $clearButton.on('click', function() {
+                    $searchBox.val('');
+                    $searchBox.trigger('input');
+                });
+            });
+        });
+    }
+
+    // Initialize all select elements with the common class
+    initializeSelect2('.js-example-basic-multiple');
+  
+  
+});
+</script>
+
+
+   
                 <span id="reqnurseTypeId" class="reqError valley"></span>
 
-                <div id="nurse_select">
-                  <!-- <div id="nurse_select"  style="display: none;"> -->
+                <!-- <div id="nurse_select">
+                  
                   <div class="form-group" id="subspecialtyGroup">
                     <label class="form-label" for="input-1">Types of Nursing Jobs</label>
                     <select class="form-input mr-10" name="nurseTypeJob[]" id="nurseTypeJob" multiple>
@@ -193,7 +467,7 @@
                     </select>
                   </div>
                   <span id="reqnurseTypeJobId" class="reqError valley"></span>
-                </div>
+                </div> -->
 
                 <div id="nurse_practitioner">
                   <!-- <div id="nurse_select"  style="display: none;"> -->
@@ -227,12 +501,27 @@
 
                   <div class="form-group">
                     <label class="form-label" for="input-1">Sub Specialties</label>
-                    <select class="form-input mr-10 select-active" name="subSpecialties[]" id="subSpecialties" multiple>
+                    <select class="form-input mr-10" name="subSpecialties[]" id="subSpecialties" multiple>
                      
                     </select>
                     <span id="reqsubSpecialties" class="reqError valley"></span>
                   </div>
-                  <div class="form-group">
+
+                  <div class="form-group surgicalSpec">
+                    <label class="form-label" for="input-1"> Sub Specialties(<span class="sub_speciality"></span>)</label>
+                    <select class="form-input mr-10" name="surgicalsubSpecialties[]" id="surgicalsubSpecialties" multiple>
+                     
+                    </select>
+                    <span id="reqsubSpecialties" class="reqError valley"></span>
+                  </div>
+                  <div class="form-group surgicalSubSpec">
+                    <label class="form-label" for="input-1"> Sub Specialties(<span class="sub_sub_speciality"></span>)</label>
+                    <select class="form-input mr-10 select-active" name="surgicalsuboneSpecialties[]" id="surgicalsuboneSpecialties" multiple>
+                     
+                    </select>
+                    <span id="reqsubSpecialties" class="reqError valley"></span>
+                  </div>
+                  <div class="form-group level-drp">
                     <label class="form-label" for="input-1">What level are you?</label>
                     <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
                     <select class="form-input mr-10 select-active" name="assistent_level">
@@ -245,690 +534,18 @@
                     <div class="form-group">
                       <label class="form-label" for="input-1">Nurse & Midwife degree</label>
                       <select class="form-input mr-10 select-active" name="degree[]" multiple>
-=======
-                 <!-- </select> -->
-              <!-- </div> -->
-         
-         
-       <div class="condition_set">   
-   <div class="form-group drp--clr">
-        <label class="form-label" for="input-1">Type of Nurse?</label>
-            <ul id="type-of-nurse" style="display:none;">
-                @php $specialty = specialty();$spcl=$specialty[0]->id;@endphp
-                <?php
-                    $j = 1;
-                ?>
-                @foreach($specialty as $spl)
-                    <li id="nursing_menus-{{ $j }}" data-value="{{ $spl->id }}">{{ $spl->name }}</li>
-                    <?php
-                        $j++;
-                    ?>
-                @endforeach
-                
-            </ul>
-        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="type-of-nurse" name="nurseType[]" multiple="multiple"></select>
-   </div>
-</div>
-
-<div class="result--show ">
-  <div class="container p-0">
-    <div class="row g-2">
-    @php $specialty = specialty();$spcl=$specialty[0]->id;@endphp
-    <?php
-        $i = 1;
-    ?>
-    @foreach($specialty as $spl)
-    <?php
-        $nursing_data = DB::table("practitioner_type")->where('parent', $spl->id)->orderBy('name')->get();
-    ?>
-    <input type="hidden" name="nursing_result" class="nursing_result-{{ $i }}" value="{{ $spl->id }}">
-    <div class="nursing_data form-group drp--clr d-none col-md-4 drpdown-set" id="nursing_level-{{ $i }}">
-        <label class="form-label" for="input-2">{{ $spl->name }}</label>
-            <ul id="nursing_entry-{{ $i }}" style="display:none;">
-                @foreach($nursing_data as $nd)
-                <li data-value="{{ $nd->id }}">{{ $nd->name }}</li>
-                
-                @endforeach
-                <!-- Add more list items as needed -->
-            </ul>
-        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="nursing_entry-{{ $i }}" name="nursing_type_{{ $i }}[]" multiple="multiple"></select>
-    </div>
-    <?php
-        $i++;
-    ?>
-    @endforeach
-    </div>
-    
-    </div>
-</div>
-
-
-<div class="np_submenu d-none">
-    
-    <div class="form-group drp--clr">
-        <?php
-            $np_data = DB::table("practitioner_type")->where('parent', '179')->get();
-        ?>
-        
-        <label class="form-label" for="input-1">Nurse Practitioner (NP):</label>
-            <ul id="nurse_practitioner_menu" style="display:none;">
-                @foreach($np_data as $nd)
-                <li data-value="{{ $nd->id }}">{{ $nd->name }}</li>
-                @endforeach
-                
-            </ul>
-        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="nurse_practitioner_menu" name="nurse_practitioner_menu[]" multiple="multiple"></select>
-        
-   </div>
-   
-</div>
-<div class="condition_set">   
-   <div class="form-group drp--clr">
-        <input type="hidden" name="sub_speciality_value" class="sub_speciality_value" value="">
-        <label class="form-label" for="input-1">Specialties</label>
-            <ul id="specialties" style="display:none;">
-                @php $JobSpecialties = JobSpecialties(); @endphp
-                <?php
-                    $k = 1;
-                ?>
-                @foreach($JobSpecialties as $ptl)
-                    <li id="nursing_menus-{{ $k }}" data-value="{{ $ptl->id }}">{{ $ptl->name }}</li>
-                    <?php
-                        $k++;
-                    ?>
-                @endforeach
-                
-            </ul>
-        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="specialties" name="specialties[]" multiple="multiple"></select>
-   </div>
-</div>
-<div class="speciality_boxes row result--show">
-    <?php
-        $l = 1;
-    ?>
-    @foreach($JobSpecialties as $ptl)
-        <?php
-            $speciality_data = DB::table("speciality")->where('parent', $ptl->id)->get();
-        ?>
-        <input type="hidden" name="speciality_result" class="speciality_result-{{ $l }}" value="{{ $ptl->id }}">
-        <div class="speciality_data form-group drp--clr d-none drpdown-set col-md-6" id="specility_level-{{ $l }}">
-            <label class="form-label" for="input-2">{{ $ptl->name }}</label>
-                <ul id="speciality_entry-{{ $l }}" style="display:none;">
-                    @foreach($speciality_data as $sd)
-                    <li data-value="{{ $sd->id }}">{{ $sd->name }}</li>
-                    
-                    @endforeach
-                    <!-- Add more list items as needed -->
-                </ul>
-            <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="speciality_entry-{{ $l }}" name="speciality_entry_{{ $l }}[]" multiple="multiple"></select>
-        </div>
-        <?php
-            $l++;
-        ?>
-    @endforeach
-</div>
-<div class="surgical_div">
-    
-    <div class="surgical_row_data form-group drp--clr d-none col-md-12">
-        <label class="form-label" for="input-1">Surgical Preoperative and Postoperative Care:</label>
-           <?php
-            $speciality_surgicalrow_data = DB::table("speciality")->where('parent', '96')->get();
-            $r = 1;
-           ?>
-            <ul id="surgical_row_box" style="display:none;">
-                @foreach($speciality_surgicalrow_data as $ssrd)
-                <li data-value="{{ $ssrd->id }}">{{ $ssrd->name }}</li>
-                @endforeach
-            </ul>
-        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_row_box" name="surgical_row_box[]" multiple="multiple"></select>
-    </div>
-</div>
-<div class="paediatric_surgical_div">
-    
-    <div class="surgicalpad_row_data form-group drp--clr d-none col-md-12">
-        <label class="form-label" for="input-1">Paediatric Surgical Preop. and Postop. Care:
-</label>
-           <?php
-            $speciality_padsurgicalrow_data = DB::table("speciality")->where('parent', '285')->get();
-            $r = 1;
-           ?>
-            <ul id="surgical_rowpad_box" style="display:none;">
-                @foreach($speciality_padsurgicalrow_data as $ssrd)
-                <li data-value="{{ $ssrd->id }}">{{ $ssrd->name }}</li>
-                @endforeach
-            </ul>
-        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_rowpad_box" name="surgical_rowpad_box[]" multiple="multiple"></select>
-    </div>
-</div>
-<div class="specialty_sub_boxes row">
-    <?php
-        $speciality_surgical_data = DB::table("speciality")->where('parent', '96')->get();
-        $w = 1;
-    ?>
-    @foreach($speciality_surgical_data as $ssd)
-    <input type="hidden" name="speciality_result" class="speciality_surgical_result-{{ $w }}" value="{{ $ssd->id }}">
-    <div class="surgical_row-{{ $w }} form-group drp--clr drpdown-set d-none col-md-4">
-        <label class="form-label" for="input-1">{{ $ssd->name }}</label>
-           <?php
-            $speciality_surgicalsub_data = DB::table("speciality")->where('parent', $ssd->id)->get();
-           ?>
-            <ul id="surgical_operative_care-{{ $w }}" style="display:none;">
-                @foreach($speciality_surgicalsub_data as $sssd)
-                <li data-value="{{ $sssd->id }}">{{ $sssd->name }}</li>
-                @endforeach
-            </ul>
-        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_operative_care-{{ $w }}" name="surgical_operative_care_{{ $w }}[]" multiple="multiple"></select>
-    </div>
-    <?php
-        $w++;
-    ?>
-    @endforeach
-    <?php
-        $speciality_surgical_datamater = DB::table("speciality")->where('parent', '233')->get();
-        $p = 1;
-    ?>
-    
-    <div class="surgicalobs_row form-group drp--clr d-none drpdown-set col-md-12">
-        <label class="form-label" for="input-1">Surgical Obstetrics and Gynecology (OB/GYN):</label>
-           
-            <ul id="surgical_obs_care" style="display:none;">
-               @foreach($speciality_surgical_datamater as $ssd)
-                <li data-value="{{ $ssd->id }}">{{ $ssd->name }}</li>
-                 @endforeach
-            </ul>
-        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_obs_care" name="surgical_obs_care[]" multiple="multiple"></select>
-    </div>
-    <?php
-        $speciality_surgical_datamater = DB::table("speciality")->where('parent', '250')->get();
-        
-    ?>
-    <div class="neonatal_row form-group drp--clr drpdown-set d-none col-md-12">
-        <label class="form-label" for="input-1">Neonatal Care:</label>
-           
-            <ul id="neonatal_care" style="display:none;">
-               @foreach($speciality_surgical_datamater as $ssd)
-                <li data-value="{{ $ssd->id }}">{{ $ssd->name }}</li>
-                 @endforeach
-            </ul>
-        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="neonatal_care" name="neonatal_care[]" multiple="multiple"></select>
-    </div>
-    <?php
-        $speciality_surgical_datap = DB::table("speciality")->where('parent', '285')->get();
-        $q = 1;
-    ?>
-    @foreach($speciality_surgical_datap as $ssd)
-     <input type="hidden" name="speciality_result" class="surgical_rowp_result-{{ $q }}" value="{{ $ssd->id }}">
-    <div class="surgical_rowp surgical_rowp-{{ $q }} form-group drp--clr drpdown-set d-none col-md-4">
-        <label class="form-label" for="input-1">{{ $ssd->name }}</label>
-           <?php
-            $speciality_surgicalsub_data = DB::table("speciality")->where('parent', $ssd->id)->orderBy('name')->get();
-           ?>
-            <ul id="surgical_operative_carep-{{ $q }}" style="display:none;">
-                @foreach($speciality_surgicalsub_data as $sssd)
-                <li data-value="{{ $sssd->id }}">{{ $sssd->name }}</li>
-                @endforeach
-            </ul>
-        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_operative_carep-{{ $q }}" name="surgical_operative_carep_{{ $q }}[]" multiple="multiple"></select>
-    </div>
-    <?php
-        $q++;
-    ?>
-    @endforeach
-</div>
-<div class="form-group level-drp">
-                    <label class="form-label" for="input-1">What is your level of experience?</label>
-                    <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
-                    <select class="form-input mr-10 select-active" name="assistent_level">
->>>>>>> 425eac6978e978511a3366992717b590a8fd3bbe
                       
-                      @for($i = 1; $i <= 30; $i++) <option value="{{ $i }}">{{ $i }}{{ $i == 1 ? 'st' : ($i == 2 ? 'nd' : ($i == 3 ? 'rd' : 'th')) }} Year</option>
-                        @endfor
-                    </select>
-                  </div>
-                  <div class="" id="mid_select">
-                    <div class="form-group drp--clr drpdown-set">
-                      <!-- <label class="form-label" for="input-1">Nurse & Midwife degree</label>
-                      <select class="form-input mr-10 select-active" name="degree[]" multiple>
-                        <?php
-                          $nurse_midwife_degree = DB::table("degree")->where('status', '1')->orderBy('name')->get();
-                        ?>
-                        
+                        @php $nurse_midwife_degree = nurse_midwife_degree(); @endphp
                         @foreach($nurse_midwife_degree as $ptl)
                         <option value="{{ $ptl->id }}">{{ $ptl->name }}</option>
                         @endforeach
                       </select>
-                      <span id="reqdegree" class="reqError valley"></span> -->
-                      <label class="form-label" for="input-1">Nurse & Midwife degree</label>
-                       <?php
-                        $nurse_midwife_degree = DB::table("degree")->where('status', '1')->orderBy('name')->get();
-                       ?>
-                        <ul id="nurse_degree" style="display:none;">
-                             @foreach($nurse_midwife_degree as $ptl)
-                              <li data-value="{{ $ptl->id }}">{{ $ptl->name }}</li>
-                              
-                              @endforeach
-                        </ul>
-                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="nurse_degree" name="degree[]" multiple="multiple"></select>
+                      <span id="reqdegree" class="reqError valley"></span>
                     </div>
 
                   </div>
-          
-          
 
-  
-  
-  <!-- Add All button & Remove all button code start -->
-<script>
-    $(document).ready(function() {
-
-        // Add an additional search box and extra buttons to the dropdown
-        $('.addAll_removeAll_btn').on('select2:open', function() {
-            var $dropdown = $(this);
-            var searchBoxHtml = `
-                
-                <div class="extra-buttons">
-                    <button class="select-all-button" type="button">Select All</button>
-                    <button class="remove-all-button" type="button">Remove All</button>
-                </div>`;
-
-            // Remove any existing extra buttons before adding new ones
-            $('.select2-results .extra-search-container').remove();
-            $('.select2-results .extra-buttons').remove();
-
-            // Append the new extra buttons and search box
-            $('.select2-results').prepend(searchBoxHtml);
-
-            // Handle Select All button for the current dropdown
-            $('.select-all-button').on('click', function() {
-                var $currentDropdown = $dropdown;
-                var allValues = $currentDropdown.find('option').map(function() {
-                    return $(this).val();
-                }).get();
-                $currentDropdown.val(allValues).trigger('change');
-            });
-
-            // Handle Remove All button for the current dropdown
-            $('.remove-all-button').on('click', function() {
-                var $currentDropdown = $dropdown;
-                $currentDropdown.val(null).trigger('change');
-            });
-        });
-
-    });
-</script>
-<script>
-        $(document).ready(function() {
-
-            // Add an additional search box to the dropdown
-            $('.js-example-basic-multiple').on('select2:open', function() {
-                var searchBoxHtml = `
-                    <div class="extra-search-container">
-                        <input type="text" class="extra-search-box" placeholder="Search...">
-                        <button class="clear-button" type="button">&times;</button>
-                    </div>`;
-                
-                if ($('.select2-results').find('.extra-search-container').length === 0) {
-                    $('.select2-results').prepend(searchBoxHtml);
-                }
-
-                var $searchBox = $('.extra-search-box');
-                var $clearButton = $('.clear-button');
-
-                $searchBox.on('input', function() {
-
-                    var searchTerm = $(this).val().toLowerCase();
-                    $('.select2-results__option').each(function() {
-                        var text = $(this).text().toLowerCase();
-                        if (text.includes(searchTerm)) {
-                            $(this).show();
-                        } else {
-                            $(this).hide();
-                        }
-                    });
-
-                    $clearButton.toggle($searchBox.val().length > 0);
-                });
-
-                $clearButton.on('click', function() {
-                    $searchBox.val('');
-                    $searchBox.trigger('input');
-                });
-            });
-        });
-    </script>
-
-
-<!-- Add All button & Remove all button code End -->
-  
-  <script>
-        $(document).ready(function() {
-            // Initialize Select2
-            $('.js-example-basic-multiple').select2();
-
-            // Dynamically add the clear button
-            const clearButton = $('<span class="clear-btn">✖</span>');
-            $('.select2-container').append(clearButton);
-
-            // Handle the visibility of the clear button
-            function toggleClearButton() {
-
-                const selectedOptions = $('.js-example-basic-multiple').val();
-                if (selectedOptions && selectedOptions.length > 0) {
-                    clearButton.show();
-                } else {
-                    clearButton.hide();
-                }
-            }
-
-            // Attach change event to select2
-            $('.js-example-basic-multiple').on('change', toggleClearButton);
-
-            // Clear button click event
-            clearButton.click(function() {
-
-                $('.js-example-basic-multiple').val(null).trigger('change');
-                toggleClearButton();
-            });
-
-            // Initial check
-            toggleClearButton();
-        });
-    </script>
-  
-<script>
-$(document).ready(function() {
-    // Initialize Select2 for each select element with class .js-example-basic-multiple
-    $('.js-example-basic-multiple').each(function() {
-        let listId = $(this).data('list-id');
-        //alert(listId);
-        let items = [];
-        console.log("listId1",listId);
-        $('#' + listId + ' li').each(function() {
-            console.log("value1",$(this).text());
-            items.push({ id: $(this).data('value'), text: $(this).text() });
-        });
-        console.log("items1",items);
-        $(this).select2({
-            data: items
-        });
-    });
-    var nurse_array = [];
-    // Show corresponding job lists when an option is selected in the first select
-    $('.js-example-basic-multiple[data-list-id="type-of-nurse"]').on('change', function() {
-        let selectedValues = $(this).val();
-        //alert("hello");
-        var nurse_len = $("#type-of-nurse li").length;
-        console.log("nurse_len",nurse_len);
-         
-        //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
-
-        console.log("selectedValues",selectedValues);
-        //$('.result--show .form-group').addClass('d-none');
-
-        for(var i = 1;i<=nurse_len;i++){
-            var nurse_result_val = $(".nursing_result-"+i).val();
-            //alert(nurse_result_val);
-            if(selectedValues.includes(nurse_result_val)){
-
-                $('#nursing_level-'+i).removeClass('d-none');
-            }else{
-                $('#nursing_level-'+i).addClass('d-none');
-            }
-        }
-        
-        
-        
-        // if (selectedValues.includes("Entry level nursing")) {
-        //     $('#elnj').removeClass('d-none');
-        // }
-        // if (selectedValues.includes("Registered Nurses (RNs)")) {
-        //     $('#rns').removeClass('d-none');
-        // }
-        // if (selectedValues.includes("Advanced Practice Registered Nurses (APRNs)")) {
-        //     $('#aprns').removeClass('d-none');
-        // }
-    });
-    $('.js-example-basic-multiple[data-list-id="nursing_entry-3"]').on('change', function() {
-        let selectedValues = $(this).val();
-        //alert("hello");
-        var nurse_len = $("#type-of-nurse li").length;
-        console.log("nurse_len",nurse_len);
-
-        //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
-        if(selectedValues.includes("179")){
-            $('.np_submenu').removeClass('d-none');
-            console.log("selectedValues",selectedValues);
-        }else{
-            $('.np_submenu').addClass('d-none');
-        }
-        
-        
-        
-    });
-     
-     $('.js-example-basic-multiple[data-list-id="specialties"]').on('change', function() {
-        let selectedValues = $(this).val();
-        //alert("hello");
-        var speciality_len = $("#specialties li").length;
-        console.log("speciality_len",speciality_len);
-
-        //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
-
-        console.log("selectedValues",selectedValues);
-        //$('.result--show .form-group').addClass('d-none');
-
-        for(var k = 1;k<=speciality_len;k++){
-            var speciality_result_val = $(".speciality_result-"+k).val();
-            //alert(speciality_result_val);
-            if(selectedValues.includes(speciality_result_val)){
-
-                $('#specility_level-'+k).removeClass('d-none');
-                //$(".sub_speciality_value").val(k);
-                
-            }else{
-                $('#specility_level-'+k).addClass('d-none');
-                
-            }
-        }
-        
-        
-    });
-
-    var sub_specialty_data_val =  $(".sub_speciality_value").val();
-    console.log("specialty_data_len",sub_specialty_data_val);
-
-    $('.js-example-basic-multiple[data-list-id="speciality_entry-1"]').on('change', function() {
-        let selectedValues = $(this).val();
-        //alert("hello");
-        var speciality_entry = $("#speciality_entry-1 li").length;
-        console.log("speciality_entry",speciality_entry);
-        $(".surgical_row").wrapAll("<div class='col-md-12 row surgical_row_data'>");
-        $(".surgical_row_data").insertAfter("#specility_level-1");
-        //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
-
-        console.log("selectedValues",selectedValues.includes("96"));
-        //$('.result--show .form-group').addClass('d-none');
-
-        if(selectedValues.includes("96")){
-            $('.surgical_row_data').removeClass('d-none');
-        }else{
-            $('.surgical_row_data').addClass('d-none');
-        }
-
-        
-
-        // for(var k = 1;k<=speciality_entry;k++){
-        //     var speciality_result_val = $(".speciality_result-"+k).val();
-        //     //alert(speciality_result_val);
-        //     if(selectedValues.includes(speciality_result_val)){
-
-        //         $('#specility_level-'+k).removeClass('d-none');
-                
-        //     }else{
-        //         $('#specility_level-'+k).addClass('d-none');
-        //     }
-        // }
-    });
-    $('.js-example-basic-multiple[data-list-id="surgical_row_box"]').on('change', function() {
-        let selectedValues = $(this).val();
-        //alert("hello");
-        var speciality_entry = $("#surgical_row_box li").length;
-        console.log("speciality_entry",speciality_entry);
-        // $(".surgical_row").wrapAll("<div class='col-md-12 row surgical_row_data'>");
-        $(".specialty_sub_boxes").insertAfter(".surgical_row_data");
-        //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
-
-        console.log("selectedValues",selectedValues);
-        //$('.result--show .form-group').addClass('d-none');
-
-        // if(selectedValues.includes("97")){
-        //     $('.surgical_row').removeClass('d-none');
-        // }else{
-        //     $('.surgical_row').addClass('d-none');
-        // }
-
-        
-
-        for(var k = 1;k<=speciality_entry;k++){
-            var speciality_result_val = $(".speciality_surgical_result-"+k).val();
-            
-            if(selectedValues.includes(speciality_result_val)){
-                
-                $('.surgical_row-'+k).removeClass('d-none');
-                
-            }else{
-                $('.surgical_row-'+k).addClass('d-none');
-            }
-        }
-    });
-
-    $('.js-example-basic-multiple[data-list-id="speciality_entry-3"]').on('change', function() {
-        let selectedValues = $(this).val();
-        //alert("hello");
-        var speciality_entry = $("#speciality_entry-3 li").length;
-        console.log("speciality_entry",speciality_entry);
-        $(".surgical_rowp").wrapAll("<div class='col-md-12 row surgical_rowp_data'>");
-        $(".surgical_rowp_data").insertAfter("#specility_level-3");
-
-        
-            $(".neonatal_row").wrapAll("<div class='col-md-12 row neonatal_row_data'>");
-            $(".neonatal_row_data").insertAfter("#specility_level-3");
-
-        //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
-
-        console.log("selectedValues",selectedValues);
-        //$('.result--show .form-group').addClass('d-none');
-
-        if(selectedValues.includes('250')){
-            $('.neonatal_row').removeClass('d-none');
-        }else{
-            $('.neonatal_row').addClass('d-none');
-        }
-
-        if(selectedValues.includes('285')){
-            $('.surgicalpad_row_data').removeClass('d-none');
-        }else{
-            $('.surgicalpad_row_data').addClass('d-none');
-            
-        }
-
-        // for(var k = 1;k<=speciality_entry;k++){
-        //     var speciality_result_val = $(".speciality_result-"+k).val();
-        //     //alert(speciality_result_val);
-        //     if(selectedValues.includes(speciality_result_val)){
-
-        //         $('#specility_level-'+k).removeClass('d-none');
-                
-        //     }else{
-        //         $('#specility_level-'+k).addClass('d-none');
-        //     }
-        // }
-    });
-
-    $('.js-example-basic-multiple[data-list-id="surgical_rowpad_box"]').on('change', function() {
-        let selectedValues = $(this).val();
-        //alert("hello");
-        var speciality_entry = $("#surgical_rowpad_box li").length;
-        console.log("speciality_entry",speciality_entry);
-        $(".surgical_rowp").wrapAll("<div class='col-md-12 row surgical_rowp_data'>");
-        $(".surgical_rowp_data").insertAfter(".surgicalpad_row_data");
-
-        
-            $(".neonatal_row").wrapAll("<div class='col-md-12 row neonatal_row_data'>");
-            $(".neonatal_row_data").insertAfter("#specility_level-3");
-
-        //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
-
-        console.log("selectedValues",selectedValues);
-        //$('.result--show .form-group').addClass('d-none');
-
-        
-
-        for(var k = 1;k<=speciality_entry;k++){
-            var speciality_result_val = $(".surgical_rowp_result-"+k).val();
-            //alert(speciality_result_val);
-            if(selectedValues.includes(speciality_result_val)){
-
-                $('.surgical_rowp-'+k).removeClass('d-none');
-                
-            }else{
-                $('.surgical_rowp-'+k).addClass('d-none');
-            }
-        }
-    });
-
-    $('.js-example-basic-multiple[data-list-id="speciality_entry-2"]').on('change', function() {
-        let selectedValues = $(this).val();
-        //alert("hello");
-        var speciality_entry = $("#speciality_entry-1 li").length;
-        console.log("speciality_entry",speciality_entry);
-        $(".surgicalobs_row").wrapAll("<div class='col-md-12 row surgicalobs_row_data'>");
-        $(".surgicalobs_row_data").insertAfter("#specility_level-2");
-
-        //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
-
-        console.log("selectedValues",selectedValues);
-        //$('.result--show .form-group').addClass('d-none');
-
-        if(selectedValues.includes("233")){
-            $('.surgicalobs_row').removeClass('d-none');
-        }else{
-            $('.surgicalobs_row').addClass('d-none');
-        }
-
-        // for(var k = 1;k<=speciality_entry;k++){
-        //     var speciality_result_val = $(".speciality_result-"+k).val();
-        //     //alert(speciality_result_val);
-        //     if(selectedValues.includes(speciality_result_val)){
-
-        //         $('#specility_level-'+k).removeClass('d-none');
-                
-        //     }else{
-        //         $('#specility_level-'+k).addClass('d-none');
-        //     }
-        // }
-    });
-
-    
-    
-});
-</script>
-
-
-
-   
-                <span id="reqnurseTypeId" class="reqError valley"></span>
-
-                
-
-
-
-
-                
-                <span id="reqassistent_level" class="reqError valley"></span>
-
-
-                
+                </div>
         
         <div class="step_nxt">
                 <div class="d-flex align-items-center justify-content-between">
@@ -949,7 +566,7 @@ $(document).ready(function() {
             <!-- Step 2 form fields here -->
 
             <div class="row ">
-              <div class="col-lg-12 col-md-6 col-sm-12 mx-auto">
+              <div class="col-lg-5 col-md-6 col-sm-12 mx-auto">
                 <div class="text-center">
                   <!-- <p class="font-sm text-brand-2">Register </p> -->
                   <h2 class="mt-10 mb-5 text-brand-1 fs_24">You are moments away from job opportunities</h2>
@@ -988,14 +605,10 @@ $(document).ready(function() {
                           @php $country_phone_code = country_phone_code();@endphp
                           @forelse($country_phone_code as $cpc)
                           @if($cpc->phonecode!='0')
-<<<<<<< HEAD
-                          <option data-countryCode="GB" value="{{ $cpc->phonecode}}" @if($cpc->name == "Australia") selected @endif>(+{{ $cpc->name}})</option>
-=======
                           <option data-countryCode="GB" value="{{ $cpc->phonecode}}" @if($cpc->name == "Australia") selected @endif>(+{{ $cpc->phonecode}})</option>
->>>>>>> 425eac6978e978511a3366992717b590a8fd3bbe
                           @endif
                           @empty
-                          <!-- @endforelse -->
+                          @endforelse
                         </select>
                       </div> -->
                       <div class="col-md-12">
@@ -1093,15 +706,10 @@ $(document).ready(function() {
 
   $(document).ready(function() {
     $('#multi-step-form').find('.step').slice(1).hide();
-    
+
     $(".next-step").click(function() {
-   
-      $(".first_step").removeClass("registration_progress");
-      $(".second_step").addClass("registration_progress");
 
-      
 
-      
       if (currentStep == 1) {
         
         if (validateForm() == false) {
@@ -1389,7 +997,7 @@ $(document).ready(function() {
 
 
 
-    if (passwordI == "") {
+    if (passwordI.trim() == "") {
 
       document.getElementById("reqTxtpasswordI").innerHTML = "*  Please enter the PasswordI.";
 
@@ -1397,25 +1005,13 @@ $(document).ready(function() {
 
     }
 
-    
+    if (passwordI.length < 6) {
 
-    var pattern = /^.*(?=.{7,12})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%&!-_]).*$/;
-
-    if (!pattern.test(passwordI)) {
-
-      document.getElementById("reqTxtpasswordI").innerHTML = "Password length should be 7 Characters with atleast 1 number, lower, upper & special(@#$%&!-_&) characters.";
+      document.getElementById("reqTxtpasswordI").innerHTML = "*  Your password must be at least 6 characters long";
 
       returnValue = false;
 
     }
-
-    // for (var i=0; i<passwordI.length; i++) {
-
-    //   if ( passwordI.indexOf(passwordI[i]) !== passwordI.lastIndexOf(passwordI[i]) ) {
-    //     document.getElementById("reqTxtpasswordI").innerHTML = "Characters can not be repeat";
-    //     returnValue = false;
-    //   }
-    // }
 
     if (confirm_passwordI == "") {
 
@@ -1427,7 +1023,7 @@ $(document).ready(function() {
 
     if (passwordI != confirm_passwordI) {
 
-      document.getElementById("reqTxtconfirm_passwordI").innerHTML = "Password and Confirm password do not match";
+      document.getElementById("reqTxtconfirm_passwordI").innerHTML = "Password And Confirm password did not match.";
 
       returnValue = false;
 
@@ -1605,68 +1201,10 @@ $(document).ready(function() {
  <script src= 
 "https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/select2.min.js"> 
        </script> 
-<<<<<<< HEAD
-<script>
-   $(document).ready(function () { 
-                //Select2 
-                $(".country").select2(); 
-                $(".specialties").select2();
-                $("#nurseTypeJob").select2();
-                
-                $(".country").change(function () {
-                  var selectedValues = $(this).val();
-                  if (selectedValues && selectedValues.length > 0) {
-                    $.ajax({
-                      url: "{{ route('getNurseTypeJobs') }}",
-                      type: "POST",
-                      data: {
-                        nurseTypes: selectedValues,
-                        _token: '{{ csrf_token() }}'
-                      },
-                      dataType: 'json',
-                      success: function(response) {
-                        $('#nurse_select').show();
-                        $('#nurseTypeJob').empty();
-                        $.each(response, function(index, job) {
-                          $('#nurseTypeJob').append('<option value="' + job.id + '">' + job.name + '</option>');
-                        });
-                      },
-                      error: function(xhr, status, error) {
-                        console.error(error);
-                      }
-                    });
-                  } else {
-                    $('#nurse_select').hide();
-                    $('#nurseTypeJob').empty();
-                  }
-                });
-            }); 
- $("#nurseTypeJob").change(function () {
-  var selectedValues = $(this).val();
-  $.ajax({
-    url: "{{ route('getNursepractitionorSpecialities') }}",
-    type: "POST",
-    data: {
-      nurseTypeSpecialities: selectedValues,
-      _token: '{{ csrf_token() }}'
-    },
-    dataType: 'json',
-    success: function(response) {
-      // $('#nurse_select').show();
-      // $('#nurseTypeJob').empty();
-      $.each(response, function(index, job) {
-        $('#nurse_practitioner_speciality').append('<option value="' + job.id + '">' + job.name + '</option>');
-      });
-    },
-    error: function(xhr, status, error) {
-      console.error(error);
-    }
-  });
-=======
         <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.12/js/intlTelInput.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.js"></script>
 <script>
-    $(document).ready(function() {
+  $(document).ready(function() {
   var phoneInputID = "#contactI";
   var input = document.querySelector(phoneInputID);
   var iti = window.intlTelInput(input, {
@@ -1861,7 +1399,6 @@ $(document).ready(function() {
       console.error(error);
     }
   });
->>>>>>> 425eac6978e978511a3366992717b590a8fd3bbe
  });
   // $(document).ready(function() {
   //   $('#nurseType').change(function() {

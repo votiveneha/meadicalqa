@@ -26,8 +26,21 @@ class NurseServices
             }
             if ($run == 1) {
                 $message =__('message.delete',['parameter' =>'Profile ']);
-                return response()->json(['status' => '2', 'message' =>$message]);
-               
+
+                $body = 'Hello, ' . $userData->name . ' ' . $userData->lastname;
+                $body .= '<p>This mail to inform you that your account has been deleted.';
+                $subject = 'Your Account has been Deleted!';
+
+                $mailData = [
+                    'subject' =>  $subject,
+                    'email' =>$userData->email,
+                    'body' => $body,
+                ];
+                $sendMail = Mail::to($userData->email)->send(new \App\Mail\DemoMail($mailData));
+                
+                // if($sendMail){
+
+                return response()->json(['status' => '2', 'message' =>$message]); 
             } else {
                 return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
             }
@@ -84,22 +97,79 @@ class NurseServices
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
         }
     }
+    // public function changeStatusBlockUnblock($request)
+    // {
+    //     try {
+    //             $updateData['status'] = $request->status;
+    //             $run = $this->nurseRepository->updateData(['id'=>$request->id], $updateData);
+    //         if ($run == 1) {
+    //             if($request->status == 1)
+    //             {
+    //                 $message =  __('message.unblock');
+    //             }else{
+    //                 $message =__('message.block');
+    //             }
+    //                 return response()->json(['status' => '2', 'message' =>$message]);
+    //             } else {
+    //                 return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+    //             }
+    //     } catch (\Exception $e) {
+    //         Log::error('Error in NurseServices.changeStatus(): ' . $e->getMessage());
+    //         return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+    //     }
+    // }
     public function changeStatusBlockUnblock($request)
     {
         try {
+                // Get the user data
+                $userData = $this->nurseRepository->getOneUser(['id' => $request->id]);
+                 
                 $updateData['status'] = $request->status;
                 $run = $this->nurseRepository->updateData(['id'=>$request->id], $updateData);
-            if ($run == 1) {
+            if ($run == 1) {                
+                $body = 'Hello, ' . $userData->name . ' ' . $userData->lastname;
+                // if($request->status == 1){
+                //     $body .= '<p>We are excited to inform you that your account has been unblocked by the admin. For more details, please check your account';
+                // }else{
+                //     $body .= '<p>This mail to inform you that your account has been blocked.';
+                // }
+                // if($request->status == 1){
+                //     $subject = 'Your Account has been Unblocked!';
+                // }else{
+                //     $subject = 'Your Account has been Blocked!';
+                // }
+                if ($request->status == 1) {
+                    $body .= '<p>We are excited to inform you that your account has been unblocked by the admin. For more details, please check your account.</p>';
+                    $subject = 'Your Account has been Unblocked!';
+                } elseif ($request->status == 2) {
+                    echo "test";
+                    $body .= '<p>This is to inform you that your account has been blocked.</p>';
+                    $subject = 'Your Account has been Blocked!';
+                } 
+                
+                $mailData = [
+                'subject' => $subject,
+                'email' => $userData->email,
+                'body' => $body,
+                ];
+
+
+                $sendMail = Mail::to($userData->email)->send(new \App\Mail\DemoMail($mailData));
+                if($sendMail){
                 if($request->status == 1)
                 {
                     $message =  __('message.unblock');
                 }else{
                     $message =__('message.block');
                 }
-                    return response()->json(['status' => '2', 'message' =>$message]);
+                return response()->json(['status' => '2', 'message' =>$message]);
+
                 } else {
-                    return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
-                }
+                return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+               }
+            } else {
+                return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+            }
         } catch (\Exception $e) {
             Log::error('Error in NurseServices.changeStatus(): ' . $e->getMessage());
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);

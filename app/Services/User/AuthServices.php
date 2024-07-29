@@ -22,8 +22,9 @@ class AuthServices
    
     public function updateAdminProfile($request)
     {
+        
         try {
-          
+            
             $companyinsert['name'] = $request->fullname;
             $companyinsert['lastname'] = $request->lastname;
             $companyinsert['country_code'] = $request->countryCode;

@@ -31,6 +31,17 @@ class NurseController extends Controller
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
         }
     }
+    public function completeprofileNurseList()
+    {
+        try {
+            $completeprofileUsers  = $this->nurseRepository->getcompleteprofileNurseList();
+            // dd($incomingNurseUsers);
+            return view('admin.complete-profile-nurse-list',compact('completeprofileUsers'));
+        } catch (\Exception $e) {
+            log::error('Error in NurseController/incommingNurseList :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
     public function customerList()
     {
         try {
@@ -60,6 +71,20 @@ class NurseController extends Controller
             $eligibilityToWorkData = $this->verificationRepository->getEligibilityToWorkData(['user_id' => $request->id]);
             $workingChildrenCheckData = $this->verificationRepository->getWorkingChildrenCheckData(['user_id' => $request->id]);
             return view('admin.profile-view',compact('profileData','professionVerificationData','policeCheckVerificationData','eligibilityToWorkData','workingChildrenCheckData'));
+        } catch (\Exception $e) {
+            log::error('Error in NurseController/viewProfile :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+    public function addNurse(Request $request)
+    {
+        try {
+            $professionVerificationData = $this->verificationRepository->get(['user_id' => 58]);
+            $profileData  = $this->nurseRepository->getOneUser(['id'=> 58]);
+            $policeCheckVerificationData = $this->verificationRepository->getPoliceCheckVerificationData(['user_id' => 58]);
+            $eligibilityToWorkData = $this->verificationRepository->getEligibilityToWorkData(['user_id' => 58]);
+            $workingChildrenCheckData = $this->verificationRepository->getWorkingChildrenCheckData(['user_id' => 58]);
+            return view('admin.add-nurse',compact('profileData','professionVerificationData','policeCheckVerificationData','eligibilityToWorkData','workingChildrenCheckData'));
         } catch (\Exception $e) {
             log::error('Error in NurseController/viewProfile :' . $e->getMessage() . 'in line' . $e->getLine());
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);

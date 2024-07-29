@@ -39,13 +39,21 @@
                 <div class="round-16 d-flex align-items-center justify-content-center">
                   <i class="ti ti-circle"></i>
                 </div>
-                <span class="hide-menu">TYPE OF NURSE</span>
+                <span class="hide-menu">Type of Nurse</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a href="{{route('admin.specialityList')}}" class="sidebar-link">
+                <div class="round-16 d-flex align-items-center justify-content-center">
+                  <i class="ti ti-circle"></i>
+                </div>
+                <span class="hide-menu">Speciality Job List</span>
               </a>
             </li>
           </ul>
         </li>
 
-        <li class="sidebar-item">
+        {{-- <li class="sidebar-item">
           <a class="sidebar-link has-arrow" href="#" aria-expanded="false">
             <span class="d-flex">
               <i class="ti ti-star"></i>
@@ -62,7 +70,7 @@
               </a>
             </li>
           </ul>
-        </li>
+        </li> --}}
 
         <li class="sidebar-item">
           <a class="sidebar-link has-arrow" href="#" aria-expanded="false">
@@ -115,6 +123,14 @@
                   <i class="ti ti-circle"></i>
                 </div>
                 <span class="hide-menu">Incoming Nurse List</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a href="{{route('admin.complete-nurse-nurse-list')}}" class="sidebar-link">
+                <div class="round-16 d-flex align-items-center justify-content-center">
+                  <i class="ti ti-circle"></i>
+                </div>
+                <span class="hide-menu">Completed Profile Nurse List</span>
               </a>
             </li>
             <li class="sidebar-item">

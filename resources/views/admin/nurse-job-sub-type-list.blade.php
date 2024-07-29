@@ -1,14 +1,18 @@
 @extends('admin.layouts.layout')
 @section('content')
-<x-card-component parentHeading="Type of Nurse" childHeading="Type Of Nurse" parentUrl="{{route('admin.dashboard')}}" />
+@php
+$nameSpeciality = str_replace("'", "", $speciality->name);
+@endphp
+<x-card-component parentHeading="Practitioner Subtype ({{$nameSpeciality}})" childHeading="Practitioner Subtype  Management" parentUrl="{{route('admin.dashboard')}}" />
     <div class="card w-100  overflow-hidden ">
         <div class="card-header pb-0 p-4">
             <div class="d-flex align-items-center justify-content-between">
                 <div>
-                    <h5 class="card-title fw-semibold mb-0">Nurse Type List</h5>
+                    <h5 class="card-title fw-semibold mb-0">Practitioner Subtype  List</h5>
                 </div>
                 <div>
-                    <a href="" data-bs-toggle="modal" data-bs-target="#add_Speciality" class="btn btn-primary text-nowrap btn-sm">Add Nurse Type</a>
+                    <a href="" data-bs-toggle="modal" data-bs-target="#add_Subspeciality" class="btn btn-primary text-nowrap btn-sm">Add
+                        Practitioner Subtype</a>
                 </div>
             </div>
         </div>
@@ -22,7 +26,10 @@
                                 <h6 class="fs-4 fw-semibold mb-0">Sn.</h6>
                             </th>
                             <th>
-                                <h6 class="fs-4 fw-semibold mb-0">Nurse Job Type</h6>
+                                <h6 class="fs-4 fw-semibold mb-0"> Profession </h6>
+                            </th>
+                            <th>
+                                <h6 class="fs-4 fw-semibold mb-0">Practitioner Subtype</h6>
                             </th>
                             <th>
                                 <h6 class="fs-4 fw-semibold ">Action</h6>
@@ -32,29 +39,32 @@
                     </thead>
                     <tbody>
                         @php $i=1 @endphp
-                        @if(!blank($specialityData))
-                            @foreach ($specialityData as $key => $item)
+                        @if ($subspecialityData)
+                            @foreach ($subspecialityData as $key => $item)
                                 <tr>
                                     <td>{{ $i }}</td>
                                     <td>
                                         <div class="">
-                                            <span class="mb-0 fw-normal fs-3">{{ $item->name }}</span>
+                                            <span class="mb-0 fw-normal fs-3">{{ isset($item->prentSpecialityName) && isset($item->prentSpecialityName->name) ? $item->prentSpecialityName->name : ''}}</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="">
+                                            <span class="mb-0 fw-normal fs-3">{{ $item->name}}</span>
                                             @if($item->is_featured == 1) <span class="badge bg-success"> Trending</span> @endif
                                         </div>
                                     </td>
                                     <td>
                                         <div class="d-flex align-items-center gap-1">
-                                            <button href="javascript:void(0)" class="btn btn-success btn-sm"  onclick="return getSpeciality({{ $item->id }})">
+                                            <button href="javascript:void(0)" class="btn btn-success btn-sm"  onclick="return getSubspeciality({{ $item->id }})">
                                                 Edit
                                             </button>
-                                            <button type="button" onclick="return deleteSpeciality({{ $item->id }})"
+                                            <button type="button" onclick="return deleteSubspeciality({{ $item->id }})"
                                                 class="btn btn-danger btn-sm" data-bs-toggle="tooltip" data-bs-placement="top"
                                                 aria-label="Delete" data-bs-original-title="Delete">
                                                 Delete
                                             </button>
-                                            <a href="{{route('admin.practitionertypeList', ['id'=>$item->id])}}" class="btn btn-secondary btn-sm" id="add_sub_speciality">
-                                                View Nursing Jobs
-                                            </a>
+                                            
                                         </div>
                                     </td>
                                 
@@ -73,22 +83,35 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="add_Speciality" tabindex="-1" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal fade" id="add_Subspeciality" tabindex="-1" aria-labelledby="mySmallModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <form id="AddSpeciality"  onsubmit="return addSpeciality()">
+                <form id="AddSubspeciality" onsubmit="return addSubspeciality()">
                     @csrf
                     <div class="modal-header d-flex align-items-center">
-                        <h4 class="modal-title" id="myModalLabel">Add Profession </h4>
+                        <h4 class="modal-title" id="myModalLabel">Add Practitioner Type </h4>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="category">Profession </label>
-                            <input type="text" class="form-control" placeholder="Write Profession" name="speciality"
-                                id="speciality">
-                            <span id="specialityErr" class="text-danger"></span>
+                            <label for="category">Profession  </label>
+                            <select class="form-control" placeholder="Write Profession" name="speciality"
+                                id="speciality" disabled>
+                                @if($specialityData)
+                                @foreach ($specialityData as  $speData)
+                                <option value="{{$speData->id}}" {{ $speciality->id == $speData->id ? 'selected' : '' }}>{{$speData->name}}</option>
+                                @endforeach
+                                @endif
+                            </select>
                         </div>
+        
+                        <div class="form-group mt-3">
+                            <label for="category">Practitioner Type </label>
+                            <input type="text" class="form-control" placeholder="Write Practitioner Type" name="subspeciality"
+                                id="subspeciality">
+                            <span id="subspecialityErr" class="text-danger"></span>
+                        </div>
+
                          <!-- Trending Checkbox -->
                      <div class="form-check mt-3">
                             <input class="form-check-input" type="checkbox" value="1" id="trendingCheckbox" name="trending">
@@ -96,8 +119,7 @@
                                Is Trending
                             </label>
                         </div>
-                        </div>
-                
+                    </div>
                     <div class="modal-footer pt-0">
                         <button type="submit" class="btn btn-primary font-medium waves-effect" id="signup_btn_btn">
                             Add 
@@ -111,25 +133,36 @@
         <!-- /.modal-dialog -->
     </div>
 
-    <div class="modal fade" id="edit_Speciality_model" tabindex="-1" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal fade" id="edit_Subspeciality_model" tabindex="-1" aria-labelledby="mySmallModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <form id="EditSpeciality" onsubmit="return editSpeciality()">
+                <form id="EditSubspeciality" onsubmit="return editSubspeciality()">
                     @csrf
                     <div class="modal-header d-flex align-items-center">
-                        <h4 class="modal-title" id="myModalLabel">Edit Profession </h4>
+                        <h4 class="modal-title" id="myModalLabel">Edit Practitioner Type </h4>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="category">Profession </label>
-                            <input type="hidden" name="id" value="" id="edit_id" />
-                            <input type="text" class="form-control" placeholder="Write Profession" name="speciality"
-                                id="edit_Speciality">
-                            <span id="edit_specialityErr" class="text-danger"></span>
+                            <label for="category">Profession  </label>
+                            <select class="form-control" placeholder="Write Profession" name="speciality"
+                                id="edit_speciality" disabled>
+                                @if($specialityData)
+                                @foreach ($specialityData as  $speData)
+                                <option value="{{$speData->id}}">{{$speData->name}}</option>
+                                @endforeach
+                                @endif
+                            </select>
                         </div>
-
-                     <!-- Trending Checkbox -->
+        
+                        <div class="form-group mt-3">
+                            <label for="category">Practitioner Type </label>
+                            <input type="text" class="form-control" placeholder="Write Practitioner Type" name="subspeciality"
+                                id="edit_subspeciality">
+                            <input type="hidden" name="id" value="" id="edit_id" />
+                            <span id="edit_subspecialityErr" class="text-danger"></span>
+                        </div>
+                        <!-- Trending Checkbox -->
                      <div class="form-check mt-3">
                      <div class="form-group">
                             <label class="form-group" for="trendingCheckbox">
@@ -156,30 +189,31 @@
 @section('js')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="text/javascript">
-        function addSpeciality() {
+        function addSubspeciality() {
+            document.getElementById('speciality').removeAttribute('disabled');
             $.ajax({
-                url: "{{ route('admin.addSpeciality') }}",
+                url: "{{ route('admin.addSubspeciality') }}",
                 type: "POST",
                 cache: false,
                 contentType: false,
                 processData: false,
-                data: new FormData($('#AddSpeciality')[0]),
+                data: new FormData($('#AddSubspeciality')[0]),
                 dataType: 'json',
                 beforeSend: function() {
                     $('#signup_btn_btn').prop('disabled', true);
                     $('#signup_btn_btn').text('Process....');
                 },
                 success: function(res) {
+                    document.getElementById('speciality').setAttribute('disabled', 'disabled');
                     $('#signup_btn_btn').prop('disabled', false);
                     $('#signup_btn_btn').text('Add ');
                     if (res.status == '2') {
-
                         Swal.fire({
                             icon: 'success',
                             title: 'Success',
-                            text: res.message,
+                            text: 'Practitioner Subtype has been created successfully',
                         }).then(function() {
-                            window.location.href = '{{ route('admin.professionList') }}';
+                            location.reload();
                         });
                     } else {
                         Swal.fire({
@@ -193,10 +227,10 @@
                     $('#signup_btn_btn').prop('disabled', false);
                     $('#signup_btn_btn').text('Add');
                     if (error.responseJSON.errors) {
-                        if (error.responseJSON.errors.speciality) {
-                            $('#specialityErr').text(error.responseJSON.errors.speciality[0]);
+                        if (error.responseJSON.errors.subspeciality) {
+                            $('#subspecialityErr').text(error.responseJSON.errors.subspeciality[0]);
                         } else {
-                            $('#specialityErr').text('');
+                            $('#subspecialityErr').text('');
                         }
                         
                     }
@@ -205,30 +239,31 @@
             return false;
         }
 
-        function editSpeciality() {
+        function editSubspeciality() {
+            document.getElementById('edit_speciality').removeAttribute('disabled');
             $.ajax({
-                url: "{{ route('admin.updateSpeciality') }}",
+                url: "{{ route('admin.updateSubspeciality') }}",
                 type: "POST",
                 cache: false,
                 contentType: false,
                 processData: false,
-                data: new FormData($('#EditSpeciality')[0]),
+                data: new FormData($('#EditSubspeciality')[0]),
                 dataType: 'json',
                 beforeSend: function() {
                     $('#edit_signup_btn_btn').prop('disabled', true);
                     $('#edit_signup_btn_btn').text('Process....');
                 },
                 success: function(res) {
+                    document.getElementById('edit_speciality').setAttribute('disabled', 'disabled');
                     $('#edit_signup_btn_btn').prop('disabled', false);
-                    $('#edit_signup_btn_btn').text('Add');
+                    $('#edit_signup_btn_btn').text('Update ');
                     if (res.status == '2') {
-
                         Swal.fire({
                             icon: 'success',
                             title: 'Success',
-                            text: res.message,
+                            text: 'Practitioner Subtype has been updated  successfully',
                         }).then(function() {
-                            window.location.href = '{{ route('admin.professionList') }}';
+                            location.reload();
                         });
                     } else {
                         Swal.fire({
@@ -240,13 +275,13 @@
                 },
                 error: function(error) {
                     $('#edit_signup_btn_btn').prop('disabled', false);
-                    $('#edit_signup_btn_btn').text('Add');
+                    $('#edit_signup_btn_btn').text('Update');
 
                     if (error.responseJSON.errors) {
-                        if (error.responseJSON.errors.speciality) {
-                            $('#edit_specialityErr').text(error.responseJSON.errors.speciality[0]);
+                        if (error.responseJSON.errors.subspeciality) {
+                            $('#edit_subspecialityErr').text(error.responseJSON.errors.subspeciality[0]);
                         } else {
-                            $('#edit_specialityErr').text('');
+                            $('#edit_subspecialityErr').text('');
                         }
                         
                     }
@@ -256,10 +291,10 @@
             return false;
         }
 
-        function deleteSpeciality(id) {
+        function deleteSubspeciality(id) {
             Swal.fire({
                 title: 'Are you sure?',
-                text: 'Do you want to delete This Profession ?',
+                text: 'Do you want to delete Practitioner Subtype ?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Yes',
@@ -268,7 +303,7 @@
                 if (result.isConfirmed) {
                     $.ajax({
                         type: 'POST',
-                        url: "{{ route('admin.deleteSpeciality') }}",
+                        url: "{{ route('admin.deleteSubspeciality') }}",
                         data: {
                             id: id,
                             _token: '{{ csrf_token() }}'
@@ -280,7 +315,7 @@
                                 Swal.fire({
                                     icon: 'success',
                                     title: 'Success',
-                                    text: res.message,
+                                    text: 'Practitioner Subtype has been deleted successfully',
                                 }).then(function() {
                                     location.reload();
                                 });
@@ -305,10 +340,9 @@
 
         }
 
-        function getSpeciality(id) {
-           
+        function getSubspeciality(id) {
             $.ajax({
-                url: "{{ route('admin.getSpeciality') }}",
+                url: "{{ route('admin.getSubspeciality') }}",
                 type: "POST",
                 data: {
                      id: id,
@@ -317,10 +351,11 @@
                 dataType: 'json',
                 success: function(res) {
                     console.log(res);
-                    $('#edit_Speciality').val(res.name);
+                    $('#edit_speciality').val(res.parent);
+                    $('#edit_subspeciality').val(res.name);
                     $('#edit_id').val(res.id);
                     $('#edit_trendingCheckbox').prop('checked', res.is_featured);
-                    $('#edit_Speciality_model').modal('show');
+                    $('#edit_Subspeciality_model').modal('show');
                 },
                 error: function(error) {
                     console.log("errorr-", error);
@@ -328,7 +363,6 @@
             });
             return false;
         }
-
      
     </script>
 @endsection

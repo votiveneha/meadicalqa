@@ -1,15 +1,15 @@
 @extends('admin.layouts.layout')
 @section('content')
-<x-card-component parentHeading="Speciality Management" childHeading="Speciality List" parentUrl="{{route('admin.dashboard')}}" />
+<x-card-component parentHeading="Speciality Job List" childHeading="Speciality Job List" parentUrl="{{route('admin.dashboard')}}" />
     <div class="card w-100  overflow-hidden ">
         <div class="card-header pb-0 p-4">
             <div class="d-flex align-items-center justify-content-between">
                 <div>
-                    <h5 class="card-title fw-semibold mb-0">Job Speciality  List</h5>
+                    <h5 class="card-title fw-semibold mb-0">Speciality Job List</h5>
                 </div>
                 <div>
                     <a href="" data-bs-toggle="modal" data-bs-target="#add_Speciality" class="btn btn-primary text-nowrap">Add
-                      Job  Speciality </a>
+                      Speciality Job</a>
                 </div>
             </div>
         </div>
@@ -54,7 +54,7 @@
                                                 Delete
                                             </button>
                                             <a href="{{route('admin.subjobSpecialitiesList', ['id'=>$item->id])}}" class="btn btn-secondary btn-sm" id="add_sub_speciality">
-                                                View sub job specialities
+                                                View Job Specialities Subtype
                                             </a>
                                         </div>
                                     </td>

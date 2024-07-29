@@ -19,7 +19,7 @@
                 <div class="d-flex align-items-center">
                   <div class="user-profile-img">
                     @if(auth()->guard('admin')->user()->image)
-                     <img src="{{url('public/storage/'.auth()->guard('admin')->user()->image)}}" class="rounded-circle" width="35" height="35" alt="" />
+                     <img src="{{url('storage/app/public/'.auth()->guard('admin')->user()->image)}}" class="rounded-circle" width="35" height="35" alt="" />
                     @else
                     <img src="{{asset('assets/admin/dist/images/logos/dummy.png')}}" class="rounded-circle" width="35" height="35" alt="" />
                     @endif
@@ -33,7 +33,7 @@
                   </div>
                   <div class="d-flex align-items-center py-9 mx-7 border-bottom">
                     @if(auth()->guard('admin')->user()->image)
-                      <img src="{{url('public/storage/'.auth()->guard('admin')->user()->image)}}" class="rounded-circle" width="80" height="80" alt="" />
+                      <img src="{{url('storage/app/public/'.auth()->guard('admin')->user()->image)}}" class="rounded-circle" width="80" height="80" alt="" />
                     @else
                     <img src="{{asset('assets/admin/dist/images/logos/dummy.png')}}" class="rounded-circle" width="80" height="80" alt="" />
                     @endif
@@ -48,7 +48,7 @@
                     <a href="{{route('admin.my-profile')}}" class="py-8 px-7 mt-8 d-flex align-items-center">
                       <span class="d-flex align-items-center justify-content-center bg-light rounded-1 p-6">
                         @if(auth()->guard('admin')->user()->image)
-                         <img src="{{url('public/storage/'.auth()->guard('admin')->user()->image)}}" alt="" width="24" height="24">
+                         <img src="{{url('storage/app/public/'.auth()->guard('admin')->user()->image)}}" alt="" width="24" height="24">
                         @else
                         <img src="{{asset('assets/admin/dist/images/logos/dummy.png')}}" alt="" width="24" height="24">
                         @endif

@@ -1,12 +1,6 @@
 @extends('nurse.layouts.layout')
 @section('css')
-<<<<<<< HEAD
-<link rel="stylesheet" 
-              href= 
-"https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/select2.min.css" />
-=======
 <link href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.12/css/intlTelInput.css" rel="stylesheet" />
->>>>>>> 425eac6978e978511a3366992717b590a8fd3bbe
 <style type="text/css">
 
   #container {
@@ -97,32 +91,27 @@
     border-radius: 4px !important;
     cursor: default !important;
     color: #fff !important;
-  float: left;
+    float: left;
     padding: 0;
     padding-right: 0.75rem;
     margin-top: calc(0.375rem - 2px);
     margin-right: 0.375rem;
-  padding-bottom: 0px;
-  white-space: normal;
+    padding-bottom: 0px;
+    white-space: normal;
     line-height: 20px;
   }
 
   .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
     color: #fff !important;
     font-size: 20px !important;
-  float: left;
+    float: left;
     padding-right: 3px;
     padding-left: 3px;
     margin-right: 1px;
     margin-left: 3px;
     font-weight: 700;
-  line-height: 20px;
+    line-height: 20px;
   }
-  .registration_progress {
-    font-weight: 900;
-    background-color: black;
-    color: #fff;
-}
 </style>
 @endsection
 @section('content')
@@ -139,8 +128,8 @@
 
 
           <div class="step-container d-flex justify-content-between">
-            <div class="step-circle first_step registration_progress" onclick="displayStep(1)">1</div>
-            <div class="step-circle second_step" onclick="displayStep(2)">2</div>
+            <div class="step-circle" onclick="displayStep(1)">1</div>
+            <div class="step-circle" onclick="displayStep(2)">2</div>
             <!-- <div class="step-circle" onclick="displayStep(3)">3</div> -->
           </div>
         </div>
@@ -152,11 +141,10 @@
         <div class="step step-1">
           <!-- Step 1 form fields here -->
           <div class="row form-block">
-            <div class="col-lg-12 col-md-6 col-sm-12 mx-auto">
+            <div class="col-lg-9 col-md-6 col-sm-12 mx-auto">
               <div class="text-center">
                 <!-- <p class="font-sm text-brand-2">Register </p> -->
-                <h2 class="mt-10 mb-5 text-brand-1 fs_24">Please select your level and specialties<br>
-        You can select multiple options</h2>
+                <h2 class="mt-10 mb-5 text-brand-1 fs_24">Please select your level and specialty area. You can select multiple options.</h2>
 
                 <!-- <h2 class="mt-10 mb-5 text-brand-1 fs_24">Tell us about your qualifications</h2> -->
 
@@ -179,78 +167,11 @@
                     @foreach($specialty as $spl)
                     <option value="{{ $spl->id }}">{{ $spl->name }}</option>
                     @endforeach
-<<<<<<< HEAD
-                  </select> -->
-                </div>
-                <span id="reqnurseTypeId" class="reqError valley"></span>
-
-                <div id="nurse_select">
-                  <!-- <div id="nurse_select"  style="display: none;"> -->
-                  <div class="form-group" id="subspecialtyGroup">
-                    <label class="form-label" for="input-1">Types of Nursing Jobs</label>
-                    <select class="form-input mr-10" name="nurseTypeJob[]" id="nurseTypeJob" multiple>
-
-                    </select>
-                  </div>
-                  <span id="reqnurseTypeJobId" class="reqError valley"></span>
-                </div>
-
-                <div id="nurse_practitioner">
-                  <!-- <div id="nurse_select"  style="display: none;"> -->
-                  <div class="form-group" id="subspecialtyGroup">
-                    <label class="form-label" for="input-1">Nurse Practitioner (NP) sub speciality</label>
-                    <select class="form-input mr-10 select-active" name="nurse_practitioner_speciality[]" id="nurse_practitioner_speciality" multiple>
-
-                    </select>
-                  </div>
-                  <span id="reqnurseTypeJobId" class="reqError valley"></span>
-                </div>
-
-
-
-                
-                <span id="reqassistent_level" class="reqError valley"></span>
-
-
-                <div class="" id="mid_select">
-                  <div class="form-group">
-                    <label class="form-label" for="input-1">Specialties</label>
-                    <select class="form-input mr-10 specialties" name="specialties[]" id="specialties" multiple>
-                    
-                      @php $JobSpecialties = JobSpecialties(); @endphp
-                      @foreach($JobSpecialties as $ptl)
-                      <option value="{{ $ptl->id }}">{{ $ptl->name }}</option>
-                      @endforeach
-                    </select>
-                    <span id="reqspecialties" class="reqError valley"></span>
-                  </div>
-
-                  <div class="form-group">
-                    <label class="form-label" for="input-1">Sub Specialties</label>
-                    <select class="form-input mr-10 select-active" name="subSpecialties[]" id="subSpecialties" multiple>
-                     
-                    </select>
-                    <span id="reqsubSpecialties" class="reqError valley"></span>
-                  </div>
-                  <div class="form-group">
-                    <label class="form-label" for="input-1">What level are you?</label>
-                    <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
-                    <select class="form-input mr-10 select-active" name="assistent_level">
-                      
-                      @for($i = 1; $i <= 30; $i++) <option value="{{ $i }}">{{ $i }}{{ $i == 1 ? 'st' : ($i == 2 ? 'nd' : ($i == 3 ? 'rd' : 'th')) }} Year</option>
-                        @endfor
-                    </select>
-                  </div>
-                  <div class="" id="mid_select">
-                    <div class="form-group">
-                      <label class="form-label" for="input-1">Nurse & Midwife degree</label>
-                      <select class="form-input mr-10 select-active" name="degree[]" multiple>
-=======
                  <!-- </select> -->
               <!-- </div> -->
-         
-         
-       <div class="condition_set">   
+               
+               
+             <div class="condition_set">   
    <div class="form-group drp--clr">
         <label class="form-label" for="input-1">Type of Nurse?</label>
             <ul id="type-of-nurse" style="display:none;">
@@ -266,23 +187,21 @@
                 @endforeach
                 
             </ul>
-        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="type-of-nurse" name="nurseType[]" multiple="multiple"></select>
+        <select class="js-example-basic-multiple" data-list-id="type-of-nurse" name="states[]" multiple="multiple"></select>
    </div>
 </div>
 
 <div class="result--show ">
-  <div class="container p-0">
-    <div class="row g-2">
     @php $specialty = specialty();$spcl=$specialty[0]->id;@endphp
     <?php
         $i = 1;
     ?>
     @foreach($specialty as $spl)
     <?php
-        $nursing_data = DB::table("practitioner_type")->where('parent', $spl->id)->orderBy('name')->get();
+        $nursing_data = DB::table("practitioner_type")->where('parent', $spl->id)->get();
     ?>
     <input type="hidden" name="nursing_result" class="nursing_result-{{ $i }}" value="{{ $spl->id }}">
-    <div class="nursing_data form-group drp--clr d-none col-md-4 drpdown-set" id="nursing_level-{{ $i }}">
+    <div class="nursing_data form-group drp--clr d-none" id="nursing_level-{{ $i }}">
         <label class="form-label" for="input-2">{{ $spl->name }}</label>
             <ul id="nursing_entry-{{ $i }}" style="display:none;">
                 @foreach($nursing_data as $nd)
@@ -291,18 +210,14 @@
                 @endforeach
                 <!-- Add more list items as needed -->
             </ul>
-        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="nursing_entry-{{ $i }}" name="nursing_type_{{ $i }}[]" multiple="multiple"></select>
+        <select class="js-example-basic-multiple" data-list-id="nursing_entry-{{ $i }}" name="states[]" multiple="multiple"></select>
     </div>
     <?php
         $i++;
     ?>
     @endforeach
-    </div>
     
-    </div>
 </div>
-
-
 <div class="np_submenu d-none">
     
     <div class="form-group drp--clr">
@@ -313,249 +228,17 @@
         <label class="form-label" for="input-1">Nurse Practitioner (NP):</label>
             <ul id="nurse_practitioner_menu" style="display:none;">
                 @foreach($np_data as $nd)
-                <li data-value="{{ $nd->id }}">{{ $nd->name }}</li>
+                <li id="entry-level-nursing" data-value="Entry level nursing">{{ $nd->name }}</li>
                 @endforeach
                 
             </ul>
-        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="nurse_practitioner_menu" name="nurse_practitioner_menu[]" multiple="multiple"></select>
+        <select class="js-example-basic-multiple" data-list-id="nurse_practitioner_menu" name="states[]" multiple="multiple"></select>
         
    </div>
    
 </div>
-<div class="condition_set">   
-   <div class="form-group drp--clr">
-        <input type="hidden" name="sub_speciality_value" class="sub_speciality_value" value="">
-        <label class="form-label" for="input-1">Specialties</label>
-            <ul id="specialties" style="display:none;">
-                @php $JobSpecialties = JobSpecialties(); @endphp
-                <?php
-                    $k = 1;
-                ?>
-                @foreach($JobSpecialties as $ptl)
-                    <li id="nursing_menus-{{ $k }}" data-value="{{ $ptl->id }}">{{ $ptl->name }}</li>
-                    <?php
-                        $k++;
-                    ?>
-                @endforeach
-                
-            </ul>
-        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="specialties" name="specialties[]" multiple="multiple"></select>
-   </div>
-</div>
-<div class="speciality_boxes row result--show">
-    <?php
-        $l = 1;
-    ?>
-    @foreach($JobSpecialties as $ptl)
-        <?php
-            $speciality_data = DB::table("speciality")->where('parent', $ptl->id)->get();
-        ?>
-        <input type="hidden" name="speciality_result" class="speciality_result-{{ $l }}" value="{{ $ptl->id }}">
-        <div class="speciality_data form-group drp--clr d-none drpdown-set col-md-6" id="specility_level-{{ $l }}">
-            <label class="form-label" for="input-2">{{ $ptl->name }}</label>
-                <ul id="speciality_entry-{{ $l }}" style="display:none;">
-                    @foreach($speciality_data as $sd)
-                    <li data-value="{{ $sd->id }}">{{ $sd->name }}</li>
-                    
-                    @endforeach
-                    <!-- Add more list items as needed -->
-                </ul>
-            <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="speciality_entry-{{ $l }}" name="speciality_entry_{{ $l }}[]" multiple="multiple"></select>
-        </div>
-        <?php
-            $l++;
-        ?>
-    @endforeach
-</div>
-<div class="surgical_div">
-    
-    <div class="surgical_row_data form-group drp--clr d-none col-md-12">
-        <label class="form-label" for="input-1">Surgical Preoperative and Postoperative Care:</label>
-           <?php
-            $speciality_surgicalrow_data = DB::table("speciality")->where('parent', '96')->get();
-            $r = 1;
-           ?>
-            <ul id="surgical_row_box" style="display:none;">
-                @foreach($speciality_surgicalrow_data as $ssrd)
-                <li data-value="{{ $ssrd->id }}">{{ $ssrd->name }}</li>
-                @endforeach
-            </ul>
-        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_row_box" name="surgical_row_box[]" multiple="multiple"></select>
-    </div>
-</div>
-<div class="paediatric_surgical_div">
-    
-    <div class="surgicalpad_row_data form-group drp--clr d-none col-md-12">
-        <label class="form-label" for="input-1">Paediatric Surgical Preop. and Postop. Care:
-</label>
-           <?php
-            $speciality_padsurgicalrow_data = DB::table("speciality")->where('parent', '285')->get();
-            $r = 1;
-           ?>
-            <ul id="surgical_rowpad_box" style="display:none;">
-                @foreach($speciality_padsurgicalrow_data as $ssrd)
-                <li data-value="{{ $ssrd->id }}">{{ $ssrd->name }}</li>
-                @endforeach
-            </ul>
-        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_rowpad_box" name="surgical_rowpad_box[]" multiple="multiple"></select>
-    </div>
-</div>
-<div class="specialty_sub_boxes row">
-    <?php
-        $speciality_surgical_data = DB::table("speciality")->where('parent', '96')->get();
-        $w = 1;
-    ?>
-    @foreach($speciality_surgical_data as $ssd)
-    <input type="hidden" name="speciality_result" class="speciality_surgical_result-{{ $w }}" value="{{ $ssd->id }}">
-    <div class="surgical_row-{{ $w }} form-group drp--clr drpdown-set d-none col-md-4">
-        <label class="form-label" for="input-1">{{ $ssd->name }}</label>
-           <?php
-            $speciality_surgicalsub_data = DB::table("speciality")->where('parent', $ssd->id)->get();
-           ?>
-            <ul id="surgical_operative_care-{{ $w }}" style="display:none;">
-                @foreach($speciality_surgicalsub_data as $sssd)
-                <li data-value="{{ $sssd->id }}">{{ $sssd->name }}</li>
-                @endforeach
-            </ul>
-        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_operative_care-{{ $w }}" name="surgical_operative_care_{{ $w }}[]" multiple="multiple"></select>
-    </div>
-    <?php
-        $w++;
-    ?>
-    @endforeach
-    <?php
-        $speciality_surgical_datamater = DB::table("speciality")->where('parent', '233')->get();
-        $p = 1;
-    ?>
-    
-    <div class="surgicalobs_row form-group drp--clr d-none drpdown-set col-md-12">
-        <label class="form-label" for="input-1">Surgical Obstetrics and Gynecology (OB/GYN):</label>
-           
-            <ul id="surgical_obs_care" style="display:none;">
-               @foreach($speciality_surgical_datamater as $ssd)
-                <li data-value="{{ $ssd->id }}">{{ $ssd->name }}</li>
-                 @endforeach
-            </ul>
-        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_obs_care" name="surgical_obs_care[]" multiple="multiple"></select>
-    </div>
-    <?php
-        $speciality_surgical_datamater = DB::table("speciality")->where('parent', '250')->get();
-        
-    ?>
-    <div class="neonatal_row form-group drp--clr drpdown-set d-none col-md-12">
-        <label class="form-label" for="input-1">Neonatal Care:</label>
-           
-            <ul id="neonatal_care" style="display:none;">
-               @foreach($speciality_surgical_datamater as $ssd)
-                <li data-value="{{ $ssd->id }}">{{ $ssd->name }}</li>
-                 @endforeach
-            </ul>
-        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="neonatal_care" name="neonatal_care[]" multiple="multiple"></select>
-    </div>
-    <?php
-        $speciality_surgical_datap = DB::table("speciality")->where('parent', '285')->get();
-        $q = 1;
-    ?>
-    @foreach($speciality_surgical_datap as $ssd)
-     <input type="hidden" name="speciality_result" class="surgical_rowp_result-{{ $q }}" value="{{ $ssd->id }}">
-    <div class="surgical_rowp surgical_rowp-{{ $q }} form-group drp--clr drpdown-set d-none col-md-4">
-        <label class="form-label" for="input-1">{{ $ssd->name }}</label>
-           <?php
-            $speciality_surgicalsub_data = DB::table("speciality")->where('parent', $ssd->id)->orderBy('name')->get();
-           ?>
-            <ul id="surgical_operative_carep-{{ $q }}" style="display:none;">
-                @foreach($speciality_surgicalsub_data as $sssd)
-                <li data-value="{{ $sssd->id }}">{{ $sssd->name }}</li>
-                @endforeach
-            </ul>
-        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_operative_carep-{{ $q }}" name="surgical_operative_carep_{{ $q }}[]" multiple="multiple"></select>
-    </div>
-    <?php
-        $q++;
-    ?>
-    @endforeach
-</div>
-<div class="form-group level-drp">
-                    <label class="form-label" for="input-1">What is your level of experience?</label>
-                    <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
-                    <select class="form-input mr-10 select-active" name="assistent_level">
->>>>>>> 425eac6978e978511a3366992717b590a8fd3bbe
-                      
-                      @for($i = 1; $i <= 30; $i++) <option value="{{ $i }}">{{ $i }}{{ $i == 1 ? 'st' : ($i == 2 ? 'nd' : ($i == 3 ? 'rd' : 'th')) }} Year</option>
-                        @endfor
-                    </select>
-                  </div>
-                  <div class="" id="mid_select">
-                    <div class="form-group drp--clr drpdown-set">
-                      <!-- <label class="form-label" for="input-1">Nurse & Midwife degree</label>
-                      <select class="form-input mr-10 select-active" name="degree[]" multiple>
-                        <?php
-                          $nurse_midwife_degree = DB::table("degree")->where('status', '1')->orderBy('name')->get();
-                        ?>
-                        
-                        @foreach($nurse_midwife_degree as $ptl)
-                        <option value="{{ $ptl->id }}">{{ $ptl->name }}</option>
-                        @endforeach
-                      </select>
-                      <span id="reqdegree" class="reqError valley"></span> -->
-                      <label class="form-label" for="input-1">Nurse & Midwife degree</label>
-                       <?php
-                        $nurse_midwife_degree = DB::table("degree")->where('status', '1')->orderBy('name')->get();
-                       ?>
-                        <ul id="nurse_degree" style="display:none;">
-                             @foreach($nurse_midwife_degree as $ptl)
-                              <li data-value="{{ $ptl->id }}">{{ $ptl->name }}</li>
-                              
-                              @endforeach
-                        </ul>
-                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="nurse_degree" name="degree[]" multiple="multiple"></select>
-                    </div>
 
-                  </div>
-          
-          
 
-  
-  
-  <!-- Add All button & Remove all button code start -->
-<script>
-    $(document).ready(function() {
-
-        // Add an additional search box and extra buttons to the dropdown
-        $('.addAll_removeAll_btn').on('select2:open', function() {
-            var $dropdown = $(this);
-            var searchBoxHtml = `
-                
-                <div class="extra-buttons">
-                    <button class="select-all-button" type="button">Select All</button>
-                    <button class="remove-all-button" type="button">Remove All</button>
-                </div>`;
-
-            // Remove any existing extra buttons before adding new ones
-            $('.select2-results .extra-search-container').remove();
-            $('.select2-results .extra-buttons').remove();
-
-            // Append the new extra buttons and search box
-            $('.select2-results').prepend(searchBoxHtml);
-
-            // Handle Select All button for the current dropdown
-            $('.select-all-button').on('click', function() {
-                var $currentDropdown = $dropdown;
-                var allValues = $currentDropdown.find('option').map(function() {
-                    return $(this).val();
-                }).get();
-                $currentDropdown.val(allValues).trigger('change');
-            });
-
-            // Handle Remove All button for the current dropdown
-            $('.remove-all-button').on('click', function() {
-                var $currentDropdown = $dropdown;
-                $currentDropdown.val(null).trigger('change');
-            });
-        });
-
-    });
-</script>
 <script>
         $(document).ready(function() {
 
@@ -596,11 +279,7 @@
             });
         });
     </script>
-
-
-<!-- Add All button & Remove all button code End -->
-  
-  <script>
+    <script>
         $(document).ready(function() {
             // Initialize Select2
             $('.js-example-basic-multiple').select2();
@@ -634,32 +313,31 @@
             toggleClearButton();
         });
     </script>
-  
 <script>
 $(document).ready(function() {
     // Initialize Select2 for each select element with class .js-example-basic-multiple
     $('.js-example-basic-multiple').each(function() {
         let listId = $(this).data('list-id');
-        //alert(listId);
+
         let items = [];
-        console.log("listId1",listId);
+        console.log("listId",listId);
         $('#' + listId + ' li').each(function() {
-            console.log("value1",$(this).text());
+            console.log("value",$(this).data('value'));
             items.push({ id: $(this).data('value'), text: $(this).text() });
         });
-        console.log("items1",items);
+        console.log("items",items);
         $(this).select2({
             data: items
         });
     });
-    var nurse_array = [];
+
     // Show corresponding job lists when an option is selected in the first select
     $('.js-example-basic-multiple[data-list-id="type-of-nurse"]').on('change', function() {
         let selectedValues = $(this).val();
         //alert("hello");
         var nurse_len = $("#type-of-nurse li").length;
         console.log("nurse_len",nurse_len);
-         
+
         //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
 
         console.log("selectedValues",selectedValues);
@@ -688,229 +366,21 @@ $(document).ready(function() {
         //     $('#aprns').removeClass('d-none');
         // }
     });
-    $('.js-example-basic-multiple[data-list-id="nursing_entry-3"]').on('change', function() {
+    $('.js-example-basic-multiple[data-list-id="nursing_entry-1"]').on('change', function() {
         let selectedValues = $(this).val();
         //alert("hello");
         var nurse_len = $("#type-of-nurse li").length;
         console.log("nurse_len",nurse_len);
 
         //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
-        if(selectedValues.includes("179")){
+        if(selectedValues == 179){
             $('.np_submenu').removeClass('d-none');
             console.log("selectedValues",selectedValues);
-        }else{
-            $('.np_submenu').addClass('d-none');
         }
         
         
         
     });
-     
-     $('.js-example-basic-multiple[data-list-id="specialties"]').on('change', function() {
-        let selectedValues = $(this).val();
-        //alert("hello");
-        var speciality_len = $("#specialties li").length;
-        console.log("speciality_len",speciality_len);
-
-        //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
-
-        console.log("selectedValues",selectedValues);
-        //$('.result--show .form-group').addClass('d-none');
-
-        for(var k = 1;k<=speciality_len;k++){
-            var speciality_result_val = $(".speciality_result-"+k).val();
-            //alert(speciality_result_val);
-            if(selectedValues.includes(speciality_result_val)){
-
-                $('#specility_level-'+k).removeClass('d-none');
-                //$(".sub_speciality_value").val(k);
-                
-            }else{
-                $('#specility_level-'+k).addClass('d-none');
-                
-            }
-        }
-        
-        
-    });
-
-    var sub_specialty_data_val =  $(".sub_speciality_value").val();
-    console.log("specialty_data_len",sub_specialty_data_val);
-
-    $('.js-example-basic-multiple[data-list-id="speciality_entry-1"]').on('change', function() {
-        let selectedValues = $(this).val();
-        //alert("hello");
-        var speciality_entry = $("#speciality_entry-1 li").length;
-        console.log("speciality_entry",speciality_entry);
-        $(".surgical_row").wrapAll("<div class='col-md-12 row surgical_row_data'>");
-        $(".surgical_row_data").insertAfter("#specility_level-1");
-        //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
-
-        console.log("selectedValues",selectedValues.includes("96"));
-        //$('.result--show .form-group').addClass('d-none');
-
-        if(selectedValues.includes("96")){
-            $('.surgical_row_data').removeClass('d-none');
-        }else{
-            $('.surgical_row_data').addClass('d-none');
-        }
-
-        
-
-        // for(var k = 1;k<=speciality_entry;k++){
-        //     var speciality_result_val = $(".speciality_result-"+k).val();
-        //     //alert(speciality_result_val);
-        //     if(selectedValues.includes(speciality_result_val)){
-
-        //         $('#specility_level-'+k).removeClass('d-none');
-                
-        //     }else{
-        //         $('#specility_level-'+k).addClass('d-none');
-        //     }
-        // }
-    });
-    $('.js-example-basic-multiple[data-list-id="surgical_row_box"]').on('change', function() {
-        let selectedValues = $(this).val();
-        //alert("hello");
-        var speciality_entry = $("#surgical_row_box li").length;
-        console.log("speciality_entry",speciality_entry);
-        // $(".surgical_row").wrapAll("<div class='col-md-12 row surgical_row_data'>");
-        $(".specialty_sub_boxes").insertAfter(".surgical_row_data");
-        //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
-
-        console.log("selectedValues",selectedValues);
-        //$('.result--show .form-group').addClass('d-none');
-
-        // if(selectedValues.includes("97")){
-        //     $('.surgical_row').removeClass('d-none');
-        // }else{
-        //     $('.surgical_row').addClass('d-none');
-        // }
-
-        
-
-        for(var k = 1;k<=speciality_entry;k++){
-            var speciality_result_val = $(".speciality_surgical_result-"+k).val();
-            
-            if(selectedValues.includes(speciality_result_val)){
-                
-                $('.surgical_row-'+k).removeClass('d-none');
-                
-            }else{
-                $('.surgical_row-'+k).addClass('d-none');
-            }
-        }
-    });
-
-    $('.js-example-basic-multiple[data-list-id="speciality_entry-3"]').on('change', function() {
-        let selectedValues = $(this).val();
-        //alert("hello");
-        var speciality_entry = $("#speciality_entry-3 li").length;
-        console.log("speciality_entry",speciality_entry);
-        $(".surgical_rowp").wrapAll("<div class='col-md-12 row surgical_rowp_data'>");
-        $(".surgical_rowp_data").insertAfter("#specility_level-3");
-
-        
-            $(".neonatal_row").wrapAll("<div class='col-md-12 row neonatal_row_data'>");
-            $(".neonatal_row_data").insertAfter("#specility_level-3");
-
-        //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
-
-        console.log("selectedValues",selectedValues);
-        //$('.result--show .form-group').addClass('d-none');
-
-        if(selectedValues.includes('250')){
-            $('.neonatal_row').removeClass('d-none');
-        }else{
-            $('.neonatal_row').addClass('d-none');
-        }
-
-        if(selectedValues.includes('285')){
-            $('.surgicalpad_row_data').removeClass('d-none');
-        }else{
-            $('.surgicalpad_row_data').addClass('d-none');
-            
-        }
-
-        // for(var k = 1;k<=speciality_entry;k++){
-        //     var speciality_result_val = $(".speciality_result-"+k).val();
-        //     //alert(speciality_result_val);
-        //     if(selectedValues.includes(speciality_result_val)){
-
-        //         $('#specility_level-'+k).removeClass('d-none');
-                
-        //     }else{
-        //         $('#specility_level-'+k).addClass('d-none');
-        //     }
-        // }
-    });
-
-    $('.js-example-basic-multiple[data-list-id="surgical_rowpad_box"]').on('change', function() {
-        let selectedValues = $(this).val();
-        //alert("hello");
-        var speciality_entry = $("#surgical_rowpad_box li").length;
-        console.log("speciality_entry",speciality_entry);
-        $(".surgical_rowp").wrapAll("<div class='col-md-12 row surgical_rowp_data'>");
-        $(".surgical_rowp_data").insertAfter(".surgicalpad_row_data");
-
-        
-            $(".neonatal_row").wrapAll("<div class='col-md-12 row neonatal_row_data'>");
-            $(".neonatal_row_data").insertAfter("#specility_level-3");
-
-        //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
-
-        console.log("selectedValues",selectedValues);
-        //$('.result--show .form-group').addClass('d-none');
-
-        
-
-        for(var k = 1;k<=speciality_entry;k++){
-            var speciality_result_val = $(".surgical_rowp_result-"+k).val();
-            //alert(speciality_result_val);
-            if(selectedValues.includes(speciality_result_val)){
-
-                $('.surgical_rowp-'+k).removeClass('d-none');
-                
-            }else{
-                $('.surgical_rowp-'+k).addClass('d-none');
-            }
-        }
-    });
-
-    $('.js-example-basic-multiple[data-list-id="speciality_entry-2"]').on('change', function() {
-        let selectedValues = $(this).val();
-        //alert("hello");
-        var speciality_entry = $("#speciality_entry-1 li").length;
-        console.log("speciality_entry",speciality_entry);
-        $(".surgicalobs_row").wrapAll("<div class='col-md-12 row surgicalobs_row_data'>");
-        $(".surgicalobs_row_data").insertAfter("#specility_level-2");
-
-        //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
-
-        console.log("selectedValues",selectedValues);
-        //$('.result--show .form-group').addClass('d-none');
-
-        if(selectedValues.includes("233")){
-            $('.surgicalobs_row').removeClass('d-none');
-        }else{
-            $('.surgicalobs_row').addClass('d-none');
-        }
-
-        // for(var k = 1;k<=speciality_entry;k++){
-        //     var speciality_result_val = $(".speciality_result-"+k).val();
-        //     //alert(speciality_result_val);
-        //     if(selectedValues.includes(speciality_result_val)){
-
-        //         $('#specility_level-'+k).removeClass('d-none');
-                
-        //     }else{
-        //         $('#specility_level-'+k).addClass('d-none');
-        //     }
-        // }
-    });
-
-    
-    
 });
 </script>
 
@@ -919,8 +389,27 @@ $(document).ready(function() {
    
                 <span id="reqnurseTypeId" class="reqError valley"></span>
 
-                
+                <!-- <div id="nurse_select">
+                  
+                  <div class="form-group" id="subspecialtyGroup">
+                    <label class="form-label" for="input-1">Types of Nursing Jobs</label>
+                    <select class="form-input mr-10" name="nurseTypeJob[]" id="nurseTypeJob" multiple>
 
+                    </select>
+                  </div>
+                  <span id="reqnurseTypeJobId" class="reqError valley"></span>
+                </div> -->
+
+                <div id="nurse_practitioner">
+                  <!-- <div id="nurse_select"  style="display: none;"> -->
+                  <div class="form-group" id="subspecialtyGroup">
+                    <label class="form-label" for="input-1">Nurse Practitioner (NP) sub speciality</label>
+                    <select class="form-input mr-10 select-active" name="nurse_practitioner_speciality[]" id="nurse_practitioner_speciality" multiple>
+
+                    </select>
+                  </div>
+                  <span id="reqnurseTypeJobId" class="reqError valley"></span>
+                </div>
 
 
 
@@ -928,9 +417,68 @@ $(document).ready(function() {
                 <span id="reqassistent_level" class="reqError valley"></span>
 
 
+                <div class="" id="mid_select">
+                  <div class="form-group">
+                    <label class="form-label" for="input-1">Specialties</label>
+                    <select class="form-input mr-10 specialties" name="specialties[]" id="specialties" multiple>
+                    
+                      @php $JobSpecialties = JobSpecialties(); @endphp
+                      @foreach($JobSpecialties as $ptl)
+                      <option value="{{ $ptl->id }}">{{ $ptl->name }}</option>
+                      @endforeach
+                    </select>
+                    <span id="reqspecialties" class="reqError valley"></span>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="input-1">Sub Specialties</label>
+                    <select class="form-input mr-10" name="subSpecialties[]" id="subSpecialties" multiple>
+                     
+                    </select>
+                    <span id="reqsubSpecialties" class="reqError valley"></span>
+                  </div>
+
+                  <div class="form-group surgicalSpec">
+                    <label class="form-label" for="input-1"> Sub Specialties(<span class="sub_speciality"></span>)</label>
+                    <select class="form-input mr-10" name="surgicalsubSpecialties[]" id="surgicalsubSpecialties" multiple>
+                     
+                    </select>
+                    <span id="reqsubSpecialties" class="reqError valley"></span>
+                  </div>
+                  <div class="form-group surgicalSubSpec">
+                    <label class="form-label" for="input-1"> Sub Specialties(<span class="sub_sub_speciality"></span>)</label>
+                    <select class="form-input mr-10 select-active" name="surgicalsuboneSpecialties[]" id="surgicalsuboneSpecialties" multiple>
+                     
+                    </select>
+                    <span id="reqsubSpecialties" class="reqError valley"></span>
+                  </div>
+                  <div class="form-group level-drp">
+                    <label class="form-label" for="input-1">What is your level of experience?</label>
+                    <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
+                    <select class="form-input mr-10 select-active" name="assistent_level">
+                      
+                      @for($i = 1; $i <= 30; $i++) <option value="{{ $i }}">{{ $i }}{{ $i == 1 ? 'st' : ($i == 2 ? 'nd' : ($i == 3 ? 'rd' : 'th')) }} Year</option>
+                        @endfor
+                    </select>
+                  </div>
+                  <div class="" id="mid_select">
+                    <div class="form-group">
+                      <label class="form-label" for="input-1">Nurse & Midwife degree</label>
+                      <select class="form-input mr-10 select-active" name="degree[]" multiple>
+                      
+                        @php $nurse_midwife_degree = nurse_midwife_degree(); @endphp
+                        @foreach($nurse_midwife_degree as $ptl)
+                        <option value="{{ $ptl->id }}">{{ $ptl->name }}</option>
+                        @endforeach
+                      </select>
+                      <span id="reqdegree" class="reqError valley"></span>
+                    </div>
+
+                  </div>
+
+                </div>
                 
-        
-        <div class="step_nxt">
+                <div class="step_nxt">
                 <div class="d-flex align-items-center justify-content-between">
                   <!-- 
                   <button type="button" class="btn btn-border-brand-2 prev-step">Previous</button> -->
@@ -938,7 +486,7 @@ $(document).ready(function() {
                   <button type="button" class="btn btn-default w-100 next-step">Next</button>
                   <!-- <button type="button" class="btn btn-default next-step">Next</button> -->
                 </div>
-        </div>
+                </div>
               </div>
             </div>
 
@@ -949,7 +497,7 @@ $(document).ready(function() {
             <!-- Step 2 form fields here -->
 
             <div class="row ">
-              <div class="col-lg-12 col-md-6 col-sm-12 mx-auto">
+              <div class="col-lg-5 col-md-6 col-sm-12 mx-auto">
                 <div class="text-center">
                   <!-- <p class="font-sm text-brand-2">Register </p> -->
                   <h2 class="mt-10 mb-5 text-brand-1 fs_24">You are moments away from job opportunities</h2>
@@ -988,14 +536,10 @@ $(document).ready(function() {
                           @php $country_phone_code = country_phone_code();@endphp
                           @forelse($country_phone_code as $cpc)
                           @if($cpc->phonecode!='0')
-<<<<<<< HEAD
-                          <option data-countryCode="GB" value="{{ $cpc->phonecode}}" @if($cpc->name == "Australia") selected @endif>(+{{ $cpc->name}})</option>
-=======
                           <option data-countryCode="GB" value="{{ $cpc->phonecode}}" @if($cpc->name == "Australia") selected @endif>(+{{ $cpc->phonecode}})</option>
->>>>>>> 425eac6978e978511a3366992717b590a8fd3bbe
                           @endif
                           @empty
-                          <!-- @endforelse -->
+                          @endforelse
                         </select>
                       </div> -->
                       <div class="col-md-12">
@@ -1032,7 +576,7 @@ $(document).ready(function() {
                 </div>
 
                 
-        <div class="d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center justify-content-between">
                   <button type="button" class="btn btn-border-brand-2 prev-step">Previous</button>
                   <!--<a type="button" class="btn btn-default" href="email_verification.php">Submit &amp; Register</a>-->
                   <button onclick="dosignup()" class="btn btn-default px-5 py-8  rounded-2 mb-0 submit-btn-120" type="submit"><span class="resetpassword">Submit &amp; Register</span>
@@ -1041,7 +585,7 @@ $(document).ready(function() {
                     </div>
                   </button>
                 </div>
-        
+                
 
 
 
@@ -1093,15 +637,10 @@ $(document).ready(function() {
 
   $(document).ready(function() {
     $('#multi-step-form').find('.step').slice(1).hide();
-    
+
     $(".next-step").click(function() {
-   
-      $(".first_step").removeClass("registration_progress");
-      $(".second_step").addClass("registration_progress");
 
-      
 
-      
       if (currentStep == 1) {
         
         if (validateForm() == false) {
@@ -1389,7 +928,7 @@ $(document).ready(function() {
 
 
 
-    if (passwordI == "") {
+    if (passwordI.trim() == "") {
 
       document.getElementById("reqTxtpasswordI").innerHTML = "*  Please enter the PasswordI.";
 
@@ -1397,25 +936,13 @@ $(document).ready(function() {
 
     }
 
-    
+    if (passwordI.length < 6) {
 
-    var pattern = /^.*(?=.{7,12})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%&!-_]).*$/;
-
-    if (!pattern.test(passwordI)) {
-
-      document.getElementById("reqTxtpasswordI").innerHTML = "Password length should be 7 Characters with atleast 1 number, lower, upper & special(@#$%&!-_&) characters.";
+      document.getElementById("reqTxtpasswordI").innerHTML = "*  Your password must be at least 6 characters long";
 
       returnValue = false;
 
     }
-
-    // for (var i=0; i<passwordI.length; i++) {
-
-    //   if ( passwordI.indexOf(passwordI[i]) !== passwordI.lastIndexOf(passwordI[i]) ) {
-    //     document.getElementById("reqTxtpasswordI").innerHTML = "Characters can not be repeat";
-    //     returnValue = false;
-    //   }
-    // }
 
     if (confirm_passwordI == "") {
 
@@ -1427,7 +954,7 @@ $(document).ready(function() {
 
     if (passwordI != confirm_passwordI) {
 
-      document.getElementById("reqTxtconfirm_passwordI").innerHTML = "Password and Confirm password do not match";
+      document.getElementById("reqTxtconfirm_passwordI").innerHTML = "Password And Confirm password did not match.";
 
       returnValue = false;
 
@@ -1605,64 +1132,6 @@ $(document).ready(function() {
  <script src= 
 "https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/select2.min.js"> 
        </script> 
-<<<<<<< HEAD
-<script>
-   $(document).ready(function () { 
-                //Select2 
-                $(".country").select2(); 
-                $(".specialties").select2();
-                $("#nurseTypeJob").select2();
-                
-                $(".country").change(function () {
-                  var selectedValues = $(this).val();
-                  if (selectedValues && selectedValues.length > 0) {
-                    $.ajax({
-                      url: "{{ route('getNurseTypeJobs') }}",
-                      type: "POST",
-                      data: {
-                        nurseTypes: selectedValues,
-                        _token: '{{ csrf_token() }}'
-                      },
-                      dataType: 'json',
-                      success: function(response) {
-                        $('#nurse_select').show();
-                        $('#nurseTypeJob').empty();
-                        $.each(response, function(index, job) {
-                          $('#nurseTypeJob').append('<option value="' + job.id + '">' + job.name + '</option>');
-                        });
-                      },
-                      error: function(xhr, status, error) {
-                        console.error(error);
-                      }
-                    });
-                  } else {
-                    $('#nurse_select').hide();
-                    $('#nurseTypeJob').empty();
-                  }
-                });
-            }); 
- $("#nurseTypeJob").change(function () {
-  var selectedValues = $(this).val();
-  $.ajax({
-    url: "{{ route('getNursepractitionorSpecialities') }}",
-    type: "POST",
-    data: {
-      nurseTypeSpecialities: selectedValues,
-      _token: '{{ csrf_token() }}'
-    },
-    dataType: 'json',
-    success: function(response) {
-      // $('#nurse_select').show();
-      // $('#nurseTypeJob').empty();
-      $.each(response, function(index, job) {
-        $('#nurse_practitioner_speciality').append('<option value="' + job.id + '">' + job.name + '</option>');
-      });
-    },
-    error: function(xhr, status, error) {
-      console.error(error);
-    }
-  });
-=======
         <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.12/js/intlTelInput.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.js"></script>
 <script>
@@ -1861,7 +1330,6 @@ $(document).ready(function() {
       console.error(error);
     }
   });
->>>>>>> 425eac6978e978511a3366992717b590a8fd3bbe
  });
   // $(document).ready(function() {
   //   $('#nurseType').change(function() {

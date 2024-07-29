@@ -24,6 +24,17 @@
         </div>
         <div class="card w-100  overflow-hidden ">
             <div class="card-body p-3 px-md-4">
+                <div class="card-header pb-0 p-4">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <h5 class="card-title fw-semibold mb-0">Incoming Nurse List</h5>
+                        </div>
+                        <div>
+                            <a href="{{ route('admin.add_nurse')}}"  class="btn btn-primary text-nowrap">Add
+                                Nurse</a>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="table-responsive rounded-2 mb-4">
                     <table class="table border table-striped table-bordered text-nowrap" id="dataTable">
@@ -50,6 +61,7 @@
                                 <th>
                                     <h6 class="fs-4 fw-semibold mb-0">Email</h6>
                                 </th>
+                                <th class="fs-4 fw-semibold mb-0">Date</th>
                                 <th>
                                     <h6 class="fs-4 fw-semibold mb-0 text-end">Action</h6>
                                 </th>
@@ -90,15 +102,20 @@
                                             </div>
                                         </td>
                                         <td>
+                                            <div class="">
+                                                <span class="mb-0 fw-normal fs-3">{{ \Carbon\Carbon::parse($item->created_at)->format('d-m-Y') }}</span>
+                                            </div>
+                                        </td>
+                                        <td>
                                         <div class="d-flex align-items-center gap-1">
                                             <a href="{{ route('admin.view-profile', ['id' => $item->id]) }}"
                                                 class="btn btn-primary" data-bs-toggle="tooltip" data-bs-trigger="hover"
                                                 title="View">
                                                 View
                                             </a>
-                                            <button type="button" class="btn btn-success "
+                                            {{-- <button type="button" class="btn btn-success "
                                                 onclick="changeStatus({{ $item->id }},'2')">Approve
-                                            </button>
+                                            </button> --}}
                                             <button type="button" class="btn btn-danger "
                                                 onclick="changeStatus({{ $item->id }},'0')">Reject
                                             </button>

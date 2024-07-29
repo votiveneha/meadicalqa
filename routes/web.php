@@ -42,6 +42,8 @@ Route::prefix('/admin')->name('admin.')->namespace('App\Http\Controllers\admin')
           Route::post('/updateSubspeciality', 'SpecialityController@updateSubspeciality')->name('updateSubspeciality');
           Route::post('/deleteSubspeciality', 'SpecialityController@deleteSubspeciality')->name('deleteSubspeciality');  
           Route::post('/getSubspeciality', 'SpecialityController@getSubspeciality')->name('getSubspeciality'); 
+          Route::get('/practitionersubtypeList/{id}', 'SpecialityController@SubtypeofNurse')->name('practitionersubtypeList');
+
 
           // Speciality Managemenent
           Route::get('/specialityList', 'SpecialityController@specialityNewList')->name('specialityList');
@@ -50,21 +52,27 @@ Route::prefix('/admin')->name('admin.')->namespace('App\Http\Controllers\admin')
           Route::post('/deleteNewSpeciality', 'SpecialityController@deleteNewSpeciality')->name('deleteNewSpeciality');  
           Route::post('/getNewSpeciality', 'SpecialityController@getNewSpeciality')->name('getNewSpeciality');  
           
-           // Sub Job  Managemenent
-           Route::get('/subjobSpecialitiesList/{id}', 'SpecialityController@subjobSpecialitiesList')->name('subjobSpecialitiesList');
-           Route::post('/addSubspecialityJob', 'SpecialityController@addSubspecialityJob')->name('addSubspecialityJob');
-           Route::post('/updateSubspecialityJob', 'SpecialityController@updateSubspecialityJob')->name('updateSubspecialityJob');
-           Route::post('/deleteSubspeciality', 'SpecialityController@deleteSubspeciality')->name('deleteSubspeciality');  
-           Route::post('/getSubspecialityJob', 'SpecialityController@getSubspecialityJob')->name('getSubspecialityJob'); 
+          // Sub Job  Managemenent
+          Route::get('/subjobSpecialitiesList/{id}', 'SpecialityController@subjobSpecialitiesList')->name('subjobSpecialitiesList');
+          Route::post('/addSubspecialityJob', 'SpecialityController@addSubspecialityJob')->name('addSubspecialityJob');
+          Route::post('/updateSubspecialityJob', 'SpecialityController@updateSubspecialityJob')->name('updateSubspecialityJob');
+          Route::post('/deleteSubspeciality', 'SpecialityController@deleteSubspeciality')->name('deleteSubspeciality');  
+          Route::post('/getSubspecialityJob', 'SpecialityController@getSubspecialityJob')->name('getSubspecialityJob'); 
+
+          // Sub  sub Job  Managemenent
+          Route::get('/SubsubjobSpecialitiesList/{id}', 'SpecialityController@SubsubjobSpecialitiesList')->name('SubsubjobSpecialitiesList');
+          Route::get('/SubSpecialitiesjobList/{id}', 'SpecialityController@SubmenujobSpecialitiesList')->name('SubSpecialitiesjobList');
  
         // Nurse Managemenent
         Route::get('/customer-list', 'NurseController@customerList')->name('customer-list');
-         Route::get('/incoming-nurse-list', 'NurseController@incommingNurseList')->name('incoming-nurse-list'); 
+        Route::get('/incoming-nurse-list', 'NurseController@incommingNurseList')->name('incoming-nurse-list'); 
+        Route::get('/complete-profile-nurse-list', 'NurseController@completeprofileNurseList')->name('complete-nurse-nurse-list'); 
         Route::get('/approved-nurse-list', 'NurseController@activeNurseList')->name('approved-nurse-list');
         Route::post('/change-status', 'NurseController@changeStatus')->name('change-status');
         Route::post('/change-status-delete', 'NurseController@changeStatusDelete')->name('change-status-delete');
         Route::post('/change-status-block-unblock', 'NurseController@changeStatusBlockUnblock')->name('change-status-block-unblock');
         Route::get('/view-profile/{id}', 'NurseController@viewProfile')->name('view-profile');
+        Route::get('/add-nurse', 'NurseController@addNurse')->name('add_nurse');
         Route::get('/customer-list', 'NurseController@customerList')->name('customer-list'); 
              
 

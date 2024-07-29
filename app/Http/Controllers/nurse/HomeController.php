@@ -42,10 +42,13 @@ class HomeController extends Controller
 
     protected $specialityServices;
     protected $specialityRepository;
+    protected $authServices;
+
   
-    public function __construct(SpecialityServices $specialityServices , SpecialityRepository $specialityRepository){
+    public function __construct(SpecialityServices $specialityServices , SpecialityRepository $specialityRepository,AuthServices $authServices){
         $this->specialityServices = $specialityServices;
         $this->specialityRepository = $specialityRepository;
+        $this->authServices = $authServices;
        
     }
     public function index($message = '')
@@ -81,6 +84,10 @@ class HomeController extends Controller
             return redirect()->route('nurse.dashboard');
         }
         
+    }
+
+    public function updateProfession(Request $request){
+        echo "hello";
     }
     public function medical_facilities($message = '')
     {
@@ -195,9 +202,13 @@ class HomeController extends Controller
             
             $companyinsert['nursetype'] = json_encode($request->nurseType);
             $companyinsert['nurseTypeJob'] = json_encode($request->nurseTypeJob);
+            $companyinsert['nurseTypeJob'] = json_encode($request->nurseTypeJob);
+            $companyinsert['nurse_practitioner_speciality'] = json_encode($request->nurse_practitioner_speciality);
             $companyinsert['assistent_level'] = $request->assistent_level;
             $companyinsert['specialties'] = json_encode($request->specialties);
             $companyinsert['subSpecialties'] = json_encode($request->subSpecialties);
+            $companyinsert['Sub-Speciality-One'] = json_encode($request->surgicalsubSpecialties);
+            $companyinsert['Sub-Speciality-Two'] = json_encode($request->surgicalsuboneSpecialties);
             $companyinsert['degree'] = json_encode($request->degree);
             
        
@@ -205,6 +216,25 @@ class HomeController extends Controller
             $companyinsert['emailToken'] = $emailToken;
             $companyinsert['type'] = '1';
             $companyinsert['created_at'] = Carbon::now('Asia/Kolkata');
+            
+            $companyinsert['entry_level_nursing'] = json_encode($request->nursing_type_1);
+            $companyinsert['registered_nurses'] = json_encode($request->nursing_type_2);
+            $companyinsert['advanced_practioner'] = json_encode($request->nursing_type_3);
+            $companyinsert['nurse_prac'] = json_encode($request->nurse_practitioner_menu);
+            $companyinsert['adults'] = json_encode($request->speciality_entry_1);
+            $companyinsert['maternity'] = json_encode($request->speciality_entry_2);
+            $companyinsert['paediatrics_neonatal'] = json_encode($request->speciality_entry_3);
+            $companyinsert['community'] = json_encode($request->speciality_entry_4);
+            $companyinsert['surgical_preoperative'] = json_encode($request->surgical_row_box);
+            $companyinsert['operating_room'] = json_encode($request->surgical_operative_care_1);
+            $companyinsert['operating_room_scout'] = json_encode($request->surgical_operative_care_2);
+            $companyinsert['operating_room_scrub'] = json_encode($request->surgical_operative_care_3);
+            $companyinsert['surgical_obstrics_gynacology'] = json_encode($request->surgical_obs_care);
+            $companyinsert['neonatal_care'] = json_encode($request->neonatal_care);
+            $companyinsert['paedia_surgical_preoperative'] = json_encode($request->surgical_rowpad_box);
+            $companyinsert['pad_op_room'] = json_encode($request->surgical_operative_carep_1);
+            $companyinsert['pad_qr_scout'] = json_encode($request->surgical_operative_carep_2);
+            $companyinsert['pad_qr_scrub'] = json_encode($request->surgical_operative_carep_3);
 
             $run = User::insert($companyinsert);
             $r = User::where("email", $request->email)->first();
@@ -575,7 +605,7 @@ class HomeController extends Controller
             return back()->with('error', 'No user found with this email. None of the accounts are associated with this detail.');
         } elseif (Auth::guard('nurse_middle')->attempt(['email' => $request->email, 'password' => $request->password])) {
 
-            return redirect('/nurse/dashboard')->with('success', 'You are Logged in sucessfully.');
+            return redirect('/nurse/my-profile')->with('success', 'You are Logged in sucessfully.');
         } else {
             return back()->with('error', 'Invalid login details.');
         }
@@ -850,7 +880,10 @@ class HomeController extends Controller
     }
      public function updateProfile(UserUpdateProfile $request)
     {
+
+       
         try {
+
             $run = $this->authServices->updateAdminProfile($request);
              if ($run) {
                 return response()->json(['status' => '2', 'message' => __('message.statusTwo',['parameter' =>'Profile'])]);
