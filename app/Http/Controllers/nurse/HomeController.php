@@ -85,6 +85,10 @@ class HomeController extends Controller
         }
         
     }
+
+    public function updateProfession(Request $request){
+        echo "hello";
+    }
     public function medical_facilities($message = '')
     {
          if (!Auth::guard('nurse_middle')->check()) {
@@ -212,6 +216,25 @@ class HomeController extends Controller
             $companyinsert['emailToken'] = $emailToken;
             $companyinsert['type'] = '1';
             $companyinsert['created_at'] = Carbon::now('Asia/Kolkata');
+            
+            $companyinsert['entry_level_nursing'] = json_encode($request->nursing_type_1);
+            $companyinsert['registered_nurses'] = json_encode($request->nursing_type_2);
+            $companyinsert['advanced_practioner'] = json_encode($request->nursing_type_3);
+            $companyinsert['nurse_prac'] = json_encode($request->nurse_practitioner_menu);
+            $companyinsert['adults'] = json_encode($request->speciality_entry_1);
+            $companyinsert['maternity'] = json_encode($request->speciality_entry_2);
+            $companyinsert['paediatrics_neonatal'] = json_encode($request->speciality_entry_3);
+            $companyinsert['community'] = json_encode($request->speciality_entry_4);
+            $companyinsert['surgical_preoperative'] = json_encode($request->surgical_row_box);
+            $companyinsert['operating_room'] = json_encode($request->surgical_operative_care_1);
+            $companyinsert['operating_room_scout'] = json_encode($request->surgical_operative_care_2);
+            $companyinsert['operating_room_scrub'] = json_encode($request->surgical_operative_care_3);
+            $companyinsert['surgical_obstrics_gynacology'] = json_encode($request->surgical_obs_care);
+            $companyinsert['neonatal_care'] = json_encode($request->neonatal_care);
+            $companyinsert['paedia_surgical_preoperative'] = json_encode($request->surgical_rowpad_box);
+            $companyinsert['pad_op_room'] = json_encode($request->surgical_operative_carep_1);
+            $companyinsert['pad_qr_scout'] = json_encode($request->surgical_operative_carep_2);
+            $companyinsert['pad_qr_scrub'] = json_encode($request->surgical_operative_carep_3);
 
             $run = User::insert($companyinsert);
             $r = User::where("email", $request->email)->first();
