@@ -45,8 +45,13 @@
                 <a class='{{ request()->is('agencies') ?"active":"" }} hover-up' href='{{ route("agencies.agencies_home_main") }}'>Agencies</a>
               </li>
               <li class="">
+<<<<<<< HEAD
+
+                <a class='{{ request()->is('contact') ?"active":"" }} hover-up' href='{{ route("contact") }}'>Nurse Care at Home
+=======
                 
                 <a class='{{ request()->is('nurseCareHome') ?"active":"" }} hover-up' href='{{ route("nurseCareHome") }}'>Nurse Care at Home
+>>>>>>> 425eac6978e978511a3366992717b590a8fd3bbe
 </a>
               </li>
               <li class="">
@@ -62,7 +67,11 @@
         <div class="header-right">
           <div class="block-signin d-flex align-items-center gap-3 justify-content-end">
             <!-- <a class='text-link-bd-btom hover-up' href='nurse_signup.php'>Become a Nurse</a> -->
+<<<<<<< HEAD
+            <a class='btn btn-default btn-shadow hover-up' href='{{ route("nurse.login") }}'>Sign in</a>
+=======
             <a class='btn btn-default btn-shadow hover-up' href='{{ route("nurse.login") }}'>Log in</a>
+>>>>>>> 425eac6978e978511a3366992717b590a8fd3bbe
             <a class='btn btn-default btn-shadow hover-up' href='{{ route("nurse.nurse-register") }}'>Sign up</a>
             <!-- @if(request()->is('') || request()->is('/'))
             <a class='btn btn-default btn-shadow hover-up' href='{{ route("nurse.home") }}'>Sign in</a>
