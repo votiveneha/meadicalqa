@@ -1,12 +1,6 @@
 @extends('nurse.layouts.layout')
 @section('css')
-<<<<<<< HEAD
-<link rel="stylesheet" 
-              href= 
-"https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/select2.min.css" />
-=======
 <link href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.12/css/intlTelInput.css" rel="stylesheet" />
->>>>>>> 425eac6978e978511a3366992717b590a8fd3bbe
 <style type="text/css">
 
   #container {
@@ -179,73 +173,6 @@
                     @foreach($specialty as $spl)
                     <option value="{{ $spl->id }}">{{ $spl->name }}</option>
                     @endforeach
-<<<<<<< HEAD
-                  </select> -->
-                </div>
-                <span id="reqnurseTypeId" class="reqError valley"></span>
-
-                <div id="nurse_select">
-                  <!-- <div id="nurse_select"  style="display: none;"> -->
-                  <div class="form-group" id="subspecialtyGroup">
-                    <label class="form-label" for="input-1">Types of Nursing Jobs</label>
-                    <select class="form-input mr-10" name="nurseTypeJob[]" id="nurseTypeJob" multiple>
-
-                    </select>
-                  </div>
-                  <span id="reqnurseTypeJobId" class="reqError valley"></span>
-                </div>
-
-                <div id="nurse_practitioner">
-                  <!-- <div id="nurse_select"  style="display: none;"> -->
-                  <div class="form-group" id="subspecialtyGroup">
-                    <label class="form-label" for="input-1">Nurse Practitioner (NP) sub speciality</label>
-                    <select class="form-input mr-10 select-active" name="nurse_practitioner_speciality[]" id="nurse_practitioner_speciality" multiple>
-
-                    </select>
-                  </div>
-                  <span id="reqnurseTypeJobId" class="reqError valley"></span>
-                </div>
-
-
-
-                
-                <span id="reqassistent_level" class="reqError valley"></span>
-
-
-                <div class="" id="mid_select">
-                  <div class="form-group">
-                    <label class="form-label" for="input-1">Specialties</label>
-                    <select class="form-input mr-10 specialties" name="specialties[]" id="specialties" multiple>
-                    
-                      @php $JobSpecialties = JobSpecialties(); @endphp
-                      @foreach($JobSpecialties as $ptl)
-                      <option value="{{ $ptl->id }}">{{ $ptl->name }}</option>
-                      @endforeach
-                    </select>
-                    <span id="reqspecialties" class="reqError valley"></span>
-                  </div>
-
-                  <div class="form-group">
-                    <label class="form-label" for="input-1">Sub Specialties</label>
-                    <select class="form-input mr-10 select-active" name="subSpecialties[]" id="subSpecialties" multiple>
-                     
-                    </select>
-                    <span id="reqsubSpecialties" class="reqError valley"></span>
-                  </div>
-                  <div class="form-group">
-                    <label class="form-label" for="input-1">What level are you?</label>
-                    <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
-                    <select class="form-input mr-10 select-active" name="assistent_level">
-                      
-                      @for($i = 1; $i <= 30; $i++) <option value="{{ $i }}">{{ $i }}{{ $i == 1 ? 'st' : ($i == 2 ? 'nd' : ($i == 3 ? 'rd' : 'th')) }} Year</option>
-                        @endfor
-                    </select>
-                  </div>
-                  <div class="" id="mid_select">
-                    <div class="form-group">
-                      <label class="form-label" for="input-1">Nurse & Midwife degree</label>
-                      <select class="form-input mr-10 select-active" name="degree[]" multiple>
-=======
                  <!-- </select> -->
               <!-- </div> -->
          
@@ -479,14 +406,13 @@
                     <label class="form-label" for="input-1">What is your level of experience?</label>
                     <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
                     <select class="form-input mr-10 select-active" name="assistent_level">
->>>>>>> 425eac6978e978511a3366992717b590a8fd3bbe
                       
                       @for($i = 1; $i <= 30; $i++) <option value="{{ $i }}">{{ $i }}{{ $i == 1 ? 'st' : ($i == 2 ? 'nd' : ($i == 3 ? 'rd' : 'th')) }} Year</option>
                         @endfor
                     </select>
                   </div>
                   <div class="" id="mid_select">
-                    <div class="form-group drp--clr drpdown-set">
+                    <div class="form-group">
                       <!-- <label class="form-label" for="input-1">Nurse & Midwife degree</label>
                       <select class="form-input mr-10 select-active" name="degree[]" multiple>
                         <?php
@@ -640,14 +566,14 @@ $(document).ready(function() {
     // Initialize Select2 for each select element with class .js-example-basic-multiple
     $('.js-example-basic-multiple').each(function() {
         let listId = $(this).data('list-id');
-        //alert(listId);
+
         let items = [];
-        console.log("listId1",listId);
+        console.log("listId",listId);
         $('#' + listId + ' li').each(function() {
-            console.log("value1",$(this).text());
+            console.log("value",$(this).data('value'));
             items.push({ id: $(this).data('value'), text: $(this).text() });
         });
-        console.log("items1",items);
+        console.log("items",items);
         $(this).select2({
             data: items
         });
@@ -988,17 +914,13 @@ $(document).ready(function() {
                           @php $country_phone_code = country_phone_code();@endphp
                           @forelse($country_phone_code as $cpc)
                           @if($cpc->phonecode!='0')
-<<<<<<< HEAD
-                          <option data-countryCode="GB" value="{{ $cpc->phonecode}}" @if($cpc->name == "Australia") selected @endif>(+{{ $cpc->name}})</option>
-=======
                           <option data-countryCode="GB" value="{{ $cpc->phonecode}}" @if($cpc->name == "Australia") selected @endif>(+{{ $cpc->phonecode}})</option>
->>>>>>> 425eac6978e978511a3366992717b590a8fd3bbe
                           @endif
                           @empty
-                          <!-- @endforelse -->
+                          @endforelse
                         </select>
                       </div> -->
-                      <div class="col-md-12">
+                      <div class="col-md-12 mob-adj">
                         <input type="hidden" name="countryCode" id="countryCode">
                         <input class="form-control numbers" type="text" required="" name="contact" id="contactI" placeholder="1234567890" maxlength="10" pattern="[0-9]{4}">
                         <span id="reqTxtcontactI" class="reqError valley"></span>
@@ -1093,15 +1015,12 @@ $(document).ready(function() {
 
   $(document).ready(function() {
     $('#multi-step-form').find('.step').slice(1).hide();
-    
+    var nurse_array = [];
     $(".next-step").click(function() {
    
       $(".first_step").removeClass("registration_progress");
       $(".second_step").addClass("registration_progress");
 
-      
-
-      
       if (currentStep == 1) {
         
         if (validateForm() == false) {
@@ -1427,7 +1346,7 @@ $(document).ready(function() {
 
     if (passwordI != confirm_passwordI) {
 
-      document.getElementById("reqTxtconfirm_passwordI").innerHTML = "Password and Confirm password do not match";
+      document.getElementById("reqTxtconfirm_passwordI").innerHTML = "Password And Confirm password did not match.";
 
       returnValue = false;
 
@@ -1605,64 +1524,6 @@ $(document).ready(function() {
  <script src= 
 "https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/select2.min.js"> 
        </script> 
-<<<<<<< HEAD
-<script>
-   $(document).ready(function () { 
-                //Select2 
-                $(".country").select2(); 
-                $(".specialties").select2();
-                $("#nurseTypeJob").select2();
-                
-                $(".country").change(function () {
-                  var selectedValues = $(this).val();
-                  if (selectedValues && selectedValues.length > 0) {
-                    $.ajax({
-                      url: "{{ route('getNurseTypeJobs') }}",
-                      type: "POST",
-                      data: {
-                        nurseTypes: selectedValues,
-                        _token: '{{ csrf_token() }}'
-                      },
-                      dataType: 'json',
-                      success: function(response) {
-                        $('#nurse_select').show();
-                        $('#nurseTypeJob').empty();
-                        $.each(response, function(index, job) {
-                          $('#nurseTypeJob').append('<option value="' + job.id + '">' + job.name + '</option>');
-                        });
-                      },
-                      error: function(xhr, status, error) {
-                        console.error(error);
-                      }
-                    });
-                  } else {
-                    $('#nurse_select').hide();
-                    $('#nurseTypeJob').empty();
-                  }
-                });
-            }); 
- $("#nurseTypeJob").change(function () {
-  var selectedValues = $(this).val();
-  $.ajax({
-    url: "{{ route('getNursepractitionorSpecialities') }}",
-    type: "POST",
-    data: {
-      nurseTypeSpecialities: selectedValues,
-      _token: '{{ csrf_token() }}'
-    },
-    dataType: 'json',
-    success: function(response) {
-      // $('#nurse_select').show();
-      // $('#nurseTypeJob').empty();
-      $.each(response, function(index, job) {
-        $('#nurse_practitioner_speciality').append('<option value="' + job.id + '">' + job.name + '</option>');
-      });
-    },
-    error: function(xhr, status, error) {
-      console.error(error);
-    }
-  });
-=======
         <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.12/js/intlTelInput.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.js"></script>
 <script>
@@ -1861,7 +1722,6 @@ $(document).ready(function() {
       console.error(error);
     }
   });
->>>>>>> 425eac6978e978511a3366992717b590a8fd3bbe
  });
   // $(document).ready(function() {
   //   $('#nurseType').change(function() {

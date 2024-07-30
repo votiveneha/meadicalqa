@@ -1,14 +1,15 @@
 @extends('admin.layouts.layout')
 @section('content')
-<x-card-component parentHeading="Type of Nurse" childHeading="Type Of Nurse" parentUrl="{{route('admin.dashboard')}}" />
+<x-card-component parentHeading="Type of Nurse Job List" childHeading="Type Of Nurse Job List" parentUrl="{{route('admin.dashboard')}}" />
     <div class="card w-100  overflow-hidden ">
         <div class="card-header pb-0 p-4">
             <div class="d-flex align-items-center justify-content-between">
                 <div>
-                    <h5 class="card-title fw-semibold mb-0">Nurse Type List</h5>
+                    <h5 class="card-title fw-semibold mb-0">Type Of Nurse Job List</h5>
                 </div>
                 <div>
-                    <a href="" data-bs-toggle="modal" data-bs-target="#add_Speciality" class="btn btn-primary text-nowrap btn-sm">Add Nurse Type</a>
+                    <a href="" data-bs-toggle="modal" data-bs-target="#add_Speciality" class="btn btn-primary text-nowrap btn-sm">Add
+                        Type of Nurse Job</a>
                 </div>
             </div>
         </div>
@@ -53,7 +54,7 @@
                                                 Delete
                                             </button>
                                             <a href="{{route('admin.practitionertypeList', ['id'=>$item->id])}}" class="btn btn-secondary btn-sm" id="add_sub_speciality">
-                                                View Nursing Jobs
+                                                View Practitioner Type
                                             </a>
                                         </div>
                                     </td>

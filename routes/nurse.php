@@ -26,11 +26,8 @@ Route::post('/getNurseTypeJobs', 'App\Http\Controllers\HomeController@getNurseTy
 Route::get('/nurseCareHome', 'App\Http\Controllers\HomeController@nurseCareHome')->name('nurseCareHome');
 Route::post('/getSubSpecialties', 'App\Http\Controllers\HomeController@getSubSpecialties')->name('getSubSpecialties');
 Route::post('/getNursepractitionorSpecialities', 'App\Http\Controllers\HomeController@getNurseSpecialties')->name('getNursepractitionorSpecialities');
-<<<<<<< HEAD
-=======
 Route::post('/getsurgicalSpeciality', 'App\Http\Controllers\HomeController@getsurgicalSpeciality')->name('getsurgicalSpeciality');
 Route::post('/getsurgicalSubSpeciality', 'App\Http\Controllers\HomeController@getsurgicalSubSpeciality')->name('getsurgicalSubSpeciality');
->>>>>>> 425eac6978e978511a3366992717b590a8fd3bbe
 
 Route::prefix('medical-facilities')->name('medical-facilities.')->namespace('App\Http\Controllers\medical_facilities')->group(function () {
   Route::get('/', 'HomeController@index_main')->name('medical_facilities_home_main');
@@ -88,6 +85,5 @@ Route::prefix('nurse')->name('nurse.')->namespace('App\Http\Controllers\nurse')-
     Route::post('/update-profession-user-police-check', 'HomeController@update_police_check_to_work')->name('update-profession-user-police-check');
     Route::post('/update-profession-user-emergency', 'HomeController@update_emergency')->name('update-profession-user-emergency');
     Route::post('/update-profession-profile-setting', 'HomeController@update_profession_profile_setting')->name('update-profession-profile-setting');
-    Route::post('/updateProfession', 'HomeController@updateProfession')->name('updateProfession');
   });
 });

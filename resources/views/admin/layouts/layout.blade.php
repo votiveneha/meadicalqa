@@ -20,6 +20,7 @@
     <link id="themeColors" rel="stylesheet" href="{{ asset('assets/admin/dist/css/style.min.css')}}" />
     <!-- DataTables CSS -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 </head>
 
 <body>

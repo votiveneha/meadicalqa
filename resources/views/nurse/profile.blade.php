@@ -91,7 +91,7 @@
                 <li><a class="btn btn-border aboutus-icon mb-20 active" href="#tab-my-profile" data-bs-toggle="tab" role="tab" aria-controls="tab-my-profile" aria-selected="true">My Profile</a></li>
                 <li><a class="btn btn-border recruitment-icon mb-20" href="#tab-my-profile-setting" data-bs-toggle="tab" role="tab" aria-controls="tab-my-profile-setting" aria-selected="false">Setting</a></li>
                <li><a href="#tab-my-jobs" id="my_profession" class="btn btn-border recruitment-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-my-jobs" aria-selected="false">Profession</a></li>
-                <li><a href="#tab-myclearance-jobs" class="btn btn-border recruitment-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-myclearance-jobs" aria-selected="false">Clearance</a></li>
+                <li><a class="btn btn-border recruitment-icon mb-20"  onclick="coming_soon()" data-bs-toggle="tab" role="tab" aria-controls="tab-myclearance-jobs" aria-selected="false">Clearance</a></li>
                 <li><a class="btn btn-border people-icon mb-20" onclick="coming_soon()" data-bs-toggle="tab" role="tab" aria-controls="tab-saved-jobs" aria-selected="false">Education</a></li>
                 <li><a class="btn btn-border aboutus-icon mb-20" onclick="coming_soon()" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true">Experience</a></li>
                 <li><a class="btn btn-border recruitment-icon mb-20" onclick="coming_soon()" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu5" aria-selected="false">Contacts</a></li>
@@ -190,7 +190,7 @@
                                 @endforelse
                               </select>
                             </div> -->
-                            <div class="col-md-12">
+                            <div class="col-md-12 mob-adj">
                               <input type="hidden" name="countryCode" id="countryCode">
                               <input class="form-control numbers" type="text" required="" name="contact" id="contactI" value="{{  Auth::guard('nurse_middle')->user()->phone }}" placeholder="1234567890">
                               <span id="reqTxtcontactI" class="reqError text-danger valley"></span>
@@ -209,6 +209,7 @@
                          <div class="col-lg-6">
                           <div class="">
                             <label class="font-sm color-text-mutted mb-10">Gender</label>
+							<div class="gender_set">
                             <div class="form-check">
                               <input type="radio" class="" id="gender" name="gender" value="Male" @if(Auth::guard("nurse_middle")->user()->gender == "Male") checked @endif>
                               <label class="form-check-label" for="radio1">Male</label>
@@ -217,6 +218,7 @@
                               <input type="radio" class="" id="gender" name="gender" value="Female" @if(Auth::guard('nurse_middle')->user()->gender == "Female") checked @endif>
                               <label class="form-check-label" for="radio1">Female</label>
                             </div>
+							</div>
                             
                           </div>
                         </div>
@@ -305,7 +307,7 @@
                           <div class="form-group col-lg-6">
                             <label class="font-sm color-text-mutted mb-10">Mobile No</label>
                             
-                            <div class="col-md-12">
+                            <div class="col-md-12 mob-adj">
                               <input type="hidden" name="emergency_countryCode" id="emergency_countryCode">
                               <input class="form-control numbers" type="text" required="" name="emergency_conact_numeber" id="contactI_emergency" placeholder="1234567890" value="{{ Auth::guard('nurse_middle')->user()->emergency_conact_numeber }}">
                               <span id="reqTxtcontactI" class="reqError valley"></span>
@@ -796,7 +798,8 @@
 
                       <span id="reqasupport_document" class="reqError text-danger valley"></span>
 
-                     
+                      
+                      ?>
                   </form>
                 </div>
                 <!--==========-->
@@ -1348,8 +1351,6 @@
        </script> 
 <script type="text/javascript">
 
-
-
   $('.js-example-basic-multiple').each(function() {
         let listId = $(this).data('list-id');
         //alert(listId);
@@ -1413,7 +1414,7 @@
   $('.js-example-basic-multiple[data-list-id="surgical_operative_carep-2"]').select2().val(pad_qr_scout).trigger('change');
   $('.js-example-basic-multiple[data-list-id="surgical_operative_carep-3"]').select2().val(pad_qr_scrub).trigger('change');
   $('.js-example-basic-multiple[data-list-id="nurse_degree"]').select2().val(nurse_degree).trigger('change');
-  
+
   $(".change_password_link").click(function(){
 
     window.history.replaceState(null, null, "?page=change_password");
@@ -1444,7 +1445,7 @@
     }
 
     $("#my_profession").click(function(){
-
+     
     window.history.replaceState(null, null, "?page=profession");
 
     var url_string = window.location.href; 

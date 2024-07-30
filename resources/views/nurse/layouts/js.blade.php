@@ -567,34 +567,6 @@ function pad(number) {
     });
     return false;
   }
-  function myFunction1(){
-    alert("hello");
-    $.ajax({
-      url: "{{ route('nurse.updateProfession') }}",
-      type: "POST",
-      cache: false,
-      contentType: false,
-      processData: false,
-      data: new FormData($('#profession_form')[0]),
-      dataType: 'json',
-      beforeSend: function() {
-        $('#submitProfession').prop('disabled', true);
-        $('#submitProfession').text('Process....');
-      },
-      success: function(res) {
-        $('#submitProfession').prop('disabled', false);
-        $('#submitProfession').text('Update Profile');
-        if(res == "hello"){
-          alert("hello");
-        }
-          
-        
-      }
-      
-    });
-    return false;
-  }
-  
   </script>
 <!-- =================================
 

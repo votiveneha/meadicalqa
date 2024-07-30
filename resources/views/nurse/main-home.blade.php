@@ -30,6 +30,9 @@
   .tranding-jobs a .item-logo{
     gap: 6px;
   }
+  p.font-sm.color-text-paragraph-2 {
+    color: #517396;
+}
 </style>
 
 <main class="main">
@@ -53,11 +56,7 @@
     </div>
   </section>
 
-<<<<<<< HEAD
-  <section class="section-box pt-50 pb-50 bg-light">
-=======
   <!-- <section class="section-box pt-50 pb-50 bg-light">
->>>>>>> 425eac6978e978511a3366992717b590a8fd3bbe
     <div class="container">
       <div class="text-center">
         <h2 class="section-title mb-10 wow animate__animated animate__fadeInUp">A SPECIALIZED NURSE AT HOME WHEN YOUR NEED
@@ -126,15 +125,11 @@
         </div>
       </div>
     </div>
-<<<<<<< HEAD
-  </section>      
-=======
   </section>       -->
->>>>>>> 425eac6978e978511a3366992717b590a8fd3bbe
   <section class="section-box pt-50 pb-50 bg-light">
     <div class="container">
       <div class="text-center">
-        <h2 class="section-title mb-10 wow animate__animated animate__fadeInUp">Trending Jobs</h2>
+        <h2 class="trending_job_heading section-title mb-10 wow animate__animated animate__fadeInUp">Trending Jobs</h2>
         <!--  <p class="font-lg color-text-paragraph-2 wow animate__animated animate__fadeInUp">Just via some simple steps, you will find your ideal candidates you’r looking for!</p> -->
       </div>
       <div class="tranding-jobs mt-40 ">

@@ -43,7 +43,6 @@ class HomeController extends Controller
     protected $specialityServices;
     protected $specialityRepository;
     protected $authServices;
-
   
     public function __construct(SpecialityServices $specialityServices , SpecialityRepository $specialityRepository,AuthServices $authServices){
         $this->specialityServices = $specialityServices;
@@ -84,10 +83,6 @@ class HomeController extends Controller
             return redirect()->route('nurse.dashboard');
         }
         
-    }
-
-    public function updateProfession(Request $request){
-        echo "hello";
     }
     public function medical_facilities($message = '')
     {
@@ -216,7 +211,7 @@ class HomeController extends Controller
             $companyinsert['emailToken'] = $emailToken;
             $companyinsert['type'] = '1';
             $companyinsert['created_at'] = Carbon::now('Asia/Kolkata');
-            
+
             $companyinsert['entry_level_nursing'] = json_encode($request->nursing_type_1);
             $companyinsert['registered_nurses'] = json_encode($request->nursing_type_2);
             $companyinsert['advanced_practioner'] = json_encode($request->nursing_type_3);
@@ -880,10 +875,7 @@ class HomeController extends Controller
     }
      public function updateProfile(UserUpdateProfile $request)
     {
-
-       
         try {
-
             $run = $this->authServices->updateAdminProfile($request);
              if ($run) {
                 return response()->json(['status' => '2', 'message' => __('message.statusTwo',['parameter' =>'Profile'])]);

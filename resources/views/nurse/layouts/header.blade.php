@@ -20,7 +20,7 @@
                   @php $nurseTypeData =nurse_Type_header();@endphp
                   @if($nurseTypeData)
                   @foreach ($nurseTypeData as $key => $items)
-                  <li> <a href='{{ route("nurse.login") }}'> {{ $items->name}}</a></li>
+                  <li> <a href='{{ route("nurse.login") }}' class="active"> {{ $items->name}}</a></li>
                   @endforeach
                   @endif
                   <li> <a href='{{ route("nurse.login") }}'>JOBS by specialties <i class="fa-solid fa-caret-right fs-6"></i></a>
@@ -45,13 +45,8 @@
                 <a class='{{ request()->is('agencies') ?"active":"" }} hover-up' href='{{ route("agencies.agencies_home_main") }}'>Agencies</a>
               </li>
               <li class="">
-<<<<<<< HEAD
 
-                <a class='{{ request()->is('contact') ?"active":"" }} hover-up' href='{{ route("contact") }}'>Nurse Care at Home
-=======
-                
                 <a class='{{ request()->is('nurseCareHome') ?"active":"" }} hover-up' href='{{ route("nurseCareHome") }}'>Nurse Care at Home
->>>>>>> 425eac6978e978511a3366992717b590a8fd3bbe
 </a>
               </li>
               <li class="">
@@ -67,11 +62,7 @@
         <div class="header-right">
           <div class="block-signin d-flex align-items-center gap-3 justify-content-end">
             <!-- <a class='text-link-bd-btom hover-up' href='nurse_signup.php'>Become a Nurse</a> -->
-<<<<<<< HEAD
-            <a class='btn btn-default btn-shadow hover-up' href='{{ route("nurse.login") }}'>Sign in</a>
-=======
             <a class='btn btn-default btn-shadow hover-up' href='{{ route("nurse.login") }}'>Log in</a>
->>>>>>> 425eac6978e978511a3366992717b590a8fd3bbe
             <a class='btn btn-default btn-shadow hover-up' href='{{ route("nurse.nurse-register") }}'>Sign up</a>
             <!-- @if(request()->is('') || request()->is('/'))
             <a class='btn btn-default btn-shadow hover-up' href='{{ route("nurse.home") }}'>Sign in</a>
@@ -142,8 +133,8 @@
 
                   <a class="font-xs color-text-paragraph-2 icon-down" data-bs-toggle="dropdown" style="cursor:pointer;"> <img alt="{{  Auth::guard('nurse_middle')->user()->name }}" src="{{ asset( Auth::guard('nurse_middle')->user()->profile_img)}}"><strong class="color-brand-1" >{{ Auth::guard('nurse_middle')->user()->name }}</strong></a>
                   <ul class="dropdown-menu dropdown-menu-light dropdown-menu-end" aria-labelledby="dropdownProfisle">
-                    <!-- <li> --><a href='{{ route("nurse.my-profile") }}' class="dropdown-item ">Profile</a><!-- </li> -->
-                    <!--  <li> --><a style="cursor: pointer;" class="dropdown-item change_password_link">change Password</a><!-- </li> -->
+                    <!-- <li> --><a href='{{ route("nurse.my-profile") }}' class="dropdown-item">Profile</a><!-- </li> -->
+                    <!--  <li> --><a class="dropdown-item change_password_link" style="cursor: pointer;">change Password</a><!-- </li> -->
                     <!-- <li> --><a href='{{ route("nurse.logout") }}' class="dropdown-item">Logout</a><!-- </li> -->
                   </ul>
                 </div>
