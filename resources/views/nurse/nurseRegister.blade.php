@@ -334,7 +334,7 @@
     ?>
     @foreach($speciality_surgical_data as $ssd)
     <input type="hidden" name="speciality_result" class="speciality_surgical_result-{{ $w }}" value="{{ $ssd->id }}">
-    <div class="surgical_row-{{ $w }} form-group drp--clr drpdown-set d-none col-md-4">
+    <div class="surgical_row surgical_row-{{ $w }} form-group drp--clr drpdown-set d-none col-md-4">
         <label class="form-label" for="input-1">{{ $ssd->name }}</label>
            <?php
             $speciality_surgicalsub_data = DB::table("speciality")->where('parent', $ssd->id)->get();
@@ -599,7 +599,14 @@ $(document).ready(function() {
                 $('#nursing_level-'+i).removeClass('d-none');
             }else{
                 $('#nursing_level-'+i).addClass('d-none');
+                //$('.js-example-basic-multiple[data-list-id="nursing_entry-'+i+'"]').select2().val(null).trigger('change');
             }
+        }
+
+        if(selectedValues.includes("3") == false){
+          $('.np_submenu').addClass('d-none');
+          //$('.js-example-basic-multiple[data-list-id="nursing_entry-3"]').select2().val(null).trigger('change');
+          //$('.js-example-basic-multiple[data-list-id="nurse_practitioner_menu"]').select2().val(null).trigger('change');
         }
         
         
@@ -626,6 +633,7 @@ $(document).ready(function() {
             console.log("selectedValues",selectedValues);
         }else{
             $('.np_submenu').addClass('d-none');
+            //$('.js-example-basic-multiple[data-list-id="nurse_practitioner_menu"]').select2().val(null).trigger('change');
         }
         
         
@@ -653,8 +661,26 @@ $(document).ready(function() {
                 
             }else{
                 $('#specility_level-'+k).addClass('d-none');
-                
+                //$('.js-example-basic-multiple[data-list-id="speciality_entry-'+k+'"]').select2().val(null).trigger('change');
             }
+        }
+
+        if(selectedValues.includes("1") == false){
+          $('.surgical_row').addClass('d-none');
+          $('.surgical_row_data').addClass('d-none');
+          $('.js-example-basic-multiple[data-list-id="surgical_row_box"]').select2().val(null).trigger('change');
+        }
+        if(selectedValues.includes("2") == false){
+          
+          $('.surgicalobs_row').addClass('d-none');
+          $('.js-example-basic-multiple[data-list-id="surgicalobs_row_data"]').select2().val(null).trigger('change');
+        }
+
+        if(selectedValues.includes("3") == false){
+          
+          $('.surgicalpad_row_data').addClass('d-none');
+          $('.surgical_rowp_data').addClass('d-none');
+          //$('.js-example-basic-multiple[data-list-id="surgicalobs_row_data"]').select2().val(null).trigger('change');
         }
         
         
@@ -668,7 +694,7 @@ $(document).ready(function() {
         //alert("hello");
         var speciality_entry = $("#speciality_entry-1 li").length;
         console.log("speciality_entry",speciality_entry);
-        $(".surgical_row").wrapAll("<div class='col-md-12 row surgical_row_data'>");
+        // $(".surgical_row").wrapAll("<div class='col-md-12 row surgical_row_data'>");
         $(".surgical_row_data").insertAfter("#specility_level-1");
         //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
 
@@ -679,6 +705,12 @@ $(document).ready(function() {
             $('.surgical_row_data').removeClass('d-none');
         }else{
             $('.surgical_row_data').addClass('d-none');
+            //$('.js-example-basic-multiple[data-list-id="surgical_row_box"]').select2().val(null).trigger('change');
+        }
+
+        if(selectedValues.includes("96") == false){
+          $('.surgical_row').addClass('d-none');
+          //$('.js-example-basic-multiple[data-list-id="surgical_row_box"]').select2().val(null).trigger('change');
         }
 
         
@@ -724,6 +756,7 @@ $(document).ready(function() {
                 
             }else{
                 $('.surgical_row-'+k).addClass('d-none');
+                //$('.js-example-basic-multiple[data-list-id="surgical_operative_care-'+k+'"]').select2().val(null).trigger('change');
             }
         }
     });
@@ -734,11 +767,11 @@ $(document).ready(function() {
         var speciality_entry = $("#speciality_entry-3 li").length;
         console.log("speciality_entry",speciality_entry);
         $(".surgical_rowp").wrapAll("<div class='col-md-12 row surgical_rowp_data'>");
-        $(".surgical_rowp_data").insertAfter("#specility_level-3");
+        $(".paediatric_surgical_div").insertAfter("#specility_level-3");
 
         
-            $(".neonatal_row").wrapAll("<div class='col-md-12 row neonatal_row_data'>");
-            $(".neonatal_row_data").insertAfter("#specility_level-3");
+        //     $(".neonatal_row").wrapAll("<div class='col-md-12 row neonatal_row_data'>");
+        $(".neonatal_row").insertAfter("#specility_level-3");
 
         //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
 
@@ -749,13 +782,19 @@ $(document).ready(function() {
             $('.neonatal_row').removeClass('d-none');
         }else{
             $('.neonatal_row').addClass('d-none');
+            //$('.js-example-basic-multiple[data-list-id="neonatal_care"]').select2().val(null).trigger('change');
         }
 
         if(selectedValues.includes('285')){
             $('.surgicalpad_row_data').removeClass('d-none');
         }else{
             $('.surgicalpad_row_data').addClass('d-none');
-            
+            //$('.js-example-basic-multiple[data-list-id="surgical_rowpad_box"]').select2().val(null).trigger('change');
+        }
+
+        if(selectedValues.includes("285") == false){
+          $('.surgical_rowp_data').addClass('d-none');
+          //$('.js-example-basic-multiple[data-list-id="surgical_row_box"]').select2().val(null).trigger('change');
         }
 
         // for(var k = 1;k<=speciality_entry;k++){
@@ -776,12 +815,12 @@ $(document).ready(function() {
         //alert("hello");
         var speciality_entry = $("#surgical_rowpad_box li").length;
         console.log("speciality_entry",speciality_entry);
-        $(".surgical_rowp").wrapAll("<div class='col-md-12 row surgical_rowp_data'>");
+        // $(".surgical_rowp").wrapAll("<div class='col-md-12 row surgical_rowp_data'>");
         $(".surgical_rowp_data").insertAfter(".surgicalpad_row_data");
 
         
-            $(".neonatal_row").wrapAll("<div class='col-md-12 row neonatal_row_data'>");
-            $(".neonatal_row_data").insertAfter("#specility_level-3");
+        //     $(".neonatal_row").wrapAll("<div class='col-md-12 row neonatal_row_data'>");
+        //     $(".neonatal_row_data").insertAfter("#specility_level-3");
 
         //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
 
@@ -799,6 +838,7 @@ $(document).ready(function() {
                 
             }else{
                 $('.surgical_rowp-'+k).addClass('d-none');
+                //$('.js-example-basic-multiple[data-list-id="surgical_operative_carep-'+k+'"]').select2().val(null).trigger('change');
             }
         }
     });
@@ -808,8 +848,8 @@ $(document).ready(function() {
         //alert("hello");
         var speciality_entry = $("#speciality_entry-1 li").length;
         console.log("speciality_entry",speciality_entry);
-        $(".surgicalobs_row").wrapAll("<div class='col-md-12 row surgicalobs_row_data'>");
-        $(".surgicalobs_row_data").insertAfter("#specility_level-2");
+        // $(".surgicalobs_row").wrapAll("<div class='col-md-12 row surgicalobs_row_data'>");
+        $(".surgicalobs_row").insertAfter("#specility_level-2");
 
         //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
 
@@ -820,6 +860,7 @@ $(document).ready(function() {
             $('.surgicalobs_row').removeClass('d-none');
         }else{
             $('.surgicalobs_row').addClass('d-none');
+            //$('.js-example-basic-multiple[data-list-id="surgical_obs_care"]').select2().val(null).trigger('change');
         }
 
         // for(var k = 1;k<=speciality_entry;k++){
@@ -885,18 +926,18 @@ $(document).ready(function() {
                   
                   <div class="form-group">
                     <label class="form-label" for="input-1"> First Name *</label>
-                    <input class="form-control" type="text" required="" name="fullname" id="firstNameI" placeholder="Enter Your First name" onkeydown="return /[a-z]/i.test(event.key)">
+                    <input class="form-control" type="text" required="" name="fullname" id="firstNameI" placeholder="" onkeydown="return /[a-z]/i.test(event.key)">
                     <span id="reqTxtfirstNameI" class="reqError valley"></span>
                   </div>
                   <div class="form-group">
                     <label class="form-label" for="input-1">Last Name *</label>
-                    <input class="form-control" type="text" required="" name="lastname" id="lastNameI" placeholder="Enter Your Last name" onkeydown="return /[a-z]/i.test(event.key)">
+                    <input class="form-control" type="text" required="" name="lastname" id="lastNameI" placeholder="" onkeydown="return /[a-z]/i.test(event.key)">
                     <span id="reqTxtlastNameI" class="reqError valley"></span>
                   </div>
 
                   <div class="form-group">
                     <label class="form-label" for="input-2">Email *</label>
-                    <input class="form-control" type="email" name="email" id="emailI" onkeyup="emailVerifi()" placeholder="stevenjob@gmail.com">
+                    <input class="form-control" type="email" name="email" id="emailI" onkeyup="emailVerifi()" placeholder="">
                     <span id="reqTxtemailI" class="reqError valley"></span>
                   </div>
 
@@ -922,7 +963,7 @@ $(document).ready(function() {
                       </div> -->
                       <div class="col-md-12 mob-adj">
                         <input type="hidden" name="countryCode" id="countryCode">
-                        <input class="form-control numbers" type="text" required="" name="contact" id="contactI" placeholder="1234567890" maxlength="10" pattern="[0-9]{4}">
+                        <input class="form-control numbers" type="text" required="" name="contact" id="contactI" maxlength="10" pattern="[0-9]{4}">
                         <span id="reqTxtcontactI" class="reqError valley"></span>
                       </div>
                     </div>
@@ -932,17 +973,17 @@ $(document).ready(function() {
                   </div>
                   <div class="form-group">
                     <label class="form-label" for="input-4">Post Code *</label>
-                    <input class="form-control numbers" type="text" required="" name="post_code" id="post_codeI" placeholder="123456" maxlength="10">
+                    <input class="form-control numbers" type="text" required="" name="post_code" id="post_codeI" placeholder="" maxlength="10">
                     <span id="reqTxtpost_codeI" class="reqError valley"></span>
                   </div>
                   <div class="form-group">
                     <label class="form-label" for="input-4">Password *</label>
-                    <input class="form-control" type="password" required="" name="password" id="passwordI" placeholder="********">
+                    <input class="form-control" type="password" required="" name="password" id="passwordI" placeholder="">
                     <span id="reqTxtpasswordI" class="reqError valley"></span>
                   </div>
                   <div class="form-group">
                     <label class="form-label" for="input-4">Confirm Password *</label>
-                    <input class="form-control" type="password" required="" id="confirm_passwordI" name="confirm_password" placeholder="********">
+                    <input class="form-control" type="password" required="" id="confirm_passwordI" name="confirm_password" placeholder="">
                     <span id="reqTxtconfirm_passwordI" class="reqError valley"></span>
                   </div>
 
@@ -1003,7 +1044,9 @@ $(document).ready(function() {
     $('.option2').on('click', function() {
       $('#mid_select').removeClass('d-none');
     });
+    //$("#contactI").attr("placeholder", "");
   });
+
 </script>
 
 
@@ -1022,7 +1065,7 @@ $(document).ready(function() {
       $(".second_step").addClass("registration_progress");
 
       if (currentStep == 1) {
-        
+        window.scrollTo(0, 0);
         if (validateForm() == false) {
           return false;
         } 
@@ -1040,6 +1083,7 @@ $(document).ready(function() {
 
     $(".prev-step").click(function() {
       if (currentStep > 1) {
+        window.scrollTo(0, 0);
         $(".step-" + currentStep).addClass("animate__animated animate__fadeOutRight");
         currentStep--;
         setTimeout(function() {
@@ -1551,7 +1595,7 @@ $(document).ready(function() {
     // placeholderNumberType: "MOBILE",
     preferredCountries: ['AU'],
     // separateDialCode: true,
-    utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/11.0.14/js/utils.js"
+    utilsScript: ""
   });
 
 
@@ -1569,10 +1613,10 @@ $(document).ready(function() {
       iti.setNumber("");
 
     // Convert placeholder as exploitable mask by replacing all 1-9 numbers with 0s
-    mask = newPlaceholder.replace(/[1-9]/g, "0");
+    // mask = newPlaceholder.replace(/[1-9]/g, "0");
 
-    // Apply the new mask for the input
-    $(this).mask(mask);
+    // // Apply the new mask for the input
+    // $(this).mask(mask);
   });
 
 

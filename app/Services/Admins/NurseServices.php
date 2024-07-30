@@ -64,7 +64,8 @@ class NurseServices
                 if($request->status == 2){
                     $body .= '<p>We are excited to inform you that your account has been approved by the admin. For more details, please check your account';
                 }else{
-                    $body .= '<p>This mail to inform you that your account Request has been rejected due to <b>'.$request->reasonData.'.</b>';
+                    $body .= '<p>We regret to inform you that your account request has been rejected due to <b>'.$request->reasonData.'.</b><br><br> Please contact us for further information.
+';
                 }
                 if($request->status == 2){
                         $subject = 'Your Account Request  has been  Accepted!';

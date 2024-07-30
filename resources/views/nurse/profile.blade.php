@@ -391,11 +391,12 @@
                 <div class="card shadow-sm border-0 p-4 mt-30">
                   <h3 class="mt-0 color-brand-1 mb-2">Profession</h3>
                   <!-- <a class="font-md color-text-paragraph-2" href="#">Add your profession/s here, and any relevant registrations and qualifications</a> -->
-                  <form id="profession_form" onsubmit="myFunction1()" method="POST">
+                  <form id="profession_form" method="POST" onsubmit="return myFunction1()">
                     @csrf
                      <div class="condition_set">   
                        <div class="form-group drp--clr">
                             <label class="form-label" for="input-1">Type of Nurse?</label>
+                                <input type="hidden" name="user_id" class="user_id" value="{{ Auth::guard('nurse_middle')->user()->id }}">
                                 <input type="hidden" name="ntype" class="ntype" value="{{ Auth::guard('nurse_middle')->user()->nurseType }}">
                                 <ul id="type-of-nurse" style="display:none;">
                                     @php $specialty = specialty();$spcl=$specialty[0]->id;@endphp
@@ -657,7 +658,25 @@
                     <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="nurse_degree" name="degree[]" multiple="multiple"></select>
                     </div>
 
-                  </div>         
+                  </div>   
+                  <div class="professional_bio">
+                    <div class="form-group col-md-12">
+                      <label class="font-sm color-text-mutted mb-10">Professional Bio</label>
+                      <textarea class="form-control" rows="4" name="bio"></textarea>
+                    </div>
+                  </div>   
+                  <div class="professional_bio">
+                    <div class="form-group col-md-12">
+                      <label class="form-label" for="input-1">Current Employee Status</label>
+                    <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
+                    <select class="form-input mr-10 select-active" name="employee_status">
+                      <option value="">Select Employee Status</option>
+                      <option value="Full Time">Full Time</option>
+                      <option value="Part Time">Part Time</option>
+                      <option value="Unemployed">Unemployed</option>
+                    </select>
+                    </div>
+                  </div>      
                   <div class="box-button mt-15">
                           <button class="btn btn-apply-big font-md font-bold" type="submit" id="submitProfession">Save Changes</button>
                         </div>          

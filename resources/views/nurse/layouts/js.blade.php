@@ -567,6 +567,53 @@ function pad(number) {
     });
     return false;
   }
+
+ 
+  function myFunction1() {
+    $('#profession_form').find('.text-danger').hide();
+    $.ajax({
+      url: "{{ route('nurse.updateProfession') }}",
+      type: "POST",
+      cache: false,
+      contentType: false,
+      processData: false,
+      data: new FormData($('#profession_form')[0]),
+      dataType: 'json',
+      beforeSend: function() {
+        $('#submitProfession').prop('disabled', true);
+        $('#submitProfession').text('Process....');
+      },
+      success: function(res) {
+        $('#submitProfession').prop('disabled', false);
+        $('#submitProfession').text('Update Profile');
+
+        if (res.status == '1') {
+          Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: 'Professional Information Updated Successfully',
+          }).then(function() {
+            window.location.href = "{{ route('nurse.my-profile') }}";
+          });
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: res.message,
+          })
+        }
+        
+      },
+      error: function(errorss) {
+        $('#submitProfession').prop('disabled', false);
+        $('#submitProfession').text('Submit');
+        for (var err in errorss.responseJSON.errors) {
+          $("#submitProfession").find("[name='" + err + "']").after("<div class='text-danger'>" + errorss.responseJSON.errors[err] + "</div>");
+        }
+      }
+    });
+    return false;
+  }
   </script>
 <!-- =================================
 

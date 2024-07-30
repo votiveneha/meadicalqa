@@ -1066,6 +1066,61 @@ class HomeController extends Controller
         
         echo json_encode($json);
     }
+
+    public function updateProfession(Request $request){
+        $nurse_type = json_encode($request->nurseType);
+        $nursing_type_1 = json_encode($request->nursing_type_1);
+        $nursing_type_2 = json_encode($request->nursing_type_2);
+        $nursing_type_3 = json_encode($request->nursing_type_3);
+        $nurse_practitioner_menu = json_encode($request->nurse_practitioner_menu);
+        $specialties = json_encode($request->specialties);
+        $speciality_entry_1 = json_encode($request->speciality_entry_1);
+        $speciality_entry_2 = json_encode($request->speciality_entry_2);
+        $speciality_entry_3 = json_encode($request->speciality_entry_3);
+        $speciality_entry_4 = json_encode($request->speciality_entry_4);
+        $surgical_row_box = json_encode($request->surgical_row_box);
+        $surgical_obs_care = json_encode($request->surgical_obs_care);
+        $surgical_operative_carep_1 = json_encode($request->surgical_operative_carep_1);
+        $surgical_operative_carep_2 = json_encode($request->surgical_operative_carep_2);
+        $surgical_operative_carep_3 = json_encode($request->surgical_operative_carep_3);
+        
+        $assistent_level = $request->assistent_level;
+        $bio = $request->bio;
+        $employee_status = $request->employee_status;
+
+        $post = User::find($request->user_id);
+        $post->nurseType = $nurse_type;
+        $post->entry_level_nursing = $nursing_type_1;
+        $post->registered_nurses = $nursing_type_2;
+        $post->advanced_practioner = $nursing_type_3;
+        $post->nurse_prac = $nurse_practitioner_menu;
+        $post->specialties = $specialties;
+        $post->adults = $speciality_entry_1;
+        $post->maternity = $speciality_entry_2;
+        $post->paediatrics_neonatal = $speciality_entry_3;
+        $post->community = $speciality_entry_4;
+        $post->surgical_preoperative = $surgical_row_box;
+        $post->surgical_obstrics_gynacology = $surgical_obs_care;
+        $post->operating_room = $surgical_operative_carep_1;
+        $post->operating_room_scout = $surgical_operative_carep_2;
+        $post->operating_room_scrub = $surgical_operative_carep_3;
+        
+        $post->assistent_level = $assistent_level;
+        $post->bio = $bio;
+        $post->current_employee_status = $employee_status;
+        $run = $post->save();
+
+        if ($run) {
+            $json['status'] = 1;
+            $json['url'] = url('nurse/my-profile');
+            $json['message'] = 'Professional Information Updated Successfully';
+         } else {
+            $json['status'] = 0;
+            $json['message'] = 'Please Try Again';
+        }
+        
+        echo json_encode($json);
+    }
     public function term_and_condition($message = '')
     {
            return view('nurse.term-&-condition', compact( 'message'));   
