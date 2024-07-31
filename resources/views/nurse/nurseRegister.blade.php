@@ -1065,8 +1065,9 @@ $(document).ready(function() {
       $(".second_step").addClass("registration_progress");
 
       if (currentStep == 1) {
-        window.scrollTo(0, 0);
+        
         if (validateForm() == false) {
+
           return false;
         } 
 
@@ -1201,6 +1202,7 @@ $(document).ready(function() {
       document.getElementById("reqdegree").innerHTML = "* Please select one or more degree.";
       isValid = false;
     }
+    window.scrollTo(0, 0);
     return isValid;
   }
 </script>

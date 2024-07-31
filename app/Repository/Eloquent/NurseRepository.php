@@ -32,6 +32,16 @@ class NurseRepository extends BaseRepository{
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
         }
     }
+
+    public function getInProgressprofileNurseList(){
+        try {
+            return $this->model->where(['type'=>'1','emailVerified'=>'1','user_stage' => '5'])->orderBy('id', 'desc')->get();
+        } catch(\Exception $e){
+            Log::error("Error in NurseRepository.getInProgressprofileNurseList(): " . $e->getMessage());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+
     public function getCustomerList(){
         try {
             return $this->model->where(['type'=>'0','user_stage' => '1'])->orderBy('id', 'desc')->get();

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Repository\Eloquent\NurseRepository;
 use App\Services\Admins\NurseServices;
 use App\Repository\Eloquent\VerificationRepository;
+use Illuminate\Support\Facades\Mail;
 
 class NurseController extends Controller
 {
@@ -31,6 +32,19 @@ class NurseController extends Controller
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
         }
     }
+
+    public function inProgressprofileNurseList()
+    {
+        try {
+            $inprogressprofileUsers  = $this->nurseRepository->getInProgressprofileNurseList();
+            // dd($incomingNurseUsers);
+            return view('admin.inprogress-profile-nurse-list',compact('inprogressprofileUsers'));
+        } catch (\Exception $e) {
+            log::error('Error in NurseController/incommingNurseList :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+
     public function completeprofileNurseList()
     {
         try {
@@ -41,6 +55,44 @@ class NurseController extends Controller
             log::error('Error in NurseController/incommingNurseList :' . $e->getMessage() . 'in line' . $e->getLine());
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
         }
+    }
+
+    public function send_remainder(Request $request){
+        try {
+            $body = 'Dear ' . $request->name;
+            $body .= '<p>We hope this message finds you well!</p>';
+            $body .= '<p>We noticed that your profile is not yet complete. Completing your profile will allow you to access a wide range of job opportunities from healthcare facilities, agencies, and individuals seeking nursing care at home.</p>';
+            $body .= '<p>To unlock these opportunities, please take a few minutes to finish your profile. Here’s what you need to do:</p>';
+            $body .= '<ul><li style="list-style-type:none;margin-left: -23px;">- Log in to your <a href="'.url('/nurse').'/login">account</li>';
+            $body .= '<li style="list-style-type:none">- Complete all required sections, including your experience, specialties, and certifications.</li>';
+            $body .= '<li style="list-style-type:none">- Submit your profile for approval.</li></ul>';
+            $body .= "<p>Once approved, you'll be able to:</p>";
+            $body .= '<ul><li style="list-style-type:none">- Apply for various shifts and permanent positions.</li>';
+            $body .= '<li style="list-style-type:none">- Make your profile visible to potential employers.</li>';
+            $body .= '<li style="list-style-type:none">- Receive interview requests and offers tailored to your preferences.</li></ul>';
+            $body .= "<p>Don't miss out on the chance to advance your career and find the perfect nursing job for you!</p>";
+            $body .= '<p>If you have any questions or need assistance, feel free to contact us at <a href="'.url('/contact').'">Contact</a></p>';
+            $body .= '<p>Thank you for being a part of our community, and we look forward to seeing your completed profile soon!</p>';
+            
+
+            $subject = 'Complete Your Profile to Access Exciting Job Opportunities!';
+
+            $mailData = [
+                'subject' =>  $subject,
+                'email' =>$request->email,
+                'body' => $body,
+            ];
+            $sendMail = Mail::to($request->email)->send(new \App\Mail\DemoMail($mailData));
+
+            if($sendMail){
+                return response()->json(['status' => '2', 'message' =>'Remainder has been sent successfully']);
+            }
+        } catch (\Exception $e) {
+            log::error('Error in NurseController/send_remainder :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+        
+
     }
     public function customerList()
     {

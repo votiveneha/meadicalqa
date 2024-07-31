@@ -191,7 +191,8 @@
                               </select>
                             </div> -->
                             <div class="col-md-12 mob-adj">
-                              <input type="hidden" name="countryCode" id="countryCode">
+                              <input type="hidden" name="countryCode" id="countryCode" value="{{  Auth::guard('nurse_middle')->user()->country_code }}">
+                              <input type="hidden" name="countryiso" id="country_iso" value="{{  Auth::guard('nurse_middle')->user()->country_iso }}">
                               <input class="form-control numbers" type="text" required="" name="contact" id="contactI" value="{{  Auth::guard('nurse_middle')->user()->phone }}" placeholder="1234567890">
                               <span id="reqTxtcontactI" class="reqError text-danger valley"></span>
                             </div>
@@ -309,7 +310,8 @@
                             
                             <div class="col-md-12 mob-adj">
                               <input type="hidden" name="emergency_countryCode" id="emergency_countryCode">
-                              <input class="form-control numbers" type="text" required="" name="emergency_conact_numeber" id="contactI_emergency" placeholder="1234567890" value="{{ Auth::guard('nurse_middle')->user()->emergency_conact_numeber }}">
+                              <input type="hidden" name="emergency_countryiso" id="emergency_country_iso">
+                              <input class="form-control numbers" type="text" required="" name="emergency_conact_numeber" id="contactI_emergency" value="{{ Auth::guard('nurse_middle')->user()->emergency_conact_numeber }}">
                               <span id="reqTxtcontactI" class="reqError valley"></span>
                             </div>
                             
@@ -449,7 +451,7 @@
         $nursing_data = DB::table("practitioner_type")->where('parent', $spl->id)->orderBy('name')->get();
     ?>
     <input type="hidden" name="nursing_result" class="nursing_result-{{ $i }}" value="{{ $spl->id }}">
-    <div class="nursing_data form-group drp--clr col-md-4 drpdown-set" id="nursing_level-{{ $i }}">
+    <div class="nursing_data form-group drp--clr col-md-4 drpdown-set nursing_{{ $spl->id }}" id="nursing_level-{{ $i }}" style="display: none;">
         <label class="form-label" for="input-2">{{ $spl->name }}</label>
             <ul id="nursing_entry-{{ $i }}" style="display:none;">
                 @foreach($nursing_data as $nd)
@@ -468,7 +470,7 @@
     
     </div>
 </div>
-<div class="np_submenu">
+<div class="np_submenu d-none">
     
     <div class="form-group drp--clr">
         <?php
@@ -516,7 +518,7 @@
             $speciality_data = DB::table("speciality")->where('parent', $ptl->id)->get();
         ?>
         <input type="hidden" name="speciality_result" class="speciality_result-{{ $l }}" value="{{ $ptl->id }}">
-        <div class="speciality_data form-group drp--clr drpdown-set col-md-6" id="specility_level-{{ $l }}">
+        <div class="speciality_data form-group drp--clr drpdown-set d-none col-md-6 speciality_{{ $ptl->id }}" id="specility_level-{{ $l }}">
             <label class="form-label" for="input-2">{{ $ptl->name }}</label>
                 <ul id="speciality_entry-{{ $l }}" style="display:none;">
                     @foreach($speciality_data as $sd)
@@ -534,7 +536,7 @@
 </div>
 <div class="surgical_div">
     
-    <div class="surgical_row_data form-group drp--clr col-md-12">
+    <div class="surgical_row_data form-group drp--clr d-none col-md-12">
         <label class="form-label" for="input-1">Surgical Preoperative and Postoperative Care:</label>
            <?php
             $speciality_surgicalrow_data = DB::table("speciality")->where('parent', '96')->get();
@@ -548,6 +550,23 @@
         <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_row_box" name="surgical_row_box[]" multiple="multiple"></select>
     </div>
 </div>
+<div class="paediatric_surgical_div">
+    
+    <div class="surgicalpad_row_data form-group drp--clr col-md-12">
+        <label class="form-label" for="input-1">Paediatric Surgical Preop. and Postop. Care:
+</label>
+           <?php
+            $speciality_padsurgicalrow_data = DB::table("speciality")->where('parent', '285')->get();
+            $r = 1;
+           ?>
+            <ul id="surgical_rowpad_box" style="display:none;">
+                @foreach($speciality_padsurgicalrow_data as $ssrd)
+                <li data-value="{{ $ssrd->id }}">{{ $ssrd->name }}</li>
+                @endforeach
+            </ul>
+        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_rowpad_box" name="surgical_rowpad_box[]" multiple="multiple"></select>
+    </div>
+</div>
 <div class="specialty_sub_boxes row">
     <?php
         $speciality_surgical_data = DB::table("speciality")->where('parent', '96')->get();
@@ -555,7 +574,7 @@
     ?>
     @foreach($speciality_surgical_data as $ssd)
     <input type="hidden" name="speciality_result" class="speciality_surgical_result-{{ $w }}" value="{{ $ssd->id }}">
-    <div class="surgical_row-{{ $w }} form-group drp--clr drpdown-set d-none col-md-4">
+    <div class="surgical_row-{{ $w }} form-group drp--clr drpdown-set col-md-4">
         <label class="form-label" for="input-1">{{ $ssd->name }}</label>
            <?php
             $speciality_surgicalsub_data = DB::table("speciality")->where('parent', $ssd->id)->get();
@@ -576,7 +595,7 @@
         $p = 1;
     ?>
     
-    <div class="surgicalobs_row form-group drp--clr drpdown-set col-md-12">
+    <div class="surgicalobs_row form-group drp--clr d-none drpdown-set col-md-12">
         <label class="form-label" for="input-1">Surgical Obstetrics and Gynecology (OB/GYN):</label>
            
             <ul id="surgical_obs_care" style="display:none;">
@@ -1434,6 +1453,45 @@
   $('.js-example-basic-multiple[data-list-id="surgical_operative_carep-3"]').select2().val(pad_qr_scrub).trigger('change');
   $('.js-example-basic-multiple[data-list-id="nurse_degree"]').select2().val(nurse_degree).trigger('change');
 
+  $(".surgical_row_data").insertAfter("#specility_level-1");
+  $(".specialty_sub_boxes").insertAfter(".surgical_row_data");
+  $(".surgicalobs_row").insertAfter("#specility_level-2");
+  $(".surgical_rowp").wrapAll("<div class='col-md-12 row surgical_rowp_data'>");
+  $(".paediatric_surgical_div").insertAfter("#specility_level-3");
+  $(".neonatal_row").insertAfter("#specility_level-3");
+  $(".surgical_rowp_data").insertAfter(".surgicalpad_row_data");
+
+  console.log("nurse_type1",$('#nurse_type').select2("data"));
+
+  var nurse_type_list = $('#nurse_type').select2("data");
+
+  for(var x=0;x<nurse_type_list.length;x++){
+    $(".nursing_"+nurse_type_list[x].id).show();
+  }
+
+  var advancedpractioner_list = $('.js-example-basic-multiple[data-list-id="nursing_entry-3"]').select2("data");
+  if(advancedpractioner_list.includes("179")){
+    $(".np_submenu").removeClass('d-none');
+  }
+
+  var specialties = $('.js-example-basic-multiple[data-list-id="specialties"]').select2("data");
+
+  var adults_list = $('.js-example-basic-multiple[data-list-id="speciality_entry-1"]').select2("data");
+  if(adults_list.includes("96")){
+    $(".surgical_row_data").removeClass('d-none');
+  }
+  
+
+  for(var y=0;y<specialties.length;y++){
+    $(".speciality_"+specialties[y].id).removeClass('d-none');
+  }
+
+  var maternity_list = $('.js-example-basic-multiple[data-list-id="speciality_entry-2"]').select2("data");
+  if(maternity_list.includes("233")){
+    $(".surgicalobs_row").removeClass('d-none');
+  }
+
+
   $(".change_password_link").click(function(){
 
     window.history.replaceState(null, null, "?page=change_password");
@@ -1506,14 +1564,14 @@
     //   });
     // },
     hiddenInput: "full_number",
-    initialCountry: "AU",
+    initialCountry: "{{ Auth::guard('nurse_middle')->user()->emergency_country_iso }}",
     // localizedCountries: { 'de': 'Deutschland' },
     // nationalMode: false,
     // onlyCountries: ['us', 'gb', 'ch', 'ca', 'do'],
     // placeholderNumberType: "MOBILE",
     preferredCountries: ['AU'],
     // separateDialCode: true,
-    utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/11.0.14/js/utils.js"
+    utilsScript: ""
   });
 
   $(phoneInputID).on("countrychange", function(event) {
@@ -1522,18 +1580,10 @@
     var selectedCountryData = iti.getSelectedCountryData();
     console.log("selectedCountryData",selectedCountryData.dialCode);
     $("#emergency_countryCode").val(selectedCountryData.dialCode);
+    $("#emergency_country_iso").val(selectedCountryData.iso2);
     //alert($("#contactI").intlTelInput("getSelectedCountryData").dialCode);
     // Get an example number for the selected country to use as placeholder.
-    newPlaceholder = intlTelInputUtils.getExampleNumber(selectedCountryData.iso2, true, intlTelInputUtils.numberFormat.INTERNATIONAL),
-
-      // Reset the phone number input.
-      iti.setNumber("");
-
-    // Convert placeholder as exploitable mask by replacing all 1-9 numbers with 0s
-    mask = newPlaceholder.replace(/[1-9]/g, "0");
-
-    // Apply the new mask for the input
-    $(this).mask(mask);
+   
   });
 
 
@@ -1561,12 +1611,12 @@
     //   });
     // },
     hiddenInput: "full_number",
-    initialCountry: "AU",
+    initialCountry: "{{ Auth::guard('nurse_middle')->user()->country_iso }}",
     // localizedCountries: { 'de': 'Deutschland' },
     // nationalMode: false,
     // onlyCountries: ['us', 'gb', 'ch', 'ca', 'do'],
     // placeholderNumberType: "MOBILE",
-    preferredCountries: ['AU'],
+    preferredCountries: ['al'],
     // separateDialCode: true,
     utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/11.0.14/js/utils.js"
   });
@@ -1574,21 +1624,23 @@
   $(phoneInputID1).on("countrychange", function(event) {
 
     // Get the selected country data to know which country is selected.
-    var selectedCountryData = iti.getSelectedCountryData();
-    console.log("selectedCountryData",selectedCountryData.dialCode);
+    var selectedCountryData = iti1.getSelectedCountryData();
+
+    console.log("selectedCountryData",selectedCountryData);
     $("#countryCode").val(selectedCountryData.dialCode);
+    $("#country_iso").val(selectedCountryData.iso2);
     //alert($("#contactI").intlTelInput("getSelectedCountryData").dialCode);
     // Get an example number for the selected country to use as placeholder.
-    newPlaceholder = intlTelInputUtils.getExampleNumber(selectedCountryData.iso2, true, intlTelInputUtils.numberFormat.INTERNATIONAL),
+    //newPlaceholder = intlTelInputUtils.getExampleNumber(selectedCountryData.iso2, true, intlTelInputUtils.numberFormat.INTERNATIONAL),
 
       // Reset the phone number input.
-      iti.setNumber("");
+      //iti1.setNumber("");
 
     // Convert placeholder as exploitable mask by replacing all 1-9 numbers with 0s
-    mask = newPlaceholder.replace(/[1-9]/g, "0");
+    //mask = newPlaceholder.replace(/[1-9]/g, "0");
 
     // Apply the new mask for the input
-    $(this).mask(mask);
+    //$(this).mask(mask);
   });
 
 

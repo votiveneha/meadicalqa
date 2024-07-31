@@ -1080,12 +1080,18 @@ class HomeController extends Controller
         $speciality_entry_4 = json_encode($request->speciality_entry_4);
         $surgical_row_box = json_encode($request->surgical_row_box);
         $surgical_obs_care = json_encode($request->surgical_obs_care);
+        $surgical_operative_care_1 = json_encode($request->surgical_operative_care_1);
+        $surgical_operative_care_2 = json_encode($request->surgical_operative_care_2);
+        $surgical_operative_care_3 = json_encode($request->surgical_operative_care_3);
+        $neonatal_care = json_encode($request->neonatal_care);
+        $surgical_rowpad_box = json_encode($request->surgical_rowpad_box);
         $surgical_operative_carep_1 = json_encode($request->surgical_operative_carep_1);
         $surgical_operative_carep_2 = json_encode($request->surgical_operative_carep_2);
         $surgical_operative_carep_3 = json_encode($request->surgical_operative_carep_3);
         
         $assistent_level = $request->assistent_level;
         $bio = $request->bio;
+        $degree = json_encode($request->degree);
         $employee_status = $request->employee_status;
 
         $post = User::find($request->user_id);
@@ -1101,12 +1107,18 @@ class HomeController extends Controller
         $post->community = $speciality_entry_4;
         $post->surgical_preoperative = $surgical_row_box;
         $post->surgical_obstrics_gynacology = $surgical_obs_care;
-        $post->operating_room = $surgical_operative_carep_1;
-        $post->operating_room_scout = $surgical_operative_carep_2;
-        $post->operating_room_scrub = $surgical_operative_carep_3;
+        $post->operating_room = $surgical_operative_care_1;
+        $post->operating_room_scout = $surgical_operative_care_2;
+        $post->operating_room_scrub = $surgical_operative_care_3;
+        $post->neonatal_care = $neonatal_care;
+        $post->paedia_surgical_preoperative = $surgical_rowpad_box;
+        $post->pad_op_room = $surgical_operative_carep_1;
+        $post->pad_qr_scout = $surgical_operative_carep_2;
+        $post->pad_qr_scrub = $surgical_operative_carep_3;
         
         $post->assistent_level = $assistent_level;
         $post->bio = $bio;
+        $post->degree = $degree;
         $post->current_employee_status = $employee_status;
         $run = $post->save();
 
