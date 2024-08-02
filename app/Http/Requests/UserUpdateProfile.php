@@ -16,10 +16,13 @@ class UserUpdateProfile extends FormRequest
             'contact' => 'required',
             'bio' => 'required',
             'post_code' => 'required',
-            
+            'date_of_birth' => 'required',
             'country' => 'required',
             'state' => 'required',
             'city' => 'required',
+            'emergency_conact_numeber' => 'required',
+            'emergergency_contact_email' => 'required',
+            'gender' => 'required'
         ];
     }
 
@@ -33,11 +36,13 @@ class UserUpdateProfile extends FormRequest
             'contact.required' => 'The Mobile Number  field is required.',
             'bio.required' => 'The Bio field is required.',
             'post_code.required' => 'The Post_code field is required.',
-            
+            'date_of_birth.required' => 'The Date of Birth field is required.',
             'country.required' => 'Please Select Country.',
             'state.required' => 'Please Select State.',
             'city.required' => 'The City field is required.',
-            
+            'emergency_conact_numeber.required' => 'The Emergency Contact Number is required',
+            'emergergency_contact_email.required' => 'The Emergency Contact Email is required',
+            'gender.required' => 'The Gender is required',
            
             // 'email.required' => 'The email field is required.',
         ];

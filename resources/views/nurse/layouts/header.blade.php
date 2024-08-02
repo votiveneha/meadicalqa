@@ -158,7 +158,6 @@
   <div class="container-fluid">
     <div class="alert alert-warning mt-2" role="alert">
       <span class="d-flex align-items-center justify-content-center "><img src="{{ asset('nurse/assets/imgs/info.png') }}" width="25px;" alt="info" class="mx-2">Thank you for verifying your email!<br>Please complete your profile, and once approved, you will be able to apply for jobs and make your profile visible.
-
 </span>
 
     </div>

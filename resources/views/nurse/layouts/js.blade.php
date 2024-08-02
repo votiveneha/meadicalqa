@@ -526,6 +526,7 @@ function pad(number) {
 <script>
  function editedprofile() {
     $('#EditProfile').find('.text-danger').hide();
+    
     $.ajax({
       url: "{{ route('nurse.updateProfile') }}",
       type: "POST",
@@ -567,8 +568,6 @@ function pad(number) {
     });
     return false;
   }
-
- 
   function myFunction1() {
     $('#profession_form').find('.text-danger').hide();
     $.ajax({

@@ -41,7 +41,7 @@ class NurseRepository extends BaseRepository{
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
         }
     }
-
+    
     public function getCustomerList(){
         try {
             return $this->model->where(['type'=>'0','user_stage' => '1'])->orderBy('id', 'desc')->get();

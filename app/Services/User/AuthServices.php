@@ -43,12 +43,11 @@ class AuthServices
             $companyinsert['city'] = $request->city;
             $companyinsert['date_of_birth'] = $request->date_of_birth;
             $companyinsert['home_address'] = $request->home_address;
-            $companyinsert['emegency_country_code'] = $request->emergency_countryCode;
-            $companyinsert['emergency_country_iso'] = $request->emergency_countryiso;
             $companyinsert['emergency_conact_numeber'] = $request->emergency_conact_numeber;
             $companyinsert['emergergency_contact_email'] = $request->emergergency_contact_email;
+            $companyinsert['emegency_country_code'] = $request->emergency_countryCode;
+            $companyinsert['emergency_country_iso'] = $request->emergency_countryiso;
             $companyinsert['user_stage'] = "5";
-           
             $companyinsert['created_at'] = Carbon::now('Asia/Kolkata');
 
             $id = Auth::guard('nurse_middle')->user()->id;

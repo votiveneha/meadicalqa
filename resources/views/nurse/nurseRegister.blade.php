@@ -117,6 +117,9 @@
     background-color: black;
     color: #fff;
 }
+.step-2 input{
+  border: 1px solid #dedddd !important;
+}
 </style>
 @endsection
 @section('content')
@@ -599,14 +602,14 @@ $(document).ready(function() {
                 $('#nursing_level-'+i).removeClass('d-none');
             }else{
                 $('#nursing_level-'+i).addClass('d-none');
-                //$('.js-example-basic-multiple[data-list-id="nursing_entry-'+i+'"]').select2().val(null).trigger('change');
+                $('.js-example-basic-multiple[data-list-id="nursing_entry-'+i+'"]').select2().val(null).trigger('change');
             }
         }
 
         if(selectedValues.includes("3") == false){
           $('.np_submenu').addClass('d-none');
           //$('.js-example-basic-multiple[data-list-id="nursing_entry-3"]').select2().val(null).trigger('change');
-          //$('.js-example-basic-multiple[data-list-id="nurse_practitioner_menu"]').select2().val(null).trigger('change');
+          $('.js-example-basic-multiple[data-list-id="nurse_practitioner_menu"]').select2().val(null).trigger('change');
         }
         
         
@@ -633,7 +636,7 @@ $(document).ready(function() {
             console.log("selectedValues",selectedValues);
         }else{
             $('.np_submenu').addClass('d-none');
-            //$('.js-example-basic-multiple[data-list-id="nurse_practitioner_menu"]').select2().val(null).trigger('change');
+            $('.js-example-basic-multiple[data-list-id="nurse_practitioner_menu"]').select2().val(null).trigger('change');
         }
         
         
@@ -661,7 +664,7 @@ $(document).ready(function() {
                 
             }else{
                 $('#specility_level-'+k).addClass('d-none');
-                //$('.js-example-basic-multiple[data-list-id="speciality_entry-'+k+'"]').select2().val(null).trigger('change');
+                $('.js-example-basic-multiple[data-list-id="speciality_entry-'+k+'"]').select2().val(null).trigger('change');
             }
         }
 
@@ -680,7 +683,8 @@ $(document).ready(function() {
           
           $('.surgicalpad_row_data').addClass('d-none');
           $('.surgical_rowp_data').addClass('d-none');
-          //$('.js-example-basic-multiple[data-list-id="surgicalobs_row_data"]').select2().val(null).trigger('change');
+          $('.neonatal_row').addClass('d-none');
+          $('.js-example-basic-multiple[data-list-id="surgicalobs_row_data"]').select2().val(null).trigger('change');
         }
         
         
@@ -705,12 +709,12 @@ $(document).ready(function() {
             $('.surgical_row_data').removeClass('d-none');
         }else{
             $('.surgical_row_data').addClass('d-none');
-            //$('.js-example-basic-multiple[data-list-id="surgical_row_box"]').select2().val(null).trigger('change');
+            $('.js-example-basic-multiple[data-list-id="surgical_row_box"]').select2().val(null).trigger('change');
         }
 
         if(selectedValues.includes("96") == false){
           $('.surgical_row').addClass('d-none');
-          //$('.js-example-basic-multiple[data-list-id="surgical_row_box"]').select2().val(null).trigger('change');
+          $('.js-example-basic-multiple[data-list-id="surgical_row_box"]').select2().val(null).trigger('change');
         }
 
         
@@ -756,7 +760,7 @@ $(document).ready(function() {
                 
             }else{
                 $('.surgical_row-'+k).addClass('d-none');
-                //$('.js-example-basic-multiple[data-list-id="surgical_operative_care-'+k+'"]').select2().val(null).trigger('change');
+                $('.js-example-basic-multiple[data-list-id="surgical_operative_care-'+k+'"]').select2().val(null).trigger('change');
             }
         }
     });
@@ -782,19 +786,19 @@ $(document).ready(function() {
             $('.neonatal_row').removeClass('d-none');
         }else{
             $('.neonatal_row').addClass('d-none');
-            //$('.js-example-basic-multiple[data-list-id="neonatal_care"]').select2().val(null).trigger('change');
+            $('.js-example-basic-multiple[data-list-id="neonatal_care"]').select2().val(null).trigger('change');
         }
 
         if(selectedValues.includes('285')){
             $('.surgicalpad_row_data').removeClass('d-none');
         }else{
             $('.surgicalpad_row_data').addClass('d-none');
-            //$('.js-example-basic-multiple[data-list-id="surgical_rowpad_box"]').select2().val(null).trigger('change');
+            $('.js-example-basic-multiple[data-list-id="surgical_rowpad_box"]').select2().val(null).trigger('change');
         }
 
         if(selectedValues.includes("285") == false){
           $('.surgical_rowp_data').addClass('d-none');
-          //$('.js-example-basic-multiple[data-list-id="surgical_row_box"]').select2().val(null).trigger('change');
+          $('.js-example-basic-multiple[data-list-id="surgical_row_box"]').select2().val(null).trigger('change');
         }
 
         // for(var k = 1;k<=speciality_entry;k++){
@@ -838,7 +842,7 @@ $(document).ready(function() {
                 
             }else{
                 $('.surgical_rowp-'+k).addClass('d-none');
-                //$('.js-example-basic-multiple[data-list-id="surgical_operative_carep-'+k+'"]').select2().val(null).trigger('change');
+                $('.js-example-basic-multiple[data-list-id="surgical_operative_carep-'+k+'"]').select2().val(null).trigger('change');
             }
         }
     });
@@ -860,7 +864,7 @@ $(document).ready(function() {
             $('.surgicalobs_row').removeClass('d-none');
         }else{
             $('.surgicalobs_row').addClass('d-none');
-            //$('.js-example-basic-multiple[data-list-id="surgical_obs_care"]').select2().val(null).trigger('change');
+            $('.js-example-basic-multiple[data-list-id="surgical_obs_care"]').select2().val(null).trigger('change');
         }
 
         // for(var k = 1;k<=speciality_entry;k++){
@@ -963,7 +967,7 @@ $(document).ready(function() {
                       </div> -->
                       <div class="col-md-12 mob-adj">
                         <input type="hidden" name="countryCode" id="countryCode">
-                        <input class="form-control numbers" type="text" required="" name="contact" id="contactI" maxlength="10" pattern="[0-9]{4}">
+                        <input class="form-control numbers" type="text" required="" name="contact" id="contactI" placeholder="" maxlength="10" pattern="[0-9]{4}">
                         <span id="reqTxtcontactI" class="reqError valley"></span>
                       </div>
                     </div>
@@ -1044,9 +1048,7 @@ $(document).ready(function() {
     $('.option2').on('click', function() {
       $('#mid_select').removeClass('d-none');
     });
-    //$("#contactI").attr("placeholder", "");
   });
-
 </script>
 
 
@@ -1067,10 +1069,9 @@ $(document).ready(function() {
       if (currentStep == 1) {
         
         if (validateForm() == false) {
-
           return false;
         } 
-
+        window.scrollTo(0, 0);
         currentStep++;
         $(".step-" + currentStep).addClass("animate__animated animate__fadeOutLeft");
 
@@ -1085,6 +1086,8 @@ $(document).ready(function() {
     $(".prev-step").click(function() {
       if (currentStep > 1) {
         window.scrollTo(0, 0);
+        $(".first_step").addClass("registration_progress");
+      $(".second_step").removeClass("registration_progress");
         $(".step-" + currentStep).addClass("animate__animated animate__fadeOutRight");
         currentStep--;
         setTimeout(function() {
@@ -1202,7 +1205,7 @@ $(document).ready(function() {
       document.getElementById("reqdegree").innerHTML = "* Please select one or more degree.";
       isValid = false;
     }
-    window.scrollTo(0, 0);
+
     return isValid;
   }
 </script>
@@ -1392,7 +1395,7 @@ $(document).ready(function() {
 
     if (passwordI != confirm_passwordI) {
 
-      document.getElementById("reqTxtconfirm_passwordI").innerHTML = "Password And Confirm password did not match.";
+      document.getElementById("reqTxtconfirm_passwordI").innerHTML = "Password and Confirm password do not match.";
 
       returnValue = false;
 
@@ -1609,12 +1612,12 @@ $(document).ready(function() {
     $("#countryCode").val(selectedCountryData.dialCode);
     //alert($("#contactI").intlTelInput("getSelectedCountryData").dialCode);
     // Get an example number for the selected country to use as placeholder.
-    newPlaceholder = intlTelInputUtils.getExampleNumber(selectedCountryData.iso2, true, intlTelInputUtils.numberFormat.INTERNATIONAL),
+    // newPlaceholder = intlTelInputUtils.getExampleNumber(selectedCountryData.iso2, true, intlTelInputUtils.numberFormat.INTERNATIONAL),
 
-      // Reset the phone number input.
-      iti.setNumber("");
+    //   // Reset the phone number input.
+    //   iti.setNumber("");
 
-    // Convert placeholder as exploitable mask by replacing all 1-9 numbers with 0s
+    // // Convert placeholder as exploitable mask by replacing all 1-9 numbers with 0s
     // mask = newPlaceholder.replace(/[1-9]/g, "0");
 
     // // Apply the new mask for the input

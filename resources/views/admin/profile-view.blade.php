@@ -144,42 +144,39 @@
                                 <div class="card-body p-3 px-md-4">
                                     <div class="col-md-12">
                                         <div class="row">
+                                            @if($profileData->date_of_birth)
                                             <div class="col-md-6 mt-3">
                                                 <div class="d-flex gap-3 flex-wrap">
                                                     {{-- <strong>Do you have work rights in Austrailia? : </strong>
                                                     <span>{{ $profileData->work_right == 0 ? 'No' : 'Yes' }}</span> --}}
                                                     <strong>Date of Birth : </strong>
-                                                    <span></span>
+                                                    <span>{{ $profileData->date_of_birth }}</span>
                                                 </div>
                                             </div>
+                                            @endif
+                                            @if($profileData->gender)
                                             <div class="col-md-6 mt-3">
                                                 <div class="d-flex gap-3 flex-wrap">
                                                 <!-- specialty_name_by_id -->
-                                                    <strong>Gender: </strong><span> - - - </span>
+                                                    <strong>Gender: </strong><span>{{ $profileData->gender }}</span>
                                                 </div>
                                             </div>
-                    
-                                            <div class="col-md-6 mt-3">
+                                            @endif
+                                            {{-- <div class="col-md-6 mt-3">
                                                 <div class="d-flex gap-3 flex-wrap">
                                                     <strong>Nationality: </strong>
                                                     <!-- specialty_name_by_id -->
                                                    <span> - - -  </span>
                                                 </div>
-                                            </div>
+                                            </div> --}}
                     
                     
-                                            <div class="col-md-6 mt-3">
+                                            {{-- <div class="col-md-6 mt-3">
                                                 <div class="d-flex gap-3 flex-wrap">
                                                     <strong> Home Address : </strong> <span> - - -  </span>
                                                 </div>
-                                            </div>
-                                            @if($profileData->country_code)
-                                                <div class="col-md-6 mt-3">
-                                                    <div class="d-flex gap-3 flex-wrap">
-                                                        <strong>Emergency Contact Information : </strong> <span> - - -  </span>
-                                                    </div>
-                                                </div>
-                                            @endif
+                                            </div> --}}
+                                            
                                             @if($profileData->state)
                                                 <div class="col-md-6 mt-3">
                                                     <div class="d-flex gap-3 flex-wrap">
@@ -197,17 +194,45 @@
                                             @if($profileData->personal_website)
                                                 <div class="col-md-6 mt-3">
                                                     <div class="d-flex gap-3 flex-wrap">
-                                                        <strong>  Personal website   : </strong> <span>{{ $profileData->personal_website }}</span>
+                                                        <strong> Personal website   : </strong> <span>{{ $profileData->personal_website }}</span>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                            @if($profileData->home_address)
+                                                <div class="col-md-6 mt-3">
+                                                    <div class="d-flex gap-3 flex-wrap">
+                                                        <strong>Home Address   : </strong> <span>{{ $profileData->home_address }}</span>
                                                     </div>
                                                 </div>
                                             @endif
                                             @if($profileData->bio)
-                                                <div class="col-md-6 mt-3">
+                                                <div class="col-md-12 mt-3">
                                                     <div class="d-flex gap-3 flex-wrap">
-                                                        <strong> Bio   : </strong> <span>{{ $profileData->bio }}</span>
+                                                        <strong>Bio   : </strong> <span>{{ $profileData->bio }}</span>
                                                     </div>
                                                 </div>
                                             @endif
+                                            <h4 class="fw-bolder fs-6 lh-base d-flex align-items-center  mt-3">Emergency Contact Information : </h4>
+                                            @if($profileData->emergency_conact_numeber)
+                                                <div class="col-md-6 mt-3">
+                                                    <div class="d-flex gap-3 flex-wrap">
+                                                        <strong>Mobile No  :</strong> <span>
+                                                             +{{ $profileData->emegency_country_code }}{{ " "}}
+                                                             {{ $profileData->emergency_conact_numeber }}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                            @if($profileData->emergergency_contact_email)
+                                                <div class="col-md-6 mt-3">
+                                                    <div class="d-flex gap-3 flex-wrap">
+                                                        <strong>Email  :</strong> <span>
+                                                             {{ $profileData->emergergency_contact_email }}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                            
                     
                                             @if ($profileData->specialty != 'null')
                                                 @php $subspecialty=json_decode($profileData->specialty); @endphp
@@ -239,39 +264,63 @@
                                 </div>
                                 <div class="card-body p-3 px-md-4">
                                     <div class="col-md-12">
-                                        @if($professionVerificationData)
+                                        @if($profileData)
                                             <div class="row">
-                                                @if($professionVerificationData->profession)
-                                                <div class="col-md-6 mt-3">
-                                                    <div class="d-flex gap-3 flex-wrap">
-                                                        <strong>Profession : </strong><span> - - - </span>
+                                                
+                                                @if ($profileData->nurseType != 'null')
+                                                @php $nurseType=json_decode($profileData->nurseType); @endphp
+                                                @if (is_array($nurseType))
+                                                    <div class="col-md-12 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong> Profession : </strong>
+                                                            @forelse($nurseType as $key => $ubspecialty)
+                                                            <span>{{ specialty_name_by_id($ubspecialty) }} , </span>@empty
+                                                            @endforelse
+                                                        </div>
                                                     </div>
-                                                </div>
                                                 @endif
-                                                @if($professionVerificationData->practitioner_type)
+                                                @endif
+                                                @if ($profileData->nurseType != 'null')
+                                                @php
+                                                    $nurseType = json_decode($profileData->nurseType);
+                                                @endphp
+
+                                                @if (is_array($nurseType))
+                                                    @foreach($nurseType as $key => $ubspecialty)
+                                                        <div class="col-md-12 mt-3">
+                                                            <div class="d-flex gap-3 flex-wrap">
+                                                                <strong>{{ specialty_name_by_id($ubspecialty) }}:</strong>
+                                                                <?php $data =  sub_specialty($ubspecialty); ?>
+                                                                <span></span>,
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                @endif
+                                                @endif
+                                                {{-- @if($professionVerificationData->practitioner_type)
                                                 <div class="col-md-6 mt-3">
                                                     <div class="d-flex gap-3 flex-wrap">
                                                         <strong>Practitioner type : </strong>
                                                     <span> - - - </span>
                                                     </div>
                                                 </div>
-                                                @endif
+                                                @endif --}}
 
-                                                @if($professionVerificationData->year_level)
+                                                {{-- @if($professionVerificationData->year_level)
                                                 <div class="col-md-6 mt-3">
                                                     <div class="d-flex gap-3 flex-wrap">
                                                         <strong> Year Level : </strong> <span>{{  getLevelYearNameById($professionVerificationData->year_level)}}</span>
                                                     </div>
                                                 </div>
-                                                @endif
-                                                @if($professionVerificationData->evidence_type)
+                                                @endif --}}
+                                                {{-- @if($professionVerificationData->evidence_type)
                                                     <div class="col-md-6 mt-3">
                                                         <div class="d-flex gap-3 flex-wrap">
                                                             <strong> Evidence Type  : </strong> <span>{{ getEvidenceTypeNameById($professionVerificationData->evidence_type)}}</span>
                                                         </div>
                                                     </div>
-                                                @endif
-                                                @if($professionVerificationData->evidence_of_year_level)
+                                                @endif --}}
+                                                {{-- @if($professionVerificationData->evidence_of_year_level)
                                                     <div class="col-md-6 mt-3">
                                                         <div class="d-flex gap-3 flex-wrap">
                                                             <strong> Evidence Of Year Level  : </strong> 
@@ -280,8 +329,8 @@
                                                             </a>
                                                         </div>
                                                     </div>
-                                                @endif
-                                                @if(isset($professionVerificationData->status) && $professionVerificationData->status)
+                                                @endif --}}
+                                                {{-- @if(isset($professionVerificationData->status) && $professionVerificationData->status)
                                                 <div class="col-md-6 mt-3">
                                                     <div class="d-flex gap-3 flex-wrap">
                                                         <strong>Status : </strong>
@@ -294,15 +343,15 @@
                                                   
                                                     </div>
                                                 </div>
-                                                @endif
-                                                @if(isset($professionVerificationData->status) && $professionVerificationData->status == 2)
+                                                @endif --}}
+                                                {{-- @if(isset($professionVerificationData->status) && $professionVerificationData->status == 2)
                                                 <div class="col-md-6 mt-3">
                                                     <div class="d-flex gap-3 flex-wrap">
                                                         <strong>Reason : </strong>
                                                         <span>{{$professionVerificationData->reason}}</span>
                                                     </div>
                                                 </div>
-                                                @endif
+                                                @endif --}}
                                                 
                                             </div>
                                             @else
