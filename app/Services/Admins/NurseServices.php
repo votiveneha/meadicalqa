@@ -62,15 +62,15 @@ class NurseServices
             if ($run == 1) {
                 $body = 'Hello, ' . $userData->name . ' ' . $userData->lastname;
                 if($request->status == 2){
-                    $body .= '<p>We are excited to inform you that your account has been approved by the admin. For more details, please check your account';
+                    $body .= '<p>Your profile has been successfully validated!<br>You can now apply for all jobs and receive interview requests from healthcare facilities, nursing agencies, and individuals seeking nurse care at home.</p>';
                 }else{
                     $body .= '<p>We regret to inform you that your account request has been rejected due to <b>'.$request->reasonData.'.</b><br><br> Please contact us for further information.
 ';
                 }
                 if($request->status == 2){
-                        $subject = 'Your Account Request  has been  Accepted!';
+                        $subject = 'Your Account Request  has been  Approved!';
                     }else{
-                        $subject = 'Your Account Request  has been Rejected!';
+                        $subject = 'Your Account has been Rejected!';
                     }
                 $mailData = [
                     'subject' =>  $subject,
@@ -112,9 +112,9 @@ class NurseServices
                     $body .= '<p>We are excited to inform you that your account has been unblocked by the admin. For more details, please check your account.';
                 }
                 if($request->status == 2){
-                        $subject = 'Your Account Request  has been  Blocked!';
+                        $subject = 'Your Account has been  Blocked!';
                     }else{
-                        $subject = 'Your Account Request  has been Unblocked!';
+                        $subject = 'Your Account has been Unblocked!';
                     }
                 $mailData = [
                     'subject' =>  $subject,

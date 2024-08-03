@@ -53,6 +53,7 @@
     background-color: black;
     color: #fff;
 }
+
 </style>
 @endsection
 
@@ -88,11 +89,11 @@
 
             <div class="box-nav-tabs nav-tavs-profile mb-5 p-0">
               <ul class="nav" role="tablist">
-                <li><a class="btn btn-border aboutus-icon mb-20 active" href="#tab-my-profile" data-bs-toggle="tab" role="tab" aria-controls="tab-my-profile" aria-selected="true">My Profile</a></li>
-                <li><a class="btn btn-border recruitment-icon mb-20" href="#tab-my-profile-setting" data-bs-toggle="tab" role="tab" aria-controls="tab-my-profile-setting" aria-selected="false">Setting</a></li>
-               <li><a href="#tab-my-jobs" id="my_profession" class="btn btn-border recruitment-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-my-jobs" aria-selected="false">Profession</a></li>
-                <li><a class="btn btn-border recruitment-icon mb-20"  onclick="coming_soon()" data-bs-toggle="tab" role="tab" aria-controls="tab-myclearance-jobs" aria-selected="false">Clearance</a></li>
-                <li><a class="btn btn-border people-icon mb-20" onclick="coming_soon()" data-bs-toggle="tab" role="tab" aria-controls="tab-saved-jobs" aria-selected="false">Education</a></li>
+                <li><a class="btn btn-border aboutus-icon mb-20 active profile_tabs" href="#tab-my-profile" id="my_profile" data-bs-toggle="tab" role="tab" aria-controls="tab-my-profile" aria-selected="true">My Profile</a></li>
+                <li><a class="btn btn-border recruitment-icon mb-20 profile_tabs" id="settings" href="#tab-my-profile-setting" data-bs-toggle="tab" role="tab" aria-controls="tab-my-profile-setting" aria-selected="false">Setting</a></li>
+               <li><a href="#tab-my-jobs" id="my_profession" class="btn btn-border recruitment-icon mb-20 profile_tabs" data-bs-toggle="tab" role="tab" aria-controls="tab-my-jobs" aria-selected="false">Profession</a></li>
+                <li><a href="#education_certification" class="btn btn-border recruitment-icon mb-20"  onclick="coming_soon()" data-bs-toggle="tab" role="tab" aria-controls="tab-myclearance-jobs" aria-selected="false">Clearance</a></li>
+                <li><a class="btn btn-border people-icon mb-20"  data-bs-toggle="tab" role="tab" aria-controls="tab-saved-jobs" aria-selected="false">Education</a></li>
                 <li><a class="btn btn-border aboutus-icon mb-20" onclick="coming_soon()" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true">Experience</a></li>
                 <li><a class="btn btn-border recruitment-icon mb-20" onclick="coming_soon()" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu5" aria-selected="false">Contacts</a></li>
                 <li><a class="btn btn-border people-icon mb-20" onclick="coming_soon()" data-bs-toggle="tab" role="tab" aria-controls="tab-saved-menu6" aria-selected="false">Banks</a></li>
@@ -193,7 +194,7 @@
                             <div class="col-md-12 mob-adj">
                               <input type="hidden" name="countryCode" id="countryCode">
                               <input type="hidden" name="countryiso" id="country_iso" value="{{  Auth::guard('nurse_middle')->user()->country_iso }}">
-                              <input class="form-control numbers" type="text" required="" name="contact" id="contactI" value="{{  Auth::guard('nurse_middle')->user()->phone }}" placeholder="1234567890" maxlength="10">
+                              <input class="form-control numbers" type="tel" required="" name="contact" id="contactI" value="{{  Auth::guard('nurse_middle')->user()->phone }}"  maxlength="10">
                               <span id="reqTxtcontactI" class="reqError text-danger valley"></span>
                             </div>
                           </div>
@@ -204,7 +205,7 @@
                         <div class="col-lg-6">
                           <div class="form-group">
                             <label class="font-sm color-text-mutted mb-10">Date Of Birth</label>
-                            <input class="form-control" type="text" name="date_of_birth" id="date_of_birth" value="{{ Auth::guard('nurse_middle')->user()->date_of_birth }}">
+                            <input class="form-control" type="date" name="date_of_birth" id="date_of_birth" value="{{ Auth::guard('nurse_middle')->user()->date_of_birth }}">
                           </div>
                         </div>
                          <div class="col-lg-6">
@@ -223,10 +224,10 @@
                             
                           </div>
                         </div>
-                        <div class="form-group col-md-12">
+                        <!-- <div class="form-group col-md-12">
                           <label class="font-sm color-text-mutted mb-10">Bio</label>
                           <textarea class="form-control" rows="4" name="bio">{{ Auth::guard('nurse_middle')->user()->bio }}</textarea>
-                        </div>
+                        </div> -->
                         <div class="form-group">
                           <label class="font-sm color-text-mutted mb-10">Personal website</label>
                           <input class="form-control" type="url" name="website" value="{{  Auth::guard('nurse_middle')->user()->personal_website }}">
@@ -312,7 +313,7 @@
                             <div class="col-md-12 mob-adj">
                               <input type="hidden" name="emergency_countryCode" id="emergency_countryCode">
                               <input type="hidden" name="emergency_countryiso" id="emergency_country_iso">
-                              <input class="form-control numbers" type="text" required="" name="emergency_conact_numeber" id="contactI_emergency" placeholder="1234567890" value="{{ Auth::guard('nurse_middle')->user()->emergency_conact_numeber }}" maxlength="10">
+                              <input class="form-control numbers" type="text" required="" name="emergency_conact_numeber" id="contactI_emergency" value="{{ Auth::guard('nurse_middle')->user()->emergency_conact_numeber }}" maxlength="10">
                               <span id="reqTxtcontactI" class="reqError valley"></span>
                             </div>
                             
@@ -1132,10 +1133,10 @@
                       <label class="font-sm color-text-mutted mb-10">Contact number</label>
                       <input class="form-control" type="text" value="01 - 234 567 89">
                     </div>
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                       <label class="font-sm color-text-mutted mb-10">Bio</label>
                       <textarea class="form-control" rows="4">We are AliThemes , a creative and dedicated group of individuals who love web development almost as much as we love our customers. We are passionate team with the mission for achieving the perfection in web design.</textarea>
-                    </div>
+                    </div> -->
                     <div class="form-group">
                       <label class="font-sm color-text-mutted mb-10">Personal website</label>
                       <input class="form-control" type="url" value="https://alithemes.com/">
@@ -1964,6 +1965,40 @@
     }
 
   });
+
+    $("#my_profile").click(function(){
+     
+    window.history.replaceState(null, null, "?page=my_profile");
+
+    var url_string = window.location.href; 
+    var url = new URL(url_string);
+    var c = url.searchParams.get("page");
+    console.log(c);
+
+    if(c == "my_profile"){
+      $(".tab-pane").hide();
+      
+      $("#tab-my-profile").show();
+    }
+
+  });
+
+    $("#settings").click(function(){
+     
+    window.history.replaceState(null, null, "?page=settings");
+
+    var url_string = window.location.href; 
+    var url = new URL(url_string);
+    var c = url.searchParams.get("page");
+    console.log(c);
+
+    if(c == "settings"){
+      $(".tab-pane").hide();
+      
+      $("#tab-my-profile-setting").show();
+    }
+
+  });
   var url_string = window.location.href; 
     var url = new URL(url_string);
     var c = url.searchParams.get("page");
@@ -1973,6 +2008,24 @@
       $("#tab-my-profile").hide();
       $("#tab-my-jobs").css("opacity","1");
       $("#tab-my-jobs").show();
+      $(".profile_tabs").removeClass("active");
+      $("#my_profession").addClass("active");
+    }
+
+    if(c == "settings"){
+      $(".tab-pane").hide();
+      $("#tab-my-profile-setting").css("opacity","1");
+      $("#tab-my-profile-setting").show();
+      $(".profile_tabs").removeClass("active");
+      $("#settings").addClass("active");
+    }
+
+    if(c == "my_profile"){
+      $(".tab-pane").hide();
+      $("#tab-my-profile").css("opacity","1");
+      $("#tab-my-profile").show();
+      $(".profile_tabs").removeClass("active");
+      $("#my_profile").addClass("active");
     }
 
     var phoneInputID = "#contactI_emergency";
@@ -1983,7 +2036,7 @@
     // autoPlaceholder: "off",
     // dropdownContainer: document.body,
     // excludeCountries: ["us"],
-    formatOnDisplay: true,
+    formatOnDisplay: false,
     // geoIpLookup: function(callback) {
     //   $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
     //     var countryCode = (resp && resp.country) ? resp.country : "";
@@ -1998,7 +2051,7 @@
     // placeholderNumberType: "MOBILE",
     preferredCountries: ['AU'],
     // separateDialCode: true,
-    utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/11.0.14/js/utils.js"
+    utilsScript: ""
   });
 
   $(phoneInputID).on("countrychange", function(event) {
@@ -2034,27 +2087,27 @@
   var phoneInputID1 = "#contactI";
   var input1 = document.querySelector(phoneInputID1);
   var iti1 = window.intlTelInput(input1, {
-    // allowDropdown: false,
-    // autoHideDialCode: false,
-    // autoPlaceholder: "off",
-    // dropdownContainer: document.body,
-    // excludeCountries: ["us"],
-    formatOnDisplay: true,
-    // geoIpLookup: function(callback) {
+    // // allowDropdown: false,
+    autoHideDialCode: false,
+    // // autoPlaceholder: "off",
+    // // dropdownContainer: document.body,
+    // // excludeCountries: ["us"],
+    formatOnDisplay: false,
+    // // geoIpLookup: function(callback) {
     //   $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
     //     var countryCode = (resp && resp.country) ? resp.country : "";
     //     callback(countryCode);
     //   });
     // },
-    hiddenInput: "full_number",
+    // hiddenInput: "full_number",
     initialCountry: "{{ Auth::guard('nurse_middle')->user()->country_iso }}",
-    // localizedCountries: { 'de': 'Deutschland' },
-    // nationalMode: false,
-    // onlyCountries: ['us', 'gb', 'ch', 'ca', 'do'],
-    // placeholderNumberType: "MOBILE",
-    preferredCountries: ['AU'],
-    // separateDialCode: true,
-    utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/11.0.14/js/utils.js"
+    // // localizedCountries: { 'de': 'Deutschland' },
+    nationalMode: false,
+    // // onlyCountries: ['us', 'gb', 'ch', 'ca', 'do'],
+    // // placeholderNumberType: "MOBILE",
+    // preferredCountries: ['AU'],
+    //separateDialCode: true,
+    // utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/11.0.14/js/utils.js"
   });
 
   $(phoneInputID1).on("countrychange", function(event) {
@@ -2087,9 +2140,7 @@
     $(phoneInputID1).trigger("countrychange");
   });
 
-  $( function() {
-    $( "#date_of_birth" ).datepicker();
-  } );
+  
   
   $(document).ready(function() {
     $('#specialtyId').change(function() {

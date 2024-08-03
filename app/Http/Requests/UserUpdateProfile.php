@@ -14,7 +14,7 @@ class UserUpdateProfile extends FormRequest
             'countryCode' => 'required',
            
             'contact' => 'required',
-            'bio' => 'required',
+            
             'post_code' => 'required',
             'date_of_birth' => 'required',
             'country' => 'required',
@@ -34,7 +34,7 @@ class UserUpdateProfile extends FormRequest
             'countryCode.required' => 'The Country Code field is required.',
             
             'contact.required' => 'The Mobile Number  field is required.',
-            'bio.required' => 'The Bio field is required.',
+            
             'post_code.required' => 'The Post_code field is required.',
             'date_of_birth.required' => 'The Date of Birth field is required.',
             'country.required' => 'Please Select Country.',

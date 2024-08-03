@@ -108,11 +108,11 @@
                                         </td>
                                         <td>
                                         <div class="d-flex align-items-center gap-1">
-                                            {{-- <a href="{{ route('admin.view-profile', ['id' => $item->id]) }}"
+                                            <a href="{{ route('admin.view-profile', ['id' => $item->id]) }}"
                                                 class="btn btn-primary" data-bs-toggle="tooltip" data-bs-trigger="hover"
                                                 title="View">
                                                 View
-                                            </a> --}}
+                                            </a>
                                             {{-- <button type="button" class="btn btn-success "
                                                 onclick="changeStatus({{ $item->id }},'2')">Approve
                                             </button> --}}

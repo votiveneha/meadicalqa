@@ -967,6 +967,7 @@ $(document).ready(function() {
                       </div> -->
                       <div class="col-md-12 mob-adj">
                         <input type="hidden" name="countryCode" id="countryCode">
+                        <input type="hidden" name="countryiso" id="country_iso">
                         <input class="form-control numbers" type="text" required="" name="contact" id="contactI" placeholder="" maxlength="10" pattern="[0-9]{4}">
                         <span id="reqTxtcontactI" class="reqError valley"></span>
                       </div>
@@ -1610,6 +1611,7 @@ $(document).ready(function() {
     var selectedCountryData = iti.getSelectedCountryData();
     console.log("selectedCountryData",selectedCountryData.dialCode);
     $("#countryCode").val(selectedCountryData.dialCode);
+    $("#country_iso").val(selectedCountryData.iso2);
     //alert($("#contactI").intlTelInput("getSelectedCountryData").dialCode);
     // Get an example number for the selected country to use as placeholder.
     // newPlaceholder = intlTelInputUtils.getExampleNumber(selectedCountryData.iso2, true, intlTelInputUtils.numberFormat.INTERNATIONAL),

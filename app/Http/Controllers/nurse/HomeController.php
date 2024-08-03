@@ -178,6 +178,7 @@ class HomeController extends Controller
 
 
             ];
+            
             $randnum = rand(1111111111, 9999999999);
             Mail::to($to)->send(new \App\Mail\DemoMail($mailData));
             
@@ -186,6 +187,7 @@ class HomeController extends Controller
             $companyinsert['email'] = $request->email;
             $companyinsert['country'] = country_id($request->countryCode);
             $companyinsert['country_code'] = $request->countryCode;
+            $companyinsert['country_iso'] = $request->countryiso;
             $companyinsert['phone'] = $request->contact;
             $companyinsert['post_code'] = $request->post_code;
             $companyinsert['password'] = Hash::make($password);
