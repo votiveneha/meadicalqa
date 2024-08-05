@@ -97,7 +97,13 @@ Route::prefix('/admin')->name('admin.')->namespace('App\Http\Controllers\admin')
         Route::post('/changeProfessionVerificationStatus', 'VerificationController@changeProfessionVerificationStatus')->name('changeProfessionVerificationStatus');
         Route::get('/policeCheckVerificationList', 'VerificationController@policeCheckVerificationList')->name('policeCheckVerificationList');
         Route::post('/changePoliceCheckVerificationStatus', 'VerificationController@changePoliceCheckVerificationStatus')->name('changePoliceCheckVerificationStatus');
-          
+           
+        // Certificate  Managemenent
+        Route::get('/professional-certificate-list', 'ProfessionalcerController@certificateList')->name('certificateList');
+        Route::post('/add-certificate', 'ProfessionalcerController@addCertificate')->name('addcertificate');
+        Route::post('/update-certificate', 'ProfessionalcerController@updateCertificate')->name('updateCertificate');
+        Route::post('/delete-certificate', 'ProfessionalcerController@deleteCertificate')->name('deleteCertificate');  
+        Route::post('/get-certificate', 'ProfessionalcerController@getCertificate')->name('getCertificate');
 
          /* contact us list */
          Route::get('/contact-list', 'ContentController@contactList')->name('contact-list');

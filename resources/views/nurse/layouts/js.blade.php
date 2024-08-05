@@ -569,28 +569,101 @@ function pad(number) {
     return false;
   }
   function myFunction1() {
-    $('#profession_form').find('.text-danger').hide();
+    event.preventDefault();
+    var isValid = true;
+    if ($('[name="nurseType[]"]').val() == '') {
+      document.getElementById("reqnurseTypeId").innerHTML = "* Please select one or more Type of nurse";
+      isValid = false;
+    }
+
+    if ($('[name="specialties[]"]').val() == '') {
+      document.getElementById("reqspecialties").innerHTML = "* Please select one or more specialties.";
+      isValid = false;
+    }
+
+    if ($('[name="degree[]"]').val() == '') {
+      document.getElementById("reqdegree").innerHTML = "* Please select degree.";
+      isValid = false;
+    }
+
+    if ($('[name="bio"]').val() == '') {
+      document.getElementById("reqprofessional_bio").innerHTML = "* Please enter the bio.";
+      isValid = false;
+    }
+
+    if ($('[name="employee_status"]').val() == '') {
+      document.getElementById("reqemployee_status").innerHTML = "* Please select the employee status.";
+      isValid = false;
+    }
+
+    if(isValid == true){
+      $.ajax({
+        url: "{{ route('nurse.updateProfession') }}",
+        type: "POST",
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: new FormData($('#profession_form')[0]),
+        dataType: 'json',
+        beforeSend: function() {
+          $('#submitProfession').prop('disabled', true);
+          $('#submitProfession').text('Process....');
+        },
+        success: function(res) {
+          $('#submitProfession').prop('disabled', false);
+          $('#submitProfession').text('Update Profile');
+
+          if (res.status == '1') {
+            Swal.fire({
+              icon: 'success',
+              title: 'Success',
+              text: 'Professional Information Updated Successfully',
+            }).then(function() {
+              window.location.href = "{{ route('nurse.my-profile') }}?page=profession";
+            });
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: res.message,
+            })
+          }
+          
+        },
+        error: function(errorss) {
+          $('#submitProfession').prop('disabled', false);
+          $('#submitProfession').text('Submit');
+          for (var err in errorss.responseJSON.errors) {
+            $("#submitProfession").find("[name='" + err + "']").after("<div class='text-danger'>" + errorss.responseJSON.errors[err] + "</div>");
+          }
+        }
+      });
+    }
+    return false;
+  }
+  function educert() {
+    $('#educert_form').find('.text-danger').hide();
     $.ajax({
-      url: "{{ route('nurse.updateProfession') }}",
+      url: "{{ route('nurse.updateEducation') }}",
       type: "POST",
       cache: false,
       contentType: false,
       processData: false,
-      data: new FormData($('#profession_form')[0]),
+      data: new FormData($('#educert_form')[0]),
       dataType: 'json',
       beforeSend: function() {
-        $('#submitProfession').prop('disabled', true);
-        $('#submitProfession').text('Process....');
+        $('#submitEducation').prop('disabled', true);
+        $('#submitEducation').text('Process....');
       },
       success: function(res) {
-        $('#submitProfession').prop('disabled', false);
-        $('#submitProfession').text('Update Profile');
+        $('#submitEducation').prop('disabled', false);
+        $('#submitEducation').text('Update Profile');
 
         if (res.status == '1') {
           Swal.fire({
             icon: 'success',
             title: 'Success',
-            text: 'Professional Information Updated Successfully',
+            text: 'Education Information Updated Successfully',
           }).then(function() {
             window.location.href = "{{ route('nurse.my-profile') }}";
           });
@@ -604,10 +677,11 @@ function pad(number) {
         
       },
       error: function(errorss) {
-        $('#submitProfession').prop('disabled', false);
-        $('#submitProfession').text('Submit');
+        $('#submitEducation').prop('disabled', false);
+        $('#submitEducation').text('Submit');
+        console.log("errorss",errorss);
         for (var err in errorss.responseJSON.errors) {
-          $("#submitProfession").find("[name='" + err + "']").after("<div class='text-danger'>" + errorss.responseJSON.errors[err] + "</div>");
+          $("#submitEducation").find("[name='" + err + "']").after("<div class='text-danger'>" + errorss.responseJSON.errors[err] + "</div>");
         }
       }
     });

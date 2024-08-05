@@ -93,7 +93,7 @@
                 <li><a class="btn btn-border recruitment-icon mb-20 profile_tabs" id="settings" href="#tab-my-profile-setting" data-bs-toggle="tab" role="tab" aria-controls="tab-my-profile-setting" aria-selected="false">Setting</a></li>
                <li><a href="#tab-my-jobs" id="my_profession" class="btn btn-border recruitment-icon mb-20 profile_tabs" data-bs-toggle="tab" role="tab" aria-controls="tab-my-jobs" aria-selected="false">Profession</a></li>
                 <li><a href="#education_certification" class="btn btn-border recruitment-icon mb-20"  onclick="coming_soon()" data-bs-toggle="tab" role="tab" aria-controls="tab-myclearance-jobs" aria-selected="false">Clearance</a></li>
-                <li><a class="btn btn-border people-icon mb-20"  data-bs-toggle="tab" role="tab" aria-controls="tab-saved-jobs" aria-selected="false">Education</a></li>
+                <li><a class="btn btn-border people-icon mb-20" id="educert"  data-bs-toggle="tab" role="tab" aria-controls="tab-saved-jobs" aria-selected="false">Education</a></li>
                 <li><a class="btn btn-border aboutus-icon mb-20" onclick="coming_soon()" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true">Experience</a></li>
                 <li><a class="btn btn-border recruitment-icon mb-20" onclick="coming_soon()" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu5" aria-selected="false">Contacts</a></li>
                 <li><a class="btn btn-border people-icon mb-20" onclick="coming_soon()" data-bs-toggle="tab" role="tab" aria-controls="tab-saved-menu6" aria-selected="false">Banks</a></li>
@@ -132,7 +132,7 @@
             <div class="tab-content">
 
 
-              <div class="tab-pane fade show active" id="tab-my-profile" role="tabpanel" aria-labelledby="tab-my-profile">
+              <div class="tab-pane fade show active" id="tab-my-profile" role="tabpanel" aria-labelledby="tab-my-profile" style="display: none">
                 <h3 class="mt-30 mb-15 color-brand-1">My Account</h3>
                 <div class="profile_update_heading">
                   <a class="font-md color-text-paragraph-2" href="#">Update your profile</a>
@@ -389,7 +389,7 @@
                 </div>
               </div>
 
-              <div class="tab-pane fade" id="tab-my-jobs" role="tabpanel" aria-labelledby="tab-my-jobs">
+              <div class="tab-pane fade" id="tab-my-jobs" role="tabpanel" aria-labelledby="tab-my-jobs" style="display: none">
 
 
                 <div class="card shadow-sm border-0 p-4 mt-30">
@@ -418,9 +418,10 @@
 
                             <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="type-of-nurse" name="nurseType[]" id="nurse_type" multiple="multiple"></select>
                        </div>
+                       <span id="reqnurseTypeId" class="reqError text-danger valley"></span>
                     </div> 
 
-                    <span id="reqTxtspecialtyId" class="reqError text-danger valley"></span>
+                    
                     <div class="result--show ">
   <div class="container p-0">
     <div class="row g-2">
@@ -510,6 +511,7 @@
             </ul>
         <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="specialties" name="specialties[]" multiple="multiple"></select>
    </div>
+   <span id="reqspecialties" class="reqError text-danger valley"></span>
 </div>
 <div class="speciality_boxes row result--show">
     <?php
@@ -649,7 +651,7 @@
                     <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
                     <select class="form-input mr-10 select-active" name="assistent_level">
                       
-                      @for($i = 1; $i <= 30; $i++) <option value="{{ $i }}">{{ $i }}{{ $i == 1 ? 'st' : ($i == 2 ? 'nd' : ($i == 3 ? 'rd' : 'th')) }} Year</option>
+                      @for($i = 1; $i <= 30; $i++) <option value="{{ $i }}" @if(Auth::guard('nurse_middle')->user()->assistent_level == $i) selected @endif>{{ $i }}{{ $i == 1 ? 'st' : ($i == 2 ? 'nd' : ($i == 3 ? 'rd' : 'th')) }} Year</option>
                         @endfor
                     </select>
                   </div>
@@ -678,13 +680,14 @@
                         </ul>
                     <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="nurse_degree" name="degree[]" multiple="multiple"></select>
                     </div>
-
+                    <span id="reqdegree" class="reqError text-danger valley"></span>
                   </div>   
                   <div class="professional_bio">
                     <div class="form-group col-md-12">
                       <label class="font-sm color-text-mutted mb-10">Professional Bio</label>
                       <textarea class="form-control" rows="4" name="bio">{{ Auth::guard('nurse_middle')->user()->bio }}</textarea>
                     </div>
+                    <span id="reqprofessional_bio" class="reqError text-danger valley"></span>
                   </div>   
                   <div class="professional_bio">
                     <div class="form-group col-md-12">
@@ -697,6 +700,7 @@
                       <option value="Unemployed" @if(Auth::guard('nurse_middle')->user()->current_employee_status == "Unemployed") selected @endif>Unemployed</option>
                     </select>
                     </div>
+                    <span id="reqemployee_status" class="reqError text-danger valley"></span>
                   </div>      
                   <div class="box-button mt-15">
                           <button class="btn btn-apply-big font-md font-bold" type="submit" id="submitProfession">Save Changes</button>
@@ -707,7 +711,128 @@
 
 
               </div>
-              <div class="tab-pane fade" id="tab-myclearance-jobs" role="tabpanel" aria-labelledby="tab-myclearance-jobs">
+              <div class="tab-pane fade" id="tab-educert" role="tabpanel" aria-labelledby="tab-educert" style="display: none">
+                <h3 class="mt-0 color-brand-1 mb-2">Education and Certification</h3>
+                <h6 class="emergency_text">
+                          Educational Background
+                        </h6>
+                <form id="educert_form" method="POST" onsubmit="return educert()">
+                  @csrf
+                  <?php
+                    $educationData = DB::table("user_education_cerification")->where("user_id",Auth::guard('nurse_middle')->user()->id)->first();
+                  ?>
+                  <div class="form-group">
+                    <div class="" id="mid_select">
+                      <div class="form-group drp--clr drpdown-set">
+                        <input type="hidden" name="user_id" value="{{ Auth::guard('nurse_middle')->user()->id }}">
+                        <input type="hidden" name="nurse_degree_one" class="nurse_degree_one" value="{{ Auth::guard('nurse_middle')->user()->degree }}">
+                        <label class="form-label" for="input-1">Nurse & Midwife degree</label>
+                         <?php
+                          $nurse_midwife_degree = DB::table("degree")->where('status', '1')->orderBy('name')->get();
+                         ?>
+                          <ul id="ndegree" style="display:none;">
+                               @foreach($nurse_midwife_degree as $ptl)
+                                <li data-value="{{ $ptl->id }}">{{ $ptl->name }}</li>
+                                
+                                @endforeach
+                          </ul>
+                      <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="ndegree" name="degree[]" multiple="multiple"></select>
+                      </div>
+
+                    </div>   
+                  </div>
+                  
+                  <div class="form-group level-drp">
+                    <label class="form-label" for="input-1">Institutions</label>
+                    <input class="form-control" type="text" required="" name="institution" value="">
+                    
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group level-drp">
+                        <label class="form-label" for="input-1">Graduation Start Date</label>
+                        <input class="form-control" type="date" required="" name="graduation_start_date" value="">
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group level-drp">
+                        <label class="form-label" for="input-1">Graduation End Date</label>
+                        <input class="form-control" type="date" required="" name="graduation_end_date" value="">
+                      </div>
+                    </div>
+                  </div>
+                  <h6 class="emergency_text">
+                          Professional Certification
+                        </h6>
+                        <div class="form-group level-drp">
+                          <input type="hidden" name="prof_cert_new" class="prof_cert_new" value="">
+                          <label class="form-label" for="input-1">Select Professional Certification</label>
+                           
+                            <ul id="profess_cert" style="display:none;">
+                                
+                                <li data-value="">ACLS</li>
+                                <li data-value="">BLS</li>
+                                <li data-value="">PALS</li>
+                            </ul>
+                        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="profess_cert" name="professional_certification[]" multiple="multiple"></select>
+                      </div>
+                      <h6 class="emergency_text">
+                          Licenses Information 
+                        </h6>
+                        <div class="form-group level-drp">
+                          <label class="form-label" for="input-1">License Number</label>
+                          <input class="form-control" type="text" required="" name="license_number">
+                        </div>
+                        <div class="row">
+                        <div class="form-group position-relative col-md-6">
+                          <!-- <textarea type="text" class="form-control ps-5" placeholder="Address"></textarea> -->
+                          <label class="font-sm color-text-mutted mb-10">Country</label>
+                          <select class="form-control form-select ps-5" name="country" id="countryI">
+                            <option value="">Select Country</option>
+                            @php $country_data=country_name_from_db();@endphp
+                            @foreach ($country_data as $data)
+                            <option value="{{$data->id}}" <?= isset(Auth::guard('nurse_middle')->user()->country) &&  Auth::guard('nurse_middle')->user()->country == $data->iso2 ? 'selected' : '' ?>> {{$data->name}} </option>
+                            @endforeach
+
+
+                          </select>
+                        </div>
+
+                        <div class="col-md-6">
+                          <div class="form-group position-relative">
+                            <!-- <textarea type="text" class="form-control ps-5" placeholder="Address"></textarea> -->
+                            <label>State *</label>
+                            <select class="form-control form-select ps-5" name="state" id="stateI" id="stateI">
+                              @php
+                              if(isset( Auth::guard('nurse_middle')->user()->country)){
+                              $state_data =state_name_array( Auth::guard('nurse_middle')->user()->country);
+                              }else{
+                              $state_data = '';
+                              }
+                              @endphp
+
+                              @if(isset($state_data) && !empty($state_data))
+                              @foreach ($state_data as $data_state)
+                              <option value="{{$data_state->id}}" <?= isset(Auth::guard('nurse_middle')->user()->state) &&  Auth::guard('nurse_middle')->user()->state  == $data_state->id ? 'selected' : '' ?>> {{$data_state->name}} </option>
+                              @endforeach
+                              @endif
+
+                            </select>
+                            <!--<i class="fa-solid fa-location-dot position-absolute  start-0 translate-middle-y ms-3 fs-5 text-primary" style="    top: 25px!important;"></i>-->
+                          </div>
+                          <span id="reqTxtstateI" class="reqError text-danger valley"></span>
+                        </div>
+                        </div>
+                        <div class="form-group level-drp">
+                          <label class="form-label" for="input-1">Expiration Date</label>
+                          <input class="form-control" type="date" required="" name="expiration_date">
+                        </div>
+                  <div class="box-button mt-15">
+                    <button class="btn btn-apply-big font-md font-bold" type="submit" id="submitEducation">Save Changes</button>
+                  </div>          
+                </form>
+              </div>
+              <div class="tab-pane fade" id="tab-myclearance-jobs" role="tabpanel" aria-labelledby="tab-myclearance-jobs" style="display: none">
 
 
                 <div class="card shadow-sm border-0 p-4 mt-30">
@@ -1389,6 +1514,122 @@
    <script src= 
 "https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/select2.min.js"> 
        </script> 
+        <script>
+    $(document).ready(function() {
+
+        // Add an additional search box and extra buttons to the dropdown
+        $('.addAll_removeAll_btn').on('select2:open', function() {
+            var $dropdown = $(this);
+            var searchBoxHtml = `
+                
+                <div class="extra-buttons">
+                    <button class="select-all-button" type="button">Select All</button>
+                    <button class="remove-all-button" type="button">Remove All</button>
+                </div>`;
+
+            // Remove any existing extra buttons before adding new ones
+            $('.select2-results .extra-search-container').remove();
+            $('.select2-results .extra-buttons').remove();
+
+            // Append the new extra buttons and search box
+            $('.select2-results').prepend(searchBoxHtml);
+
+            // Handle Select All button for the current dropdown
+            $('.select-all-button').on('click', function() {
+                var $currentDropdown = $dropdown;
+                var allValues = $currentDropdown.find('option').map(function() {
+                    return $(this).val();
+                }).get();
+                $currentDropdown.val(allValues).trigger('change');
+            });
+
+            // Handle Remove All button for the current dropdown
+            $('.remove-all-button').on('click', function() {
+                var $currentDropdown = $dropdown;
+                $currentDropdown.val(null).trigger('change');
+            });
+        });
+
+    });
+</script>
+<script>
+        $(document).ready(function() {
+
+            // Add an additional search box to the dropdown
+            $('.js-example-basic-multiple').on('select2:open', function() {
+                var searchBoxHtml = `
+                    <div class="extra-search-container">
+                        <input type="text" class="extra-search-box" placeholder="Search...">
+                        <button class="clear-button" type="button">&times;</button>
+                    </div>`;
+                
+                if ($('.select2-results').find('.extra-search-container').length === 0) {
+                    $('.select2-results').prepend(searchBoxHtml);
+                }
+
+                var $searchBox = $('.extra-search-box');
+                var $clearButton = $('.clear-button');
+
+                $searchBox.on('input', function() {
+
+                    var searchTerm = $(this).val().toLowerCase();
+                    $('.select2-results__option').each(function() {
+                        var text = $(this).text().toLowerCase();
+                        if (text.includes(searchTerm)) {
+                            $(this).show();
+                        } else {
+                            $(this).hide();
+                        }
+                    });
+
+                    $clearButton.toggle($searchBox.val().length > 0);
+                });
+
+                $clearButton.on('click', function() {
+                    $searchBox.val('');
+                    $searchBox.trigger('input');
+                });
+            });
+        });
+    </script>
+
+
+<!-- Add All button & Remove all button code End -->
+  
+  <!-- <script>
+        $(document).ready(function() {
+            // Initialize Select2
+            $('.js-example-basic-multiple').select2();
+
+            // Dynamically add the clear button
+            const clearButton = $('<span class="clear-btn">✖</span>');
+            $('.select2-container').append(clearButton);
+
+            // Handle the visibility of the clear button
+            function toggleClearButton() {
+
+                const selectedOptions = $('.js-example-basic-multiple').val();
+                if (selectedOptions && selectedOptions.length > 0) {
+                    clearButton.show();
+                } else {
+                    clearButton.hide();
+                }
+            }
+
+            // Attach change event to select2
+            $('.js-example-basic-multiple').on('change', toggleClearButton);
+
+            // Clear button click event
+            clearButton.click(function() {
+
+                $('.js-example-basic-multiple').val(null).trigger('change');
+                toggleClearButton();
+            });
+
+            // Initial check
+            toggleClearButton();
+        });
+    </script> -->
 <script type="text/javascript">
   $('.post_code').keypress(function (e) {    
     
@@ -1536,9 +1777,14 @@
     $('.js-example-basic-multiple[data-list-id="surgical_operative_carep-3"]').select2().val(pad_qr_scrub).trigger('change');
   }
   
-  if($(".nurse_degree").val() != ""){
-    var nurse_degree = JSON.parse($(".nurse_degree").val());
-    $('.js-example-basic-multiple[data-list-id="nurse_degree"]').select2().val(nurse_degree).trigger('change');
+  if($(".nurse_degree_one").val() != ""){
+    var nurse_degree = JSON.parse($(".nurse_degree_one").val());
+    $('.js-example-basic-multiple[data-list-id="ndegree"]').select2().val(nurse_degree).trigger('change');
+  }
+
+  if($(".prof_cert_new").val() != ""){
+    var prof_cert_new = JSON.parse($(".prof_cert_new").val());
+    $('.js-example-basic-multiple[data-list-id="profess_cert"]').select2().val(prof_cert_new).trigger('change');
   }
   
   $(".surgical_row_data").insertAfter("#specility_level-1");
@@ -1554,7 +1800,7 @@
   var nurse_type_list = $('#nurse_type').select2("data");
 
   for(var x=0;x<nurse_type_list.length;x++){
-    $(".nursing_"+nurse_type_list[x].id).show();
+    $(".nursing_"+nurse_type_list[x].id).removeClass('d-none');
   }
 
   var advancedpractioner_list = $('.js-example-basic-multiple[data-list-id="nursing_entry-3"]').select2("data");
@@ -1999,6 +2245,22 @@
     }
 
   });
+    $("#educert").click(function(){
+     
+      window.history.replaceState(null, null, "?page=educert");
+
+      var url_string = window.location.href; 
+      var url = new URL(url_string);
+      var c = url.searchParams.get("page");
+      console.log(c);
+
+      if(c == "educert"){
+        $(".tab-pane").hide();
+        
+        $("#tab-educert").show();
+      }
+
+    });
   var url_string = window.location.href; 
     var url = new URL(url_string);
     var c = url.searchParams.get("page");
@@ -2027,6 +2289,14 @@
       $(".profile_tabs").removeClass("active");
       $("#my_profile").addClass("active");
     }
+
+    if(c == "educert"){
+        $(".tab-pane").hide();
+        $("#tab-educert").css("opacity","1");
+        $("#tab-educert").show();
+        $(".profile_tabs").removeClass("active");
+        $("#educert").addClass("active");
+      }
 
     var phoneInputID = "#contactI_emergency";
   var input = document.querySelector(phoneInputID);

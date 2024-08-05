@@ -197,6 +197,7 @@
                 
             </ul>
         <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="type-of-nurse" name="nurseType[]" multiple="multiple"></select>
+        <span id="reqnurseTypeId" class="reqError valley"></span>
    </div>
 </div>
 
@@ -222,6 +223,7 @@
                 <!-- Add more list items as needed -->
             </ul>
         <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="nursing_entry-{{ $i }}" name="nursing_type_{{ $i }}[]" multiple="multiple"></select>
+
     </div>
     <?php
         $i++;
@@ -270,6 +272,7 @@
                 
             </ul>
         <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="specialties" name="specialties[]" multiple="multiple"></select>
+        <span id="reqspecialties" class="reqError valley"></span>
    </div>
 </div>
 <div class="speciality_boxes row result--show">
@@ -413,6 +416,7 @@
                       @for($i = 1; $i <= 30; $i++) <option value="{{ $i }}">{{ $i }}{{ $i == 1 ? 'st' : ($i == 2 ? 'nd' : ($i == 3 ? 'rd' : 'th')) }} Year</option>
                         @endfor
                     </select>
+                    <span id="reqassistent_level" class="reqError valley"></span>
                   </div>
                   <div class="" id="mid_select">
                     <div class="form-group">
@@ -438,6 +442,7 @@
                               @endforeach
                         </ul>
                     <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="nurse_degree" name="degree[]" multiple="multiple"></select>
+                    <span id="reqdegree" class="reqError valley"></span>
                     </div>
 
                   </div>
@@ -888,7 +893,7 @@ $(document).ready(function() {
 
 
    
-                <span id="reqnurseTypeId" class="reqError valley"></span>
+                
 
                 
 
@@ -896,7 +901,7 @@ $(document).ready(function() {
 
 
                 
-                <span id="reqassistent_level" class="reqError valley"></span>
+                
 
 
                 
@@ -1064,8 +1069,7 @@ $(document).ready(function() {
     var nurse_array = [];
     $(".next-step").click(function() {
    
-      $(".first_step").removeClass("registration_progress");
-      $(".second_step").addClass("registration_progress");
+      
 
       if (currentStep == 1) {
         
@@ -1186,6 +1190,7 @@ $(document).ready(function() {
     }
     // Validate assistant level select
     if ($('[name="assistent_level"]').val() == '') {
+      
       document.getElementById("reqassistent_level").innerHTML = "*  Please select on what level are you ?";
       isValid = false;
     }
@@ -1201,11 +1206,20 @@ $(document).ready(function() {
       isValid = false;
     }
 
+    
+
     // Validate  NURSE & MIDWIFE DEGREE type select
     if ($('[name="degree[]"]').val() == '') {
       document.getElementById("reqdegree").innerHTML = "* Please select one or more degree.";
       isValid = false;
     }
+
+    if(isValid == true){
+      $(".first_step").removeClass("registration_progress");
+      $(".second_step").addClass("registration_progress");
+    }
+
+    
 
     return isValid;
   }

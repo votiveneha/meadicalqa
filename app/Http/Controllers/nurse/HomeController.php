@@ -351,7 +351,7 @@ class HomeController extends Controller
         if (User::where('email',$request->email)->where('status', '!=', '0')->exists()) {
             return response()->json([
                 'status' => 1,
-                'message' => 'This email is Already registered with us !'
+                'message' => 'This email is already registered with us !'
             ], 200);
         } else {
             return response()->json([
@@ -602,7 +602,7 @@ class HomeController extends Controller
             return back()->with('error', 'No user found with this email. None of the accounts are associated with this detail.');
         } elseif (Auth::guard('nurse_middle')->attempt(['email' => $request->email, 'password' => $request->password])) {
 
-            return redirect('/nurse/my-profile')->with('success', 'You are Logged in sucessfully.');
+            return redirect('/nurse/my-profile?page=my_profile')->with('success', 'You are Logged in sucessfully.');
         } else {
             return back()->with('error', 'Invalid login details.');
         }
@@ -1003,6 +1003,72 @@ class HomeController extends Controller
                 $json['status'] = 0;
                 $json['message'] = 'Please Try Again';
             }
+        
+        echo json_encode($json);
+    }
+
+    public function updateEducation(Request $request){
+        $degree = json_encode($request->degree);
+
+        $institution = $request->institution;
+        $user_id = $request->user_id;
+        $graduation_start_date = $request->graduation_start_date;
+        $graduation_end_date = $request->graduation_end_date;
+        $professional_certification = json_encode($request->professional_certification);
+        $license_number = $request->license_number;
+        $country = $request->country;
+        $state = $request->state;
+        $expiration_date = $request->expiration_date;
+        
+        $getedudata = DB::table("user_education_cerification")->where("user_id",$user_id)->first();
+        //$post = User::find($request->user_id);
+        
+        if(!empty($getedudata)>0){
+
+            $post1 = User::find($user_id);
+            $post1->degree = $degree;
+            $post1->save();
+            
+            $post = EducationModel::find(['user_id' => $user_id]);
+            
+            //echo $user_id;die;
+            $post->institution = $institution;
+            $post->graduate_start_date = $graduation_start_date;
+            $post->graduate_end_date = $graduation_end_date;
+            $post->professional_certifications = $professional_certification;
+            $post->licence_number = $license_number;
+            $post->country = $country;
+            $post->state = $state;
+            $post->expiration_date = $expiration_date;
+            
+            $run = $post->save();
+        }else{
+            $post1 = User::find($user_id);
+            $post->degree = $degree;
+            $post1->save();
+
+            $post = new EducationModel;
+            $post->user_id = $user_id;
+            
+            $post->institution = $institution;
+            $post->graduate_start_date = $graduation_start_date;
+            $post->graduate_end_date = $graduation_end_date;
+            $post->professional_certifications = $professional_certification;
+            $post->licence_number = $license_number;
+            $post->country = $country;
+            $post->state = $state;
+            $post->expiration_date = $expiration_date;
+            $run = $post->save();
+        }
+
+        if ($run) {
+            $json['status'] = 1;
+            $json['url'] = url('nurse/my-profile');
+            $json['message'] = 'Education Information Updated Successfully';
+         } else {
+            $json['status'] = 0;
+            $json['message'] = 'Please Try Again';
+        }
         
         echo json_encode($json);
     }
