@@ -105,6 +105,13 @@ Route::prefix('/admin')->name('admin.')->namespace('App\Http\Controllers\admin')
         Route::post('/delete-certificate', 'ProfessionalcerController@deleteCertificate')->name('deleteCertificate');  
         Route::post('/get-certificate', 'ProfessionalcerController@getCertificate')->name('getCertificate');
 
+        //Training  Managemenent
+        Route::get('/training-list', 'TrainingController@TrainingList')->name('TrainingList');
+        Route::post('/add-training', 'TrainingController@addTraining')->name('addTraining');
+        Route::post('/update-training', 'TrainingController@updateTraining')->name('updateTraining');
+        Route::post('/delete-training', 'TrainingController@deleteTraining')->name('deleteTraining');  
+        Route::post('/get-training', 'TrainingController@getTraining')->name('getTraining');
+
          /* contact us list */
          Route::get('/contact-list', 'ContentController@contactList')->name('contact-list');
         });

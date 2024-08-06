@@ -14,6 +14,7 @@ use App\Models\WorkingChildrenCheckModel;
 use App\Models\PoliceCheckModel;
 use App\Models\DegreeModel;
 use App\Models\EmergencyContactModel;
+use App\Models\ProfessionalCer;
 
 function specialty()
 {
@@ -50,6 +51,11 @@ function nurse_midwife_degree()
 {
         $nurse_midwife_degree =  DegreeModel::where('status', '1')->orderBy('id', 'desc')->get();
         return $nurse_midwife_degree;
+}
+function nurse_midwife_degree_by_id($id)
+{
+        $nurse_midwife_degree =  DegreeModel::where('status', '1')->where('id', $id)->first();
+        return $nurse_midwife_degree->name;
 }
 function practitioner_type_by_id($practitioner)
 {
@@ -206,3 +212,9 @@ function getUserNameById($id)
         }
         
 }
+function professional_certificate_by_id($id)
+{
+        $certificate =  ProfessionalCer::where('id', $id)->first();
+        return $certificate->name;
+}
+

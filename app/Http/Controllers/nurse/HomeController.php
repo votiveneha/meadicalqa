@@ -34,7 +34,7 @@ use Session;
 use App\Services\Admins\SpecialityServices;
 
 use App\Models\SpecialityModel;
-
+use App\Models\EducationModel;
 use App\Repository\Eloquent\SpecialityRepository;
 
 class HomeController extends Controller
@@ -1008,7 +1008,7 @@ class HomeController extends Controller
     }
 
     public function updateEducation(Request $request){
-        $degree = json_encode($request->degree);
+        $degree = json_encode($request->ndegree);
 
         $institution = $request->institution;
         $user_id = $request->user_id;
@@ -1029,25 +1029,14 @@ class HomeController extends Controller
             $post1->degree = $degree;
             $post1->save();
             
-            $post = EducationModel::find(['user_id' => $user_id]);
-            
-            //echo $user_id;die;
-            $post->institution = $institution;
-            $post->graduate_start_date = $graduation_start_date;
-            $post->graduate_end_date = $graduation_end_date;
-            $post->professional_certifications = $professional_certification;
-            $post->licence_number = $license_number;
-            $post->country = $country;
-            $post->state = $state;
-            $post->expiration_date = $expiration_date;
-            
-            $run = $post->save();
+            $run = EducationModel::where('user_id',$user_id)->update(['institution'=>$institution,'graduate_start_date'=>$graduation_start_date,'graduate_end_date'=>$graduation_end_date,'professional_certifications'=>$professional_certification,'licence_number'=>$license_number,'country'=>$country,'state'=>$state,'expiration_date'=>$expiration_date]);
         }else{
+
             $post1 = User::find($user_id);
-            $post->degree = $degree;
+            $post1->degree = $degree;
             $post1->save();
 
-            $post = new EducationModel;
+            $post = new EducationModel();
             $post->user_id = $user_id;
             
             $post->institution = $institution;

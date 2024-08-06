@@ -133,7 +133,8 @@
 
 
               <div class="tab-pane fade show active" id="tab-my-profile" role="tabpanel" aria-labelledby="tab-my-profile" style="display: none">
-                <h3 class="mt-30 mb-15 color-brand-1">My Account</h3>
+			  <div class="card shadow-sm border-0 p-4 mt-30">
+                <h3 class="mt-0 mb-15 color-brand-1">My Account</h3>
                 <div class="profile_update_heading">
                   <a class="font-md color-text-paragraph-2" href="#">Update your profile</a>
                 </div>
@@ -388,6 +389,7 @@
                   <!--</div>-->
                 </div>
               </div>
+			  </div>
 
               <div class="tab-pane fade" id="tab-my-jobs" role="tabpanel" aria-labelledby="tab-my-jobs" style="display: none">
 
@@ -711,7 +713,9 @@
 
 
               </div>
+			  
               <div class="tab-pane fade" id="tab-educert" role="tabpanel" aria-labelledby="tab-educert" style="display: none">
+			  <div class="card shadow-sm border-0 p-4 mt-30">
                 <h3 class="mt-0 color-brand-1 mb-2">Education and Certification</h3>
                 <h6 class="emergency_text">
                           Educational Background
@@ -736,7 +740,7 @@
                                 
                                 @endforeach
                           </ul>
-                      <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="ndegree" name="degree[]" multiple="multiple"></select>
+                      <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="ndegree" name="ndegree[]" multiple="multiple"></select>
                       </div>
 
                     </div>   
@@ -783,7 +787,7 @@
                           <label class="form-label" for="input-1">License Number</label>
                           <input class="form-control" type="text" required="" name="license_number">
                         </div>
-                        <div class="row">
+                        <div class="row state-row">
                         <div class="form-group position-relative col-md-6">
                           <!-- <textarea type="text" class="form-control ps-5" placeholder="Address"></textarea> -->
                           <label class="font-sm color-text-mutted mb-10">Country</label>
@@ -832,10 +836,13 @@
                   </div>          
                 </form>
               </div>
+			  </div>
+			  
               <div class="tab-pane fade" id="tab-myclearance-jobs" role="tabpanel" aria-labelledby="tab-myclearance-jobs" style="display: none">
 
 
                 <div class="card shadow-sm border-0 p-4 mt-30">
+				
                   <h3 class="mt-0 color-brand-1 mb-2">Work Clearances</h3>
                   <a class="font-md color-text-paragraph-2" href="#">Please provide your work clearances, as required for the roles you want to apply to. Find work you want, to learn what’s required. Keep your work clearances up-to-date to maintain your eligibility for jobs</a>
                   <h6 class="mt-0 color-brand-1 mb-2">Eligibility To Work</h6>
@@ -1434,6 +1441,7 @@
 
 
               </div> 
+			  
             
 
             <div class="tab-pane fade" id="tab-my-profile-setting" role="tabpanel" aria-labelledby="tab-my-profile-setting">

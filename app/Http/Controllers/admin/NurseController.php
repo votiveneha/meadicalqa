@@ -119,10 +119,11 @@ class NurseController extends Controller
         try {
             $professionVerificationData = $this->verificationRepository->get(['user_id' => $request->id]);
             $profileData  = $this->nurseRepository->getOneUser(['id'=>$request->id]);
+            $educationData  = $this->nurseRepository->getEducationCerdetails(['user_id'=>$request->id]);
             $policeCheckVerificationData = $this->verificationRepository->getPoliceCheckVerificationData(['user_id' => $request->id]);
             $eligibilityToWorkData = $this->verificationRepository->getEligibilityToWorkData(['user_id' => $request->id]);
             $workingChildrenCheckData = $this->verificationRepository->getWorkingChildrenCheckData(['user_id' => $request->id]);
-            return view('admin.profile-view',compact('profileData','professionVerificationData','policeCheckVerificationData','eligibilityToWorkData','workingChildrenCheckData'));
+            return view('admin.profile-view',compact('profileData','professionVerificationData','policeCheckVerificationData','eligibilityToWorkData','workingChildrenCheckData','educationData'));
         } catch (\Exception $e) {
             log::error('Error in NurseController/viewProfile :' . $e->getMessage() . 'in line' . $e->getLine());
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
