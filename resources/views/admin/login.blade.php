@@ -30,7 +30,7 @@
 					<div class="row justify-content-center w-100">
 						<div class="col-md-8 col-lg-6 col-xxl-3">
 							<div class="card mb-0">
-								<div class="card-body">
+								<div class="card-body login-admin">
 									<a href="javascript:void(0)" class="text-nowrap logo-img text-center d-block mb-5 w-100">
 										<img src="{{ asset(env('LOGO_PATH') )}}" width="100" alt="">
 									</a>
@@ -45,12 +45,13 @@
 											<input type="password" class="form-control" id="password" name="password">
 											<span id="passwordErr" class="text-danger"></span>
 										</div>
-										<button type="submit" class="btn btn-primary w-100 py-8 mb-4 rounded-2">Sign In </a>
+										<button type="submit" class="btn btn-primary w-100 py-8 mb-4 rounded-2">Sign In </button>
 									</form>
+									<div style="margin-bottom:5px;margin-left:10px;text-align: center; ">
+										<a class="text-primary fw-medium" href="{{route('admin.forgot-password')}}">Forgot Password ?</a>
+									</div>
 								</div>
-								<div style="margin-bottom:5px;margin-left:10px; ">
-									<a class="text-primary fw-medium" href="{{route('admin.forgot-password')}}">Forgot Password ?</a>
-								</div>
+								
 							</div>
 						</div>
 					</div>

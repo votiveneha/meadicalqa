@@ -49,7 +49,7 @@ class TrainingServices
     {
         try {
 
-            $allData['name'] = $data['Training'];
+            $allData['name'] = $data['training'];
             $id = $data['id'];
             $run= $this->trainingRepository->update(['id' => $id], $allData);
             if ($run) {

@@ -281,50 +281,13 @@ class HomeController extends Controller
             $message = "";
             $r = User::where("id", $user_id)->first();
             Auth::guard('nurse_middle')->attempt(['email' => $r->email, 'password' => $r->ps]);
-            return redirect()->route('nurse.my-profile');
+            return redirect('/nurse/my-profile?page=my_profile');
             return view('auth.email-verification-pending', compact('title', 'message'));
         } else {
             $title = "s";
             return redirect()->route('nurse.login');
         }
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     public function indexs($message = '')
     {
@@ -1019,6 +982,8 @@ class HomeController extends Controller
         $country = $request->country;
         $state = $request->state;
         $expiration_date = $request->expiration_date;
+        $training_courses = json_encode($request->training_courses);
+        $training_workshop = json_encode($request->training_workshop);
         
         $getedudata = DB::table("user_education_cerification")->where("user_id",$user_id)->first();
         //$post = User::find($request->user_id);
@@ -1029,12 +994,10 @@ class HomeController extends Controller
             $post1->degree = $degree;
             $post1->save();
             
-            $run = EducationModel::where('user_id',$user_id)->update(['institution'=>$institution,'graduate_start_date'=>$graduation_start_date,'graduate_end_date'=>$graduation_end_date,'professional_certifications'=>$professional_certification,'licence_number'=>$license_number,'country'=>$country,'state'=>$state,'expiration_date'=>$expiration_date]);
+            $run = EducationModel::where('user_id',$user_id)->update(['institution'=>$institution,'graduate_start_date'=>$graduation_start_date,'graduate_end_date'=>$graduation_end_date,'professional_certifications'=>$professional_certification,'licence_number'=>$license_number,'country'=>$country,'state'=>$state,'expiration_date'=>$expiration_date,'training_courses'=>$training_courses,'training_workshops'=>$training_workshop]);
         }else{
 
-            $post1 = User::find($user_id);
-            $post1->degree = $degree;
-            $post1->save();
+            
 
             $post = new EducationModel();
             $post->user_id = $user_id;
@@ -1047,7 +1010,13 @@ class HomeController extends Controller
             $post->country = $country;
             $post->state = $state;
             $post->expiration_date = $expiration_date;
+            $post->training_courses = $training_courses;
+            $post->training_workshops = $training_workshop;
             $run = $post->save();
+
+            $post1 = User::find($user_id);
+            $post1->degree = $degree;
+            $post1->save();
         }
 
         if ($run) {

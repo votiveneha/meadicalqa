@@ -93,8 +93,8 @@
                 <li><a class="btn btn-border recruitment-icon mb-20 profile_tabs" id="settings" href="#tab-my-profile-setting" data-bs-toggle="tab" role="tab" aria-controls="tab-my-profile-setting" aria-selected="false">Setting</a></li>
                <li><a href="#tab-my-jobs" id="my_profession" class="btn btn-border recruitment-icon mb-20 profile_tabs" data-bs-toggle="tab" role="tab" aria-controls="tab-my-jobs" aria-selected="false">Profession</a></li>
                 <li><a href="#education_certification" class="btn btn-border recruitment-icon mb-20"  onclick="coming_soon()" data-bs-toggle="tab" role="tab" aria-controls="tab-myclearance-jobs" aria-selected="false">Clearance</a></li>
-                <li><a class="btn btn-border people-icon mb-20" id="educert"  data-bs-toggle="tab" role="tab" aria-controls="tab-saved-jobs" aria-selected="false">Education</a></li>
-                <li><a class="btn btn-border aboutus-icon mb-20" onclick="coming_soon()" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true">Experience</a></li>
+                <li><a class="btn btn-border people-icon mb-20" id="educert"  data-bs-toggle="tab" role="tab" aria-controls="tab-saved-jobs" aria-selected="false">Education and Certification</a></li>
+                <li><a href="#experience" id="experience_info" class="btn btn-border aboutus-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true">Experience</a></li>
                 <li><a class="btn btn-border recruitment-icon mb-20" onclick="coming_soon()" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu5" aria-selected="false">Contacts</a></li>
                 <li><a class="btn btn-border people-icon mb-20" onclick="coming_soon()" data-bs-toggle="tab" role="tab" aria-controls="tab-saved-menu6" aria-selected="false">Banks</a></li>
                 <!-- <li><a class="btn btn-border recruitment-icon mb-20" href="#tab-my-profile-setting" data-bs-toggle="tab" role="tab" aria-controls="tab-my-profile-setting" aria-selected="false">Setting</a></li> -->
@@ -263,7 +263,7 @@
                           <div class="form-group position-relative">
                             <!-- <textarea type="text" class="form-control ps-5" placeholder="Address"></textarea> -->
                             <label>State *</label>
-                            <select class="form-control form-select ps-5" name="state" id="stateI" id="stateI">
+                            <select class="form-control form-select ps-5" name="state" id="stateI">
                               @php
                               if(isset( Auth::guard('nurse_middle')->user()->country)){
                               $state_data =state_name_array( Auth::guard('nurse_middle')->user()->country);
@@ -308,7 +308,7 @@
                           Emergency Contact Information
                         </h6>
                         <div class="col-lg-6 row">
-                          <div class="form-group col-lg-6">
+                          <div class="form-group">
                             <label class="font-sm color-text-mutted mb-10">Mobile No</label>
                             
                             <div class="col-md-12 mob-adj">
@@ -321,7 +321,7 @@
                           </div>
                         </div>
                         <div class="col-lg-6 row">
-                          <div class="form-group col-lg-6">
+                          <div class="form-group">
                             <label class="font-sm color-text-mutted mb-10">Email*</label>
                             
                             <div class="col-md-12">
@@ -716,7 +716,7 @@
 			  
               <div class="tab-pane fade" id="tab-educert" role="tabpanel" aria-labelledby="tab-educert" style="display: none">
 			  <div class="card shadow-sm border-0 p-4 mt-30">
-                <h3 class="mt-0 color-brand-1 mb-2">Education and Certification</h3>
+                <h3 class="mt-0 color-brand-1 mb-20">Education and Certification</h3>
                 <h6 class="emergency_text">
                           Educational Background
                         </h6>
@@ -748,20 +748,20 @@
                   
                   <div class="form-group level-drp">
                     <label class="form-label" for="input-1">Institutions</label>
-                    <input class="form-control" type="text" required="" name="institution" value="">
+                    <input class="form-control" type="text" required="" name="institution" value="@if(!empty($educationData)){{ $educationData->institution }}@endif">
                     
                   </div>
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group level-drp">
                         <label class="form-label" for="input-1">Graduation Start Date</label>
-                        <input class="form-control" type="date" required="" name="graduation_start_date" value="">
+                        <input class="form-control" type="date" required="" name="graduation_start_date" value="@if(!empty($educationData)){{ $educationData->graduate_start_date }}@endif">
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-group level-drp">
                         <label class="form-label" for="input-1">Graduation End Date</label>
-                        <input class="form-control" type="date" required="" name="graduation_end_date" value="">
+                        <input class="form-control" type="date" required="" name="graduation_end_date" value="@if(!empty($educationData)){{ $educationData->graduate_end_date }}@endif">
                       </div>
                     </div>
                   </div>
@@ -769,14 +769,16 @@
                           Professional Certification
                         </h6>
                         <div class="form-group level-drp">
-                          <input type="hidden" name="prof_cert_new" class="prof_cert_new" value="">
+                          <input type="hidden" name="prof_cert_new" class="prof_cert_new" value="@if(!empty($educationData)){{ $educationData->professional_certifications }}@endif">
                           <label class="form-label" for="input-1">Select Professional Certification</label>
-                           
+                            <?php
+                              $certificates = DB::table("professional_certificate")->get();
+                            ?>
                             <ul id="profess_cert" style="display:none;">
+                                @foreach($certificates as $cert)
+                                <li data-value="{{ $cert->name }}">{{ $cert->name }}</li>
+                                @endforeach
                                 
-                                <li data-value="">ACLS</li>
-                                <li data-value="">BLS</li>
-                                <li data-value="">PALS</li>
                             </ul>
                         <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="profess_cert" name="professional_certification[]" multiple="multiple"></select>
                       </div>
@@ -785,17 +787,20 @@
                         </h6>
                         <div class="form-group level-drp">
                           <label class="form-label" for="input-1">License Number</label>
-                          <input class="form-control" type="text" required="" name="license_number">
+                          <input class="form-control" type="text" required="" name="license_number" value="@if(!empty($educationData)){{ $educationData->licence_number }}@endif">
                         </div>
                         <div class="row state-row">
                         <div class="form-group position-relative col-md-6">
                           <!-- <textarea type="text" class="form-control ps-5" placeholder="Address"></textarea> -->
                           <label class="font-sm color-text-mutted mb-10">Country</label>
-                          <select class="form-control form-select ps-5" name="country" id="countryI">
+                          <select class="form-control form-select ps-5" name="country" id="countryLicense">
                             <option value="">Select Country</option>
                             @php $country_data=country_name_from_db();@endphp
+                            <?php
+                              $user_edudata = DB::table("user_education_cerification")->where("user_id",Auth::guard('nurse_middle')->user()->id)->first();
+                            ?>
                             @foreach ($country_data as $data)
-                            <option value="{{$data->id}}" <?= isset(Auth::guard('nurse_middle')->user()->country) &&  Auth::guard('nurse_middle')->user()->country == $data->iso2 ? 'selected' : '' ?>> {{$data->name}} </option>
+                            <option value="{{$data->iso2}}" @if(!empty($educationData))@if($user_edudata->country == $data->iso2) selected @endif @endif> {{$data->name}} </option>
                             @endforeach
 
 
@@ -806,10 +811,10 @@
                           <div class="form-group position-relative">
                             <!-- <textarea type="text" class="form-control ps-5" placeholder="Address"></textarea> -->
                             <label>State *</label>
-                            <select class="form-control form-select ps-5" name="state" id="stateI" id="stateI">
+                            <select class="form-control form-select ps-5" name="state" id="stateLicense">
                               @php
-                              if(isset( Auth::guard('nurse_middle')->user()->country)){
-                              $state_data =state_name_array( Auth::guard('nurse_middle')->user()->country);
+                              if(isset( $educationData->country)){
+                              $state_data =state_name_array($educationData->country);
                               }else{
                               $state_data = '';
                               }
@@ -829,7 +834,44 @@
                         </div>
                         <div class="form-group level-drp">
                           <label class="form-label" for="input-1">Expiration Date</label>
-                          <input class="form-control" type="date" required="" name="expiration_date">
+                          <input class="form-control" type="date" required="" name="expiration_date" value="@if(!empty($educationData)){{ $educationData->expiration_date }}@endif">
+                        </div>
+                        <h6 class="emergency_text">
+                          Additional Training 
+                        </h6>
+                        <div class="row">
+                          <div class="col-md-6">
+                             <div class="form-group level-drp">
+                                <input type="hidden" name="training_course" class="training_course" value="@if(!empty($educationData)){{ $educationData->training_courses }}@endif">
+                                <label class="form-label" for="input-1">Select Courses</label>
+                                  <?php
+                                    $courses = DB::table("additional_training")->where("type","Course")->get();
+                                  ?>
+                                  <ul id="training_courses" style="display:none;">
+                                      @foreach($courses as $c)
+                                      <li data-value="{{ $c->id }}">{{ $c->name }}</li>
+                                      @endforeach
+                                      
+                                  </ul>
+                              <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="training_courses" name="training_courses[]" multiple="multiple"></select>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group level-drp">
+                                <input type="hidden" name="training_workshops" class="training_workshops" value="@if(!empty($educationData)){{ $educationData->training_workshops }}@endif">
+                                <label class="form-label" for="input-1">Select Workshops</label>
+                                  <?php
+                                    $workshop = DB::table("additional_training")->where("type","workshop")->get();
+                                  ?>
+                                  <ul id="training_workshop" style="display:none;">
+                                      @foreach($workshop as $c)
+                                      <li data-value="{{ $c->id }}">{{ $c->name }}</li>
+                                      @endforeach
+                                      
+                                  </ul>
+                              <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="training_workshop" name="training_workshop[]" multiple="multiple"></select>
+                            </div>
+                          </div>
                         </div>
                   <div class="box-button mt-15">
                     <button class="btn btn-apply-big font-md font-bold" type="submit" id="submitEducation">Save Changes</button>
@@ -837,7 +879,93 @@
                 </form>
               </div>
 			  </div>
-			  
+			  <div class="tab-pane fade" id="tab-experience" role="tabpanel" aria-labelledby="tab-educert" style="display: none">
+                <div class="card shadow-sm border-0 p-4 mt-30">
+                  <h3 class="mt-0 color-brand-1 mb-2">Experience</h3>
+                  <form id="educert_form" method="POST" onsubmit="return educert()">
+                  @csrf
+                  <div class="form-group level-drp">
+                    <label class="form-label" for="input-1">Total Year of Experience</label>
+                    <input class="form-control" type="text" required="" name="year_experience" value="@if(!empty($educationData))@endif">
+                    
+                  </div>
+                  <h6 class="emergency_text">
+                    Previous Employers 
+                  </h6>
+                  <div class="form-group level-drp">
+                    <label class="form-label" for="input-1">Names</label>
+                    <input class="form-control" type="text" required="" name="previous_employer_name" value="@if(!empty($educationData))@endif">
+                    
+                  </div>
+                  <div class="form-group level-drp">
+                    <label class="form-label" for="input-1">Position Held</label>
+                    <input type="hidden" name="prof_cert_new" class="prof_cert_new" value="@if(!empty($educationData)){{ $educationData->professional_certifications }}@endif">
+                    <?php
+                        $practitioner_type = DB::table("practitioner_type")->get();
+                      ?>
+                    <ul id="positions_held" style="display:none;">
+                        @foreach($practitioner_type as $cert)
+                        <li data-value="{{ $cert->name }}">{{ $cert->name }}</li>
+                        @endforeach
+                        
+                    </ul>
+                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="positions_held" name="positions_held[]" multiple="multiple"></select>
+                    
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group level-drp">
+                        <label class="form-label" for="input-1">Employment Start Date</label>
+                        <input class="form-control" type="date" required="" name="start_date" value="@if(!empty($educationData))@endif">
+                        
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group level-drp">
+                        <label class="form-label" for="input-1">Employment End Date</label>
+                        <input class="form-control" type="date" required="" name="end_date" value="@if(!empty($educationData))@endif">
+                        
+                      </div>
+                      <div class="present_check">
+                        <input type="checkbox" name="present_box" value="Present Here">Present Here
+                      </div>
+                    </div>
+                    
+                  </div>
+                  <h6 class="emergency_text">
+                    Detailed Job Descriptions  
+                  </h6>
+                  <div class="form-group level-drp">
+                    <label class="form-label" for="input-1">Responsibilities</label>
+                    <textarea class="form-control" name="job_responeblities"></textarea>
+                  </div>
+                  <div class="form-group level-drp">
+                    <label class="form-label" for="input-1">Achievements</label>
+                    <textarea class="form-control" name="achievements"></textarea>
+                  </div>
+                  <h6 class="emergency_text">
+                    Areas of Expertise  
+                  </h6>
+                  <div class="form-group level-drp">
+                    <input type="hidden" name="prof_cert_new" class="prof_cert_new" value="@if(!empty($educationData)){{ $educationData->professional_certifications }}@endif">
+                    <label class="form-label" for="input-1">Specific skills and competencies</label>
+                      <?php
+                        $skills = DB::table("skills")->get();
+                      ?>
+                      <ul id="skills_compantancies" style="display:none;">
+                          @foreach($skills as $cert)
+                          <li data-value="{{ $cert->name }}">{{ $cert->name }}</li>
+                          @endforeach
+                          
+                      </ul>
+                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="skills_compantancies" name="skills_compantancies[]" multiple="multiple"></select>
+                  </div>
+                  <div class="box-button mt-15">
+                    <button class="btn btn-apply-big font-md font-bold" type="submit" id="submitExperience">Save Changes</button>
+                  </div>    
+                  </form>
+                </div>
+              </div>
               <div class="tab-pane fade" id="tab-myclearance-jobs" role="tabpanel" aria-labelledby="tab-myclearance-jobs" style="display: none">
 
 
@@ -1794,6 +1922,16 @@
     var prof_cert_new = JSON.parse($(".prof_cert_new").val());
     $('.js-example-basic-multiple[data-list-id="profess_cert"]').select2().val(prof_cert_new).trigger('change');
   }
+
+  if($(".training_course").val() != ""){
+    var training_course = JSON.parse($(".training_course").val());
+    $('.js-example-basic-multiple[data-list-id="training_courses"]').select2().val(training_course).trigger('change');
+  }
+
+  if($(".training_workshops").val() != ""){
+    var training_workshops = JSON.parse($(".training_workshops").val());
+    $('.js-example-basic-multiple[data-list-id="training_workshop"]').select2().val(training_workshops).trigger('change');
+  }
   
   $(".surgical_row_data").insertAfter("#specility_level-1");
   $(".specialty_sub_boxes").insertAfter(".surgical_row_data");
@@ -2253,6 +2391,22 @@
     }
 
   });
+    $("#experience_info").click(function(){
+     
+      window.history.replaceState(null, null, "?page=experience_info");
+
+      var url_string = window.location.href; 
+      var url = new URL(url_string);
+      var c = url.searchParams.get("page");
+      console.log(c);
+
+      if(c == "experience_info"){
+        $(".tab-pane").hide();
+        $("#tab-experience").css("opacity","1");
+        $("#tab-experience").show();
+      }
+
+    });
     $("#educert").click(function(){
      
       window.history.replaceState(null, null, "?page=educert");
@@ -2264,7 +2418,7 @@
 
       if(c == "educert"){
         $(".tab-pane").hide();
-        
+        $("#tab-educert").css("opacity","1");
         $("#tab-educert").show();
       }
 
@@ -2304,6 +2458,14 @@
         $("#tab-educert").show();
         $(".profile_tabs").removeClass("active");
         $("#educert").addClass("active");
+      }
+
+      if(c == "experience_info"){
+        $(".tab-pane").hide();
+        $("#tab-experience").css("opacity","1");
+        $("#tab-experience").show();
+        $(".profile_tabs").removeClass("active");
+        $("#experience_info").addClass("active");
       }
 
     var phoneInputID = "#contactI_emergency";

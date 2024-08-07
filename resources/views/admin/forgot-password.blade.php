@@ -31,7 +31,7 @@
       <div class="position-relative overflow-hidden radial-gradient min-vh-100 d-flex align-items-center justify-content-center">
         <div class="d-flex align-items-center justify-content-center w-100">
           <div class="row justify-content-center w-100">
-            <div class="col-md-4">
+            <div class="col-md-8 col-lg-6 col-xxl-3">
               <div class="card mb-0">
                 <div class="card-body">
                   <a href="index.html" class="text-nowrap logo-img text-center d-block mb-5
@@ -48,7 +48,7 @@
                     <button type="submit" id="buttonF" class="btn btn-primary w-100 py-8 mb-0 rounded-2">Verify</button>
   
                   </form>
-                  <div class="mt-6 ml-6">
+                  <div class="mt-7 ml-6" style="text-align: center;">
                     <a class="text-primary fw-medium" href="{{route('admin.login')}}">Back ?</a>
                   </div>
                 </div>

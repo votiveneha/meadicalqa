@@ -77,49 +77,6 @@
 
     });
 
-    $('#countryLicense').on('change', function() {
-
-      var idCountry = this.value;
-      
-      $("#stateLicense").html('');
-
-      $.ajax({
-
-        url: "{{url('fetch-provinces')}}",
-
-        type: "POST",
-
-        data: {
-
-          country_id: idCountry,
-
-          _token: '{{csrf_token()}}'
-
-        },
-
-        dataType: 'json',
-
-        success: function(result) {
-
-          $('#stateLicense').html('<option value=""> Select  State</option>');
-
-          $.each(result.province, function(key, value) {
-
-            $("#stateLicense").append('<option value="' + value
-
-              .id + '">' + value.name + '</option>');
-
-          });
-
-          
-               
-        }
-
-      });
-      
-
-    });
-
 
 
     /*------------------------------------------
@@ -708,7 +665,7 @@ function pad(number) {
             title: 'Success',
             text: 'Education Information Updated Successfully',
           }).then(function() {
-            window.location.href = "{{ route('nurse.my-profile') }}?page=educert";
+            window.location.href = "{{ route('nurse.my-profile') }}";
           });
         } else {
           Swal.fire({
