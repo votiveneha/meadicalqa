@@ -35,6 +35,7 @@ use App\Services\Admins\SpecialityServices;
 
 use App\Models\SpecialityModel;
 use App\Models\EducationModel;
+use App\Models\ExperienceModel;
 use App\Repository\Eloquent\SpecialityRepository;
 
 class HomeController extends Controller
@@ -1030,6 +1031,69 @@ class HomeController extends Controller
         
         echo json_encode($json);
     }
+
+    public function updateExperience(Request $request){
+        
+
+        $year_experience = $request->assistent_level;
+        $user_id = $request->user_id;
+        $previous_employer_name = $request->previous_employer_name;
+        $positions_held = json_encode($request->positions_held);
+        $start_date = $request->start_date;
+        $end_date = $request->end_date;
+        $present_box = $request->present_box;
+        $job_responeblities = $request->job_responeblities;
+        $achievements = $request->achievements;
+        $skills_compantancies = json_encode($request->skills_compantancies);
+        
+        
+        $getexperiencedata = DB::table("user_experience")->where("user_id",$user_id)->first();
+        //$post = User::find($request->user_id);
+        
+        if(!empty($getexperiencedata)>0){
+            $post1 = User::find($user_id);
+            $post1->assistent_level = $year_experience;
+            $post1->save();
+            
+            $run = ExperienceModel::where('user_id',$user_id)->update(['employer_name'=>$previous_employer_name,'position_held'=>$positions_held,'employeement_start_date'=>$start_date,'employeement_end_date'=>$end_date,'present_status'=>$present_box,'responsiblities'=>$job_responeblities,'achievements'=>$achievements,'skills_compantancies'=>$skills_compantancies]);
+        }else{
+
+            
+
+            $post = new ExperienceModel();
+            $post->user_id = $user_id;
+            
+            //$post->year_experience = $year_experience;
+            $post->employer_name = $previous_employer_name;
+            $post->position_held = $positions_held;
+            $post->employeement_start_date = $start_date;
+            $post->employeement_end_date = $end_date;
+            $post->present_status = $present_box;
+            $post->responsiblities = $job_responeblities;
+            $post->achievements = $achievements;
+            $post->skills_compantancies = $skills_compantancies;
+            
+            $run = $post->save();
+
+            $post1 = User::find($user_id);
+            $post1->assistent_level = $year_experience;
+            $post1->save();
+        }
+
+        if ($run) {
+            $json['status'] = 1;
+            $json['url'] = url('nurse/my-profile');
+            $json['message'] = 'Education Information Updated Successfully';
+         } else {
+            $json['status'] = 0;
+            $json['message'] = 'Please Try Again';
+        }
+        
+        echo json_encode($json);
+    }
+
+    
+    
      public function update_profession_ahpra_numberI(Request $request)
     {      
             $insert['ahpra_code'] = $request->ahpra_code;

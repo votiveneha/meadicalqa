@@ -657,19 +657,9 @@
                         @endfor
                     </select>
                   </div>
-                  <div class="" id="mid_select">
+                  <!-- <div class="" id="mid_select">
                     <div class="form-group drp--clr drpdown-set">
-                      <!-- <label class="form-label" for="input-1">Nurse & Midwife degree</label>
-                      <select class="form-input mr-10 select-active" name="degree[]" multiple>
-                        <?php
-                          $nurse_midwife_degree = DB::table("degree")->where('status', '1')->orderBy('name')->get();
-                        ?>
-                        
-                        @foreach($nurse_midwife_degree as $ptl)
-                        <option value="{{ $ptl->id }}">{{ $ptl->name }}</option>
-                        @endforeach
-                      </select>
-                      <span id="reqdegree" class="reqError valley"></span> -->
+                      
                       <label class="form-label" for="input-1">Nurse & Midwife degree</label>
                        <?php
                         $nurse_midwife_degree = DB::table("degree")->where('status', '1')->orderBy('name')->get();
@@ -683,7 +673,7 @@
                     <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="nurse_degree" name="degree[]" multiple="multiple"></select>
                     </div>
                     <span id="reqdegree" class="reqError text-danger valley"></span>
-                  </div>   
+                  </div>    -->
                   <div class="professional_bio">
                     <div class="form-group col-md-12">
                       <label class="font-sm color-text-mutted mb-10">Professional Bio</label>
@@ -882,30 +872,43 @@
 			  <div class="tab-pane fade" id="tab-experience" role="tabpanel" aria-labelledby="tab-educert" style="display: none">
                 <div class="card shadow-sm border-0 p-4 mt-30">
                   <h3 class="mt-0 color-brand-1 mb-2">Experience</h3>
-                  <form id="educert_form" method="POST" onsubmit="return educert()">
+                  <?php
+                    $experienceData = DB::table("user_experience")->where("user_id",Auth::guard('nurse_middle')->user()->id)->first();
+                  ?>
+                  <form id="experience_form" method="POST" onsubmit="return updateExperience()">
                   @csrf
                   <div class="form-group level-drp">
-                    <label class="form-label" for="input-1">Total Year of Experience</label>
-                    <input class="form-control" type="text" required="" name="year_experience" value="@if(!empty($educationData))@endif">
+                    <!-- <label class="form-label" for="input-1">Total Year of Experience</label> -->
+                    <input type="hidden" name="user_id" value="{{ Auth::guard('nurse_middle')->user()->id }}">
+                    <!-- <input class="form-control" type="text" required="" name="year_experience" value="@if(!empty($educationData))@endif"> -->
                     
+                  </div>
+                  <div class="form-group level-drp">
+                    <label class="form-label" for="input-1">What is your level of experience?</label>
+                    <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
+                    <select class="form-input mr-10 select-active" name="assistent_level">
+                      
+                      @for($i = 1; $i <= 30; $i++) <option value="{{ $i }}" @if(Auth::guard('nurse_middle')->user()->assistent_level == $i) selected @endif>{{ $i }}{{ $i == 1 ? 'st' : ($i == 2 ? 'nd' : ($i == 3 ? 'rd' : 'th')) }} Year</option>
+                        @endfor
+                    </select>
                   </div>
                   <h6 class="emergency_text">
                     Previous Employers 
                   </h6>
                   <div class="form-group level-drp">
                     <label class="form-label" for="input-1">Names</label>
-                    <input class="form-control" type="text" required="" name="previous_employer_name" value="@if(!empty($educationData))@endif">
+                    <input class="form-control" type="text" required="" name="previous_employer_name" value="@if(!empty($experienceData)) {{$experienceData->employer_name}}@endif">
                     
                   </div>
                   <div class="form-group level-drp">
                     <label class="form-label" for="input-1">Position Held</label>
-                    <input type="hidden" name="prof_cert_new" class="prof_cert_new" value="@if(!empty($educationData)){{ $educationData->professional_certifications }}@endif">
+                    <input type="hidden" name="position_held" class="position_held" value="@if(!empty($experienceData)){{ $experienceData->position_held }}@endif">
                     <?php
                         $practitioner_type = DB::table("practitioner_type")->get();
                       ?>
                     <ul id="positions_held" style="display:none;">
                         @foreach($practitioner_type as $cert)
-                        <li data-value="{{ $cert->name }}">{{ $cert->name }}</li>
+                        <li data-value="{{ $cert->id }}">{{ $cert->name }}</li>
                         @endforeach
                         
                     </ul>
@@ -916,18 +919,18 @@
                     <div class="col-md-6">
                       <div class="form-group level-drp">
                         <label class="form-label" for="input-1">Employment Start Date</label>
-                        <input class="form-control" type="date" required="" name="start_date" value="@if(!empty($educationData))@endif">
+                        <input class="form-control" type="date" name="start_date" value="@if(!empty($experienceData)){{ $experienceData->employeement_start_date }}@endif">
                         
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-group level-drp">
                         <label class="form-label" for="input-1">Employment End Date</label>
-                        <input class="form-control" type="date" required="" name="end_date" value="@if(!empty($educationData))@endif">
+                        <input class="form-control" type="date" name="end_date" value="@if(!empty($experienceData)){{ $experienceData->employeement_end_date }}@endif">
                         
                       </div>
                       <div class="present_check">
-                        <input type="checkbox" name="present_box" value="Present Here">Present Here
+                        <input type="checkbox" name="present_box" value="1" @if(!empty($experienceData))@if(!empty($experienceData->present_status == 1 )) checked @endif @endif>Present Here
                       </div>
                     </div>
                     
@@ -937,24 +940,25 @@
                   </h6>
                   <div class="form-group level-drp">
                     <label class="form-label" for="input-1">Responsibilities</label>
-                    <textarea class="form-control" name="job_responeblities"></textarea>
+                    <textarea class="form-control" name="job_responeblities">@if(!empty($experienceData)) {{ $experienceData->responsiblities }}@endif</textarea>
                   </div>
                   <div class="form-group level-drp">
                     <label class="form-label" for="input-1">Achievements</label>
-                    <textarea class="form-control" name="achievements"></textarea>
+                    <textarea class="form-control" name="achievements">@if(!empty($experienceData)){{ $experienceData->achievements }}@endif
+                    </textarea>
                   </div>
                   <h6 class="emergency_text">
                     Areas of Expertise  
                   </h6>
                   <div class="form-group level-drp">
-                    <input type="hidden" name="prof_cert_new" class="prof_cert_new" value="@if(!empty($educationData)){{ $educationData->professional_certifications }}@endif">
+                    <input type="hidden" name="skills_comp" class="skills_comp" value="@if(!empty($experienceData)) {{ $experienceData->skills_compantancies }}@endif">
                     <label class="form-label" for="input-1">Specific skills and competencies</label>
                       <?php
                         $skills = DB::table("skills")->get();
                       ?>
                       <ul id="skills_compantancies" style="display:none;">
                           @foreach($skills as $cert)
-                          <li data-value="{{ $cert->name }}">{{ $cert->name }}</li>
+                          <li data-value="{{ $cert->id }}">{{ $cert->name }}</li>
                           @endforeach
                           
                       </ul>
@@ -1932,6 +1936,16 @@
     var training_workshops = JSON.parse($(".training_workshops").val());
     $('.js-example-basic-multiple[data-list-id="training_workshop"]').select2().val(training_workshops).trigger('change');
   }
+
+  if($(".position_held").val() != ""){
+    var position_held = JSON.parse($(".position_held").val());
+    $('.js-example-basic-multiple[data-list-id="positions_held"]').select2().val(position_held).trigger('change');
+  }
+
+  if($(".skills_comp").val() != ""){
+    var skills_comp = JSON.parse($(".skills_comp").val());
+    $('.js-example-basic-multiple[data-list-id="skills_compantancies"]').select2().val(skills_comp).trigger('change');
+  }
   
   $(".surgical_row_data").insertAfter("#specility_level-1");
   $(".specialty_sub_boxes").insertAfter(".surgical_row_data");
@@ -2351,7 +2365,7 @@
     console.log(c);
 
     if(c == "profession"){
-      $("#tab-my-profile").hide();
+      $(".tab-pane").hide();
       
       $("#tab-my-jobs").show();
     }

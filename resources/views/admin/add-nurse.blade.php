@@ -44,6 +44,8 @@
   /* }     */
 
 </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
+
     <div class="container-fluid">
         <div class="card bg-light-info shadow-none position-relative overflow-hidden">
             <div class="card-body px-4 py-3">
@@ -149,7 +151,7 @@
                     </li>
                     
                 </ul>
-                <form>
+                <form method="post" enctype="multipart/form-data">
                 <!-- Tab panes -->
                 <div class="tab-content border mt-2">
                     <div class="tab-pane p-3 active show" id="navpill-111" role="tabpanel">
@@ -161,18 +163,48 @@
                                 <div class="card-body p-3 px-md-4">
                                     <div class="col-md-12">
                                         <div class="row">
+                                            <div class="mt-35 mb-40 box-info-profie d-flex align-items-center upload_image">
+                  
+                                              <div class="image-profile">
+                                                <img alt="" style="object-fit:cover;border-radius: 16px;display: block;width: 85px;height: 85px;" src="{{asset('assets/admin/dist/images/profile/nurse06.png')}}"> 
+                                                   
+                                                </div>
+                                                <div class="position-relative overflow-hidden">
+                                                    <a class="btn btn-apply" id="uploadButton">Upload Avatar</a>
+                                                  
+                                                    <input type="file" name="profile_image" id="profile_image" class="position-absolute h-100" accept="image/*" style="top: 0;left: 0;opacity: 0;cursor: pointer;">
+
+                                                    <i class="fa fa-spinner fa-spin" id="preloadeer-active" style="display:none" aria-hidden="true"></i>
+                                                    
+                                                </div>
+                                                  <span id="profile_image_error" class="text-danger"></span>
+                                            </div>
                                             <div class="col-md-6 mt-3">
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>First Name</strong></label>
                                                     <input type="text" class="form-control" placeholder="First Name" name="first_name" id="first_name">
-                                                    <span id="first_name" class="text-danger"></span>
+                                                    <span id="first_name_error" class="text-danger"></span>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 mt-3">
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Last Name</strong></label>
                                                     <input type="text" class="form-control" placeholder="Last Name" name="last_name" id="last_name">
-                                                    <span id="last_name" class="text-danger"></span>
+                                                    <span id="last_name_error" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mt-3">
+                                                <div class="form-group">
+                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Email Address</strong></label>
+                                                    <input type="text" class="form-control" placeholder="Email Address" name="email" id="email">
+                                                    <span id="email_error" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mt-3">
+                                                <div class="form-group">
+                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Phone Number</strong></label>
+                                                    <input class="form-control numbers" type="text" required="" name="contact" id="contact" placeholder="1234567890" placeholder="1234567890" maxlength="10" pattern="[0-9]{4}" style="width: 225%">
+                                                    <span id="contact_error" class="text-danger"></span>
                                                 </div>
                                             </div>
 
@@ -180,17 +212,17 @@
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Date of Birth</strong></label>
                                                     <input type="text" class="form-control" placeholder="Date of Birth" name="dob" id="dob">
-                                                    <span id="skillErr" class="text-danger"></span>
+                                                    <span id="date_error" class="text-danger"></span>
                                                 </div>
                                             </div>
                     
-                                            <div class="col-md-6 mt-3">
+                                            {{-- <div class="col-md-6 mt-3">
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Nationality</strong></label>
                                                     <input type="text" class="form-control" placeholder="Nationality" name="skill" id="skill">
                                                     <span id="skillErr" class="text-danger"></span>
                                                 </div>
-                                            </div>
+                                            </div> --}}
                     
                     
                                             <div class="col-md-6 mt-3">
@@ -209,57 +241,90 @@
                                                                 Female
                                                             </label>
                                                         </div>
-                                                        {{-- <div class="form-check">
-                                                            <input class="form-check-input" type="radio" name="gender" id="genderOther" value="other">
-                                                            <label class="form-check-label" for="genderOther">
-                                                                Other
-                                                            </label>
-                                                        </div> --}}
                                                     </div>
                                                     <span id="genderErr" class="text-danger"></span>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 mt-3">
                                                 <div class="form-group">
-                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Email Address</strong></label>
-                                                    <input type="text" class="form-control" placeholder="Email Address" name="email" id="email">
-                                                    <span id="email" class="text-danger"></span>
+                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Personal website</strong></label>
+                                                    <input class="form-control" type="text" required="" name="per_website" id="per_website" placeholder="Personal website">
+                                                    <span id="per_website_error" class="text-danger"></span>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 mt-3">
                                                 <div class="form-group">
-                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Phone Number</strong></label>
-                                                    <input class="form-control numbers" type="text" required="" name="contact" id="contact" placeholder="1234567890" placeholder="1234567890" maxlength="10" pattern="[0-9]{4}">
-                                                    <span id="contact" class="text-danger"></span>
+                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Country</strong></label>
+                                                    <select class="form-control form-select ps-5" name="country" id="countryI">
+                                                        <option value="">Select Country</option>
+                                                        @php $country_data=country_name_from_db();@endphp
+                                                        @foreach ($country_data as $data)
+                                                        <option value="{{$data->iso2}}" <?= isset(Auth::guard('nurse_middle')->user()->country) &&  Auth::guard('nurse_middle')->user()->country == $data->iso2 ? 'selected' : '' ?>> {{$data->name}} </option>
+                                                        @endforeach
+
+
+                                                    </select>
+                                                    <span id="country_error" class="text-danger"></span>
                                                 </div>
                                             </div>
+                                            <div class="col-md-6 mt-3">
+                                                <div class="form-group">
+                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>State</strong></label>
+                                                    <select class="form-control form-select ps-5" name="state" id="stateI" id="stateI">
+                                                    @php
+                                                    if(isset( Auth::guard('nurse_middle')->user()->country)){
+                                                    $state_data =state_name_array( Auth::guard('nurse_middle')->user()->country);
+                                                    }else{
+                                                    $state_data = '';
+                                                    }
+                                                    @endphp
+
+                                                    @if(isset($state_data) && !empty($state_data))
+                                                    @foreach ($state_data as $data_state)
+                                                    <option value="{{$data_state->id}}" <?= isset(Auth::guard('nurse_middle')->user()->state) &&  Auth::guard('nurse_middle')->user()->state  == $data_state->id ? 'selected' : '' ?>> {{$data_state->name}} </option>
+                                                    @endforeach
+                                                    @endif
+
+                                                    </select>
+                                                    <span id="state_error" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mt-3">
+                                                <div class="form-group">
+                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>City</strong></label>
+                                                    <input class="form-control" type="text" required="" name="city" id="city" placeholder="City">
+                                                    <span id="city_error" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mt-3">
+                                                <div class="form-group">
+                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Zip code</strong></label>
+                                                    <input class="form-control" type="text" required="" name="zip_code" id="zip_code" placeholder="Zip code">
+                                                    <span id="zip_code_error" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                            
                                             <div class="col-md-6 mt-3">
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Home Address</strong></label>
-                                                    <input class="form-control" type="text" required="" name="address" id="contact" placeholder="Home Address">
-                                                    <span id="address" class="text-danger"></span>
+                                                    <input class="form-control" type="text" required="" name="home_address" id="home_address" placeholder="Home Address">
+                                                    <span id="home_address_error" class="text-danger"></span>
                                                 </div>
                                             </div>
+                                            <h4 class="mt-3">Emergency Contact Information</h4>
                                             <div class="col-md-6 mt-3">
                                                 <div class="form-group">
-                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Emergency Contact Information</strong></label>
-                                                    <input class="form-control" type="text" required="" name="emr_contact_info" id="emr_contact_info" placeholder="Emergency Contact Information">
-                                                    <span id="emr_contact_info" class="text-danger"></span>
+                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Mobile No</strong></label>
+                                                    <input class="form-control numbers" type="text" required="" name="emrg_contact" id="emrg_contact" placeholder="1234567890" placeholder="1234567890" maxlength="10" pattern="[0-9]{4}" style="width: 225%">
+                                                    <span id="emrg_contact_error" class="text-danger"></span>
                                                 </div>
                                             </div>
+                                            
                                             <div class="col-md-6 mt-3">
                                                 <div class="form-group">
-                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Home Address</strong></label>
-                                                    <input class="form-control" type="text" required="" name="address" id="contact" placeholder="Home Address">
-                                                    <span id="address" class="text-danger"></span>
-                                                </div>
-                                            </div>
-                    
-                                            <div class="col-md-6 mt-3">
-                                                <div class="form-group">
-                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Photo ID</strong></label>
-                                                   <input type="file" class="form-control" id="photo_id" name="photo_id" placeholder="" accept="image/*">
-                                                    <span id="photo_id" class="text-danger"></span>
+                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Email</strong></label>
+                                                   <input type="text" class="form-control" id="emrg_email" name="emrg_email" placeholder="Email" accept="image/*">
+                                                    <span id="emrg_email_error" class="text-danger"></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -568,12 +633,289 @@
     <script type="text/javascript"
         src="https://nextjs.webwiders.in/pindrow/public/advertiser/dist/libs/owl.carousel/dist/owl.carousel.min.js">
     </script>
-    <script>   
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+    <script>  
+     
     $(document).ready(function() {
         $('.next-step').on('click', function() {                
-            var targetTab = $(this).data('target');
-            // alert(targetTab);
-             $('a[href="' + targetTab + '"]').tab('show'); // Show the target tab
+            var targetTab            = $(this).data('target');
+             var first_name          =  $('#first_name').val();
+             var last_name           =  $('#last_name').val();  
+             var email               =  $('#email').val();  
+            // Get the value of the selected radio button
+            var selectedGender = $('input[name="gender"]:checked').val();
+             var contact             =  $('#contact').val();  
+             var profile_image             =  $('#profile_image').val();  
+             var dob                 =  $('#dob').val();  
+             var per_website         =  $('#per_website').val();  
+             var countryI            =  $('#countryI').val(); 
+             var stateI              =  $('#stateI').val();  
+             var city                =  $('#city').val(); 
+             var zip_code            =  $('#zip_code').val();  
+             var home_address        =  $('#home_address').val(); 
+             var emrg_contact        =  $('#emrg_contact').val();  
+             var emrg_email          =  $('#emrg_email').val(); 
+             let hasErrors = false;
+
+             // Function to show error message
+        function showError(element, message) {
+            $('#' + element).text(message);
+            hasErrors = true;
+        }
+
+        // Function to clear error message
+        function clearError(element) {
+            $('#' + element).text("");
+        }
+
+        // Validate each field
+        if (first_name === "") {
+            showError('first_name_error', "First name is required.");
+        } else {
+            clearError('first_name_error');
+        }
+
+        if (last_name === "") {
+            showError('last_name_error', "Last name is required.");
+        } else {
+            clearError('last_name_error');
+        }
+
+        if (email === "") {
+            showError('email_error', "Email is required.");
+        } else {
+            clearError('email_error');
+        }
+
+        if (!selectedGender) {
+            showError('genderErr', "Please select a gender.");
+        } else {
+            clearError('genderErr');
+        }
+
+        if (contact === "") {
+            showError('contact_error', "Mobile Number is required.");
+        } else {
+            clearError('contact_error');
+        }
+
+        if (dob === "") {
+            showError('date_error', "Date of Birth is required.");
+        } else {
+            clearError('date_error');
+        }
+
+        if (per_website === "") {
+            showError('per_website_error', "Personal website is required.");
+        } else {
+            clearError('per_website_error');
+        }
+
+        if (countryI === "") {
+            showError('country_error', "Country is required.");
+        } else {
+            clearError('country_error');
+        }
+
+        if (stateI === "") {
+            showError('state_error', "State is required.");
+        } else {
+            clearError('state_error');
+        }
+
+        if (city === "") {
+            showError('city_error', "City is required.");
+        } else {
+            clearError('city_error');
+        }
+
+        if (zip_code === "") {
+            showError('zip_code_error', "Zip Code is required.");
+        } else {
+            clearError('zip_code_error');
+        }
+
+        if (home_address === "") {
+            showError('home_address_error', "Home address is required.");
+        } else {
+            clearError('home_address_error');
+        }
+
+        if (emrg_contact === "") {
+            showError('emrg_contact_error', "Mobile number is required.");
+        } else {
+            clearError('emrg_contact_error');
+        }
+
+        if (emrg_email === "") {
+            showError('emrg_email_error', "Email is required.");
+        } else {
+            clearError('emrg_email_error');
+        }
+
+        if (profile_image === "") {
+            showError('profile_image_error', "Profile Image is required.");
+        } else {
+            clearError('profile_image_error');
+        }
+
+        // Gather form data
+        // var formData = {
+        //     first_name: $('#first_name').val(),
+        //     last_name: $('#last_name').val(),
+        //     email: $('#email').val(),
+        //     gender: $('input[name="gender"]:checked').val(),
+        //     contact: $('#contact').val(),
+        //     profile_image: $('#profile_image').val(),
+        //     dob: $('#dob').val(),
+        //     per_website: $('#per_website').val(),
+        //     countryI: $('#countryI').val(),
+        //     stateI: $('#stateI').val(),
+        //     city: $('#city').val(),
+        //     zip_code: $('#zip_code').val(),
+        //     home_address: $('#home_address').val(),
+        //     emrg_contact: $('#emrg_contact').val(),
+        //     emrg_email: $('#emrg_email').val(),
+        //     _token: '{{ csrf_token() }}' // Add CSRF token
+        // };
+
+        // $.ajax({
+        //         url: "",
+        //         type: "POST",
+        //         data: {
+        //             data: formData,
+        //             _token: '{{ csrf_token() }}'
+        //         },
+        //         dataType: 'json',
+        //         success: function(res) {
+        //             console.log(res.type);
+        //              $('a[href="' + targetTab + '"]').tab('show'); // Show the target tab
+        //         },
+        //         error: function(error) {
+        //           if (error.responseJSON.errors) {
+        //                 if (error.responseJSON.errors.first_name) {
+        //                     $('#first_name_error').text(error.responseJSON.errors.first_name[0]);
+        //                 } else {
+        //                     $('#first_name_error').text('');
+        //                 }
+
+        //                 if (error.responseJSON.errors.last_name) {
+        //                     $('#last_name_error').text(error.responseJSON.errors.last_name[0]);
+                           
+        //                 } else {
+        //                     $('#last_name_error').text('');
+        //                 }
+
+        //                 if (error.responseJSON.errors.contact) {
+        //                     $('#contact_error').text(error.responseJSON.errors.contact[0]);
+                           
+        //                 } else {
+        //                     $('#contact_error').text('');
+        //                 }
+
+        //                 if (error.responseJSON.errors.email) {
+        //                     $('#email_error').text(error.responseJSON.errors.email[0]);
+                           
+        //                 } else {
+        //                     $('#email_error').text('');
+        //                 }
+
+        //                 if(error.responseJSON.errors.gender) {
+        //                     $('#genderErr').text(error.responseJSON.errors.gender[0]);
+                           
+        //                 }else{
+        //                     $('#genderErr').text('');
+        //                 }
+
+        //                 if(error.responseJSON.errors.dob) {
+        //                     $('#date_error').text(error.responseJSON.errors.dob[0]);
+                           
+        //                 }else{
+        //                     $('#date_error').text('');
+        //                 }
+
+        //                 if(error.responseJSON.errors.per_website) {
+        //                     $('#per_website_error').text(error.responseJSON.errors.per_website[0]);
+                           
+        //                 }else{
+        //                     $('#per_website_error').text('');
+        //                 }
+
+        //                 if(error.responseJSON.errors.country) {
+        //                     $('#country_error').text(error.responseJSON.errors.country[0]);
+                           
+        //                 }else{
+        //                     $('#country_error').text('');
+        //                 }
+
+        //                 if(error.responseJSON.errors.state) {
+        //                     $('#state_error').text(error.responseJSON.errors.state[0]);
+                           
+        //                 }else{
+        //                     $('#state_error').text('');
+        //                 }
+
+        //                 if(error.responseJSON.errors.city) {
+        //                     $('#city_error').text(error.responseJSON.errors.city[0]);
+                           
+        //                 }else{
+        //                     $('#city_error').text('');
+        //                 }
+
+        //                 if(error.responseJSON.errors.zip_code) {
+        //                     $('#zip_code_error').text(error.responseJSON.errors.zip_code[0]);
+                           
+        //                 }else{
+        //                     $('#zip_code_error').text('');
+        //                 }
+
+        //                 if(error.responseJSON.errors.home_address) {
+        //                     $('#home_address_error').text(error.responseJSON.errors.home_address[0]);
+                           
+        //                 }else{
+        //                     $('#home_address_error').text('');
+        //                 }
+
+        //                 if(error.responseJSON.errors.emrg_contact) {
+        //                     $('#emrg_contact_error').text(error.responseJSON.errors.emrg_contact[0]);
+                           
+        //                 }else{
+        //                     $('#emrg_contact_error').text('');
+        //                 }
+
+        //                 if(error.responseJSON.errors.emrg_email) {
+        //                     $('#emrg_email_error').text(error.responseJSON.errors.emrg_email[0]);
+                           
+        //                 }else{
+        //                     $('#emrg_email_error').text('');
+        //                 }
+
+
+        //                 if(error.responseJSON.errors.home_address) {
+        //                     $('#home_address_error').text(error.responseJSON.errors.zip_code[0]);
+                           
+        //                 }else{
+        //                     $('#home_address_error').text('');
+        //                 }
+
+        //                 if(error.responseJSON.errors.profile_image) {
+        //                     $('#profile_image_error').text(error.responseJSON.errors.profile_image[0]);
+                           
+        //                 }else{
+        //                     $('#profile_image_error').text('');
+        //                 }
+                        
+        //             }
+        //         }
+        //     });
+
+
+        if (!hasErrors) {
+            $('a[href="' + targetTab + '"]').tab('show'); // Show the target tab
+        }
+
+
+           
         });
 
         
@@ -656,7 +998,7 @@
         });
 
     });
-</script>
+    </script>
     <script>
 
     $(document).ready(function() {
@@ -698,20 +1040,161 @@
                 $('#nursing_level-'+i).addClass('d-none');
             }
         }
-        
-        
-        
-        // if (selectedValues.includes("Entry level nursing")) {
-        //     $('#elnj').removeClass('d-none');
-        // }
-        // if (selectedValues.includes("Registered Nurses (RNs)")) {
-        //     $('#rns').removeClass('d-none');
-        // }
-        // if (selectedValues.includes("Advanced Practice Registered Nurses (APRNs)")) {
-        //     $('#aprns').removeClass('d-none');
+    
         // }
     });
 });
-    </script>
+</script>
+
+
+
+{{-- country,state, city onchange  --}}
+<script>
+    $('#countryI').on('change', function() {
+
+      var idCountry = this.value;
+
+      $("#stateI").html('');
+
+      $.ajax({
+
+        url: "{{url('fetch-provinces')}}",
+
+        type: "POST",
+
+        data: {
+
+          country_id: idCountry,
+
+          _token: '{{csrf_token()}}'
+
+        },
+
+        dataType: 'json',
+
+        success: function(result) {
+
+          $('#stateI').html('<option value=""> Select  State</option>');
+
+          $.each(result.province, function(key, value) {
+
+            $("#stateI").append('<option value="' + value
+
+              .id + '">' + value.name + '</option>');
+
+          });
+
+          $('#cityI').html('<option value=""> Select City </option>');
+               
+        }
+
+      });
+      
+
+    });
+
+
+
+    /*------------------------------------------
+
+    --------------------------------------------
+
+    State Dropdown Change Event 
+
+    --------------------------------------------
+
+    --------------------------------------------*/
+
+    $('#stateI').on('change', function() {
+
+      var idState = this.value;
+
+      $("#cityI").html('');
+
+      $.ajax({
+
+        url: "{{url('fetch-ville')}}",
+
+        type: "POST",
+
+        data: {
+
+          province_id: idState,
+
+          _token: '{{csrf_token()}}'
+
+        },
+
+        dataType: 'json',
+
+        success: function(res) {
+
+          $('#cityI').html('<option value=""> Select City </option>');
+
+          $.each(res.ville, function(key, value) {
+
+            $("#cityI").append('<option value="' + value
+
+              .id + '">' + value.name + '</option>');
+
+          });
+
+        }
+
+      });
+
+    });
+</script>
+{{-- phone number,emrgencu contact --}}
+<script>
+    // Initialize intl-tel-input for Mobile No
+    const mobileInput = document.querySelector("#emrg_contact");
+    const itiMobile = window.intlTelInput(mobileInput, {
+        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+        initialCountry: "au",
+    });
+
+    // Initialize intl-tel-input for Phone Number
+    const phoneInput = document.querySelector("#contact");
+    const itiPhone = window.intlTelInput(phoneInput, {
+        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+        initialCountry: "au",
+    });
+
+    // Validate Mobile No on blur
+    mobileInput.addEventListener('blur', function() {
+        const errorSpan = document.querySelector('#emrg_contact-error');
+        if (itiMobile.isValidNumber()) {
+            errorSpan.textContent = "";
+        } else {
+            errorSpan.textContent = "Invalid phone number.";
+        }
+    });
+
+    // Validate Phone Number on blur
+    phoneInput.addEventListener('blur', function() {
+        const errorSpan = document.querySelector('#contact-error');
+        if (itiPhone.isValidNumber()) {
+            errorSpan.textContent = "";
+        } else {
+            errorSpan.textContent = "Invalid phone number.";
+        }
+    });
+</script>
+{{-- Image preview --}}
+<script>
+$(document).ready(function() {
+    $('#profile_image').change(function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                $('.image-profile img').attr('src', e.target.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+});
+</script>
     
 @endsection

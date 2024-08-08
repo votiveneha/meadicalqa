@@ -4,6 +4,7 @@ namespace App\Repository\Eloquent;
 
 use App\Models\User;
 use App\Models\UserEducationCertiModel;
+use App\Models\ExperienceModel;
 use Illuminate\Contracts\Cache\Repository as Cache;
 use Illuminate\Support\Facades\Log;
 
@@ -12,10 +13,12 @@ class NurseRepository extends BaseRepository{
 
     protected $model;
     protected $usereducationcertification;
+    protected $experience;
     protected $cache;
 
-    public function __construct(User $model,UserEducationCertiModel $usereducationcertification, Cache $cache){
+    public function __construct(User $model,UserEducationCertiModel $usereducationcertification,ExperienceModel $experience, Cache $cache){
         $this->model = $model;
+         $this->experience = $experience;
         $this->usereducationcertification = $usereducationcertification;
         parent::__construct($model, $cache);
     }
@@ -108,5 +111,13 @@ class NurseRepository extends BaseRepository{
         Log::error("Error in NurseRepository.getEducationCerdetails(): " . $e->getMessage());
         return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
     }
-}
+    }
+    public function getExperiencedetails($byWhere){
+        try {
+            return $this->experience->where($byWhere)->first();
+        } catch(\Exception $e){
+            Log::error("Error in NurseRepository.getExperiencedetails(): " . $e->getMessage());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+   }
 }

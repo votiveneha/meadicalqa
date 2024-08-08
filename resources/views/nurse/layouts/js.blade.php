@@ -624,10 +624,10 @@ function pad(number) {
       isValid = false;
     }
 
-    if ($('[name="degree[]"]').val() == '') {
-      document.getElementById("reqdegree").innerHTML = "* Please select degree.";
-      isValid = false;
-    }
+    // if ($('[name="degree[]"]').val() == '') {
+    //   document.getElementById("reqdegree").innerHTML = "* Please select degree.";
+    //   isValid = false;
+    // }
 
     if ($('[name="bio"]').val() == '') {
       document.getElementById("reqprofessional_bio").innerHTML = "* Please enter the bio.";
@@ -685,30 +685,127 @@ function pad(number) {
     return false;
   }
   function educert() {
+    var isValid = true;
+    if ($('[name="ndegree[]"]').val() == '') {
+      document.getElementById("reqdegree").innerHTML = "* Please select degree.";
+      isValid = false;
+    }
+    alert($('[name="institution"]').val());
+    if ($('[name="institution"]').val() == '') {
+
+      document.getElementById("reqinstitute").innerHTML = "* Please enter the institutions.";
+      isValid = false;
+    }
+    // if ($('[name="graduation_start_date"]').val() == '') {
+    //   document.getElementById("reqstartdate").innerHTML = "* Please enter the graduation start date.";
+    //   isValid = false;
+    // }
+    // if ($('[name="graduation_end_date"]').val() == '') {
+    //   document.getElementById("reqenddate").innerHTML = "* Please enter the graduation end date.";
+    //   isValid = false;
+    // }
+    // if ($('[name="professional_certification[]"]').val() == '') {
+    //   document.getElementById("reqcertificate").innerHTML = "* Please select professional certicate";
+    //   isValid = false;
+    // }
+    // if ($('[name="license_number"]').val() == '') {
+    //   document.getElementById("reqlicensenum").innerHTML = "* Please enter license number";
+    //   isValid = false;
+    // }
+    // if ($('[name="country"]').val() == '') {
+    //   document.getElementById("reqcountry").innerHTML = "* Please select country";
+    //   isValid = false;
+    // }
+    // if ($('[name="state"]').val() == '') {
+    //   document.getElementById("reqTxtstateI").innerHTML = "* Please select state";
+    //   isValid = false;
+    // }
+    // if ($('[name="expiration_date"]').val() == '') {
+    //   document.getElementById("reqexpiration_date").innerHTML = "* Please enter expiration date";
+    //   isValid = false;
+    // }
+    // if ($('[name="training_courses[]"]').val() == '') {
+    //   document.getElementById("reqaddtraining").innerHTML = "* Please select training courses";
+    //   isValid = false;
+    // }
+    // if ($('[name="training_workshop[]"]').val() == '') {
+    //   document.getElementById("reqaddworkshops").innerHTML = "* Please select training workshops";
+    //   isValid = false;
+    // }
+
+    if(isValid == true){
     $('#educert_form').find('.text-danger').hide();
+      $.ajax({
+        url: "{{ route('nurse.updateEducation') }}",
+        type: "POST",
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: new FormData($('#educert_form')[0]),
+        dataType: 'json',
+        beforeSend: function() {
+          $('#submitEducation').prop('disabled', true);
+          $('#submitEducation').text('Process....');
+        },
+        success: function(res) {
+          $('#submitEducation').prop('disabled', false);
+          $('#submitEducation').text('Update Profile');
+
+          if (res.status == '1') {
+            Swal.fire({
+              icon: 'success',
+              title: 'Success',
+              text: 'Education Information Updated Successfully',
+            }).then(function() {
+              window.location.href = "{{ route('nurse.my-profile') }}?page=educert";
+            });
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: res.message,
+            })
+          }
+          
+        },
+        error: function(errorss) {
+          $('#submitEducation').prop('disabled', false);
+          $('#submitEducation').text('Submit');
+          console.log("errorss",errorss);
+          for (var err in errorss.responseJSON.errors) {
+            $("#submitEducation").find("[name='" + err + "']").after("<div class='text-danger'>" + errorss.responseJSON.errors[err] + "</div>");
+          }
+        }
+      });
+      
+    }
+    return false;
+  }
+   function updateExperience() {
+    $('#experience_form').find('.text-danger').hide();
     $.ajax({
-      url: "{{ route('nurse.updateEducation') }}",
+      url: "{{ route('nurse.updateExperience') }}",
       type: "POST",
       cache: false,
       contentType: false,
       processData: false,
-      data: new FormData($('#educert_form')[0]),
+      data: new FormData($('#experience_form')[0]),
       dataType: 'json',
       beforeSend: function() {
-        $('#submitEducation').prop('disabled', true);
-        $('#submitEducation').text('Process....');
+        $('#submitExperience').prop('disabled', true);
+        $('#submitExperience').text('Process....');
       },
       success: function(res) {
-        $('#submitEducation').prop('disabled', false);
-        $('#submitEducation').text('Update Profile');
+        $('#submitExperience').prop('disabled', false);
+        $('#submitExperience').text('Update Profile');
 
         if (res.status == '1') {
           Swal.fire({
             icon: 'success',
             title: 'Success',
-            text: 'Education Information Updated Successfully',
+            text: 'Experience Information Updated Successfully',
           }).then(function() {
-            window.location.href = "{{ route('nurse.my-profile') }}?page=educert";
+            window.location.href = "{{ route('nurse.my-profile') }}?page=experience_info";
           });
         } else {
           Swal.fire({
@@ -720,11 +817,11 @@ function pad(number) {
         
       },
       error: function(errorss) {
-        $('#submitEducation').prop('disabled', false);
-        $('#submitEducation').text('Submit');
+        $('#submitExperience').prop('disabled', false);
+        $('#submitExperience').text('Submit');
         console.log("errorss",errorss);
         for (var err in errorss.responseJSON.errors) {
-          $("#submitEducation").find("[name='" + err + "']").after("<div class='text-danger'>" + errorss.responseJSON.errors[err] + "</div>");
+          $("#submitExperience").find("[name='" + err + "']").after("<div class='text-danger'>" + errorss.responseJSON.errors[err] + "</div>");
         }
       }
     });

@@ -171,6 +171,8 @@
                                 <div class="card-body p-3 px-md-4">
                                     <div class="col-md-12">
                                         <div class="row">
+                                        @if($profileData->date_of_birth && $profileData->gender && $profileData->state && $profileData->city
+                                        && $profileData->personal_website && $profileData->home_address && $profileData->emergency_conact_numeber)    
                                             @if($profileData->date_of_birth)
                                             <div class="col-md-6 mt-3">
                                                 <div class="d-flex gap-3 flex-wrap">
@@ -274,6 +276,12 @@
                                                     </div>
                                                 @endif
                                             @endif
+                                            @else
+                                            <div class="col-md-12">
+                                                <div class="text-center text-danger fs-5">No data found</div>
+                                            </div>
+                                            
+                                            @endif
                                         </div>
                     
                                     </div>
@@ -292,7 +300,7 @@
                                 <div class="card-body p-3 px-md-4">
                                     <div class="col-md-12">
 
-                                        @if($profileData)
+                                        @if($profileData->nurseType && $profileData->specialties)
                                             <div class="row">
                                                 
                                                 @if ($profileData->nurseType != 'null')
@@ -777,7 +785,7 @@
                                         @if($educationData && $profileData)
                                             <div class="row">
                                                 
-                                               <h4  class="mt-3">Educational Background</h4>
+                                               <h4  class="mt-4 fw-bolder fs-6 lh-base d-flex align-items-center">Educational Background : </h4>
                                                @if ($profileData->degree != 'null')
                                                 @php $degree = json_decode($profileData->degree); @endphp
                                                 <div class="col-md-12 mt-3">
@@ -835,7 +843,7 @@
                                                 @endif
                                                 @if($educationData->licence_number && $educationData->country &&
                                                 $educationData->state && $educationData->expiration_date )
-                                                <h4  class="mt-3">Licenses </h4>
+                                                <h4  class="mt-4 fw-bolder fs-6 lh-base d-flex align-items-center">Licenses: </h4>
                                                
                                                 <div class="col-md-6 mt-3">
                                                     <div class="d-flex gap-3 flex-wrap">
@@ -846,7 +854,7 @@
                                                 <div class="col-md-6 mt-3">
                                                     <div class="d-flex gap-3 flex-wrap">
                                                         <strong>Country : </strong>
-                                                         <span class="">{{country_name_new($educationData->country)}} </span>   
+                                                         {{-- <span class="">{{country_name($educationData->country)}} </span>    --}}
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 mt-3">
@@ -859,6 +867,37 @@
                                                     <div class="d-flex gap-3 flex-wrap">
                                                         <strong>Expiration Date : </strong>
                                                          <span class="">{{ \Carbon\Carbon::parse($educationData->expiration_date)->format('d/m/Y') }}</span>   
+                                                    </div>
+                                                </div>
+                                                @endif
+                                                  @if($educationData->training_courses != null  || $educationData->training_workshops != null)
+                                                @php $training_courses = json_decode($educationData->training_courses);
+                                                    $training_workshops = json_decode($educationData->training_workshops);
+                                                @endphp
+                                               
+                                                <h4  class="mt-4 fw-bolder fs-6 lh-base d-flex align-items-center">Additional Training :</h4>
+                                                <div class="col-md-6 mt-3">
+                                                    <div class="d-flex gap-3 flex-wrap">
+                                                        <strong>Courses : </strong>
+                                                         <ul class="dropdown-list">
+                                                            @forelse($training_courses as $key => $value)
+                                                                <li><span class="dropdown-item-custom">{{ training_name_by_id($value) }} , </span></li>
+                                                            @empty
+                                                                <li><a href="#" class="dropdown-item-custom"></a></li>
+                                                            @endforelse
+                                                        </ul>  
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 mt-3">
+                                                    <div class="d-flex gap-3 flex-wrap">
+                                                        <strong>Workshops : </strong>
+                                                         <ul class="dropdown-list">
+                                                            @forelse($training_workshops as $key => $value)
+                                                                <li><span class="dropdown-item-custom">{{ training_name_by_id($value) }} , </span></li>
+                                                            @empty
+                                                                <li><a href="#" class="dropdown-item-custom"></a></li>
+                                                            @endforelse
+                                                        </ul>  
                                                     </div>
                                                 </div>
                                                 @endif
@@ -886,73 +925,105 @@
                                 </div>
                                 <div class="card-body p-3 px-md-4">
                                     <div class="col-md-12">
-                                            @if($eligibilityToWorkData)
+                                            @if($experienceData)
                                                 <div class="row">
-                                                    @if(isset($eligibilityToWorkData->residency) && $eligibilityToWorkData->residency)
+                                                    @if(isset($profileData->assistent_level))
+                                                    
+                                                    @php
+                                                    $levels = [
+                                                            1 => '1st Year', 2 => '2nd Year', 3 => '3rd Year', 4 => '4th Year', 
+                                                            5 => '5th Year', 6 => '6th Year', 7 => '7th Year', 8 => '8th Year', 
+                                                            9 => '9th Year', 10 => '10th Year', 11 => '11th Year', 12 => '12th Year', 
+                                                            13 => '13th Year', 14 => '14th Year', 15 => '15th Year', 16 => '16th Year', 
+                                                            17 => '17th Year', 18 => '18th Year', 19 => '19th Year', 20 => '20th Year', 
+                                                            21 => '21st Year', 22 => '22nd Year', 23 => '23rd Year', 24 => '24th Year', 
+                                                            25 => '25th Year', 26 => '26th Year', 27 => '27th Year', 28 => '28th Year', 
+                                                            29 => '29th Year', 30 => '30th Year'
+                                                        ];
+                                                        $expre = $levels[$profileData->assistent_level] ?? '30th Year';
+                                                    @endphp 
+                                                    
                                                     <div class="col-md-6 mt-3">
                                                         <div class="d-flex gap-3 flex-wrap">
-                                                            <strong>Residency : </strong><span>{{ $eligibilityToWorkData->residency}}</span>
+                                                            <strong>Total Year of Experience : </strong><span>{{ $expre }}</span>
                                                         </div>
                                                     </div>
                                                     @endif
-                                                    @if(isset($eligibilityToWorkData->support_document) && $eligibilityToWorkData->support_document)
+                                                    
+                                      
+                                                    @if(isset($experienceData->employer_name) && $experienceData->employer_name)
+                                                    <h4 class="mt-4 fw-bolder fs-6 lh-base d-flex align-items-center ">Previous Employers : </h4>
                                                     <div class="col-md-6 mt-3">
                                                         <div class="d-flex gap-3 flex-wrap">
-                                                            <strong>Support Document:</strong>
-                                                            <a href="{{ asset($eligibilityToWorkData->support_document) }}" target="_blank">
-                                                                <span class="text-success">View Document</span>
-                                                            </a>
+                                                            <strong>Names :</strong>
+                                                            </strong><span>{{ $experienceData->employer_name }}</span>
                                                         </div>
-                                                        
+                                                    
                                                     </div>
                                                     @endif
 
-                                                    @if(isset($eligibilityToWorkData->visa_subclass_number) && $eligibilityToWorkData->visa_subclass_number)
+                                                    @if(isset($experienceData->position_held) && $experienceData->position_held)
+                                                     @php $position_held=json_decode($experienceData->position_held); @endphp
                                                     <div class="col-md-6 mt-3">
                                                         <div class="d-flex gap-3 flex-wrap">
-                                                            <strong>Visa Subclass Number : </strong>
-                                                            <span>{{$eligibilityToWorkData->visa_subclass_number}}</span>
-                                                        </div>
-                                                    </div>
-                                                    @endif
-
-                                                    @if(isset($eligibilityToWorkData->passport_number) && $eligibilityToWorkData->passport_number)
-                                                    <div class="col-md-6 mt-3">
-                                                        <div class="d-flex gap-3 flex-wrap">
-                                                            <strong>Passport Number : </strong>
-                                                            <span>{{$eligibilityToWorkData->passport_number}}</span>
-                                                        </div>
-                                                    </div>
-                                                    @endif
-
-
-                                                    @if(isset($eligibilityToWorkData->visa_grant_number) && $eligibilityToWorkData->visa_grant_number)
-                                                    <div class="col-md-6 mt-3">
-                                                        <div class="d-flex gap-3 flex-wrap">
-                                                            <strong>Visa grant number: </strong>
-                                                            <span>{{$eligibilityToWorkData->visa_grant_number}}</span>
+                                                            <strong>Position Held : </strong>
+                                                            <span>{{ specialty_name_by_id($position_held)}}</span>
                                                         </div>
                                                     </div>
                                                     @endif
 
-                                                    @if(isset($eligibilityToWorkData->passport_country_of_Issue) && $eligibilityToWorkData->passport_country_of_Issue)
+                                                    @if(isset($experienceData->employeement_start_date) && $experienceData->employeement_start_date)
                                                     <div class="col-md-6 mt-3">
                                                         <div class="d-flex gap-3 flex-wrap">
-                                                            <strong>Passport Country Of Issue: </strong>
-                                                            <span>{{country_name_new($eligibilityToWorkData->passport_country_of_Issue)}}</span>
+                                                            <strong>Employment Start Date : </strong>
+                                                            <span>{{ \Carbon\Carbon::parse($experienceData->employeement_start_date)->format('d/m/Y') }}</span>
                                                         </div>
                                                     </div>
                                                     @endif
 
-                                                    @if(isset($eligibilityToWorkData->expiry_date) && $eligibilityToWorkData->expiry_date)
+                                                    @if(isset($experienceData->employeement_end_date) && $experienceData->employeement_end_date)
                                                     <div class="col-md-6 mt-3">
                                                         <div class="d-flex gap-3 flex-wrap">
-                                                            <strong>Expiry Date: </strong>
-                                                            <span>{{$eligibilityToWorkData->expiry_date}}</span>
+                                                            <strong>Employment End Date : </strong>
+                                                            <span>{{ \Carbon\Carbon::parse($experienceData->employeement_end_date)->format('d/m/Y') }}</span>
                                                         </div>
                                                     </div>
                                                     @endif
-                            
+
+
+                                                   
+                                                    @if(isset($experienceData->responsiblities) && $experienceData->responsiblities)
+                                                     <h4 class="mt-4 fw-bolder fs-6 lh-base d-flex align-items-center ">Detailed Job Descriptions :</h4>
+                                                    <div class="col-md-6 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>Responsibilities :</strong>
+                                                            <textarea  style="resize: none;" id="visa_grant_number" name="visa_grant_number" class="form-control" rows="2" readonly>{{$experienceData->responsiblities}}</textarea>
+                                                        </div>
+                                                    </div>
+                                                    @endif
+
+                                                    @if(isset($experienceData->achievements) && $experienceData->achievements)
+                                                    <div class="col-md-6 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>Achievements :</strong>
+                                                            <textarea  style="resize: none;" id="visa_grant_number" name="visa_grant_number" class="form-control" rows="2" readonly>{{$experienceData->achievements}}</textarea>
+                                                        </div>
+                                                    </div>
+                                                    @endif
+
+                                                   
+                                                    @if(isset($experienceData->skills_compantancies) && $experienceData->skills_compantancies)
+                                                     <h4 class="mt-4 fw-bolder fs-6 lh-base d-flex align-items-center">Areas of Expertise :</h4>
+                                                     @php $skills_compantancies=json_decode($experienceData->skills_compantancies); @endphp
+                                                    <div class="col-md-6 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>Specific skills and competencies : </strong>
+                                                            <span>{{ skill_name_by_id($skills_compantancies)}}</span>
+                                                        </div>
+                                                    </div>
+                                                    @endif
+
+
                                                 </div>
                                                 @else
                                                 <div class="col-md-12">

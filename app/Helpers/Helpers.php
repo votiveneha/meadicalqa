@@ -15,6 +15,8 @@ use App\Models\PoliceCheckModel;
 use App\Models\DegreeModel;
 use App\Models\EmergencyContactModel;
 use App\Models\ProfessionalCer;
+use App\Models\TrainingModel;
+use App\Models\SkillModel;
 
 function specialty()
 {
@@ -216,5 +218,15 @@ function professional_certificate_by_id($id)
 {
         $certificate =  ProfessionalCer::where('id', $id)->first();
         return $certificate->name;
+}
+function training_name_by_id($specialty)
+{
+        $training_data =  TrainingModel::where('id', $specialty)->first();
+        return $training_data->name;
+}
+function skill_name_by_id($id)
+{
+        $skill_data =  SkillModel::where('id', $id)->first();
+        return $skill_data->name;
 }
 
