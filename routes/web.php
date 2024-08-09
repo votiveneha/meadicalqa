@@ -75,6 +75,7 @@ Route::prefix('/admin')->name('admin.')->namespace('App\Http\Controllers\admin')
         Route::post('/change-status-block-unblock', 'NurseController@changeStatusBlockUnblock')->name('change-status-block-unblock');
         Route::get('/view-profile/{id}', 'NurseController@viewProfile')->name('view-profile');
         Route::get('/add-nurse', 'NurseController@addNurse')->name('add_nurse');
+        Route::post('/add-nurse-post', 'NurseController@addNursePost')->name('add_nurse_post');
         Route::get('/customer-list', 'NurseController@customerList')->name('customer-list'); 
              
 

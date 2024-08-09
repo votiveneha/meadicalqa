@@ -854,6 +854,7 @@
                                                 <div class="col-md-6 mt-3">
                                                     <div class="d-flex gap-3 flex-wrap">
                                                         <strong>Country : </strong>
+                                                        <span class="">{{country_name($educationData->country)}} </span>   
                                                          {{-- <span class="">{{country_name($educationData->country)}} </span>    --}}
                                                     </div>
                                                 </div>

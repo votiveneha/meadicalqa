@@ -9,6 +9,8 @@ use App\Repository\Eloquent\NurseRepository;
 use App\Services\Admins\NurseServices;
 use App\Repository\Eloquent\VerificationRepository;
 use Illuminate\Support\Facades\Mail;
+use App\Http\Requests\NurseRequest;
+
 
 class NurseController extends Controller
 {
@@ -141,6 +143,23 @@ class NurseController extends Controller
             return view('admin.add-nurse',compact('profileData','professionVerificationData','policeCheckVerificationData','eligibilityToWorkData','workingChildrenCheckData'));
         } catch (\Exception $e) {
             log::error('Error in NurseController/viewProfile :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+    public function addNursePost(NurseRequest $request)
+    {
+        
+        if ($request->hasFile('profile_image')) {
+            $profile_image = time() . '.' . $request->profile_image->extension();
+
+            if ($request->profile_image->move(public_path('/nurse/assets/imgs/'), $profile_image)) {
+               $request->profile_image = '/nurse/assets/imgs/' . $profile_image;
+            }
+        }
+        try {
+           return $this->nurseServices->addNursePost($request);
+        } catch (\Exception $e) {
+            log::error('Error in NurseController/addNursePost :' . $e->getMessage() . 'in line' . $e->getLine());
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
         }
     }

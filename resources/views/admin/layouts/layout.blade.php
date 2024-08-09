@@ -12,6 +12,7 @@
     <meta name="author" content="" />
     <meta name="keywords" content="Mordenize" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!--  Favicon -->
     <link rel="shortcut icon" type="image/png" href="{{ asset(env('LOGO_PATH'))}}" />
     <!-- Owl Carousel  -->

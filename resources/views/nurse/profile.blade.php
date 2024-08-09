@@ -92,11 +92,13 @@
                 <li><a class="btn btn-border aboutus-icon mb-20 active profile_tabs" href="#tab-my-profile" id="my_profile" data-bs-toggle="tab" role="tab" aria-controls="tab-my-profile" aria-selected="true">My Profile</a></li>
                 <li><a class="btn btn-border recruitment-icon mb-20 profile_tabs" id="settings" href="#tab-my-profile-setting" data-bs-toggle="tab" role="tab" aria-controls="tab-my-profile-setting" aria-selected="false">Setting</a></li>
                <li><a href="#tab-my-jobs" id="my_profession" class="btn btn-border recruitment-icon mb-20 profile_tabs" data-bs-toggle="tab" role="tab" aria-controls="tab-my-jobs" aria-selected="false">Profession</a></li>
-                <li><a href="#education_certification" class="btn btn-border recruitment-icon mb-20"  onclick="coming_soon()" data-bs-toggle="tab" role="tab" aria-controls="tab-myclearance-jobs" aria-selected="false">Clearance</a></li>
+                
                 <li><a class="btn btn-border people-icon mb-20" id="educert"  data-bs-toggle="tab" role="tab" aria-controls="tab-saved-jobs" aria-selected="false">Education and Certification</a></li>
                 <li><a href="#experience" id="experience_info" class="btn btn-border aboutus-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true">Experience</a></li>
-                <li><a class="btn btn-border recruitment-icon mb-20" onclick="coming_soon()" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu5" aria-selected="false">Contacts</a></li>
-                <li><a class="btn btn-border people-icon mb-20" onclick="coming_soon()" data-bs-toggle="tab" role="tab" aria-controls="tab-saved-menu6" aria-selected="false">Banks</a></li>
+                <li><a href="#mand_training" id="mand_training" class="btn btn-border aboutus-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true">Mandatory Training</a></li>
+                <li><a href="#work_clearances" id="work_clearances" class="btn btn-border recruitment-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-myclearance-jobs" aria-selected="false">Work Clearances</a></li>
+                <!-- <li><a class="btn btn-border recruitment-icon mb-20" onclick="coming_soon()" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu5" aria-selected="false">Contacts</a></li>
+                <li><a class="btn btn-border people-icon mb-20" onclick="coming_soon()" data-bs-toggle="tab" role="tab" aria-controls="tab-saved-menu6" aria-selected="false">Banks</a></li> -->
                 <!-- <li><a class="btn btn-border recruitment-icon mb-20" href="#tab-my-profile-setting" data-bs-toggle="tab" role="tab" aria-controls="tab-my-profile-setting" aria-selected="false">Setting</a></li> -->
 
 
@@ -732,26 +734,28 @@
                           </ul>
                       <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="ndegree" name="ndegree[]" multiple="multiple"></select>
                       </div>
-
+                      <span id="reqdegree" class="reqError text-danger valley"></span>
                     </div>   
                   </div>
                   
                   <div class="form-group level-drp">
                     <label class="form-label" for="input-1">Institutions</label>
-                    <input class="form-control" type="text" required="" name="institution" value="@if(!empty($educationData)){{ $educationData->institution }}@endif">
-                    
+                    <input class="form-control" type="text" name="institution" value="@if(!empty($educationData)){{ $educationData->institution }}@endif">
+                    <span id="reqinstitute" class="reqError text-danger valley"></span>
                   </div>
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group level-drp">
                         <label class="form-label" for="input-1">Graduation Start Date</label>
-                        <input class="form-control" type="date" required="" name="graduation_start_date" value="@if(!empty($educationData)){{ $educationData->graduate_start_date }}@endif">
+                        <input class="form-control" type="date" name="graduation_start_date" value="@if(!empty($educationData)){{ $educationData->graduate_start_date }}@endif">
+                        <span id="reqstartdate" class="reqError text-danger valley"></span>
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-group level-drp">
                         <label class="form-label" for="input-1">Graduation End Date</label>
-                        <input class="form-control" type="date" required="" name="graduation_end_date" value="@if(!empty($educationData)){{ $educationData->graduate_end_date }}@endif">
+                        <input class="form-control" type="date" name="graduation_end_date" value="@if(!empty($educationData)){{ $educationData->graduate_end_date }}@endif">
+                        <span id="reqenddate" class="reqError text-danger valley"></span>
                       </div>
                     </div>
                   </div>
@@ -772,12 +776,14 @@
                             </ul>
                         <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="profess_cert" name="professional_certification[]" multiple="multiple"></select>
                       </div>
+                      <span id="reqcertificate" class="reqError text-danger valley"></span>
                       <h6 class="emergency_text">
                           Licenses Information 
                         </h6>
                         <div class="form-group level-drp">
                           <label class="form-label" for="input-1">License Number</label>
-                          <input class="form-control" type="text" required="" name="license_number" value="@if(!empty($educationData)){{ $educationData->licence_number }}@endif">
+                          <input class="form-control" type="text" name="license_number" value="@if(!empty($educationData)){{ $educationData->licence_number }}@endif">
+                          <span id="reqlicensenum" class="reqError text-danger valley"></span>
                         </div>
                         <div class="row state-row">
                         <div class="form-group position-relative col-md-6">
@@ -795,6 +801,7 @@
 
 
                           </select>
+                          <span id="reqcountry" class="reqError text-danger valley"></span>
                         </div>
 
                         <div class="col-md-6">
@@ -824,7 +831,8 @@
                         </div>
                         <div class="form-group level-drp">
                           <label class="form-label" for="input-1">Expiration Date</label>
-                          <input class="form-control" type="date" required="" name="expiration_date" value="@if(!empty($educationData)){{ $educationData->expiration_date }}@endif">
+                          <input class="form-control" type="date" name="expiration_date" value="@if(!empty($educationData)){{ $educationData->expiration_date }}@endif">
+                          <span id="reqexpiration_date" class="reqError text-danger valley"></span>
                         </div>
                         <h6 class="emergency_text">
                           Additional Training 
@@ -845,6 +853,7 @@
                                   </ul>
                               <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="training_courses" name="training_courses[]" multiple="multiple"></select>
                             </div>
+                            <span id="reqaddtraining" class="reqError text-danger valley"></span>
                           </div>
                           <div class="col-md-6">
                             <div class="form-group level-drp">
@@ -861,6 +870,7 @@
                                   </ul>
                               <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="training_workshop" name="training_workshop[]" multiple="multiple"></select>
                             </div>
+                            <span id="reqaddworkshops" class="reqError text-danger valley"></span>
                           </div>
                         </div>
                   <div class="box-button mt-15">
@@ -892,13 +902,14 @@
                         @endfor
                     </select>
                   </div>
+                  <span id="reqlevelexpereience" class="reqError text-danger valley"></span>
                   <h6 class="emergency_text">
                     Previous Employers 
                   </h6>
                   <div class="form-group level-drp">
                     <label class="form-label" for="input-1">Names</label>
-                    <input class="form-control" type="text" required="" name="previous_employer_name" value="@if(!empty($experienceData)) {{$experienceData->employer_name}}@endif">
-                    
+                    <input class="form-control" type="text" name="previous_employer_name" value="@if(!empty($experienceData)) {{$experienceData->employer_name}}@endif">
+                    <span id="reqnames" class="reqError text-danger valley"></span>
                   </div>
                   <div class="form-group level-drp">
                     <label class="form-label" for="input-1">Position Held</label>
@@ -915,12 +926,13 @@
                     <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="positions_held" name="positions_held[]" multiple="multiple"></select>
                     
                   </div>
+                  <span id="reqpositionheld" class="reqError text-danger valley"></span>
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group level-drp">
                         <label class="form-label" for="input-1">Employment Start Date</label>
                         <input class="form-control" type="date" name="start_date" value="@if(!empty($experienceData)){{ $experienceData->employeement_start_date }}@endif">
-                        
+                        <span id="reqempsdate" class="reqError text-danger valley"></span>
                       </div>
                     </div>
                     <div class="col-md-6">
@@ -941,11 +953,12 @@
                   <div class="form-group level-drp">
                     <label class="form-label" for="input-1">Responsibilities</label>
                     <textarea class="form-control" name="job_responeblities">@if(!empty($experienceData)) {{ $experienceData->responsiblities }}@endif</textarea>
+                    <span id="reqresposiblities" class="reqError text-danger valley"></span>
                   </div>
                   <div class="form-group level-drp">
                     <label class="form-label" for="input-1">Achievements</label>
-                    <textarea class="form-control" name="achievements">@if(!empty($experienceData)){{ $experienceData->achievements }}@endif
-                    </textarea>
+                    <textarea class="form-control" name="achievements">@if(!empty($experienceData)){{ $experienceData->achievements }}@endif</textarea>
+                    <span id="reqachievements" class="reqError text-danger valley"></span>
                   </div>
                   <h6 class="emergency_text">
                     Areas of Expertise  
@@ -964,17 +977,72 @@
                       </ul>
                     <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="skills_compantancies" name="skills_compantancies[]" multiple="multiple"></select>
                   </div>
+                  <span id="reqexpertise" class="reqError text-danger valley"></span>
                   <div class="box-button mt-15">
                     <button class="btn btn-apply-big font-md font-bold" type="submit" id="submitExperience">Save Changes</button>
                   </div>    
                   </form>
                 </div>
               </div>
-              <div class="tab-pane fade" id="tab-myclearance-jobs" role="tabpanel" aria-labelledby="tab-myclearance-jobs" style="display: none">
+              <div class="tab-pane fade" id="tab-mandtraining" role="tabpanel" aria-labelledby="tab-educert" style="display: none">
+                <div class="card shadow-sm border-0 p-4 mt-30">
+                  <h3 class="mt-0 color-brand-1 mb-20">Mandatory Training</h3>
+                  <h6 class="emergency_text">
+                    Completed training programs
+                  </h6>
+                  <?php
+                    $trainingData = DB::table("mandatory_training")->where("user_id",Auth::guard('nurse_middle')->user()->id)->first();
+                  ?>
+                  <form id="training_form" method="POST" onsubmit="return updateTraining()">
+                    @csrf
+                    <input type="hidden" name="user_id" value="{{ Auth::guard('nurse_middle')->user()->id }}">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group level-drp">
+                          <label class="form-label" for="input-1">Training Start Date</label>
+                          <input class="form-control" type="date" name="start_date" value="@if(!empty($trainingData)){{ $trainingData->start_date }}@endif">
+                          <span id="reqempsdate" class="reqError text-danger valley"></span>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group level-drp">
+                          <label class="form-label" for="input-1">Training End Date</label>
+                          <input class="form-control" type="date" name="end_date" value="@if(!empty($trainingData)){{ $trainingData->end_date }}@endif">
+                          
+                        </div>
+                        
+                      </div>
+                      <div class="form-group level-drp">
+                          <label class="form-label" for="input-1">Institution</label>
+                          <input class="form-control" type="text" name="institution" value="@if(!empty($trainingData)){{ $trainingData->institutions }}@endif">
+                          
+                        </div>
+                        
+                        <div class="form-group level-drp">
+                           <label class="form-label" for="input-1">Mandatory Continuing Education</label>
+                           <select class="form-control form-select ps-5" name="mand_continue_education" id="mand_continue_education">
+                            <option value="">Select mandatory continuing education</option>
+                            
+                            
+                            <option value="Ongoing" @if(!empty($trainingData)) @if(!empty($trainingData->continuing_education == "Ongoing")) selected @endif @endif>Ongoing</option>
+                            <option value="Completed" @if(!empty($trainingData)) @if(!empty($trainingData->continuing_education == "Completed")) selected @endif @endif>Completed</option>
+
+
+                          </select>
+                          
+                        </div>
+                        <div class="box-button mt-15">
+                          <button class="btn btn-apply-big font-md font-bold" type="submitTraining" id="submitTraining">Save Changes</button>
+                        </div>  
+                    </div>
+                  </form>
+                </div>
+              </div>  
+               <div class="tab-pane fade" id="tab-myclearance-jobs" role="tabpanel" aria-labelledby="tab-myclearance-jobs" style="display: none">
 
 
                 <div class="card shadow-sm border-0 p-4 mt-30">
-				
+        
                   <h3 class="mt-0 color-brand-1 mb-2">Work Clearances</h3>
                   <a class="font-md color-text-paragraph-2" href="#">Please provide your work clearances, as required for the roles you want to apply to. Find work you want, to learn what’s required. Keep your work clearances up-to-date to maintain your eligibility for jobs</a>
                   <h6 class="mt-0 color-brand-1 mb-2">Eligibility To Work</h6>
@@ -1102,8 +1170,15 @@
 
                       <span id="reqasupport_document" class="reqError text-danger valley"></span>
 
+                      <div class="d-flex align-items-center justify-content-between">
+                            <button onclick="doeligibility_to_work()" @if(!email_verified())  disabled  @endif class="btn btn-default px-5 py-8  rounded-2 mb-0 submit-btn-120" type="submit"><span class="resetpassword">Submit</span>
+                              <div class="spinner-border submit-btn-1" role="status" style="display:none;">
+                                <span class="sr-only">Loading...</span>
+                              </div>
+                            </button>
+
+                          </div>
                       
-                      ?>
                   </form>
                 </div>
                 <!--==========-->
@@ -2437,6 +2512,41 @@
       }
 
     });
+
+    $("#mand_training").click(function(){
+     
+      window.history.replaceState(null, null, "?page=mandatory_training");
+
+      var url_string = window.location.href; 
+      var url = new URL(url_string);
+      var c = url.searchParams.get("page");
+      console.log(c);
+
+      if(c == "mandatory_training"){
+        $(".tab-pane").hide();
+        $("#tab-mandtraining").css("opacity","1");
+        $("#tab-mandtraining").show();
+      }
+
+    });
+
+    $("#work_clearances").click(function(){
+     
+      window.history.replaceState(null, null, "?page=work_clearances");
+
+      var url_string = window.location.href; 
+      var url = new URL(url_string);
+      var c = url.searchParams.get("page");
+      console.log(c);
+
+      if(c == "work_clearances"){
+        $(".tab-pane").hide();
+        $("#tab-myclearance-jobs").css("opacity","1");
+        $("#tab-myclearance-jobs").show();
+      }
+
+    });
+
   var url_string = window.location.href; 
     var url = new URL(url_string);
     var c = url.searchParams.get("page");
@@ -2480,6 +2590,20 @@
         $("#tab-experience").show();
         $(".profile_tabs").removeClass("active");
         $("#experience_info").addClass("active");
+      }
+
+      if(c == "mandatory_training"){
+        $(".tab-pane").hide();
+        $("#tab-mandtraining").css("opacity","1");
+        $("#tab-mandtraining").show();
+      }
+
+      if(c == "work_clearances"){
+        $(".tab-pane").hide();
+        $("#tab-myclearance-jobs").css("opacity","1");
+        $("#tab-myclearance-jobs").show();
+        $(".profile_tabs").removeClass("active");
+        $("#work_clearances").addClass("active");
       }
 
     var phoneInputID = "#contactI_emergency";

@@ -151,7 +151,7 @@
                     </li>
                     
                 </ul>
-                <form method="post" enctype="multipart/form-data">
+                <form method="post" enctype="multipart/form-data" id="AddNurse">
                 <!-- Tab panes -->
                 <div class="tab-content border mt-2">
                     <div class="tab-pane p-3 active show" id="navpill-111" role="tabpanel">
@@ -166,7 +166,7 @@
                                             <div class="mt-35 mb-40 box-info-profie d-flex align-items-center upload_image">
                   
                                               <div class="image-profile">
-                                                <img alt="" style="object-fit:cover;border-radius: 16px;display: block;width: 85px;height: 85px;" src="{{asset('assets/admin/dist/images/profile/nurse06.png')}}"> 
+                                                <img alt=""  id="profileImage" style="object-fit:cover;border-radius: 16px;display: block;width: 85px;height: 85px;" src="{{asset('assets/admin/dist/images/profile/nurse06.png')}}"> 
                                                    
                                                 </div>
                                                 <div class="position-relative overflow-hidden">
@@ -203,6 +203,9 @@
                                             <div class="col-md-6 mt-3">
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Phone Number</strong></label>
+                                                    <input type="hidden" value="" name="country_code" id="country_code_phone">
+                                                    <input type="hidden" value="" name="country_name" id="country_name_phone">
+                                                    <input type="hidden" value="" name="country_iso" id="country_iso_phone">
                                                     <input class="form-control numbers" type="text" required="" name="contact" id="contact" placeholder="1234567890" placeholder="1234567890" maxlength="10" pattern="[0-9]{4}" style="width: 225%">
                                                     <span id="contact_error" class="text-danger"></span>
                                                 </div>
@@ -211,7 +214,7 @@
                                             <div class="col-md-6 mt-3">
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Date of Birth</strong></label>
-                                                    <input type="text" class="form-control" placeholder="Date of Birth" name="dob" id="dob">
+                                                    <input type="date" class="form-control" placeholder="Date of Birth" name="dob" id="dob">
                                                     <span id="date_error" class="text-danger"></span>
                                                 </div>
                                             </div>
@@ -315,6 +318,9 @@
                                             <div class="col-md-6 mt-3">
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Mobile No</strong></label>
+                                                    <input type="hidden" value="" name="emr_county_code" id="country_code_mobile">
+                                                    <input type="hidden" value="" name="emr_country_name" id="country_name_mobile">
+                                                    <input type="hidden" value="" name="emr_country_iso" id="country_iso_mobile">
                                                     <input class="form-control numbers" type="text" required="" name="emrg_contact" id="emrg_contact" placeholder="1234567890" placeholder="1234567890" maxlength="10" pattern="[0-9]{4}" style="width: 225%">
                                                     <span id="emrg_contact_error" class="text-danger"></span>
                                                 </div>
@@ -634,17 +640,36 @@
         src="https://nextjs.webwiders.in/pindrow/public/advertiser/dist/libs/owl.carousel/dist/owl.carousel.min.js">
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
-    <script>  
+    <script> 
+
      
     $(document).ready(function() {
-        $('.next-step').on('click', function() {                
+         $('#uploadButton').on('click', function() {
+            $('#profile_image').click();
+        });
+
+        $('#profile_image').on('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    $('#profileImage').attr('src', e.target.result);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        $('.next-step').on('click', function() { 
+            // alert($('#stateI').val());     
             var targetTab            = $(this).data('target');
              var first_name          =  $('#first_name').val();
              var last_name           =  $('#last_name').val();  
              var email               =  $('#email').val();  
             // Get the value of the selected radio button
             var selectedGender = $('input[name="gender"]:checked').val();
-             var contact             =  $('#contact').val();  
+             var contact             =  $('#contact').val(); 
+             var profile_image = $('#profile_image')[0].files[0]; 
+            //  alert(profile_image);
              var profile_image             =  $('#profile_image').val();  
              var dob                 =  $('#dob').val();  
              var per_website         =  $('#per_website').val();  
@@ -654,110 +679,115 @@
              var zip_code            =  $('#zip_code').val();  
              var home_address        =  $('#home_address').val(); 
              var emrg_contact        =  $('#emrg_contact').val();  
-             var emrg_email          =  $('#emrg_email').val(); 
+             var emrg_email          =  $('#emrg_email').val();
+             var emrg_contact        =  $('#emrg_contact').val();  
+             var emrg_email          =  $('#emrg_email').val();
+             var emrg_contact        =  $('#emrg_contact').val();  
+             var emrg_email          =  $('#emrg_email').val();
+              
              let hasErrors = false;
 
              // Function to show error message
-        function showError(element, message) {
-            $('#' + element).text(message);
-            hasErrors = true;
-        }
+        // function showError(element, message) {
+        //     $('#' + element).text(message);
+        //     hasErrors = true;
+        // }
 
-        // Function to clear error message
-        function clearError(element) {
-            $('#' + element).text("");
-        }
+        // // Function to clear error message
+        // function clearError(element) {
+        //     $('#' + element).text("");
+        // }
 
-        // Validate each field
-        if (first_name === "") {
-            showError('first_name_error', "First name is required.");
-        } else {
-            clearError('first_name_error');
-        }
+        // // Validate each field
+        // if (first_name === "") {
+        //     showError('first_name_error', "First name is required.");
+        // } else {
+        //     clearError('first_name_error');
+        // }
 
-        if (last_name === "") {
-            showError('last_name_error', "Last name is required.");
-        } else {
-            clearError('last_name_error');
-        }
+        // if (last_name === "") {
+        //     showError('last_name_error', "Last name is required.");
+        // } else {
+        //     clearError('last_name_error');
+        // }
 
-        if (email === "") {
-            showError('email_error', "Email is required.");
-        } else {
-            clearError('email_error');
-        }
+        // if (email === "") {
+        //     showError('email_error', "Email is required.");
+        // } else {
+        //     clearError('email_error');
+        // }
 
-        if (!selectedGender) {
-            showError('genderErr', "Please select a gender.");
-        } else {
-            clearError('genderErr');
-        }
+        // if (!selectedGender) {
+        //     showError('genderErr', "Please select a gender.");
+        // } else {
+        //     clearError('genderErr');
+        // }
 
-        if (contact === "") {
-            showError('contact_error', "Mobile Number is required.");
-        } else {
-            clearError('contact_error');
-        }
+        // if (contact === "") {
+        //     showError('contact_error', "Mobile Number is required.");
+        // } else {
+        //     clearError('contact_error');
+        // }
 
-        if (dob === "") {
-            showError('date_error', "Date of Birth is required.");
-        } else {
-            clearError('date_error');
-        }
+        // if (dob === "") {
+        //     showError('date_error', "Date of Birth is required.");
+        // } else {
+        //     clearError('date_error');
+        // }
 
-        if (per_website === "") {
-            showError('per_website_error', "Personal website is required.");
-        } else {
-            clearError('per_website_error');
-        }
+        // if (per_website === "") {
+        //     showError('per_website_error', "Personal website is required.");
+        // } else {
+        //     clearError('per_website_error');
+        // }
 
-        if (countryI === "") {
-            showError('country_error', "Country is required.");
-        } else {
-            clearError('country_error');
-        }
+        // if (countryI === "") {
+        //     showError('country_error', "Country is required.");
+        // } else {
+        //     clearError('country_error');
+        // }
 
-        if (stateI === "") {
-            showError('state_error', "State is required.");
-        } else {
-            clearError('state_error');
-        }
+        // if (stateI === "") {
+        //     showError('state_error', "State is required.");
+        // } else {
+        //     clearError('state_error');
+        // }
 
-        if (city === "") {
-            showError('city_error', "City is required.");
-        } else {
-            clearError('city_error');
-        }
+        // if (city === "") {
+        //     showError('city_error', "City is required.");
+        // } else {
+        //     clearError('city_error');
+        // }
 
-        if (zip_code === "") {
-            showError('zip_code_error', "Zip Code is required.");
-        } else {
-            clearError('zip_code_error');
-        }
+        // if (zip_code === "") {
+        //     showError('zip_code_error', "Zip Code is required.");
+        // } else {
+        //     clearError('zip_code_error');
+        // }
 
-        if (home_address === "") {
-            showError('home_address_error', "Home address is required.");
-        } else {
-            clearError('home_address_error');
-        }
+        // if (home_address === "") {
+        //     showError('home_address_error', "Home address is required.");
+        // } else {
+        //     clearError('home_address_error');
+        // }
 
-        if (emrg_contact === "") {
-            showError('emrg_contact_error', "Mobile number is required.");
-        } else {
-            clearError('emrg_contact_error');
-        }
+        // if (emrg_contact === "") {
+        //     showError('emrg_contact_error', "Mobile number is required.");
+        // } else {
+        //     clearError('emrg_contact_error');
+        // }
 
-        if (emrg_email === "") {
-            showError('emrg_email_error', "Email is required.");
-        } else {
-            clearError('emrg_email_error');
-        }
+        // if (emrg_email === "") {
+        //     showError('emrg_email_error', "Email is required.");
+        // } else {
+        //     clearError('emrg_email_error');
+        // }
 
-        if (profile_image === "") {
-            showError('profile_image_error', "Profile Image is required.");
-        } else {
-            clearError('profile_image_error');
-        }
+        // if (profile_image === "") {
+        //     showError('profile_image_error', "Profile Image is required.");
+        // } else {
+        //     clearError('profile_image_error');
+        // }
 
         // Gather form data
         // var formData = {
@@ -766,153 +796,210 @@
         //     email: $('#email').val(),
         //     gender: $('input[name="gender"]:checked').val(),
         //     contact: $('#contact').val(),
-        //     profile_image: $('#profile_image').val(),
+        //     country_code_phone: $('#country_code_phone').val(),
+        //     country_iso_phone: $('#country_iso_phone').val(),
+        //     profile_image: profile_image,
         //     dob: $('#dob').val(),
         //     per_website: $('#per_website').val(),
-        //     countryI: $('#countryI').val(),
-        //     stateI: $('#stateI').val(),
+        //     country: countryI,
+        //     state: stateI,
         //     city: $('#city').val(),
         //     zip_code: $('#zip_code').val(),
         //     home_address: $('#home_address').val(),
         //     emrg_contact: $('#emrg_contact').val(),
         //     emrg_email: $('#emrg_email').val(),
-        //     _token: '{{ csrf_token() }}' // Add CSRF token
+        //     country_code_mobile: $('#country_code_mobile').val(),
+        //     country_iso_mobile: $('#country_iso_mobile').val(),
+        //     // _token: '{{ csrf_token() }}', // Add CSRF token
+        //     tab:'tab1'
+            
+
         // };
+        // Create a new FormData object
+        var formData = new FormData();
 
-        // $.ajax({
-        //         url: "",
-        //         type: "POST",
-        //         data: {
-        //             data: formData,
-        //             _token: '{{ csrf_token() }}'
-        //         },
-        //         dataType: 'json',
-        //         success: function(res) {
-        //             console.log(res.type);
-        //              $('a[href="' + targetTab + '"]').tab('show'); // Show the target tab
-        //         },
-        //         error: function(error) {
-        //           if (error.responseJSON.errors) {
-        //                 if (error.responseJSON.errors.first_name) {
-        //                     $('#first_name_error').text(error.responseJSON.errors.first_name[0]);
-        //                 } else {
-        //                     $('#first_name_error').text('');
-        //                 }
-
-        //                 if (error.responseJSON.errors.last_name) {
-        //                     $('#last_name_error').text(error.responseJSON.errors.last_name[0]);
-                           
-        //                 } else {
-        //                     $('#last_name_error').text('');
-        //                 }
-
-        //                 if (error.responseJSON.errors.contact) {
-        //                     $('#contact_error').text(error.responseJSON.errors.contact[0]);
-                           
-        //                 } else {
-        //                     $('#contact_error').text('');
-        //                 }
-
-        //                 if (error.responseJSON.errors.email) {
-        //                     $('#email_error').text(error.responseJSON.errors.email[0]);
-                           
-        //                 } else {
-        //                     $('#email_error').text('');
-        //                 }
-
-        //                 if(error.responseJSON.errors.gender) {
-        //                     $('#genderErr').text(error.responseJSON.errors.gender[0]);
-                           
-        //                 }else{
-        //                     $('#genderErr').text('');
-        //                 }
-
-        //                 if(error.responseJSON.errors.dob) {
-        //                     $('#date_error').text(error.responseJSON.errors.dob[0]);
-                           
-        //                 }else{
-        //                     $('#date_error').text('');
-        //                 }
-
-        //                 if(error.responseJSON.errors.per_website) {
-        //                     $('#per_website_error').text(error.responseJSON.errors.per_website[0]);
-                           
-        //                 }else{
-        //                     $('#per_website_error').text('');
-        //                 }
-
-        //                 if(error.responseJSON.errors.country) {
-        //                     $('#country_error').text(error.responseJSON.errors.country[0]);
-                           
-        //                 }else{
-        //                     $('#country_error').text('');
-        //                 }
-
-        //                 if(error.responseJSON.errors.state) {
-        //                     $('#state_error').text(error.responseJSON.errors.state[0]);
-                           
-        //                 }else{
-        //                     $('#state_error').text('');
-        //                 }
-
-        //                 if(error.responseJSON.errors.city) {
-        //                     $('#city_error').text(error.responseJSON.errors.city[0]);
-                           
-        //                 }else{
-        //                     $('#city_error').text('');
-        //                 }
-
-        //                 if(error.responseJSON.errors.zip_code) {
-        //                     $('#zip_code_error').text(error.responseJSON.errors.zip_code[0]);
-                           
-        //                 }else{
-        //                     $('#zip_code_error').text('');
-        //                 }
-
-        //                 if(error.responseJSON.errors.home_address) {
-        //                     $('#home_address_error').text(error.responseJSON.errors.home_address[0]);
-                           
-        //                 }else{
-        //                     $('#home_address_error').text('');
-        //                 }
-
-        //                 if(error.responseJSON.errors.emrg_contact) {
-        //                     $('#emrg_contact_error').text(error.responseJSON.errors.emrg_contact[0]);
-                           
-        //                 }else{
-        //                     $('#emrg_contact_error').text('');
-        //                 }
-
-        //                 if(error.responseJSON.errors.emrg_email) {
-        //                     $('#emrg_email_error').text(error.responseJSON.errors.emrg_email[0]);
-                           
-        //                 }else{
-        //                     $('#emrg_email_error').text('');
-        //                 }
-
-
-        //                 if(error.responseJSON.errors.home_address) {
-        //                     $('#home_address_error').text(error.responseJSON.errors.zip_code[0]);
-                           
-        //                 }else{
-        //                     $('#home_address_error').text('');
-        //                 }
-
-        //                 if(error.responseJSON.errors.profile_image) {
-        //                     $('#profile_image_error').text(error.responseJSON.errors.profile_image[0]);
-                           
-        //                 }else{
-        //                     $('#profile_image_error').text('');
-        //                 }
-                        
-        //             }
-        //         }
-        //     });
-
-
-        if (!hasErrors) {
-            $('a[href="' + targetTab + '"]').tab('show'); // Show the target tab
+        // Append form fields to the FormData object
+        formData.append('first_name', $('#first_name').val());
+        formData.append('last_name', $('#last_name').val());
+        formData.append('email', $('#email').val());
+        formData.append('gender', $('input[name="gender"]:checked').val());
+        formData.append('contact', $('#contact').val());
+        formData.append('country_code_phone', $('#country_code_phone').val());
+        formData.append('country_iso_phone', $('#country_iso_phone').val());
+        
+        // Append the file
+        var profile_image = $('#profile_image')[0].files[0];
+        
+        if (profile_image) {
+            formData.append('profile_image', profile_image);
         }
+        
+        formData.append('dob', $('#dob').val());
+        formData.append('per_website', $('#per_website').val());
+        formData.append('country', countryI);
+        formData.append('state', stateI);
+        formData.append('city', $('#city').val());
+        formData.append('zip_code', $('#zip_code').val());
+        formData.append('home_address', $('#home_address').val());
+        formData.append('emrg_contact', $('#emrg_contact').val());
+        formData.append('emrg_email', $('#emrg_email').val());
+        formData.append('country_code_mobile', $('#country_code_mobile').val());
+        formData.append('country_iso_mobile', $('#country_iso_mobile').val());
+        formData.append('tab', 'tab1');
+
+        $.ajax({
+                url: "{{ route('admin.add_nurse_post') }}",
+                type: "POST",
+                data: formData,
+                data: formData,
+                dataType: 'json',
+                contentType: false,
+                processData: false,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include CSRF token for security
+                },
+                success: function(res) {
+                    console.log(res.type);
+
+                     if (res.status == '2') {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: res.message,
+                        }).then(function() {
+                            $('a[href="' + targetTab + '"]').tab('show');
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: res.message,
+                        });
+                    }
+                      // Show the target tab
+                },
+                error: function(error) {
+                  if (error.responseJSON.errors) {
+                        if (error.responseJSON.errors.first_name) {
+                            $('#first_name_error').text(error.responseJSON.errors.first_name[0]);
+                        } else {
+                            $('#first_name_error').text('');
+                        }
+
+                        if (error.responseJSON.errors.last_name) {
+                            $('#last_name_error').text(error.responseJSON.errors.last_name[0]);
+                           
+                        } else {
+                            $('#last_name_error').text('');
+                        }
+
+                        if (error.responseJSON.errors.contact) {
+                            $('#contact_error').text(error.responseJSON.errors.contact[0]);
+                           
+                        } else {
+                            $('#contact_error').text('');
+                        }
+
+                        if (error.responseJSON.errors.email) {
+                            $('#email_error').text(error.responseJSON.errors.email[0]);
+                           
+                        } else {
+                            $('#email_error').text('');
+                        }
+
+                        if(error.responseJSON.errors.gender) {
+                            $('#genderErr').text(error.responseJSON.errors.gender[0]);
+                           
+                        }else{
+                            $('#genderErr').text('');
+                        }
+
+                        if(error.responseJSON.errors.dob) {
+                            $('#date_error').text(error.responseJSON.errors.dob[0]);
+                           
+                        }else{
+                            $('#date_error').text('');
+                        }
+
+                        if(error.responseJSON.errors.per_website) {
+                            $('#per_website_error').text(error.responseJSON.errors.per_website[0]);
+                           
+                        }else{
+                            $('#per_website_error').text('');
+                        }
+
+                        if(error.responseJSON.errors.country) {
+                            $('#country_error').text(error.responseJSON.errors.country[0]);
+                           
+                        }else{
+                            $('#country_error').text('');
+                        }
+
+                        if(error.responseJSON.errors.state) {
+                            $('#state_error').text(error.responseJSON.errors.state[0]);
+                           
+                        }else{
+                            $('#state_error').text('');
+                        }
+
+                        if(error.responseJSON.errors.city) {
+                            $('#city_error').text(error.responseJSON.errors.city[0]);
+                           
+                        }else{
+                            $('#city_error').text('');
+                        }
+
+                        if(error.responseJSON.errors.zip_code) {
+                            $('#zip_code_error').text(error.responseJSON.errors.zip_code[0]);
+                           
+                        }else{
+                            $('#zip_code_error').text('');
+                        }
+
+                        if(error.responseJSON.errors.home_address) {
+                            $('#home_address_error').text(error.responseJSON.errors.home_address[0]);
+                           
+                        }else{
+                            $('#home_address_error').text('');
+                        }
+
+                        if(error.responseJSON.errors.emrg_contact) {
+                            $('#emrg_contact_error').text(error.responseJSON.errors.emrg_contact[0]);
+                           
+                        }else{
+                            $('#emrg_contact_error').text('');
+                        }
+
+                        if(error.responseJSON.errors.emrg_email) {
+                            $('#emrg_email_error').text(error.responseJSON.errors.emrg_email[0]);
+                           
+                        }else{
+                            $('#emrg_email_error').text('');
+                        }
+
+
+                        if(error.responseJSON.errors.home_address) {
+                            $('#home_address_error').text(error.responseJSON.errors.zip_code[0]);
+                           
+                        }else{
+                            $('#home_address_error').text('');
+                        }
+
+                        if(error.responseJSON.errors.profile_image) {
+                            $('#profile_image_error').text(error.responseJSON.errors.profile_image[0]);
+                           
+                        }else{
+                            $('#profile_image_error').text('');
+                        }
+                        
+                    }
+                }
+            });
+
+
+        // if (!hasErrors) {
+        //     $('a[href="' + targetTab + '"]').tab('show'); // Show the target tab
+        // }
 
 
            
@@ -1147,54 +1234,88 @@
 </script>
 {{-- phone number,emrgencu contact --}}
 <script>
+
+$(document).ready(function() {
+    // Function to initialize intl-tel-input and set up event listeners
+    function initializeIntlTelInput(inputSelector, countyCodeInputSelector, countryNameInputSelector, countryIsoInputSelector) {
+        const input = document.querySelector(inputSelector);
+        const countyCodeInput = document.querySelector(countyCodeInputSelector);
+        const countryNameInput = document.querySelector(countryNameInputSelector);
+        const countryIsoInput = document.querySelector(countryIsoInputSelector);
+
+        const iti = window.intlTelInput(input, {
+            utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+            initialCountry: "auto", // Automatically detect the user's country
+            geoIpLookup: function(callback) {
+                fetch('https://ipinfo.io/json')
+                    .then(response => response.json())
+                    .then(data => callback(data.country || 'us')) // Fallback to 'us' if detection fails
+                    .catch(() => callback('us')); // Fallback to 'us' if there's an error
+            }
+        });
+
+        // Function to update hidden fields with selected country data
+        function updateCountryData() {
+            const countryData = iti.getSelectedCountryData();
+            countyCodeInput.value = countryData.dialCode;
+            countryNameInput.value = countryData.name;
+            countryIsoInput.value = countryData.iso2; // ISO code of the country
+        }
+
+        // Ensure country data is set on initialization
+        updateCountryData();
+
+        // Event listener for country change
+        input.addEventListener("countrychange", function() {
+            updateCountryData();
+        });
+
+        // Validate input on blur
+        input.addEventListener('blur', function() {
+            const errorSpan = document.querySelector(`${inputSelector}_error`);
+            if (iti.isValidNumber()) {
+                errorSpan.textContent = "";
+            } else {
+                errorSpan.textContent = "Invalid phone number.";
+            }
+        });
+
+        return iti;
+    }
+
     // Initialize intl-tel-input for Mobile No
-    const mobileInput = document.querySelector("#emrg_contact");
-    const itiMobile = window.intlTelInput(mobileInput, {
-        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
-        initialCountry: "au",
-    });
+    initializeIntlTelInput(
+        "#emrg_contact", 
+        "#country_code_mobile", 
+        "#country_name_mobile", 
+        "#country_iso_mobile"
+    );
 
     // Initialize intl-tel-input for Phone Number
-    const phoneInput = document.querySelector("#contact");
-    const itiPhone = window.intlTelInput(phoneInput, {
-        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
-        initialCountry: "au",
-    });
+    initializeIntlTelInput(
+        "#contact", 
+        "#country_code_phone", 
+        "#country_name_phone", 
+        "#country_iso_phone"
+    );
+});
 
-    // Validate Mobile No on blur
-    mobileInput.addEventListener('blur', function() {
-        const errorSpan = document.querySelector('#emrg_contact-error');
-        if (itiMobile.isValidNumber()) {
-            errorSpan.textContent = "";
-        } else {
-            errorSpan.textContent = "Invalid phone number.";
-        }
-    });
 
-    // Validate Phone Number on blur
-    phoneInput.addEventListener('blur', function() {
-        const errorSpan = document.querySelector('#contact-error');
-        if (itiPhone.isValidNumber()) {
-            errorSpan.textContent = "";
-        } else {
-            errorSpan.textContent = "Invalid phone number.";
-        }
-    });
 </script>
 {{-- Image preview --}}
 <script>
-$(document).ready(function() {
-    $('#profile_image').change(function(e) {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                $('.image-profile img').attr('src', e.target.result);
-            };
-            reader.readAsDataURL(file);
-        }
-    });
-});
+// $(document).ready(function() {
+//     $('#profile_image').change(function(e) {
+//         const file = e.target.files[0];
+//         if (file) {
+//             const reader = new FileReader();
+//             reader.onload = function(e) {
+//                 $('.image-profile img').attr('src', e.target.result);
+//             };
+//             reader.readAsDataURL(file);
+//         }
+//     });
+// });
 </script>
     
 @endsection

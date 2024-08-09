@@ -120,4 +120,14 @@ class NurseRepository extends BaseRepository{
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
         }
    }
+   public function create($data){
+        // DB::beginTransaction();
+        try {
+            $result = $this->model->create($data);
+            return $result;
+        } catch(\Exception $e){
+            Log::error("Error in NurseRepository.create(): " . $e->getMessage());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
 }

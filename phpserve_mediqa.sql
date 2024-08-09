@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Aug 08, 2024 at 10:46 AM
+-- Generation Time: Aug 09, 2024 at 10:35 AM
 -- Server version: 5.7.23-23
 -- PHP Version: 8.1.29
 
@@ -40,10 +40,10 @@ CREATE TABLE `additional_training` (
 --
 
 INSERT INTO `additional_training` (`id`, `name`, `type`, `created_at`, `updated_at`) VALUES
-(4, 'Test1', 'Course', '2024-08-05 08:04:40', '2024-08-06 01:20:43'),
+(4, 'Test1', 'Course', '2024-08-05 08:04:40', '2024-08-08 02:42:08'),
 (5, 'Test12', 'Course', '2024-08-06 01:50:57', '2024-08-06 01:50:57'),
-(6, 'Test3', 'workshop', '2024-08-06 01:51:04', '2024-08-06 01:51:04'),
-(7, 'Test4', 'workshop', '2024-08-06 01:51:13', '2024-08-06 01:51:13');
+(6, 'Test5', 'workshop', '2024-08-06 01:51:04', '2024-08-08 02:44:02'),
+(8, 'Test10', 'workshop', '2024-08-08 02:44:49', '2024-08-08 02:44:49');
 
 -- --------------------------------------------------------
 
@@ -422,7 +422,6 @@ INSERT INTO `degree` (`id`, `name`, `parent`, `status`, `created_at`, `updated_a
 (9, 'Doctor of Nursing', 0, '1', '2024-04-24 11:47:17', '2024-04-24 11:47:17', NULL),
 (10, 'Bachelor of Midwifery', 0, '1', '2024-04-24 11:47:17', '2024-04-24 11:47:17', NULL),
 (11, 'Bachelor of Nursing/Bachelor of Midwifery (Dual Degree)', 0, '1', '2024-04-24 11:47:17', '2024-04-24 11:47:17', NULL),
-(12, 'Graduate Diploma or Master of Midwifery', 0, '1', '2024-04-24 11:47:17', '2024-04-24 11:47:17', NULL),
 (13, 'Master of Midwifery (Research or Clinical Leadership)', 0, '1', '2024-04-24 11:47:17', '2024-04-24 11:47:17', NULL);
 
 -- --------------------------------------------------------
@@ -446,6 +445,13 @@ CREATE TABLE `eligibility_to_work` (
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `deleted_at` datetime DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `eligibility_to_work`
+--
+
+INSERT INTO `eligibility_to_work` (`id`, `residency`, `support_document`, `visa_subclass_number`, `passport_number`, `visa_grant_number`, `passport_country_of_Issue`, `expiry_date`, `user_id`, `status`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(2, 'Permanent Resident', '/nurse/assets/imgs/support_document/1723123735.png', '2323', '243434', '343424', '2', NULL, 112, '0', '2024-08-08 18:58:55', '2024-08-08 18:58:55', '2024-08-08 18:58:55');
 
 -- --------------------------------------------------------
 
@@ -543,6 +549,31 @@ INSERT INTO `level_year` (`id`, `name`, `status`, `created_at`, `updated_at`, `d
 (8, '8th Year', '1', '2024-04-08 11:04:44', '2024-04-08 11:04:44', NULL),
 (9, '9th Year', '1', '2024-04-08 11:04:44', '2024-04-08 11:04:44', NULL),
 (10, '10th Year', '1', '2024-04-08 11:04:51', '2024-04-08 11:04:51', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `mandatory_training`
+--
+
+CREATE TABLE `mandatory_training` (
+  `train_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `start_date` date NOT NULL,
+  `end_date` date NOT NULL,
+  `institutions` text NOT NULL,
+  `continuing_education` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `mandatory_training`
+--
+
+INSERT INTO `mandatory_training` (`train_id`, `user_id`, `start_date`, `end_date`, `institutions`, `continuing_education`, `created_at`, `updated_at`) VALUES
+(1, 79, '2024-08-21', '2024-08-29', 'rdfd', 'Completed', '2024-08-08 07:01:41', '2024-08-08 07:01:41'),
+(2, 112, '2024-08-01', '2024-08-31', 'Test', 'Completed', '2024-08-08 07:28:19', '2024-08-08 07:28:19');
 
 -- --------------------------------------------------------
 
@@ -654,6 +685,13 @@ CREATE TABLE `police_check` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `police_check`
+--
+
+INSERT INTO `police_check` (`id`, `date`, `image`, `user_id`, `reason`, `status`, `created_at`, `updated_at`) VALUES
+(1, '2024-08-07', '/nurse/assets/imgs/police_check/1723123763.png', 112, NULL, 0, '2024-08-08 13:29:23', NULL);
 
 -- --------------------------------------------------------
 
@@ -946,7 +984,7 @@ CREATE TABLE `professional_certificate` (
 INSERT INTO `professional_certificate` (`id`, `name`, `created_at`, `updated_at`) VALUES
 (3, 'ALS', '2024-08-03 07:25:54', '2024-08-06 01:50:09'),
 (4, 'BLS', '2024-08-06 01:50:14', '2024-08-06 01:50:14'),
-(5, 'PALS', '2024-08-06 01:50:19', '2024-08-06 01:50:19');
+(5, 'PALS', '2024-08-06 01:50:19', '2024-08-08 04:54:56');
 
 -- --------------------------------------------------------
 
@@ -1374,7 +1412,9 @@ INSERT INTO `speciality` (`id`, `name`, `parent`, `is_featured`, `status`, `crea
 (404, 'Paediatric Trauma', 3, 0, '1', '2024-07-17 12:22:42', '2024-07-17 12:22:42', NULL),
 (405, 'Paediatric Upper Gastrointestinal', 3, 0, '1', '2024-07-17 12:22:55', '2024-07-17 12:22:55', NULL),
 (406, 'Perinatal Care', 3, 0, '1', '2024-07-17 12:23:07', '2024-07-17 12:23:07', NULL),
-(407, 'Perinatal Mental Health', 3, 0, '1', '2024-07-17 12:23:19', '2024-07-17 12:23:19', NULL);
+(407, 'Perinatal Mental Health', 3, 0, '1', '2024-07-17 12:23:19', '2024-07-17 12:23:19', NULL),
+(408, 'NOPEs:', 398, 1, '1', '2024-08-08 10:35:48', '2024-08-08 10:35:48', NULL),
+(409, 'NOPEs(NOP):', 408, 0, '1', '2024-08-08 10:37:45', '2024-08-08 10:37:45', NULL);
 
 -- --------------------------------------------------------
 
@@ -6489,15 +6529,15 @@ INSERT INTO `users` (`id`, `name`, `lastname`, `email`, `profile_img`, `email_ve
 (109, 'robert', 'na', 'v.harshivta@gmail.comv', 'nurse/assets/imgs/nurse06.png', NULL, '$2y$10$dlB3AUe7DPDvgT0/L3eAUOFuDb4dtOiXfLc.6DpZ6/0LlhxliYa.u', NULL, '', 0, '1', '1', '1', '[\"2\"]', '[\"1\"]', 'null', 'null', '5', 'null', 'null', 'null', '[\"2\"]', '451666', NULL, NULL, '2024-08-02 06:12:06', '2024-08-02 00:42:06', '4', '1', 'No', 'No', 'No', '93', 'af', '7894561237', 'Ganeshu@15', 'IN', 1614, 'indore', 'ttest', 'https://votivetech.in/mediqa/nurse/my-profile', '2024-08-13 06:10:15', 'Female', '08/01/2024', 'indore', '7894561238', '61', 'au', 'votivephp.harshita@gmail.com', 'null', '[\"19\"]', 'null', 'null', 'null', '[\"205\"]', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL),
 (112, 'Neha', 'Mandloi', 'votivephp.neha@gmail.com', 'nurse/assets/imgs/nurse06.png', NULL, '$2y$10$JlZJrE20.hk4hlvFPM2BNOvtgDqYAn2kqF.q8aXrtWHPHMq7YLrMC', NULL, '', 0, '1', '1', '1', '[\"2\"]', '[\"1\"]', 'null', 'null', '2', 'null', 'null', 'null', '[\"10\"]', '452001', NULL, NULL, '2024-08-02 11:00:14', '2024-08-07 08:21:02', '2', '1', 'No', 'No', 'No', '91', 'in', '9131403180', 'Neha@1234', 'IN', 1598, 'Indore', 'test', 'https://votivetech.in/mediqa', NULL, 'Female', '2000-05-02', 'sd, dsfd, dsfd, dsfd, dsfd', '1234567890', '61', 'au', 'votivephp.neha@gmail.com', 'null', '[\"22\"]', 'null', 'null', 'null', '[\"203\"]', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'Part Time'),
 (113, 'Neha', 'Mandloi', 'aw@gmail.com', 'nurse/assets/imgs/nurse06.png', NULL, '$2y$10$NOVYSOyoJ38r0alUTziwM.OtfQmt9NNCRXPYzqyWnfQ1I5abAjOxa', NULL, 'eyJpdiI6InpGemFEY0NGNkdzbGlqTDhZb3dXVnc9PSIsInZhbHVlIjoidnYzV3cwZW1UelZ2MGx4UWxoUzVsdz09IiwibWFjIjoiNzQ2ZTgwYzkxMzc3OGI5NDBkYmE1YWMzMGU1YTY2YWU4ODE1YWVjNDY1ZGRmYmI1ZTU4MDUwN2VmNmZiOGEzZiIsInRhZyI6IiJ9', 0, '0', '1', '1', '[\"4\"]', '[\"1\"]', 'null', 'null', '3', 'null', 'null', 'null', '[\"11\"]', '452001', NULL, NULL, '2024-08-02 08:16:20', NULL, '0', '1', 'No', 'No', 'No', '91', 'in', '9131403180', 'Neha@1234', 'IN', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'null', '[\"21\"]', 'null', 'null', 'null', 'null', 'null', '[\"388\"]', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL),
-(120, 'Kate', 'DEMO', 'votivetester.preeti@gmail.com', '/nurse/assets/imgs/1722662022.jpg', NULL, '$2y$10$7.ngguwTfUfylwrdmqonRuLflraI9QRgUuAR8hOP.Y1yBC8R5bxE.', NULL, '', 0, '1', '1', '1', '[\"2\"]', '[\"3\"]', 'null', 'null', '2', 'null', 'null', 'null', '[\"7\"]', '77070', NULL, NULL, '2024-08-03 08:23:40', '2024-08-07 06:14:32', '2', '1', 'Yes', 'No', 'Yes', '61', 'au', '5449541951', '7089@Veer', 'IN', 1610, 'Houston', 'Nurse & Midwife degrees,\r\nProfession\r\nType of Nurse? Entry-level nursingRegistered Nurses (RNs)Advanced Practice Registered Nurses (APRNs)\r\nAdvanced Practice Registered Nurses (APRNs) Academic Nurse Educator, Administrator, Nurse, Chief Nursing OfficerClinical Nurse EducatorClinical Nurse Leader (CNL) and Clinical Nurse SpecialistMidwife NurseNurse Anesthetist (CRNA), Nurse Manager, and Nurse Practitioner (NP):\r\nNurse Practitioner (NP): Acute Care Nurse PractitionerAdult-Gerontology Nurse PractitionerAesthetic Nurse PractitionerAmbulatory Care Nurse PractitionerBurn Nurse PractitionerCardiac Care Nurse PractitionerCritical Care Nurse PractitionerDermatology Nurse PractitionerDiabetes Nurse PractitionerDialysis Nurse PractitionerEmergency Nurse PractitionerFamily Nurse PractitionerGastroenterology Nurse PractitionerHematology Nurse PractitionerHome Health Nurse PractitionerHospice Nurse PractitionerInfection Control Nurse PractitionerLGBTQ Health Nurse PractitionerMedical-Surgical Nurse PractitionerNeonatal Nurse PractitionerNephrology Nurse PractitionerNeurology Nurse PractitionerObstetrics Nurse PractitionerOncology Nurse PractitionerOphthalmic Nurse PractitionerOrthopedic Nurse PractitionerOstomy Nurse PractitionerOtorhinolaryngology Nurse PractitionerPain Management Nurse PractitionerPalliative Care Nurse PractitionerPediatric Nurse PractitionerPediatric Endocrinology Nurse PractitionerPlastic Surgery Nurse PractitionerPostpartum Nurse PractitionerPrimary Care Nurse PractitionerPsychiatric-Mental Health Nurse PractitionerPulmonary Nurse PractitionerRadiology Nurse PractitionerRheumatology Nurse PractitionerSubstance Abuse Nurse PractitionerTelephone Triage Nurse PractitionerTransplant Nurse PractitionerTransport Nurse PractitionerTrauma Nurse PractitionerUrologic Nurse PractitionerWound Care Nurse PractitionerWomen’s Health Nurse Practitioner\r\nSpecialties AdultsMaternity OB/GYN/MFMP Pediatrics Neonatal Perinatal Community\r\nAdults: Algiatry and Acute Pain ManagementAddiction or substance abuseAged CareAllergiesAnatomic pathologyAnaesthesiaAngiography/Cath LabBariatric CareBiochemistryBurnsCardiac rehabilitationCardiologyCardiothoracic Intensive CareChemical pathology and clinical biochemistryChemotherapyChronic Pain ManagementClinical GeneticsClinical PharmacologyClinical Trials and ResearchCoronary Care Unit (CCU)CosmeticsCytopathologyDrugs and AlcoholDay Infusion TreatmentsDental SurgeryDermatologyDiabetes EducationDiagnostic RadiologyDiagnostic UltrasoundDisability AdultsEar Nose and Throat (ENT)Emergency (ED)Emergency Patient Transport AdultEndocrinologyEndoscopyFamily and Reproductive HealthFertility and In Vitro Fertilization (IVF)Forensic PathologyGastroenterology and HepatologyGeneral MedicineGeneral PathologyGeneral SurgeryGeneral Practice (GP)Geriatric / Aged CareGeriatric Mental Health (MH)GynecologyHaematologyHead and Neck SurgeryHealth AssessmentHepatologyHigh Dependency Unit (HDU)Immunology and AllergyInfectious DiseasesInfertilityIntensive Care Unit (ICU)Medical Assessment Unit (MAU)Medical OncologyMen\'s HealthMental Health Acute admission (MH)Mental Health Forensics (MH)Mental Health Geriatric (MH)Mental Health Rehabilitation (MH)MicrobiologyNephrology and RenalNeurologyNeurological Intensive CareNon-Emergency Patient Transport AdultNuclear MedicineNutrition and DieteticsOccupational HealthOncologyOphthalmologyOrthopedicsOstomyOtorhinolaryngologyPalliative CarePlastic SurgeryPsychiatryRadiation Oncology (Rad Onc)Radiology / Interventional RadiologyRadiotherapy (RTx) | NuclearRehabilitationReproductive MedicineReproductive EndocrinologyRespiratoryRheumatologySexual HealthSleep DisordersSpinalSport and ExerciseSurgical Preoperative and Postoperative Care: Toxicology TraumaUpper GastrointestinalUrologyWomens Health\r\nSurgical Preoperative and Postoperative Care: Operating Room (OR)Operating Room (OR): Scout (Circulating Nurse)Operating Room (OR): Scrub (Technician Nurse)\r\nOperating Room (OR): Scout (Circulating Nurse) Scout: BariatricScout: BreastScout: CardiothoracicScout: Cardiac Transplant surgery (CTx)Scout: CirculatingScout: ColorectalScout: DentalScout: Ear Nose and Throat (ENT)Scout: EndocrineScout: Faciomaxillary Maxillofacial SurgeryScout: Foot and AnkleScout: GeneralScout: Gynecology Scout: HandsScout: Gynecology Scout: Head and NeckScout: Interventional Radiology (IR)Scout: LaparoscopicScout: MaxillofacialScout: Neurosurgery; Scout: Obesity Surgery; Scout: Oculoplastic SurgeryScout: Oral SurgeryScout: ObstetricsScout: OphthalmologyScout: Orthopaedic Joint ReplacementScout: Plastic, Cosmetic / ReconstructiveScout: PodiatryScout: RenalScout: RoboticScout: SpinalScout: ThoracicScout: TransplantScout: TraumaScout: Upper Gastrointestinal (GI)Scout: UrologyScout: Vascular\r\nWhat is your level of experience?', 'https://votivetech.in/mediq', NULL, 'Male', '2024-12-04', '19222 TX-249, Houston, TX 77070, USA', '5495494954', '61', 'au', 'dgvggcv@gmail.com', 'null', 'null', '[\"179\"]', '[\"184\"]', 'null', '[\"233\"]', 'null', 'null', 'null', 'null', 'null', 'null', '[\"236\"]', 'null', 'null', 'null', 'null', 'null', 'Unemployed'),
 (123, 'Ravi JadhavKunal', 'hgdvcwd', 'votivewpravi@gmail.com', 'nurse/assets/imgs/nurse06.png', NULL, '$2y$10$QZZq77oIk7X.pr6HOSxq4uDVcs/N0N4/wDw6puR.71Ah1V8RSA22a', NULL, 'eyJpdiI6ImxRdlZKRHpiUjYySlBEWmJ6ZmVOQXc9PSIsInZhbHVlIjoiaDFoYXNoN2JKRHZteDFnYXRrcnhvd045WEhSR2F6KzdnMFRoMFdOTTlMTT0iLCJtYWMiOiIwMjM1ZDAzY2RjMGFmMjZmYTA4YmRmZTU2MDBiNzUyM2ZiNzMxMTgxMjYxNTM4NDgwZGE4NjcxYzNlODJlNjBmIiwidGFnIjoiIn0=', 0, '0', '1', '1', '[\"3\"]', '[\"1\"]', 'null', 'null', '4', 'null', 'null', 'null', '[\"11\"]', '452002', NULL, NULL, '2024-08-02 13:40:42', NULL, '0', '1', 'No', 'No', 'No', '91', 'in', '6265522541', 'Test@2024', 'IN', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'null', '[\"21\"]', 'null', 'null', 'null', 'null', '[\"242\"]', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL),
 (126, 'ss', 'ss', 'votive.techs@gmail.com', 'nurse/assets/imgs/nurse06.png', NULL, '$2y$10$oUiyziBmPO0VzvMRbZeUkO.9J0sF9HIxeYg9ZDeikPSLQR0uIb2fW', NULL, 'eyJpdiI6Ilg2bXhXcHNHcDlOVTlmQmVPNmJQZlE9PSIsInZhbHVlIjoiTWNGSWp6ZWVIY0JuMFpnc1BGS1NoZjYwUkhlUEUwNklodWFFSVoxYmZ5dz0iLCJtYWMiOiJjNGI2ODEyNDZkYmVlODdjYjRjNGY1MjlmZTZiNzYwMmVkMjQ4NDg3OTA0NDliNGU3YTYxYjE4OGU3Nzc2OWZlIiwidGFnIjoiIn0=', 0, '0', '1', '1', '[\"2\"]', '[\"1\"]', 'null', 'null', '5', 'null', 'null', 'null', '[\"2\"]', '500256', NULL, NULL, '2024-08-03 05:28:45', NULL, '0', '1', 'No', 'No', 'No', '61', 'au', '4144645465', 'Sahu@12345', 'AU', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'null', '[\"20\"]', 'null', 'null', 'null', '[\"205\"]', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL),
 (128, 'vijendra', 'parmar', 'testgb0123456789@hulas.co', 'nurse/assets/imgs/nurse06.png', NULL, '$2y$10$l6/HkIUBaNVR.6sI/oRRZu2intL3LsbnMhOwuDDOYiBmfFV1l.7bm', NULL, 'eyJpdiI6IkJBczdtN2ZEZmtCWDFOSSt4eFpHWlE9PSIsInZhbHVlIjoiL1FkYW5HR2ZRUkF5dVVoczI0d3dMc0hkeEZYakl3S2ZXTm1MTjg5SWJhTT0iLCJtYWMiOiJmZWQ5NWVlYTgxNDc2Yjc3MGI5YzA3MGRmMjg5NzI1YzUwMjdhY2ExMTA4MTYzNWIwN2Y4MmI5OGJkNGEzOTMxIiwidGFnIjoiIn0=', 0, '0', '1', '1', '[\"2\"]', '[\"3\"]', 'null', 'null', '1', 'null', 'null', 'null', '[\"11\"]', '452001', NULL, NULL, '2024-08-03 06:39:21', NULL, '0', '1', 'No', 'No', 'No', '61', 'au', '7589654235', '7089@Veer', 'AU', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'null', 'null', '[\"174\"]', 'null', 'null', '[\"205\"]', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL),
 (130, 'ads', 'srsd', 'sushilsahu9494@gmail.com', 'nurse/assets/imgs/nurse06.png', NULL, '$2y$10$cbczWQSI6f5Sbd6c9Eu7D.LE.EXiyYaMW1vDw2PfbpJrt.jI7koVW', NULL, 'eyJpdiI6IlE1NVpNYTRyNklyOWtYV29FMlVjUUE9PSIsInZhbHVlIjoibzdlbmE1UHRUTkJPTVZSMnNQNTZEZXdDRzU1SCtyTGdpVGkzY1RZZnV5WT0iLCJtYWMiOiIzYTJhNmM2YzNmOTIyNTNiOTExNjYwOWI2ZjExNWE0NjFiODYwNWM0NWJjMjBmMmZmNzYwNzNkOWFhMjkzNmVlIiwidGFnIjoiIn0=', 0, '0', '1', '1', '[\"4\"]', '[\"1\"]', 'null', 'null', '1', 'null', 'null', 'null', '[\"2\"]', '452001', NULL, NULL, '2024-08-03 07:04:28', NULL, '0', '1', 'No', 'No', 'No', '61', 'au', '1234567890', 'Neha@1994', 'AU', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'null', '[\"19\"]', 'null', 'null', 'null', 'null', 'null', '[\"386\"]', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL),
-(131, 'carry', 'sim', 'vijehndraparmar1789@gmail.com', 'nurse/assets/imgs/nurse06.png', NULL, '$2y$10$tJKdPRxtA0blJq6vtaCRiO0IsUKetaJFyD.VEaFdZxSqZRg9Cua/a', NULL, '', 0, '1', '1', '1', 'null', 'null', 'null', 'null', '3', 'null', 'null', 'null', 'null', '452010', NULL, NULL, '2024-08-03 09:24:47', '2024-08-07 04:02:06', '2', '1', 'No', 'No', 'No', '61', 'au', '1234567891', '7089@Veer', 'AT', 208, 'Tyrol', NULL, 'https://votivetech.in/mediq', NULL, 'Male', '2024-11-04', NULL, '1234567891', '61', 'au', 'Damo2332@gmail.com', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL);
-INSERT INTO `users` (`id`, `name`, `lastname`, `email`, `profile_img`, `email_verified_at`, `password`, `remember_token`, `emailToken`, `email_verify`, `emailVerified`, `work_right`, `status`, `specialties`, `nurseType`, `nurseTypeJob`, `nurse_practitioner_speciality`, `assistent_level`, `subSpecialties`, `Sub-Speciality-One`, `Sub-Speciality-Two`, `degree`, `post_code`, `ahpra_code`, `ahpra_number`, `created_at`, `updated_at`, `user_stage`, `type`, `medical_facilities`, `agencies`, `profile_status`, `country_code`, `country_iso`, `phone`, `ps`, `country`, `state`, `city`, `bio`, `personal_website`, `completed_date`, `gender`, `date_of_birth`, `home_address`, `emergency_conact_numeber`, `emegency_country_code`, `emergency_country_iso`, `emergergency_contact_email`, `entry_level_nursing`, `registered_nurses`, `advanced_practioner`, `nurse_prac`, `adults`, `maternity`, `paediatrics_neonatal`, `community`, `surgical_preoperative`, `operating_room`, `operating_room_scout`, `operating_room_scrub`, `surgical_obstrics_gynacology`, `neonatal_care`, `paedia_surgical_preoperative`, `pad_op_room`, `pad_qr_scout`, `pad_qr_scrub`, `current_employee_status`) VALUES
+(131, 'carry', 'sim', 'vijehndraparmar1789@gmail.com', 'nurse/assets/imgs/nurse06.png', NULL, '$2y$10$tJKdPRxtA0blJq6vtaCRiO0IsUKetaJFyD.VEaFdZxSqZRg9Cua/a', NULL, '', 0, '1', '1', '1', 'null', 'null', 'null', 'null', '2', 'null', 'null', 'null', '[\"7\"]', '452010', NULL, NULL, '2024-08-03 09:24:47', '2024-08-08 10:45:19', '2', '1', 'No', 'Yes', 'Yes', '61', 'au', '1234567891', '7089@Veer', 'AT', 208, 'Tyrol', NULL, 'https://votivetech.in/mediq', NULL, 'Male', '2024-11-04', NULL, '1234567891', '61', 'au', 'Damo2332@gmail.com', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL),
 (132, 'yas', 'mishra', 'votivesales.yashica@gmail.com', 'nurse/assets/imgs/nurse06.png', NULL, '$2y$10$LwnU2Yo2gqlcW13hvOUNO.reBJE3LmJQguC.cRHuCArDHyMm6zxYS', NULL, 'eyJpdiI6Ik9uQkpsQkM3TTNnVGpFbnJSOXBiMUE9PSIsInZhbHVlIjoiakxueWVnMlVodDFnMGd4bWhsakpLSFU1TndEMFcwUjc2NUZxcWx5c3hrbz0iLCJtYWMiOiI0MjAzZmU3MTRmYzk5ZDhjZTAxNmNiNjQyZjhhZjEwZDMwNDQ2YmZiZjA3MDU3NDFlMGE4NzhiYmIzOWRhMDY5IiwidGFnIjoiIn0=', 0, '0', '1', '1', '[\"1\",\"3\",\"4\"]', '[\"2\",\"1\",\"3\"]', 'null', 'null', '2', 'null', 'null', 'null', '[\"1\",\"10\",\"7\",\"11\",\"2\",\"6\",\"9\",\"4\",\"12\",\"13\",\"8\",\"3\",\"5\"]', '12345', NULL, NULL, '2024-08-05 05:52:00', NULL, '0', '1', 'No', 'No', 'No', '61', 'au', '4123456712', '@Votive123', 'AU', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '[\"6\",\"5\",\"10\",\"7\",\"9\",\"8\",\"11\",\"12\",\"13\",\"14\",\"15\",\"16\"]', '[\"18\",\"19\",\"20\",\"21\",\"22\",\"23\",\"24\",\"25\",\"26\",\"27\",\"28\",\"29\",\"30\",\"31\",\"32\",\"33\",\"34\",\"35\",\"36\",\"37\",\"38\",\"39\",\"40\",\"41\",\"42\",\"44\",\"43\",\"45\",\"46\",\"47\",\"48\",\"49\",\"50\",\"51\",\"52\",\"53\",\"54\",\"55\",\"56\",\"57\",\"58\",\"59\",\"60\",\"61\",\"63\",\"62\",\"64\",\"65\",\"66\",\"67\",\"68\",\"69\",\"70\",\"71\",\"72\",\"73\",\"74\",\"75\",\"76\",\"77\",\"78\",\"79\",\"80\",\"81\",\"82\",\"83\",\"84\",\"85\",\"86\",\"87\",\"88\",\"90\",\"89\",\"91\",\"92\",\"93\",\"95\",\"94\",\"96\",\"97\",\"98\",\"99\",\"100\",\"101\",\"102\",\"103\",\"104\",\"105\",\"106\",\"107\",\"108\",\"109\",\"110\",\"111\",\"112\",\"113\",\"114\",\"115\",\"116\",\"117\",\"118\",\"119\",\"120\",\"121\",\"122\",\"123\",\"124\",\"125\",\"126\",\"127\",\"128\",\"129\",\"130\",\"131\",\"132\",\"133\",\"134\",\"135\",\"136\",\"137\",\"138\",\"139\",\"140\",\"141\",\"142\",\"143\",\"144\",\"145\",\"146\",\"147\",\"148\",\"149\",\"150\",\"151\",\"152\",\"153\",\"154\",\"155\",\"156\",\"157\",\"158\",\"159\",\"160\",\"161\",\"162\",\"163\",\"164\",\"165\",\"166\",\"167\",\"168\",\"169\",\"170\",\"171\"]', '[\"173\",\"174\",\"232\",\"176\",\"234\",\"233\",\"177\",\"175\",\"178\",\"179\"]', '[\"181\",\"182\",\"183\",\"184\",\"185\",\"186\",\"187\",\"188\",\"189\",\"190\",\"191\",\"192\",\"193\",\"194\",\"195\",\"196\",\"197\",\"198\",\"199\",\"200\",\"201\",\"202\",\"203\",\"204\",\"205\",\"206\",\"207\",\"208\",\"209\",\"210\",\"211\",\"212\",\"213\",\"214\",\"215\",\"216\",\"217\",\"218\",\"219\",\"220\",\"221\",\"222\",\"223\",\"224\",\"225\",\"226\",\"227\"]', '[\"6\",\"9\",\"10\"]', 'null', '[\"240\"]', '[\"386\"]', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL),
-(133, 'Neha', 'Mandloi', 'votivephp.neha434355@gmail.com', 'nurse/assets/imgs/nurse06.png', NULL, '$2y$10$xZYiBzLwq9va7vU/3CaAxOflPy1o4XXL4P/XnhLBZOzQZzQsU9/gi', NULL, 'eyJpdiI6InhRQjdZSTZLS1R1LzBscEdaTWlJSXc9PSIsInZhbHVlIjoiTHBDZTJWZ3RvdW9vT2p2bC9RY2EwNmJDNHB2YjB5amdoYnYxVWZmVUUwcz0iLCJtYWMiOiIyNWRiZjlhYjQ1MDFmMzIxYTYyNDUyNTYyNjU0NDg3NWEzZTQ4ZGYxYTdhODQ0NzEwOWEwNzVhZjRiNTMzYTJmIiwidGFnIjoiIn0=', 0, '0', '1', '1', '[\"3\"]', '[\"1\"]', 'null', 'null', '1', 'null', 'null', 'null', '[\"2\"]', '452001', NULL, NULL, '2024-08-06 05:45:46', '2024-08-06 02:49:31', '0', '1', 'No', 'No', 'No', '61', 'au', '1234567890', 'Neha@1234', 'AU', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'null', '[\"22\"]', 'null', 'null', 'null', 'null', '[\"243\"]', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL);
+(133, 'Neha', 'Mandloi', 'votivephp.neha434355@gmail.com', 'nurse/assets/imgs/nurse06.png', NULL, '$2y$10$xZYiBzLwq9va7vU/3CaAxOflPy1o4XXL4P/XnhLBZOzQZzQsU9/gi', NULL, 'eyJpdiI6InhRQjdZSTZLS1R1LzBscEdaTWlJSXc9PSIsInZhbHVlIjoiTHBDZTJWZ3RvdW9vT2p2bC9RY2EwNmJDNHB2YjB5amdoYnYxVWZmVUUwcz0iLCJtYWMiOiIyNWRiZjlhYjQ1MDFmMzIxYTYyNDUyNTYyNjU0NDg3NWEzZTQ4ZGYxYTdhODQ0NzEwOWEwNzVhZjRiNTMzYTJmIiwidGFnIjoiIn0=', 0, '0', '1', '1', '[\"3\"]', '[\"1\"]', 'null', 'null', '1', 'null', 'null', 'null', '[\"2\"]', '452001', NULL, NULL, '2024-08-06 05:45:46', '2024-08-06 02:49:31', '0', '1', 'No', 'No', 'No', '61', 'au', '1234567890', 'Neha@1234', 'AU', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'null', '[\"22\"]', 'null', 'null', 'null', 'null', '[\"243\"]', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL),
+(134, 'sandhhilya', 'kumra', 'votivetester.preeti@gmail.com', 'nurse/assets/imgs/nurse06.png', NULL, '$2y$10$Y6X9f47dFK3KgsIRaJvcGOXQZgld1oVjHL/Tn/oFD9aprC5mEPxGO', NULL, '', 0, '1', '1', '1', '[\"2\"]', '[\"2\",\"1\",\"3\"]', 'null', 'null', '3', 'null', 'null', 'null', 'null', '452010', NULL, NULL, '2024-08-08 06:53:29', '2024-08-08 01:26:33', '1', '1', 'No', 'No', 'No', '61', 'au', '7077256489', '12345@Veer', 'AU', NULL, NULL, 'Current Employee Status:-Null', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '[\"6\",\"5\",\"10\",\"7\",\"9\",\"8\",\"11\",\"12\",\"13\",\"14\",\"15\",\"16\"]', '[\"19\"]', '[\"173\",\"174\",\"232\",\"176\",\"234\",\"233\",\"177\",\"175\",\"178\",\"179\"]', '[\"184\"]', 'null', '[\"203\"]', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'Part Time'),
+(135, 'robert', 'test', 'test333@gmail.com', '/tmp/phpGqQJEN', NULL, NULL, NULL, NULL, 0, '0', '1', '1', NULL, '', '', NULL, '', '', NULL, NULL, '', '451666', NULL, NULL, '2024-08-08 07:58:35', '2024-08-08 07:58:35', '0', '1', 'No', 'No', 'No', '91', 'in', '54e4545454', NULL, 'IN', 1613, 'indore', NULL, 'test.com', NULL, 'male', '2024-08-10', 'indore', '3434343434', '91', 'in', 'votivephp.harshita@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -6531,7 +6571,8 @@ INSERT INTO `user_education_cerification` (`education_id`, `user_id`, `degrees`,
 (4, 58, NULL, 'rdfd', '2024-07-24', '2024-08-17', '[\"ACLS\",\"BLS\",\"PALS\"]', 'sds', '101', 1618, '2024-08-24', NULL, NULL, '2024-08-05 10:52:45', '2024-08-03 07:50:32'),
 (5, 112, NULL, 'rdfd', '2024-08-16', '2024-09-07', '[\"BLS\"]', 'sds', 'DZ', 86, '2024-08-28', '[\"5\"]', '[\"7\"]', '2024-08-07 06:33:11', '2024-08-07 01:03:11'),
 (7, 133, NULL, 'Test', '2024-08-01', '2024-09-04', '[\"ALS\",\"BLS\",\"PALS\"]', '123df', 'AR', 176, '2024-08-30', '[\"4\",\"5\"]', '[\"6\"]', '2024-08-06 02:49:30', '2024-08-06 02:49:30'),
-(8, 120, NULL, 'ssk university London', '2013-07-01', '2016-03-01', '[\"BLS\"]', '0221654455185Bcs13', 'BS', 287, '2025-07-03', '[\"5\"]', '[\"7\"]', '2024-08-07 11:48:25', '2024-08-07 06:18:25');
+(8, 120, NULL, 'ssk university London', '2013-07-01', '2016-03-01', '[\"BLS\"]', '0221654455185Bcs13', 'BS', 287, '2025-07-03', '[\"5\"]', '[\"7\"]', '2024-08-07 11:48:25', '2024-08-07 06:18:25'),
+(9, 131, NULL, 'ssk university London', '2013-07-01', '2016-06-08', '[\"BLS\"]', '0221654455185Bcs13', 'IN', 1618, '2028-01-01', '[\"5\"]', '[\"6\"]', '2024-08-08 04:28:20', '2024-08-08 04:28:20');
 
 -- --------------------------------------------------------
 
@@ -6560,7 +6601,9 @@ CREATE TABLE `user_experience` (
 
 INSERT INTO `user_experience` (`experience_id`, `user_id`, `employer_name`, `position_held`, `employeement_start_date`, `employeement_end_date`, `present_status`, `responsiblities`, `achievements`, `skills_compantancies`, `created_at`, `updated_at`) VALUES
 (4, 112, 'ddsw', '[\"2\"]', '2024-08-07', '2024-09-18', 1, 's ds', 's s dwd', '[\"5\"]', '2024-08-07 04:18:24', '2024-08-07 08:21:02'),
-(5, 120, 'Preeti tester', '[\"2\",\"3\",\"5\"]', '2024-01-12', '2024-08-12', 1, 'Position Held', 'Position Held', '[\"5\"]', '2024-08-07 06:14:32', '2024-08-07 06:17:17');
+(5, 120, 'Preeti tester', '[\"2\",\"3\",\"5\"]', '2024-01-12', '2024-08-12', 1, 'Position Held', 'Position Held', '[\"5\"]', '2024-08-07 06:14:32', '2024-08-07 06:17:17'),
+(6, 134, 'Preeti tester', '[\"2\"]', '2021-12-01', '2024-08-01', 1, 'To execute Deasise', 'Employee of the 5 years and take care in an extremely good', '[\"6\"]', '2024-08-08 01:41:55', '2024-08-08 01:41:55'),
+(7, 131, 'Preeti tester', '[\"3\"]', '2021-02-04', '2026-11-26', 1, 'Detailed Job Descriptions', 'Achievements', '[\"6\"]', '2024-08-08 04:16:28', '2024-08-08 05:16:56');
 
 -- --------------------------------------------------------
 
@@ -6579,6 +6622,13 @@ CREATE TABLE `working_children_check` (
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `deleted_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `working_children_check`
+--
+
+INSERT INTO `working_children_check` (`id`, `clearance_number`, `state`, `expiry_date`, `user_id`, `status`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, '324343', 1598, '2024-08-29', 112, '1', '2024-08-08 18:59:10', '2024-08-08 18:59:10', NULL);
 
 --
 -- Indexes for dumped tables
@@ -6644,6 +6694,12 @@ ALTER TABLE `failed_jobs`
 --
 ALTER TABLE `level_year`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `mandatory_training`
+--
+ALTER TABLE `mandatory_training`
+  ADD PRIMARY KEY (`train_id`);
 
 --
 -- Indexes for table `migrations`
@@ -6752,7 +6808,7 @@ ALTER TABLE `working_children_check`
 -- AUTO_INCREMENT for table `additional_training`
 --
 ALTER TABLE `additional_training`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `admin`
@@ -6782,7 +6838,7 @@ ALTER TABLE `degree`
 -- AUTO_INCREMENT for table `eligibility_to_work`
 --
 ALTER TABLE `eligibility_to_work`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `emergency_contact`
@@ -6809,6 +6865,12 @@ ALTER TABLE `level_year`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
+-- AUTO_INCREMENT for table `mandatory_training`
+--
+ALTER TABLE `mandatory_training`
+  MODIFY `train_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
@@ -6830,7 +6892,7 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `police_check`
 --
 ALTER TABLE `police_check`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `practitioner_type`
@@ -6860,7 +6922,7 @@ ALTER TABLE `skills`
 -- AUTO_INCREMENT for table `speciality`
 --
 ALTER TABLE `speciality`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=408;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=410;
 
 --
 -- AUTO_INCREMENT for table `states`
@@ -6878,25 +6940,25 @@ ALTER TABLE `sub_job_specialities`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=134;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=136;
 
 --
 -- AUTO_INCREMENT for table `user_education_cerification`
 --
 ALTER TABLE `user_education_cerification`
-  MODIFY `education_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `education_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `user_experience`
 --
 ALTER TABLE `user_experience`
-  MODIFY `experience_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `experience_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `working_children_check`
 --
 ALTER TABLE `working_children_check`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

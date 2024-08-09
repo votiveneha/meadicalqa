@@ -88,5 +88,6 @@ Route::prefix('nurse')->name('nurse.')->namespace('App\Http\Controllers\nurse')-
     Route::post('/updateProfession', 'HomeController@updateProfession')->name('updateProfession');
     Route::post('/updateEducation', 'HomeController@updateEducation')->name('updateEducation');
     Route::post('/updateExperience', 'HomeController@updateExperience')->name('updateExperience');
+    Route::post('/updateTraining', 'HomeController@updateTraining')->name('updateTraining');
   });
 });

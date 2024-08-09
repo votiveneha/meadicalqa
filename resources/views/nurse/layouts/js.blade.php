@@ -690,48 +690,48 @@ function pad(number) {
       document.getElementById("reqdegree").innerHTML = "* Please select degree.";
       isValid = false;
     }
-    alert($('[name="institution"]').val());
+    
     if ($('[name="institution"]').val() == '') {
 
       document.getElementById("reqinstitute").innerHTML = "* Please enter the institutions.";
       isValid = false;
     }
-    // if ($('[name="graduation_start_date"]').val() == '') {
-    //   document.getElementById("reqstartdate").innerHTML = "* Please enter the graduation start date.";
-    //   isValid = false;
-    // }
-    // if ($('[name="graduation_end_date"]').val() == '') {
-    //   document.getElementById("reqenddate").innerHTML = "* Please enter the graduation end date.";
-    //   isValid = false;
-    // }
-    // if ($('[name="professional_certification[]"]').val() == '') {
-    //   document.getElementById("reqcertificate").innerHTML = "* Please select professional certicate";
-    //   isValid = false;
-    // }
-    // if ($('[name="license_number"]').val() == '') {
-    //   document.getElementById("reqlicensenum").innerHTML = "* Please enter license number";
-    //   isValid = false;
-    // }
-    // if ($('[name="country"]').val() == '') {
-    //   document.getElementById("reqcountry").innerHTML = "* Please select country";
-    //   isValid = false;
-    // }
-    // if ($('[name="state"]').val() == '') {
-    //   document.getElementById("reqTxtstateI").innerHTML = "* Please select state";
-    //   isValid = false;
-    // }
-    // if ($('[name="expiration_date"]').val() == '') {
-    //   document.getElementById("reqexpiration_date").innerHTML = "* Please enter expiration date";
-    //   isValid = false;
-    // }
-    // if ($('[name="training_courses[]"]').val() == '') {
-    //   document.getElementById("reqaddtraining").innerHTML = "* Please select training courses";
-    //   isValid = false;
-    // }
-    // if ($('[name="training_workshop[]"]').val() == '') {
-    //   document.getElementById("reqaddworkshops").innerHTML = "* Please select training workshops";
-    //   isValid = false;
-    // }
+    if ($('[name="graduation_start_date"]').val() == '') {
+      document.getElementById("reqstartdate").innerHTML = "* Please enter the graduation start date.";
+      isValid = false;
+    }
+    if ($('[name="graduation_end_date"]').val() == '') {
+      document.getElementById("reqenddate").innerHTML = "* Please enter the graduation end date.";
+      isValid = false;
+    }
+    if ($('[name="professional_certification[]"]').val() == '') {
+      document.getElementById("reqcertificate").innerHTML = "* Please select professional certicate";
+      isValid = false;
+    }
+    if ($('[name="license_number"]').val() == '') {
+      document.getElementById("reqlicensenum").innerHTML = "* Please enter license number";
+      isValid = false;
+    }
+    if ($('[name="country"]').val() == '') {
+      document.getElementById("reqcountry").innerHTML = "* Please select country";
+      isValid = false;
+    }
+    if ($('[name="state"]').val() == '') {
+      document.getElementById("reqTxtstateI").innerHTML = "* Please select state";
+      isValid = false;
+    }
+    if ($('[name="expiration_date"]').val() == '') {
+      document.getElementById("reqexpiration_date").innerHTML = "* Please enter expiration date";
+      isValid = false;
+    }
+    if ($('[name="training_courses[]"]').val() == '') {
+      document.getElementById("reqaddtraining").innerHTML = "* Please select training courses";
+      isValid = false;
+    }
+    if ($('[name="training_workshop[]"]').val() == '') {
+      document.getElementById("reqaddworkshops").innerHTML = "* Please select training workshops";
+      isValid = false;
+    }
 
     if(isValid == true){
     $('#educert_form').find('.text-danger').hide();
@@ -782,30 +782,110 @@ function pad(number) {
     return false;
   }
    function updateExperience() {
-    $('#experience_form').find('.text-danger').hide();
+    var isValid = true;
+    if ($('[name="assistent_level"]').val() == '') {
+      document.getElementById("reqlevelexpereience").innerHTML = "* Please select the experience level";
+      isValid = false;
+    }
+    
+    if ($('[name="previous_employer_name"]').val() == '') {
+
+      document.getElementById("reqnames").innerHTML = "* Please enter the name";
+      isValid = false;
+    }
+    if ($('[name="position_held[]"]').val() == '') {
+      document.getElementById("reqpositionheld").innerHTML = "* Please select the position";
+      isValid = false;
+    }
+    if ($('[name="start_date"]').val() == '') {
+      document.getElementById("reqempsdate").innerHTML = "* Please enter the employement start date";
+      isValid = false;
+    }
+    if ($.trim($('[name="job_responeblities"]').val()) == '') {
+      document.getElementById("reqresposiblities").innerHTML = "* Please enter the job responsiblities";
+      isValid = false;
+    }
+    if ($('[name="achievements"]').val() == '') {
+      document.getElementById("reqachievements").innerHTML = "* Please enter the achievements";
+      isValid = false;
+    }
+    if ($('[name="skills_compantancies[]"]').val() == '') {
+      document.getElementById("reqexpertise").innerHTML = "* Please select the skills and competencies";
+      isValid = false;
+    }
+
+    if(isValid == true){
+      $('#experience_form').find('.text-danger').hide();
+      $.ajax({
+        url: "{{ route('nurse.updateExperience') }}",
+        type: "POST",
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: new FormData($('#experience_form')[0]),
+        dataType: 'json',
+        beforeSend: function() {
+          $('#submitExperience').prop('disabled', true);
+          $('#submitExperience').text('Process....');
+        },
+        success: function(res) {
+          $('#submitExperience').prop('disabled', false);
+          $('#submitExperience').text('Update Profile');
+
+          if (res.status == '1') {
+            Swal.fire({
+              icon: 'success',
+              title: 'Success',
+              text: 'Experience Information Updated Successfully',
+            }).then(function() {
+              window.location.href = "{{ route('nurse.my-profile') }}?page=experience_info";
+            });
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: res.message,
+            })
+          }
+          
+        },
+        error: function(errorss) {
+          $('#submitExperience').prop('disabled', false);
+          $('#submitExperience').text('Submit');
+          console.log("errorss",errorss);
+          for (var err in errorss.responseJSON.errors) {
+            $("#submitExperience").find("[name='" + err + "']").after("<div class='text-danger'>" + errorss.responseJSON.errors[err] + "</div>");
+          }
+        }
+      });
+    }
+    return false;
+  }
+   function updateTraining() {
+    $('#training_form').find('.text-danger').hide();
     $.ajax({
-      url: "{{ route('nurse.updateExperience') }}",
+      url: "{{ route('nurse.updateTraining') }}",
       type: "POST",
       cache: false,
       contentType: false,
       processData: false,
-      data: new FormData($('#experience_form')[0]),
+      data: new FormData($('#training_form')[0]),
       dataType: 'json',
       beforeSend: function() {
-        $('#submitExperience').prop('disabled', true);
-        $('#submitExperience').text('Process....');
+        $('#submitTraining').prop('disabled', true);
+        $('#submitTraining').text('Process....');
       },
       success: function(res) {
-        $('#submitExperience').prop('disabled', false);
-        $('#submitExperience').text('Update Profile');
+        $('#submitTraining').prop('disabled', false);
+        $('#submitTraining').text('Update Profile');
 
         if (res.status == '1') {
           Swal.fire({
             icon: 'success',
             title: 'Success',
-            text: 'Experience Information Updated Successfully',
+            text: 'Training Information Updated Successfully',
           }).then(function() {
-            window.location.href = "{{ route('nurse.my-profile') }}?page=experience_info";
+            window.location.href = "{{ route('nurse.my-profile') }}?page=mandatory_training";
           });
         } else {
           Swal.fire({
@@ -817,8 +897,8 @@ function pad(number) {
         
       },
       error: function(errorss) {
-        $('#submitExperience').prop('disabled', false);
-        $('#submitExperience').text('Submit');
+        $('#submitTraining').prop('disabled', false);
+        $('#submitTraining').text('Submit');
         console.log("errorss",errorss);
         for (var err in errorss.responseJSON.errors) {
           $("#submitExperience").find("[name='" + err + "']").after("<div class='text-danger'>" + errorss.responseJSON.errors[err] + "</div>");

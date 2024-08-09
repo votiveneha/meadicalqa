@@ -36,6 +36,7 @@ use App\Services\Admins\SpecialityServices;
 use App\Models\SpecialityModel;
 use App\Models\EducationModel;
 use App\Models\ExperienceModel;
+use App\Models\MandatoryTrainModel;
 use App\Repository\Eloquent\SpecialityRepository;
 
 class HomeController extends Controller
@@ -1092,7 +1093,51 @@ class HomeController extends Controller
         echo json_encode($json);
     }
 
-    
+    public function updateTraining(Request $request){
+        $user_id = $request->user_id;
+        $start_date = $request->start_date;
+        $end_date = $request->end_date;
+        $institution = $request->institution;
+        $mand_continue_education = $request->mand_continue_education;
+        
+        
+        
+        $gettrainingdata = DB::table("mandatory_training")->where("user_id",$user_id)->first();
+        //$post = User::find($request->user_id);
+        
+        if(!empty($gettrainingdata)>0){
+            
+            
+            $run = MandatoryTrainModel::where('user_id',$user_id)->update(['start_date'=>$start_date,'end_date'=>$end_date,'institutions'=>$institution,'continuing_education'=>$mand_continue_education]);
+        }else{
+
+            
+
+            $post = new MandatoryTrainModel();
+            $post->user_id = $user_id;
+            
+            //$post->year_experience = $year_experience;
+            $post->start_date = $start_date;
+            $post->end_date = $end_date;
+            $post->institutions = $institution;
+            $post->continuing_education = $mand_continue_education;
+            
+            
+            $run = $post->save();
+
+        }
+
+        if ($run) {
+            $json['status'] = 1;
+            $json['url'] = url('nurse/my-profile');
+            $json['message'] = 'Education Information Updated Successfully';
+         } else {
+            $json['status'] = 0;
+            $json['message'] = 'Please Try Again';
+        }
+        
+        echo json_encode($json);
+    }
     
      public function update_profession_ahpra_numberI(Request $request)
     {      
@@ -1137,7 +1182,7 @@ class HomeController extends Controller
             $run = EligibilityToWorkModel::insert($professioninsert);
             if ($run) {
                 $json['status'] = 1;
-                $json['url'] = url('nurse/my-profile');
+                $json['url'] = url('nurse/my-profile')."?page=work_clearances";
                 $json['message'] = 'You have Successfully submitted the details.';
              } else {
                 $json['status'] = 0;
@@ -1164,7 +1209,7 @@ class HomeController extends Controller
             $run = WorkingChildrenCheckModel::insert($professioninsert);
             if ($run) {
                 $json['status'] = 1;
-                $json['url'] = url('nurse/my-profile');
+                $json['url'] = url('nurse/my-profile')."?page=work_clearances";
                 $json['message'] = 'You have Successfully submitted the details.';
              } else {
                 $json['status'] = 0;
@@ -1195,7 +1240,7 @@ class HomeController extends Controller
             $run = PoliceCheckModel::insert($professioninsert);
             if ($run) {
                 $json['status'] = 1;
-                $json['url'] = url('nurse/my-profile');
+                $json['url'] = url('nurse/my-profile')."?page=work_clearances";
                 // $json['url'] = url('nurse/my-profile#tab-myclearance-jobs');
                 $json['message'] = 'You have Successfully submitted the details.';
              } else {

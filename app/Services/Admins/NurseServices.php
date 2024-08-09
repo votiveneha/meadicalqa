@@ -142,4 +142,41 @@ class NurseServices
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
         }
     }
+    public function addNursePost($data)
+    {
+        try {
+
+            if($data['tab'] == 'tab1'){
+            // dd($data['contact']);
+            $allData['name'] = $data['first_name'];
+            $allData['lastname'] = $data['last_name'];
+            $allData['phone'] = $data['contact'];
+            $allData['country_code'] = $data['country_code_phone'];
+            $allData['country_iso'] = $data['country_iso_phone'];
+            $allData['email'] = $data['email'];
+            $allData['gender'] = $data['gender'];
+            $allData['date_of_birth'] = $data['dob'];
+            $allData['personal_website'] = $data['per_website'];
+            $allData['country'] = $data['country'];
+            $allData['state'] = $data['state'];
+            $allData['city'] = $data['city'];
+            $allData['post_code'] = $data['zip_code'];
+            $allData['home_address'] = $data['home_address'];
+            $allData['emergency_conact_numeber'] = $data['emrg_contact'];
+            $allData['emergergency_contact_email'] = $data['emrg_email'];
+            $allData['profile_img'] = $data['profile_image'];
+            $allData['emegency_country_code'] = $data['country_code_mobile'];
+            $allData['emergency_country_iso'] = $data['country_iso_mobile'];
+            }
+            $run = $this->nurseRepository->create($allData);
+            if ($run) {
+                return response()->json(['status' => '2', 'message' => __('message.statusOne', ['parameter' => 'Basic detail'])]);
+            } else {
+                return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+            }
+        } catch (\Exception $e) {
+            Log::error('Error in NurseServices/addNursePost(): ' . $e->getMessage());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
 }
