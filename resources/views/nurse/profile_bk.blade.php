@@ -91,21 +91,21 @@
             </div>
 	
 			<div class="profile-chklst">
-        <span>Profile basics</span>
-        <div class="circ-progress">
-          <div class="progress blue">
+				<span>Profile basics</span>
+				<div class="circ-progress">
+					<div class="progress blue">
                 <span class="progress-left">
                     <span class="progress-bar"></span>
                 </span>
                 <span class="progress-right">
                     <span class="progress-bar"></span>
                 </span>
-                <div class="progress-value">100%</div>
+                <div class="progress-value">0/5</div>
             </div>
-        </div>
-      </div>
-      
-      <!-- <div class="basic_profile dropdowns--set">
+				</div>
+			</div>
+			
+      <div class="basic_profile dropdowns--set">
         <div class="dropdown">
           <button class="btn btn-secondary dropdown-toggle" type="button" id="preferences-profile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Profile
@@ -117,55 +117,55 @@
         </div>
       </div>
 
-      <div class="prof-profile dropdowns--set">
-        <div class="dropdown">
-          <button class="btn btn-secondary dropdown-toggle" type="button" id="prof-profile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Professional Profile
-          </button>
-          <div class="dropdown-menu" aria-labelledby="prof-profile">
-          <a class="dropdown-item" id="my_profession" style="cursor: pointer;">Profession</a>
-          <a class="dropdown-item" id="educert" style="cursor: pointer;">Education and Certification</a>
-          <a class="dropdown-item" id="experience_info" style="cursor: pointer;">Experience</a>
-          <a class="dropdown-item" id="financial_details" style="cursor: pointer;">Financial Details</a>
-          <a class="dropdown-item" id="mand_training" style="cursor: pointer;">Mandatory Training</a>
-          <a class="dropdown-item" id="vaccinations" style="cursor: pointer;">Vaccinations</a>
-          <a class="dropdown-item" id="work_clearances" style="cursor: pointer;">Work Clearances</a>
-          <a class="dropdown-item" id="professional_membership" style="cursor: pointer;">Memberships</a>
-          <a class="dropdown-item" id="interview_references" style="cursor: pointer;">Interview and References</a>
+			<div class="prof-profile dropdowns--set">
+				<div class="dropdown">
+				  <button class="btn btn-secondary dropdown-toggle" type="button" id="prof-profile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					Professional Profile
+				  </button>
+				  <div class="dropdown-menu" aria-labelledby="prof-profile">
+					<a class="dropdown-item" id="my_profession" style="cursor: pointer;">Profession</a>
+          <a class="dropdown-item" id="educert" style="cursor: pointer;">Education and Certifications</a>
+					<a class="dropdown-item" id="experience_info" style="cursor: pointer;">Experience</a>
+					<a class="dropdown-item" id="financial_details" style="cursor: pointer;">Financial Details</a>
+					<a class="dropdown-item" id="mand_training" style="cursor: pointer;">Mandatory Training</a>
+					<a class="dropdown-item" id="vaccinations" style="cursor: pointer;">Vaccinations</a>
+					<a class="dropdown-item" id="work_clearances" style="cursor: pointer;">Work Clearances</a>
+					<a class="dropdown-item" id="professional_membership" style="cursor: pointer;">Memberships</a>
+					<a class="dropdown-item" id="interview_references" style="cursor: pointer;">Interview and References</a>
           <a class="dropdown-item" id="additional_information" style="cursor: pointer;">Additional Information</a>
-          </div>
-        </div>
-      </div>
-      <div class="preferences-profile dropdowns--set">
-        <div class="dropdown">
-          <button class="btn btn-secondary dropdown-toggle" type="button" id="preferences-profile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Preferences
-          </button>
-          <div class="dropdown-menu" aria-labelledby="preferences-profile">
-            <a class="dropdown-item" style="cursor: pointer;" id="work_preferences">Find Work Preferences</a>
+				  </div>
+				</div>
+			</div>
+			<div class="preferences-profile dropdowns--set">
+				<div class="dropdown">
+				  <button class="btn btn-secondary dropdown-toggle" type="button" id="preferences-profile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					Preferences
+				  </button>
+				  <div class="dropdown-menu" aria-labelledby="preferences-profile">
+  					<a class="dropdown-item" style="cursor: pointer;" id="work_preferences">Find Work Preferences</a>
             <a class="dropdown-item" style="cursor: pointer;" id="personal_preferences">Personal Preferences</a>
-          </div>
-        </div>
-      </div>
-      <div class="testimonials-profile dropdowns--set">
-        <div class="dropdown">
-          <button class="btn btn-secondary dropdown-toggle" type="button" id="testimonials-profile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Testimonials
-          </button>
-          <div class="dropdown-menu" id="testimonial_reviews" aria-labelledby="testimonials-profile">
-          <a class="dropdown-item" href="#">Testimonials and Reviews</a>
-          </div>
-        </div>
-      </div> -->
+				  </div>
+				</div>
+			</div>
+			<div class="testimonials-profile dropdowns--set">
+				<div class="dropdown">
+				  <button class="btn btn-secondary dropdown-toggle" type="button" id="testimonials-profile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					Testimonials
+				  </button>
+				  <div class="dropdown-menu" id="testimonial_reviews" aria-labelledby="testimonials-profile">
+					<a class="dropdown-item" href="#">Testimonials and Reviews</a>
+				  </div>
+				</div>
+			</div>
 
             <div class="box-nav-tabs nav-tavs-profile mb-5 p-0 profile-icns">
-              <ul class="nav" role="tablist">
+              <!-- <ul class="nav" role="tablist">
                 <li><a class="btn btn-border aboutus-icon mb-20 active profile_tabs" href="#tab-my-profile" id="my_profile" data-bs-toggle="tab" role="tab" aria-controls="tab-my-profile" aria-selected="true"><i class="fi fi-rr-user"></i> My Profile</a></li>
                 <li><a class="btn btn-border recruitment-icon mb-20 profile_tabs" id="settings" href="#tab-my-profile-setting" data-bs-toggle="tab" role="tab" aria-controls="tab-my-profile-setting" aria-selected="false"><i class="fi fi-rr-settings"></i> Setting</a></li>
-               <li><a href="#tab-my-jobs" id="my_profession" class="btn btn-border recruitment-icon mb-20 profile_tabs" data-bs-toggle="tab" role="tab" aria-controls="tab-my-jobs" aria-selected="false"><i class="fi fi-rr-employee-man"></i> Profession</a></li>
+               <li><a href="#tab-my-jobs" class="btn btn-border recruitment-icon mb-20 profile_tabs" data-bs-toggle="tab" role="tab" aria-controls="tab-my-jobs" aria-selected="false"><i class="fi fi-rr-employee-man"></i> Profession</a></li>
                 
-                <li><a class="btn btn-border people-icon mb-20" id="educert"  data-bs-toggle="tab" role="tab" aria-controls="tab-saved-jobs" aria-selected="false"><i class="fi fi-rr-graduation-cap"></i> Education and Certifications</a></li>
-                <li><a href="#experience" id="experience_info" class="btn btn-border aboutus-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true"><i class="fi fi-rr-suitcase-alt"></i> Experience</a></li>
+                <li><a class="btn btn-border people-icon mb-20" id="educert"  data-bs-toggle="tab" role="tab" aria-controls="tab-saved-jobs" aria-selected="false"><i class="fi fi-rr-graduation-cap"></i> Education and Certification</a></li>
+                <li><a href="#experience" class="btn btn-border aboutus-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true"><i class="fi fi-rr-suitcase-alt"></i> Experience</a></li>
                 <li><a href="#experience" id="experience_info" class="btn btn-border aboutus-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true"><i class="fi fi-rr-chart-histogram"></i>  Financial Details</a></li>
                 <li><a href="#mand_training" id="mand_training" class="btn btn-border aboutus-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true"><i class="fi fi-rr-chart-user"></i> Mandatory Training</a></li>
                 <li><a href="#vaccinations" id="vaccinations" class="btn btn-border aboutus-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true"><i class="fi fi-rr-chart-user"></i> Vaccinations</a></li>
@@ -177,7 +177,7 @@
                 <li><a href="#work_clearances" id="work_clearances" class="btn btn-border recruitment-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-myclearance-jobs" aria-selected="false"><i class="fi fi-rr-feedback-review"></i> Testimonials and Reviews</a></li>
                 <li><a href="#work_clearances" id="work_clearances" class="btn btn-border recruitment-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-myclearance-jobs" aria-selected="false"><i class="fi fi-rr-guide-alt"></i> Additional Information</a></li>
                 
-              </ul>
+              </ul> -->
               <div class="border-bottom pt-10 pb-10"></div>
               <div class="mt-20 mb-20"><a class="link-red font-md" href="{{ route("nurse.logout") }}"><i class="fa-solid fa-arrow-right-from-bracket me-2"></i> Log Out</a></div>
             </div>
@@ -765,7 +765,6 @@
                       <option value="Per Diem / Local" @if(Auth::guard('nurse_middle')->user()->current_employee_status == "Per Diem / Local") selected @endif>Per Diem / Local</option>
                       <option value="On-Call / PRN (Pro Re Nata)" @if(Auth::guard('nurse_middle')->user()->current_employee_status == "On-Call / PRN (Pro Re Nata)") selected @endif>On-Call / PRN (Pro Re Nata)</option>
                       <option value="Casual" @if(Auth::guard('nurse_middle')->user()->current_employee_status == "Casual") selected @endif>Casual</option>
-                      
                       <option value="Agency / Staffing Agency" @if(Auth::guard('nurse_middle')->user()->current_employee_status == "Agency / Staffing Agency") selected @endif>Agency / Staffing Agency</option>
                       <option value="Seasonal" @if(Auth::guard('nurse_middle')->user()->current_employee_status == "Seasonal") selected @endif>Seasonal</option>
                       <option value="Intern / Residency" @if(Auth::guard('nurse_middle')->user()->current_employee_status == "Intern / Residency") selected @endif>Intern / Residency</option>
@@ -776,8 +775,11 @@
                     </div>
                     <span id="reqemployee_status" class="reqError text-danger valley"></span>
                   </div>      
+                  <div class="confirmation_checkbox">
+                    <input type="checkbox" name="declare_box" @if(Auth::guard('nurse_middle')->user()->confirmation_box == 1) checked @endif><label for="confirmation_box">I declare that the information provided is true and correct</label>
+                  </div>
                   <div class="box-button mt-15">
-                          <button class="btn btn-apply-big font-md font-bold" type="submit" id="submitProfession">Save Changes</button>
+                          <button class="btn btn-apply-big font-md font-bold" type="submit" id="submitProfession" @if(Auth::guard('nurse_middle')->user()->basic_info_status != 1)disabled="" @endif>Save Changes</button>
                         </div>          
                   </form>
                 </div>
@@ -788,7 +790,7 @@
 			  
               <div class="tab-pane fade" id="tab-educert" role="tabpanel" aria-labelledby="tab-educert" style="display: none">
 			  <div class="card shadow-sm border-0 p-4 mt-30">
-                <h3 class="mt-0 color-brand-1 mb-20">Education and Certification</h3>
+                <h3 class="mt-0 color-brand-1 mb-20">Education and Certifications</h3>
                 <h6 class="emergency_text">
                           Educational Background
                         </h6>
@@ -840,23 +842,71 @@
                     </div>
                   </div>
                   <h6 class="emergency_text">
-                          Professional Certification
+                          General Certifications/Licences:
                         </h6>
                         <div class="form-group level-drp">
                           <input type="hidden" name="prof_cert_new" class="prof_cert_new" value="@if(!empty($educationData)){{ $educationData->professional_certifications }}@endif">
-                          <label class="form-label" for="input-1">Select Professional Certification</label>
+                          <label class="form-label" for="input-1">Please select all that apply</label>
                             <?php
                               $certificates = DB::table("professional_certificate")->get();
                             ?>
                             <ul id="profess_cert" style="display:none;">
                                 @foreach($certificates as $cert)
-                                <li data-value="{{ $cert->name }}">{{ $cert->name }}</li>
+                                <li data-value="{{ $cert->id }}">{{ $cert->name }}</li>
                                 @endforeach
                                 
                             </ul>
                         <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="profess_cert" name="professional_certification[]" multiple="multiple"></select>
                       </div>
+                      <div class="professional_certification_fields">
+                        <div class="row">
+                          <div class="col-md-6 acls_field" style="display: none;">
+                            <div class="form-group level-drp"><label class=form-label for=input-1>ACLS (Advanced Cardiovascular Life Support)</label><ul id=profess_cert_acls style=display:none><li data-value="1">Australia: ALS (Advanced Life Support) - Australian Resuscitation Council (ARC)</li><li data-value="2">Canada: ACLS - Heart and Stroke Foundation of Canada (HSFC)</li><li data-value="3">Hong Kong: ACLS - Hong Kong College of Cardiology (HKCC)</li><li data-value="4">Ireland: ACLS/ALS - Irish Heart Foundation</li><li data-value="5">Jamaica: ACLS - Heart Foundation of Jamaica</li><li data-value="6">New Zealand: ALS (Advanced Life Support) - New Zealand Resuscitation Council (NZRC)</li><li data-value="7">Singapore: ACLS - Singapore Resuscitation and First Aid Council (SRFAC)</li><li data-value="8">South Africa: ACLS - Resuscitation Council of Southern Africa (RCSA)</li><li data-value="9">UK: ALS (Advanced Life Support) - Resuscitation Council UK (RCUK)</li><li data-value="10">USA: ACLS (Advanced Cardiovascular Life Support) - American Heart Association (AHA)</li></ul><select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id=profess_cert_acls name=profess_cert_acls[] multiple></select></div>
+                          </div>
+                          <div class="col-md-6 bls_field" style="display: none;">
+                            <div class="form-group level-drp">
+<label class=form-label for=input-1>BLS (Basic Life Support)</label>
+<ul id=profess_cert_bls style=display:none>
+<li data-value="1">Australia: BLS (Basic Life Support) - Australian Resuscitation Council (ARC)</li>
+<li data-value="2">Canada: BLS - Heart and Stroke Foundation of Canada (HSFC)</li>
+<li data-value="3">Hong Kong: BLS - Hong Kong College of Cardiology (HKCC)</li>
+
+<li data-value="4">Ireland: BLS - Irish Heart Foundation</li>
+<li data-value="5">Jamaica: BLS - Heart Foundation of Jamaica</li>
+<li data-value="6">New Zealand: BLS (Basic Life Support) - New Zealand Resuscitation Council (NZRC)</li>
+<li data-value="7">Singapore: BLS - Singapore Resuscitation and First Aid Council (SRFAC)</li>
+<li data-value="8">South Africa: BLS - Resuscitation Council of Southern Africa (RCSA)</li>
+<li data-value="9">UK: BLS (Basic Life Support) - Resuscitation Council UK (RCUK)</li>
+<li data-value="10">USA: BLS (Basic Life Support) - American Heart Association (AHA)</li>
+</ul>
+<select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id=profess_cert_acls name=profess_cert_acls[] multiple></select>
+</div>
+                          </div>
+                          <div class="col-md-6 cpr_field" style="display: none;">
+                            <div class="form-group level-drp">
+<label class=form-label for=input-1>CPR (Cardiopulmonary Resuscitation)</label>
+<ul id=profess_cert_bls style=display:none>
+<li data-value="1">Australia: CPR - Australian Resuscitation Council (ARC)</li>
+<li data-value="2">Canada: CPR - Heart and Stroke Foundation of Canada (HSFC), Canadian Red Cross</li>
+<li data-value="3">Hong Kong: CPR - Hong Kong College of Cardiology (HKCC), Hong Kong Red Cross</li>
+
+<li data-value="4">Ireland: CPR - Irish Heart Foundation</li>
+<li data-value="5">Jamaica: CPR - Heart Foundation of Jamaica</li>
+<li data-value="6">New Zealand: CPR - New Zealand Resuscitation Council (NZRC)</li>
+
+<li data-value="7">Singapore: CPR - Singapore Red Cross, Singapore Resuscitation and First Aid Council (SRFAC)</li>
+<li data-value="8">South Africa: CPR - Resuscitation Council of Southern Africa (RCSA)</li>
+<li data-value="9">UK: CPR - Resuscitation Council UK (RCUK), British Red Cross</li>
+<li data-value="10">USA: CPR - American Heart Association (AHA), American Red Cross</li>
+</ul>
+<select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id=profess_cert_acls name=profess_cert_acls[] multiple></select>
+</div>
+                          </div>
+                        </div>
+                        
+                      </div>
                       <span id="reqcertificate" class="reqError text-danger valley"></span>
+                      <div class="gen"></div>
                       <h6 class="emergency_text">
                           Licenses Information 
                         </h6>
@@ -954,7 +1004,7 @@
                           </div>
                         </div>
                   <div class="box-button mt-15">
-                    <button class="btn btn-apply-big font-md font-bold" type="submit" id="submitEducation">Save Changes</button>
+                    <button class="btn btn-apply-big font-md font-bold" type="submit" id="submitEducation" @if(Auth::guard('nurse_middle')->user()->professional_info_status != 1) disabled @endif>Save Changes</button>
                   </div>          
                 </form>
               </div>
@@ -1059,7 +1109,7 @@
                   </div>
                   <span id="reqexpertise" class="reqError text-danger valley"></span>
                   <div class="box-button mt-15">
-                    <button class="btn btn-apply-big font-md font-bold" type="submit" id="submitExperience">Save Changes</button>
+                    <button class="btn btn-apply-big font-md font-bold" type="submit" id="submitExperience" @if(!empty($educationData)) @if($educationData->complete_status != 1) disabled @endif @endif>Save Changes</button>
                   </div>    
                   </form>
                 </div>
@@ -1112,7 +1162,7 @@
                           
                         </div>
                         <div class="box-button mt-15">
-                          <button class="btn btn-apply-big font-md font-bold" type="submitTraining" id="submitTraining">Save Changes</button>
+                          <button class="btn btn-apply-big font-md font-bold" type="submitTraining" id="submitTraining" @if(!empty($experienceData)) @if($experienceData->complete_status != 1) disabled @endif @endif>Save Changes</button>
                         </div>  
                     </div>
                   </form>
@@ -2769,6 +2819,24 @@
         // }
     });
 
+    $('.js-example-basic-multiple[data-list-id="profess_cert"]').on('change', function() {
+        let selectedValues = $(this).val();
+        console.log("selectedValues",selectedValues);
+
+        if(selectedValues.includes("6")){
+          $(".acls_field").show();
+        }else{
+          $(".acls_field").hide();
+        }
+
+        if(selectedValues.includes("7")){
+          $(".bls_field").show();
+        }else{
+          $(".bls_field").hide();
+        }
+        
+    });    
+
   $(".change_password_link").click(function(){
 
     window.history.replaceState(null, null, "?page=change_password");
@@ -2819,7 +2887,7 @@
 
   });
 
-     $("#my_profile").click(function(e){
+    $("#my_profile").click(function(e){
      e.stopPropagation();
     window.history.replaceState(null, null, "?page=my_profile");
 

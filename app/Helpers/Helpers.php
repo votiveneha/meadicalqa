@@ -14,6 +14,10 @@ use App\Models\WorkingChildrenCheckModel;
 use App\Models\PoliceCheckModel;
 use App\Models\DegreeModel;
 use App\Models\EmergencyContactModel;
+use App\Models\ProfessionalCer;
+use App\Models\TrainingModel;
+use App\Models\SkillModel;
+use App\Models\VaccinationModel;
 
 function specialty()
 {
@@ -21,6 +25,11 @@ function specialty()
         return $specialty_data;
 }
 function specialty_name_by_id($specialty)
+{
+        $specialty_data =  SpecialityModel::where('id', $specialty)->orderBy('id', 'desc')->first();
+        return $specialty_data->name;
+}
+function specialty_name_by_id_NEW($specialty)
 {
         $specialty_data =  SpecialityModel::where('id', $specialty)->orderBy('id', 'desc')->first();
         return $specialty_data->name;
@@ -50,6 +59,11 @@ function nurse_midwife_degree()
 {
         $nurse_midwife_degree =  DegreeModel::where('status', '1')->orderBy('id', 'desc')->get();
         return $nurse_midwife_degree;
+}
+function nurse_midwife_degree_by_id($id)
+{
+        $nurse_midwife_degree =  DegreeModel::where('status', '1')->where('id', $id)->first();
+        return $nurse_midwife_degree->name;
 }
 function practitioner_type_by_id($practitioner)
 {
@@ -206,3 +220,25 @@ function getUserNameById($id)
         }
         
 }
+function professional_certificate_by_id($id)
+{
+        $certificate =  ProfessionalCer::where('id', $id)->first();
+        return $certificate->name;
+}
+function training_name_by_id($specialty)
+{
+        $training_data =  TrainingModel::where('id', $specialty)->first();
+        return $training_data->name;
+}
+function skill_name_by_id($id)
+{
+        $skill_data =  SkillModel::where('id', $id)->first();
+        return $skill_data->name;
+}
+function vaccination_name_by_id($id)
+{
+        $vaccination_data =  VaccinationModel::where('id', $id)->first();
+        return $vaccination_data->name;
+}
+
+

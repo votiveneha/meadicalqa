@@ -120,48 +120,7 @@
 
     });
 
-    $('#countryworkprefer').on('change', function() {
-  
-      var idCountry = this.value;
 
-      $("#stateworkprefer").html('');
-
-      $.ajax({
-
-        url: "{{url('fetch-provinces')}}",
-
-        type: "POST",
-
-        data: {
-
-          country_id: idCountry,
-
-          _token: '{{csrf_token()}}'
-
-        },
-
-        dataType: 'json',
-
-        success: function(result) {
-
-          $('#stateworkprefer').html('<option value=""> Select  State</option>');
-
-          $.each(result.province, function(key, value) {
-
-            $("#stateworkprefer").append('<option value="' + value
-
-              .id + '">' + value.name + '</option>');
-
-          });
-
-          $('#cityI').html('<option value=""> Select City </option>');
-               
-        }
-
-      });
-      
-
-    });
 
     /*------------------------------------------
 
@@ -632,7 +591,7 @@ function pad(number) {
             title: 'Success',
             text: 'Profile Updated Successfully',
           }).then(function() {
-            window.location.href = "{{ route('nurse.my-profile') }}?page=my_profile";
+            window.location.href = "{{ route('nurse.my-profile') }}";
           });
         } else {
           Swal.fire({
@@ -665,10 +624,10 @@ function pad(number) {
       isValid = false;
     }
 
-    // if ($('[name="degree[]"]').val() == '') {
-    //   document.getElementById("reqdegree").innerHTML = "* Please select degree.";
-    //   isValid = false;
-    // }
+    if ($('[name="degree[]"]').val() == '') {
+      document.getElementById("reqdegree").innerHTML = "* Please select degree.";
+      isValid = false;
+    }
 
     if ($('[name="bio"]').val() == '') {
       document.getElementById("reqprofessional_bio").innerHTML = "* Please enter the bio.";
@@ -725,252 +684,31 @@ function pad(number) {
     }
     return false;
   }
-  function vaccinationForm(){
-    $.ajax({
-        url: "{{ route('nurse.vaccinationForm') }}",
-        type: "POST",
-        cache: false,
-        contentType: false,
-        processData: false,
-        data: new FormData($('#vaccination_form')[0]),
-        dataType: 'json',
-        beforeSend: function() {
-          $('#submitVaccination').prop('disabled', true);
-          $('#submitVaccination').text('Process....');
-        },
-        success: function(res) {
-          $('#submitVaccination').prop('disabled', false);
-          $('#submitVaccination').text('Update Profile');
-
-          if (res.status == '1') {
-            Swal.fire({
-              icon: 'success',
-              title: 'Success',
-              text: 'Vaccination Information Updated Successfully',
-            }).then(function() {
-              window.location.href = "{{ route('nurse.my-profile') }}?page=vaccinations";
-            });
-          } else {
-            Swal.fire({
-              icon: 'error',
-              title: 'Error',
-              text: res.message,
-            })
-          }
-          
-        },
-        error: function(errorss) {
-          $('#submitProfession').prop('disabled', false);
-          $('#submitProfession').text('Submit');
-          for (var err in errorss.responseJSON.errors) {
-            $("#submitProfession").find("[name='" + err + "']").after("<div class='text-danger'>" + errorss.responseJSON.errors[err] + "</div>");
-          }
-        }
-      });
-      return false;
-  }
   function educert() {
-    var isValid = true;
-    if ($('[name="ndegree[]"]').val() == '') {
-      document.getElementById("reqdegree").innerHTML = "* Please select degree.";
-      isValid = false;
-    }
-    
-    if ($('[name="institution"]').val() == '') {
-
-      document.getElementById("reqinstitute").innerHTML = "* Please enter the institutions.";
-      isValid = false;
-    }
-    if ($('[name="graduation_start_date"]').val() == '') {
-      document.getElementById("reqstartdate").innerHTML = "* Please enter the graduation start date.";
-      isValid = false;
-    }
-    if ($('[name="graduation_end_date"]').val() == '') {
-      document.getElementById("reqenddate").innerHTML = "* Please enter the graduation end date.";
-      isValid = false;
-    }
-    if ($('[name="professional_certification[]"]').val() == '') {
-      document.getElementById("reqcertificate").innerHTML = "* Please select professional certicate";
-      isValid = false;
-    }
-    if ($('[name="license_number"]').val() == '') {
-      document.getElementById("reqlicensenum").innerHTML = "* Please enter license number";
-      isValid = false;
-    }
-    if ($('[name="country"]').val() == '') {
-      document.getElementById("reqcountry").innerHTML = "* Please select country";
-      isValid = false;
-    }
-    if ($('[name="state"]').val() == '') {
-      document.getElementById("reqTxtstateI").innerHTML = "* Please select state";
-      isValid = false;
-    }
-    if ($('[name="expiration_date"]').val() == '') {
-      document.getElementById("reqexpiration_date").innerHTML = "* Please enter expiration date";
-      isValid = false;
-    }
-    if ($('[name="training_courses[]"]').val() == '') {
-      document.getElementById("reqaddtraining").innerHTML = "* Please select training courses";
-      isValid = false;
-    }
-    if ($('[name="training_workshop[]"]').val() == '') {
-      document.getElementById("reqaddworkshops").innerHTML = "* Please select training workshops";
-      isValid = false;
-    }
-
-    if(isValid == true){
     $('#educert_form').find('.text-danger').hide();
-      $.ajax({
-        url: "{{ route('nurse.updateEducation') }}",
-        type: "POST",
-        cache: false,
-        contentType: false,
-        processData: false,
-        data: new FormData($('#educert_form')[0]),
-        dataType: 'json',
-        beforeSend: function() {
-          $('#submitEducation').prop('disabled', true);
-          $('#submitEducation').text('Process....');
-        },
-        success: function(res) {
-          $('#submitEducation').prop('disabled', false);
-          $('#submitEducation').text('Update Profile');
-
-          if (res.status == '1') {
-            Swal.fire({
-              icon: 'success',
-              title: 'Success',
-              text: 'Education Information Updated Successfully',
-            }).then(function() {
-              window.location.href = "{{ route('nurse.my-profile') }}?page=educert";
-            });
-          } else {
-            Swal.fire({
-              icon: 'error',
-              title: 'Error',
-              text: res.message,
-            })
-          }
-          
-        },
-        error: function(errorss) {
-          $('#submitEducation').prop('disabled', false);
-          $('#submitEducation').text('Submit');
-          console.log("errorss",errorss);
-          for (var err in errorss.responseJSON.errors) {
-            $("#submitEducation").find("[name='" + err + "']").after("<div class='text-danger'>" + errorss.responseJSON.errors[err] + "</div>");
-          }
-        }
-      });
-      
-    }
-    return false;
-  }
-   function updateExperience() {
-    var isValid = true;
-    if ($('[name="assistent_level"]').val() == '') {
-      document.getElementById("reqlevelexpereience").innerHTML = "* Please select the experience level";
-      isValid = false;
-    }
-    
-    if ($('[name="previous_employer_name"]').val() == '') {
-
-      document.getElementById("reqnames").innerHTML = "* Please enter the name";
-      isValid = false;
-    }
-    if ($('[name="position_held[]"]').val() == '') {
-      document.getElementById("reqpositionheld").innerHTML = "* Please select the position";
-      isValid = false;
-    }
-    if ($('[name="start_date"]').val() == '') {
-      document.getElementById("reqempsdate").innerHTML = "* Please enter the employement start date";
-      isValid = false;
-    }
-    if ($.trim($('[name="job_responeblities"]').val()) == '') {
-      document.getElementById("reqresposiblities").innerHTML = "* Please enter the job responsiblities";
-      isValid = false;
-    }
-    if ($('[name="achievements"]').val() == '') {
-      document.getElementById("reqachievements").innerHTML = "* Please enter the achievements";
-      isValid = false;
-    }
-    if ($('[name="skills_compantancies[]"]').val() == '') {
-      document.getElementById("reqexpertise").innerHTML = "* Please select the skills and competencies";
-      isValid = false;
-    }
-
-    if(isValid == true){
-      $('#experience_form').find('.text-danger').hide();
-      $.ajax({
-        url: "{{ route('nurse.updateExperience') }}",
-        type: "POST",
-        cache: false,
-        contentType: false,
-        processData: false,
-        data: new FormData($('#experience_form')[0]),
-        dataType: 'json',
-        beforeSend: function() {
-          $('#submitExperience').prop('disabled', true);
-          $('#submitExperience').text('Process....');
-        },
-        success: function(res) {
-          $('#submitExperience').prop('disabled', false);
-          $('#submitExperience').text('Update Profile');
-
-          if (res.status == '1') {
-            Swal.fire({
-              icon: 'success',
-              title: 'Success',
-              text: 'Experience Information Updated Successfully',
-            }).then(function() {
-              window.location.href = "{{ route('nurse.my-profile') }}?page=experience_info";
-            });
-          } else {
-            Swal.fire({
-              icon: 'error',
-              title: 'Error',
-              text: res.message,
-            })
-          }
-          
-        },
-        error: function(errorss) {
-          $('#submitExperience').prop('disabled', false);
-          $('#submitExperience').text('Submit');
-          console.log("errorss",errorss);
-          for (var err in errorss.responseJSON.errors) {
-            $("#submitExperience").find("[name='" + err + "']").after("<div class='text-danger'>" + errorss.responseJSON.errors[err] + "</div>");
-          }
-        }
-      });
-    }
-    return false;
-  }
-   function updateTraining() {
-    $('#training_form').find('.text-danger').hide();
     $.ajax({
-      url: "{{ route('nurse.updateTraining') }}",
+      url: "{{ route('nurse.updateEducation') }}",
       type: "POST",
       cache: false,
       contentType: false,
       processData: false,
-      data: new FormData($('#training_form')[0]),
+      data: new FormData($('#educert_form')[0]),
       dataType: 'json',
       beforeSend: function() {
-        $('#submitTraining').prop('disabled', true);
-        $('#submitTraining').text('Process....');
+        $('#submitEducation').prop('disabled', true);
+        $('#submitEducation').text('Process....');
       },
       success: function(res) {
-        $('#submitTraining').prop('disabled', false);
-        $('#submitTraining').text('Update Profile');
+        $('#submitEducation').prop('disabled', false);
+        $('#submitEducation').text('Update Profile');
 
         if (res.status == '1') {
           Swal.fire({
             icon: 'success',
             title: 'Success',
-            text: 'Training Information Updated Successfully',
+            text: 'Education Information Updated Successfully',
           }).then(function() {
-            window.location.href = "{{ route('nurse.my-profile') }}?page=mandatory_training";
+            window.location.href = "{{ route('nurse.my-profile') }}?page=educert";
           });
         } else {
           Swal.fire({
@@ -982,234 +720,60 @@ function pad(number) {
         
       },
       error: function(errorss) {
-        $('#submitTraining').prop('disabled', false);
-        $('#submitTraining').text('Submit');
+        $('#submitEducation').prop('disabled', false);
+        $('#submitEducation').text('Submit');
+        console.log("errorss",errorss);
+        for (var err in errorss.responseJSON.errors) {
+          $("#submitEducation").find("[name='" + err + "']").after("<div class='text-danger'>" + errorss.responseJSON.errors[err] + "</div>");
+        }
+      }
+    });
+    return false;
+  }
+  function updateExperience() {
+    $('#experience_form').find('.text-danger').hide();
+    $.ajax({
+      url: "{{ route('nurse.updateExperience') }}",
+      type: "POST",
+      cache: false,
+      contentType: false,
+      processData: false,
+      data: new FormData($('#experience_form')[0]),
+      dataType: 'json',
+      beforeSend: function() {
+        $('#submitExperience').prop('disabled', true);
+        $('#submitExperience').text('Process....');
+      },
+      success: function(res) {
+        $('#submitExperience').prop('disabled', false);
+        $('#submitExperience').text('Update Profile');
+
+        if (res.status == '1') {
+          Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: 'Experience Information Updated Successfully',
+          }).then(function() {
+            window.location.href = "{{ route('nurse.my-profile') }}?page=experience_info";
+          });
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: res.message,
+          })
+        }
+        
+      },
+      error: function(errorss) {
+        $('#submitExperience').prop('disabled', false);
+        $('#submitExperience').text('Submit');
         console.log("errorss",errorss);
         for (var err in errorss.responseJSON.errors) {
           $("#submitExperience").find("[name='" + err + "']").after("<div class='text-danger'>" + errorss.responseJSON.errors[err] + "</div>");
         }
       }
     });
-    return false;
-  }
-  function updateInterview() {
-    var isValid = true;
-    if ($('[name="interview_availablity"]').val() == '') {
-      document.getElementById("reqinterviewdate").innerHTML = "* Please enter the interview availability";
-      isValid = false;
-    }
-
-    if ($('[name="reference_name"]').val() == '') {
-      document.getElementById("reqprofessionalnames").innerHTML = "* Please enter the references name";
-      isValid = false;
-    }
-
-    if ($('[name="reference_email"]').val() == '') {
-      document.getElementById("reference_email").innerHTML = "* Please enter the references email";
-      isValid = false;
-    }
-
-    if ($('[name="reference_contact"]').val() == '') {
-      document.getElementById("reqTxtreferencecontactI").innerHTML = "* Please enter the reference contact";
-      isValid = false;
-    }
-
-    if ($('[name="reference_relationship"]').val() == '') {
-      document.getElementById("reqprofessionalrelationship").innerHTML = "* Please select the reference relationship";
-      isValid = false;
-    }
-    
-
-    if(isValid == true){
-      $('#interview_form').find('.text-danger').hide();
-      $.ajax({
-        url: "{{ route('nurse.updateInterview') }}",
-        type: "POST",
-        cache: false,
-        contentType: false,
-        processData: false,
-        data: new FormData($('#interview_form')[0]),
-        dataType: 'json',
-        beforeSend: function() {
-          $('#submitInterview').prop('disabled', true);
-          $('#submitInterview').text('Process....');
-        },
-        success: function(res) {
-          $('#submitInterview').prop('disabled', false);
-          $('#submitInterview').text('Update Profile');
-
-          if (res.status == '1') {
-            Swal.fire({
-              icon: 'success',
-              title: 'Success',
-              text: 'Interview and References Updated Successfully',
-            }).then(function() {
-              window.location.href = "{{ route('nurse.my-profile') }}?page=interview_references";
-            });
-          } else {
-            Swal.fire({
-              icon: 'error',
-              title: 'Error',
-              text: res.message,
-            })
-          }
-          
-        },
-        error: function(errorss) {
-          $('#submitInterview').prop('disabled', false);
-          $('#submitInterview').text('Submit');
-          console.log("errorss",errorss);
-          for (var err in errorss.responseJSON.errors) {
-            $("#submitExperience").find("[name='" + err + "']").after("<div class='text-danger'>" + errorss.responseJSON.errors[err] + "</div>");
-          }
-        }
-      });
-    }
-    return false;
-  }
-  function updatePreferences() {
-    var isValid = true;
-    if ($('[name="preferred_work_schedule"]').val() == '') {
-      document.getElementById("reqpreferecschedule").innerHTML = "* Please select prefered work schedule";
-      isValid = false;
-    }
-
-    if ($('[name="country"]').val() == '') {
-      document.getElementById("reqprecountry").innerHTML = "* Please select the country";
-      isValid = false;
-    }
-
-    if ($('[name="state"]').val() == '') {
-      document.getElementById("reqprestateI").innerHTML = "* Please select the state";
-      isValid = false;
-    }
-
-    if ($('[name="specific_facilities"]').val() == '') {
-      document.getElementById("reqspecificfacilities").innerHTML = "* Please enter the specific facilities";
-      isValid = false;
-    }
-
-    if ($('[name="work_environment"]').val() == '') {
-      document.getElementById("reqworkenvironement").innerHTML = "* Please select the work environment";
-      isValid = false;
-    }
-
-    if ($('[name="shift_preferences"]').val() == '') {
-      document.getElementById("reqshiftpreferences").innerHTML = "* Please select the shift preferences";
-      isValid = false;
-    }
-    
-
-    if(isValid == true){
-      $('#preferences_form').find('.text-danger').hide();
-      $.ajax({
-        url: "{{ route('nurse.updatePreferences') }}",
-        type: "POST",
-        cache: false,
-        contentType: false,
-        processData: false,
-        data: new FormData($('#preferences_form')[0]),
-        dataType: 'json',
-        beforeSend: function() {
-          $('#submitPersonalPreferences').prop('disabled', true);
-          $('#submitPersonalPreferences').text('Process....');
-        },
-        success: function(res) {
-          $('#submitPersonalPreferences').prop('disabled', false);
-          $('#submitPersonalPreferences').text('Update Profile');
-
-          if (res.status == '1') {
-            Swal.fire({
-              icon: 'success',
-              title: 'Success',
-              text: 'Personal Preferences Updated Successfully',
-            }).then(function() {
-              window.location.href = "{{ route('nurse.my-profile') }}?page=personal_preferences";
-            });
-          } else {
-            Swal.fire({
-              icon: 'error',
-              title: 'Error',
-              text: res.message,
-            })
-          }
-          
-        },
-        error: function(errorss) {
-          $('#submitPersonalPreferences').prop('disabled', false);
-          $('#submitPersonalPreferences').text('Submit');
-          console.log("errorss",errorss);
-          for (var err in errorss.responseJSON.errors) {
-            $("#submitPersonalPreferences").find("[name='" + err + "']").after("<div class='text-danger'>" + errorss.responseJSON.errors[err] + "</div>");
-          }
-        }
-      });
-    }
-    return false;
-  }
-  function updateWorkPreference() {
-    var isValid = true;
-    if ($('[name="des_job_role[]"]').val() == '') {
-      document.getElementById("reqjobroles").innerHTML = "* Please select desired job role";
-      isValid = false;
-    }
-
-    if ($('[name="salary_expectation"]').val() == '') {
-      document.getElementById("reqsalaryexp").innerHTML = "* Please enter salary expectation";
-      isValid = false;
-    }
-
-    if ($('[name="benefit_prefer[]"]').val() == '') {
-      document.getElementById("reqbenefitsprefer").innerHTML = "* Please select benefits preferences ";
-      isValid = false;
-    }
-
-
-    if(isValid == true){
-      $('#workpreference_form').find('.text-danger').hide();
-      $.ajax({
-        url: "{{ route('nurse.updateWorkPreference') }}",
-        type: "POST",
-        cache: false,
-        contentType: false,
-        processData: false,
-        data: new FormData($('#workpreference_form')[0]),
-        dataType: 'json',
-        beforeSend: function() {
-          $('#submitWorkPreferences').prop('disabled', true);
-          $('#submitWorkPreferences').text('Process....');
-        },
-        success: function(res) {
-          $('#submitWorkPreferences').prop('disabled', false);
-          $('#submitWorkPreferences').text('Update Profile');
-
-          if (res.status == '1') {
-            Swal.fire({
-              icon: 'success',
-              title: 'Success',
-              text: 'Find Work Preferences Updated Successfully',
-            }).then(function() {
-              window.location.href = "{{ route('nurse.my-profile') }}?page=work_preferences";
-            });
-          } else {
-            Swal.fire({
-              icon: 'error',
-              title: 'Error',
-              text: res.message,
-            })
-          }
-          
-        },
-        error: function(errorss) {
-          $('#submitPersonalPreferences').prop('disabled', false);
-          $('#submitPersonalPreferences').text('Submit');
-          console.log("errorss",errorss);
-          for (var err in errorss.responseJSON.errors) {
-            $("#submitPersonalPreferences").find("[name='" + err + "']").after("<div class='text-danger'>" + errorss.responseJSON.errors[err] + "</div>");
-          }
-        }
-      });
-    }
     return false;
   }
   </script>

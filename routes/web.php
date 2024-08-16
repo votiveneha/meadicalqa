@@ -75,6 +75,7 @@ Route::prefix('/admin')->name('admin.')->namespace('App\Http\Controllers\admin')
         Route::post('/change-status-block-unblock', 'NurseController@changeStatusBlockUnblock')->name('change-status-block-unblock');
         Route::get('/view-profile/{id}', 'NurseController@viewProfile')->name('view-profile');
         Route::get('/add-nurse', 'NurseController@addNurse')->name('add_nurse');
+        Route::post('/add-nurse-post', 'NurseController@addNursePost')->name('add_nurse_post');
         Route::get('/customer-list', 'NurseController@customerList')->name('customer-list'); 
              
 
@@ -97,7 +98,27 @@ Route::prefix('/admin')->name('admin.')->namespace('App\Http\Controllers\admin')
         Route::post('/changeProfessionVerificationStatus', 'VerificationController@changeProfessionVerificationStatus')->name('changeProfessionVerificationStatus');
         Route::get('/policeCheckVerificationList', 'VerificationController@policeCheckVerificationList')->name('policeCheckVerificationList');
         Route::post('/changePoliceCheckVerificationStatus', 'VerificationController@changePoliceCheckVerificationStatus')->name('changePoliceCheckVerificationStatus');
-          
+           
+        // Certificate  Managemenent
+        Route::get('/professional-certificate-list', 'ProfessionalcerController@certificateList')->name('certificateList');
+        Route::post('/add-certificate', 'ProfessionalcerController@addCertificate')->name('addcertificate');
+        Route::post('/update-certificate', 'ProfessionalcerController@updateCertificate')->name('updateCertificate');
+        Route::post('/delete-certificate', 'ProfessionalcerController@deleteCertificate')->name('deleteCertificate');  
+        Route::post('/get-certificate', 'ProfessionalcerController@getCertificate')->name('getCertificate');
+
+        //Training  Managemenent
+        Route::get('/training-list', 'TrainingController@TrainingList')->name('TrainingList');
+        Route::post('/add-training', 'TrainingController@addTraining')->name('addTraining');
+        Route::post('/update-training', 'TrainingController@updateTraining')->name('updateTraining');
+        Route::post('/delete-training', 'TrainingController@deleteTraining')->name('deleteTraining');  
+        Route::post('/get-training', 'TrainingController@getTraining')->name('getTraining');
+
+        //Vaccination  Managemenent
+        Route::get('/vaccination-list', 'VaccinationController@VaccinationList')->name('VaccinationList');
+        Route::post('/add-vaccination', 'VaccinationController@addVaccination')->name('addVaccination');
+        Route::post('/update-vaccination', 'VaccinationController@updateVaccination')->name('updateVaccination');
+        Route::post('/delete-vaccination', 'VaccinationController@deleteVaccination')->name('deleteVaccination');  
+        Route::post('/get-vaccination', 'VaccinationController@getVaccination')->name('getVaccination');
 
          /* contact us list */
          Route::get('/contact-list', 'ContentController@contactList')->name('contact-list');

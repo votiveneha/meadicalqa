@@ -913,6 +913,7 @@ class HomeController extends Controller
         $post->degree = $degree;
         $post->current_employee_status = $employee_status;
         $post->professional_info_status = "1";
+        $post->confirmation_box = isset($request->declare_box) ? '1' : '0';
         $run = $post->save();
 
         if ($run) {

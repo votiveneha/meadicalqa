@@ -35,12 +35,6 @@ use App\Services\Admins\SpecialityServices;
 
 use App\Models\SpecialityModel;
 use App\Models\EducationModel;
-use App\Models\ExperienceModel;
-use App\Models\MandatoryTrainModel;
-use App\Models\InterviewModel;
-use App\Models\PreferencesModel;
-use App\Models\WorkPreferencesModel;
-use App\Models\VaccinationFrontModel;
 use App\Repository\Eloquent\SpecialityRepository;
 
 class HomeController extends Controller
@@ -912,7 +906,6 @@ class HomeController extends Controller
         $post->bio = $bio;
         $post->degree = $degree;
         $post->current_employee_status = $employee_status;
-        $post->professional_info_status = "1";
         $run = $post->save();
 
         if ($run) {
@@ -1001,7 +994,7 @@ class HomeController extends Controller
             $post1->degree = $degree;
             $post1->save();
             
-            $run = EducationModel::where('user_id',$user_id)->update(['institution'=>$institution,'graduate_start_date'=>$graduation_start_date,'graduate_end_date'=>$graduation_end_date,'professional_certifications'=>$professional_certification,'licence_number'=>$license_number,'country'=>$country,'state'=>$state,'expiration_date'=>$expiration_date,'training_courses'=>$training_courses,'training_workshops'=>$training_workshop,'complete_status'=>1]);
+            $run = EducationModel::where('user_id',$user_id)->update(['institution'=>$institution,'graduate_start_date'=>$graduation_start_date,'graduate_end_date'=>$graduation_end_date,'professional_certifications'=>$professional_certification,'licence_number'=>$license_number,'country'=>$country,'state'=>$state,'expiration_date'=>$expiration_date,'training_courses'=>$training_courses,'training_workshops'=>$training_workshop]);
         }else{
 
             
@@ -1019,7 +1012,6 @@ class HomeController extends Controller
             $post->expiration_date = $expiration_date;
             $post->training_courses = $training_courses;
             $post->training_workshops = $training_workshop;
-            $post->complete_status = 1;
             $run = $post->save();
 
             $post1 = User::find($user_id);
@@ -1038,307 +1030,6 @@ class HomeController extends Controller
         
         echo json_encode($json);
     }
-
-    public function updateExperience(Request $request){
-        
-
-        $year_experience = $request->assistent_level;
-        $user_id = $request->user_id;
-        $previous_employer_name = $request->previous_employer_name;
-        $positions_held = json_encode($request->positions_held);
-        $start_date = $request->start_date;
-        $end_date = $request->end_date;
-        $present_box = $request->present_box;
-        $job_responeblities = $request->job_responeblities;
-        $achievements = $request->achievements;
-        $skills_compantancies = json_encode($request->skills_compantancies);
-        
-        
-        $getexperiencedata = DB::table("user_experience")->where("user_id",$user_id)->first();
-        //$post = User::find($request->user_id);
-        
-        if(!empty($getexperiencedata)>0){
-            $post1 = User::find($user_id);
-            $post1->assistent_level = $year_experience;
-            $post1->save();
-            
-            $run = ExperienceModel::where('user_id',$user_id)->update(['employer_name'=>$previous_employer_name,'position_held'=>$positions_held,'employeement_start_date'=>$start_date,'employeement_end_date'=>$end_date,'present_status'=>$present_box,'responsiblities'=>$job_responeblities,'achievements'=>$achievements,'skills_compantancies'=>$skills_compantancies,'complete_status'=>1]);
-        }else{
-
-            
-
-            $post = new ExperienceModel();
-            $post->user_id = $user_id;
-            
-            //$post->year_experience = $year_experience;
-            $post->employer_name = $previous_employer_name;
-            $post->position_held = $positions_held;
-            $post->employeement_start_date = $start_date;
-            $post->employeement_end_date = $end_date;
-            $post->present_status = $present_box;
-            $post->responsiblities = $job_responeblities;
-            $post->achievements = $achievements;
-            $post->skills_compantancies = $skills_compantancies;
-            $post->complete_status = 1;
-            $run = $post->save();
-
-            $post1 = User::find($user_id);
-            $post1->assistent_level = $year_experience;
-            $post1->save();
-        }
-
-        if ($run) {
-            $json['status'] = 1;
-            $json['url'] = url('nurse/my-profile');
-            $json['message'] = 'Education Information Updated Successfully';
-         } else {
-            $json['status'] = 0;
-            $json['message'] = 'Please Try Again';
-        }
-        
-        echo json_encode($json);
-    }
-
-    public function vaccinationForm(Request $request){
-        
-
-        $vaccination_record = json_encode($request->vaccination_record);
-        $user_id = $request->user_id;
-        $immunization_status = $request->immunization_status;
-        
-        
-        
-        $getvaccinationdata = DB::table("vaccination_front")->where("user_id",$user_id)->first();
-        //$post = User::find($request->user_id);
-        
-        if(!empty($getvaccinationdata)>0){
-            
-            
-            $run = VaccinationFrontModel::where('user_id',$user_id)->update(['vaccination_records'=>$vaccination_record,'immunization_status'=>$immunization_status,'complete_status'=>1]);
-        }else{
-
-            
-
-            $post = new VaccinationFrontModel();
-            $post->user_id = $user_id;
-            
-            //$post->year_experience = $year_experience;
-            $post->vaccination_records = $vaccination_record;
-            $post->immunization_status = $immunization_status;
-            
-            $post->complete_status = 1;
-            $run = $post->save();
-
-        }
-
-        if ($run) {
-            $json['status'] = 1;
-            $json['url'] = url('nurse/my-profile');
-            $json['message'] = 'Education Information Updated Successfully';
-         } else {
-            $json['status'] = 0;
-            $json['message'] = 'Please Try Again';
-        }
-        
-        echo json_encode($json);
-    }
-
-    public function updateInterview(Request $request){
-        
-
-        
-        $user_id = $request->user_id;
-        $interview_availablity = $request->interview_availablity;
-        $reference_name = $request->reference_name;
-        $reference_email = $request->reference_email;
-        $reference_countryCode = $request->reference_countryCode;
-        $reference_countryiso = $request->reference_countryiso;
-        $reference_contact = $request->reference_contact;
-        $reference_relationship = $request->reference_relationship;
-        
-        
-        $getinterviewdata = DB::table("interview_references")->where("user_id",$user_id)->first();
-        //$post = User::find($request->user_id);
-        
-        if(!empty($getinterviewdata)>0){
-            
-            
-            $run = InterviewModel::where('user_id',$user_id)->update(['interview_availablity'=>$interview_availablity,'reference_name'=>$reference_name,'reference_email'=>$reference_email,'contact_country_code'=>$reference_countryCode,'contact_country_iso'=>$reference_countryiso,'reference_contact'=>$reference_contact,'reference_relationship'=>$reference_relationship]);
-        }else{
-
-            
-
-            $post = new InterviewModel();
-            $post->user_id = $user_id;
-            
-            //$post->year_experience = $year_experience;
-            $post->interview_availablity = $interview_availablity;
-            $post->reference_name = $reference_name;
-            $post->reference_email = $reference_email;
-            $post->contact_country_code = $reference_countryCode;
-            $post->contact_country_iso = $reference_countryiso;
-            $post->reference_contact = $reference_contact;
-            $post->reference_relationship = $reference_relationship;
-            
-            
-            $run = $post->save();
-
-        }
-
-        if ($run) {
-            $json['status'] = 1;
-            $json['url'] = url('nurse/my-profile');
-            $json['message'] = 'Education Information Updated Successfully';
-         } else {
-            $json['status'] = 0;
-            $json['message'] = 'Please Try Again';
-        }
-        
-        echo json_encode($json);
-    }
-
-    public function updatePreferences(Request $request){
-        $user_id = $request->user_id;
-        $preferred_work_schedule = $request->preferred_work_schedule;
-        $country = $request->country;
-        $state = $request->state;
-        $specific_facilities = $request->specific_facilities;
-        $work_environment = $request->work_environment;
-        
-        $shift_preferences = $request->shift_preferences;
-        
-        
-        $getpreferencesdata = DB::table("personal_preferences")->where("user_id",$user_id)->first();
-        //$post = User::find($request->user_id);
-        
-        if(!empty($getpreferencesdata)>0){
-            
-            
-            $run = PreferencesModel::where('user_id',$user_id)->update(['preferred_work_schedule'=>$preferred_work_schedule,'country'=>$country,'state'=>$state,'specific_facilities'=>$specific_facilities,'work_environment'=>$work_environment,'shift_preferences'=>$shift_preferences]);
-        }else{
-
-            
-
-            $post = new PreferencesModel();
-            $post->user_id = $user_id;
-            
-            //$post->year_experience = $year_experience;
-            $post->preferred_work_schedule = $preferred_work_schedule;
-            $post->country = $country;
-           
-            $post->state = $state;
-            $post->specific_facilities = $specific_facilities;
-            $post->work_environment = $work_environment;
-            $post->shift_preferences = $shift_preferences;
-            
-            
-            $run = $post->save();
-
-        }
-
-        if ($run) {
-            $json['status'] = 1;
-            $json['url'] = url('nurse/my-profile');
-            $json['message'] = 'Education Information Updated Successfully';
-         } else {
-            $json['status'] = 0;
-            $json['message'] = 'Please Try Again';
-        }
-        
-        echo json_encode($json);
-    }
-
-    public function updateWorkPreference(Request $request){
-        $user_id = $request->user_id;
-        $des_job_role = json_encode($request->des_job_role);
-        $salary_expectation = $request->salary_expectation;
-        $benefit_prefer = json_encode($request->benefit_prefer);
-        
-        
-        
-        $getpreferencesdata = DB::table("work_preferences")->where("user_id",$user_id)->first();
-        //$post = User::find($request->user_id);
-        
-        if(!empty($getpreferencesdata)>0){
-            
-            
-            $run = WorkPreferencesModel::where('user_id',$user_id)->update(['desired_job_role'=>$des_job_role,'salary_expectations'=>$salary_expectations,'benefits_preferences'=>$benefit_prefer]);
-        }else{
-
-            
-
-            $post = new WorkPreferencesModel();
-            $post->user_id = $user_id;
-            
-            //$post->year_experience = $year_experience;
-            $post->desired_job_role = $des_job_role;
-            $post->salary_expectations = $salary_expectation;
-           
-            $post->benefits_preferences = $benefit_prefer;
-           
-            
-            
-            $run = $post->save();
-
-        }
-
-        if ($run) {
-            $json['status'] = 1;
-            $json['url'] = url('nurse/my-profile');
-            $json['message'] = 'Education Information Updated Successfully';
-         } else {
-            $json['status'] = 0;
-            $json['message'] = 'Please Try Again';
-        }
-        
-        echo json_encode($json);
-    }
-    public function updateTraining(Request $request){
-        $user_id = $request->user_id;
-        $start_date = $request->start_date;
-        $end_date = $request->end_date;
-        $institution = $request->institution;
-        $mand_continue_education = $request->mand_continue_education;
-        
-        
-        
-        $gettrainingdata = DB::table("mandatory_training")->where("user_id",$user_id)->first();
-        //$post = User::find($request->user_id);
-        
-        if(!empty($gettrainingdata)>0){
-            
-            
-            $run = MandatoryTrainModel::where('user_id',$user_id)->update(['start_date'=>$start_date,'end_date'=>$end_date,'institutions'=>$institution,'continuing_education'=>$mand_continue_education]);
-        }else{
-
-            
-
-            $post = new MandatoryTrainModel();
-            $post->user_id = $user_id;
-            
-            //$post->year_experience = $year_experience;
-            $post->start_date = $start_date;
-            $post->end_date = $end_date;
-            $post->institutions = $institution;
-            $post->continuing_education = $mand_continue_education;
-            
-            
-            $run = $post->save();
-
-        }
-
-        if ($run) {
-            $json['status'] = 1;
-            $json['url'] = url('nurse/my-profile');
-            $json['message'] = 'Education Information Updated Successfully';
-         } else {
-            $json['status'] = 0;
-            $json['message'] = 'Please Try Again';
-        }
-        
-        echo json_encode($json);
-    }
-    
      public function update_profession_ahpra_numberI(Request $request)
     {      
             $insert['ahpra_code'] = $request->ahpra_code;
@@ -1382,7 +1073,7 @@ class HomeController extends Controller
             $run = EligibilityToWorkModel::insert($professioninsert);
             if ($run) {
                 $json['status'] = 1;
-                $json['url'] = url('nurse/my-profile')."?page=work_clearances";
+                $json['url'] = url('nurse/my-profile');
                 $json['message'] = 'You have Successfully submitted the details.';
              } else {
                 $json['status'] = 0;
@@ -1409,7 +1100,7 @@ class HomeController extends Controller
             $run = WorkingChildrenCheckModel::insert($professioninsert);
             if ($run) {
                 $json['status'] = 1;
-                $json['url'] = url('nurse/my-profile')."?page=work_clearances";
+                $json['url'] = url('nurse/my-profile');
                 $json['message'] = 'You have Successfully submitted the details.';
              } else {
                 $json['status'] = 0;
@@ -1440,7 +1131,7 @@ class HomeController extends Controller
             $run = PoliceCheckModel::insert($professioninsert);
             if ($run) {
                 $json['status'] = 1;
-                $json['url'] = url('nurse/my-profile')."?page=work_clearances";
+                $json['url'] = url('nurse/my-profile');
                 // $json['url'] = url('nurse/my-profile#tab-myclearance-jobs');
                 $json['message'] = 'You have Successfully submitted the details.';
              } else {
@@ -1454,9 +1145,7 @@ class HomeController extends Controller
     {       
             $update['medical_facilities'] = isset($request->medical_facilities) ? 'Yes' : 'No';
             $update['agencies'] = isset($request->agencies) ? 'Yes' : 'No';
-            $update['individuals'] = isset($request->individuals) ? 'Yes' : 'No';
             $update['profile_status'] = isset($request->profile_status) ? 'Yes' : 'No';
-            $update['unavailable_profile_status'] = isset($request->profile_status_unavailable) ? 'Yes' : 'No';
             $update['updated_at'] = Carbon::now('Asia/Kolkata');
             $run = User::where('id', Auth::guard('nurse_middle')->user()->id)->update($update);
 

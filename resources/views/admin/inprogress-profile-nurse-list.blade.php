@@ -1,36 +1,25 @@
 @extends('admin.layouts.layout')
 @section('content')
-    <div class="container-fluid">
-        <div class="card bg-light-info shadow-none position-relative overflow-hidden">
-            <div class="card-body px-4 py-3">
-                <div class="row align-items-center">
-                    <div class="col-9">
-                        <h4 class="fw-semibold mb-8">In Progress Profile Nurse List</h4>
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a class="text-muted " href="index.html">Dashboard</a></li>
-                                <li class="breadcrumb-item" aria-current="page">In Progress Profile Nurse List</li>
-                            </ol>
-                        </nav>
-                    </div>
-                    <div class="col-3">
-                       <div class="text-center mb-n5">
-                            <img src="{{ asset('admin/dist/images/breadcrumb/ChatBc.png') }}" alt=""
-                                class="img-fluid" style="height: 125px;">
-                        </div>
-                    </div>
+<x-card-component parentHeading="In Progress Profile Nurse List" childHeading="In Progress Profile Nurse List" parentUrl="{{route('admin.dashboard')}}" />
+    <div class="card w-100  overflow-hidden ">
+        <div class="card-header pb-0 p-4">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <h5 class="card-title fw-semibold mb-0">In Progress Profile Nurse List</h5>
                 </div>
+                {{-- <div>
+                    <a href="{{ route('admin.add_nurse')}}"  class="btn btn-primary text-nowrap">Add
+                        Nurse </a>
+                </div> --}}
             </div>
         </div>
-        <div class="card w-100  overflow-hidden ">
-            <div class="card-body p-3 px-md-4">
-                
+        <div class="card-body p-3 px-md-4">
 
-                <div class="table-responsive rounded-2 mb-4">
-                    <table class="table border table-striped table-bordered text-nowrap" id="dataTable">
-                        <thead class="text-dark fs-4">
-                            <tr>
-                                <th>
+            <div class="table-responsive rounded-2 mb-4">
+                <table  class="table border table-striped table-bordered text-nowrap">
+                    <thead class="text-dark fs-4">
+                        <tr>
+                            <th>
                                     <h6 class="fs-4 fw-semibold mb-0">Sn.</h6>
                                 </th>
                                
@@ -56,10 +45,10 @@
                                     <h6 class="fs-4 fw-semibold mb-0 text-end">Action</h6>
                                 </th>
 
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @php $i=1 @endphp
+                        </tr>
+                    </thead>
+                    <tbody>
+                         @php $i=1 @endphp
                             @if ($inprogressprofileUsers)
                                 @foreach ($inprogressprofileUsers as $key => $item)
                                      <td>{{ $i }}</td>
@@ -117,14 +106,10 @@
                             @else
                                 {{ 'No Data Found' }}
                             @endif
-
-
-                        </tbody>
-                    </table>
-                </div>
+                    </tbody>
+                </table>
             </div>
         </div>
-    </div>
     </div>
 @endsection
 @section('js')

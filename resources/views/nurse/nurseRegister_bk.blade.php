@@ -196,7 +196,7 @@
                 @endforeach
                 
             </ul>
-        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="type-of-nurse" name="nurseType[]" multiple="multiple"></select>
+        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="type-of-nurse" name="nurseType[]" multiple="multiple" id="nurse_type_one"></select>
         <span id="reqnurseTypeId" class="reqError valley"></span>
    </div>
 </div>
@@ -213,7 +213,7 @@
         $nursing_data = DB::table("practitioner_type")->where('parent', $spl->id)->orderBy('name')->get();
     ?>
     <input type="hidden" name="nursing_result" class="nursing_result-{{ $i }}" value="{{ $spl->id }}">
-    <div class="nursing_data form-group drp--clr d-none col-md-4 drpdown-set" id="nursing_level-{{ $i }}">
+    <div class="nursing_data form-group drp--clr d-none col-md-4 drpdown-set nursing_{{ $spl->id }}" id="nursing_level-{{ $i }}">
         <label class="form-label" for="input-2">{{ $spl->name }}</label>
             <ul id="nursing_entry-{{ $i }}" style="display:none;">
                 @foreach($nursing_data as $nd)
@@ -284,7 +284,7 @@
             $speciality_data = DB::table("speciality")->where('parent', $ptl->id)->get();
         ?>
         <input type="hidden" name="speciality_result" class="speciality_result-{{ $l }}" value="{{ $ptl->id }}">
-        <div class="speciality_data form-group drp--clr d-none drpdown-set col-md-6" id="specility_level-{{ $l }}">
+        <div class="speciality_data form-group drp--clr d-none drpdown-set col-md-6 speciality_{{ $ptl->id }}" id="specility_level-{{ $l }}">
             <label class="form-label" for="input-2">{{ $ptl->name }}</label>
                 <ul id="speciality_entry-{{ $l }}" style="display:none;">
                     @foreach($speciality_data as $sd)
@@ -411,7 +411,7 @@
 <div class="form-group level-drp">
                     <label class="form-label" for="input-1">What is your level of experience?</label>
                     <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
-                    <select class="form-input mr-10 select-active" name="assistent_level">
+                    <select class="form-input mr-10 select-active assistent_level" name="assistent_level" id="assistent_level">
                       
                       @for($i = 1; $i <= 30; $i++) <option value="{{ $i }}">{{ $i }}{{ $i == 1 ? 'st' : ($i == 2 ? 'nd' : ($i == 3 ? 'rd' : 'th')) }} Year</option>
                         @endfor
@@ -535,10 +535,12 @@
 <!-- Add All button & Remove all button code End -->
   
   <script>
+
         $(document).ready(function() {
             // Initialize Select2
             $('.js-example-basic-multiple').select2();
-
+            
+ //$('#nurse_type_one').select2().val(['1','2']).trigger('change');
             // Dynamically add the clear button
             const clearButton = $('<span class="clear-btn">✖</span>');
             $('.select2-container').append(clearButton);
@@ -570,6 +572,7 @@
     </script>
   
 <script>
+
 $(document).ready(function() {
     // Initialize Select2 for each select element with class .js-example-basic-multiple
     $('.js-example-basic-multiple').each(function() {
@@ -587,303 +590,145 @@ $(document).ready(function() {
         });
     });
     var nurse_array = [];
-    // Show corresponding job lists when an option is selected in the first select
-    $('.js-example-basic-multiple[data-list-id="type-of-nurse"]').on('change', function() {
-        let selectedValues = $(this).val();
-        //alert("hello");
-        var nurse_len = $("#type-of-nurse li").length;
-        console.log("nurse_len",nurse_len);
-         
-        //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
 
-        console.log("selectedValues",selectedValues);
-        //$('.result--show .form-group').addClass('d-none');
+  //   var get_nurese_array = localStorage.getItem("type_of_nurse");
+  // console.log("get_nurese_array1",JSON.parse(get_nurese_array));
+  // $('.js-example-basic-multiple[data-list-id="type-of-nurse"]').val(JSON.parse(get_nurese_array)).trigger('change');
+  // if(get_nurese_array != ""){
+  //   var nurse_type_list = $('.js-example-basic-multiple[data-list-id="type-of-nurse"]').select2("data");
+  //   for(var x=0;x<nurse_type_list.length;x++){
+  //     $(".nursing_"+nurse_type_list[x].id).removeClass('d-none');
+  //   }
+  // }
+  // var nursing_type_data_one = localStorage.getItem("nursing_type_data-1");
+  // var nursing_type_data_two = localStorage.getItem("nursing_type_data-2");
+  // var nursing_type_data_three = localStorage.getItem("nursing_type_data-3");
 
-        for(var i = 1;i<=nurse_len;i++){
-            var nurse_result_val = $(".nursing_result-"+i).val();
-            //alert(nurse_result_val);
-            if(selectedValues.includes(nurse_result_val)){
+  // if(nursing_type_data_one != ""){
+  //   $('.js-example-basic-multiple[data-list-id="nursing_entry-1"]').val(JSON.parse(nursing_type_data_one)).trigger('change');
+  // }
 
-                $('#nursing_level-'+i).removeClass('d-none');
-            }else{
-                $('#nursing_level-'+i).addClass('d-none');
-                $('.js-example-basic-multiple[data-list-id="nursing_entry-'+i+'"]').select2().val(null).trigger('change');
-            }
-        }
+  // if(nursing_type_data_two != ""){
+  //   $('.js-example-basic-multiple[data-list-id="nursing_entry-2"]').val(JSON.parse(nursing_type_data_two)).trigger('change');
+  // }
 
-        if(selectedValues.includes("3") == false){
-          $('.np_submenu').addClass('d-none');
-          //$('.js-example-basic-multiple[data-list-id="nursing_entry-3"]').select2().val(null).trigger('change');
-          $('.js-example-basic-multiple[data-list-id="nurse_practitioner_menu"]').select2().val(null).trigger('change');
-        }
+  // if(nursing_type_data_three != ""){
+  //   $('.js-example-basic-multiple[data-list-id="nursing_entry-3"]').val(JSON.parse(nursing_type_data_three)).trigger('change');
+  // }
+
+  // var specialities_type_list = $('.js-example-basic-multiple[data-list-id="specialties"]').select2("data");
+  // for(var x=0;x<specialities_type_list.length;x++){
+  //   $(".nursing_"+specialities_type_list[x].id).removeClass('d-none');
+  // }
+
+  // if(nursing_type_data_three){
+  //   if(nursing_type_data_three.includes("179")){
+  //     var np_data = localStorage.getItem("np_array");
+  //     $(".np_submenu").removeClass('d-none');
+  //     $('.js-example-basic-multiple[data-list-id="nurse_practitioner_menu"]').val(JSON.parse(np_data)).trigger('change');
+  //   }
+  // }
+  // var get_specialities_array = localStorage.getItem("specialities_array");
+  // console.log("specialities_array",JSON.parse(get_specialities_array));
+  // $('.js-example-basic-multiple[data-list-id="specialties"]').val(JSON.parse(get_specialities_array)).trigger('change');
+
+  // var speciality_type_list = $('.js-example-basic-multiple[data-list-id="specialties"]').select2("data");
+  // for(var x=0;x<speciality_type_list.length;x++){
+  //   $(".speciality_"+speciality_type_list[x].id).removeClass('d-none');
+  // }
+
+  // var speciality_type_data_one = localStorage.getItem("speciality_type_array-1");
+  // var speciality_type_data_two = localStorage.getItem("speciality_type_array-2");
+  // var speciality_type_data_three = localStorage.getItem("speciality_type_array-3");
+  // var speciality_type_data_four = localStorage.getItem("speciality_type_array-4");
+  // $('.js-example-basic-multiple[data-list-id="speciality_entry-1"]').val(JSON.parse(speciality_type_data_one)).trigger('change');
+  // $('.js-example-basic-multiple[data-list-id="speciality_entry-2"]').val(JSON.parse(speciality_type_data_two)).trigger('change');
+  // $('.js-example-basic-multiple[data-list-id="speciality_entry-3"]').val(JSON.parse(speciality_type_data_three)).trigger('change');
+  // $('.js-example-basic-multiple[data-list-id="speciality_entry-4"]').val(JSON.parse(speciality_type_data_four)).trigger('change');
+
+  // if(speciality_type_data_one){
+  //   if(speciality_type_data_one.includes("96")){
+  //     $(".surgical_row_data").removeClass('d-none');
+  //     var surgicaladults_data = localStorage.getItem("surgicaladults_array");
+  //     $('.js-example-basic-multiple[data-list-id="surgical_row_box"]').val(JSON.parse(surgicaladults_data)).trigger('change');
+
+  //     var surgicalop_one = localStorage.getItem("surgicaladults_type_array-1");
+  //     var surgicalop_two = localStorage.getItem("surgicaladults_type_array-2");
+  //     var surgicalop_three = localStorage.getItem("surgicaladults_type_array-3");
+      
+  //     if(surgicalop_one != ""){
+  //       $(".surgical_row-1").removeClass('d-none');
+  //       $('.js-example-basic-multiple[data-list-id="surgical_operative_care-1"]').val(JSON.parse(surgicalop_one)).trigger('change');
+  //     }
+  //     if(surgicalop_two != ""){
+  //       $(".surgical_row-2").removeClass('d-none');
+  //       $('.js-example-basic-multiple[data-list-id="surgical_operative_care-2"]').val(JSON.parse(surgicalop_two)).trigger('change');
+  //     }
+  //     if(surgicalop_three != ""){
+  //       $(".surgical_row-3").removeClass('d-none');
+  //       $('.js-example-basic-multiple[data-list-id="surgical_operative_care-3"]').val(JSON.parse(surgicalop_three)).trigger('change');
+  //     }
+  //   }
+  // }
+  // if(speciality_type_data_two){
+  //   if(speciality_type_data_two.includes("233")){
+  //     $(".surgicalobs_row").removeClass('d-none');
+  //     var surgicalobs_care = localStorage.getItem("mater_array");
+  //     $('.js-example-basic-multiple[data-list-id="surgical_obs_care"]').val(JSON.parse(surgicalobs_care)).trigger('change');
+  //   }
+  // }
+  // if(speciality_type_data_three){
+  //   if(speciality_type_data_three.includes("250")){
+  //     $(".neonatal_row").removeClass('d-none');
+  //     var neonatal_care = localStorage.getItem("neonatal_array");
+  //     $('.js-example-basic-multiple[data-list-id="neonatal_care"]').val(JSON.parse(neonatal_care)).trigger('change');
+  //   }
+  // }
+  // if(speciality_type_data_three){
+  //   if(speciality_type_data_three.includes("285")){
+  //     $(".surgicalpad_row_data").removeClass('d-none');
+  //     var surgicalpad_row_data = localStorage.getItem("padsurgical_array");
+  //     $('.js-example-basic-multiple[data-list-id="surgical_rowpad_box"]').val(JSON.parse(surgicalpad_row_data)).trigger('change');
+
+  //     var surgicalpad_one = localStorage.getItem("surgicalpad_type_array-1");
+  //     var surgicalpad_two = localStorage.getItem("surgicalpad_type_array-2");
+  //     var surgicalpad_three = localStorage.getItem("surgicalpad_type_array-3");
+      
+  //     if(surgicalpad_one != ""){
+  //       $(".surgical_rowp-1").removeClass('d-none');
+  //       $('.js-example-basic-multiple[data-list-id="surgical_operative_carep-1"]').val(JSON.parse(surgicalpad_one)).trigger('change');
+  //     }
+  //     if(surgicalpad_two != ""){
+  //       $(".surgical_rowp-2").removeClass('d-none');
+  //       $('.js-example-basic-multiple[data-list-id="surgical_operative_carep-2"]').val(JSON.parse(surgicalpad_two)).trigger('change');
+  //     }
+  //     if(surgicalpad_three != ""){
+  //       $(".surgical_rowp-3").removeClass('d-none');
+  //       $('.js-example-basic-multiple[data-list-id="surgical_operative_carep-3"]').val(JSON.parse(surgicalpad_three)).trigger('change');
+  //     }
+  //   }
+  // }
+  // var nurse_degree_array = localStorage.getItem("nurse_degree_array");
+  // $('.js-example-basic-multiple[data-list-id="nurse_degree"]').val(JSON.parse(nurse_degree_array)).trigger('change');
+
+  // var level_length = $("#assistent_level option").length;
+  // console.log("level_length",level_length);
+  // var get_assistent_level = localStorage.getItem("assistent_level");
+  // console.log("get_assistent_level",get_assistent_level);
+  // $('#assistent_level').val(get_assistent_level);
+  // $("#assistent_level option").each(function(i,val){
+  //     console.log("assistent_level",$(val).attr("value"));
+  //     // if($(val).attr("value") == get_assistent_level){
         
-        
-        
-        // if (selectedValues.includes("Entry level nursing")) {
-        //     $('#elnj').removeClass('d-none');
-        // }
-        // if (selectedValues.includes("Registered Nurses (RNs)")) {
-        //     $('#rns').removeClass('d-none');
-        // }
-        // if (selectedValues.includes("Advanced Practice Registered Nurses (APRNs)")) {
-        //     $('#aprns').removeClass('d-none');
-        // }
-    });
-    $('.js-example-basic-multiple[data-list-id="nursing_entry-3"]').on('change', function() {
-        let selectedValues = $(this).val();
-        //alert("hello");
-        var nurse_len = $("#type-of-nurse li").length;
-        console.log("nurse_len",nurse_len);
+  //     //   $("#assistent_level option").attr("selected");
+  //     // }
+  //     var value = $(val).attr("value");
+  //     var text = $(val).text();
+  //     //$("#assistent_level").empty();
 
-        //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
-        if(selectedValues.includes("179")){
-            $('.np_submenu').removeClass('d-none');
-            console.log("selectedValues",selectedValues);
-        }else{
-            $('.np_submenu').addClass('d-none');
-            $('.js-example-basic-multiple[data-list-id="nurse_practitioner_menu"]').select2().val(null).trigger('change');
-        }
-        
-        
-        
-    });
-     
-     $('.js-example-basic-multiple[data-list-id="specialties"]').on('change', function() {
-        let selectedValues = $(this).val();
-        //alert("hello");
-        var speciality_len = $("#specialties li").length;
-        console.log("speciality_len",speciality_len);
+  //     $('#assistent_level option[value='+get_assistent_level+']').attr('selected','selected');
 
-        //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
-
-        console.log("selectedValues",selectedValues);
-        //$('.result--show .form-group').addClass('d-none');
-
-        for(var k = 1;k<=speciality_len;k++){
-            var speciality_result_val = $(".speciality_result-"+k).val();
-            //alert(speciality_result_val);
-            if(selectedValues.includes(speciality_result_val)){
-
-                $('#specility_level-'+k).removeClass('d-none');
-                //$(".sub_speciality_value").val(k);
-                
-            }else{
-                $('#specility_level-'+k).addClass('d-none');
-                $('.js-example-basic-multiple[data-list-id="speciality_entry-'+k+'"]').select2().val(null).trigger('change');
-            }
-        }
-
-        if(selectedValues.includes("1") == false){
-          $('.surgical_row').addClass('d-none');
-          $('.surgical_row_data').addClass('d-none');
-          $('.js-example-basic-multiple[data-list-id="surgical_row_box"]').select2().val(null).trigger('change');
-        }
-        if(selectedValues.includes("2") == false){
-          
-          $('.surgicalobs_row').addClass('d-none');
-          $('.js-example-basic-multiple[data-list-id="surgicalobs_row_data"]').select2().val(null).trigger('change');
-        }
-
-        if(selectedValues.includes("3") == false){
-          
-          $('.surgicalpad_row_data').addClass('d-none');
-          $('.surgical_rowp_data').addClass('d-none');
-          $('.neonatal_row').addClass('d-none');
-          $('.js-example-basic-multiple[data-list-id="surgicalobs_row_data"]').select2().val(null).trigger('change');
-        }
-        
-        
-    });
-
-    var sub_specialty_data_val =  $(".sub_speciality_value").val();
-    console.log("specialty_data_len",sub_specialty_data_val);
-
-    $('.js-example-basic-multiple[data-list-id="speciality_entry-1"]').on('change', function() {
-        let selectedValues = $(this).val();
-        //alert("hello");
-        var speciality_entry = $("#speciality_entry-1 li").length;
-        console.log("speciality_entry",speciality_entry);
-        // $(".surgical_row").wrapAll("<div class='col-md-12 row surgical_row_data'>");
-        $(".surgical_row_data").insertAfter("#specility_level-1");
-        //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
-
-        console.log("selectedValues",selectedValues.includes("96"));
-        //$('.result--show .form-group').addClass('d-none');
-
-        if(selectedValues.includes("96")){
-            $('.surgical_row_data').removeClass('d-none');
-        }else{
-            $('.surgical_row_data').addClass('d-none');
-            $('.js-example-basic-multiple[data-list-id="surgical_row_box"]').select2().val(null).trigger('change');
-        }
-
-        if(selectedValues.includes("96") == false){
-          $('.surgical_row').addClass('d-none');
-          $('.js-example-basic-multiple[data-list-id="surgical_row_box"]').select2().val(null).trigger('change');
-        }
-
-        
-
-        // for(var k = 1;k<=speciality_entry;k++){
-        //     var speciality_result_val = $(".speciality_result-"+k).val();
-        //     //alert(speciality_result_val);
-        //     if(selectedValues.includes(speciality_result_val)){
-
-        //         $('#specility_level-'+k).removeClass('d-none');
-                
-        //     }else{
-        //         $('#specility_level-'+k).addClass('d-none');
-        //     }
-        // }
-    });
-    $('.js-example-basic-multiple[data-list-id="surgical_row_box"]').on('change', function() {
-        let selectedValues = $(this).val();
-        //alert("hello");
-        var speciality_entry = $("#surgical_row_box li").length;
-        console.log("speciality_entry",speciality_entry);
-        // $(".surgical_row").wrapAll("<div class='col-md-12 row surgical_row_data'>");
-        $(".specialty_sub_boxes").insertAfter(".surgical_row_data");
-        //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
-
-        console.log("selectedValues",selectedValues);
-        //$('.result--show .form-group').addClass('d-none');
-
-        // if(selectedValues.includes("97")){
-        //     $('.surgical_row').removeClass('d-none');
-        // }else{
-        //     $('.surgical_row').addClass('d-none');
-        // }
-
-        
-
-        for(var k = 1;k<=speciality_entry;k++){
-            var speciality_result_val = $(".speciality_surgical_result-"+k).val();
-            
-            if(selectedValues.includes(speciality_result_val)){
-                
-                $('.surgical_row-'+k).removeClass('d-none');
-                
-            }else{
-                $('.surgical_row-'+k).addClass('d-none');
-                $('.js-example-basic-multiple[data-list-id="surgical_operative_care-'+k+'"]').select2().val(null).trigger('change');
-            }
-        }
-    });
-
-    $('.js-example-basic-multiple[data-list-id="speciality_entry-3"]').on('change', function() {
-        let selectedValues = $(this).val();
-        //alert("hello");
-        var speciality_entry = $("#speciality_entry-3 li").length;
-        console.log("speciality_entry",speciality_entry);
-        $(".surgical_rowp").wrapAll("<div class='col-md-12 row surgical_rowp_data'>");
-        $(".paediatric_surgical_div").insertAfter("#specility_level-3");
-
-        
-        //     $(".neonatal_row").wrapAll("<div class='col-md-12 row neonatal_row_data'>");
-        $(".neonatal_row").insertAfter("#specility_level-3");
-
-        //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
-
-        console.log("selectedValues",selectedValues);
-        //$('.result--show .form-group').addClass('d-none');
-
-        if(selectedValues.includes('250')){
-            $('.neonatal_row').removeClass('d-none');
-        }else{
-            $('.neonatal_row').addClass('d-none');
-            $('.js-example-basic-multiple[data-list-id="neonatal_care"]').select2().val(null).trigger('change');
-        }
-
-        if(selectedValues.includes('285')){
-            $('.surgicalpad_row_data').removeClass('d-none');
-        }else{
-            $('.surgicalpad_row_data').addClass('d-none');
-            $('.js-example-basic-multiple[data-list-id="surgical_rowpad_box"]').select2().val(null).trigger('change');
-        }
-
-        if(selectedValues.includes("285") == false){
-          $('.surgical_rowp_data').addClass('d-none');
-          $('.js-example-basic-multiple[data-list-id="surgical_row_box"]').select2().val(null).trigger('change');
-        }
-
-        // for(var k = 1;k<=speciality_entry;k++){
-        //     var speciality_result_val = $(".speciality_result-"+k).val();
-        //     //alert(speciality_result_val);
-        //     if(selectedValues.includes(speciality_result_val)){
-
-        //         $('#specility_level-'+k).removeClass('d-none');
-                
-        //     }else{
-        //         $('#specility_level-'+k).addClass('d-none');
-        //     }
-        // }
-    });
-
-    $('.js-example-basic-multiple[data-list-id="surgical_rowpad_box"]').on('change', function() {
-        let selectedValues = $(this).val();
-        //alert("hello");
-        var speciality_entry = $("#surgical_rowpad_box li").length;
-        console.log("speciality_entry",speciality_entry);
-        // $(".surgical_rowp").wrapAll("<div class='col-md-12 row surgical_rowp_data'>");
-        $(".surgical_rowp_data").insertAfter(".surgicalpad_row_data");
-
-        
-        //     $(".neonatal_row").wrapAll("<div class='col-md-12 row neonatal_row_data'>");
-        //     $(".neonatal_row_data").insertAfter("#specility_level-3");
-
-        //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
-
-        console.log("selectedValues",selectedValues);
-        //$('.result--show .form-group').addClass('d-none');
-
-        
-
-        for(var k = 1;k<=speciality_entry;k++){
-            var speciality_result_val = $(".surgical_rowp_result-"+k).val();
-            //alert(speciality_result_val);
-            if(selectedValues.includes(speciality_result_val)){
-
-                $('.surgical_rowp-'+k).removeClass('d-none');
-                
-            }else{
-                $('.surgical_rowp-'+k).addClass('d-none');
-                $('.js-example-basic-multiple[data-list-id="surgical_operative_carep-'+k+'"]').select2().val(null).trigger('change');
-            }
-        }
-    });
-
-    $('.js-example-basic-multiple[data-list-id="speciality_entry-2"]').on('change', function() {
-        let selectedValues = $(this).val();
-        //alert("hello");
-        var speciality_entry = $("#speciality_entry-1 li").length;
-        console.log("speciality_entry",speciality_entry);
-        // $(".surgicalobs_row").wrapAll("<div class='col-md-12 row surgicalobs_row_data'>");
-        $(".surgicalobs_row").insertAfter("#specility_level-2");
-
-        //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
-
-        console.log("selectedValues",selectedValues);
-        //$('.result--show .form-group').addClass('d-none');
-
-        if(selectedValues.includes("233")){
-            $('.surgicalobs_row').removeClass('d-none');
-        }else{
-            $('.surgicalobs_row').addClass('d-none');
-            $('.js-example-basic-multiple[data-list-id="surgical_obs_care"]').select2().val(null).trigger('change');
-        }
-
-        // for(var k = 1;k<=speciality_entry;k++){
-        //     var speciality_result_val = $(".speciality_result-"+k).val();
-        //     //alert(speciality_result_val);
-        //     if(selectedValues.includes(speciality_result_val)){
-
-        //         $('#specility_level-'+k).removeClass('d-none');
-                
-        //     }else{
-        //         $('#specility_level-'+k).addClass('d-none');
-        //     }
-        // }
-    });
+  // });
 
     
     
@@ -1162,6 +1007,7 @@ $(document).ready(function() {
   });
 </script>
 <script>
+
   function validateForm() {
     var isValid = true;
     $('.reqError ').html("");
@@ -1215,6 +1061,163 @@ $(document).ready(function() {
     }
 
     if(isValid == true){
+      
+      // var nurse_type = $('.js-example-basic-multiple[data-list-id="type-of-nurse"]').select2("data");
+      // var nurse_array = [];
+      // for(var i=0;i<nurse_type.length;i++){
+      //   nurse_array.push(nurse_type[i].id);
+      // }
+      
+      // localStorage.setItem("type_of_nurse", JSON.stringify(nurse_array));
+
+      
+
+      // var nursing_length = $(".nursing_data").length;
+
+      // for(var j=1;j<=nursing_length;j++){
+      //   if($(".nursing_level-"+j).hasClass("d-none") == false){
+      //     var nurse_type_entry = $('.js-example-basic-multiple[data-list-id="nursing_entry-'+j+'"]').select2("data");
+      //     var nursing_type_array = [];
+      //     for(var i=0;i<nurse_type_entry.length;i++){
+      //       nursing_type_array.push(nurse_type_entry[i].id);
+      //     }
+      //     console.log("nurse_type_entry-"+j,nurse_type_entry);
+      //     localStorage.setItem("nursing_type_data-"+j, JSON.stringify(nursing_type_array));
+      //   }
+      // }
+
+      // var advp_data = localStorage.getItem("nursing_type_data-3");
+
+      // var advp_data_array = JSON.parse(advp_data);
+
+      // if(advp_data_array.includes("179")){
+
+      //   var nurseparc_data = $('.js-example-basic-multiple[data-list-id="nurse_practitioner_menu"]').select2("data");
+      //   console.log("nurseparc_data",nurseparc_data);
+      //   var np_array = [];
+      //   for(var i=0;i<nurseparc_data.length;i++){
+      //     np_array.push(nurseparc_data[i].id);
+      //   }
+      //   localStorage.setItem("np_array", JSON.stringify(np_array));
+      // }
+
+      // var specialities = $('.js-example-basic-multiple[data-list-id="specialties"]').select2("data");
+      // var specialities_array = [];
+      // for(var i=0;i<specialities.length;i++){
+      //   specialities_array.push(specialities[i].id);
+      // }
+
+      // localStorage.setItem("specialities_array", JSON.stringify(specialities_array));
+
+      // var speciality_length = $(".speciality_data").length;
+
+      // for(var j=1;j<=speciality_length;j++){
+      //   if($(".specility_level-"+j).hasClass("d-none") == false){
+      //     var speciality_entry = $('.js-example-basic-multiple[data-list-id="speciality_entry-'+j+'"]').select2("data");
+      //     var speciality_type_array = [];
+      //     for(var i=0;i<speciality_entry.length;i++){
+      //       speciality_type_array.push(speciality_entry[i].id);
+      //     }
+      //     console.log("speciality_type_array-"+j,speciality_type_array);
+      //     localStorage.setItem("speciality_type_array-"+j, JSON.stringify(speciality_type_array));
+      //   }
+      // }
+
+      // var adults_data = localStorage.getItem("speciality_type_array-1");
+
+      // var adults_data_array = JSON.parse(adults_data);
+
+      // if(adults_data_array.includes("96")){
+
+      //   var surgicaladults_data = $('.js-example-basic-multiple[data-list-id="surgical_row_box"]').select2("data");
+      //   console.log("surgicaladults_data",surgicaladults_data);
+      //   var surgicaladults_array = [];
+      //   for(var i=0;i<surgicaladults_data.length;i++){
+      //     surgicaladults_array.push(surgicaladults_data[i].id);
+      //   }
+      //   localStorage.setItem("surgicaladults_array", JSON.stringify(surgicaladults_array));
+
+      //   var surgical_length = $(".surgical_row").length;
+
+      //   for(var j=1;j<=surgical_length;j++){
+      //     if($(".surgical_row-"+j).hasClass("d-none") == false){
+      //       var surgicaladults_entry = $('.js-example-basic-multiple[data-list-id="surgical_operative_care-'+j+'"]').select2("data");
+      //       var surgicaladults_type_array = [];
+      //       for(var i=0;i<surgicaladults_entry.length;i++){
+      //         surgicaladults_type_array.push(surgicaladults_entry[i].id);
+      //       }
+      //       console.log("surgicaladults_type_array-"+j,surgicaladults_type_array);
+      //       localStorage.setItem("surgicaladults_type_array-"+j, JSON.stringify(surgicaladults_type_array));
+      //     }
+      //   }
+      // }
+
+      // var maternity_data = localStorage.getItem("speciality_type_array-2");
+
+      // var maternity_data_array = JSON.parse(maternity_data);
+
+      // if(maternity_data_array.includes("233")){
+      //   var mater_data = $('.js-example-basic-multiple[data-list-id="surgical_obs_care"]').select2("data");
+      //   console.log("surgical_obs_care",surgical_obs_care);
+      //   var mater_array = [];
+      //   for(var i=0;i<mater_data.length;i++){
+      //     mater_array.push(mater_data[i].id);
+      //   }
+      //   localStorage.setItem("mater_array", JSON.stringify(mater_array));
+      // }
+
+      // var padneo_data = localStorage.getItem("speciality_type_array-3");
+
+      // var padneo_data_array = JSON.parse(padneo_data);
+
+      // if(padneo_data_array.includes("250")){
+      //   var neonatal_care_data = $('.js-example-basic-multiple[data-list-id="neonatal_care"]').select2("data");
+      //   console.log("neonatal_care_data",neonatal_care_data);
+      //   var neonatal_array = [];
+      //   for(var i=0;i<neonatal_care_data.length;i++){
+      //     neonatal_array.push(neonatal_care_data[i].id);
+      //   }
+      //   localStorage.setItem("neonatal_array", JSON.stringify(neonatal_array));
+      // }
+
+      // if(padneo_data_array.includes("285")){
+      //   var padsurgical_data = $('.js-example-basic-multiple[data-list-id="surgical_rowpad_box"]').select2("data");
+      //   console.log("surgical_rowpad_box",padsurgical_data);
+      //   var padsurgical_array = [];
+      //   for(var i=0;i<padsurgical_data.length;i++){
+      //     padsurgical_array.push(padsurgical_data[i].id);
+      //   }
+      //   localStorage.setItem("padsurgical_array", JSON.stringify(padsurgical_array));
+      //   var padsurgical_length = $(".surgical_rowp").length;
+
+      //   for(var j=1;j<=padsurgical_length;j++){
+      //     if($(".surgical_rowp-"+j).hasClass("d-none") == false){
+      //       var surgicalpad_entry = $('.js-example-basic-multiple[data-list-id="surgical_operative_carep-'+j+'"]').select2("data");
+      //       var surgicalpad_type_array = [];
+      //       for(var i=0;i<surgicalpad_entry.length;i++){
+      //         surgicalpad_type_array.push(surgicalpad_entry[i].id);
+      //       }
+      //       console.log("surgicalpad_type_array-"+j,surgicalpad_type_array);
+      //       localStorage.setItem("surgicalpad_type_array-"+j, JSON.stringify(surgicalpad_type_array));
+      //     }
+      //   }
+      // }
+
+      // var assistent_level = $("[name='assistent_level']").val();
+      
+      // localStorage.setItem("assistent_level", assistent_level);
+
+      // var nurse_degree = $('.js-example-basic-multiple[data-list-id="nurse_degree"]').select2("data");
+      // var nurse_degree_array = [];
+      // for(var i=0;i<nurse_degree.length;i++){
+      //   nurse_degree_array.push(nurse_degree[i].id);
+      // }
+      
+      // localStorage.setItem("nurse_degree_array", JSON.stringify(nurse_degree_array));
+
+      
+      
+      
       $(".first_step").removeClass("registration_progress");
       $(".second_step").addClass("registration_progress");
     }
@@ -1223,6 +1226,8 @@ $(document).ready(function() {
 
     return isValid;
   }
+  
+  //$('#nurse_type_one').val([1,2]).trigger('change');
 </script>
 <script>
   function emailVerifi() {
@@ -1591,6 +1596,10 @@ $(document).ready(function() {
         <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.12/js/intlTelInput.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.js"></script>
 <script>
+  
+  //$("#nurse_type_one").val('1').trigger('change');
+  
+  $("#nurse_type_one").select2().val(1).trigger('change');
     $(document).ready(function() {
   var phoneInputID = "#contactI";
   var input = document.querySelector(phoneInputID);

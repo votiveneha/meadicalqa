@@ -3,6 +3,13 @@
 namespace App\Repository\Eloquent;
 
 use App\Models\User;
+use App\Models\UserEducationCertiModel;
+use App\Models\ExperienceModel;
+use App\Models\MandatoryTrainModel;
+use App\Models\InterviewModel;
+use App\Models\PreferencesModel;
+use App\Models\WorkPreferencesModel;
+use App\Models\VaccinationFrontModel;
 use Illuminate\Contracts\Cache\Repository as Cache;
 use Illuminate\Support\Facades\Log;
 
@@ -10,10 +17,25 @@ use Illuminate\Support\Facades\Log;
 class NurseRepository extends BaseRepository{
 
     protected $model;
+    protected $usereducationcertification;
+    protected $experience;
+    protected $mandatoryTraing;
+    protected $interviewRef;
+    protected $preferences;
+    protected $workpreferences;
+    protected $vaccination;
     protected $cache;
 
-    public function __construct(User $model, Cache $cache){
+    public function __construct(User $model,UserEducationCertiModel $usereducationcertification,ExperienceModel $experience,MandatoryTrainModel $mandatoryTraing , 
+    Cache $cache,InterviewModel $interviewRef,PreferencesModel $preferences,WorkPreferencesModel $workpreferences,VaccinationFrontModel $vaccination){
         $this->model = $model;
+        $this->experience = $experience;
+        $this->usereducationcertification = $usereducationcertification;
+        $this->mandatoryTraing = $mandatoryTraing;
+        $this->interviewRef = $interviewRef;
+        $this->preferences = $preferences;
+        $this->workpreferences = $workpreferences;
+        $this->vaccination = $vaccination;
         parent::__construct($model, $cache);
     }
     public function getIncomingNurseList(){
@@ -95,6 +117,72 @@ class NurseRepository extends BaseRepository{
             return $this->model->where($byWhere)->first();
         } catch(\Exception $e){
             Log::error("Error in NurseRepository.getOneUser(): " . $e->getMessage());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+    public function getEducationCerdetails($byWhere){
+    try {
+        return $this->usereducationcertification->where($byWhere)->first();
+    } catch(\Exception $e){
+        Log::error("Error in NurseRepository.getEducationCerdetails(): " . $e->getMessage());
+        return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+    }
+    }
+    public function getExperiencedetails($byWhere){
+        try {
+            return $this->experience->where($byWhere)->first();
+        } catch(\Exception $e){
+            Log::error("Error in NurseRepository.getExperiencedetails(): " . $e->getMessage());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+   }
+   public function getMandatorytrainingdetails($byWhere){
+        try {
+            return $this->mandatoryTraing->where($byWhere)->first();
+        } catch(\Exception $e){
+            Log::error("Error in NurseRepository.getMandatorytrainingdetails(): " . $e->getMessage());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+   }
+   public function getInterviewrefdetails($byWhere){
+        try {
+            return $this->interviewRef->where($byWhere)->first();
+        } catch(\Exception $e){
+            Log::error("Error in NurseRepository.getInterviewrefdetails(): " . $e->getMessage());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+   }
+   public function getPersonalprefdetails($byWhere){
+        try {
+            return $this->preferences->where($byWhere)->first();
+        } catch(\Exception $e){
+            Log::error("Error in NurseRepository.getPersonalprefdetails(): " . $e->getMessage());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+   }
+   public function getfindworkdetails($byWhere){
+        try {
+            return $this->workpreferences->where($byWhere)->first();
+        } catch(\Exception $e){
+            Log::error("Error in NurseRepository.getfindworkdetails(): " . $e->getMessage());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+   }
+   public function getvaccinationdetails($byWhere){
+        try {
+            return $this->vaccination->where($byWhere)->first();
+        } catch(\Exception $e){
+            Log::error("Error in NurseRepository.getvaccinationdetails(): " . $e->getMessage());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+   }
+   public function create($data){
+        // DB::beginTransaction();
+        try {
+            $result = $this->model->create($data);
+            return $result;
+        } catch(\Exception $e){
+            Log::error("Error in NurseRepository.create(): " . $e->getMessage());
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
         }
     }

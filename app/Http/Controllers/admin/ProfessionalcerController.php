@@ -1,0 +1,75 @@
+<?php
+
+namespace App\Http\Controllers\admin;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Request;
+use App\Http\Requests\ProfessionalcerRequest;
+use App\Services\Admins\ProfessionalCerServices;
+use App\Repository\Eloquent\ProfessionalcerRepository;
+
+class ProfessionalcerController extends Controller
+{
+    protected $professionalCerServices;
+    protected $professionalcerRepository;
+  
+    public function __construct(ProfessionalCerServices $professionalCerServices , ProfessionalcerRepository $professionalcerRepository){
+        $this->professionalCerServices = $professionalCerServices;
+        $this->professionalcerRepository = $professionalcerRepository;
+       
+    }
+
+    // this is Degree  data in database
+    public function certificateList(Request $request)
+    {
+        try {
+            $certificateData  =  $this->professionalcerRepository->getAll();
+            return view('admin.professional_certificate_list',compact('certificateData'));
+        } catch (\Exception $e) {
+            log::error('Error in ProfessionalcerController/degreeList :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+    public function addCertificate(ProfessionalcerRequest $request)
+    {
+        try {
+         
+           return $this->professionalCerServices->addCertificate($request);
+        } catch (\Exception $e) {
+            log::error('Error in ProfessionalcerController/addDegree :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+    public function deleteCertificate(Request $request)
+    {
+        try {
+           return $this->professionalCerServices->deleteCertificate($request);
+        } catch (\Exception $e) {
+            log::error('Error in ProfessionalcerController/deleteCertificate :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+    public function updateCertificate(ProfessionalcerRequest $request)
+    {
+        try {
+           return $this->professionalCerServices->updateCertificate($request);
+        } catch (\Exception $e) {
+            log::error('Error in ProfessionalcerController/updateDegree :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+    public function getCertificate(Request $request)
+    {
+        try {
+           return $this->professionalcerRepository->get(['id'=>$request->id]);
+        } catch (\Exception $e) {
+            log::error('Error in ProfessionalcerController/getDegree :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+    
+
+  
+
+}

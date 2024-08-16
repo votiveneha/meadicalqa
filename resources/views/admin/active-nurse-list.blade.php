@@ -8,7 +8,7 @@
                         <h4 class="fw-semibold mb-8">Approved Nurse List</h4>
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a class="text-muted " href="index.html">Dashboard</a></li>
+                                <li class="breadcrumb-item"><a class="text-muted " href="{{route('admin.dashboard')}}">Dashboard</a></li>
                                 <li class="breadcrumb-item" aria-current="page">Active Nurse List</li>
                             </ol>
                         </nav>

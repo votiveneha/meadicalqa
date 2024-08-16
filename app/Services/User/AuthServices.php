@@ -48,6 +48,7 @@ class AuthServices
             $companyinsert['emegency_country_code'] = $request->emergency_countryCode;
             $companyinsert['emergency_country_iso'] = $request->emergency_countryiso;
             $companyinsert['user_stage'] = "5";
+            $companyinsert['basic_info_status'] = "1";
             $companyinsert['created_at'] = Carbon::now('Asia/Kolkata');
 
             $id = Auth::guard('nurse_middle')->user()->id;

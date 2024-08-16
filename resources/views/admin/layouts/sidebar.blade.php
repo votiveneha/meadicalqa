@@ -4,8 +4,8 @@
   <div>
     <div class="brand-logo d-flex align-items-center justify-content-between">
       <a href="{{route('admin.dashboard')}}" class="text-nowrap logo-img">
-        <img src="{{ asset(env('LOGO_PATH') )}}" class="dark-logo" width="60" alt="" />
-        <img src="{{ asset(env('LOGO_PATH') )}}" class="light-logo"  width="60" alt="" />
+        <img src="{{ asset(env('LOGO_PATH') )}}" class="dark-logo" width="150" alt="" />
+        <img src="{{ asset(env('LOGO_PATH') )}}" class="light-logo"  width="150" alt="" />
       </a>
       <div class="close-btn d-lg-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
         <i class="ti ti-x fs-8 text-muted"></i>
@@ -105,6 +105,60 @@
                   <i class="ti ti-circle"></i>
                 </div>
                 <span class="hide-menu">Degree List</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="sidebar-item">
+          <a class="sidebar-link has-arrow" href="#" aria-expanded="false">
+            <span class="d-flex">
+              <i class="ti ti-package"></i>
+            </span>
+            <span class="hide-menu">Certificate Management</span>
+          </a>
+          <ul aria-expanded="false" class="collapse first-level">
+            <li class="sidebar-item">
+              <a href="{{route('admin.certificateList')}}" class="sidebar-link">
+                <div class="round-16 d-flex align-items-center justify-content-center">
+                  <i class="ti ti-circle"></i>
+                </div>
+                <span class="hide-menu">Certificate List</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="sidebar-item">
+          <a class="sidebar-link has-arrow" href="#" aria-expanded="false">
+            <span class="d-flex">
+              <i class="ti ti-package"></i>
+            </span>
+            <span class="hide-menu">Training Management</span>
+          </a>
+          <ul aria-expanded="false" class="collapse first-level">
+            <li class="sidebar-item">
+              <a href="{{route('admin.TrainingList')}}" class="sidebar-link">
+                <div class="round-16 d-flex align-items-center justify-content-center">
+                  <i class="ti ti-circle"></i>
+                </div>
+                <span class="hide-menu">Training List</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="sidebar-item">
+          <a class="sidebar-link has-arrow" href="#" aria-expanded="false">
+            <span class="d-flex">
+              <i class="ti ti-package"></i>
+            </span>
+            <span class="hide-menu">Vaccination Management</span>
+          </a>
+          <ul aria-expanded="false" class="collapse first-level">
+            <li class="sidebar-item">
+              <a href="{{route('admin.VaccinationList')}}" class="sidebar-link">
+                <div class="round-16 d-flex align-items-center justify-content-center">
+                  <i class="ti ti-circle"></i>
+                </div>
+                <span class="hide-menu">Vaccination List</span>
               </a>
             </li>
           </ul>

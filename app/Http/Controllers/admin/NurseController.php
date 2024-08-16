@@ -9,6 +9,8 @@ use App\Repository\Eloquent\NurseRepository;
 use App\Services\Admins\NurseServices;
 use App\Repository\Eloquent\VerificationRepository;
 use Illuminate\Support\Facades\Mail;
+use App\Http\Requests\NurseRequest;
+
 
 class NurseController extends Controller
 {
@@ -119,10 +121,18 @@ class NurseController extends Controller
         try {
             $professionVerificationData = $this->verificationRepository->get(['user_id' => $request->id]);
             $profileData  = $this->nurseRepository->getOneUser(['id'=>$request->id]);
+            $educationData  = $this->nurseRepository->getEducationCerdetails(['user_id'=>$request->id]);
+            $experienceData  = $this->nurseRepository->getExperiencedetails(['user_id'=>$request->id]);
+            $mandatorytrainingData  = $this->nurseRepository->getMandatorytrainingdetails(['user_id'=>$request->id]);
+            $interviewrefData  = $this->nurseRepository->getInterviewrefdetails(['user_id'=>$request->id]);
+            $personalprefData  = $this->nurseRepository->getPersonalprefdetails(['user_id'=>$request->id]);
+            $findworkData  = $this->nurseRepository->getfindworkdetails(['user_id'=>$request->id]);
+            $vaccinationData  = $this->nurseRepository->getvaccinationdetails(['user_id'=>$request->id]);
             $policeCheckVerificationData = $this->verificationRepository->getPoliceCheckVerificationData(['user_id' => $request->id]);
             $eligibilityToWorkData = $this->verificationRepository->getEligibilityToWorkData(['user_id' => $request->id]);
             $workingChildrenCheckData = $this->verificationRepository->getWorkingChildrenCheckData(['user_id' => $request->id]);
-            return view('admin.profile-view',compact('profileData','professionVerificationData','policeCheckVerificationData','eligibilityToWorkData','workingChildrenCheckData'));
+            return view('admin.profile-view',compact('profileData','experienceData','policeCheckVerificationData','eligibilityToWorkData','workingChildrenCheckData','educationData','mandatorytrainingData',
+            'interviewrefData','personalprefData','findworkData','vaccinationData'));
         } catch (\Exception $e) {
             log::error('Error in NurseController/viewProfile :' . $e->getMessage() . 'in line' . $e->getLine());
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
@@ -139,6 +149,23 @@ class NurseController extends Controller
             return view('admin.add-nurse',compact('profileData','professionVerificationData','policeCheckVerificationData','eligibilityToWorkData','workingChildrenCheckData'));
         } catch (\Exception $e) {
             log::error('Error in NurseController/viewProfile :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+    public function addNursePost(NurseRequest $request)
+    {
+        
+        if ($request->hasFile('profile_image')) {
+            $profile_image = time() . '.' . $request->profile_image->extension();
+
+            if ($request->profile_image->move(public_path('/nurse/assets/imgs/'), $profile_image)) {
+               $request->profile_image = '/nurse/assets/imgs/' . $profile_image;
+            }
+        }
+        try {
+           return $this->nurseServices->addNursePost($request);
+        } catch (\Exception $e) {
+            log::error('Error in NurseController/addNursePost :' . $e->getMessage() . 'in line' . $e->getLine());
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
         }
     }
