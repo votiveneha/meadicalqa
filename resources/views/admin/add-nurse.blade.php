@@ -8,6 +8,7 @@
   }
   .d-none {
     display: none !important;
+    /* visibility: hidden !important;; */
   }
 
 
@@ -75,79 +76,79 @@
             <div class="card-body">
                 <ul class="nav nav-pills nav-fill mt-4 tabs-feat" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link active" data-bs-toggle="tab" href="#navpill-111" role="tab"
+                        <a class="nav-link active" data-bs-toggle="tab" href="#navpill-1" role="tab"
                             aria-selected="true">
                             <span>Basic Details</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link" data-bs-toggle="tab" href="#navpill-222" role="tab" aria-selected="false"
+                        <a class="nav-link" data-bs-toggle="tab" href="#navpill-2" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Professional Information</span>
                         </a>
                     </li>
                     <li class="nav-item disabled" role="presentation">
-                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-333" role="tab" aria-selected="false"
+                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-3" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Education and Certifications</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-444" role="tab" aria-selected="false"
+                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-4" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Experience</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-555" role="tab" aria-selected="false"
+                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-5" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Financial Details</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-555" role="tab" aria-selected="false"
+                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-6" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Mandatory Training</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-555" role="tab" aria-selected="false"
+                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-7" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Vaccinations</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-555" role="tab" aria-selected="false"
+                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-8" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Work Clearances</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-555" role="tab" aria-selected="false"
+                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-9" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Professional Memberships</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-555" role="tab" aria-selected="false"
+                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-10" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Interview and References</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-555" role="tab" aria-selected="false"
+                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-11" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Personal Preferences</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-555" role="tab" aria-selected="false"
+                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-12" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Find Work Preferences</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-555" role="tab" aria-selected="false"
+                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-13" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Testimonials and Reviews</span>
                         </a>
@@ -157,7 +158,7 @@
                 <form method="post" enctype="multipart/form-data" id="AddNurse">
                 <!-- Tab panes -->
                 <div class="tab-content border mt-2">
-                    <div class="tab-pane p-3 active show" id="navpill-111" role="tabpanel">
+                    <div class="tab-pane p-3 active show" id="navpill-1" role="tabpanel">
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
@@ -355,7 +356,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane p-3" id="navpill-222" role="tabpanel">
+                    <div class="tab-pane p-3" id="navpill-2" role="tabpanel">
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
@@ -394,9 +395,9 @@
                                                         <?php
                                                             $nursing_data = DB::table("practitioner_type")->where('parent', $spl->id)->get();
                                                         ?>
-                                                    <div class="col-md-12 mt-3">
+                                                    <div class="">
                                                     <input type="hidden" name="nursing_result" class="nursing_result-{{ $i }}" value="{{ $spl->id }}">
-                                                    <div class="form-group d-none" id="nursing_level-{{ $i }}">
+                                                    <div class="form-group d-none col-md-12 mt-3" id="nursing_level-{{ $i }}">
                                                         <label for="skill" class="d-flex gap-3 flex-wrap"><strong>{{ $spl->name }}</strong></label>
                                                             <ul id="nursing_entry-{{ $i }}" style="display:none;">
                                                                 @foreach($nursing_data as $nd)
@@ -413,8 +414,8 @@
                                                     ?>
                                                     </div>
                                                     @endforeach
-                                                    <div class="col-md-12 mt-3 np_submenu d-none">
-                                                        <div class="form-group">
+                                                    <div class="">
+                                                        <div class="form-group col-md-12 mt-3 np_submenu d-none">
                                                             <?php
                                                                 $np_data = DB::table("practitioner_type")->where('parent', '179')->get();
                                                             ?>
@@ -452,7 +453,7 @@
                                                         </div>
                                                     </div>
 
-                                                    {{-- <div class="col-md-12 mt-3">
+                                                    <div class="col-md-12 mt-3  result--show speciality_boxes">
                                                         <?php
                                                             $l = 1;
                                                         ?>
@@ -460,50 +461,149 @@
                                                         <?php
                                                             $speciality_data = DB::table("speciality")->where('parent', $ptl->id)->get();
                                                         ?>
-                                                        <div class="form-group">
-                                                            <?php
-                                                                $np_data = DB::table("practitioner_type")->where('parent', '179')->get();
-                                                            ?>
-                                                            <input type="hidden" name="sub_speciality_value" class="sub_speciality_value" value="">
-                                                            <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Specialties :</strong></label>
-                                                            <ul id="specialties" style="display:none;">
-                                                                @php $JobSpecialties = JobSpecialties(); @endphp
-                                                                <?php
-                                                                    $k = 1;
-                                                                ?>
-                                                                @foreach($JobSpecialties as $ptl)
-                                                                    <li id="nursing_menus-{{ $k }}" data-value="{{ $ptl->id }}">{{ $ptl->name }}</li>
-                                                                    <?php
-                                                                        $k++;
-                                                                    ?>
-                                                                @endforeach
+                                                        <input type="hidden" name="speciality_result" class="speciality_result-{{ $l }}" value="{{ $ptl->id }}">
+                                                        <div class="speciality_data form-group d-none drpdown-set drp--clr"  id="specility_level-{{ $l }}">
+                                                    
+                                                           <label class="form-label" for="input-2">{{ $ptl->name }}</label>
+                                                            <ul id="speciality_entry-{{ $l }}" style="display:none;">
+                                                                @foreach($speciality_data as $sd)
+                                                                <li data-value="{{ $sd->id }}">{{ $sd->name }}</li>
                                                                 
+                                                                @endforeach
+                                                                <!-- Add more list items as needed -->
                                                             </ul>
-                                                            <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="specialties" name="specialties[]" multiple="multiple"></select>
-                                                            <span id="reqspecialties" class="reqError valley"></span>
+                                                            <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="speciality_entry-{{ $l }}" name="speciality_entry_{{ $l }}[]" multiple="multiple"></select>
                                                         </div>
                                                         <?php
                                                             $l++;
                                                         ?>
                                                         @endforeach
-                                                    </div> --}}
-                                                
-                                                
-                                                     
+                                                    </div>
+
+                                                    <div class="surgical_div">
+                                            
+                                                        <div class="surgical_row_data form-group d-none drp--clr col-md-12 mt-3">
+                                                    
+                                                           <label class="form-label" for="input-2">Surgical Preoperative and Postoperative Care:</label>
+                                                            <?php
+                                                                $speciality_surgicalrow_data = DB::table("speciality")->where('parent', '96')->get();
+                                                                $r = 1;
+                                                            ?>
+                                                            <ul id="surgical_row_box" style="display:none;">
+                                                                @foreach($speciality_surgicalrow_data as $ssrd)
+                                                                <li data-value="{{ $ssrd->id }}">{{ $ssrd->name }}</li>
+                                                                @endforeach
+                                                            </ul>
+                                                            <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_row_box" name="surgical_row_box[]" multiple="multiple"></select>
+                                                        </div>                                                
+                                                    </div> 
+                                                    
+                                                    <div class="specialty_sub_boxes">
+
+                                                        <?php
+                                                            $speciality_surgical_data = DB::table("speciality")->where('parent', '96')->get();
+                                                            $w = 1;
+                                                        ?>
+                                                         @foreach($speciality_surgical_data as $ssd)
+                                                        <input type="hidden" name="speciality_result" class="speciality_surgical_result-{{ $w }}" value="{{ $ssd->id }}">
+                                                        <div class="col-md-12 mt-3 surgical_row surgical_row-{{ $w }} form-group d-none drp--clr">                            
+                                                           <label class="form-label" for="input-1">{{ $ssd->name }}</label>
+                                                            <?php
+                                                                $speciality_surgicalsub_data = DB::table("speciality")->where('parent', $ssd->id)->get();
+                                                            ?>
+                                                            <ul id="surgical_operative_care-{{ $w }}" style="display:none;">
+                                                                @foreach($speciality_surgicalsub_data as $sssd)
+                                                                <li data-value="{{ $sssd->id }}">{{ $sssd->name }}</li>
+                                                                @endforeach
+                                                            </ul>
+                                                            <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_operative_care-{{ $w }}" name="surgical_operative_care_{{ $w }}[]" multiple="multiple"></select>
+                                                        </div>  
+                                                         <?php
+                                                            $w++;
+                                                          ?>
+                                                         @endforeach                                              
+                                                    </div> 
+                                                    
+                                                    <div class="paediatric_surgical_div">
+                                                        <div class="col-md-12 mt-3 surgicalpad_row_data form-group drp--clr d-none">
+                                                            <input type="hidden" name="sub_speciality_value" class="sub_speciality_value" value="">
+                                                            <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Paediatric Surgical Preop. and Postop. Care :</strong></label>
+                                                            <?php
+                                                                $speciality_padsurgicalrow_data = DB::table("speciality")->where('parent', '285')->get();
+                                                                $r = 1;
+                                                            ?>
+                                                            <ul id="surgical_rowpad_box" style="display:none;">
+                                                                @foreach($speciality_padsurgicalrow_data as $ssrd)
+                                                                <li data-value="{{ $ssrd->id }}">{{ $ssrd->name }}</li>
+                                                                @endforeach
+                                                            </ul>
+                                                            <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_rowpad_box" name="surgical_rowpad_box[]" multiple="multiple"></select>
+                                                        </div>
+                                                    </div>
+
+                                                    <?php
+                                                        $speciality_surgical_datamater = DB::table("speciality")->where('parent', '250')->get();                                                        
+                                                    ?>
+                                                    <div class="">
+                                                        <div class="col-md-12 mt-3 d-none neonatal_row drp--clr drpdown-set form-group">
+                                                            <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Neonatal Care :</strong></label>
+                                                            <ul id="neonatal_care" style="display:none;">
+                                                               @foreach($speciality_surgical_datamater as $ssd)
+                                                                <li data-value="{{ $ssd->id }}">{{ $ssd->name }}</li>
+                                                                @endforeach
+                                                            </ul>
+                                                            <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="neonatal_care" name="neonatal_care[]" multiple="multiple"></select>
+                                                        </div>
+                                                    </div>
+
+                                                    <?php
+                                                        $speciality_surgical_datamater = DB::table("speciality")->where('parent', '233')->get();
+                                                        $p = 1;
+                                                    ?>
+                                                    <div class="">
+                                                        <div class="col-md-12 mt-3 d-none surgicalobs_row drp--clr drpdown-set form-group">
+                                                            <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Surgical Obstetrics and Gynecology (OB/GYN) :</strong></label>
+                                                            <ul id="surgical_obs_care" style="display:none;">
+                                                            @foreach($speciality_surgical_datamater as $ssd)
+                                                                <li data-value="{{ $ssd->id }}">{{ $ssd->name }}</li>
+                                                                @endforeach
+                                                            </ul>
+                                                            <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_obs_care" name="surgical_obs_care[]" multiple="multiple"></select>
+                                                        </div>
+                                                    </div>
+
+                                                    <?php
+                                                        $speciality_surgical_datap = DB::table("speciality")->where('parent', '285')->get();
+                                                        $q = 1;
+                                                    ?>
+                                                    @foreach($speciality_surgical_datap as $ssd)
+                                                    <input type="hidden" name="speciality_result" class="surgical_rowp_result-{{ $q }}" value="{{ $ssd->id }}">
+                                                    <div class="">
+                                                        <div class="col-md-12 mt-3 surgical_rowp surgical_rowp-{{ $q }} drp--clr drpdown-set form-group drp--clr drpdown-set d-none">
+                                                            <label class="form-label" for="input-1">{{ $ssd->name }}</label>
+                                                            <?php
+                                                                $speciality_surgicalsub_data = DB::table("speciality")->where('parent', $ssd->id)->orderBy('name')->get();
+                                                            ?>
+                                                            <ul id="surgical_operative_carep-{{ $q }}" style="display:none;">
+                                                                @foreach($speciality_surgicalsub_data as $sssd)
+                                                                <li data-value="{{ $sssd->id }}">{{ $sssd->name }}</li>
+                                                                @endforeach
+                                                            </ul>
+                                                            <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_operative_carep-{{ $q }}" name="surgical_operative_carep_{{ $q }}[]" multiple="multiple"></select>
+                                                        </div>
+                                                    </div>
+                                                    <?php
+                                                      $q++;
+                                                    ?>
+                                                    @endforeach
                                             </div>
-                                        
-                                            
-                                            
-                                       
-                                        
-                    
                                     </div>
                     
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane p-3" id="navpill-333" role="tabpanel">
+                    <div class="tab-pane p-3" id="navpill-3" role="tabpanel">
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
@@ -569,7 +669,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane p-3" id="navpill-444" role="tabpanel">
+                    <div class="tab-pane p-3" id="navpill-4" role="tabpanel">
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
@@ -630,7 +730,7 @@
                                                     <div class="col-md-6 mt-3">
                                                         <div class="d-flex gap-3 flex-wrap">
                                                             <strong>Passport Country Of Issue: </strong>
-                                                            <span>{{country_name($eligibilityToWorkData->passport_country_of_Issue)}}</span>
+                                                            {{-- <span>{{country_name($eligibilityToWorkData->passport_country_of_Issue)}}</span> --}}
                                                         </div>
                                                     </div>
                                                     @endif
@@ -659,7 +759,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane p-3" id="navpill-555" role="tabpanel">
+                    <div class="tab-pane p-3" id="navpill-5" role="tabpanel">
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
@@ -1288,7 +1388,7 @@
 
     $('.js-example-basic-multiple[data-list-id="speciality_entry-1"]').on('change', function() {
         let selectedValues = $(this).val();
-        //alert("hello");
+       
         var speciality_entry = $("#speciality_entry-1 li").length;
         console.log("speciality_entry",speciality_entry);
         // $(".surgical_row").wrapAll("<div class='col-md-12 row surgical_row_data'>");
