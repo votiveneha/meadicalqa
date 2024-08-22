@@ -32,17 +32,21 @@ Route::prefix('/admin')->name('admin.')->namespace('App\Http\Controllers\admin')
           // Profession Managemenent
           Route::get('/professionList', 'SpecialityController@specialityList')->name('professionList');
           Route::post('/addSpeciality', 'SpecialityController@addSpeciality')->name('addSpeciality');
+          Route::post('/addGeneralCertificate', 'ProfessionalcerController@addGeneralCertificate')->name('addGeneralCertificate');
           Route::post('/updateSpeciality', 'SpecialityController@updateSpeciality')->name('updateSpeciality');
           Route::post('/deleteSpeciality', 'SpecialityController@deleteSpeciality')->name('deleteSpeciality');  
           Route::post('/getSpeciality', 'SpecialityController@getSpeciality')->name('getSpeciality');  
           
           // Sub Profession  Managemenent
           Route::get('/practitionertypeList/{id}', 'SpecialityController@subspecialityList')->name('practitionertypeList');
+          Route::get('/professional-subcertificate-list/{id}', 'ProfessionalcerController@certificateSubList')->name('professional-subcertificate-list');
           Route::post('/addSubspeciality', 'SpecialityController@addSubspeciality')->name('addSubspeciality');
           Route::post('/updateSubspeciality', 'SpecialityController@updateSubspeciality')->name('updateSubspeciality');
           Route::post('/deleteSubspeciality', 'SpecialityController@deleteSubspeciality')->name('deleteSubspeciality');  
           Route::post('/getSubspeciality', 'SpecialityController@getSubspeciality')->name('getSubspeciality'); 
           Route::get('/practitionersubtypeList/{id}', 'SpecialityController@SubtypeofNurse')->name('practitionersubtypeList');
+
+          Route::post('/viewsubprofessionalcert', 'SpecialityController@addSubspeciality')->name('addSubspeciality');
 
 
           // Speciality Managemenent
@@ -74,6 +78,8 @@ Route::prefix('/admin')->name('admin.')->namespace('App\Http\Controllers\admin')
         Route::post('/change-status-delete', 'NurseController@changeStatusDelete')->name('change-status-delete');
         Route::post('/change-status-block-unblock', 'NurseController@changeStatusBlockUnblock')->name('change-status-block-unblock');
         Route::get('/view-profile/{id}', 'NurseController@viewProfile')->name('view-profile');
+
+        Route::get('/view-certicate/{id}', 'NurseController@view_certificate')->name('view-certicate');
         Route::get('/add-nurse', 'NurseController@addNurse')->name('add_nurse');
         Route::post('/add-nurse-post', 'NurseController@addNursePost')->name('add_nurse_post');
         Route::get('/customer-list', 'NurseController@customerList')->name('customer-list'); 

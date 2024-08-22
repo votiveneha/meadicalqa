@@ -138,6 +138,12 @@ class NurseController extends Controller
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
         }
     }
+
+    public function view_certificate(Request $request)
+    {
+        $certicate_data = DB::table("professional_certificate")->where("")->get();
+    }
+
     public function addNurse(Request $request)
     {
         try {

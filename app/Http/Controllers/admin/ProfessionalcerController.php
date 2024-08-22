@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests\ProfessionalcerRequest;
 use App\Services\Admins\ProfessionalCerServices;
 use App\Repository\Eloquent\ProfessionalcerRepository;
+use App\Models\GeneralSubCertificate;
+use DB;
 
 class ProfessionalcerController extends Controller
 {
@@ -31,6 +33,30 @@ class ProfessionalcerController extends Controller
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
         }
     }
+
+    public function certificateSubList(Request $request){
+        $getProCertData = DB::table("professional_certificate")->get();
+
+        $getCertData = DB::table("professional_certificate_table")->where("cert_id",$request->id)->get();
+        //print_r($getCertData);
+        $data['getCertID'] = $request->id;
+        $data['getCertData'] = $getCertData;
+        $data['getProCertData'] = $getProCertData;
+        return view('admin.professionalsubcertlist',$data);
+    }
+
+    public function addGeneralCertificate(Request $request){
+        $insertCertificate = new GeneralSubCertificate;
+
+        $insertCertificate->cert_id = $request->general_certificate_name;
+        $insertCertificate->name = $request->general_sub_certificate;
+        $saveCertificate = $insertCertificate->save();
+
+        if($saveCertificate){
+            return response()->json(['status' => '2', 'message' => 'Certificate added successfully']);
+        }
+
+    }
     public function addCertificate(ProfessionalcerRequest $request)
     {
         try {
@@ -41,6 +67,14 @@ class ProfessionalcerController extends Controller
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
         }
     }
+
+    public function viewProfessionalCert($request)
+    {
+        echo $request->cert_id;
+        //$professional_cert_data = DB::table("professional_certificate_table")->where("cert_id",$request->cert_id)->get();
+
+    }
+
     public function deleteCertificate(Request $request)
     {
         try {
