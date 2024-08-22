@@ -91,28 +91,29 @@
             </div>
 	
 			<div class="profile-chklst">
-        <span>Profile basics</span>
-        <div class="circ-progress">
-          <div class="progress blue">
-                <span class="progress-left">
-                    <span class="progress-bar"></span>
-                </span>
-                <span class="progress-right">
-                    <span class="progress-bar"></span>
-                </span>
-                <div class="progress-value">
-                  <?php
-                    $get_myprofile_status = DB::table("users")->where("id",Auth::guard('nurse_middle')->user()->id)->first();
-                    $get_educert_status = DB::table("user_education_cerification")->where("user_id",Auth::guard('nurse_middle')->user()->id)->first();
-                    $get_experience_status = DB::table("user_experience")->where("user_id",Auth::guard('nurse_middle')->user()->id)->first();
-                    $get_profile_status = $get_myprofile_status->basic_info_status + $get_myprofile_status->professional_info_status + $get_educert_status->complete_status + $get_experience_status->complete_status;
-                    $get_progress_status = round($get_profile_status/14*100);
-                    echo $get_progress_status."%";
-                  ?>
-                </div>
-            </div>
-        </div>
-      </div>
+				<span>Profile basics</span>
+					<!-- <div class="circ-progress">
+					  <div class="progress blue">
+							<span class="progress-left">
+								<span class="progress-bar"></span>
+							</span>
+							<span class="progress-right">
+								<span class="progress-bar"></span>
+							</span>
+							<div class="progress-value">
+							  <?php
+								$get_myprofile_status = DB::table("users")->where("id",Auth::guard('nurse_middle')->user()->id)->first();
+								$get_educert_status = DB::table("user_education_cerification")->where("user_id",Auth::guard('nurse_middle')->user()->id)->first();
+								$get_experience_status = DB::table("user_experience")->where("user_id",Auth::guard('nurse_middle')->user()->id)->first();
+								$get_profile_status = $get_myprofile_status->basic_info_status + $get_myprofile_status->professional_info_status + $get_educert_status->complete_status + $get_experience_status->complete_status;
+								$get_progress_status = round($get_profile_status/14*100);
+								echo $get_progress_status."%";
+							  ?>
+							</div>
+						</div>
+					</div> -->
+					<div class="chart" id="graph1" data-percent="<?php echo $get_progress_status;?>" data-color="#000"></div>
+			</div>
       
       <!-- <div class="basic_profile dropdowns--set">
         <div class="dropdown">
@@ -788,7 +789,7 @@
                   <div class="declaration_box">
                       <input type="checkbox" name="declare_information" class="declare_information">
                       <label for="declare_information">I declare that the information provided is true and correct</label>
-                  </div>    
+                  </div>  
                   <div class="box-button mt-15">
                           <button class="btn btn-apply-big font-md font-bold" type="submit" id="submitProfession">Save Changes</button>
                         </div>          
@@ -840,7 +841,7 @@
                     <div class="col-md-6">
                       <div class="form-group level-drp">
                         <label class="form-label" for="input-1">Graduation Start Date</label>
-                        <input class="form-control graduation_start_date" type="date" name="graduation_start_date" value="@if(!empty($educationData)){{ $educationData->graduate_start_date }}@endif">
+                        <input class="form-control" type="date" name="graduation_start_date" value="@if(!empty($educationData)){{ $educationData->graduate_start_date }}@endif">
                         <span id="reqstartdate" class="reqError text-danger valley"></span>
                       </div>
                     </div>
@@ -853,122 +854,21 @@
                     </div>
                   </div>
                   <h6 class="emergency_text">
-                          General Certifications/Licences:
+                          Professional Certification
                         </h6>
                         <div class="form-group level-drp">
                           <input type="hidden" name="prof_cert_new" class="prof_cert_new" value="@if(!empty($educationData)){{ $educationData->professional_certifications }}@endif">
-                          <label class="form-label" for="input-1">Please select all that apply</label>
+                          <label class="form-label" for="input-1">Select Professional Certification</label>
                             <?php
                               $certificates = DB::table("professional_certificate")->get();
                             ?>
                             <ul id="profess_cert" style="display:none;">
                                 @foreach($certificates as $cert)
-                                <li data-value="{{ $cert->id }}">{{ $cert->name }}</li>
+                                <li data-value="{{ $cert->name }}">{{ $cert->name }}</li>
                                 @endforeach
                                 
                             </ul>
                         <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="profess_cert" name="professional_certification[]" multiple="multiple"></select>
-                      </div>
-                        <div class="professional_certification_div">
-                           <div class="form-group level-drp d-none procertdiv">
-                            
-                            <label class="form-label" for="input-1">ACLS (Advanced Cardiovascular Life Support)</label>
-                              <?php
-                                $acls_data = DB::table("professional_certificate_table")->where("cert_id","6")->get();
-                              ?>
-                              <ul id="acls_data" style="display:none;">
-                                  @foreach($acls_data as $data)
-                                  <li data-value="{{ $data->name }}">{{ $data->name }}</li>
-                                  @endforeach
-                                  
-                              </ul>
-                          <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="acls_data" name="acls_data[]" multiple="multiple"></select>
-                        </div>
-                        <div class="form-group level-drp d-none procertdivone">
-                            
-                            <label class="form-label" for="input-1">BLS (Basic Life Support)</label>
-                              <?php
-                                $bls_data = DB::table("professional_certificate_table")->where("cert_id","7")->get();
-                              ?>
-                              <ul id="bls_data" style="display:none;">
-                                  @foreach($bls_data as $data)
-                                  <li data-value="{{ $data->name }}">{{ $data->name }}</li>
-                                  @endforeach
-                                  
-                              </ul>
-                          <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="bls_data" name="bls_data[]" multiple="multiple"></select>
-                        </div>
-                        <div class="form-group level-drp d-none procertdivtwo">
-                            
-                            <label class="form-label" for="input-1">CPR (Cardiopulmonary Resuscitation)</label>
-                              <?php
-                                $cpr_data = DB::table("professional_certificate_table")->where("cert_id","8")->get();
-                              ?>
-                              <ul id="cpr_data" style="display:none;">
-                                  @foreach($cpr_data as $data)
-                                  <li data-value="{{ $data->name }}">{{ $data->name }}</li>
-                                  @endforeach
-                                  
-                              </ul>
-                          <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="cpr_data" name="cpr_data[]" multiple="multiple"></select>
-                        </div>
-                        
-                        <div class="form-group level-drp d-none procertdivfour">
-                            
-                            <label class="form-label" for="input-1">NRP (Neonatal Resuscitation Program)</label>
-                              <?php
-                                $nrp_data = DB::table("professional_certificate_table")->where("cert_id","9")->get();
-                              ?>
-                              <ul id="nrp_data" style="display:none;">
-                                  @foreach($nrp_data as $data)
-                                  <li data-value="{{ $data->name }}">{{ $data->name }}</li>
-                                  @endforeach
-                                  
-                              </ul>
-                          <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="nrp_data" name="nrp_data[]" multiple="multiple"></select>
-                        </div>
-                        <div class="form-group level-drp d-none procertdivfour">
-                            
-                            <label class="form-label" for="input-1">PALS (Pediatric Advanced Life Support)</label>
-                              <?php
-                                $pls_data = DB::table("professional_certificate_table")->where("cert_id","10")->get();
-                              ?>
-                              <ul id="pls_data" style="display:none;">
-                                  @foreach($pls_data as $data)
-                                  <li data-value="{{ $data->name }}">{{ $data->name }}</li>
-                                  @endforeach
-                                  
-                              </ul>
-                          <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="pls_data" name="pls_data[]" multiple="multiple"></select>
-                        </div>
-                        <div class="form-group level-drp d-none procertdivfive">
-                            
-                            <label class="form-label" for="input-1">RN (Registered Nurse)</label>
-                              <?php
-                                $rn_data = DB::table("professional_certificate_table")->where("cert_id","11")->get();
-                              ?>
-                              <ul id="rn_data" style="display:none;">
-                                  @foreach($rn_data as $data)
-                                  <li data-value="{{ $data->name }}">{{ $data->name }}</li>
-                                  @endforeach
-                                  
-                              </ul>
-                          <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="rn_data" name="rn_data[]" multiple="multiple"></select>
-                        </div>
-                        <div class="form-group level-drp d-none procertdivsix">
-                            
-                            <label class="form-label" for="input-1">CNA (Certified Nursing Assistant) / EN (Enrolled Nurse)</label>
-                              <?php
-                                $cn_data = DB::table("professional_certificate_table")->where("cert_id","12")->get();
-                              ?>
-                              <ul id="rn_data" style="display:none;">
-                                  @foreach($cn_data as $data)
-                                  <li data-value="{{ $data->name }}">{{ $data->name }}</li>
-                                  @endforeach
-                                  
-                              </ul>
-                          <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="cn_data" name="cn_data[]" multiple="multiple"></select>
-                        </div>
                       </div>
                       <span id="reqcertificate" class="reqError text-danger valley"></span>
                       <h6 class="emergency_text">
@@ -1465,7 +1365,7 @@
                     <input class="form-check-input" type="checkbox" value="1" id="visibleToMedicalFacilities" 
                           {{ Auth::guard('nurse_middle')->user()->medical_facilities=='Yes' ? 'checked' : '' }} name="medical_facilities">
                     <label class="form-check-label" for="visibleToMedicalFacilities">
-                        Visible to Medical Facilities
+                        Visible to Healthcare Facilities
                     </label>
                 </div>
 
@@ -1496,7 +1396,18 @@
                           Unavailable for now
                       </label>
                   </div>
-                 
+                  <div class="form-group available_date_field d-none">
+                  	<input type="date" name="available_date" class="form-control">
+                  </div>
+                  <script type="text/javascript">
+                  	$("#unavailableNow").click(function(){
+                  		if($("#unavailableNow").prop('checked') == true){
+						    $(".available_date_field").removeClass("d-none");
+						}else{
+							$(".available_date_field").addClass("d-none");
+						}
+                  	});
+                  </script>
                   <div class="d-flex align-items-center justify-content-between">
                         <button onclick="doprofessionSeting_update()" @if(!email_verified())  disabled  @elseif(!account_verified())  disabled  @endif  class="btn btn-default px-5 py-8  rounded-2 mb-0 submit-btn-120" type="submit"><span class="resetpassword">Update Setting</span>
                           <div class="spinner-border submit-btn-1" role="status" style="display:none;">
@@ -2197,31 +2108,6 @@
 "https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/select2.min.js"> 
        </script> 
         <script>
-          var graduation_start_date = $(".graduation_start_date").val();
-
-          const newDate = new Date(graduation_start_date);
-
-          
-           var today = new Date().toISOString().split('T')[0];
-    document.getElementsByName("graduation_end_date")[0].setAttribute('min', graduation_start_date);
-
-    function addDays(date, days) {
-    const newDate = new Date(date);
-    newDate.setDate(date.getDate() + days);
-    return newDate;
-}
-
-// Get the current date
-const todayDate = new Date(graduation_start_date);
-console.log("todayDate",todayDate);
-// Number of days that we want to add to the current date
-const days = 7;
-
-// Function call to add days
-const newDate1 = addDays(todayDate, days);
-
-console.log("New Date: ", newDate1.getMonth());
-
     $(document).ready(function() {
 
         // Add an additional search box and extra buttons to the dropdown
@@ -2906,38 +2792,6 @@ console.log("New Date: ", newDate1.getMonth());
         //         $('#specility_level-'+k).addClass('d-none');
         //     }
         // }
-    });
-
-    $('.js-example-basic-multiple[data-list-id="profess_cert"]').on('change', function() {
-        let selectedValues = $(this).val();
-        
-
-        //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
-        if(selectedValues.includes("6")){
-            $('.procertdiv').removeClass('d-none');
-            
-        }else{
-            $('.procertdiv').addClass('d-none');
-            
-        }
-        if(selectedValues.includes("7")){
-            $('.procertdivone').removeClass('d-none');
-            
-        }else{
-            $('.procertdivone').addClass('d-none');
-            
-        }
-        if(selectedValues.includes("8")){
-            $('.procertdivtwo').removeClass('d-none');
-            
-        }else{
-            $('.procertdivtwo').addClass('d-none');
-            
-        }
-
-        
-        
-        
     });
 
   $(".change_password_link").click(function(){
@@ -4493,4 +4347,73 @@ console.log("New Date: ", newDate1.getMonth());
 
   }
 </script>
+
+<script>
+	jQuery(document).ready(function	(){
+
+    var el;
+    var options;
+    var canvas;
+    var span;
+    var ctx;
+    var radius;
+
+    var createCanvasVariable = function(id){  // get canvas
+        el = document.getElementById(id);
+    };
+
+    var createAllVariables = function(){
+        options = {
+            percent:  el.getAttribute('data-percent') || 25,
+            size: el.getAttribute('data-size') || 165,
+            lineWidth: el.getAttribute('data-line') || 10,
+            rotate: el.getAttribute('data-rotate') || 0,
+            color: el.getAttribute('data-color')
+        };
+
+        canvas = document.createElement('canvas');
+        span = document.createElement('span');
+        span.textContent = options.percent + '%';
+
+        if (typeof(G_vmlCanvasManager) !== 'undefined') {
+            G_vmlCanvasManager.initElement(canvas);
+        }
+
+        ctx = canvas.getContext('2d');
+        canvas.width = canvas.height = options.size;
+
+        el.appendChild(span);
+        el.appendChild(canvas);
+
+        ctx.translate(options.size / 2, options.size / 2); // change center
+        ctx.rotate((-1 / 2 + options.rotate / 180) * Math.PI); // rotate -90 deg
+
+        radius = (options.size - options.lineWidth) / 2;
+    };
+
+
+    var drawCircle = function(color, lineWidth, percent) {
+        percent = Math.min(Math.max(0, percent || 1), 1);
+        ctx.beginPath();
+        ctx.arc(0, 0, radius, 0, Math.PI * 2 * percent, false);
+        ctx.strokeStyle = color;
+        ctx.lineCap = 'square'; // butt, round or square
+        ctx.lineWidth = lineWidth;
+        ctx.stroke();
+    };
+
+    var drawNewGraph = function(id){
+        el = document.getElementById(id);
+        createAllVariables();
+        drawCircle('#efefef', options.lineWidth, 100 / 100);
+        drawCircle(options.color, options.lineWidth, options.percent / 100);
+
+
+    };
+    drawNewGraph('graph1');
+
+
+});
+</script>
+
 @endsection

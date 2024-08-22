@@ -57,6 +57,7 @@ class ProfessionalcerController extends Controller
         }
 
     }
+
     public function addCertificate(ProfessionalcerRequest $request)
     {
         try {
@@ -67,14 +68,6 @@ class ProfessionalcerController extends Controller
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
         }
     }
-
-    public function viewProfessionalCert($request)
-    {
-        echo $request->cert_id;
-        //$professional_cert_data = DB::table("professional_certificate_table")->where("cert_id",$request->cert_id)->get();
-
-    }
-
     public function deleteCertificate(Request $request)
     {
         try {

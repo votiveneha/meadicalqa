@@ -106,7 +106,6 @@ class NurseServices
             $run = $this->nurseRepository->updateData(['id'=>$request->id], $updateData);
             if ($run == 1) {
                 $body = 'Hello, ' . $userData->name . ' ' . $userData->lastname;
-
                 if($request->status == 2){
                     $body .= '<p>This is to inform you that your account has been blocked.';
                 }else{
@@ -122,7 +121,6 @@ class NurseServices
                     'email' =>$userData->email,
                     'body' => $body,
                 ];
-                print_r($mailData);die;
                 $sendMail = Mail::to($userData->email)->send(new \App\Mail\DemoMail($mailData));
                 
                 if ($sendMail) {

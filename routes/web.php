@@ -40,6 +40,7 @@ Route::prefix('/admin')->name('admin.')->namespace('App\Http\Controllers\admin')
           // Sub Profession  Managemenent
           Route::get('/practitionertypeList/{id}', 'SpecialityController@subspecialityList')->name('practitionertypeList');
           Route::get('/professional-subcertificate-list/{id}', 'ProfessionalcerController@certificateSubList')->name('professional-subcertificate-list');
+          Route::get('/professional-subcertificate-list/{id}', 'ProfessionalcerController@certificateSubList')->name('professional-subcertificate-list');
           Route::post('/addSubspeciality', 'SpecialityController@addSubspeciality')->name('addSubspeciality');
           Route::post('/updateSubspeciality', 'SpecialityController@updateSubspeciality')->name('updateSubspeciality');
           Route::post('/deleteSubspeciality', 'SpecialityController@deleteSubspeciality')->name('deleteSubspeciality');  
