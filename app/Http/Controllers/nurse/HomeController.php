@@ -1455,8 +1455,9 @@ class HomeController extends Controller
             $update['medical_facilities'] = isset($request->medical_facilities) ? 'Yes' : 'No';
             $update['agencies'] = isset($request->agencies) ? 'Yes' : 'No';
             $update['individuals'] = isset($request->individuals) ? 'Yes' : 'No';
-            $update['profile_status'] = isset($request->profile_status) ? 'Yes' : 'No';
-            $update['unavailable_profile_status'] = isset($request->profile_status_unavailable) ? 'Yes' : 'No';
+            $update['profile_status1'] = $request->profile_status;
+            //$update['unavailable_profile_status'] = isset($request->profile_status) ? 'Yes' : 'No';
+            $update['available_date'] = $request->available_date;
             $update['updated_at'] = Carbon::now('Asia/Kolkata');
             $run = User::where('id', Auth::guard('nurse_middle')->user()->id)->update($update);
 

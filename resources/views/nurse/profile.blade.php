@@ -179,7 +179,7 @@
                 
                 <li><a class="btn btn-border people-icon mb-20" id="educert"  data-bs-toggle="tab" role="tab" aria-controls="tab-saved-jobs" aria-selected="false"><i class="fi fi-rr-graduation-cap"></i> Education and Certifications</a></li>
                 <li><a href="#experience" id="experience_info" class="btn btn-border aboutus-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true"><i class="fi fi-rr-suitcase-alt"></i> Experience</a></li>
-                <li><a href="#experience" id="experience_info" class="btn btn-border aboutus-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true"><i class="fi fi-rr-chart-histogram"></i>  Financial Details</a></li>
+                <!-- <li><a href="#experience" id="experience_info" class="btn btn-border aboutus-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true"><i class="fi fi-rr-chart-histogram"></i>  Financial Details</a></li> -->
                 <li><a href="#mand_training" id="mand_training" class="btn btn-border aboutus-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true"><i class="fi fi-rr-chart-user"></i> Mandatory Training</a></li>
                 <li><a href="#vaccinations" id="vaccinations" class="btn btn-border aboutus-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true"><i class="fi fi-rr-chart-user"></i> Vaccinations</a></li>
                 <li><a href="#work_clearances" id="work_clearances" class="btn btn-border recruitment-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-myclearance-jobs" aria-selected="false"><i class="fi fi-rr-briefcase-arrow-right"></i> Work Clearances</a></li>
@@ -314,8 +314,19 @@
                           <textarea class="form-control" rows="4" name="bio">{{ Auth::guard('nurse_middle')->user()->bio }}</textarea>
                         </div> -->
                         <div class="form-group">
+                          <label class="font-sm color-text-mutted mb-10">Nationality</label>
+                          
+                          <select name="nationality" class="form-control form-select ps-5">
+                            <option value="">Select Nationality</option>
+                            @php $country_data=country_name_from_db();@endphp
+                            @foreach ($country_data as $data)
+                            <option value="{{ $data->id }}" <?= isset(Auth::guard('nurse_middle')->user()->nationality) &&  Auth::guard('nurse_middle')->user()->nationality == $data->id ? 'selected' : '' ?>>{{ $data->nationality }}</option>
+                            @endforeach
+                          </select>
+                        </div>
+                        <div class="form-group">
                           <label class="font-sm color-text-mutted mb-10">Personal website</label>
-                          <input class="form-control" type="url" name="website" value="{{  Auth::guard('nurse_middle')->user()->personal_website }}">
+                          <input class="form-control" type="text" name="website" value="{{  Auth::guard('nurse_middle')->user()->personal_website }}">
                         </div>
                       </div>
                       
@@ -1718,7 +1729,7 @@
                       </label>
                   </div>
                   <div class="form-check mt-3">
-                      <input class="form-check-input" type="checkbox" value="1"   {{ Auth::guard('nurse_middle')->user()->agencies =='Yes'? 'checked' : '' }}  id="visibleToIndividuals" name="individuals">
+                      <input class="form-check-input" type="checkbox" value="1"   {{ Auth::guard('nurse_middle')->user()->individuals =='Yes'? 'checked' : '' }}  id="visibleToIndividuals" name="individuals">
                       <label class="form-check-label" for="visibleToAgencies">
                           Visible to Individuals (Nurse care at home)
                       </label>
@@ -1727,28 +1738,36 @@
                  <h6> Profile Status: </h6>
                       </label>
                   <div class="form-check  mt-1  mb-2">
-                      <input class="form-check-input" type="checkbox" value="1" id="availableNow" name="profile_status"   {{ Auth::guard('nurse_middle')->user()->profile_status=='Yes' ? 'checked' : '' }} >
+                      <input class="form-check-input" type="radio" value="1" id="availableNow" name="profile_status"   @if(Auth::guard('nurse_middle')->user()->profile_status1 == '1') checked @endif >
                       <label class="form-check-label" for="availableNow">
                           Available Now
                       </label>
                   </div>
+                  
                   <div class="form-check  mt-1  mb-2">
-                      <input class="form-check-input" type="checkbox" value="1" id="unavailableNow" name="profile_status_unavailable"   {{ Auth::guard('nurse_middle')->user()->profile_status=='Yes' ? 'checked' : '' }} >
+                      <input class="form-check-input" type="radio" value="0" id="unavailableNow" name="profile_status" @if(Auth::guard('nurse_middle')->user()->profile_status1 == '0') checked @endif>
                       <label class="form-check-label" for="unavailableNow">
                           Unavailable for now
                       </label>
                   </div>
                   <div class="form-group available_date_field d-none">
-                  	<input type="date" name="available_date" class="form-control">
+                    <label for="available_start">When are you able to start?</label>
+                    <input type="date" name="available_date" class="form-control" value="{{ Auth::guard('nurse_middle')->user()->available_date }}">
                   </div>
                   <script type="text/javascript">
-                  	$("#unavailableNow").click(function(){
-                  		if($("#unavailableNow").prop('checked') == true){
-						    $(".available_date_field").removeClass("d-none");
-						}else{
-							$(".available_date_field").addClass("d-none");
-						}
-                  	});
+                    $("#unavailableNow").click(function(){
+                      if($("#unavailableNow").prop('checked') == true){
+                          $(".available_date_field").removeClass("d-none");
+                      }else{
+                        $(".available_date_field").addClass("d-none");
+                      }
+                    });
+                    $("#availableNow").click(function(){
+                      $(".available_date_field").addClass("d-none");
+                    });
+                    if($("#unavailableNow").prop('checked') == true){
+                        $(".available_date_field").removeClass("d-none");
+                    }
                   </script>
                   <div class="d-flex align-items-center justify-content-between">
                         <button onclick="doprofessionSeting_update()" @if(!email_verified())  disabled  @elseif(!account_verified())  disabled  @endif  class="btn btn-default px-5 py-8  rounded-2 mb-0 submit-btn-120" type="submit"><span class="resetpassword">Update Setting</span>
