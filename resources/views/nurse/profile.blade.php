@@ -178,15 +178,15 @@
                <li><a href="#tab-my-jobs" id="my_profession" class="btn btn-border recruitment-icon mb-20 profile_tabs" data-bs-toggle="tab" role="tab" aria-controls="tab-my-jobs" aria-selected="false"><i class="fi fi-rr-employee-man"></i> Profession</a></li>
                 
                 <li><a class="btn btn-border people-icon mb-20" id="educert"  data-bs-toggle="tab" role="tab" aria-controls="tab-saved-jobs" aria-selected="false"><i class="fi fi-rr-graduation-cap"></i> Education and Certifications</a></li>
-                <li><a href="#experience" id="experience_info" class="btn btn-border aboutus-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true"><i class="fi fi-rr-suitcase-alt"></i> Experience</a></li>
+                <li><a href="#experience" id="experience_info" class="btn btn-border aboutus-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true"><i class="fi fi-rr-suitcase-alt"></i> Experience and References</a></li>
                 <!-- <li><a href="#experience" id="experience_info" class="btn btn-border aboutus-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true"><i class="fi fi-rr-chart-histogram"></i>  Financial Details</a></li> -->
                 <li><a href="#mand_training" id="mand_training" class="btn btn-border aboutus-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true"><i class="fi fi-rr-chart-user"></i> Mandatory Training</a></li>
                 <li><a href="#vaccinations" id="vaccinations" class="btn btn-border aboutus-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true"><i class="fi fi-rr-chart-user"></i> Vaccinations</a></li>
                 <li><a href="#work_clearances" id="work_clearances" class="btn btn-border recruitment-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-myclearance-jobs" aria-selected="false"><i class="fi fi-rr-briefcase-arrow-right"></i> Work Clearances</a></li>
                 <li><a href="#work_clearances" id="work_clearances" class="btn btn-border recruitment-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-myclearance-jobs" aria-selected="false"><i class="fi fi-rr-membership-vip"></i> Professional Memberships</a></li>
-                <li><a href="#interview_references" id="interview_references" class="btn btn-border recruitment-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-myclearance-jobs" aria-selected="false"><i class="fi fi-rr-refer-arrow"></i> Interview and References</a></li>
+                <li><a href="#interview_references" id="interview_references" class="btn btn-border recruitment-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-myclearance-jobs" aria-selected="false"><i class="fi fi-rr-refer-arrow"></i> Interview</a></li>
                 <li><a href="#personal_preferences" id="personal_preferences" class="btn btn-border recruitment-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-myclearance-jobs" aria-selected="false"><i class="fi fi-rr-id-badge"></i> Personal Preferences</a></li>
-                <li><a href="#work_preferences" id="work_preferences" class="btn btn-border recruitment-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-myclearance-jobs" aria-selected="false"><i class="fi fi-rr-magnifying-glass-wave"></i> Find Work Preferences</a></li>
+                <li><a href="#work_preferences" id="work_preferences" class="btn btn-border recruitment-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-myclearance-jobs" aria-selected="false"><i class="fi fi-rr-magnifying-glass-wave"></i>Job Search & Personal Preferences</a></li>
                 <li><a href="#work_clearances" id="work_clearances" class="btn btn-border recruitment-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-myclearance-jobs" aria-selected="false"><i class="fi fi-rr-feedback-review"></i> Testimonials and Reviews</a></li>
                 <li><a href="#work_clearances" id="work_clearances" class="btn btn-border recruitment-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-myclearance-jobs" aria-selected="false"><i class="fi fi-rr-guide-alt"></i> Additional Information</a></li>
                 
@@ -769,13 +769,7 @@
                     </div>
                     <span id="reqdegree" class="reqError text-danger valley"></span>
                   </div>    -->
-                  <div class="professional_bio">
-                    <div class="form-group col-md-12">
-                      <label class="font-sm color-text-mutted mb-10">Professional Bio</label>
-                      <textarea class="form-control" rows="4" name="bio">{{ Auth::guard('nurse_middle')->user()->bio }}</textarea>
-                    </div>
-                    <span id="reqprofessional_bio" class="reqError text-danger valley"></span>
-                  </div>   
+                     
                   <div class="professional_bio">
                     <div class="form-group col-md-12">
                       <label class="form-label" for="input-1">Current Employment Status</label>
@@ -799,7 +793,14 @@
                     </select>
                     </div>
                     <span id="reqemployee_status" class="reqError text-danger valley"></span>
-                  </div>      
+                  </div> 
+                  <div class="professional_bio">
+                    <div class="form-group col-md-12">
+                      <label class="font-sm color-text-mutted mb-10">Professional Bio</label>
+                      <textarea class="form-control" rows="4" name="bio">{{ Auth::guard('nurse_middle')->user()->bio }}</textarea>
+                    </div>
+                    <span id="reqprofessional_bio" class="reqError text-danger valley"></span>
+                  </div>     
                   <div class="declaration_box">
                       <input type="checkbox" name="declare_information" class="declare_information">
                       <label for="declare_information">I declare that the information provided is true and correct</label>
@@ -1328,7 +1329,7 @@
 			  </div>
 			  <div class="tab-pane fade" id="tab-experience" role="tabpanel" aria-labelledby="tab-educert" style="display: none">
                 <div class="card shadow-sm border-0 p-4 mt-30">
-                  <h3 class="mt-0 color-brand-1 mb-2">Experience</h3>
+                  <h3 class="mt-0 color-brand-1 mb-2">Experience and References</h3>
                   <?php
                     $experienceData = DB::table("user_experience")->where("user_id",Auth::guard('nurse_middle')->user()->id)->first();
                   ?>
@@ -1486,7 +1487,7 @@
                 </div>
               </div>  
               <div class="tab-pane fade" id="tab-interview-references" role="tabpanel" aria-labelledby="tab-interview-references" style="display: none">
-                <h3 class="mt-30 color-brand-1 mb-50">Interview and References</h3>
+                <h3 class="mt-30 color-brand-1 mb-50">Interview</h3>
                 <?php
                     $interviewReferenceData = DB::table("interview_references")->where("user_id",Auth::guard('nurse_middle')->user()->id)->first();
                   ?>
@@ -1645,7 +1646,7 @@
                 </form>
               </div>  
               <div class="tab-pane fade" id="tab-work-preferences" role="tabpanel" aria-labelledby="tab-interview-references" style="display: none">
-                <h3 class="mt-30 color-brand-1 mb-50">Find Work Preferences</h3>
+                <h3 class="mt-30 color-brand-1 mb-50">Job Search & Personal Preferences</h3>
                 <?php
                     $workpreferenceData = DB::table("work_preferences")->where("user_id",Auth::guard('nurse_middle')->user()->id)->first();
                   ?>
@@ -4550,7 +4551,7 @@ $('.js-example-basic-multiple[data-list-id="profess_cert"]').on('change', functi
 
             $('.resetpassword').show();
 
-            $('#multi-step-form')[0].reset();
+            // $('#multi-step-form')[0].reset();
 
 
 
