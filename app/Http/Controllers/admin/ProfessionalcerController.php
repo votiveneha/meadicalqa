@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use App\Http\Requests\ProfessionalcerRequest;
+use App\Http\Requests\subcertificateRequest;
 use App\Services\Admins\ProfessionalCerServices;
 use App\Repository\Eloquent\ProfessionalcerRepository;
 use App\Models\GeneralSubCertificate;
@@ -92,6 +93,34 @@ class ProfessionalcerController extends Controller
            return $this->professionalcerRepository->get(['id'=>$request->id]);
         } catch (\Exception $e) {
             log::error('Error in ProfessionalcerController/getDegree :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+     public function getsubCertificate(Request $request)
+    {
+        try {
+            // dd($request->id);
+           return $this->professionalcerRepository->getsubcertificate(['professionalcert_id'=>$request->id]);
+        } catch (\Exception $e) {
+            log::error('Error in ProfessionalcerController/getsubCertificate :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+    public function updatesubCertificate(subcertificateRequest $request)
+    {
+        try {
+           return $this->professionalCerServices->updateSubCertificate($request);
+        } catch (\Exception $e) {
+            log::error('Error in ProfessionalcerController/updateDegree :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+    public function deleteSubCertificate(Request $request)
+    {
+        try {
+           return $this->professionalCerServices->deleteSubCertificate($request);
+        } catch (\Exception $e) {
+            log::error('Error in ProfessionalcerController/deleteSubCertificate :' . $e->getMessage() . 'in line' . $e->getLine());
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
         }
     }

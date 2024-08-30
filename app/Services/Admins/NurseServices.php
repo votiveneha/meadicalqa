@@ -167,6 +167,7 @@ class NurseServices
             $allData['profile_img'] = $data['profile_image'];
             $allData['emegency_country_code'] = $data['country_code_mobile'];
             $allData['emergency_country_iso'] = $data['country_iso_mobile'];
+            $allData['nationality'] = $data['nationality'];
             }
             $run = $this->nurseRepository->create($allData);
             if ($run) {

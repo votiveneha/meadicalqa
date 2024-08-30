@@ -84,7 +84,7 @@
                     <li class="nav-item" role="presentation">
                         <a class="nav-link" data-bs-toggle="tab" href="#navpill-2" role="tab" aria-selected="false"
                             tabindex="-1">
-                            <span>Professional Information</span>
+                            <span>Professional</span>
                         </a>
                     </li>
                     <li class="nav-item disabled" role="presentation">
@@ -224,13 +224,7 @@
                                                 </div>
                                             </div>
                     
-                                            {{-- <div class="col-md-6 mt-3">
-                                                <div class="form-group">
-                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Nationality</strong></label>
-                                                    <input type="text" class="form-control" placeholder="Nationality" name="skill" id="skill">
-                                                    <span id="skillErr" class="text-danger"></span>
-                                                </div>
-                                            </div> --}}
+                                            
                     
                     
                                             <div class="col-md-6 mt-3">
@@ -251,6 +245,18 @@
                                                         </div>
                                                     </div>
                                                     <span id="genderErr" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mt-3">
+                                                <div class="form-group">
+                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Nationality</strong></label>
+                                                    <select name="nationality" class="form-control form-select ps-5" id="nationality">
+                                                        <option value="">Select Nationality</option>
+                                                        @php $country_data=country_name_from_db();@endphp
+                                                        @foreach ($country_data as $data)
+                                                        <option value="{{ $data->id }}" <?= isset(Auth::guard('nurse_middle')->user()->nationality) &&  Auth::guard('nurse_middle')->user()->nationality == $data->id ? 'selected' : '' ?>>{{ $data->nationality }}</option>
+                                                        @endforeach
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 mt-3">
@@ -340,17 +346,17 @@
                                             </div>
                                         </div>
                                         <div class="d-flex align-items-center justify-content-between mt-3">
-                                            <button type="button" class="btn btn-default next-step align-items-center justify-content-between" data-target="#navpill-222">Next</button>
+                                            <button type="button" class="btn btn-default next-step align-items-center justify-content-between" data-target="#navpill-2">Next</button>
                                         </div>
                                     </div>
 
-                                    <div class="mt-3">
+                                    {{-- <div class="mt-3">
                                         <!-- PROGRESSBAR START -->
                                         <div class="progress">
                                             <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: 12%" aria-valuenow="12" aria-valuemin="0" aria-valuemax="100">12%</div>
                                         </div>
                                         <!-- PROGRESSBAR END -->
-                                    </div>
+                                    </div> --}}
                                     
                                 </div>
                             </div>
@@ -360,7 +366,7 @@
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
-                                    <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center ">Professional Information 
+                                    <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center ">Professional 
                                     </h3>
                                 </div>
                                 <div class="card-body p-3 px-md-4">
@@ -383,7 +389,7 @@
                                                                 
                                                             </ul>
                                                             <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="type-of-nurse" name="states[]" multiple="multiple"></select>
-                                                            <span id="photo_id" class="text-danger"></span>
+                                                            <span id="type_nurse_error" class="text-danger"></span>
                                                         </div>
                                                     </div>
                                                 
@@ -449,7 +455,7 @@
                                                                 
                                                             </ul>
                                                             <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="specialties" name="specialties[]" multiple="multiple"></select>
-                                                            <span id="reqspecialties" class="reqError valley"></span>
+                                                            <span id="specialties_error" class="text-danger"></span>
                                                         </div>
                                                     </div>
 
@@ -596,6 +602,57 @@
                                                       $q++;
                                                     ?>
                                                     @endforeach
+
+                                                    <div class="col-md-12 mt-2">
+                                                        <div class="form-group">
+                                                            <label for="skill" class="d-flex gap-3 flex-wrap"><strong>What is your level of experience?</strong></label>
+                                                            <select class="form-control mr-10 select-active" name="assistent_level">                      
+                                                            @for($i = 1; $i <= 30; $i++) <option value="{{ $i }}" @if(Auth::guard('nurse_middle')->user()->assistent_level == $i) selected @endif>{{ $i }}{{ $i == 1 ? 'st' : ($i == 2 ? 'nd' : ($i == 3 ? 'rd' : 'th')) }} Year</option>
+                                                                @endfor
+                                                            </select>
+                                                            <span id="photo_id" class="text-danger"></span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-12 mt-2">
+                                                        <div class="form-group">
+                                                            <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Current Employment Status</strong></label>
+                                                            <select class="form-control mr-10 select-active" name="employee_status">
+                                                            <option value="">Select Employee Status</option>
+                                                            <option value="Permanent Full-Time" @if(Auth::guard('nurse_middle')->user()->current_employee_status == "Permanent Full-Time") selected @endif>Permanent Full-Time</option>
+                                                            <option value="Permanent Part-Time" @if(Auth::guard('nurse_middle')->user()->current_employee_status == "Permanent Part-Time") selected @endif>Permanent Part-Time</option>
+                                                            <option value="Temporary / Contract" @if(Auth::guard('nurse_middle')->user()->current_employee_status == "Temporary / Contract") selected @endif>Temporary / Contract</option>
+                                                            <option value="Travel" @if(Auth::guard('nurse_middle')->user()->current_employee_status == "Travel") selected @endif>Travel</option>
+                                                            <option value="Per Diem / Local" @if(Auth::guard('nurse_middle')->user()->current_employee_status == "Per Diem / Local") selected @endif>Per Diem / Local</option>
+                                                            <option value="On-Call / PRN (Pro Re Nata)" @if(Auth::guard('nurse_middle')->user()->current_employee_status == "On-Call / PRN (Pro Re Nata)") selected @endif>On-Call / PRN (Pro Re Nata)</option>
+                                                            <option value="Casual" @if(Auth::guard('nurse_middle')->user()->current_employee_status == "Casual") selected @endif>Casual</option> 
+                                                            <option value="Agency / Staffing Agency" @if(Auth::guard('nurse_middle')->user()->current_employee_status == "Agency / Staffing Agency") selected @endif>Agency / Staffing Agency</option>
+                                                            <option value="Seasonal" @if(Auth::guard('nurse_middle')->user()->current_employee_status == "Seasonal") selected @endif>Seasonal</option>
+                                                            <option value="Intern / Residency" @if(Auth::guard('nurse_middle')->user()->current_employee_status == "Intern / Residency") selected @endif>Intern / Residency</option>
+                                                            <option value="Self-Employed / Private Practice" @if(Auth::guard('nurse_middle')->user()->current_employee_status == "Self-Employed / Private Practice") selected @endif>Self-Employed / Private Practice</option>
+                                                            <option value="Volunteer" @if(Auth::guard('nurse_middle')->user()->current_employee_status == "Volunteer") selected @endif>Volunteer</option>
+                                                            <option value="Unemployed" @if(Auth::guard('nurse_middle')->user()->current_employee_status == "Unemployed") selected @endif>Unemployed</option>
+                                                            </select>
+                                                            <span id="photo_id" class="text-danger"></span>
+                                                        </div>
+
+                                                        <div class="col-md-12 mt-2">
+                                                            <div class="form-group">
+                                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Professional Bio</strong></label>
+                                                                <textarea class="form-control" rows="4" name="bio">{{ Auth::guard('nurse_middle')->user()->bio }}</textarea>
+                                                                <span id="bio_error" class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="declaration_box  mt-3">
+                                                            <input type="checkbox" name="declare_information" class="declare_information">
+                                                            <label for="declare_information">I declare that the information provided is true and correct</label>
+                                                            <span id="bio_error" class="text-danger"></span>
+                                                        </div>
+                                                        <div class="d-flex align-items-center justify-content-between mt-3">
+                                                            <button type="button" class="btn btn-default next-step align-items-center justify-content-between" data-target="#navpill-3">Next</button>
+                                                        </div>  
+                                                    </div>
                                             </div>
                                     </div>
                     
@@ -851,6 +908,7 @@
         $('.next-step').on('click', function() { 
             // alert($('#stateI').val());     
             var targetTab            = $(this).data('target');
+             if(targetTab ==  '#navpill-2'){
              var first_name          =  $('#first_name').val();
              var last_name           =  $('#last_name').val();  
              var email               =  $('#email').val();  
@@ -869,8 +927,11 @@
              var home_address        =  $('#home_address').val(); 
              var emrg_contact        =  $('#emrg_contact').val();  
              var emrg_email          =  $('#emrg_email').val();
-            
-              
+             }else if(targetTab ==  '#navpill-3'){
+
+
+             }
+
              let hasErrors = false;
 
              // Function to show error message
@@ -1003,7 +1064,8 @@
         // };
         // Create a new FormData object
         var formData = new FormData();
-
+        
+        if(targetTab ==  '#navpill-2'){
         // Append form fields to the FormData object
         formData.append('first_name', $('#first_name').val());
         formData.append('last_name', $('#last_name').val());
@@ -1032,6 +1094,11 @@
         formData.append('country_code_mobile', $('#country_code_mobile').val());
         formData.append('country_iso_mobile', $('#country_iso_mobile').val());
         formData.append('tab', 'tab1');
+        formData.append('nationality', $('#nationality').val());
+
+        }else if(targetTab ==  '#navpill-2'){
+
+        }
 
         $.ajax({
                 url: "{{ route('admin.add_nurse_post') }}",
@@ -1065,6 +1132,7 @@
                       // Show the target tab
                 },
                 error: function(error) {
+                if(targetTab ==  '#navpill-2'){
                   if (error.responseJSON.errors) {
                         if (error.responseJSON.errors.first_name) {
                             $('#first_name_error').text(error.responseJSON.errors.first_name[0]);
@@ -1177,6 +1245,7 @@
                         }else{
                             $('#profile_image_error').text('');
                         }
+                    }
                         
                     }
                 }

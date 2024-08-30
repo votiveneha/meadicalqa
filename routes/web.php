@@ -32,15 +32,12 @@ Route::prefix('/admin')->name('admin.')->namespace('App\Http\Controllers\admin')
           // Profession Managemenent
           Route::get('/professionList', 'SpecialityController@specialityList')->name('professionList');
           Route::post('/addSpeciality', 'SpecialityController@addSpeciality')->name('addSpeciality');
-          Route::post('/addGeneralCertificate', 'ProfessionalcerController@addGeneralCertificate')->name('addGeneralCertificate');
           Route::post('/updateSpeciality', 'SpecialityController@updateSpeciality')->name('updateSpeciality');
           Route::post('/deleteSpeciality', 'SpecialityController@deleteSpeciality')->name('deleteSpeciality');  
           Route::post('/getSpeciality', 'SpecialityController@getSpeciality')->name('getSpeciality');  
           
           // Sub Profession  Managemenent
           Route::get('/practitionertypeList/{id}', 'SpecialityController@subspecialityList')->name('practitionertypeList');
-          Route::get('/professional-subcertificate-list/{id}', 'ProfessionalcerController@certificateSubList')->name('professional-subcertificate-list');
-          Route::get('/professional-subcertificate-list/{id}', 'ProfessionalcerController@certificateSubList')->name('professional-subcertificate-list');
           Route::post('/addSubspeciality', 'SpecialityController@addSubspeciality')->name('addSubspeciality');
           Route::post('/updateSubspeciality', 'SpecialityController@updateSubspeciality')->name('updateSubspeciality');
           Route::post('/deleteSubspeciality', 'SpecialityController@deleteSubspeciality')->name('deleteSubspeciality');  
@@ -112,6 +109,13 @@ Route::prefix('/admin')->name('admin.')->namespace('App\Http\Controllers\admin')
         Route::post('/update-certificate', 'ProfessionalcerController@updateCertificate')->name('updateCertificate');
         Route::post('/delete-certificate', 'ProfessionalcerController@deleteCertificate')->name('deleteCertificate');  
         Route::post('/get-certificate', 'ProfessionalcerController@getCertificate')->name('getCertificate');
+
+        //Sub certificated Management
+          Route::get('/professional-subcertificate-list/{id}', 'ProfessionalcerController@certificateSubList')->name('professional-subcertificate-list');
+          Route::post('/addGeneralCertificate', 'ProfessionalcerController@addGeneralCertificate')->name('addGeneralCertificate');
+          Route::post('/get-sub-certificate', 'ProfessionalcerController@getsubCertificate')->name('getsubCertificate');
+          Route::post('/update-sub-certificate', 'ProfessionalcerController@updatesubCertificate')->name('updatesubCertificate');
+          Route::post('/delete-sub-certificate', 'ProfessionalcerController@deleteSubCertificate')->name('deleteSubCertificate');
 
         //Training  Managemenent
         Route::get('/training-list', 'TrainingController@TrainingList')->name('TrainingList');

@@ -981,6 +981,7 @@ class HomeController extends Controller
         $degree = json_encode($request->ndegree);
 
         $institution = $request->institution;
+        $most_relevant = $request->most_relevant;
         $user_id = $request->user_id;
         $graduation_start_date = $request->graduation_start_date;
         $graduation_end_date = $request->graduation_end_date;
@@ -1001,7 +1002,7 @@ class HomeController extends Controller
             $post1->degree = $degree;
             $post1->save();
             
-            $run = EducationModel::where('user_id',$user_id)->update(['institution'=>$institution,'graduate_start_date'=>$graduation_start_date,'graduate_end_date'=>$graduation_end_date,'professional_certifications'=>$professional_certification,'licence_number'=>$license_number,'country'=>$country,'state'=>$state,'expiration_date'=>$expiration_date,'training_courses'=>$training_courses,'training_workshops'=>$training_workshop,'complete_status'=>1]);
+            $run = EducationModel::where('user_id',$user_id)->update(['institution'=>$institution,'most_relevant'=>$most_relevant,'graduate_start_date'=>$graduation_start_date,'graduate_end_date'=>$graduation_end_date,'professional_certifications'=>$professional_certification,'licence_number'=>$license_number,'country'=>$country,'state'=>$state,'expiration_date'=>$expiration_date,'training_courses'=>$training_courses,'training_workshops'=>$training_workshop,'complete_status'=>1]);
         }else{
 
             

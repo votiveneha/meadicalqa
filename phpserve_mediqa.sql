@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Aug 29, 2024 at 10:38 AM
+-- Generation Time: Aug 30, 2024 at 10:54 AM
 -- Server version: 5.7.23-23
 -- PHP Version: 8.1.29
 
@@ -1111,6 +1111,7 @@ CREATE TABLE `profession` (
 
 CREATE TABLE `professional_certificate` (
   `id` int(11) NOT NULL,
+  `ordering_id` int(11) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -1120,19 +1121,23 @@ CREATE TABLE `professional_certificate` (
 -- Dumping data for table `professional_certificate`
 --
 
-INSERT INTO `professional_certificate` (`id`, `name`, `created_at`, `updated_at`) VALUES
-(6, 'ACLS (Advanced Cardiovascular Life Support)', '2024-08-14 05:19:19', '2024-08-14 05:19:19'),
-(7, 'BLS (Basic Life Support)', '2024-08-14 05:19:32', '2024-08-14 05:19:32'),
-(8, 'CPR (Cardiopulmonary Resuscitation)', '2024-08-14 05:20:00', '2024-08-14 05:20:00'),
-(9, 'NRP (Neonatal Resuscitation Program)', '2024-08-14 05:20:16', '2024-08-14 05:20:16'),
-(10, 'PALS (Pediatric Advanced Life Support)', '2024-08-14 05:20:31', '2024-08-14 05:20:31'),
-(11, 'RN (Registered Nurse)', '2024-08-14 05:20:49', '2024-08-14 05:20:49'),
-(12, 'CNA (Certified Nursing Assistant) / EN (Enrolled Nurse)', '2024-08-14 05:21:04', '2024-08-14 05:21:04'),
-(13, 'LPN (Licensed Practical Nurse) / LVN (Licensed Vocational Nurse)', '2024-08-14 05:21:20', '2024-08-14 05:21:20'),
-(14, 'CRNA (Certified Registered Nurse Anesthetist)', '2024-08-14 05:21:35', '2024-08-14 05:21:35'),
-(15, 'CNM (Certified Nurse Midwife)', '2024-08-14 05:21:49', '2024-08-14 05:21:49'),
-(16, 'ONS/ONCC (Oncology Nursing Society/Oncology Nursing Certification Corporation)', '2024-08-14 05:22:02', '2024-08-14 05:22:02'),
-(17, 'MSW/AiM (Maternity Support Worker/Assistant in Midwifery ) / Midwife Assistant', '2024-08-14 05:22:16', '2024-08-14 05:22:16');
+INSERT INTO `professional_certificate` (`id`, `ordering_id`, `name`, `created_at`, `updated_at`) VALUES
+(6, 1, 'ACLS (Advanced Cardiovascular Life Support)', '2024-08-14 05:19:19', '2024-08-14 05:19:19'),
+(7, 2, 'BLS (Basic Life Support)', '2024-08-14 05:19:32', '2024-08-14 05:19:32'),
+(8, 3, 'CPR (Cardiopulmonary Resuscitation)', '2024-08-14 05:20:00', '2024-08-14 05:20:00'),
+(9, 4, 'NRP (Neonatal Resuscitation Program)', '2024-08-14 05:20:16', '2024-08-14 05:20:16'),
+(10, 5, 'PALS (Pediatric Advanced Life Support)', '2024-08-14 05:20:31', '2024-08-14 05:20:31'),
+(11, 6, 'RN (Registered Nurse)', '2024-08-14 05:20:49', '2024-08-14 05:20:49'),
+(12, 8, 'CNA (Certified Nursing Assistant) / EN (Enrolled Nurse)', '2024-08-14 05:21:04', '2024-08-14 05:21:04'),
+(13, 9, 'LPN (Licensed Practical Nurse) / LVN (Licensed Vocational Nurse)', '2024-08-14 05:21:20', '2024-08-14 05:21:20'),
+(14, 10, 'CRNA (Certified Registered Nurse Anesthetist)', '2024-08-14 05:21:35', '2024-08-14 05:21:35'),
+(15, 11, 'CNM (Certified Nurse Midwife)', '2024-08-14 05:21:49', '2024-08-14 05:21:49'),
+(16, 12, 'ONS/ONCC (Oncology Nursing Society/Oncology Nursing Certification Corporation)', '2024-08-14 05:22:02', '2024-08-14 05:22:02'),
+(17, 13, 'MSW/AiM (Maternity Support Worker/Assistant in Midwifery ) / Midwife Assistant', '2024-08-14 05:22:16', '2024-08-14 05:22:16'),
+(18, 7, 'NP (Nurse Practioner) / (APRN) Advanced Practice Registered Nurse', '2024-08-28 23:15:28', '2024-08-28 23:15:28'),
+(19, 14, 'AIN (Assistant in Nursing) / NA (Nurse Associate) / HCA (Healthcare Assistant)', '2024-08-28 23:16:40', '2024-08-28 23:16:40'),
+(20, 15, 'RPN (Registered Practical Nurse) / RGN (Registered General Nurse)', '2024-08-28 23:17:10', '2024-08-28 23:17:10'),
+(21, 16, 'No License/Certification', '2024-08-28 23:17:33', '2024-08-28 23:17:33');
 
 -- --------------------------------------------------------
 
@@ -1271,7 +1276,50 @@ INSERT INTO `professional_certificate_table` (`professionalcert_id`, `cert_id`, 
 (119, 17, 'New Zealand: Maternity Care Assistant / Midwife Assistant - Midwifery Council of New Zealand', '2024-08-21 07:43:27', '2024-08-21 07:43:27'),
 (120, 17, 'Singapore: Midwife Assistant / Maternity Care Assistant - Singapore Nursing Board', '2024-08-21 07:43:52', '2024-08-21 07:43:52'),
 (121, 17, 'South Africa: MSW (Maternity Support Worker) / Midwife Assistant - South African Nursing Council (SANC)', '2024-08-21 07:44:12', '2024-08-21 07:44:12'),
-(122, 17, 'United Kingdom: MSW (Maternity Support Worker) / Midwife Assistant - Nursing and Midwifery Council (NMC)', '2024-08-21 07:44:34', '2024-08-21 07:44:34');
+(122, 17, 'United Kingdom: MSW (Maternity Support Worker) / Midwife Assistant - Nursing and Midwifery Council (NMC)', '2024-08-21 07:44:34', '2024-08-21 07:44:34'),
+(123, 18, 'Australia: Nurse Practitioner: Australian Health Practitioner Regulation Agency (AHPRA)', '2024-08-29 01:04:25', '2024-08-29 01:04:25'),
+(124, 18, 'Canada: Nurse Practitioner: Provincial/Territorial Nursing Regulatory Bodies', '2024-08-29 01:04:55', '2024-08-29 01:04:55'),
+(125, 18, 'Hong Kong: Advanced Practice Nurse: Nursing Council of Hong Kong (NCHK)', '2024-08-29 01:05:28', '2024-08-29 01:05:28'),
+(126, 18, 'Ireland: Advanced Nurse Practitioner (ANP): Nursing and Midwifery Board of Ireland (NMBI)', '2024-08-29 01:05:59', '2024-08-29 01:05:59'),
+(127, 18, 'Jamaica: Nurse Practitioner: Nursing Council of Jamaica', '2024-08-29 01:06:28', '2024-08-29 01:06:28'),
+(128, 18, 'New Zealand: Nurse Practitioner: Nursing Council of New Zealand (NCNZ)', '2024-08-29 01:06:57', '2024-08-29 01:06:57'),
+(129, 18, 'Singapore: Advanced Practice Nurse (APN): Singapore Nursing Board (SNB)', '2024-08-29 01:07:25', '2024-08-29 01:07:25'),
+(130, 18, 'South Africa: Nurse Practitioner: South African Nursing Council (SANC)', '2024-08-29 01:07:52', '2024-08-29 01:07:52'),
+(131, 18, 'United Kingdom: Advanced Nurse Practitioner (ANP): Nursing and Midwifery Council (NMC)', '2024-08-29 01:08:23', '2024-08-29 01:08:23'),
+(132, 18, 'United States: Advanced Practice Registered Nurse (APRN): State Boards of Nursing and National Certifying Bodies', '2024-08-29 01:08:47', '2024-08-29 01:08:47'),
+(133, 19, 'Australia: Assistant in Nursing : Australian Health Practitioner Regulation Agency (AHPRA)', '2024-08-29 01:53:53', '2024-08-29 01:53:53'),
+(134, 19, 'Canada: Licensed Practical Nurse (LPN) : Provincial/Territorial Nursing Regulatory Bodies', '2024-08-29 01:54:15', '2024-08-29 01:54:15'),
+(135, 19, 'Hong Kong: Enrolled Nurse : Nursing Council of Hong Kong (NCHK)', '2024-08-29 01:54:42', '2024-08-29 01:54:42'),
+(136, 19, 'Ireland: Health Care Assistant : Nursing and Midwifery Board of Ireland (NMBI) J', '2024-08-29 01:55:54', '2024-08-29 01:55:54'),
+(137, 19, 'Jamaica: Not applicable', '2024-08-29 01:56:19', '2024-08-29 01:56:19'),
+(138, 19, 'New Zealand: Enrolled Nurse : Nursing Council of New Zealand (NCNZ)', '2024-08-29 01:58:04', '2024-08-29 01:58:04'),
+(139, 19, 'Singapore: Enrolled Nurse : Singapore Nursing Board (SNB)', '2024-08-29 01:58:27', '2024-08-29 01:58:27'),
+(140, 19, 'South Africa: Enrolled Nurse : South African Nursing Council (SANC)', '2024-08-29 01:58:50', '2024-08-29 01:58:50'),
+(141, 19, 'United Kingdom: Nursing Associate : Nursing and Midwifery Council (NMC)', '2024-08-29 01:59:13', '2024-08-29 01:59:13'),
+(142, 19, 'United States: Licensed Practical Nurse (LPN) : State Boards of Nursing', '2024-08-29 01:59:41', '2024-08-29 01:59:41'),
+(143, 20, 'Australia: Enrolled Nurse : Australian Health Practitioner Regulation Agency (AHPRA)', '2024-08-29 02:00:28', '2024-08-29 02:00:28'),
+(144, 20, 'Canada: Registered Practical Nurse (RPN) : Provincial/Territorial Nursing Regulatory Bodies', '2024-08-29 02:00:59', '2024-08-29 02:00:59'),
+(145, 20, 'Hong Kong: Registered Nurse : Nursing Council of Hong Kong (NCHK)', '2024-08-29 02:01:26', '2024-08-29 02:01:26'),
+(146, 20, 'Ireland: Registered General Nurse : Nursing and Midwifery Board of Ireland (NMBI)', '2024-08-29 02:01:53', '2024-08-29 02:01:53'),
+(147, 20, 'Jamaica: Registered Practical Nurse (RPN) : Nursing Council of Jamaica', '2024-08-29 02:02:21', '2024-08-29 02:02:21'),
+(148, 20, 'New Zealand: Enrolled Nurse : Nursing Council of New Zealand (NCNZ)', '2024-08-29 02:02:47', '2024-08-29 02:02:47'),
+(149, 20, 'Singapore: Enrolled Nurse : Singapore Nursing Board (SNB)', '2024-08-29 02:03:12', '2024-08-29 02:03:12'),
+(150, 20, 'South Africa: Enrolled Nurse : South African Nursing Council (SANC)', '2024-08-29 02:03:38', '2024-08-29 02:03:38'),
+(151, 20, 'United Kingdom: Registered Nurse : Nursing and Midwifery Council (NMC)', '2024-08-29 02:04:09', '2024-08-29 02:04:09'),
+(152, 20, 'United States: Licensed Practical Nurse (LPN) : State Boards of Nursing', '2024-08-29 02:04:34', '2024-08-29 02:04:34'),
+(153, 21, 'Assistant in Nursing (AIN)', '2024-08-29 02:05:20', '2024-08-29 02:05:20'),
+(154, 21, 'Auxiliary Midwife', '2024-08-29 02:05:45', '2024-08-29 02:05:45'),
+(155, 21, 'Enrolled Nurse (Student)', '2024-08-29 02:06:07', '2024-08-29 02:06:07'),
+(156, 21, 'Healthcare Assistant (HCA)', '2024-08-29 02:06:32', '2024-08-29 02:06:32'),
+(157, 21, 'Midwife Assistant', '2024-08-29 02:06:55', '2024-08-29 02:06:55'),
+(158, 21, 'Midwife Student', '2024-08-29 02:07:16', '2024-08-29 02:07:16'),
+(159, 21, 'Midwife Technician', '2024-08-29 02:07:40', '2024-08-29 02:07:40'),
+(160, 21, 'Nurse Aide', '2024-08-29 02:07:59', '2024-08-29 02:07:59'),
+(161, 21, 'Nurse Assistant', '2024-08-29 02:08:22', '2024-08-29 02:08:22'),
+(162, 21, 'Nurse Auxiliary', '2024-08-29 02:08:41', '2024-08-29 02:08:41'),
+(163, 21, 'Nurse Student', '2024-08-29 02:09:01', '2024-08-29 02:09:01'),
+(164, 21, 'Student Midwife', '2024-08-29 02:09:21', '2024-08-29 02:09:21'),
+(165, 21, 'Temporary Nurse Aide', '2024-08-29 02:09:42', '2024-08-29 02:09:42');
 
 -- --------------------------------------------------------
 
@@ -6821,7 +6869,7 @@ INSERT INTO `users` (`id`, `name`, `lastname`, `email`, `profile_img`, `email_ve
 (101, 'Vincent', 'Boueshaghi', 'vincent.boueshaghi@gmail.com', '/nurse/assets/imgs/1722572908.jpg', NULL, '$2y$10$7ZsK407SqNahqm2WaRtfYu6ZjD4JqSbYpqQegKeoU55OYwCQWFLy.', NULL, '', 0, '1', '1', '1', '[\"1\",\"2\",\"3\",\"4\"]', '[\"2\"]', 'null', 'null', '1', 'null', 'null', 'null', '[\"10\"]', '6009', NULL, NULL, '2024-08-27 12:36:49', '2024-08-27 07:25:11', '5', '1', 'Yes', 'No', 'Yes', 'No', 'Yes', '61', 'au', '0426923779', 'Pizzas77', 'AU', 202, 'Perth', NULL, 'mediqa.com.au', NULL, 'Male', '1976-08-29', '25/25 cook street edw', '0426923779', '61', 'au', 'vincentriviera@gmail.com', '[\"253\"]', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'Agency / Staffing Agency', 1, 1, '14', NULL, NULL),
 (102, 'Neha', 'Mandloi', 'wew@gmail.com', 'nurse/assets/imgs/nurse06.png', NULL, '$2y$10$TPOMghGjJln8oF1BeUwmU.nhe7H8Hbx.qSeFwZFppVu8pvySGmsp.', NULL, 'eyJpdiI6ImZNTW9YaFNVNzhwRkZjTXBKS2w0TFE9PSIsInZhbHVlIjoiQnFWMlN4akRYcWY5djlSK1BCM3pHUT09IiwibWFjIjoiNzVmNWFjOTAxYmZiYTQwNmExMTFjY2RiZTZhYTZlY2FkYWM0NjkzZGI2OTA2YWJiM2E0MjU3MWFiNjlkYjdiOCIsInRhZyI6IiJ9', 0, '0', '1', '1', '[\"1\",\"3\",\"4\"]', '[\"1\"]', 'null', 'null', '1', 'null', 'null', 'null', '[\"11\"]', '452001', NULL, NULL, '2024-07-30 13:01:30', NULL, '0', '1', 'No', 'No', 'No', 'No', 'No', '355', NULL, '1234567890', 'Neha@1234', 'AL', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'null', '[\"19\"]', 'null', 'null', '[\"10\"]', '[\"233\"]', '[\"243\"]', '[\"389\"]', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, NULL, NULL, NULL, NULL, NULL),
 (109, 'robert', 'na', 'v.harshivta@gmail.comv', 'nurse/assets/imgs/nurse06.png', NULL, '$2y$10$dlB3AUe7DPDvgT0/L3eAUOFuDb4dtOiXfLc.6DpZ6/0LlhxliYa.u', NULL, '', 0, '1', '1', '1', '[\"2\"]', '[\"1\"]', 'null', 'null', '5', 'null', 'null', 'null', '[\"2\"]', '451666', NULL, NULL, '2024-08-02 06:12:06', '2024-08-02 00:42:06', '4', '1', 'No', 'No', 'No', 'No', 'No', '93', 'af', '7894561237', 'Ganeshu@15', 'IN', 1614, 'indore', 'ttest', 'https://votivetech.in/mediqa/nurse/my-profile', '2024-08-13 06:10:15', 'Female', '08/01/2024', 'indore', '7894561238', '61', 'au', 'votivephp.harshita@gmail.com', 'null', '[\"19\"]', 'null', 'null', 'null', '[\"205\"]', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, NULL, NULL, NULL, NULL, NULL),
-(112, 'Neha', 'Mandloi', 'votivephp.neha@gmail.com', 'nurse/assets/imgs/nurse06.png', NULL, '$2y$10$JlZJrE20.hk4hlvFPM2BNOvtgDqYAn2kqF.q8aXrtWHPHMq7YLrMC', NULL, '', 0, '1', '1', '1', '[\"2\",\"3\"]', '[\"1\"]', 'null', 'null', '2', 'null', 'null', 'null', 'null', '452001', NULL, NULL, '2024-08-25 11:08:12', '2024-08-28 13:22:11', '5', '1', 'No', 'Yes', 'No', 'Yes', 'Yes', '91', 'in', '9131403180', 'Neha@1234', 'IN', 1598, 'Indore', NULL, 'http://localhost/medical/nurse/my-profile', NULL, 'Female', '2000-05-02', 'sd, dsfd, dsfd, dsfd, dsfd', '1234567890', '61', 'au', 'votivephp.neha@gmail.com', 'null', '[\"22\"]', 'null', 'null', 'null', '[\"203\"]', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'Travel', 1, 1, '87', 0, '2024-08-06'),
+(112, 'Neha', 'Mandloi', 'votivephp.neha@gmail.com', 'nurse/assets/imgs/nurse06.png', NULL, '$2y$10$JlZJrE20.hk4hlvFPM2BNOvtgDqYAn2kqF.q8aXrtWHPHMq7YLrMC', NULL, '', 0, '1', '1', '1', '[\"2\",\"3\"]', '[\"1\"]', 'null', 'null', '2', 'null', 'null', 'null', '[\"10\"]', '452001', NULL, NULL, '2024-08-29 09:57:35', '2024-08-29 08:27:16', '5', '1', 'No', 'Yes', 'No', 'Yes', 'Yes', '91', 'in', '9131403180', 'Neha@1234', 'IN', 1598, 'Indore', NULL, 'http://localhost/medical/nurse/my-profile', NULL, 'Female', '2000-05-02', 'sd, dsfd, dsfd, dsfd, dsfd', '1234567890', '61', 'au', 'votivephp.neha@gmail.com', 'null', '[\"22\"]', 'null', 'null', 'null', '[\"203\"]', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'Travel', 1, 1, '87', 0, '2024-08-06'),
 (113, 'Neha', 'Mandloi', 'aw@gmail.com', 'nurse/assets/imgs/nurse06.png', NULL, '$2y$10$NOVYSOyoJ38r0alUTziwM.OtfQmt9NNCRXPYzqyWnfQ1I5abAjOxa', NULL, 'eyJpdiI6InpGemFEY0NGNkdzbGlqTDhZb3dXVnc9PSIsInZhbHVlIjoidnYzV3cwZW1UelZ2MGx4UWxoUzVsdz09IiwibWFjIjoiNzQ2ZTgwYzkxMzc3OGI5NDBkYmE1YWMzMGU1YTY2YWU4ODE1YWVjNDY1ZGRmYmI1ZTU4MDUwN2VmNmZiOGEzZiIsInRhZyI6IiJ9', 0, '0', '1', '1', '[\"4\"]', '[\"1\"]', 'null', 'null', '3', 'null', 'null', 'null', '[\"11\"]', '452001', NULL, NULL, '2024-08-02 08:16:20', NULL, '0', '1', 'No', 'No', 'No', 'No', 'No', '91', 'in', '9131403180', 'Neha@1234', 'IN', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'null', '[\"21\"]', 'null', 'null', 'null', 'null', 'null', '[\"388\"]', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, NULL, NULL, NULL, NULL, NULL),
 (123, 'Ravi JadhavKunal', 'hgdvcwd', 'votivewpravi@gmail.com', 'nurse/assets/imgs/nurse06.png', NULL, '$2y$10$QZZq77oIk7X.pr6HOSxq4uDVcs/N0N4/wDw6puR.71Ah1V8RSA22a', NULL, 'eyJpdiI6ImxRdlZKRHpiUjYySlBEWmJ6ZmVOQXc9PSIsInZhbHVlIjoiaDFoYXNoN2JKRHZteDFnYXRrcnhvd045WEhSR2F6KzdnMFRoMFdOTTlMTT0iLCJtYWMiOiIwMjM1ZDAzY2RjMGFmMjZmYTA4YmRmZTU2MDBiNzUyM2ZiNzMxMTgxMjYxNTM4NDgwZGE4NjcxYzNlODJlNjBmIiwidGFnIjoiIn0=', 0, '0', '1', '1', '[\"3\"]', '[\"1\"]', 'null', 'null', '4', 'null', 'null', 'null', '[\"11\"]', '452002', NULL, NULL, '2024-08-02 13:40:42', NULL, '0', '1', 'No', 'No', 'No', 'No', 'No', '91', 'in', '6265522541', 'Test@2024', 'IN', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'null', '[\"21\"]', 'null', 'null', 'null', 'null', '[\"242\"]', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, NULL, NULL, NULL, NULL, NULL),
 (126, 'ss', 'ss', 'votive.techs@gmail.com', 'nurse/assets/imgs/nurse06.png', NULL, '$2y$10$oUiyziBmPO0VzvMRbZeUkO.9J0sF9HIxeYg9ZDeikPSLQR0uIb2fW', NULL, 'eyJpdiI6Ilg2bXhXcHNHcDlOVTlmQmVPNmJQZlE9PSIsInZhbHVlIjoiTWNGSWp6ZWVIY0JuMFpnc1BGS1NoZjYwUkhlUEUwNklodWFFSVoxYmZ5dz0iLCJtYWMiOiJjNGI2ODEyNDZkYmVlODdjYjRjNGY1MjlmZTZiNzYwMmVkMjQ4NDg3OTA0NDliNGU3YTYxYjE4OGU3Nzc2OWZlIiwidGFnIjoiIn0=', 0, '0', '1', '1', '[\"2\"]', '[\"1\"]', 'null', 'null', '5', 'null', 'null', 'null', '[\"2\"]', '500256', NULL, NULL, '2024-08-03 05:28:45', NULL, '0', '1', 'No', 'No', 'No', 'No', 'No', '61', 'au', '4144645465', 'Sahu@12345', 'AU', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'null', '[\"20\"]', 'null', 'null', 'null', '[\"205\"]', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, NULL, NULL, NULL, NULL, NULL),
@@ -6830,7 +6878,7 @@ INSERT INTO `users` (`id`, `name`, `lastname`, `email`, `profile_img`, `email_ve
 (132, 'yas', 'mishra', 'votivesales.yashica@gmail.com', 'nurse/assets/imgs/nurse06.png', NULL, '$2y$10$LwnU2Yo2gqlcW13hvOUNO.reBJE3LmJQguC.cRHuCArDHyMm6zxYS', NULL, 'eyJpdiI6Ik9uQkpsQkM3TTNnVGpFbnJSOXBiMUE9PSIsInZhbHVlIjoiakxueWVnMlVodDFnMGd4bWhsakpLSFU1TndEMFcwUjc2NUZxcWx5c3hrbz0iLCJtYWMiOiI0MjAzZmU3MTRmYzk5ZDhjZTAxNmNiNjQyZjhhZjEwZDMwNDQ2YmZiZjA3MDU3NDFlMGE4NzhiYmIzOWRhMDY5IiwidGFnIjoiIn0=', 0, '0', '1', '1', '[\"1\",\"3\",\"4\"]', '[\"2\",\"1\",\"3\"]', 'null', 'null', '2', 'null', 'null', 'null', '[\"1\",\"10\",\"7\",\"11\",\"2\",\"6\",\"9\",\"4\",\"12\",\"13\",\"8\",\"3\",\"5\"]', '12345', NULL, NULL, '2024-08-05 05:52:00', NULL, '0', '1', 'No', 'No', 'No', 'No', 'No', '61', 'au', '4123456712', '@Votive123', 'AU', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '[\"6\",\"5\",\"10\",\"7\",\"9\",\"8\",\"11\",\"12\",\"13\",\"14\",\"15\",\"16\"]', '[\"18\",\"19\",\"20\",\"21\",\"22\",\"23\",\"24\",\"25\",\"26\",\"27\",\"28\",\"29\",\"30\",\"31\",\"32\",\"33\",\"34\",\"35\",\"36\",\"37\",\"38\",\"39\",\"40\",\"41\",\"42\",\"44\",\"43\",\"45\",\"46\",\"47\",\"48\",\"49\",\"50\",\"51\",\"52\",\"53\",\"54\",\"55\",\"56\",\"57\",\"58\",\"59\",\"60\",\"61\",\"63\",\"62\",\"64\",\"65\",\"66\",\"67\",\"68\",\"69\",\"70\",\"71\",\"72\",\"73\",\"74\",\"75\",\"76\",\"77\",\"78\",\"79\",\"80\",\"81\",\"82\",\"83\",\"84\",\"85\",\"86\",\"87\",\"88\",\"90\",\"89\",\"91\",\"92\",\"93\",\"95\",\"94\",\"96\",\"97\",\"98\",\"99\",\"100\",\"101\",\"102\",\"103\",\"104\",\"105\",\"106\",\"107\",\"108\",\"109\",\"110\",\"111\",\"112\",\"113\",\"114\",\"115\",\"116\",\"117\",\"118\",\"119\",\"120\",\"121\",\"122\",\"123\",\"124\",\"125\",\"126\",\"127\",\"128\",\"129\",\"130\",\"131\",\"132\",\"133\",\"134\",\"135\",\"136\",\"137\",\"138\",\"139\",\"140\",\"141\",\"142\",\"143\",\"144\",\"145\",\"146\",\"147\",\"148\",\"149\",\"150\",\"151\",\"152\",\"153\",\"154\",\"155\",\"156\",\"157\",\"158\",\"159\",\"160\",\"161\",\"162\",\"163\",\"164\",\"165\",\"166\",\"167\",\"168\",\"169\",\"170\",\"171\"]', '[\"173\",\"174\",\"232\",\"176\",\"234\",\"233\",\"177\",\"175\",\"178\",\"179\"]', '[\"181\",\"182\",\"183\",\"184\",\"185\",\"186\",\"187\",\"188\",\"189\",\"190\",\"191\",\"192\",\"193\",\"194\",\"195\",\"196\",\"197\",\"198\",\"199\",\"200\",\"201\",\"202\",\"203\",\"204\",\"205\",\"206\",\"207\",\"208\",\"209\",\"210\",\"211\",\"212\",\"213\",\"214\",\"215\",\"216\",\"217\",\"218\",\"219\",\"220\",\"221\",\"222\",\"223\",\"224\",\"225\",\"226\",\"227\"]', '[\"6\",\"9\",\"10\"]', 'null', '[\"240\"]', '[\"386\"]', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, NULL, NULL, NULL, NULL, NULL),
 (133, 'Neha', 'Mandloi', 'votivephp.neha434355@gmail.com', 'nurse/assets/imgs/nurse06.png', NULL, '$2y$10$xZYiBzLwq9va7vU/3CaAxOflPy1o4XXL4P/XnhLBZOzQZzQsU9/gi', NULL, 'eyJpdiI6InhRQjdZSTZLS1R1LzBscEdaTWlJSXc9PSIsInZhbHVlIjoiTHBDZTJWZ3RvdW9vT2p2bC9RY2EwNmJDNHB2YjB5amdoYnYxVWZmVUUwcz0iLCJtYWMiOiIyNWRiZjlhYjQ1MDFmMzIxYTYyNDUyNTYyNjU0NDg3NWEzZTQ4ZGYxYTdhODQ0NzEwOWEwNzVhZjRiNTMzYTJmIiwidGFnIjoiIn0=', 0, '0', '1', '1', '[\"3\"]', '[\"1\"]', 'null', 'null', '1', 'null', 'null', 'null', '[\"2\"]', '452001', NULL, NULL, '2024-08-06 05:45:46', '2024-08-06 02:49:31', '0', '1', 'No', 'No', 'No', 'No', 'No', '61', 'au', '1234567890', 'Neha@1234', 'AU', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'null', '[\"22\"]', 'null', 'null', 'null', 'null', '[\"243\"]', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, NULL, NULL, NULL, NULL, NULL),
 (135, 'robert', 'test', 'test333@gmail.com', '/tmp/phpGqQJEN', NULL, NULL, NULL, NULL, 0, '0', '1', '1', NULL, '', '', NULL, '', '', NULL, NULL, '', '451666', NULL, NULL, '2024-08-08 07:58:35', '2024-08-08 07:58:35', '0', '1', 'No', 'No', 'No', 'No', 'No', '91', 'in', '54e4545454', NULL, 'IN', 1613, 'indore', NULL, 'test.com', NULL, 'male', '2024-08-10', 'indore', '3434343434', '91', 'in', 'votivephp.harshita@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(141, 'veer', 'Demo', 'vijehndraparmar1789@gmail.com', '/nurse/assets/imgs/1724650774.jpg', NULL, '$2y$10$KQGz..oZnbxMrXli2e0GHuTuVXNKFmTw0zw5dQHNl2j/CZcJGl2ZC', NULL, '', 0, '1', '1', '1', '[\"1\",\"2\",\"3\",\"4\"]', '[\"2\",\"1\",\"3\"]', 'null', 'null', '4', 'null', 'null', 'null', 'null', '462001', NULL, NULL, '2024-08-26 05:42:11', '2024-08-28 13:23:39', '2', '1', 'No', 'Yes', 'No', 'No', 'No', '61', 'au', '1234567891', '708998@Veer', 'AU', 201, 'Victoria', 'Midwife Assistant / Maternity Care Assistant', 'https://votivetech.in/mediqa/nurse/my-profile?page=my_profile', NULL, 'Male', '1996-12-04', 'Bhopal', '4562317895', '61', 'au', 'testgb01@hulas.co', '[\"252\",\"253\",\"6\",\"5\",\"254\",\"10\",\"7\",\"9\",\"8\",\"11\",\"255\",\"12\",\"13\",\"14\",\"256\",\"257\",\"15\",\"258\",\"259\",\"238\",\"260\",\"261\",\"239\"]', '[\"18\",\"19\",\"20\",\"21\",\"22\",\"23\",\"24\",\"25\",\"26\",\"27\",\"28\",\"29\",\"31\",\"263\",\"30\",\"32\",\"33\",\"34\",\"245\",\"246\",\"247\",\"248\",\"35\",\"36\",\"37\",\"264\",\"38\",\"265\",\"39\",\"40\",\"41\",\"249\",\"42\",\"44\",\"43\",\"45\",\"46\",\"47\",\"48\",\"49\",\"50\",\"51\",\"52\",\"250\",\"53\",\"54\",\"55\",\"56\",\"57\",\"58\",\"59\",\"60\",\"61\",\"63\",\"62\",\"64\",\"65\",\"66\",\"67\",\"267\",\"268\",\"68\",\"69\",\"70\",\"71\",\"72\",\"73\",\"74\",\"75\",\"269\",\"76\",\"77\",\"78\",\"79\",\"80\",\"81\",\"82\",\"83\",\"84\",\"85\",\"86\",\"87\",\"88\",\"90\",\"89\",\"91\",\"92\",\"93\",\"95\",\"94\",\"96\",\"97\",\"98\",\"99\",\"100\",\"101\",\"102\",\"103\",\"104\",\"105\",\"142\",\"106\",\"107\",\"108\",\"109\",\"110\",\"240\",\"111\",\"112\",\"113\",\"114\",\"115\",\"116\",\"117\",\"118\",\"119\",\"120\",\"121\",\"122\",\"123\",\"124\",\"262\",\"251\",\"266\",\"125\",\"244\",\"126\",\"127\",\"241\",\"128\",\"129\",\"130\",\"131\",\"132\",\"133\",\"134\",\"135\",\"136\",\"243\",\"137\",\"138\",\"139\",\"140\",\"141\",\"143\",\"144\",\"145\",\"146\",\"147\",\"148\",\"149\",\"150\",\"151\",\"152\",\"153\",\"154\",\"155\",\"156\",\"158\",\"159\",\"160\",\"161\",\"162\",\"163\",\"164\",\"165\",\"166\",\"167\",\"168\",\"169\",\"170\",\"171\",\"242\"]', '[\"173\",\"174\",\"282\",\"290\",\"285\",\"281\",\"273\",\"232\",\"283\",\"176\",\"234\",\"233\",\"280\",\"271\",\"276\",\"275\",\"272\",\"279\",\"284\",\"175\",\"286\",\"287\",\"270\",\"277\",\"178\",\"179\",\"289\",\"288\",\"177\",\"274\",\"291\"]', '[\"181\",\"182\",\"183\",\"184\",\"185\",\"186\",\"187\",\"188\",\"189\",\"190\",\"191\",\"192\",\"193\",\"194\",\"195\",\"196\",\"197\",\"198\",\"199\",\"200\",\"201\",\"202\",\"203\",\"204\",\"205\",\"206\",\"207\",\"208\",\"209\",\"210\",\"211\",\"212\",\"213\",\"214\",\"215\",\"216\",\"217\",\"218\",\"219\",\"220\",\"221\",\"222\",\"223\",\"224\",\"225\",\"226\",\"227\",\"278\"]', '[\"6\",\"7\",\"8\",\"9\",\"10\",\"11\",\"12\",\"13\",\"14\",\"15\",\"16\",\"17\",\"18\",\"19\",\"20\",\"21\",\"22\",\"23\",\"24\",\"25\",\"26\",\"27\",\"28\",\"29\",\"30\",\"31\",\"32\",\"33\",\"34\",\"35\",\"36\",\"37\",\"38\",\"39\",\"40\",\"41\",\"42\",\"43\",\"44\",\"45\",\"46\",\"47\",\"48\",\"49\",\"50\",\"51\",\"52\",\"53\",\"54\",\"55\",\"56\",\"57\",\"58\",\"59\",\"60\",\"61\",\"62\",\"63\",\"64\",\"65\",\"66\",\"67\",\"68\",\"69\",\"70\",\"71\",\"72\",\"73\",\"74\",\"75\",\"76\",\"77\",\"78\",\"79\",\"80\",\"81\",\"82\",\"83\",\"84\",\"85\",\"86\",\"87\",\"88\",\"89\",\"90\",\"91\",\"92\",\"93\",\"94\",\"95\",\"96\",\"394\",\"395\",\"396\",\"397\",\"398\"]', '[\"201\",\"202\",\"203\",\"204\",\"205\",\"206\",\"207\",\"208\",\"209\",\"210\",\"211\",\"212\",\"213\",\"214\",\"215\",\"216\",\"217\",\"218\",\"219\",\"220\",\"221\",\"222\",\"223\",\"224\",\"225\",\"226\",\"227\",\"228\",\"229\",\"230\",\"231\",\"232\",\"233\",\"399\"]', '[\"239\",\"240\",\"241\",\"242\",\"243\",\"244\",\"245\",\"246\",\"247\",\"248\",\"249\",\"250\",\"255\",\"256\",\"257\",\"258\",\"259\",\"260\",\"261\",\"262\",\"263\",\"264\",\"265\",\"266\",\"267\",\"268\",\"269\",\"270\",\"271\",\"272\",\"273\",\"274\",\"275\",\"276\",\"277\",\"278\",\"279\",\"280\",\"281\",\"282\",\"283\",\"284\",\"285\",\"404\",\"405\",\"406\",\"407\"]', '[\"388\"]', '[\"97\",\"98\",\"99\"]', '[\"101\",\"102\",\"103\",\"104\",\"105\",\"106\",\"107\",\"108\",\"109\",\"110\",\"111\",\"112\",\"113\",\"114\",\"115\",\"116\",\"118\"]', '[\"120\",\"121\",\"122\",\"123\",\"124\",\"125\",\"126\",\"127\",\"128\",\"129\",\"130\",\"131\",\"132\",\"133\",\"134\",\"135\",\"136\",\"137\",\"138\",\"139\",\"140\",\"141\",\"142\",\"143\",\"144\",\"145\",\"146\",\"147\",\"148\",\"149\",\"150\",\"151\",\"152\",\"153\",\"154\",\"155\",\"156\"]', '[\"158\",\"159\",\"160\",\"161\",\"162\",\"163\",\"164\",\"165\",\"166\",\"167\",\"168\",\"169\",\"170\",\"171\",\"172\",\"173\",\"174\",\"175\",\"176\",\"177\",\"178\",\"179\",\"180\",\"181\",\"182\",\"183\",\"184\",\"185\",\"186\",\"187\",\"188\",\"189\",\"190\",\"191\",\"192\",\"193\",\"194\"]', '[\"234\",\"235\",\"236\",\"237\"]', '[\"400\",\"401\",\"402\",\"403\"]', '[\"286\",\"287\",\"288\"]', '[\"290\",\"291\",\"292\",\"293\",\"294\",\"295\",\"296\",\"297\",\"298\",\"299\",\"300\",\"301\",\"302\",\"303\",\"304\"]', '[\"306\",\"307\",\"309\",\"308\",\"310\",\"311\",\"312\",\"313\",\"314\",\"315\",\"316\",\"317\",\"318\",\"319\",\"320\",\"321\",\"322\",\"323\",\"324\",\"325\",\"328\",\"326\",\"329\",\"327\",\"330\",\"331\",\"332\",\"333\",\"334\",\"335\",\"336\",\"337\",\"338\",\"339\",\"340\",\"341\"]', '[\"346\",\"343\",\"344\",\"345\",\"347\",\"348\",\"349\",\"350\",\"352\",\"353\",\"354\",\"355\",\"356\",\"357\",\"358\",\"359\",\"360\",\"361\",\"362\",\"365\",\"363\",\"366\",\"364\",\"367\",\"368\",\"369\",\"370\",\"371\",\"372\",\"373\",\"374\",\"375\",\"377\",\"378\",\"376\",\"351\"]', 'Unemployed', 1, 1, '101', 0, '2024-02-12');
+(141, 'veer', 'Demo', 'vijehndraparmar1789@gmail.com', '/nurse/assets/imgs/1724650774.jpg', NULL, '$2y$10$KQGz..oZnbxMrXli2e0GHuTuVXNKFmTw0zw5dQHNl2j/CZcJGl2ZC', NULL, '', 0, '1', '1', '1', '[\"1\"]', '[\"2\",\"1\",\"3\"]', 'null', 'null', '4', 'null', 'null', 'null', 'null', '462001', NULL, NULL, '2024-08-26 05:42:11', '2024-08-29 23:34:28', '2', '1', 'No', 'Yes', 'No', 'No', 'No', '61', 'au', '1234567891', '708998@Veer', 'AU', 201, 'Victoria', 'Midwife Assistant / Maternity Care Assistant', 'https://votivetech.in/mediqa/nurse/my-profile?page=my_profile', NULL, 'Male', '1996-12-04', 'Bhopal', '4562317895', '61', 'au', 'testgb01@hulas.co', '[\"252\"]', '[\"18\"]', '[\"173\"]', 'null', '[\"7\"]', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'Seasonal', 1, 1, '101', 1, '2024-02-12');
 
 -- --------------------------------------------------------
 
@@ -6843,6 +6891,7 @@ CREATE TABLE `user_education_cerification` (
   `user_id` int(11) NOT NULL,
   `degrees` text,
   `institution` text,
+  `most_relevant` text,
   `graduate_start_date` text,
   `graduate_end_date` text,
   `professional_certifications` text,
@@ -6861,15 +6910,15 @@ CREATE TABLE `user_education_cerification` (
 -- Dumping data for table `user_education_cerification`
 --
 
-INSERT INTO `user_education_cerification` (`education_id`, `user_id`, `degrees`, `institution`, `graduate_start_date`, `graduate_end_date`, `professional_certifications`, `licence_number`, `country`, `state`, `expiration_date`, `training_courses`, `training_workshops`, `complete_status`, `created_at`, `updated_at`) VALUES
-(4, 58, NULL, 'rdfd', '2024-07-01', '2024-08-10', '[\"BLS\",\"PALS\"]', 'sds', 'AM', 191, '2024-08-15', '[\"4\",\"5\"]', '[\"6\",\"8\"]', 1, '2024-08-12 11:53:54', '2024-08-12 06:23:54'),
-(5, 112, NULL, 'rdfd', '2024-08-16', '2024-09-07', '[\"BLS\"]', 'sds', 'DZ', 81, '2024-08-28', '[\"5\"]', '[\"8\"]', 1, '2024-08-09 13:44:03', '2024-08-09 08:14:03'),
-(7, 133, NULL, 'Test', '2024-08-01', '2024-09-04', '[\"ALS\",\"BLS\",\"PALS\"]', '123df', 'AR', 176, '2024-08-30', '[\"4\",\"5\"]', '[\"6\"]', NULL, '2024-08-06 02:49:30', '2024-08-06 02:49:30'),
-(8, 120, NULL, 'ssk university London', '2013-07-01', '2016-03-01', '[\"BLS\"]', '0221654455185Bcs13', 'BS', 287, '2025-07-03', '[\"5\"]', '[\"7\"]', NULL, '2024-08-07 11:48:25', '2024-08-07 06:18:25'),
-(9, 131, NULL, 'ssk university London', '2013-07-01', '2016-06-08', '[\"BLS\"]', '0221654455185Bcs13', 'IN', 1603, '2028-01-01', '[\"5\"]', '[\"6\"]', 1, '2024-08-12 09:54:20', '2024-08-12 04:24:20'),
-(10, 136, NULL, 'ssk university London', '2024-01-04', '2015-02-05', '[\"BLS (Basic Life Support)\"]', '0221654455185bcs13', 'IN', 1609, '2025-01-01', '[\"5\"]', '[\"8\"]', 1, '2024-08-20 06:13:51', '2024-08-20 00:43:51'),
-(11, 139, NULL, 'ssk university London', '2015-12-04', '2020-12-04', '[\"BLS (Basic Life Support)\"]', '0221654455185Bcs13', 'GY', 1498, '2030-12-04', '[\"5\"]', '[\"8\"]', 1, '2024-08-20 03:06:44', '2024-08-20 03:06:44'),
-(12, 101, NULL, 'NDPS PSA Ecole des mines', '1977-04-25', '1984-04-25', '[\"6\"]', '', NULL, 0, '', '[\"5\"]', '[\"8\"]', 1, '2024-08-23 02:36:00', '2024-08-22 21:06:00');
+INSERT INTO `user_education_cerification` (`education_id`, `user_id`, `degrees`, `institution`, `most_relevant`, `graduate_start_date`, `graduate_end_date`, `professional_certifications`, `licence_number`, `country`, `state`, `expiration_date`, `training_courses`, `training_workshops`, `complete_status`, `created_at`, `updated_at`) VALUES
+(4, 58, NULL, 'rdfd', NULL, '2024-07-01', '2024-08-10', '[\"BLS\",\"PALS\"]', 'sds', 'AM', 191, '2024-08-15', '[\"4\",\"5\"]', '[\"6\",\"8\"]', 1, '2024-08-12 11:53:54', '2024-08-12 06:23:54'),
+(5, 112, NULL, 'rdfd', 'sde', '2024-08-16', '2024-09-07', '[\"7\"]', '', NULL, 0, '', '[\"5\"]', '[\"8\"]', 1, '2024-08-29 13:57:16', '2024-08-29 08:27:16'),
+(7, 133, NULL, 'Test', NULL, '2024-08-01', '2024-09-04', '[\"ALS\",\"BLS\",\"PALS\"]', '123df', 'AR', 176, '2024-08-30', '[\"4\",\"5\"]', '[\"6\"]', NULL, '2024-08-06 02:49:30', '2024-08-06 02:49:30'),
+(8, 120, NULL, 'ssk university London', NULL, '2013-07-01', '2016-03-01', '[\"BLS\"]', '0221654455185Bcs13', 'BS', 287, '2025-07-03', '[\"5\"]', '[\"7\"]', NULL, '2024-08-07 11:48:25', '2024-08-07 06:18:25'),
+(9, 131, NULL, 'ssk university London', NULL, '2013-07-01', '2016-06-08', '[\"BLS\"]', '0221654455185Bcs13', 'IN', 1603, '2028-01-01', '[\"5\"]', '[\"6\"]', 1, '2024-08-12 09:54:20', '2024-08-12 04:24:20'),
+(10, 136, NULL, 'ssk university London', NULL, '2024-01-04', '2015-02-05', '[\"BLS (Basic Life Support)\"]', '0221654455185bcs13', 'IN', 1609, '2025-01-01', '[\"5\"]', '[\"8\"]', 1, '2024-08-20 06:13:51', '2024-08-20 00:43:51'),
+(11, 139, NULL, 'ssk university London', NULL, '2015-12-04', '2020-12-04', '[\"BLS (Basic Life Support)\"]', '0221654455185Bcs13', 'GY', 1498, '2030-12-04', '[\"5\"]', '[\"8\"]', 1, '2024-08-20 03:06:44', '2024-08-20 03:06:44'),
+(12, 101, NULL, 'NDPS PSA Ecole des mines', NULL, '1977-04-25', '1984-04-25', '[\"6\"]', '', NULL, 0, '', '[\"5\"]', '[\"8\"]', 1, '2024-08-23 02:36:00', '2024-08-22 21:06:00');
 
 -- --------------------------------------------------------
 
@@ -7340,13 +7389,13 @@ ALTER TABLE `profession`
 -- AUTO_INCREMENT for table `professional_certificate`
 --
 ALTER TABLE `professional_certificate`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `professional_certificate_table`
 --
 ALTER TABLE `professional_certificate_table`
-  MODIFY `professionalcert_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=124;
+  MODIFY `professionalcert_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=166;
 
 --
 -- AUTO_INCREMENT for table `skills`
