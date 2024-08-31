@@ -79,7 +79,8 @@ Route::prefix('/admin')->name('admin.')->namespace('App\Http\Controllers\admin')
 
         Route::get('/view-certicate/{id}', 'NurseController@view_certificate')->name('view-certicate');
         Route::get('/add-nurse', 'NurseController@addNurse')->name('add_nurse');
-        Route::post('/add-nurse-post', 'NurseController@addNursePost')->name('add_nurse_post');
+         Route::post('/add-nurse-post-1', 'NurseController@addNursePostForm1')->name('add_nurse_post_1');
+        Route::post('/add-nurse-post-2', 'NurseController@addNursePostForm2')->name('add_nurse_post_2');
         Route::get('/customer-list', 'NurseController@customerList')->name('customer-list'); 
              
 

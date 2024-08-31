@@ -965,7 +965,7 @@
                         <div class="license_number_div row license_number_cpr d-none">
                           <div class="form-group col-md-6">
                             <label class="form-label" for="input-1">Certification/Licence Number</label>
-                            <input class="form-control" type="date" name="cpr_license_number">
+                            <input class="form-control" type="text" name="cpr_license_number">
                           </div>
                           <div class="form-group col-md-6">
                             <label class="form-label" for="input-1">Expiry</label>
@@ -993,7 +993,7 @@
                         <div class="license_number_div row license_number_nrp d-none">
                           <div class="form-group col-md-6">
                             <label class="form-label" for="input-1">Certification/Licence Number</label>
-                            <input class="form-control" type="date" name="nrp_license_number">
+                            <input class="form-control" type="text" name="nrp_license_number">
                           </div>
                           <div class="form-group col-md-6">
                             <label class="form-label" for="input-1">Expiry</label>
@@ -1369,6 +1369,46 @@
                             <input class="form-control" type="file" name="nlc_upload_certification">
                           </div>
                         </div>
+						
+						<h6 class="emergency_text">
+                          Additional Training 
+                        </h6>
+						<div class="row">
+                          <div class="col-md-6">
+                             <div class="form-group level-drp">
+                                <input type="hidden" name="training_course" class="training_course" value="@if(!empty($educationData)){{ $educationData->training_courses }}@endif">
+                                <label class="form-label" for="input-1">Select Courses</label>
+                                  <?php
+                                    $courses = DB::table("additional_training")->where("type","Course")->get();
+                                  ?>
+                                  <ul id="training_courses" style="display:none;">
+                                      @foreach($courses as $c)
+                                      <li data-value="{{ $c->id }}">{{ $c->name }}</li>
+                                      @endforeach
+                                      
+                                  </ul>
+                              <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="training_courses" name="training_courses[]" multiple="multiple"></select>
+                            </div>
+                            <span id="reqaddtraining" class="reqError text-danger valley"></span>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group level-drp">
+                                <input type="hidden" name="training_workshops" class="training_workshops" value="@if(!empty($educationData)){{ $educationData->training_workshops }}@endif">
+                                <label class="form-label" for="input-1">Select Workshops</label>
+                                  <?php
+                                    $workshop = DB::table("additional_training")->where("type","workshop")->get();
+                                  ?>
+                                  <ul id="training_workshop" style="display:none;">
+                                      @foreach($workshop as $c)
+                                      <li data-value="{{ $c->id }}">{{ $c->name }}</li>
+                                      @endforeach
+                                      
+                                  </ul>
+                              <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="training_workshop" name="training_workshop[]" multiple="multiple"></select>
+                            </div>
+                            <span id="reqaddworkshops" class="reqError text-danger valley"></span>
+                          </div>
+                        </div>
                       </div>
                       <span id="reqcertificate" class="reqError text-danger valley"></span>
                       <!-- <h6 class="emergency_text">
@@ -1428,45 +1468,8 @@
                           <input class="form-control" type="date" name="expiration_date" value="@if(!empty($educationData)){{ $educationData->expiration_date }}@endif">
                           <span id="reqexpiration_date" class="reqError text-danger valley"></span>
                         </div> -->
-                        <h6 class="emergency_text">
-                          Additional Training 
-                        </h6>
-                        <div class="row">
-                          <div class="col-md-6">
-                             <div class="form-group level-drp">
-                                <input type="hidden" name="training_course" class="training_course" value="@if(!empty($educationData)){{ $educationData->training_courses }}@endif">
-                                <label class="form-label" for="input-1">Select Courses</label>
-                                  <?php
-                                    $courses = DB::table("additional_training")->where("type","Course")->get();
-                                  ?>
-                                  <ul id="training_courses" style="display:none;">
-                                      @foreach($courses as $c)
-                                      <li data-value="{{ $c->id }}">{{ $c->name }}</li>
-                                      @endforeach
-                                      
-                                  </ul>
-                              <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="training_courses" name="training_courses[]" multiple="multiple"></select>
-                            </div>
-                            <span id="reqaddtraining" class="reqError text-danger valley"></span>
-                          </div>
-                          <div class="col-md-6">
-                            <div class="form-group level-drp">
-                                <input type="hidden" name="training_workshops" class="training_workshops" value="@if(!empty($educationData)){{ $educationData->training_workshops }}@endif">
-                                <label class="form-label" for="input-1">Select Workshops</label>
-                                  <?php
-                                    $workshop = DB::table("additional_training")->where("type","workshop")->get();
-                                  ?>
-                                  <ul id="training_workshop" style="display:none;">
-                                      @foreach($workshop as $c)
-                                      <li data-value="{{ $c->id }}">{{ $c->name }}</li>
-                                      @endforeach
-                                      
-                                  </ul>
-                              <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="training_workshop" name="training_workshop[]" multiple="multiple"></select>
-                            </div>
-                            <span id="reqaddworkshops" class="reqError text-danger valley"></span>
-                          </div>
-                        </div>
+                        
+                        
                   <div class="box-button mt-15">
                     <button class="btn btn-apply-big font-md font-bold" type="submit" id="submitEducation">Save Changes</button>
                   </div>          
@@ -3338,11 +3341,11 @@ $('.js-example-basic-multiple[data-list-id="profess_cert"]').on('change', functi
         }
         if(selectedValues.includes("10")){
             $('.procertdivfour').removeClass('d-none');
-            $('.license_number_pls').removeClass('d-none');
+            $('.license_number_pals').removeClass('d-none');
             
         }else{
             $('.procertdivfour').addClass('d-none');
-            $('.license_number_pls').addClass('d-none');   
+            $('.license_number_pals').addClass('d-none');   
         }
         if(selectedValues.includes("11")){
             $('.procertdivfive').removeClass('d-none');

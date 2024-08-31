@@ -9,7 +9,8 @@ use App\Repository\Eloquent\NurseRepository;
 use App\Services\Admins\NurseServices;
 use App\Repository\Eloquent\VerificationRepository;
 use Illuminate\Support\Facades\Mail;
-use App\Http\Requests\NurseRequest;
+use App\Http\Requests\Nurseform2Request;
+use App\Http\Requests\Nurseform1Request;
 
 
 class NurseController extends Controller
@@ -152,9 +153,8 @@ class NurseController extends Controller
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
         }
     }
-    public function addNursePost(NurseRequest $request)
-    {
-        
+    public function addNursePostForm1(Nurseform1Request $request)
+    {        
         if ($request->hasFile('profile_image')) {
             $profile_image = time() . '.' . $request->profile_image->extension();
 
@@ -162,6 +162,15 @@ class NurseController extends Controller
                $request->profile_image = '/nurse/assets/imgs/' . $profile_image;
             }
         }
+        try {
+           return $this->nurseServices->addNursePost($request);
+        } catch (\Exception $e) {
+            log::error('Error in NurseController/addNursePost :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+    public function addNursePostForm2(Nurseform2Request $request)
+    {       
         try {
            return $this->nurseServices->addNursePost($request);
         } catch (\Exception $e) {
