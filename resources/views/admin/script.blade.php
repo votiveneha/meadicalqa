@@ -961,8 +961,7 @@ $(document).ready(function() {
         });
 
 
-        // second form
-        
+        // second form        
         $('.next-step-2').on('click', function() { 
                var targetTab = $(this).data('target'); 
             // Initially deactivate all tabs except the first one
@@ -1175,6 +1174,349 @@ $(document).ready(function() {
         
 
         
+    });
+    </script>
+    <script> 
+        // second form        
+        $('.next-step-3').on('click', function() { 
+               var targetTab = $(this).data('target'); 
+            // Initially deactivate all tabs except the first one
+                // $('.nav-pills .nav-link').not('.active').addClass('disabled');
+
+                // Function to enable the next tab
+                function enableNextTab(targetTab) {
+                    $('a[href="' + targetTab + '"]').removeClass('disabled').tab('show');
+                }
+         
+            // TYPE OF NURSE
+            var selectElement = $('select[data-list-id="type-of-nurse"]');        
+            // Get the selected value(s) from the Select2 element
+            var type_nurse = selectElement.val();  
+            
+            var selectElement1 = $('select[data-list-id="nursing_entry-1"]');        
+            // Get the selected value(s) from the Select2 element
+            var nursing_entry_first = selectElement1.val();  
+
+            var selectElement2 = $('select[data-list-id="nursing_entry-2"]');       
+            // Get the selected value(s) from the Select2 element
+            var nursing_entry_sec = selectElement2.val(); 
+            
+
+            var selectElement3 = $('select[data-list-id="nursing_entry-3"]');        
+            // Get the selected value(s) from the Select2 element
+            var nursing_entry_thired = selectElement3.val(); 
+
+            var selectElement4 = $('select[data-list-id="nurse_practitioner_menu"]');        
+            // Get the selected value(s) from the Select2 element
+            var nurse_practitioner_menu = selectElement4.val(); 
+
+            // Specialties 
+            var specialtiest_1 = $('select[data-list-id="specialties"]');        
+            // Get the selected value(s) from the Select2 element
+            var specialties = specialtiest_1.val();
+            
+            var specialtiest_2 = $('select[data-list-id="speciality_entry-1"]');        
+            // Get the selected value(s) from the Select2 element
+            var adults = specialtiest_2.val(); 
+
+            var specialtiest_3 = $('select[data-list-id="surgical_row_box"]');        
+            // Get the selected value(s) from the Select2 element
+            var surgical_data = specialtiest_3.val(); 
+
+            var specialtiest_4 = $('select[data-list-id="surgical_operative_care-1"]');        
+            // Get the selected value(s) from the Select2 element
+            var surgical_operative_care_1 = specialtiest_4.val(); 
+
+            var specialtiest_5 = $('select[data-list-id="surgical_operative_care-2"]');        
+            // Get the selected value(s) from the Select2 element
+            var surgical_operative_care_2 = specialtiest_5.val(); 
+            
+            
+            var specialtiest_6 = $('select[data-list-id="surgical_operative_care-3"]');        
+            // Get the selected value(s) from the Select2 element
+            var surgical_operative_care_3 = specialtiest_6.val(); 
+
+            var specialtiest_7 = $('select[data-list-id="speciality_entry-2"]');        
+            // Get the selected value(s) from the Select2 element
+            var speciality_entry_2 = specialtiest_7.val();
+
+            var specialtiest_8 = $('select[data-list-id="surgical_obs_care"]');        
+            // Get the selected value(s) from the Select2 element
+            var surgical_obs_care = specialtiest_8.val();
+
+            var specialtiest_9 = $('select[data-list-id="speciality_entry-3"]');        
+            // Get the selected value(s) from the Select2 element
+            var speciality_entry_3 = specialtiest_9.val();
+
+            var specialtiest_10 = $('select[data-list-id="neonatal_care"]');        
+            // Get the selected value(s) from the Select2 element
+            var neonatal_care = specialtiest_10.val();surgical_rowpad_box
+
+            var specialtiest_11 = $('select[data-list-id="surgical_rowpad_box"]');        
+            // Get the selected value(s) from the Select2 element
+            var surgical_rowpad_box = specialtiest_11.val();
+
+            var specialtiest_12 = $('select[data-list-id="surgical_operative_carep-1"]');        
+            // Get the selected value(s) from the Select2 element
+            var surgical_operative_carep_1 = specialtiest_12.val();
+
+            var specialtiest_13 = $('select[data-list-id="surgical_operative_carep-2"]');        
+            // Get the selected value(s) from the Select2 element
+            var surgical_operative_carep_2 = specialtiest_13.val();
+
+            var specialtiest_14 = $('select[data-list-id="surgical_operative_carep-3"]');        
+            // Get the selected value(s) from the Select2 element
+            var surgical_operative_carep_3 = specialtiest_14.val();
+
+            var specialtiest_15 = $('select[data-list-id="speciality_entry-4"]');        
+            // Get the selected value(s) from the Select2 element
+            var speciality_entry_4 = specialtiest_15.val();
+
+            var employee_status = $('#employee_status').val();
+
+            var bio = $('#bio').val();
+
+            var assistent_level = $('#assistent_level').val();
+
+            var declare_information = $('#declare_information').val();
+
+
+             let hasErrors = false;
+
+         
+        // Create a new FormData object
+        var formData = new FormData();
+        
+        // if(targetTab ==  '#navpill-2'){
+      
+        formData.append('states',type_nurse);
+        formData.append('entry_level_nursing',nursing_entry_first);
+        formData.append('registered_nurses', nursing_entry_sec);
+        formData.append('advanced_practioner', nursing_entry_thired);
+        formData.append('nurse_prac', nurse_practitioner_menu);
+        formData.append('specialties', specialties);     
+        formData.append('adults', adults);
+        formData.append('surgical_preoperative', surgical_data);
+        formData.append('operating_room', surgical_operative_care_1);
+        formData.append('operating_room_scout', surgical_operative_care_2);
+        formData.append('operating_room_scrub	', surgical_operative_care_3);
+        formData.append('maternity', speciality_entry_2);
+        formData.append('surgical_obstrics_gynacology', surgical_obs_care);
+        formData.append('paediatrics_neonatal', speciality_entry_3);
+        formData.append('neonatal_care', neonatal_care);
+        formData.append('paedia_surgical_preoperative', surgical_rowpad_box);
+        formData.append('pad_op_room', surgical_operative_carep_1);
+        formData.append('tab', 'tab2');
+        formData.append('pad_qr_scout',surgical_operative_carep_2);
+        formData.append('pad_qr_scrub', surgical_operative_carep_3);
+        formData.append('community', speciality_entry_4);
+        formData.append('current_employee_status', employee_status);
+        formData.append('bio', bio);
+        formData.append('assistent_level',assistent_level);
+        formData.append('declare_information',declare_information);
+        
+        $.ajax({
+                url: "{{ route('admin.add_nurse_post_2') }}",
+                type: "POST",
+                data: formData,
+                data: formData,
+                dataType: 'json',
+                contentType: false,
+                processData: false,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include CSRF token for security
+                },
+                success: function(res) {
+                    console.log(res.type);
+
+                     if (res.status == '2') {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: res.message,
+                        }).then(function() {
+                            $('a[href="' + targetTab + '"]').tab('show');
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: res.message,
+                        });
+                    }
+                      // Show the target tab
+                },
+                error: function(error) {
+                // if(targetTab ==  '#navpill-2'){
+                  if (error.responseJSON.errors) {
+                        if (error.responseJSON.errors.states) {
+                            $('#type_nurse_error').text(error.responseJSON.errors.states[0]);
+                        } else {
+                            $('#type_nurse_error').text('');
+                        }
+
+                        if (error.responseJSON.errors.specialties) {
+                            $('#specialties_error').text(error.responseJSON.errors.specialties[0]);
+                           
+                        } else {
+                            $('#specialties_error').text('');
+                        }
+
+                        if (error.responseJSON.errors.bio) {
+                            $('#bio_error').text(error.responseJSON.errors.bio[0]);
+                           
+                        } else {
+                            $('#bio_error').text('');
+                        }
+
+                        if (error.responseJSON.errors.declare_information) {
+                            $('#diclare_error').text(error.responseJSON.errors.declare_information[0]);
+                           
+                        } else {
+                            $('#diclare_error').text('');
+                        }
+
+                        
+                    // }                        
+                    }
+                }
+            });
+
+        // if (!hasErrors) {
+        //     $('a[href="' + targetTab + '"]').tab('show'); // Show the target tab
+        // }
+           
+        });
+        
+
+        
+    });
+    </script>
+
+    
+
+    <script>
+    $('.js-example-basic-multiple[data-list-id="profess_cert"]').on('change', function() {
+        let selectedValues = $(this).val();
+        
+        console.log("selectedValues",selectedValues);
+        //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
+        if(selectedValues.includes("6")){
+            $('.procertdiv').removeClass('d-none');
+            $('.license_number_acls').removeClass('d-none');
+        }else{
+            $('.procertdiv').addClass('d-none');
+            $('.license_number_acls').addClass('d-none');
+        }
+        if(selectedValues.includes("7")){
+            $('.procertdivone').removeClass('d-none');
+            $('.license_number_bls').removeClass('d-none');
+        }else{
+            $('.procertdivone').addClass('d-none');
+            $('.license_number_bls').addClass('d-none');
+        }
+        if(selectedValues.includes("8")){
+            $('.procertdivtwo').removeClass('d-none');
+            $('.license_number_cpr').removeClass('d-none');
+        }else{
+            $('.procertdivtwo').addClass('d-none');
+            $('.license_number_cpr').addClass('d-none');
+        }
+        if(selectedValues.includes("9")){
+            $('.procertdivthree').removeClass('d-none');
+            $('.license_number_nrp').removeClass('d-none');
+            
+        }else{
+            $('.procertdivthree').addClass('d-none');
+            $('.license_number_nrp').addClass('d-none');
+            
+        }
+        if(selectedValues.includes("10")){
+            $('.procertdivfour').removeClass('d-none');
+            $('.license_number_pals').removeClass('d-none');
+            
+        }else{
+            $('.procertdivfour').addClass('d-none');
+            $('.license_number_pals').addClass('d-none');   
+        }
+        if(selectedValues.includes("11")){
+            $('.procertdivfive').removeClass('d-none');
+            $('.license_number_rn').removeClass('d-none');
+        }else{
+            $('.procertdivfive').addClass('d-none');
+            $('.license_number_rn').addClass('d-none'); 
+        }
+        if(selectedValues.includes("12")){
+            $('.procertdivsix').removeClass('d-none');
+            $('.license_number_cn').removeClass('d-none');
+        }else{
+            $('.procertdivsix').addClass('d-none');
+            $('.license_number_cn').addClass('d-none');
+        }
+
+        if(selectedValues.includes("13")){
+            $('.procertdivseven').removeClass('d-none');
+            $('.license_number_lpn').removeClass('d-none');
+        }else{
+            $('.procertdivseven').addClass('d-none');
+            $('.license_number_lpn').addClass('d-none');
+        }
+        if(selectedValues.includes("14")){
+            $('.procertdiveight').removeClass('d-none');
+            $('.license_number_crn').removeClass('d-none');
+        }else{
+            $('.procertdiveight').addClass('d-none');
+            $('.license_number_crn').addClass('d-none');
+        }
+        if(selectedValues.includes("15")){
+            $('.procertdivnine').removeClass('d-none');
+            $('.license_number_cnm').removeClass('d-none');
+        }else{
+            $('.procertdivnine').addClass('d-none');
+            $('.license_number_cnm').addClass('d-none');
+        }
+        if(selectedValues.includes("16")){
+            $('.procertdivten').removeClass('d-none');
+            $('.license_number_ons').removeClass('d-none');
+        }else{
+            $('.procertdivten').addClass('d-none');
+            $('.license_number_ons').addClass('d-none');
+        }
+        if(selectedValues.includes("17")){
+            $('.procertdiveleven').removeClass('d-none');
+            $('.license_number_msw').removeClass('d-none');
+        }else{
+            $('.procertdiveleven').addClass('d-none');
+            $('.license_number_msw').addClass('d-none');
+        }
+        if(selectedValues.includes("18")){
+            $('.procertdivtwelfth').removeClass('d-none');
+            $('.license_number_np').removeClass('d-none');
+        }else{
+            $('.procertdivtwelfth').addClass('d-none');
+            $('.license_number_np').addClass('d-none');
+        }
+        if(selectedValues.includes("19")){
+            $('.procertdivthirteen').removeClass('d-none');
+            $('.license_number_ain').removeClass('d-none');
+        }else{
+            $('.procertdivthirteen').addClass('d-none');
+            $('.license_number_ain').addClass('d-none');
+        }
+        if(selectedValues.includes("20")){
+            $('.procertdivfourteen').removeClass('d-none');
+            $('.license_number_rpn').removeClass('d-none');
+        }else{
+            $('.procertdivfourteen').addClass('d-none');
+            $('.license_number_rpn').addClass('d-none');
+        }
+        if(selectedValues.includes("21")){
+            $('.procertdivfiveteen').removeClass('d-none');
+            $('.license_number_nlc').removeClass('d-none');
+        }else{
+            $('.procertdivfiveteen').addClass('d-none');
+            $('.license_number_nlc').addClass('d-none');
+        }          
     });
     </script>
     

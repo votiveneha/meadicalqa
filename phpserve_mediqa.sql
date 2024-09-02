@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Aug 31, 2024 at 10:30 AM
+-- Generation Time: Sep 02, 2024 at 10:21 AM
 -- Server version: 5.7.23-23
 -- PHP Version: 8.1.29
 
@@ -6878,7 +6878,7 @@ INSERT INTO `users` (`id`, `name`, `lastname`, `email`, `profile_img`, `email_ve
 (132, 'yas', 'mishra', 'votivesales.yashica@gmail.com', 'nurse/assets/imgs/nurse06.png', NULL, '$2y$10$LwnU2Yo2gqlcW13hvOUNO.reBJE3LmJQguC.cRHuCArDHyMm6zxYS', NULL, 'eyJpdiI6Ik9uQkpsQkM3TTNnVGpFbnJSOXBiMUE9PSIsInZhbHVlIjoiakxueWVnMlVodDFnMGd4bWhsakpLSFU1TndEMFcwUjc2NUZxcWx5c3hrbz0iLCJtYWMiOiI0MjAzZmU3MTRmYzk5ZDhjZTAxNmNiNjQyZjhhZjEwZDMwNDQ2YmZiZjA3MDU3NDFlMGE4NzhiYmIzOWRhMDY5IiwidGFnIjoiIn0=', 0, '0', '1', '1', '[\"1\",\"3\",\"4\"]', '[\"2\",\"1\",\"3\"]', 'null', 'null', '2', 'null', 'null', 'null', '[\"1\",\"10\",\"7\",\"11\",\"2\",\"6\",\"9\",\"4\",\"12\",\"13\",\"8\",\"3\",\"5\"]', '12345', NULL, NULL, '2024-08-05 05:52:00', NULL, '0', '1', 'No', 'No', 'No', 'No', 'No', '61', 'au', '4123456712', '@Votive123', 'AU', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '[\"6\",\"5\",\"10\",\"7\",\"9\",\"8\",\"11\",\"12\",\"13\",\"14\",\"15\",\"16\"]', '[\"18\",\"19\",\"20\",\"21\",\"22\",\"23\",\"24\",\"25\",\"26\",\"27\",\"28\",\"29\",\"30\",\"31\",\"32\",\"33\",\"34\",\"35\",\"36\",\"37\",\"38\",\"39\",\"40\",\"41\",\"42\",\"44\",\"43\",\"45\",\"46\",\"47\",\"48\",\"49\",\"50\",\"51\",\"52\",\"53\",\"54\",\"55\",\"56\",\"57\",\"58\",\"59\",\"60\",\"61\",\"63\",\"62\",\"64\",\"65\",\"66\",\"67\",\"68\",\"69\",\"70\",\"71\",\"72\",\"73\",\"74\",\"75\",\"76\",\"77\",\"78\",\"79\",\"80\",\"81\",\"82\",\"83\",\"84\",\"85\",\"86\",\"87\",\"88\",\"90\",\"89\",\"91\",\"92\",\"93\",\"95\",\"94\",\"96\",\"97\",\"98\",\"99\",\"100\",\"101\",\"102\",\"103\",\"104\",\"105\",\"106\",\"107\",\"108\",\"109\",\"110\",\"111\",\"112\",\"113\",\"114\",\"115\",\"116\",\"117\",\"118\",\"119\",\"120\",\"121\",\"122\",\"123\",\"124\",\"125\",\"126\",\"127\",\"128\",\"129\",\"130\",\"131\",\"132\",\"133\",\"134\",\"135\",\"136\",\"137\",\"138\",\"139\",\"140\",\"141\",\"142\",\"143\",\"144\",\"145\",\"146\",\"147\",\"148\",\"149\",\"150\",\"151\",\"152\",\"153\",\"154\",\"155\",\"156\",\"157\",\"158\",\"159\",\"160\",\"161\",\"162\",\"163\",\"164\",\"165\",\"166\",\"167\",\"168\",\"169\",\"170\",\"171\"]', '[\"173\",\"174\",\"232\",\"176\",\"234\",\"233\",\"177\",\"175\",\"178\",\"179\"]', '[\"181\",\"182\",\"183\",\"184\",\"185\",\"186\",\"187\",\"188\",\"189\",\"190\",\"191\",\"192\",\"193\",\"194\",\"195\",\"196\",\"197\",\"198\",\"199\",\"200\",\"201\",\"202\",\"203\",\"204\",\"205\",\"206\",\"207\",\"208\",\"209\",\"210\",\"211\",\"212\",\"213\",\"214\",\"215\",\"216\",\"217\",\"218\",\"219\",\"220\",\"221\",\"222\",\"223\",\"224\",\"225\",\"226\",\"227\"]', '[\"6\",\"9\",\"10\"]', 'null', '[\"240\"]', '[\"386\"]', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, NULL, NULL, NULL, NULL, NULL),
 (133, 'Neha', 'Mandloi', 'votivephp.neha434355@gmail.com', 'nurse/assets/imgs/nurse06.png', NULL, '$2y$10$xZYiBzLwq9va7vU/3CaAxOflPy1o4XXL4P/XnhLBZOzQZzQsU9/gi', NULL, 'eyJpdiI6InhRQjdZSTZLS1R1LzBscEdaTWlJSXc9PSIsInZhbHVlIjoiTHBDZTJWZ3RvdW9vT2p2bC9RY2EwNmJDNHB2YjB5amdoYnYxVWZmVUUwcz0iLCJtYWMiOiIyNWRiZjlhYjQ1MDFmMzIxYTYyNDUyNTYyNjU0NDg3NWEzZTQ4ZGYxYTdhODQ0NzEwOWEwNzVhZjRiNTMzYTJmIiwidGFnIjoiIn0=', 0, '0', '1', '1', '[\"3\"]', '[\"1\"]', 'null', 'null', '1', 'null', 'null', 'null', '[\"2\"]', '452001', NULL, NULL, '2024-08-06 05:45:46', '2024-08-06 02:49:31', '0', '1', 'No', 'No', 'No', 'No', 'No', '61', 'au', '1234567890', 'Neha@1234', 'AU', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'null', '[\"22\"]', 'null', 'null', 'null', 'null', '[\"243\"]', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, NULL, NULL, NULL, NULL, NULL),
 (135, 'robert', 'test', 'test333@gmail.com', '/tmp/phpGqQJEN', NULL, NULL, NULL, NULL, 0, '0', '1', '1', NULL, '', '', NULL, '', '', NULL, NULL, '', '451666', NULL, NULL, '2024-08-08 07:58:35', '2024-08-08 07:58:35', '0', '1', 'No', 'No', 'No', 'No', 'No', '91', 'in', '54e4545454', NULL, 'IN', 1613, 'indore', NULL, 'test.com', NULL, 'male', '2024-08-10', 'indore', '3434343434', '91', 'in', 'votivephp.harshita@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(141, 'veer', 'Demo', 'vijehndraparmar1789@gmail.com', '/nurse/assets/imgs/1724650774.jpg', NULL, '$2y$10$KQGz..oZnbxMrXli2e0GHuTuVXNKFmTw0zw5dQHNl2j/CZcJGl2ZC', NULL, '', 0, '1', '1', '1', '[\"1\"]', '[\"2\",\"1\",\"3\"]', 'null', 'null', '4', 'null', 'null', 'null', 'null', '462001', NULL, NULL, '2024-08-26 05:42:11', '2024-08-29 23:34:28', '2', '1', 'No', 'Yes', 'No', 'No', 'No', '61', 'au', '1234567891', '708998@Veer', 'AU', 201, 'Victoria', 'Midwife Assistant / Maternity Care Assistant', 'https://votivetech.in/mediqa/nurse/my-profile?page=my_profile', NULL, 'Male', '1996-12-04', 'Bhopal', '4562317895', '61', 'au', 'testgb01@hulas.co', '[\"252\"]', '[\"18\"]', '[\"173\"]', 'null', '[\"7\"]', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'Seasonal', 1, 1, '101', 1, '2024-02-12'),
+(141, 'veer', 'Demo', 'vijehndraparmar1789@gmail.com', '/nurse/assets/imgs/1724650774.jpg', NULL, '$2y$10$KQGz..oZnbxMrXli2e0GHuTuVXNKFmTw0zw5dQHNl2j/CZcJGl2ZC', NULL, '', 0, '1', '1', '1', '[\"1\"]', '[\"2\",\"1\",\"3\"]', 'null', 'null', '4', 'null', 'null', 'null', 'null', '462001', NULL, NULL, '2024-08-31 11:09:38', '2024-08-31 06:29:14', '2', '1', 'No', 'Yes', 'No', 'No', 'No', '61', 'au', '1234567891', '708998@Veer', 'AU', 201, 'Victoria', 'errtgtygtbtbtbtbbnynybetyn', 'https://votivetech.in/mediqa/nurse/my-profile?page=my_profile', NULL, 'Male', '1996-12-04', 'Bhopal', '4562317895', '61', 'au', 'testg1212254552b01@hulas.co', '[\"252\"]', '[\"18\"]', '[\"173\"]', 'null', '[\"7\"]', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'Seasonal', 1, 1, '101', 1, '2024-02-12'),
 (142, 'test', 'test', 'test@gmail.com', '/tmp/phphMwC1V', NULL, NULL, NULL, NULL, 0, '1', '1', '1', '[\"4\"]', '[\"1\"]', '', NULL, '19', '', NULL, NULL, '', '451666', NULL, NULL, '2024-08-30 07:20:38', '2024-08-30 07:20:58', '1', '1', 'No', 'No', 'No', 'No', 'No', '61', 'au', '989863633', NULL, 'IN', 1618, 'indore', 'test', 'test.com', NULL, 'male', '2024-09-29', 'indore', '8989636256', '61', 'au', 'tesdt@gmail.com', '[\"\"]', '[\"22\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"388\"]', '[\"\"]', '[\"\"]', '[\"\"]', '', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', 'Intern / Residency', NULL, 0, '16', NULL, NULL);
 
 -- --------------------------------------------------------
@@ -6903,6 +6903,22 @@ CREATE TABLE `user_education_cerification` (
   `training_courses` text,
   `training_workshops` text,
   `complete_status` int(11) DEFAULT NULL,
+  `acls_data` text,
+  `bls_data` text,
+  `cpr_data` text,
+  `nrp_data` text,
+  `pals_data` text,
+  `rn_data` text,
+  `np_data` text,
+  `cna_data` text,
+  `lpn_data` text,
+  `crna_data` text,
+  `cnm_data` text,
+  `ons_data` text,
+  `msw_data` text,
+  `ain_data` text,
+  `rpn_data` text,
+  `nl_data` text,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -6911,15 +6927,15 @@ CREATE TABLE `user_education_cerification` (
 -- Dumping data for table `user_education_cerification`
 --
 
-INSERT INTO `user_education_cerification` (`education_id`, `user_id`, `degrees`, `institution`, `most_relevant`, `graduate_start_date`, `graduate_end_date`, `professional_certifications`, `licence_number`, `country`, `state`, `expiration_date`, `training_courses`, `training_workshops`, `complete_status`, `created_at`, `updated_at`) VALUES
-(4, 58, NULL, 'rdfd', NULL, '2024-07-01', '2024-08-10', '[\"BLS\",\"PALS\"]', 'sds', 'AM', 191, '2024-08-15', '[\"4\",\"5\"]', '[\"6\",\"8\"]', 1, '2024-08-12 11:53:54', '2024-08-12 06:23:54'),
-(5, 112, NULL, 'rdfd', 'sde', '2024-08-16', '2024-09-07', '[\"7\"]', '', NULL, 0, '', '[\"5\"]', '[\"8\"]', 1, '2024-08-29 13:57:16', '2024-08-29 08:27:16'),
-(7, 133, NULL, 'Test', NULL, '2024-08-01', '2024-09-04', '[\"ALS\",\"BLS\",\"PALS\"]', '123df', 'AR', 176, '2024-08-30', '[\"4\",\"5\"]', '[\"6\"]', NULL, '2024-08-06 02:49:30', '2024-08-06 02:49:30'),
-(8, 120, NULL, 'ssk university London', NULL, '2013-07-01', '2016-03-01', '[\"BLS\"]', '0221654455185Bcs13', 'BS', 287, '2025-07-03', '[\"5\"]', '[\"7\"]', NULL, '2024-08-07 11:48:25', '2024-08-07 06:18:25'),
-(9, 131, NULL, 'ssk university London', NULL, '2013-07-01', '2016-06-08', '[\"BLS\"]', '0221654455185Bcs13', 'IN', 1603, '2028-01-01', '[\"5\"]', '[\"6\"]', 1, '2024-08-12 09:54:20', '2024-08-12 04:24:20'),
-(10, 136, NULL, 'ssk university London', NULL, '2024-01-04', '2015-02-05', '[\"BLS (Basic Life Support)\"]', '0221654455185bcs13', 'IN', 1609, '2025-01-01', '[\"5\"]', '[\"8\"]', 1, '2024-08-20 06:13:51', '2024-08-20 00:43:51'),
-(11, 139, NULL, 'ssk university London', NULL, '2015-12-04', '2020-12-04', '[\"BLS (Basic Life Support)\"]', '0221654455185Bcs13', 'GY', 1498, '2030-12-04', '[\"5\"]', '[\"8\"]', 1, '2024-08-20 03:06:44', '2024-08-20 03:06:44'),
-(12, 101, NULL, 'NDPS PSA Ecole des mines', NULL, '1977-04-25', '1984-04-25', '[\"6\"]', '', NULL, 0, '', '[\"5\"]', '[\"8\"]', 1, '2024-08-23 02:36:00', '2024-08-22 21:06:00');
+INSERT INTO `user_education_cerification` (`education_id`, `user_id`, `degrees`, `institution`, `most_relevant`, `graduate_start_date`, `graduate_end_date`, `professional_certifications`, `licence_number`, `country`, `state`, `expiration_date`, `training_courses`, `training_workshops`, `complete_status`, `acls_data`, `bls_data`, `cpr_data`, `nrp_data`, `pals_data`, `rn_data`, `np_data`, `cna_data`, `lpn_data`, `crna_data`, `cnm_data`, `ons_data`, `msw_data`, `ain_data`, `rpn_data`, `nl_data`, `created_at`, `updated_at`) VALUES
+(4, 58, NULL, 'rdfd', NULL, '2024-07-01', '2024-08-10', '[\"BLS\",\"PALS\"]', 'sds', 'AM', 191, '2024-08-15', '[\"4\",\"5\"]', '[\"6\",\"8\"]', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-08-12 11:53:54', '2024-08-12 06:23:54'),
+(5, 112, NULL, 'rdfd', 'sde', '2024-08-16', '2024-09-07', '[\"7\",\"8\"]', '', NULL, 0, '', '[\"5\"]', '[\"8\"]', 1, '', '{\"bls_data\":\"[\\\"15\\\"]\",\"bls_licence_num\":\"cdf\",\"bls_licence_expiry\":\"2024-09-21\",\"bls_file\":\"dummy_product.jpg\"}', '{\"cpr_data\":\"[\\\"28\\\"]\",\"cpr_licence_num\":\"sdse\",\"cpr_licence_expiry\":\"2024-09-20\",\"cpr_file\":\"dummy_product.jpg\"}', '', '', '', '', '', '', '', '', '', '', '', '', '', '2024-09-02 04:46:23', '2024-09-01 23:16:23'),
+(7, 133, NULL, 'Test', NULL, '2024-08-01', '2024-09-04', '[\"ALS\",\"BLS\",\"PALS\"]', '123df', 'AR', 176, '2024-08-30', '[\"4\",\"5\"]', '[\"6\"]', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-08-06 02:49:30', '2024-08-06 02:49:30'),
+(8, 120, NULL, 'ssk university London', NULL, '2013-07-01', '2016-03-01', '[\"BLS\"]', '0221654455185Bcs13', 'BS', 287, '2025-07-03', '[\"5\"]', '[\"7\"]', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-08-07 11:48:25', '2024-08-07 06:18:25'),
+(9, 131, NULL, 'ssk university London', NULL, '2013-07-01', '2016-06-08', '[\"BLS\"]', '0221654455185Bcs13', 'IN', 1603, '2028-01-01', '[\"5\"]', '[\"6\"]', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-08-12 09:54:20', '2024-08-12 04:24:20'),
+(10, 136, NULL, 'ssk university London', NULL, '2024-01-04', '2015-02-05', '[\"BLS (Basic Life Support)\"]', '0221654455185bcs13', 'IN', 1609, '2025-01-01', '[\"5\"]', '[\"8\"]', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-08-20 06:13:51', '2024-08-20 00:43:51'),
+(11, 139, NULL, 'ssk university London', NULL, '2015-12-04', '2020-12-04', '[\"BLS (Basic Life Support)\"]', '0221654455185Bcs13', 'GY', 1498, '2030-12-04', '[\"5\"]', '[\"8\"]', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-08-20 03:06:44', '2024-08-20 03:06:44'),
+(12, 101, NULL, 'NDPS PSA Ecole des mines', NULL, '1977-04-25', '1984-04-25', '[\"6\"]', '', NULL, 0, '', '[\"5\"]', '[\"8\"]', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-08-23 02:36:00', '2024-08-22 21:06:00');
 
 -- --------------------------------------------------------
 
