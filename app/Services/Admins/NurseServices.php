@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Str;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
 
 class NurseServices
 {
@@ -147,6 +148,7 @@ class NurseServices
         try {
 
             if($data['tab'] == 'tab1'){
+            Session::put('nurseemail', $data['email']);
             // dd($data['contact']);
             $allData['name'] = $data['first_name'];
             $allData['lastname'] = $data['last_name'];
@@ -167,10 +169,85 @@ class NurseServices
             $allData['profile_img'] = $data['profile_image'];
             $allData['emegency_country_code'] = $data['country_code_mobile'];
             $allData['emergency_country_iso'] = $data['country_iso_mobile'];
-            }
+            $allData['nationality'] = $data['nationality'];
+            $allData['emailVerified'] = '1';
+            $allData['user_stage'] = '1';
             $run = $this->nurseRepository->create($allData);
+            // dd($run);
+            $param = 'Basic detail';
+            
+
+            }else if($data['tab'] == 'tab2'){
+            $states = isset($data['states']) ? explode(',', $data['states']) : '';
+
+            $allData['nurseType'] =  array_map('strval', $states);
+            $allData['entry_level_nursing'] = isset($data['entry_level_nursing']) ? explode(',', $data['entry_level_nursing']) : '';
+            $allData['registered_nurses'] = isset($data['registered_nurses']) ? explode(',', $data['registered_nurses']) : '';
+            $allData['advanced_practioner'] = isset($data['advanced_practioner']) ? explode(',', $data['advanced_practioner']) : '';
+            $allData['nurse_prac'] = isset($data['nurse_prac']) ? explode(',', $data['nurse_prac']) : '';
+            $allData['specialties'] = isset($data['specialties']) ? explode(',', $data['specialties']) : '';
+            $allData['adults'] = isset($data['adults']) ? explode(',', $data['adults']) : '';
+            $allData['surgical_preoperative'] = isset($data['surgical_preoperative']) ? explode(',', $data['surgical_preoperative']) : '';
+            $allData['operating_room'] =isset($data['operating_room']) ? explode(',', $data['operating_room']) : '';
+            $allData['operating_room_scout'] = isset($data['operating_room_scout']) ? explode(',', $data['operating_room_scout']) : '';
+            $allData['operating_room_scrub'] = isset($data['operating_room_scrub']) ? explode(',', $data['operating_room_scrub']) : '';
+            $allData['maternity'] = isset($data['maternity']) ? explode(',', $data['maternity']) : '';
+            $allData['surgical_obstrics_gynacology'] = isset($data['surgical_obstrics_gynacology']) ? explode(',', $data['surgical_obstrics_gynacology']) : '';
+            $allData['paediatrics_neonatal'] = isset($data['paediatrics_neonatal']) ? explode(',', $data['paediatrics_neonatal']) : '';
+            $allData['neonatal_care'] = isset($data['neonatal_care']) ? explode(',', $data['neonatal_care']) : '';
+            $allData['paedia_surgical_preoperative'] = isset($data['paedia_surgical_preoperative']) ? explode(',', $data['paedia_surgical_preoperative']) : '';
+            $allData['pad_op_room'] = isset($data['pad_op_room']) ? explode(',', $data['pad_op_room']) : '';
+            $allData['pad_qr_scout'] = isset($data['pad_qr_scout']) ? explode(',', $data['pad_qr_scout']) : '';
+            $allData['pad_qr_scrub'] = isset($data['pad_qr_scrub']) ? explode(',', $data['pad_qr_scrub']) : '';
+            $allData['community'] = isset($data['community']) ? explode(',', $data['community']) : '';   
+            $allData['current_employee_status'] = $data['current_employee_status'];   
+            $allData['assistent_level'] = $data['assistent_level'];   
+            $allData['bio'] = $data['bio'];   
+            $allData['professional_info_status'] = $data['declare_information'];
+            $email = Session::get('nurseemail');
+            $run = $this->nurseRepository->updateData(['email'=>$email], $allData);
+            $param = 'Professional detail';
+
+            // session()->forget('nurseemail');
+            }else if($data['tab'] == 'tab3'){
+                
+            // $allData['nurseType'] =  array_map('strval', $states);
+            $allData['degree'] = isset($data['ndegree']) ? explode(',', $data['ndegree']) : '';
+            $allData['institution'] = $data['institution'];
+            $allData['most_relevant'] = $data['most_relevant'];
+            $allData['graduate_start_date'] = $data['graduation_start_date'];
+            $allData['graduate_end_date'] = $data['graduation_end_date'];
+            $allData['professional_certifications'] = isset($data['professional_certification']) ? explode(',', $data['professional_certification']) : '';
+        
+            $allData['acls_data'] = isset($data['acls_data']) ? explode(',', $data['acls_data']) : '';
+            $allData['training_courses'] = isset($data['training_courses']) ? explode(',', $data['training_courses']) : '';
+            $allData['training_workshops'] = isset($data['training_workshop']) ? explode(',', $data['training_workshop']) : '';
+// dd($allData);
+            // $allData['specialties'] = isset($data['specialties']) ? explode(',', $data['specialties']) : '';
+            // $allData['adults'] = isset($data['adults']) ? explode(',', $data['adults']) : '';
+            // $allData['surgical_preoperative'] = isset($data['surgical_preoperative']) ? explode(',', $data['surgical_preoperative']) : '';
+            // $allData['operating_room'] =isset($data['operating_room']) ? explode(',', $data['operating_room']) : '';
+            // $allData['operating_room_scout'] = isset($data['operating_room_scout']) ? explode(',', $data['operating_room_scout']) : '';
+            // $allData['operating_room_scrub'] = isset($data['operating_room_scrub']) ? explode(',', $data['operating_room_scrub']) : '';
+            // $allData['maternity'] = isset($data['maternity']) ? explode(',', $data['maternity']) : '';
+            // $allData['surgical_obstrics_gynacology'] = isset($data['surgical_obstrics_gynacology']) ? explode(',', $data['surgical_obstrics_gynacology']) : '';
+            // $allData['paediatrics_neonatal'] = isset($data['paediatrics_neonatal']) ? explode(',', $data['paediatrics_neonatal']) : '';
+            // $allData['neonatal_care'] = isset($data['neonatal_care']) ? explode(',', $data['neonatal_care']) : '';
+            // $allData['paedia_surgical_preoperative'] = isset($data['paedia_surgical_preoperative']) ? explode(',', $data['paedia_surgical_preoperative']) : '';
+            // $allData['pad_op_room'] = isset($data['pad_op_room']) ? explode(',', $data['pad_op_room']) : '';
+            // $allData['pad_qr_scout'] = isset($data['pad_qr_scout']) ? explode(',', $data['pad_qr_scout']) : '';
+            // $allData['pad_qr_scrub'] = isset($data['pad_qr_scrub']) ? explode(',', $data['pad_qr_scrub']) : '';
+            // $allData['community'] = isset($data['community']) ? explode(',', $data['community']) : '';   
+            // $allData['current_employee_status'] = $data['current_employee_status'];   
+            // $allData['assistent_level'] = $data['assistent_level'];   
+            // $allData['bio'] = $data['bio'];   
+            // $allData['professional_info_status'] = $data['declare_information'];
+             $run = EducationModel::create($allData); 
+             $param ='true';
+            }
+            
             if ($run) {
-                return response()->json(['status' => '2', 'message' => __('message.statusOne', ['parameter' => 'Basic detail'])]);
+                return response()->json(['status' => '2', 'message' => __('message.statusOne', ['parameter' => $param])]);
             } else {
                 return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
             }

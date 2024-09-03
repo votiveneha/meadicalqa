@@ -8,6 +8,7 @@
   }
   .d-none {
     display: none !important;
+    /* visibility: hidden !important;; */
   }
 
 
@@ -75,79 +76,79 @@
             <div class="card-body">
                 <ul class="nav nav-pills nav-fill mt-4 tabs-feat" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link active" data-bs-toggle="tab" href="#navpill-111" role="tab"
+                        <a class="nav-link active" data-bs-toggle="tab" href="#navpill-1" role="tab"
                             aria-selected="true">
                             <span>Basic Details</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link" data-bs-toggle="tab" href="#navpill-222" role="tab" aria-selected="false"
+                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-2" role="tab" aria-selected="false"
                             tabindex="-1">
-                            <span>Professional Information</span>
+                            <span>Profession</span>
                         </a>
                     </li>
                     <li class="nav-item disabled" role="presentation">
-                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-333" role="tab" aria-selected="false"
+                        <a class="nav-link" data-bs-toggle="tab" href="#navpill-3" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Education and Certifications</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-444" role="tab" aria-selected="false"
+                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-4" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Experience</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-555" role="tab" aria-selected="false"
+                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-5" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Financial Details</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-555" role="tab" aria-selected="false"
+                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-6" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Mandatory Training</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-555" role="tab" aria-selected="false"
+                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-7" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Vaccinations</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-555" role="tab" aria-selected="false"
+                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-8" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Work Clearances</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-555" role="tab" aria-selected="false"
+                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-9" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Professional Memberships</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-555" role="tab" aria-selected="false"
+                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-10" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Interview and References</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-555" role="tab" aria-selected="false"
+                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-11" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Personal Preferences</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-555" role="tab" aria-selected="false"
+                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-12" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Find Work Preferences</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-555" role="tab" aria-selected="false"
+                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-13" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Testimonials and Reviews</span>
                         </a>
@@ -157,7 +158,7 @@
                 <form method="post" enctype="multipart/form-data" id="AddNurse">
                 <!-- Tab panes -->
                 <div class="tab-content border mt-2">
-                    <div class="tab-pane p-3 active show" id="navpill-111" role="tabpanel">
+                    <div class="tab-pane p-3 active show" id="navpill-1" role="tabpanel">
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
@@ -223,13 +224,7 @@
                                                 </div>
                                             </div>
                     
-                                            {{-- <div class="col-md-6 mt-3">
-                                                <div class="form-group">
-                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Nationality</strong></label>
-                                                    <input type="text" class="form-control" placeholder="Nationality" name="skill" id="skill">
-                                                    <span id="skillErr" class="text-danger"></span>
-                                                </div>
-                                            </div> --}}
+                                            
                     
                     
                                             <div class="col-md-6 mt-3">
@@ -250,6 +245,18 @@
                                                         </div>
                                                     </div>
                                                     <span id="genderErr" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mt-3">
+                                                <div class="form-group">
+                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Nationality</strong></label>
+                                                    <select name="nationality" class="form-control form-select ps-5" id="nationality">
+                                                        <option value="">Select Nationality</option>
+                                                        @php $country_data=country_name_from_db();@endphp
+                                                        @foreach ($country_data as $data)
+                                                        <option value="{{ $data->id }}" <?= isset(Auth::guard('nurse_middle')->user()->nationality) &&  Auth::guard('nurse_middle')->user()->nationality == $data->id ? 'selected' : '' ?>>{{ $data->nationality }}</option>
+                                                        @endforeach
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 mt-3">
@@ -339,27 +346,27 @@
                                             </div>
                                         </div>
                                         <div class="d-flex align-items-center justify-content-between mt-3">
-                                            <button type="button" class="btn btn-default next-step align-items-center justify-content-between" data-target="#navpill-222">Next</button>
+                                            <button type="button" class="btn btn-default next-step-1 align-items-center justify-content-between" data-target="#navpill-2">Next</button>
                                         </div>
                                     </div>
 
-                                    <div class="mt-3">
+                                    {{-- <div class="mt-3">
                                         <!-- PROGRESSBAR START -->
                                         <div class="progress">
                                             <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: 12%" aria-valuenow="12" aria-valuemin="0" aria-valuemax="100">12%</div>
                                         </div>
                                         <!-- PROGRESSBAR END -->
-                                    </div>
+                                    </div> --}}
                                     
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane p-3" id="navpill-222" role="tabpanel">
+                    <div class="tab-pane p-3" id="navpill-2" role="tabpanel">
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
-                                    <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center ">Professional Information 
+                                    <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center ">Profession 
                                     </h3>
                                 </div>
                                 <div class="card-body p-3 px-md-4">
@@ -381,8 +388,8 @@
                                                                 @endforeach
                                                                 
                                                             </ul>
-                                                            <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="type-of-nurse" name="states[]" multiple="multiple"></select>
-                                                            <span id="photo_id" class="text-danger"></span>
+                                                            <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="type-of-nurse" name="states[]" multiple="multiple" id="type_nurse"></select>
+                                                            <span id="type_nurse_error" class="text-danger"></span>
                                                         </div>
                                                     </div>
                                                 
@@ -394,9 +401,9 @@
                                                         <?php
                                                             $nursing_data = DB::table("practitioner_type")->where('parent', $spl->id)->get();
                                                         ?>
-                                                    <div class="col-md-12 mt-3">
+                                                    <div class="">
                                                     <input type="hidden" name="nursing_result" class="nursing_result-{{ $i }}" value="{{ $spl->id }}">
-                                                    <div class="form-group d-none" id="nursing_level-{{ $i }}">
+                                                    <div class="form-group d-none col-md-12 mt-3" id="nursing_level-{{ $i }}">
                                                         <label for="skill" class="d-flex gap-3 flex-wrap"><strong>{{ $spl->name }}</strong></label>
                                                             <ul id="nursing_entry-{{ $i }}" style="display:none;">
                                                                 @foreach($nursing_data as $nd)
@@ -413,8 +420,8 @@
                                                     ?>
                                                     </div>
                                                     @endforeach
-                                                    <div class="col-md-12 mt-3 np_submenu d-none">
-                                                        <div class="form-group">
+                                                    <div class="">
+                                                        <div class="form-group col-md-12 mt-3 np_submenu d-none">
                                                             <?php
                                                                 $np_data = DB::table("practitioner_type")->where('parent', '179')->get();
                                                             ?>
@@ -448,11 +455,11 @@
                                                                 
                                                             </ul>
                                                             <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="specialties" name="specialties[]" multiple="multiple"></select>
-                                                            <span id="reqspecialties" class="reqError valley"></span>
+                                                            <span id="specialties_error" class="text-danger"></span>
                                                         </div>
                                                     </div>
 
-                                                    {{-- <div class="col-md-12 mt-3">
+                                                    <div class="col-md-12 mt-3  result--show speciality_boxes">
                                                         <?php
                                                             $l = 1;
                                                         ?>
@@ -460,116 +467,787 @@
                                                         <?php
                                                             $speciality_data = DB::table("speciality")->where('parent', $ptl->id)->get();
                                                         ?>
-                                                        <div class="form-group">
-                                                            <?php
-                                                                $np_data = DB::table("practitioner_type")->where('parent', '179')->get();
-                                                            ?>
-                                                            <input type="hidden" name="sub_speciality_value" class="sub_speciality_value" value="">
-                                                            <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Specialties :</strong></label>
-                                                            <ul id="specialties" style="display:none;">
-                                                                @php $JobSpecialties = JobSpecialties(); @endphp
-                                                                <?php
-                                                                    $k = 1;
-                                                                ?>
-                                                                @foreach($JobSpecialties as $ptl)
-                                                                    <li id="nursing_menus-{{ $k }}" data-value="{{ $ptl->id }}">{{ $ptl->name }}</li>
-                                                                    <?php
-                                                                        $k++;
-                                                                    ?>
-                                                                @endforeach
+                                                        <input type="hidden" name="speciality_result" class="speciality_result-{{ $l }}" value="{{ $ptl->id }}">
+                                                        <div class="speciality_data form-group d-none drpdown-set drp--clr"  id="specility_level-{{ $l }}">
+                                                    
+                                                           <label class="form-label" for="input-2">{{ $ptl->name }}</label>
+                                                            <ul id="speciality_entry-{{ $l }}" style="display:none;">
+                                                                @foreach($speciality_data as $sd)
+                                                                <li data-value="{{ $sd->id }}">{{ $sd->name }}</li>
                                                                 
+                                                                @endforeach
+                                                                <!-- Add more list items as needed -->
                                                             </ul>
-                                                            <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="specialties" name="specialties[]" multiple="multiple"></select>
-                                                            <span id="reqspecialties" class="reqError valley"></span>
+                                                            <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="speciality_entry-{{ $l }}" name="speciality_entry_{{ $l }}[]" multiple="multiple"></select>
                                                         </div>
                                                         <?php
                                                             $l++;
                                                         ?>
                                                         @endforeach
-                                                    </div> --}}
-                                                
-                                                
-                                                     
+                                                    </div>
+
+                                                    <div class="surgical_div">
+                                            
+                                                        <div class="surgical_row_data form-group d-none drp--clr col-md-12 mt-3">
+                                                    
+                                                           <label class="form-label" for="input-2">Surgical Preoperative and Postoperative Care:</label>
+                                                            <?php
+                                                                $speciality_surgicalrow_data = DB::table("speciality")->where('parent', '96')->get();
+                                                                $r = 1;
+                                                            ?>
+                                                            <ul id="surgical_row_box" style="display:none;">
+                                                                @foreach($speciality_surgicalrow_data as $ssrd)
+                                                                <li data-value="{{ $ssrd->id }}">{{ $ssrd->name }}</li>
+                                                                @endforeach
+                                                            </ul>
+                                                            <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_row_box" name="surgical_row_box[]" multiple="multiple"></select>
+                                                        </div>                                                
+                                                    </div> 
+                                                    
+                                                    <div class="specialty_sub_boxes">
+
+                                                        <?php
+                                                            $speciality_surgical_data = DB::table("speciality")->where('parent', '96')->get();
+                                                            $w = 1;
+                                                        ?>
+                                                         @foreach($speciality_surgical_data as $ssd)
+                                                        <input type="hidden" name="speciality_result" class="speciality_surgical_result-{{ $w }}" value="{{ $ssd->id }}">
+                                                        <div class="col-md-12 mt-3 surgical_row surgical_row-{{ $w }} form-group d-none drp--clr">                            
+                                                           <label class="form-label" for="input-1">{{ $ssd->name }}</label>
+                                                            <?php
+                                                                $speciality_surgicalsub_data = DB::table("speciality")->where('parent', $ssd->id)->get();
+                                                            ?>
+                                                            <ul id="surgical_operative_care-{{ $w }}" style="display:none;">
+                                                                @foreach($speciality_surgicalsub_data as $sssd)
+                                                                <li data-value="{{ $sssd->id }}">{{ $sssd->name }}</li>
+                                                                @endforeach
+                                                            </ul>
+                                                            <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_operative_care-{{ $w }}" name="surgical_operative_care_{{ $w }}[]" multiple="multiple"></select>
+                                                        </div>  
+                                                         <?php
+                                                            $w++;
+                                                          ?>
+                                                         @endforeach                                              
+                                                    </div> 
+                                                    
+                                                    <div class="paediatric_surgical_div">
+                                                        <div class="col-md-12 mt-3 surgicalpad_row_data form-group drp--clr d-none">
+                                                            <input type="hidden" name="sub_speciality_value" class="sub_speciality_value" value="">
+                                                            <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Paediatric Surgical Preop. and Postop. Care :</strong></label>
+                                                            <?php
+                                                                $speciality_padsurgicalrow_data = DB::table("speciality")->where('parent', '285')->get();
+                                                                $r = 1;
+                                                            ?>
+                                                            <ul id="surgical_rowpad_box" style="display:none;">
+                                                                @foreach($speciality_padsurgicalrow_data as $ssrd)
+                                                                <li data-value="{{ $ssrd->id }}">{{ $ssrd->name }}</li>
+                                                                @endforeach
+                                                            </ul>
+                                                            <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_rowpad_box" name="surgical_rowpad_box[]" multiple="multiple"></select>
+                                                        </div>
+                                                    </div>
+
+                                                    <?php
+                                                        $speciality_surgical_datamater = DB::table("speciality")->where('parent', '250')->get();                                                        
+                                                    ?>
+                                                    <div class="">
+                                                        <div class="col-md-12 mt-3 d-none neonatal_row drp--clr drpdown-set form-group">
+                                                            <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Neonatal Care :</strong></label>
+                                                            <ul id="neonatal_care" style="display:none;">
+                                                               @foreach($speciality_surgical_datamater as $ssd)
+                                                                <li data-value="{{ $ssd->id }}">{{ $ssd->name }}</li>
+                                                                @endforeach
+                                                            </ul>
+                                                            <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="neonatal_care" name="neonatal_care[]" multiple="multiple"></select>
+                                                        </div>
+                                                    </div>
+
+                                                    <?php
+                                                        $speciality_surgical_datamater = DB::table("speciality")->where('parent', '233')->get();
+                                                        $p = 1;
+                                                    ?>
+                                                    <div class="">
+                                                        <div class="col-md-12 mt-3 d-none surgicalobs_row drp--clr drpdown-set form-group">
+                                                            <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Surgical Obstetrics and Gynecology (OB/GYN) :</strong></label>
+                                                            <ul id="surgical_obs_care" style="display:none;">
+                                                            @foreach($speciality_surgical_datamater as $ssd)
+                                                                <li data-value="{{ $ssd->id }}">{{ $ssd->name }}</li>
+                                                                @endforeach
+                                                            </ul>
+                                                            <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_obs_care" name="surgical_obs_care[]" multiple="multiple"></select>
+                                                        </div>
+                                                    </div>
+
+                                                    <?php
+                                                        $speciality_surgical_datap = DB::table("speciality")->where('parent', '285')->get();
+                                                        $q = 1;
+                                                    ?>
+                                                    @foreach($speciality_surgical_datap as $ssd)
+                                                    <input type="hidden" name="speciality_result" class="surgical_rowp_result-{{ $q }}" value="{{ $ssd->id }}">
+                                                    <div class="">
+                                                        <div class="col-md-12 mt-3 surgical_rowp surgical_rowp-{{ $q }} drp--clr drpdown-set form-group drp--clr drpdown-set d-none">
+                                                            <label class="form-label" for="input-1">{{ $ssd->name }}</label>
+                                                            <?php
+                                                                $speciality_surgicalsub_data = DB::table("speciality")->where('parent', $ssd->id)->orderBy('name')->get();
+                                                            ?>
+                                                            <ul id="surgical_operative_carep-{{ $q }}" style="display:none;">
+                                                                @foreach($speciality_surgicalsub_data as $sssd)
+                                                                <li data-value="{{ $sssd->id }}">{{ $sssd->name }}</li>
+                                                                @endforeach
+                                                            </ul>
+                                                            <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_operative_carep-{{ $q }}" name="surgical_operative_carep_{{ $q }}[]" multiple="multiple"></select>
+                                                        </div>
+                                                    </div>
+                                                    <?php
+                                                      $q++;
+                                                    ?>
+                                                    @endforeach
+
+                                                    <div class="col-md-12 mt-2">
+                                                        <div class="form-group">
+                                                            <label for="skill" class="d-flex gap-3 flex-wrap"><strong>What is your level of experience?</strong></label>
+                                                            <select class="form-control mr-10 select-active" name="assistent_level" id="assistent_level">                      
+                                                            @for($i = 1; $i <= 30; $i++) <option value="{{ $i }}"  >{{ $i }}{{ $i == 1 ? 'st' : ($i == 2 ? 'nd' : ($i == 3 ? 'rd' : 'th')) }} Year</option>
+                                                                @endfor
+                                                            </select>
+                                                            <span id="experience_error" class="text-danger"></span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-12 mt-2">
+                                                        <div class="form-group">
+                                                            <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Current Employment Status</strong></label>
+                                                            <select class="form-control mr-10 select-active" name="employee_status" id="employee_status">
+                                                            <option value="">Select Employee Status</option>
+                                                            <option value="Permanent Full-Time" >Permanent Full-Time</option>
+                                                            <option value="Permanent Part-Time">Permanent Part-Time</option>
+                                                            <option value="Temporary / Contract">Temporary / Contract</option>
+                                                            <option value="Travel">Travel</option>
+                                                            <option value="Per Diem / Local">Per Diem / Local</option>
+                                                            <option value="On-Call / PRN (Pro Re Nata)">On-Call / PRN (Pro Re Nata)</option>
+                                                            <option value="Casual">Casual</option> 
+                                                            <option value="Agency / Staffing Agency">Agency / Staffing Agency</option>
+                                                            <option value="Seasonal">Seasonal</option>
+                                                            <option value="Intern / Residency">Intern / Residency</option>
+                                                            <option value="Self-Employed / Private Practice" >Self-Employed / Private Practice</option>
+                                                            <option value="Volunteer" >Volunteer</option>
+                                                            <option value="Unemployed" >Unemployed</option>
+                                                            </select>
+                                                            <span id="status_error" class="text-danger"></span>
+                                                        </div>
+
+                                                        <div class="col-md-12 mt-2">
+                                                            <div class="form-group">
+                                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Professional Bio</strong></label>
+                                                                <textarea class="form-control" rows="4" name="bio" id="bio"></textarea>
+                                                                <span id="bio_error" class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="declaration_box  mt-3">
+                                                            <input type="checkbox" name="declare_information" class="declare_information" id="declare_information">
+                                                            <label for="declare_information">I declare that the information provided is true and correct</label>
+                                                            <span id="diclare_error" class="text-danger"></span>
+                                                        </div>
+                                                        <div class="d-flex align-items-center justify-content-between mt-3">
+                                                            <button type="button" class="btn btn-default next-step-2 align-items-center justify-content-between" data-target="#navpill-3">Next</button>
+                                                        </div>  
+                                                    </div>
                                             </div>
-                                        
-                                            
-                                            
-                                       
-                                        
-                    
                                     </div>
                     
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane p-3" id="navpill-333" role="tabpanel">
+                    <div class="tab-pane p-3" id="navpill-3" role="tabpanel">
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
-                                    <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center "> Police Check Verification 
+                                    <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center ">Education and Certification 
                                     </h3>
                                 </div>
                                 <div class="card-body p-3 px-md-4">
                                     <div class="col-md-12">
-                                        @if($policeCheckVerificationData)
-                                            <div class="row">
-                                                @if(isset($policeCheckVerificationData->date) && $policeCheckVerificationData->date)
-                                                <div class="col-md-12 mt-3">
-                                                    <div class="d-flex gap-3 flex-wrap">
-                                                        <strong>Date : </strong><span>{{ $policeCheckVerificationData->date}}</span>
+                                        <div class="row">
+                                            <h4 class="fw-bolder fs-6 lh-base d-flex align-items-center ">Educational Background
+                                            </h4>
+                                            <div class="col-md-12 mt-3">
+                                                <div class="form-group">
+                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Nurse & Midwife degree</strong></label>
+                                                     <?php
+                                                    $nurse_midwife_degree = DB::table("degree")->where('status', '1')->orderBy('name')->get();
+                                                    ?>
+                                                    <ul id="ndegree" style="display:none;">
+                                                        @foreach($nurse_midwife_degree as $ptl)
+                                                            <li data-value="{{ $ptl->id }}">{{ $ptl->name }}</li>
+                                                            
+                                                            @endforeach
+                                                    </ul>
+                                                     <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="ndegree" name="ndegree[]" multiple="multiple"></select>
+                                                    <span id="ndegree_error" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 mt-3">
+                                                <div class="form-group">
+                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Institutions</strong></label>
+                                                   <input class="form-control" type="text" name="institution" value="" id="institution">
+                                                    <span id="institution_error" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 mt-3">
+                                                <div class="form-group">
+                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Please start with the most relevant</strong></label>
+                                                   <input class="form-control" type="text" name="most_relevant" value="" id="most_relevant">
+                                                    <span id="relevant_error" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mt-3">
+                                                <div class="form-group">
+                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Graduation Start Date</strong></label>
+                                                    <input class="form-control" type="date" name="graduation_start_date" value="" id="graduation_start_date">
+                                                    <span id="gra_start_date_error" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mt-3">
+                                                <div class="form-group">
+                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Graduation End Date</strong></label>
+                                                    <input class="form-control" type="date" name="graduation_end_date" value="" id="graduation_end_date">
+                                                    <span id="gra_end_date_error" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                            <h4 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3">General Certifications/Licences:
+                                            </h4>
+
+                                            <div class="col-md-12 mt-3">
+                                                <div class="form-group">
+                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Please select all that apply</strong></label>
+                                                    <?php
+                                                        $certificates = DB::table("professional_certificate")->orderBy("ordering_id","asc")->get();
+                                                        ?>
+                                                        <ul id="profess_cert" style="display:none;">
+                                                            @foreach($certificates as $cert)
+                                                            <li data-value="{{ $cert->id }}">{{ $cert->name }}</li>
+                                                            @endforeach
+                                                            
+                                                        </ul>
+                                                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="profess_cert" name="professional_certification[]" multiple="multiple"></select>
+                                                    <span id="profess_cert_error" class="text-danger"></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="professional_certification_div">
+                                                <div class="form-group level-drp d-none procertdiv">
+                                                    
+                                                    <label class="form-label" for="input-1">ACLS (Advanced Cardiovascular Life Support)</label>
+                                                    <?php
+                                                        $acls_data = DB::table("professional_certificate_table")->where("cert_id","6")->get();
+                                                    ?>
+                                                    <ul id="acls_data" style="display:none;">
+                                                        @foreach($acls_data as $data)
+                                                        <li data-value="{{ $data->name }}">{{ $data->name }}</li>
+                                                        @endforeach
+                                                        
+                                                    </ul>
+                                                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="acls_data" name="acls_data[]" multiple="multiple"></select>
+                                                </div>
+                                                <div class="license_number_div row license_number_acls d-none">
+                                                <div class="form-group col-md-6">
+                                                    <label class="form-label" for="input-1">Certification/Licence Number</label>
+                                                    <input class="form-control" type="text" name="acls_license_number" id="acls_license_number">
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label class="form-label" for="input-1">Expiry</label>
+                                                    <input class="form-control" type="date" name="acls_expiry" id="acls_expiry">
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                                                    <input class="form-control" type="file" name="acls_upload_certification" id="acls_upload_certification" accept="image/*">
+                                                </div>
+                                                </div>
+                                                <div class="form-group level-drp d-none procertdivone">                            
+                                                    <label class="form-label" for="input-1">BLS (Basic Life Support)</label>
+                                                    <?php
+                                                        $bls_data = DB::table("professional_certificate_table")->where("cert_id","7")->get();
+                                                    ?>
+                                                    <ul id="bls_data" style="display:none;">
+                                                        @foreach($bls_data as $data)
+                                                        <li data-value="{{ $data->name }}">{{ $data->name }}</li>
+                                                        @endforeach                                                        
+                                                    </ul>
+                                                   <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="bls_data" name="bls_data[]" multiple="multiple"></select>
+                                                </div>
+                                                <div class="license_number_div row license_number_bls d-none">
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label" for="input-1">Certification/Licence Number</label>
+                                                        <input class="form-control" type="text" name="bls_license_number" id="bls_license_number">
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label" for="input-1">Expiry</label>
+                                                        <input class="form-control" type="date" name="bls_expiry" id="bls_expiry">
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                                                        <input class="form-control" type="file" name="bls_upload_certification" id="bls_upload_certification">
                                                     </div>
                                                 </div>
-                                                @endif
-                                                @if(isset($policeCheckVerificationData->image) && $policeCheckVerificationData->image)
-                                                <div class="col-md-12 mt-3">
-                                                    <div class="d-flex gap-3 flex-wrap">
-                                                        <strong>Image : </strong>
-                                                        <a href="{{ asset($policeCheckVerificationData->image)}}" target="_blank">
-                                                            <img src="{{ asset($policeCheckVerificationData->image)}}" alt="" style="height:50px;width:50px">
-                                                        </a>                                                    
+                                                <div class="form-group level-drp d-none procertdivtwo">
+                            
+                                                    <label class="form-label" for="input-1">CPR (Cardiopulmonary Resuscitation)</label>
+                                                    <?php
+                                                        $cpr_data = DB::table("professional_certificate_table")->where("cert_id","8")->get();
+                                                    ?>
+                                                    <ul id="cpr_data" style="display:none;">
+                                                        @foreach($cpr_data as $data)
+                                                        <li data-value="{{ $data->name }}">{{ $data->name }}</li>
+                                                        @endforeach
+                                                        
+                                                    </ul>
+                                                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="cpr_data" name="cpr_data[]" multiple="multiple"></select>
+                                                </div>
+                                                <div class="license_number_div row license_number_cpr d-none">
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label" for="input-1">Certification/Licence Number</label>
+                                                        <input class="form-control" type="text" name="cpr_license_number" id="cpr_license_number">
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label" for="input-1">Expiry</label>
+                                                        <input class="form-control" type="text" name="cpr_expiry" id="cpr_expiry">
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                                                        <input class="form-control" type="file" name="cpr_upload_certification" id="cpr1_upload_certification">
                                                     </div>
                                                 </div>
-                                                @endif
-                                                @if(isset($policeCheckVerificationData->status) && $policeCheckVerificationData->status)
-                                                <div class="col-md-12 mt-3">
-                                                    <div class="d-flex gap-3 flex-wrap">
-                                                        <strong>Status : </strong>
-                                                        @if($policeCheckVerificationData->status == 1)
-                                                        <span class="badge bg-success">Approved</span>
-                                                        @elseif($policeCheckVerificationData->status == 2)
-                                                        <span class="badge bg-danger">Rejected</span>
-                                                        @else 
-                                                        @endif
-                                                  
+                                                <div class="form-group level-drp d-none procertdivthree">
+                            
+                                                    <label class="form-label" for="input-1">NRP (Neonatal Resuscitation Program)</label>
+                                                    <?php
+                                                        $nrp_data = DB::table("professional_certificate_table")->where("cert_id","9")->get();
+                                                    ?>
+                                                    <ul id="nrp_data" style="display:none;">
+                                                        @foreach($nrp_data as $data)
+                                                        <li data-value="{{ $data->name }}">{{ $data->name }}</li>
+                                                        @endforeach
+                                                        
+                                                    </ul>
+                                                   <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="nrp_data" name="nrp_data[]" multiple="multiple"></select>
+                                                </div>
+                                                <div class="license_number_div row license_number_nrp d-none">
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label" for="input-1">Certification/Licence Number</label>
+                                                        <input class="form-control" type="text" name="nrp_license_number" id="nrp_license_number">
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label" for="input-1">Expiry</label>
+                                                        <input class="form-control" type="date" name="nrp_expiry" id="nrp_expiry">
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                                                        <input class="form-control" type="file" name="nrp_upload_certification" id="nrp_upload_certification">
                                                     </div>
                                                 </div>
-                                                @endif
-                                                @if(isset($policeCheckVerificationData->status) && $policeCheckVerificationData->status == 2)
+                                                <div class="form-group level-drp d-none procertdivfour">                            
+                                                    <label class="form-label" for="input-1">PALS (Pediatric Advanced Life Support)</label>
+                                                    <?php
+                                                        $pls_data = DB::table("professional_certificate_table")->where("cert_id","10")->get();
+                                                    ?>
+                                                    <ul id="pls_data" style="display:none;">
+                                                        @foreach($pls_data as $data)
+                                                        <li data-value="{{ $data->name }}">{{ $data->name }}</li>
+                                                        @endforeach
+                                                        
+                                                    </ul>
+                                                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="pls_data" name="pls_data[]" multiple="multiple"></select>
+                                                </div>
+                                                <div class="license_number_div row license_number_pals d-none">
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label" for="input-1">Certification/Licence Number</label>
+                                                        <input class="form-control" type="text" name="pals_license_number" id="pals_license_number">
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label" for="input-1">Expiry</label>
+                                                        <input class="form-control" type="date" name="pals_expiry" id="pals_expiry">
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                                                        <input class="form-control" type="file" name="pals_upload_certification" id="pals_upload_certification">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group level-drp d-none procertdivfive">                        
+                                                    <label class="form-label" for="input-1">RN (Registered Nurse)</label>
+                                                    <?php
+                                                        $rn_data = DB::table("professional_certificate_table")->where("cert_id","11")->get();
+                                                    ?>
+                                                    <ul id="rn_data" style="display:none;">
+                                                        @foreach($rn_data as $data)
+                                                        <li data-value="{{ $data->name }}">{{ $data->name }}</li>
+                                                        @endforeach
+                                                        
+                                                    </ul>
+                                                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="rn_data" name="rn_data[]" multiple="multiple"></select>
+                                                </div>
+                                                <div class="license_number_div row license_number_rn d-none">
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label" for="input-1">Certification/Licence Number</label>
+                                                        <input class="form-control" type="text" name="rn_license_number" id="rn_license_number">
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label" for="input-1">Expiry</label>
+                                                        <input class="form-control" type="date" name="rn_expiry" id="rn_expiry">
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                                                        <input class="form-control" type="file" name="rn_upload_certification" id="rn_upload_certification">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group level-drp d-none procertdivtwelfth">
+                            
+                                                    <label class="form-label" for="input-1">NP (Nurse Practioner) / (APRN) Advanced Practice Registered Nurse</label>
+                                                    <?php
+                                                        $rn_data = DB::table("professional_certificate_table")->where("cert_id","18")->get();
+                                                    ?>
+                                                    <ul id="np_data" style="display:none;">
+                                                        @foreach($rn_data as $data)
+                                                        <li data-value="{{ $data->name }}">{{ $data->name }}</li>
+                                                        @endforeach
+                                                        
+                                                    </ul>
+                                                   <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="np_data" name="np_data[]" multiple="multiple"></select>
+                                                </div>
+                                                <div class="license_number_div row license_number_np d-none">
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label" for="input-1">Certification/Licence Number</label>
+                                                        <input class="form-control" type="text" name="np_license_number" id="np_license_number">
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label" for="input-1">Expiry</label>
+                                                        <input class="form-control" type="date" name="np_expiry" id="np_expiry">
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                                                        <input class="form-control" type="file" name="np_upload_certification" id="np_upload_certification">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group level-drp d-none procertdivfive">
+                            
+                                                    <label class="form-label" for="input-1">NP (Nurse Practioner) / (APRN) Advanced Practice Registered Nurse</label>
+                                                    <?php
+                                                        $rn_data = DB::table("professional_certificate_table")->where("cert_id","11")->get();
+                                                    ?>
+                                                    <ul id="rn_data" style="display:none;">
+                                                        @foreach($rn_data as $data)
+                                                        <li data-value="{{ $data->name }}">{{ $data->name }}</li>
+                                                        @endforeach
+                                                        
+                                                    </ul>
+                                                   <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="rn_data" name="rn_data[]" multiple="multiple"></select>
+                                                </div>
+                                                <div class="license_number_div row license_number_rn d-none">
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label" for="input-1">Certification/Licence Number</label>
+                                                        <input class="form-control" type="text" name="rn_license_number" id="rn_license_number">
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label" for="input-1">Expiry</label>
+                                                        <input class="form-control" type="date" name="rn_expiry" id="rn_expiry">
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                                                        <input class="form-control" type="file" name="rn_upload_certification" id="rn_upload_certification">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group level-drp d-none procertdivsix">                            
+                                                    <label class="form-label" for="input-1">CNA (Certified Nursing Assistant) / EN (Enrolled Nurse)</label>
+                                                    <?php
+                                                        $cn_data = DB::table("professional_certificate_table")->where("cert_id","12")->get();
+                                                    ?>
+                                                    <ul id="rn_data" style="display:none;">
+                                                        @foreach($cn_data as $data)
+                                                        <li data-value="{{ $data->name }}">{{ $data->name }}</li>
+                                                        @endforeach
+                                                        
+                                                    </ul>
+                                                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="cn_data" name="cn_data[]" multiple="multiple"></select>
+                                                </div>
+                                                <div class="license_number_div row license_number_cn d-none">
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label" for="input-1">Certification/Licence Number</label>
+                                                        <input class="form-control" type="text" name="cn_license_number" id="cn_license_number">
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label" for="input-1">Expiry</label>
+                                                        <input class="form-control" type="date" name="cn_expiry" id="cn_expiry">
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                                                        <input class="form-control" type="file" name="cn_upload_certification" id="cn_upload_certification">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group level-drp d-none procertdivseven">                        
+                                                    <label class="form-label" for="input-1">LPN (Licensed Practical Nurse) / LVN (Licensed Vocational Nurse)</label>
+                                                    <?php
+                                                        $lpn_data = DB::table("professional_certificate_table")->where("cert_id","13")->get();
+                                                    ?>
+                                                    <ul id="rn_data" style="display:none;">
+                                                        @foreach($lpn_data as $data)
+                                                        <li data-value="{{ $data->name }}">{{ $data->name }}</li>
+                                                        @endforeach
+                                                        
+                                                    </ul>
+                                                   <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="lpn_data" name="lpn_data[]" multiple="multiple"></select>
+                                                </div>
+                                                <div class="license_number_div row license_number_lpn d-none">
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label" for="input-1">Certification/Licence Number</label>
+                                                        <input class="form-control" type="text" name="lpn_license_number" id="lpn_license_number">
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label" for="input-1">Expiry</label>
+                                                        <input class="form-control" type="date" name="lpn_expiry" id="lpn_expiry">
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                                                        <input class="form-control" type="file" name="lpn_upload_certification" id="lpn_upload_certification">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group level-drp d-none procertdiveight">                            
+                                                        <label class="form-label" for="input-1">CRNA (Certified Registered Nurse Anesthetist)</label>
+                                                        <?php
+                                                            $crn_data = DB::table("professional_certificate_table")->where("cert_id","14")->get();
+                                                        ?>
+                                                        <ul id="rn_data" style="display:none;">
+                                                            @foreach($crn_data as $data)
+                                                            <li data-value="{{ $data->name }}">{{ $data->name }}</li>
+                                                            @endforeach
+                                                            
+                                                        </ul>
+                                                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="crn_data" name="crn_data[]" multiple="multiple"></select>
+                                                </div>
+                                                <div class="license_number_div row license_number_crn d-none">
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label" for="input-1">Certification/Licence Number</label>
+                                                        <input class="form-control" type="text" name="crn_license_number" id="crn_license_number">
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label" for="input-1">Expiry</label>
+                                                        <input class="form-control" type="date" name="crn_expiry" id="crn_expiry">
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                                                        <input class="form-control" type="file" name="crn_upload_certification" id="crn_upload_certification">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group level-drp d-none procertdivnine">                    
+                                                    <label class="form-label" for="input-1">CNM (Certified Nurse Midwife)</label>
+                                                    <?php
+                                                        $cnm_data = DB::table("professional_certificate_table")->where("cert_id","15")->get();
+                                                    ?>
+                                                    <ul id="cnm_data" style="display:none;">
+                                                        @foreach($cnm_data as $data)
+                                                        <li data-value="{{ $data->name }}">{{ $data->name }}</li>
+                                                        @endforeach
+                                                        
+                                                    </ul>
+                                                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="cnm_data" name="cnm_data[]" multiple="multiple"></select>
+                                                </div>
+                                                <div class="license_number_div row license_number_cnm d-none">
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label" for="input-1">Certification/Licence Number</label>
+                                                        <input class="form-control" type="text" name="cnm_license_number" id="cnm_license_number">
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label" for="input-1">Expiry</label>
+                                                        <input class="form-control" type="date" name="cnm_expiry" id="cnm_expiry">
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                                                        <input class="form-control" type="file" name="cnm_upload_certification" id="cnm_upload_certification">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group level-drp d-none procertdivten">                        
+                                                    <label class="form-label" for="input-1">ONS/ONCC (Oncology Nursing Society/Oncology Nursing Certification Corporation)</label>
+                                                    <?php
+                                                        $ons_data = DB::table("professional_certificate_table")->where("cert_id","16")->get();
+                                                    ?>
+                                                    <ul id="ons_data" style="display:none;">
+                                                        @foreach($ons_data as $data)
+                                                        <li data-value="{{ $data->name }}">{{ $data->name }}</li>
+                                                        @endforeach                                                    
+                                                    </ul>
+                                                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="ons_data" name="ons_data[]" multiple="multiple"></select>
+                                                </div>
+                                                <div class="license_number_div row license_number_ons d-none">
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label" for="input-1">Certification/Licence Number</label>
+                                                        <input class="form-control" type="text" name="ons_license_number" id="ons_license_number">
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label" for="input-1">Expiry</label>
+                                                        <input class="form-control" type="date" name="ons_expiry" id="ons_expiry">
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                                                        <input class="form-control" type="file" name="ons_upload_certification" id="ons_upload_certification">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group level-drp d-none procertdiveleven">                            
+                                                    <label class="form-label" for="input-1">MSW/AiM (Maternity Support Worker/Assistant in Midwifery ) / Midwife Assistant</label>
+                                                    <?php
+                                                        $msw_data = DB::table("professional_certificate_table")->where("cert_id","17")->get();
+                                                    ?>
+                                                    <ul id="msw_data" style="display:none;">
+                                                        @foreach($msw_data as $data)
+                                                        <li data-value="{{ $data->name }}">{{ $data->name }}</li>
+                                                        @endforeach
+                                                        
+                                                    </ul>
+                                                     <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="msw_data" name="msw_data[]" multiple="multiple"></select>
+                                                </div>
+                                                <div class="license_number_div row license_number_ons d-none">
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label" for="input-1">Certification/Licence Number</label>
+                                                        <input class="form-control" type="text" name="msw_license_number" id="msw_license_number">
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label" for="input-1">Expiry</label>
+                                                        <input class="form-control" type="date" name="msw_expiry" id="msw_expiry">
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                                                        <input class="form-control" type="file" name="msw_upload_certification" id="msw_upload_certification">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                                <div class="form-group level-drp d-none procertdivthirteen">                    
+                                                    <label class="form-label" for="input-1">AIN (Assistant in Nursing) / NA (Nurse Associate) / HCA (Healthcare Assistant)</label>
+                                                    <?php
+                                                        $msw_data = DB::table("professional_certificate_table")->where("cert_id","19")->get();
+                                                    ?>
+                                                    <ul id="ain_data" style="display:none;">
+                                                        @foreach($msw_data as $data)
+                                                        <li data-value="{{ $data->name }}">{{ $data->name }}</li>
+                                                        @endforeach
+                                                        
+                                                    </ul>
+                                                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="ain_data" name="ain_data[]" multiple="multiple"></select>
+                                                </div>
+                                                <div class="license_number_div row license_number_ain d-none">
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label" for="input-1">Certification/Licence Number</label>
+                                                        <input class="form-control" type="text" name="ain_license_number" id="ain_license_number">
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label" for="input-1">Expiry</label>
+                                                        <input class="form-control" type="date" name="ain_expiry" id="ain_expiry">
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                                                        <input class="form-control" type="file" name="ain_upload_certification" id="ain_upload_certification">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group level-drp d-none procertdivfourteen">                    
+                                                    <label class="form-label" for="input-1">RPN (Registered Practical Nurse) / RGN (Registered General Nurse)</label>
+                                                    <?php
+                                                        $msw_data = DB::table("professional_certificate_table")->where("cert_id","20")->get();
+                                                    ?>
+                                                    <ul id="rpn_data" style="display:none;">
+                                                        @foreach($msw_data as $data)
+                                                        <li data-value="{{ $data->name }}">{{ $data->name }}</li>
+                                                        @endforeach
+                                                        
+                                                    </ul>
+                                                     <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="rpn_data" name="rpn_data[]" multiple="multiple"></select>
+                                                </div>
+                                                <div class="license_number_div row license_number_rpn d-none">
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label" for="input-1">Certification/Licence Number</label>
+                                                        <input class="form-control" type="text" name="rpn_license_number" id="rpn_license_number">
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label" for="input-1">Expiry</label>
+                                                        <input class="form-control" type="date" name="rpn_expiry" id="rpn_expiry">
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                                                        <input class="form-control" type="file" name="rpn_upload_certification" id="rpn_upload_certification">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group level-drp d-none procertdivfiveteen">
+                            
+                                                    <label class="form-label" for="input-1">No License/Certification</label>
+                                                    <?php
+                                                        $nlc_data = DB::table("professional_certificate_table")->where("cert_id","21")->get();
+                                                    ?>
+                                                    <ul id="nlc_data" style="display:none;">
+                                                        @foreach($nlc_data as $data)
+                                                        <li data-value="{{ $data->name }}">{{ $data->name }}</li>
+                                                        @endforeach
+                                                        
+                                                    </ul>
+                                                   <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="nlc_data" name="nlc_data[]" multiple="multiple"></select>
+                                                </div>
+                                                <div class="license_number_div row license_number_nlc d-none">
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label" for="input-1">Certification/Licence Number</label>
+                                                        <input class="form-control" type="text" name="nlc_license_number" id="nlc_license_number">
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label" for="input-1">Expiry</label>
+                                                        <input class="form-control" type="date" name="nlc_expiry" id="nlc_expiry">
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                                                        <input class="form-control" type="file" name="nlc_upload_certification" id="nlc_upload_certification">
+                                                    </div>
+                                                </div>
+                                               <h4 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3">Additional Training</h4>
+                                               <div class="col-md-6 mt-3">
+                                                    <div class="form-group">
+                                                        <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Select Courses</strong></label>
+                                                        <?php
+                                                                $courses = DB::table("additional_training")->where("type","Course")->get();
+                                                            ?>
+                                                            <ul id="training_courses" style="display:none;">
+                                                                @foreach($courses as $c)
+                                                                <li data-value="{{ $c->id }}">{{ $c->name }}</li>
+                                                                @endforeach
+                                                                
+                                                            </ul>
+                                                        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="training_courses" name="training_courses[]" multiple="multiple"></select>
+                                                        <span id="training_course_error" class="text-danger"></span>
+                                                    </div>
+                                                </div>
                                                 <div class="col-md-6 mt-3">
-                                                    <div class="d-flex gap-3 flex-wrap">
-                                                        <strong>Reason : </strong>
-                                                        <span>{{$policeCheckVerificationData->reason}}</span>
+                                                    <div class="form-group">
+                                                        <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Select Workshops</strong></label>
+                                                            <?php
+                                                                $workshop = DB::table("additional_training")->where("type","workshop")->get();
+                                                            ?>
+                                                            <ul id="training_workshop" style="display:none;">
+                                                                @foreach($workshop as $c)
+                                                                <li data-value="{{ $c->id }}">{{ $c->name }}</li>
+                                                                @endforeach
+                                                                
+                                                            </ul>
+                                                        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="training_workshop" name="training_workshop[]" multiple="multiple"></select>
+                                                        <span id="training_workshop_error" class="text-danger"></span>
                                                     </div>
                                                 </div>
-                                                @endif
-                        
-                                            </div>
-                                            @else
-                                            <div class="col-md-12">
-                                                <div class="text-center text-danger fs-5">No data found</div>
-                                            </div>
-                                            
-                                            @endif
-                                        
-                    
+                                                <div class="d-flex align-items-center justify-content-between mt-3">
+                                                    <button type="button" class="btn btn-default next-step-3 align-items-center justify-content-between" data-target="#navpill-4">Next</button>
+                                                </div>
+
+
+
+                                        </div>                     
                                     </div>
                     
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane p-3" id="navpill-444" role="tabpanel">
+                    <div class="tab-pane p-3" id="navpill-4" role="tabpanel">
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
@@ -630,7 +1308,7 @@
                                                     <div class="col-md-6 mt-3">
                                                         <div class="d-flex gap-3 flex-wrap">
                                                             <strong>Passport Country Of Issue: </strong>
-                                                            <span>{{country_name($eligibilityToWorkData->passport_country_of_Issue)}}</span>
+                                                            {{-- <span>{{country_name($eligibilityToWorkData->passport_country_of_Issue)}}</span> --}}
                                                         </div>
                                                     </div>
                                                     @endif
@@ -648,18 +1326,14 @@
                                                 @else
                                                 <div class="col-md-12">
                                                     <div class="text-center text-danger fs-5">No data found</div>
-                                                </div>
-                                                
-                                                @endif
-                                            
-                    
-                                    </div>
-                    
+                                                </div>                                                
+                                                @endif                
+                                    </div>                    
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane p-3" id="navpill-555" role="tabpanel">
+                    <div class="tab-pane p-3" id="navpill-5" role="tabpanel">
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
@@ -721,969 +1395,8 @@
         src="https://nextjs.webwiders.in/pindrow/public/advertiser/dist/libs/owl.carousel/dist/owl.carousel.min.js">
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
-    <script> 
-
-     
-    $(document).ready(function() {
-        // Initially deactivate all tabs except the first one
-        // $('.nav-pills .nav-link').not('.active').addClass('disabled');
-
-        // // Function to enable the next tab
-        // function enableNextTab(targetTab) {
-        //     $('a[href="' + targetTab + '"]').removeClass('disabled').tab('show');
-        // }
-
-         $('#uploadButton').on('click', function() {
-            $('#profile_image').click();
-        });
-
-        $('#profile_image').on('change', function(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    $('#profileImage').attr('src', e.target.result);
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-
-        $('.next-step').on('click', function() { 
-            // alert($('#stateI').val());     
-            var targetTab            = $(this).data('target');
-             var first_name          =  $('#first_name').val();
-             var last_name           =  $('#last_name').val();  
-             var email               =  $('#email').val();  
-            // Get the value of the selected radio button
-            var selectedGender = $('input[name="gender"]:checked').val();
-             var contact             =  $('#contact').val(); 
-             var profile_image = $('#profile_image')[0].files[0]; 
-            //  alert(profile_image);
-             var profile_image             =  $('#profile_image').val();  
-             var dob                 =  $('#dob').val();  
-             var per_website         =  $('#per_website').val();  
-             var countryI            =  $('#countryI').val(); 
-             var stateI              =  $('#stateI').val();  
-             var city                =  $('#city').val(); 
-             var zip_code            =  $('#zip_code').val();  
-             var home_address        =  $('#home_address').val(); 
-             var emrg_contact        =  $('#emrg_contact').val();  
-             var emrg_email          =  $('#emrg_email').val();
-            
-              
-             let hasErrors = false;
-
-             // Function to show error message
-        // function showError(element, message) {
-        //     $('#' + element).text(message);
-        //     hasErrors = true;
-        // }
-
-        // // Function to clear error message
-        // function clearError(element) {
-        //     $('#' + element).text("");
-        // }
-
-        // // Validate each field
-        // if (first_name === "") {
-        //     showError('first_name_error', "First name is required.");
-        // } else {
-        //     clearError('first_name_error');
-        // }
-
-        // if (last_name === "") {
-        //     showError('last_name_error', "Last name is required.");
-        // } else {
-        //     clearError('last_name_error');
-        // }
-
-        // if (email === "") {
-        //     showError('email_error', "Email is required.");
-        // } else {
-        //     clearError('email_error');
-        // }
-
-        // if (!selectedGender) {
-        //     showError('genderErr', "Please select a gender.");
-        // } else {
-        //     clearError('genderErr');
-        // }
-
-        // if (contact === "") {
-        //     showError('contact_error', "Mobile Number is required.");
-        // } else {
-        //     clearError('contact_error');
-        // }
-
-        // if (dob === "") {
-        //     showError('date_error', "Date of Birth is required.");
-        // } else {
-        //     clearError('date_error');
-        // }
-
-        // if (per_website === "") {
-        //     showError('per_website_error', "Personal website is required.");
-        // } else {
-        //     clearError('per_website_error');
-        // }
-
-        // if (countryI === "") {
-        //     showError('country_error', "Country is required.");
-        // } else {
-        //     clearError('country_error');
-        // }
-
-        // if (stateI === "") {
-        //     showError('state_error', "State is required.");
-        // } else {
-        //     clearError('state_error');
-        // }
-
-        // if (city === "") {
-        //     showError('city_error', "City is required.");
-        // } else {
-        //     clearError('city_error');
-        // }
-
-        // if (zip_code === "") {
-        //     showError('zip_code_error', "Zip Code is required.");
-        // } else {
-        //     clearError('zip_code_error');
-        // }
-
-        // if (home_address === "") {
-        //     showError('home_address_error', "Home address is required.");
-        // } else {
-        //     clearError('home_address_error');
-        // }
-
-        // if (emrg_contact === "") {
-        //     showError('emrg_contact_error', "Mobile number is required.");
-        // } else {
-        //     clearError('emrg_contact_error');
-        // }
-
-        // if (emrg_email === "") {
-        //     showError('emrg_email_error', "Email is required.");
-        // } else {
-        //     clearError('emrg_email_error');
-        // }
-
-        // if (profile_image === "") {
-        //     showError('profile_image_error', "Profile Image is required.");
-        // } else {
-        //     clearError('profile_image_error');
-        // }
-
-        // Gather form data
-        // var formData = {
-        //     first_name: $('#first_name').val(),
-        //     last_name: $('#last_name').val(),
-        //     email: $('#email').val(),
-        //     gender: $('input[name="gender"]:checked').val(),
-        //     contact: $('#contact').val(),
-        //     country_code_phone: $('#country_code_phone').val(),
-        //     country_iso_phone: $('#country_iso_phone').val(),
-        //     profile_image: profile_image,
-        //     dob: $('#dob').val(),
-        //     per_website: $('#per_website').val(),
-        //     country: countryI,
-        //     state: stateI,
-        //     city: $('#city').val(),
-        //     zip_code: $('#zip_code').val(),
-        //     home_address: $('#home_address').val(),
-        //     emrg_contact: $('#emrg_contact').val(),
-        //     emrg_email: $('#emrg_email').val(),
-        //     country_code_mobile: $('#country_code_mobile').val(),
-        //     country_iso_mobile: $('#country_iso_mobile').val(),
-        //     // _token: '{{ csrf_token() }}', // Add CSRF token
-        //     tab:'tab1'
-            
-
-        // };
-        // Create a new FormData object
-        var formData = new FormData();
-
-        // Append form fields to the FormData object
-        formData.append('first_name', $('#first_name').val());
-        formData.append('last_name', $('#last_name').val());
-        formData.append('email', $('#email').val());
-        formData.append('gender', $('input[name="gender"]:checked').val());
-        formData.append('contact', $('#contact').val());
-        formData.append('country_code_phone', $('#country_code_phone').val());
-        formData.append('country_iso_phone', $('#country_iso_phone').val());
-        
-        // Append the file
-        var profile_image = $('#profile_image')[0].files[0];
-        
-        if (profile_image) {
-            formData.append('profile_image', profile_image);
-        }
-        
-        formData.append('dob', $('#dob').val());
-        formData.append('per_website', $('#per_website').val());
-        formData.append('country', countryI);
-        formData.append('state', stateI);
-        formData.append('city', $('#city').val());
-        formData.append('zip_code', $('#zip_code').val());
-        formData.append('home_address', $('#home_address').val());
-        formData.append('emrg_contact', $('#emrg_contact').val());
-        formData.append('emrg_email', $('#emrg_email').val());
-        formData.append('country_code_mobile', $('#country_code_mobile').val());
-        formData.append('country_iso_mobile', $('#country_iso_mobile').val());
-        formData.append('tab', 'tab1');
-
-        $.ajax({
-                url: "{{ route('admin.add_nurse_post') }}",
-                type: "POST",
-                data: formData,
-                data: formData,
-                dataType: 'json',
-                contentType: false,
-                processData: false,
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include CSRF token for security
-                },
-                success: function(res) {
-                    console.log(res.type);
-
-                     if (res.status == '2') {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Success',
-                            text: res.message,
-                        }).then(function() {
-                            $('a[href="' + targetTab + '"]').tab('show');
-                        });
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: res.message,
-                        });
-                    }
-                      // Show the target tab
-                },
-                error: function(error) {
-                  if (error.responseJSON.errors) {
-                        if (error.responseJSON.errors.first_name) {
-                            $('#first_name_error').text(error.responseJSON.errors.first_name[0]);
-                        } else {
-                            $('#first_name_error').text('');
-                        }
-
-                        if (error.responseJSON.errors.last_name) {
-                            $('#last_name_error').text(error.responseJSON.errors.last_name[0]);
-                           
-                        } else {
-                            $('#last_name_error').text('');
-                        }
-
-                        if (error.responseJSON.errors.contact) {
-                            $('#contact_error').text(error.responseJSON.errors.contact[0]);
-                           
-                        } else {
-                            $('#contact_error').text('');
-                        }
-
-                        if (error.responseJSON.errors.email) {
-                            $('#email_error').text(error.responseJSON.errors.email[0]);
-                           
-                        } else {
-                            $('#email_error').text('');
-                        }
-
-                        if(error.responseJSON.errors.gender) {
-                            $('#genderErr').text(error.responseJSON.errors.gender[0]);
-                           
-                        }else{
-                            $('#genderErr').text('');
-                        }
-
-                        if(error.responseJSON.errors.dob) {
-                            $('#date_error').text(error.responseJSON.errors.dob[0]);
-                           
-                        }else{
-                            $('#date_error').text('');
-                        }
-
-                        if(error.responseJSON.errors.per_website) {
-                            $('#per_website_error').text(error.responseJSON.errors.per_website[0]);
-                           
-                        }else{
-                            $('#per_website_error').text('');
-                        }
-
-                        if(error.responseJSON.errors.country) {
-                            $('#country_error').text(error.responseJSON.errors.country[0]);
-                           
-                        }else{
-                            $('#country_error').text('');
-                        }
-
-                        if(error.responseJSON.errors.state) {
-                            $('#state_error').text(error.responseJSON.errors.state[0]);
-                           
-                        }else{
-                            $('#state_error').text('');
-                        }
-
-                        if(error.responseJSON.errors.city) {
-                            $('#city_error').text(error.responseJSON.errors.city[0]);
-                           
-                        }else{
-                            $('#city_error').text('');
-                        }
-
-                        if(error.responseJSON.errors.zip_code) {
-                            $('#zip_code_error').text(error.responseJSON.errors.zip_code[0]);
-                           
-                        }else{
-                            $('#zip_code_error').text('');
-                        }
-
-                        if(error.responseJSON.errors.home_address) {
-                            $('#home_address_error').text(error.responseJSON.errors.home_address[0]);
-                           
-                        }else{
-                            $('#home_address_error').text('');
-                        }
-
-                        if(error.responseJSON.errors.emrg_contact) {
-                            $('#emrg_contact_error').text(error.responseJSON.errors.emrg_contact[0]);
-                           
-                        }else{
-                            $('#emrg_contact_error').text('');
-                        }
-
-                        if(error.responseJSON.errors.emrg_email) {
-                            $('#emrg_email_error').text(error.responseJSON.errors.emrg_email[0]);
-                           
-                        }else{
-                            $('#emrg_email_error').text('');
-                        }
-
-
-                        if(error.responseJSON.errors.home_address) {
-                            $('#home_address_error').text(error.responseJSON.errors.zip_code[0]);
-                           
-                        }else{
-                            $('#home_address_error').text('');
-                        }
-
-                        if(error.responseJSON.errors.profile_image) {
-                            $('#profile_image_error').text(error.responseJSON.errors.profile_image[0]);
-                           
-                        }else{
-                            $('#profile_image_error').text('');
-                        }
-                        
-                    }
-                }
-            });
-
-
-        // if (!hasErrors) {
-        //     $('a[href="' + targetTab + '"]').tab('show'); // Show the target tab
-        // }
-
-
-           
-        });
-
-        
-    });
-    </script>
-    <script>
-        $(document).ready(function() {
-
-            // Add an additional search box to the dropdown
-            $('.js-example-basic-multiple').on('select2:open', function() {
-                var searchBoxHtml = `
-                    <div class="extra-search-container">
-                        <input type="text" class="extra-search-box" placeholder="Search...">
-                        <button class="clear-button" type="button">&times;</button>
-                    </div>`;
-                
-                if ($('.select2-results').find('.extra-search-container').length === 0) {
-                    $('.select2-results').prepend(searchBoxHtml);
-                }
-
-                var $searchBox = $('.extra-search-box');
-                var $clearButton = $('.clear-button');
-
-                $searchBox.on('input', function() {
-
-                    var searchTerm = $(this).val().toLowerCase();
-                    $('.select2-results__option').each(function() {
-                        var text = $(this).text().toLowerCase();
-                        if (text.includes(searchTerm)) {
-                            $(this).show();
-                        } else {
-                            $(this).hide();
-                        }
-                    });
-
-                    $clearButton.toggle($searchBox.val().length > 0);
-                });
-
-                $clearButton.on('click', function() {
-                    $searchBox.val('');
-                    $searchBox.trigger('input');
-                });
-            });
-        });
-    </script>
-    <script>
-    $(document).ready(function() {
-
-        // Add an additional search box and extra buttons to the dropdown
-        $('.addAll_removeAll_btn').on('select2:open', function() {
-            var $dropdown = $(this);
-            var searchBoxHtml = `
-                
-                <div class="extra-buttons">
-                    <button class="select-all-button" type="button">Select All</button>
-                    <button class="remove-all-button" type="button">Remove All</button>
-                </div>`;
-
-            // Remove any existing extra buttons before adding new ones
-            $('.select2-results .extra-search-container').remove();
-            $('.select2-results .extra-buttons').remove();
-
-            // Append the new extra buttons and search box
-            $('.select2-results').prepend(searchBoxHtml);
-
-            // Handle Select All button for the current dropdown
-            $('.select-all-button').on('click', function() {
-                var $currentDropdown = $dropdown;
-                var allValues = $currentDropdown.find('option').map(function() {
-                    return $(this).val();
-                }).get();
-                $currentDropdown.val(allValues).trigger('change');
-            });
-
-            // Handle Remove All button for the current dropdown
-            $('.remove-all-button').on('click', function() {
-                var $currentDropdown = $dropdown;
-                $currentDropdown.val(null).trigger('change');
-            });
-        });
-
-    });
-    </script>
-    <script>
-
-    $(document).ready(function() {
-    // Initialize Select2 for each select element with class .js-example-basic-multiple
-    $('.js-example-basic-multiple').each(function() {
-        let listId = $(this).data('list-id');
-
-        let items = [];
-        console.log("listId",listId);
-        $('#' + listId + ' li').each(function() {
-            console.log("value",$(this).data('value'));
-            items.push({ id: $(this).data('value'), text: $(this).text() });
-        });
-        console.log("items",items);
-        $(this).select2({
-            data: items
-        });
-    });
-    var nurse_array = [];
-    // Show corresponding job lists when an option is selected in the first select
-    $('.js-example-basic-multiple[data-list-id="type-of-nurse"]').on('change', function() {
-        let selectedValues = $(this).val();
-        //alert("hello");
-        var nurse_len = $("#type-of-nurse li").length;
-        console.log("nurse_len",nurse_len);
-         
-        //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
-
-        console.log("selectedValues",selectedValues);
-        //$('.result--show .form-group').addClass('d-none');
-
-        for(var i = 1;i<=nurse_len;i++){
-            var nurse_result_val = $(".nursing_result-"+i).val();
-            //alert(nurse_result_val);
-            if(selectedValues.includes(nurse_result_val)){
-
-                $('#nursing_level-'+i).removeClass('d-none');
-            }else{
-                $('#nursing_level-'+i).addClass('d-none');
-            }
-        }
     
-        // }
-    });
-
-    $('.js-example-basic-multiple[data-list-id="nursing_entry-3"]').on('change', function() {
-        let selectedValues = $(this).val();
-        //alert("hello");
-        var nurse_len = $("#type-of-nurse li").length;
-        console.log("nurse_len",nurse_len);
-
-        //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
-        if(selectedValues.includes("179")){
-            $('.np_submenu').removeClass('d-none');
-            console.log("selectedValues",selectedValues);
-        }else{
-            $('.np_submenu').addClass('d-none');
-            $('.js-example-basic-multiple[data-list-id="nurse_practitioner_menu"]').select2().val(null).trigger('change');
-        }
-        
-        
-        
-    });
-
-     $('.js-example-basic-multiple[data-list-id="specialties"]').on('change', function() {
-        let selectedValues = $(this).val();
-        //alert("hello");
-        var speciality_len = $("#specialties li").length;
-        console.log("speciality_len",speciality_len);
-
-        //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
-
-        console.log("selectedValues",selectedValues);
-        //$('.result--show .form-group').addClass('d-none');
-
-        for(var k = 1;k<=speciality_len;k++){
-            var speciality_result_val = $(".speciality_result-"+k).val();
-            //alert(speciality_result_val);
-            if(selectedValues.includes(speciality_result_val)){
-
-                $('#specility_level-'+k).removeClass('d-none');
-                //$(".sub_speciality_value").val(k);
-                
-            }else{
-                $('#specility_level-'+k).addClass('d-none');
-                $('.js-example-basic-multiple[data-list-id="speciality_entry-'+k+'"]').select2().val(null).trigger('change');
-            }
-        }
-
-        if(selectedValues.includes("1") == false){
-          $('.surgical_row').addClass('d-none');
-          $('.surgical_row_data').addClass('d-none');
-          $('.js-example-basic-multiple[data-list-id="surgical_row_box"]').select2().val(null).trigger('change');
-        }
-        if(selectedValues.includes("2") == false){
-          
-          $('.surgicalobs_row').addClass('d-none');
-          $('.js-example-basic-multiple[data-list-id="surgicalobs_row_data"]').select2().val(null).trigger('change');
-        }
-
-        if(selectedValues.includes("3") == false){
-          
-          $('.surgicalpad_row_data').addClass('d-none');
-          $('.surgical_rowp_data').addClass('d-none');
-          $('.neonatal_row').addClass('d-none');
-          $('.js-example-basic-multiple[data-list-id="surgicalobs_row_data"]').select2().val(null).trigger('change');
-        }
-        
-        
-    });
-
-    var sub_specialty_data_val =  $(".sub_speciality_value").val();
-    console.log("specialty_data_len",sub_specialty_data_val);
-
-    $('.js-example-basic-multiple[data-list-id="speciality_entry-1"]').on('change', function() {
-        let selectedValues = $(this).val();
-        //alert("hello");
-        var speciality_entry = $("#speciality_entry-1 li").length;
-        console.log("speciality_entry",speciality_entry);
-        // $(".surgical_row").wrapAll("<div class='col-md-12 row surgical_row_data'>");
-        $(".surgical_row_data").insertAfter("#specility_level-1");
-        //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
-
-        console.log("selectedValues",selectedValues.includes("96"));
-        //$('.result--show .form-group').addClass('d-none');
-
-        if(selectedValues.includes("96")){
-            $('.surgical_row_data').removeClass('d-none');
-        }else{
-            $('.surgical_row_data').addClass('d-none');
-            $('.js-example-basic-multiple[data-list-id="surgical_row_box"]').select2().val(null).trigger('change');
-        }
-
-        if(selectedValues.includes("96") == false){
-          $('.surgical_row').addClass('d-none');
-          $('.js-example-basic-multiple[data-list-id="surgical_row_box"]').select2().val(null).trigger('change');
-        }
-
-        
-
-        // for(var k = 1;k<=speciality_entry;k++){
-        //     var speciality_result_val = $(".speciality_result-"+k).val();
-        //     //alert(speciality_result_val);
-        //     if(selectedValues.includes(speciality_result_val)){
-
-        //         $('#specility_level-'+k).removeClass('d-none');
-                
-        //     }else{
-        //         $('#specility_level-'+k).addClass('d-none');
-        //     }
-        // }
-    });
-    $('.js-example-basic-multiple[data-list-id="surgical_row_box"]').on('change', function() {
-        let selectedValues = $(this).val();
-        //alert("hello");
-        var speciality_entry = $("#surgical_row_box li").length;
-        console.log("speciality_entry",speciality_entry);
-        // $(".surgical_row").wrapAll("<div class='col-md-12 row surgical_row_data'>");
-        $(".specialty_sub_boxes").insertAfter(".surgical_row_data");
-        //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
-
-        console.log("selectedValues",selectedValues);
-        //$('.result--show .form-group').addClass('d-none');
-
-        // if(selectedValues.includes("97")){
-        //     $('.surgical_row').removeClass('d-none');
-        // }else{
-        //     $('.surgical_row').addClass('d-none');
-        // }
-
-        
-
-        for(var k = 1;k<=speciality_entry;k++){
-            var speciality_result_val = $(".speciality_surgical_result-"+k).val();
-            
-            if(selectedValues.includes(speciality_result_val)){
-                
-                $('.surgical_row-'+k).removeClass('d-none');
-                
-            }else{
-                $('.surgical_row-'+k).addClass('d-none');
-                $('.js-example-basic-multiple[data-list-id="surgical_operative_care-'+k+'"]').select2().val(null).trigger('change');
-            }
-        }
-    });
-
-    $('.js-example-basic-multiple[data-list-id="speciality_entry-3"]').on('change', function() {
-        let selectedValues = $(this).val();
-        //alert("hello");
-        var speciality_entry = $("#speciality_entry-3 li").length;
-        console.log("speciality_entry",speciality_entry);
-        $(".surgical_rowp").wrapAll("<div class='col-md-12 row surgical_rowp_data'>");
-        $(".paediatric_surgical_div").insertAfter("#specility_level-3");
-
-        
-        //     $(".neonatal_row").wrapAll("<div class='col-md-12 row neonatal_row_data'>");
-        $(".neonatal_row").insertAfter("#specility_level-3");
-
-        //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
-
-        console.log("selectedValues",selectedValues);
-        //$('.result--show .form-group').addClass('d-none');
-
-        if(selectedValues.includes('250')){
-            $('.neonatal_row').removeClass('d-none');
-        }else{
-            $('.neonatal_row').addClass('d-none');
-            $('.js-example-basic-multiple[data-list-id="neonatal_care"]').select2().val(null).trigger('change');
-        }
-
-        if(selectedValues.includes('285')){
-            $('.surgicalpad_row_data').removeClass('d-none');
-        }else{
-            $('.surgicalpad_row_data').addClass('d-none');
-            $('.js-example-basic-multiple[data-list-id="surgical_rowpad_box"]').select2().val(null).trigger('change');
-        }
-
-        if(selectedValues.includes("285") == false){
-          $('.surgical_rowp_data').addClass('d-none');
-          $('.js-example-basic-multiple[data-list-id="surgical_row_box"]').select2().val(null).trigger('change');
-        }
-
-        // for(var k = 1;k<=speciality_entry;k++){
-        //     var speciality_result_val = $(".speciality_result-"+k).val();
-        //     //alert(speciality_result_val);
-        //     if(selectedValues.includes(speciality_result_val)){
-
-        //         $('#specility_level-'+k).removeClass('d-none');
-                
-        //     }else{
-        //         $('#specility_level-'+k).addClass('d-none');
-        //     }
-        // }
-    });
-
-    $('.js-example-basic-multiple[data-list-id="surgical_rowpad_box"]').on('change', function() {
-        let selectedValues = $(this).val();
-        //alert("hello");
-        var speciality_entry = $("#surgical_rowpad_box li").length;
-        console.log("speciality_entry",speciality_entry);
-        // $(".surgical_rowp").wrapAll("<div class='col-md-12 row surgical_rowp_data'>");
-        $(".surgical_rowp_data").insertAfter(".surgicalpad_row_data");
-
-        
-        //     $(".neonatal_row").wrapAll("<div class='col-md-12 row neonatal_row_data'>");
-        //     $(".neonatal_row_data").insertAfter("#specility_level-3");
-
-        //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
-
-        console.log("selectedValues",selectedValues);
-        //$('.result--show .form-group').addClass('d-none');
-
-        
-
-        for(var k = 1;k<=speciality_entry;k++){
-            var speciality_result_val = $(".surgical_rowp_result-"+k).val();
-            //alert(speciality_result_val);
-            if(selectedValues.includes(speciality_result_val)){
-
-                $('.surgical_rowp-'+k).removeClass('d-none');
-                
-            }else{
-                $('.surgical_rowp-'+k).addClass('d-none');
-                $('.js-example-basic-multiple[data-list-id="surgical_operative_carep-'+k+'"]').select2().val(null).trigger('change');
-            }
-        }
-    });
-
-    $('.js-example-basic-multiple[data-list-id="speciality_entry-2"]').on('change', function() {
-        let selectedValues = $(this).val();
-        //alert("hello");
-        var speciality_entry = $("#speciality_entry-1 li").length;
-        console.log("speciality_entry",speciality_entry);
-        // $(".surgicalobs_row").wrapAll("<div class='col-md-12 row surgicalobs_row_data'>");
-        $(".surgicalobs_row").insertAfter("#specility_level-2");
-
-        //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
-
-        console.log("selectedValues",selectedValues);
-        //$('.result--show .form-group').addClass('d-none');
-
-        if(selectedValues.includes("233")){
-            $('.surgicalobs_row').removeClass('d-none');
-        }else{
-            $('.surgicalobs_row').addClass('d-none');
-            $('.js-example-basic-multiple[data-list-id="surgical_obs_care"]').select2().val(null).trigger('change');
-        }
-
-        // for(var k = 1;k<=speciality_entry;k++){
-        //     var speciality_result_val = $(".speciality_result-"+k).val();
-        //     //alert(speciality_result_val);
-        //     if(selectedValues.includes(speciality_result_val)){
-
-        //         $('#specility_level-'+k).removeClass('d-none');
-                
-        //     }else{
-        //         $('#specility_level-'+k).addClass('d-none');
-        //     }
-        // }
-    });
-
-});
-</script>
-
-
-
-{{-- country,state, city onchange  --}}
-<script>
-    $('#countryI').on('change', function() {
-
-      var idCountry = this.value;
-
-      $("#stateI").html('');
-
-      $.ajax({
-
-        url: "{{url('fetch-provinces')}}",
-
-        type: "POST",
-
-        data: {
-
-          country_id: idCountry,
-
-          _token: '{{csrf_token()}}'
-
-        },
-
-        dataType: 'json',
-
-        success: function(result) {
-
-          $('#stateI').html('<option value=""> Select  State</option>');
-
-          $.each(result.province, function(key, value) {
-
-            $("#stateI").append('<option value="' + value
-
-              .id + '">' + value.name + '</option>');
-
-          });
-
-          $('#cityI').html('<option value=""> Select City </option>');
-               
-        }
-
-      });
-      
-
-    });
-
-
-
-    /*------------------------------------------
-
-    --------------------------------------------
-
-    State Dropdown Change Event 
-
-    --------------------------------------------
-
-    --------------------------------------------*/
-
-    $('#stateI').on('change', function() {
-
-      var idState = this.value;
-
-      $("#cityI").html('');
-
-      $.ajax({
-
-        url: "{{url('fetch-ville')}}",
-
-        type: "POST",
-
-        data: {
-
-          province_id: idState,
-
-          _token: '{{csrf_token()}}'
-
-        },
-
-        dataType: 'json',
-
-        success: function(res) {
-
-          $('#cityI').html('<option value=""> Select City </option>');
-
-          $.each(res.ville, function(key, value) {
-
-            $("#cityI").append('<option value="' + value
-
-              .id + '">' + value.name + '</option>');
-
-          });
-
-        }
-
-      });
-
-    });
-</script>
-{{-- phone number,emrgencu contact --}}
-<script>
-
-$(document).ready(function() {
-      $('#contact').keypress(function (e) {    
     
-        var charCode = (e.which) ? e.which : event.keyCode    
-
-        if (String.fromCharCode(charCode).match(/[^0-9]/g))    
-
-            return false;                        
-
-      });   
-
-      $('#emrg_contact').keypress(function (e) {    
-    
-        var charCode = (e.which) ? e.which : event.keyCode    
-
-        if (String.fromCharCode(charCode).match(/[^0-9]/g))    
-
-            return false;                        
-
-      });
-    // Function to initialize intl-tel-input and set up event listeners
-    function initializeIntlTelInput(inputSelector, countyCodeInputSelector, countryNameInputSelector, countryIsoInputSelector) {
-        const input = document.querySelector(inputSelector);
-        const countyCodeInput = document.querySelector(countyCodeInputSelector);
-        const countryNameInput = document.querySelector(countryNameInputSelector);
-        const countryIsoInput = document.querySelector(countryIsoInputSelector);
-
-        const iti = window.intlTelInput(input, {
-            utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
-            initialCountry: "AU", // Automatically detect the user's country
-            hiddenInput: "full_number",
-            // localizedCountries: { 'de': 'Deutschland' },
-            // nationalMode: false,
-            // onlyCountries: ['us', 'gb', 'ch', 'ca', 'do'],
-            // placeholderNumberType: "MOBILE",
-            preferredCountries: ['AU'],
-            geoIpLookup: function(callback) {
-                fetch('https://ipinfo.io/json')
-                    .then(response => response.json())
-                    .then(data => callback(data.country || 'us')) // Fallback to 'us' if detection fails
-                    .catch(() => callback('us')); // Fallback to 'us' if there's an error
-            }
-        });
-
-        // Function to update hidden fields with selected country data
-        function updateCountryData() {
-            const countryData = iti.getSelectedCountryData();
-            countyCodeInput.value = countryData.dialCode;
-            countryNameInput.value = countryData.name;
-            countryIsoInput.value = countryData.iso2; // ISO code of the country
-        }
-
-        // Ensure country data is set on initialization
-        updateCountryData();
-
-        // Event listener for country change
-        input.addEventListener("countrychange", function() {
-            updateCountryData();
-        });
-
-        // Validate input on blur
-        input.addEventListener('blur', function() {
-            const errorSpan = document.querySelector(`${inputSelector}_error`);
-            if (iti.isValidNumber()) {
-                errorSpan.textContent = "";
-            } else {
-                // errorSpan.textContent = "Invalid phone number.";
-            }
-        });
-
-        return iti;
-    }
-
-    // Initialize intl-tel-input for Mobile No
-    initializeIntlTelInput(
-        "#emrg_contact", 
-        "#country_code_mobile", 
-        "#country_name_mobile", 
-        "#country_iso_mobile"
-    );
-
-    // Initialize intl-tel-input for Phone Number
-    initializeIntlTelInput(
-        "#contact", 
-        "#country_code_phone", 
-        "#country_name_phone", 
-        "#country_iso_phone"
-    );
-});
-
-
-</script>
-{{-- Image preview --}}
-<script>
-// $(document).ready(function() {
-//     $('#profile_image').change(function(e) {
-//         const file = e.target.files[0];
-//         if (file) {
-//             const reader = new FileReader();
-//             reader.onload = function(e) {
-//                 $('.image-profile img').attr('src', e.target.result);
-//             };
-//             reader.readAsDataURL(file);
-//         }
-//     });
-// });
-</script>
+@include('admin.script');
     
 @endsection

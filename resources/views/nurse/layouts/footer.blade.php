@@ -78,7 +78,7 @@
 
 
 
-                  <p class="m-0">email@gmail.com</p>
+                  <p class="m-0">info@mediqa.com.au</p>
 
                 </div>
 

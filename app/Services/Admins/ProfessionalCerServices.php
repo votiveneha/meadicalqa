@@ -61,6 +61,38 @@ class ProfessionalCerServices
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
         }
     }
+    public function updateSubCertificate($data)
+    {
+        try { 
+            // dd($data) ;
+            $allData['name'] = $data['general_sub_certificate'];
+            $allData['cert_id'] = $data['general_certificate_name1'];
+            $id = $data['id'];
+            $run= $this->professionalcerRepository->updatesub(['professionalcert_id' => $id], $allData);
+            if ($run) {
+                return response()->json(['status' => '2', 'message' => __('message.statusTwo', ['parameter' => 'Sub Certificate'])]);
+            } else {
+                return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+            }
+        } catch (\Exception $e) {
+            Log::error('Error in ProfessionalCerServices/updateSubCertificate(): ' . $e->getMessage());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+    public function deleteSubCertificate($request)
+    {
+        try {
+            $run = $this->professionalcerRepository->deleteSub(['professionalcert_id'=>$request->id]);
+            if ($run) {
+                return response()->json(['status' => '2', 'message' => __('message.statusThree', ['parameter' => 'Certificate'])]);
+            } else {
+                return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+            }
+        } catch (\Exception $e) {
+            Log::error('Error in ProfessionalCerServices/deleteSubCertificate(): ' . $e->getMessage());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
 
  
 

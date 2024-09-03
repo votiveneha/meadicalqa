@@ -3,6 +3,7 @@
 namespace App\Repository\Eloquent;
 
 use App\Models\ProfessionalCer;
+use App\Models\GeneralSubCertificate;
 use Illuminate\Contracts\Cache\Repository as Cache;
 use Illuminate\Support\Facades\Log;
 
@@ -10,11 +11,13 @@ use Illuminate\Support\Facades\Log;
 class ProfessionalcerRepository extends BaseRepository{
 
     protected $model;
+    protected $secmodel;
     protected $cache;
 
-    public function __construct(ProfessionalCer $model, Cache $cache ){
+    public function __construct(ProfessionalCer $model, Cache $cache,GeneralSubCertificate $secmodel ){
         $this->model = $model;
-        parent::__construct($model, $cache);
+        $this->secmodel = $secmodel;
+        parent::__construct($model,$secmodel, $cache);
     }
 
     // Degree data in database
@@ -56,6 +59,30 @@ class ProfessionalcerRepository extends BaseRepository{
             return $this->model->where($byWhere)->update($Data);
         } catch(\Exception $e){
             Log::error("Error in ProfessionalcerRepository.update(): " . $e->getMessage());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+    public function getsubcertificate($byWhere){
+        try {
+            return $this->secmodel->where($byWhere)->first();
+        } catch(\Exception $e){
+            Log::error("Error in ProfessionalcerRepository.getsubcertificate(): " . $e->getMessage());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+    public function updatesub($byWhere,$Data){
+        try {
+            return $this->secmodel->where($byWhere)->update($Data);
+        } catch(\Exception $e){
+            Log::error("Error in ProfessionalcerRepository.update(): " . $e->getMessage());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+    public function deleteSub($byWhere){
+        try {
+            return $this->secmodel->where($byWhere)->delete();
+        } catch(\Exception $e){
+            Log::error("Error in ProfessionalcerRepository.deleteSub(): " . $e->getMessage());
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
         }
     }

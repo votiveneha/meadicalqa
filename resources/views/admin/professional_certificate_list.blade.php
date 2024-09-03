@@ -44,6 +44,11 @@
                                     </td>
                                     <td>
                                         <div class="d-flex align-items-center gap-1">
+                                            <a href="{{ route('admin.professional-subcertificate-list', ['id' => $item->id]) }}"
+                                                class="btn btn-primary" data-bs-toggle="tooltip" data-bs-trigger="hover"
+                                                title="View">
+                                                View
+                                            </a>
                                             <button href="javascript:void(0)" class="btn btn-success"  onclick="return getCertificate({{ $item->id }})">
                                                 Edit
                                             </button>
