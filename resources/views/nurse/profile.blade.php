@@ -58,6 +58,16 @@
     color: #fff;
 }
 
+/*.left_menu {
+  position: fixed;
+  top: 65px;
+  bottom: 10px;
+  overflow: scroll;
+}
+.right_content {
+  margin-left: 318px;
+}*/
+
 </style>
 @endsection
 
@@ -69,7 +79,7 @@
   <section class="section-box mt-0">
     <div class="">
       <div class="row m-0">
-        <div class="col-lg-3 col-md-4 col-sm-12 p-0">
+        <div class="col-lg-3 col-md-4 col-sm-12 p-0 left_menu">
           <!--<div id="preloader-active" style="display:none;"> <div class="preloader d-flex align-items-center justify-content-center"> <div class="preloader-inner position-relative"> <div class="text-center"><img src="https://nextjs.webwiders.in/mediqa/public/nurse/assets/imgs/template/loading.gif" alt="jobBox"></div> </div> </div> </div>-->
 
           <div class="sidebar_profile">
@@ -189,10 +199,10 @@
                 <li><a href="#work_preferences" id="work_preferences" class="btn btn-border recruitment-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-myclearance-jobs" aria-selected="false"><i class="fi fi-rr-magnifying-glass-wave"></i>Job Search & Personal Preferences</a></li>
                 <li><a href="#work_clearances" id="work_clearances" class="btn btn-border recruitment-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-myclearance-jobs" aria-selected="false"><i class="fi fi-rr-feedback-review"></i> Testimonials and Reviews</a></li>
                 <li><a href="#work_clearances" id="work_clearances" class="btn btn-border recruitment-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-myclearance-jobs" aria-selected="false"><i class="fi fi-rr-guide-alt"></i> Additional Information</a></li>
-                
+                <div class="mt-0 mb-20 logout-line"><a class="link-red font-md" href="{{ route("nurse.logout") }}"><i class="fa-solid fa-arrow-right-from-bracket me-2"></i> Log Out</a></div>
               </ul>
-              <div class="border-bottom pt-10 pb-10"></div>
-              <div class="mt-20 mb-20"><a class="link-red font-md" href="{{ route("nurse.logout") }}"><i class="fa-solid fa-arrow-right-from-bracket me-2"></i> Log Out</a></div>
+              
+              
             </div>
 
           </div>
@@ -204,7 +214,7 @@
 
 
 
-        <div class="col-lg-9 col-md-8 col-sm-12 col-12 mb-50">
+        <div class="col-lg-9 col-md-8 col-sm-12 col-12 right_content">
           <div class="content-single content_profile">
           @if(!email_verified())
           
@@ -802,9 +812,10 @@
                     <span id="reqprofessional_bio" class="reqError text-danger valley"></span>
                   </div>     
                   <div class="declaration_box">
-                      <input type="checkbox" name="declare_information" class="declare_information">
+                      <input type="checkbox" name="declare_information" class="declare_information" value="1" @if(!empty($educationData)) @if(Auth::guard('nurse_middle')->user()->declaration_status == 1) checked @endif @endif>
                       <label for="declare_information">I declare that the information provided is true and correct</label>
-                  </div>  
+                  </div>    
+                  <span id="reqdeclare_information" class="reqError text-danger valley"></span>
                   <div class="box-button mt-15">
                           <button class="btn btn-apply-big font-md font-bold" type="submit" id="submitProfession">Save Changes</button>
                         </div>          
@@ -817,7 +828,7 @@
         
               <div class="tab-pane fade" id="tab-educert" role="tabpanel" aria-labelledby="tab-educert" style="display: none">
         <div class="card shadow-sm border-0 p-4 mt-30">
-                <h3 class="mt-0 color-brand-1 mb-20">Education and Certification</h3>
+                <h3 class="mt-0 color-brand-1 mb-20">Education and Certifications</h3>
                 <h6 class="emergency_text">
                           Educational Background
                         </h6>
@@ -1621,19 +1632,19 @@
                             @endif
                           </div>
                         </div>
-                      </div>
+                      
                       <span id="reqcertificate" class="reqError text-danger valley"></span>
 						
 						<h6 class="emergency_text">
                           Additional Training 
                         </h6>
 						<div class="row">
-                          <div class="col-md-6">
+                          <div class="col-md-12">
                              <div class="form-group level-drp">
                                 <input type="hidden" name="training_course" class="training_course" value="@if(!empty($educationData)){{ $educationData->training_courses }}@endif">
-                                <label class="form-label" for="input-1">Select Courses</label>
+                                <label class="form-label" for="input-1">Please add most relevant courses/workshops</label>
                                   <?php
-                                    $courses = DB::table("additional_training")->where("type","Course")->get();
+                                    $courses = DB::table("additional_training")->get();
                                   ?>
                                   <ul id="training_courses" style="display:none;">
                                       @foreach($courses as $c)
@@ -1645,7 +1656,7 @@
                             </div>
                             <span id="reqaddtraining" class="reqError text-danger valley"></span>
                           </div>
-                          <div class="col-md-6">
+                          <!-- <div class="col-md-6">
                             <div class="form-group level-drp">
                                 <input type="hidden" name="training_workshops" class="training_workshops" value="@if(!empty($educationData)){{ $educationData->training_workshops }}@endif">
                                 <label class="form-label" for="input-1">Select Workshops</label>
@@ -1661,7 +1672,7 @@
                               <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="training_workshop" name="training_workshop[]" multiple="multiple"></select>
                             </div>
                             <span id="reqaddworkshops" class="reqError text-danger valley"></span>
-                          </div>
+                          </div> -->
                         </div>
                         {{-- CORRECT BY HARSHITA --}}
                       {{-- </div> --}}
@@ -1723,7 +1734,11 @@
                           <input class="form-control" type="date" name="expiration_date" value="@if(!empty($educationData)){{ $educationData->expiration_date }}@endif">
                           <span id="reqexpiration_date" class="reqError text-danger valley"></span>
                         </div> -->
-                        
+                        <div class="declaration_box">
+                      <input type="checkbox" name="declare_information" class="declare_information1" value="1" @if(!empty($educationData)) @if($educationData->declaration_status == 1) checked @endif @endif>
+                      <label for="declare_information1">I declare that the information provided is true and correct</label>
+                  </div>  
+                  <span id="reqdeclare_information1" class="reqError text-danger valley"></span> 
                         
                   <div class="box-button mt-15">
                     <button class="btn btn-apply-big font-md font-bold" type="submit" id="submitEducation">Save Changes</button>
@@ -2850,6 +2865,35 @@
             
       
           </div>
+		  
+		  <footer class="footer pt-0">
+
+      <div class="container">
+
+
+      
+
+        <div class="footer-bottom ">
+
+          <div class="row footer_profile_cls">
+
+            <div class="col-md-6"><span class="font-xs color-text-paragraph">Copyright © 2024. Mediqa all right reserved</span></div>
+
+            <div class="col-md-6 text-md-end text-start privacy_option">
+
+              <div class="footer-social"><a class="font-xs color-text-paragraph" href="#">Privacy Policy</a><a class="font-xs color-text-paragraph mr-30 ml-30" href="#">Terms &amp; Conditions</a></div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </footer>
+		  
+		  
         </div>
       </div>
     </div>
@@ -3151,10 +3195,10 @@
     $('.js-example-basic-multiple[data-list-id="training_courses"]').select2().val(training_course).trigger('change');
   }
 
-  if($(".training_workshops").val() != ""){
-    var training_workshops = JSON.parse($(".training_workshops").val());
-    $('.js-example-basic-multiple[data-list-id="training_workshop"]').select2().val(training_workshops).trigger('change');
-  }
+  // if($(".training_workshops").val() != ""){
+  //   var training_workshops = JSON.parse($(".training_workshops").val());
+  //   $('.js-example-basic-multiple[data-list-id="training_workshop"]').select2().val(training_workshops).trigger('change');
+  // }
 
   if($(".position_held").val() != ""){
     var position_held = JSON.parse($(".position_held").val());

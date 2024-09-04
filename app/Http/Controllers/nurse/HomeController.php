@@ -882,6 +882,7 @@ class HomeController extends Controller
         $surgical_operative_carep_3 = json_encode($request->surgical_operative_carep_3);
         
         $assistent_level = $request->assistent_level;
+        $declare_information = $request->declare_information;
         $bio = $request->bio;
         $degree = json_encode($request->degree);
         $employee_status = $request->employee_status;
@@ -909,6 +910,7 @@ class HomeController extends Controller
         $post->pad_qr_scrub = $surgical_operative_carep_3;
         
         $post->assistent_level = $assistent_level;
+        $post->declaration_status = $declare_information;
         $post->bio = $bio;
         $post->degree = $degree;
         $post->current_employee_status = $employee_status;
@@ -992,6 +994,7 @@ class HomeController extends Controller
         $expiration_date = $request->expiration_date;
         $training_courses = json_encode($request->training_courses);
         $training_workshop = json_encode($request->training_workshop);
+        $declare_information = $request->declare_information;
         
         $getedudata = DB::table("user_education_cerification")->where("user_id",$user_id)->first();
         //$post = User::find($request->user_id);
@@ -1498,7 +1501,7 @@ class HomeController extends Controller
                 $nl_array = "";
             }
             
-            $run = EducationModel::where('user_id',$user_id)->update(['institution'=>$institution,'most_relevant'=>$most_relevant,'graduate_start_date'=>$graduation_start_date,'graduate_end_date'=>$graduation_end_date,'professional_certifications'=>$professional_certification,'licence_number'=>$license_number,'country'=>$country,'state'=>$state,'expiration_date'=>$expiration_date,'training_courses'=>$training_courses,'training_workshops'=>$training_workshop,'complete_status'=>1,'acls_data'=>$acls_array,'bls_data'=>$bls_array,'cpr_data'=>$cpr_array,'nrp_data'=>$nrp_array,'pals_data'=>$pals_array,'rn_data'=>$rn_array,'np_data'=>$np_array,'cna_data'=>$cna_array,'lpn_data'=>$lpn_array,'crna_data'=>$crna_array,'cnm_data'=>$cnm_array,'ons_data'=>$ons_array,'msw_data'=>$msw_array,'ain_data'=>$ain_array,'rpn_data'=>$rpn_array,'nl_data'=>$nl_array]);
+            $run = EducationModel::where('user_id',$user_id)->update(['institution'=>$institution,'most_relevant'=>$most_relevant,'graduate_start_date'=>$graduation_start_date,'graduate_end_date'=>$graduation_end_date,'professional_certifications'=>$professional_certification,'licence_number'=>$license_number,'country'=>$country,'state'=>$state,'expiration_date'=>$expiration_date,'training_courses'=>$training_courses,'training_workshops'=>$training_workshop,'complete_status'=>1,'declaration_status'=>$declare_information,'acls_data'=>$acls_array,'bls_data'=>$bls_array,'cpr_data'=>$cpr_array,'nrp_data'=>$nrp_array,'pals_data'=>$pals_array,'rn_data'=>$rn_array,'np_data'=>$np_array,'cna_data'=>$cna_array,'lpn_data'=>$lpn_array,'crna_data'=>$crna_array,'cnm_data'=>$cnm_array,'ons_data'=>$ons_array,'msw_data'=>$msw_array,'ain_data'=>$ain_array,'rpn_data'=>$rpn_array,'nl_data'=>$nl_array]);
         }else{
 
             

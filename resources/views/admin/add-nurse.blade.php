@@ -82,7 +82,7 @@
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-2" role="tab" aria-selected="false"
+                        <a class="nav-link" data-bs-toggle="tab" href="#navpill-2" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Profession</span>
                         </a>
@@ -254,7 +254,7 @@
                                                         <option value="">Select Nationality</option>
                                                         @php $country_data=country_name_from_db();@endphp
                                                         @foreach ($country_data as $data)
-                                                        <option value="{{ $data->id }}" <?= isset(Auth::guard('nurse_middle')->user()->nationality) &&  Auth::guard('nurse_middle')->user()->nationality == $data->id ? 'selected' : '' ?>>{{ $data->nationality }}</option>
+                                                        <option value="{{ $data->professionalcert_id }}" <?= isset(Auth::guard('nurse_middle')->user()->nationality) &&  Auth::guard('nurse_middle')->user()->nationality == $data->professionalcert_id ? 'selected' : '' ?>>{{ $data->nationality }}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -745,7 +745,7 @@
                                                     ?>
                                                     <ul id="acls_data" style="display:none;">
                                                         @foreach($acls_data as $data)
-                                                        <li data-value="{{ $data->name }}">{{ $data->name }}</li>
+                                                        <li data-value="{{ $data->professionalcert_id }}">{{ $data->name }}</li>
                                                         @endforeach
                                                         
                                                     </ul>
@@ -772,7 +772,7 @@
                                                     ?>
                                                     <ul id="bls_data" style="display:none;">
                                                         @foreach($bls_data as $data)
-                                                        <li data-value="{{ $data->name }}">{{ $data->name }}</li>
+                                                        <li data-value="{{ $data->professionalcert_id }}">{{ $data->name }}</li>
                                                         @endforeach                                                        
                                                     </ul>
                                                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="bls_data" name="bls_data[]" multiple="multiple"></select>
@@ -799,7 +799,7 @@
                                                     ?>
                                                     <ul id="cpr_data" style="display:none;">
                                                         @foreach($cpr_data as $data)
-                                                        <li data-value="{{ $data->name }}">{{ $data->name }}</li>
+                                                        <li data-value="{{ $data->professionalcert_id }}">{{ $data->name }}</li>
                                                         @endforeach
                                                         
                                                     </ul>
@@ -827,7 +827,7 @@
                                                     ?>
                                                     <ul id="nrp_data" style="display:none;">
                                                         @foreach($nrp_data as $data)
-                                                        <li data-value="{{ $data->name }}">{{ $data->name }}</li>
+                                                        <li data-value="{{ $data->professionalcert_id }}">{{ $data->name }}</li>
                                                         @endforeach
                                                         
                                                     </ul>
@@ -854,7 +854,7 @@
                                                     ?>
                                                     <ul id="pls_data" style="display:none;">
                                                         @foreach($pls_data as $data)
-                                                        <li data-value="{{ $data->name }}">{{ $data->name }}</li>
+                                                        <li data-value="{{ $data->professionalcert_id }}">{{ $data->name }}</li>
                                                         @endforeach
                                                         
                                                     </ul>
@@ -881,7 +881,7 @@
                                                     ?>
                                                     <ul id="rn_data" style="display:none;">
                                                         @foreach($rn_data as $data)
-                                                        <li data-value="{{ $data->name }}">{{ $data->name }}</li>
+                                                        <li data-value="{{ $data->professionalcert_id }}">{{ $data->name }}</li>
                                                         @endforeach
                                                         
                                                     </ul>
@@ -909,7 +909,7 @@
                                                     ?>
                                                     <ul id="np_data" style="display:none;">
                                                         @foreach($rn_data as $data)
-                                                        <li data-value="{{ $data->name }}">{{ $data->name }}</li>
+                                                        <li data-value="{{ $data->professionalcert_id }}">{{ $data->name }}</li>
                                                         @endforeach
                                                         
                                                     </ul>
@@ -937,7 +937,7 @@
                                                     ?>
                                                     <ul id="rn_data" style="display:none;">
                                                         @foreach($rn_data as $data)
-                                                        <li data-value="{{ $data->name }}">{{ $data->name }}</li>
+                                                        <li data-value="{{ $data->professionalcert_id }}">{{ $data->name }}</li>
                                                         @endforeach
                                                         
                                                     </ul>
@@ -964,7 +964,7 @@
                                                     ?>
                                                     <ul id="rn_data" style="display:none;">
                                                         @foreach($cn_data as $data)
-                                                        <li data-value="{{ $data->name }}">{{ $data->name }}</li>
+                                                        <li data-value="{{ $data->professionalcert_id }}">{{ $data->name }}</li>
                                                         @endforeach
                                                         
                                                     </ul>
@@ -991,7 +991,7 @@
                                                     ?>
                                                     <ul id="rn_data" style="display:none;">
                                                         @foreach($lpn_data as $data)
-                                                        <li data-value="{{ $data->name }}">{{ $data->name }}</li>
+                                                        <li data-value="{{ $data->professionalcert_id }}">{{ $data->name }}</li>
                                                         @endforeach
                                                         
                                                     </ul>
@@ -1018,7 +1018,7 @@
                                                         ?>
                                                         <ul id="rn_data" style="display:none;">
                                                             @foreach($crn_data as $data)
-                                                            <li data-value="{{ $data->name }}">{{ $data->name }}</li>
+                                                            <li data-value="{{ $data->professionalcert_id }}">{{ $data->name }}</li>
                                                             @endforeach
                                                             
                                                         </ul>
@@ -1045,7 +1045,7 @@
                                                     ?>
                                                     <ul id="cnm_data" style="display:none;">
                                                         @foreach($cnm_data as $data)
-                                                        <li data-value="{{ $data->name }}">{{ $data->name }}</li>
+                                                        <li data-value="{{ $data->professionalcert_id }}">{{ $data->name }}</li>
                                                         @endforeach
                                                         
                                                     </ul>
@@ -1072,7 +1072,7 @@
                                                     ?>
                                                     <ul id="ons_data" style="display:none;">
                                                         @foreach($ons_data as $data)
-                                                        <li data-value="{{ $data->name }}">{{ $data->name }}</li>
+                                                        <li data-value="{{ $data->professionalcert_id }}">{{ $data->name }}</li>
                                                         @endforeach                                                    
                                                     </ul>
                                                     <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="ons_data" name="ons_data[]" multiple="multiple"></select>
@@ -1098,7 +1098,7 @@
                                                     ?>
                                                     <ul id="msw_data" style="display:none;">
                                                         @foreach($msw_data as $data)
-                                                        <li data-value="{{ $data->name }}">{{ $data->name }}</li>
+                                                        <li data-value="{{ $data->professionalcert_id }}">{{ $data->name }}</li>
                                                         @endforeach
                                                         
                                                     </ul>
@@ -1126,7 +1126,7 @@
                                                     ?>
                                                     <ul id="ain_data" style="display:none;">
                                                         @foreach($msw_data as $data)
-                                                        <li data-value="{{ $data->name }}">{{ $data->name }}</li>
+                                                        <li data-value="{{ $data->professionalcert_id }}">{{ $data->name }}</li>
                                                         @endforeach
                                                         
                                                     </ul>
@@ -1153,7 +1153,7 @@
                                                     ?>
                                                     <ul id="rpn_data" style="display:none;">
                                                         @foreach($msw_data as $data)
-                                                        <li data-value="{{ $data->name }}">{{ $data->name }}</li>
+                                                        <li data-value="{{ $data->professionalcert_id }}">{{ $data->name }}</li>
                                                         @endforeach
                                                         
                                                     </ul>

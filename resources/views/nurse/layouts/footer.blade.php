@@ -139,7 +139,10 @@
       </div>
 
     </footer> @else
-
+    <?php
+      $url = $_SERVER['REQUEST_URI'];
+    if(strpos($url, "my-profile") == false){
+     ?>
     <footer class="footer pt-0">
 
       <div class="container">
@@ -166,6 +169,9 @@
       </div>
 
     </footer>
+    <?php
+      }
+    ?>
     @endif
 
     <script src="{{ asset('nurse/assets/js/vendor/modernizr-3.6.0.min.js')}}"></script>

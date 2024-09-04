@@ -680,6 +680,11 @@ function pad(number) {
       isValid = false;
     }
 
+    if($(".declare_information").prop('checked') == false){
+      document.getElementById("reqdeclare_information").innerHTML = "* Please check this checkbox";
+      isValid = false;
+    }
+
     if(isValid == true){
       $.ajax({
         url: "{{ route('nurse.updateProfession') }}",
@@ -815,6 +820,10 @@ function pad(number) {
     }
     if ($('[name="training_workshop[]"]').val() == '') {
       document.getElementById("reqaddworkshops").innerHTML = "* Please select training workshops";
+      isValid = false;
+    }
+    if($(".declare_information1").prop('checked') == false){
+      document.getElementById("reqdeclare_information1").innerHTML = "* Please check this checkbox";
       isValid = false;
     }
 

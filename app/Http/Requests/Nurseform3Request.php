@@ -8,6 +8,13 @@ class Nurseform3Request extends FormRequest
 {
     public function rules()
     {
+         // Decode JSON strings to arrays
+        $this->merge([
+            'training_courses' => json_decode($this->input('training_courses'), true),
+            'training_workshop' => json_decode($this->input('training_workshop'), true),
+            'professional_certification' => json_decode($this->input('training_workshop'), true),
+        ]);
+
         return [
             'ndegree' => 'required',
             'institution' => 'required',
@@ -15,8 +22,11 @@ class Nurseform3Request extends FormRequest
             'graduation_start_date' => 'required',
             'graduation_end_date' => 'required', 
             'professional_certification' => 'required',
-            'training_courses' => 'required',
-            'training_workshop' => 'required',        
+            // 'training_courses' => 'required',
+            // 'training_workshop' => 'required',      
+            'training_courses' => 'required|min:1',
+            'training_workshop' => 'required|min:1',
+  
         ];
     }
 

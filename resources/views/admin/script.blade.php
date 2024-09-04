@@ -1014,7 +1014,7 @@ $(document).ready(function() {
 
             var selectElement9= $('select[data-list-id="surgical_operative_care-2"]');        
             // Get the selected value(s) from the Select2 element
-            var surgical_operative_care_2 = specialtiest_5.val(); 
+            var surgical_operative_care_2 = selectElement9.val(); 
             
             
             var selectElement10 = $('select[data-list-id="surgical_operative_care-3"]');        
@@ -1035,7 +1035,7 @@ $(document).ready(function() {
 
             var selectElement14= $('select[data-list-id="ons_data"]');        
             // Get the selected value(s) from the Select2 element
-            var ons_data = specialtiest_10.val();msw_data
+            var ons_data = selectElement14.val();msw_data
 
             var selectElement15 = $('select[data-list-id="msw_data"]');        
             // Get the selected value(s) from the Select2 element
@@ -1180,7 +1180,9 @@ $(document).ready(function() {
 
     <script> 
         // second form        
-        $('.next-step-3').on('click', function() { 
+        $('.next-step-3').on('click', function(event) { 
+                event.preventDefault(); // Prevent default form submission
+
                var targetTab = $(this).data('target'); 
             // Initially deactivate all tabs except the first one
                 // $('.nav-pills .nav-link').not('.active').addClass('disabled');
@@ -1192,11 +1194,19 @@ $(document).ready(function() {
          
             // Create a new FormData object
             var formData = new FormData();
+
             var selectElement = $('select[data-list-id="ndegree"]');        
             var ndegree = selectElement.val();  
             
             var selectElement1 = $('select[data-list-id="profess_cert"]');        
-            var profess_cert = selectElement1.val();  
+            var profess_cert = selectElement1.val(); 
+
+            if(profess_cert == ''){
+               $('#profess_cert_error').text('This field is required.')
+            }else{
+              $('#profess_cert_error').text('')
+            }
+    
 
             var selectElement2 = $('select[data-list-id="acls_data"]');       
             var acls_data = selectElement2.val(); 
@@ -1207,14 +1217,6 @@ $(document).ready(function() {
 
             // Append the file
             var acls_upload_certification = $('#acls_upload_certification')[0].files[0];
-
-            // alert(rn_upload_certification);
-  
-
-        
-        // if (profile_image) {
-        //     formData.append('profile_image', profile_image);
-        // }
 
 
             var selectElement3 = $('select[data-list-id="bls_data"]');        
@@ -1398,11 +1400,21 @@ $(document).ready(function() {
             var selectElement19 = $('select[data-list-id="training_courses"]');        
             // Get the selected value(s) from the Select2 element
             var training_courses = selectElement19.val();
+            if(training_courses == ''){
+               $('#training_course_error').text('This field is required.')
+            }else{
+              $('#training_course_error').text('')
+            }
             
 
             var selectElement20 = $('select[data-list-id="training_workshop"]');        
             // Get the selected value(s) from the Select2 element
             var training_workshop = selectElement20.val();
+            if(training_workshop == ''){
+               $('#training_workshop_error').text('This field is required.')
+            }else{
+              $('#training_workshop_error').text('')
+            }
 
             var institution = $('#institution').val();
             var most_relevant = $('#most_relevant').val();
@@ -1415,99 +1427,99 @@ $(document).ready(function() {
           let hasErrors = false;
 
         // if(targetTab ==  '#navpill-2'){
-      
+    //   alert(JSON.stringify(profess_cert));
         formData.append('ndegree',ndegree);
         formData.append('institution',institution);
         formData.append('most_relevant', most_relevant);     
         formData.append('graduation_start_date', graduation_start_date);
         formData.append('graduation_end_date', graduation_end_date);
-        formData.append('professional_certification', profess_cert);
-        formData.append('acls_data', acls_data);
+        formData.append('professional_certification',JSON.stringify(profess_cert));
+        formData.append('acls_data', JSON.stringify(acls_data));
         formData.append('acls_license_number', acls_license_number);
         formData.append('acls_expiry',acls_expiry);
         formData.append('acls_upload_certification',acls_upload_certification);
 
-        formData.append('bls_data', bls_license_number);
+        formData.append('bls_data', JSON.stringify(bls_data));
         formData.append('bls_license_number', bls_license_number);
         formData.append('bls_expiry', bls_expiry);
         formData.append('bls_upload_certification', bls_upload_certification);
 
-        formData.append('cpr_data', cpr_data);
+        formData.append('cpr_data', JSON.stringify(cpr_data));
         formData.append('cpr_license_number', cpr_license_number);
         formData.append('cpr_expiry', cpr_expiry);
         formData.append('cpr_upload_certification', cpr_upload_certification);
 
         formData.append('tab', 'tab3');
 
-        formData.append('nrp_data',nrp_data);
+        formData.append('nrp_data',JSON.stringify(nrp_data));
         formData.append('nrp_license_number', nrp_license_number);
         formData.append('nrp_expiry', nrp_expiry );
         formData.append('nrp_upload_certification', nrp_upload_certification);
 
-        formData.append('pls_data', pls_data);
+        formData.append('pls_data', JSON.stringify(pls_data));
         formData.append('pals_license_number',pals_license_number);
         formData.append('pals_expiry',pals_expiry );
         formData.append('pals_upload_certification',pals_upload_certification);
 
-        formData.append('rn_data', rn_data);
+        formData.append('rn_data', JSON.stringify(rn_data));
         formData.append('rn_license_number', rn_license_number);
         formData.append('rn_expiry', rn_expiry);
         formData.append('rn_upload_certification', rn_upload_certification);
 
-        formData.append('np_data',np_data);
+        formData.append('np_data',JSON.stringify(np_data));
         formData.append('np_license_number', np_license_number);
         formData.append('np_expiry', np_expiry);
         formData.append('np_upload_certification', np_upload_certification);
 
-        formData.append('cn_data ',cn_data);
-        formData.append('cn_license_number ', cn_license_number );
-        formData.append('cn_expiry ', cn_expiry);
-        formData.append('cn_upload_certification ', cn_upload_certification );
+        formData.append('cn_data ',JSON.stringify(cn_data));
+        formData.append('cn_license_number',cn_license_number);
+        formData.append('cn_expiry',cn_expiry);
+        formData.append('cn_upload_certification',cn_upload_certification);
 
 
-        formData.append('lpn_data',lpn_data );
-        formData.append('lpn_license_number', lpn_license_number  );
-        formData.append('lpn_expiry ', lpn_expiry);
-        formData.append('lpn_upload_certification ', lpn_upload_certification);
+        formData.append('lpn_data',JSON.stringify(lpn_data));
+        formData.append('lpn_license_number',lpn_license_number);
+        formData.append('lpn_expiry',lpn_expiry);
+        formData.append('lpn_upload_certification', lpn_upload_certification);
 
-        formData.append('crn_data',crn_data);
+        formData.append('crn_data',JSON.stringify(crn_data));
         formData.append('crn_license_number', crn_license_number);
         formData.append('crn_expiry', crn_expiry );
         formData.append('crn_upload_certification  ', crn_upload_certification);
 
-        formData.append('cnm_data',cnm_data);
+        formData.append('cnm_data',JSON.stringify(cnm_data));
         formData.append('cnm_license_number', cnm_license_number);
         formData.append('cnm_expiry', cnm_expiry);
         formData.append('cnm_upload_certification', cnm_upload_certification);
 
-        formData.append('ons_data',ons_data );
+        formData.append('ons_data',JSON.stringify(ons_data));
         formData.append('ons_license_number', ons_license_number);
         formData.append('ons_expiry', ons_expiry);
         formData.append('ons_upload_certification ',ons_upload_certification);
 
 
-        formData.append('msw_data',msw_data);
+        formData.append('msw_data',JSON.stringify(msw_data));
         formData.append('msw_license_number', msw_license_number);
         formData.append('msw_expiry', msw_expiry);
         formData.append('msw_upload_certification', msw_upload_certification);
 
-        formData.append('ain_data',ain_data);
+        formData.append('ain_data',JSON.stringify(ain_data));
         formData.append('ain_license_number ', ain_license_number);
         formData.append('ain_expiry', ain_expiry );
         formData.append('ain_upload_certification  ', ain_upload_certification);
 
-        formData.append('rpn_data',rpn_data);
+        formData.append('rpn_data',JSON.stringify(rpn_data));
         formData.append('rpn_license_number  ', rpn_license_number );
         formData.append('rpn_expiry', rpn_expiry);
         formData.append('rpn_upload_certification', rpn_upload_certification);
 
-        formData.append('nlc_data',nlc_data);
+        formData.append('nlc_data',JSON.stringify(nlc_data));
         formData.append('nlc_license_number', nlc_license_number);
         formData.append('nlc_expiry', nlc_expiry );
         formData.append('nlc_upload_certification', nlc_upload_certification  );
 
-        formData.append('training_courses',training_courses);
-        formData.append('training_workshop',training_workshop );
+        formData.append('training_courses',JSON.stringify(training_courses));
+        formData.append('training_workshop',JSON.stringify(training_workshop));
         
         $.ajax({
                 url: "{{ route('admin.add_nurse_post_3') }}",
