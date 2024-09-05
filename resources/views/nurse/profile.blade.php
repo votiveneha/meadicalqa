@@ -1096,17 +1096,73 @@
                     <div class="col-md-6">
                       <div class="form-group level-drp">
                         <label class="form-label" for="input-1">Graduation Start Date</label>
-                        <input class="form-control" type="date" name="graduation_start_date" value="@if(!empty($educationData)){{ $educationData->graduate_start_date }}@endif">
+                        <input class="form-control graduation_start_date" type="date" name="graduation_start_date" value="@if(!empty($educationData)){{ $educationData->graduate_start_date }}@endif" onchange="changeDate(event);">
                         <span id="reqstartdate" class="reqError text-danger valley"></span>
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-group level-drp">
                         <label class="form-label" for="input-1">Graduation End Date</label>
-                        <input class="form-control" type="date" name="graduation_end_date" value="@if(!empty($educationData)){{ $educationData->graduate_end_date }}@endif">
+                        <input class="form-control graduation_end_date" type="date" name="graduation_end_date" value="@if(!empty($educationData)){{ $educationData->graduate_end_date }}@endif">
                         <span id="reqenddate" class="reqError text-danger valley"></span>
                       </div>
                     </div>
+                    <script type="text/javascript">
+                        var start_date = $('.graduation_start_date').val();
+                        
+                        var date = new Date(start_date);
+
+                          
+
+                        // Add five days to current date
+                        date.setDate(date.getDate() + 1);
+                        var date1 = new Date(date);
+
+                        
+                        //var str = date1.toLocaleDateString();
+                        var year_val = `${date1.getFullYear()}`;
+                        var month_val = `${date1.getMonth() + 1}`;
+                        var date_val = `${date1.getDate()}`;
+
+                        var month_len = month_val.length;
+                        if(month_len<2){
+                          var show_month = 0+month_val;
+                        }else{
+                          var show_month = month_val
+                        }
+                        const formattedDate = year_val+"-"+show_month+"-"+date_val;
+                        console.log("month_val",formattedDate);
+                        
+                        document.getElementsByName("graduation_end_date")[0].setAttribute('min', formattedDate);
+                        function changeDate(e){
+                          var start_date = e.target.value;
+                          var date = new Date(start_date);
+
+                          
+
+                          // Add five days to current date
+                          date.setDate(date.getDate() + 1);
+                          var date1 = new Date(date);
+
+                          
+                          //var str = date1.toLocaleDateString();
+                          var year_val = `${date1.getFullYear()}`;
+                          var month_val = `${date1.getMonth() + 1}`;
+                          var date_val = `${date1.getDate()}`;
+
+                          var month_len = month_val.length;
+                          if(month_len<2){
+                            var show_month = 0+month_val;
+                          }else{
+                            var show_month = month_val
+                          }
+                          const formattedDate = year_val+"-"+show_month+"-"+date_val;
+                          console.log("month_val",formattedDate);
+                          
+                          document.getElementsByName("graduation_end_date")[0].setAttribute('min', formattedDate);
+                          $(".graduation_end_date").val(formattedDate);
+                        }
+                      </script>
                   </div>
                             <h6 class="emergency_text">
                          General Certifications/Licences:
@@ -2866,14 +2922,18 @@
       
           </div>
 		  
-		  <footer class="footer pt-0">
+		  
+		  
+		  
+        </div>
+		<footer class="footer pt-0" style="margin: 0 11px;">
 
       <div class="container">
 
 
       
 
-        <div class="footer-bottom ">
+         <div class="footer-bottom ">
 
           <div class="row footer_profile_cls">
 
@@ -2892,9 +2952,6 @@
       </div>
 
     </footer>
-		  
-		  
-        </div>
       </div>
     </div>
   </section>

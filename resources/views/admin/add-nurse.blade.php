@@ -812,7 +812,7 @@
                                                     </div>
                                                     <div class="form-group col-md-6">
                                                         <label class="form-label" for="input-1">Expiry</label>
-                                                        <input class="form-control" type="text" name="cpr_expiry" id="cpr_expiry">
+                                                        <input class="form-control" type="date" name="cpr_expiry" id="cpr_expiry">
                                                     </div>
                                                     <div class="form-group col-md-6">
                                                         <label class="form-label" for="input-1">Upload your certification/Licence</label>
@@ -858,7 +858,7 @@
                                                         @endforeach
                                                         
                                                     </ul>
-                                                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="pls_data" name="pls_data[]" multiple="multiple"></select>
+                                                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="pals_data" name="pals_data[]" multiple="multiple"></select>
                                                 </div>
                                                 <div class="license_number_div row license_number_pals d-none">
                                                     <div class="form-group col-md-6">
@@ -1202,11 +1202,11 @@
                                                     </div>
                                                 </div>
                                                <h4 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3">Additional Training</h4>
-                                               <div class="col-md-6 mt-3">
+                                               <div class="col-md-12 mt-3">
                                                     <div class="form-group">
-                                                        <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Select Courses</strong></label>
+                                                        <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Please add most relevant courses/workshops</strong></label>
                                                         <?php
-                                                                $courses = DB::table("additional_training")->where("type","Course")->get();
+                                                                $courses = DB::table("additional_training")->get();
                                                             ?>
                                                             <ul id="training_courses" style="display:none;">
                                                                 @foreach($courses as $c)
@@ -1218,28 +1218,9 @@
                                                         <span id="training_course_error" class="text-danger"></span>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6 mt-3">
-                                                    <div class="form-group">
-                                                        <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Select Workshops</strong></label>
-                                                            <?php
-                                                                $workshop = DB::table("additional_training")->where("type","workshop")->get();
-                                                            ?>
-                                                            <ul id="training_workshop" style="display:none;">
-                                                                @foreach($workshop as $c)
-                                                                <li data-value="{{ $c->id }}">{{ $c->name }}</li>
-                                                                @endforeach
-                                                                
-                                                            </ul>
-                                                        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="training_workshop" name="training_workshop[]" multiple="multiple"></select>
-                                                        <span id="training_workshop_error" class="text-danger"></span>
-                                                    </div>
-                                                </div>
                                                 <div class="d-flex align-items-center justify-content-between mt-3">
                                                     <button type="button" class="btn btn-default next-step-3 align-items-center justify-content-between" data-target="#navpill-4">Next</button>
                                                 </div>
-
-
-
                                         </div>                     
                                     </div>
                     

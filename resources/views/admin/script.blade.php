@@ -784,8 +784,7 @@ $(document).ready(function() {
         
         // Append the file
         var profile_image = $('#profile_image')[0].files[0];
-        alert(profile_image);
-        
+       
         if (profile_image) {
             formData.append('profile_image', profile_image);
         }
@@ -1201,11 +1200,11 @@ $(document).ready(function() {
             var selectElement1 = $('select[data-list-id="profess_cert"]');        
             var profess_cert = selectElement1.val(); 
 
-            if(profess_cert == ''){
-               $('#profess_cert_error').text('This field is required.')
-            }else{
-              $('#profess_cert_error').text('')
-            }
+            // if(profess_cert == ''){
+            //    $('#profess_cert_error').text('This field is required.')
+            // }else{
+            //   $('#profess_cert_error').text('')
+            // }
     
 
             var selectElement2 = $('select[data-list-id="acls_data"]');       
@@ -1254,9 +1253,9 @@ $(document).ready(function() {
             // Append the file
             var nrp_upload_certification = $('#nrp_upload_certification')[0].files[0];
             
-            var selectElement6 = $('select[data-list-id="pls_data"]');        
+            var selectElement6 = $('select[data-list-id="pals_data"]');        
             // Get the selected value(s) from the Select2 element
-            var pls_data = selectElement6.val(); 
+            var pals_data = selectElement6.val(); 
 
             var pals_license_number = $('#pals_license_number').val();
 
@@ -1400,22 +1399,11 @@ $(document).ready(function() {
             var selectElement19 = $('select[data-list-id="training_courses"]');        
             // Get the selected value(s) from the Select2 element
             var training_courses = selectElement19.val();
-            if(training_courses == ''){
-               $('#training_course_error').text('This field is required.')
-            }else{
-              $('#training_course_error').text('')
-            }
-            
 
-            var selectElement20 = $('select[data-list-id="training_workshop"]');        
-            // Get the selected value(s) from the Select2 element
-            var training_workshop = selectElement20.val();
-            if(training_workshop == ''){
-               $('#training_workshop_error').text('This field is required.')
-            }else{
-              $('#training_workshop_error').text('')
-            }
-
+            // var selectElement20 = $('select[data-list-id="training_workshop"]');        
+            // // Get the selected value(s) from the Select2 element
+            // var training_workshop = selectElement20.val();
+      
             var institution = $('#institution').val();
             var most_relevant = $('#most_relevant').val();
 
@@ -1428,7 +1416,7 @@ $(document).ready(function() {
 
         // if(targetTab ==  '#navpill-2'){
     //   alert(JSON.stringify(profess_cert));
-        formData.append('ndegree',ndegree);
+        formData.append('ndegree',JSON.stringify(ndegree));
         formData.append('institution',institution);
         formData.append('most_relevant', most_relevant);     
         formData.append('graduation_start_date', graduation_start_date);
@@ -1456,7 +1444,7 @@ $(document).ready(function() {
         formData.append('nrp_expiry', nrp_expiry );
         formData.append('nrp_upload_certification', nrp_upload_certification);
 
-        formData.append('pls_data', JSON.stringify(pls_data));
+        formData.append('pals_data', JSON.stringify(pals_data));
         formData.append('pals_license_number',pals_license_number);
         formData.append('pals_expiry',pals_expiry );
         formData.append('pals_upload_certification',pals_upload_certification);
@@ -1471,7 +1459,7 @@ $(document).ready(function() {
         formData.append('np_expiry', np_expiry);
         formData.append('np_upload_certification', np_upload_certification);
 
-        formData.append('cn_data ',JSON.stringify(cn_data));
+        formData.append('cn_data',JSON.stringify(cn_data));
         formData.append('cn_license_number',cn_license_number);
         formData.append('cn_expiry',cn_expiry);
         formData.append('cn_upload_certification',cn_upload_certification);
@@ -1504,9 +1492,9 @@ $(document).ready(function() {
         formData.append('msw_upload_certification', msw_upload_certification);
 
         formData.append('ain_data',JSON.stringify(ain_data));
-        formData.append('ain_license_number ', ain_license_number);
+        formData.append('ain_license_number', ain_license_number);
         formData.append('ain_expiry', ain_expiry );
-        formData.append('ain_upload_certification  ', ain_upload_certification);
+        formData.append('ain_upload_certification', ain_upload_certification);
 
         formData.append('rpn_data',JSON.stringify(rpn_data));
         formData.append('rpn_license_number  ', rpn_license_number );
@@ -1519,7 +1507,7 @@ $(document).ready(function() {
         formData.append('nlc_upload_certification', nlc_upload_certification  );
 
         formData.append('training_courses',JSON.stringify(training_courses));
-        formData.append('training_workshop',JSON.stringify(training_workshop));
+        // formData.append('training_workshop',JSON.stringify(training_workshop));
         
         $.ajax({
                 url: "{{ route('admin.add_nurse_post_3') }}",
@@ -1598,11 +1586,11 @@ $(document).ready(function() {
                             $('#training_course_error').text('');
                         }
 
-                        if (error.responseJSON.errors.training_workshop) {
-                            $('#training_workshop_error').text(error.responseJSON.errors.training_workshop[0]);                           
-                        } else {
-                            $('#training_workshop_error').text('');
-                        }
+                        // if (error.responseJSON.errors.training_workshop) {
+                        //     $('#training_workshop_error').text(error.responseJSON.errors.training_workshop[0]);                           
+                        // } else {
+                        //     $('#training_workshop_error').text('');
+                        // }
 
                     // }                        
                     }

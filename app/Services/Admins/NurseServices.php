@@ -213,19 +213,24 @@ class NurseServices
 
             // session()->forget('nurseemail');
             }else if($data['tab'] == 'tab3'){
+
              $email = Session::get('nurseemail');
              $user_id = User::where('email',$email)->first();
 
-            if ($data['acls_data']){
+            if ($data['acls_data'] != '[]'){
                 $acls_data = $data['acls_data'];
                 $acls_licence_num = $data['acls_license_number'];
                 $acls_licence_expiry = $data['acls_expiry'];
 
                 $acls_file = $data['acls_upload_certification'];
+                $acls_file_name = '';
 
-                if($acls_file){
+
+                if($acls_file != 'undefined'){
                     $destinationPath = public_path().'/uploads';
+                    // print_r($acls_file);die;
                     $acls_file_name = $acls_file->getClientOriginalName();
+                    
                     $acls_file->move($destinationPath,$acls_file->getClientOriginalName());
                 }
                 $acls_array = array();
@@ -243,7 +248,9 @@ class NurseServices
 
                 $bls_file = $data['bls_upload_certification'];
 
-                if($bls_file){
+                $bls_file_name = '';
+
+                if($bls_file != 'undefined'){
                     $destinationPath = public_path().'/uploads';
                     $bls_file_name = $bls_file->getClientOriginalName();
                     $bls_file->move($destinationPath,$bls_file->getClientOriginalName());
@@ -262,7 +269,9 @@ class NurseServices
 
                 $cpr_file = $data['cpr_upload_certification'];
 
-                if($cpr_file){
+                $cpr_file_name = '';
+
+                if($cpr_file != 'undefined'){
                     $destinationPath = public_path().'/uploads';
                     $cpr_file_name = $cpr_file->getClientOriginalName();
                     $cpr_file->move($destinationPath,$cpr_file->getClientOriginalName());
@@ -275,293 +284,321 @@ class NurseServices
             }    
 
 
-        //     if($data['nrp_data'] != '[]'){
-        //         $nrp_data = $data['nrp_data'];
+            if($data['nrp_data'] != '[]'){
+                $nrp_data = $data['nrp_data'];
 
-        //         //print_r($acls_data);
-        //         $nrp_licence_num = $data['nrp_license_number'];
-        //         $nrp_licence_expiry = $data['nrp_expiry'];
+                //print_r($acls_data);
+                $nrp_licence_num = $data['nrp_license_number'];
+                $nrp_licence_expiry = $data['nrp_expiry'];
 
-        //         $nrp_file = $data['nrp_upload_certification'];
+                $nrp_file = $data['nrp_upload_certification'];
+                $nrp_file_name = '';
 
-        //         if($nrp_file){
-        //             $destinationPath = public_path().'/uploads';
-        //             $nrp_file_name = $nrp_file->getClientOriginalName();
-        //             $nrp_file->move($destinationPath,$nrp_file->getClientOriginalName());
-        //         }   
-        //         $nrp_array = array();
-        //         $nrp_array = array("nrp_data"=>$nrp_data,"nrp_licence_num"=>$nrp_licence_num,"nrp_licence_expiry"=>$nrp_licence_expiry,"nrp_file"=>$nrp_file_name);
-        //     }else{
-        //         $nrp_array = "";
-        //     } 
+                if($nrp_file != 'undefined'){
+                    $destinationPath = public_path().'/uploads';
+                    $nrp_file_name = $nrp_file->getClientOriginalName();
+                    $nrp_file->move($destinationPath,$nrp_file->getClientOriginalName());
+                }   
+                $nrp_array = array();
+                $nrp_array = array("nrp_data"=>$nrp_data,"nrp_licence_num"=>$nrp_licence_num,"nrp_licence_expiry"=>$nrp_licence_expiry,"nrp_file"=>$nrp_file_name);
+            }else{
+                $nrp_array = "";
+            } 
 
-        //     if($data['pals_data'] != '[]'){
-        //         $pals_data = json_encode($data['pals_data']);
-        //         //print_r($acls_data);
-        //         $pals_licence_num = $data['pals_license_number'];
-        //         $pals_licence_expiry = $data['pals_expiry'];
+            if($data['pals_data'] != '[]'){
+                $pals_data = $data['pals_data'];
+                //print_r($acls_data);
+                $pals_licence_num = $data['pals_license_number'];
+                $pals_licence_expiry = $data['pals_expiry'];
 
-        //         $pals_file = $data['pals_upload_certification'];
+                $pals_file = $data['pals_upload_certification'];
 
-        //         if($pals_file){
-        //             $destinationPath = public_path().'/uploads';
-        //             $pals_file_name = $pals_file->getClientOriginalName();
-        //             $pals_file->move($destinationPath,$pals_file->getClientOriginalName());
-        //         }
+                $pals_file_name = '';
+
+                if($pals_file != 'undefined'){
+                    $destinationPath = public_path().'/uploads';
+                    $pals_file_name = $pals_file->getClientOriginalName();
+                    $pals_file->move($destinationPath,$pals_file->getClientOriginalName());
+                }
             
-        //         $pals_array = array();
-        //         $pals_array = array("pals_data"=>$pals_data,"pals_licence_num"=>$pals_licence_num,"pals_licence_expiry"=>$pals_licence_expiry,"pals_file"=>$pals_file_name);
-        //     }else{
-        //         $pals_array = "";
-        //     } 
+                $pals_array = array();
+                $pals_array = array("pals_data"=>$pals_data,"pals_licence_num"=>$pals_licence_num,"pals_licence_expiry"=>$pals_licence_expiry,"pals_file"=>$pals_file_name);
+            }else{
+                $pals_array = "";
+            } 
 
-        //     if($data['rn_data'] != '[]'){
-        //     $rn_data = $data['rn_data'];
-        //     $rn_licence_num = $data['rn_license_number'];
-        //     $rn_licence_expiry = $data['rn_expiry'];
-        //     $rn_file = $data['rn_upload_certification'];
+            if($data['rn_data'] != '[]'){
+            $rn_data = $data['rn_data'];
+            $rn_licence_num = $data['rn_license_number'];
+            $rn_licence_expiry = $data['rn_expiry'];
+            $rn_file = $data['rn_upload_certification'];
 
-        //     if($rn_file){
-        //         $destinationPath = public_path().'/uploads';
-        //         $rn_file_name = $rn_file->getClientOriginalName();
-        //         $rn_file->move($destinationPath,$rn_file->getClientOriginalName());
-        //     }
+            $rn_file_name = '';
+
+            if($rn_file != 'undefined'){
+                $destinationPath = public_path().'/uploads';
+                $rn_file_name = $rn_file->getClientOriginalName();
+                $rn_file->move($destinationPath,$rn_file->getClientOriginalName());
+            }
             
-        //     $rn_array = array();
-        //     $rn_array = array("rn_data"=>$rn_data,"rn_licence_num"=>$rn_licence_num,"rn_licence_expiry"=>$rn_licence_expiry,"rn_file"=>$rn_file_name);
+            $rn_array = array();
+            $rn_array = array("rn_data"=>$rn_data,"rn_licence_num"=>$rn_licence_num,"rn_licence_expiry"=>$rn_licence_expiry,"rn_file"=>$rn_file_name);
 
-        //     }else{
-        //         $rn_array = "";
-        //     } 
+            }else{
+                $rn_array = "";
+            } 
 
 
-        //    if($data['np_data'] != '[]'){
-        //     $np_data = $data['np_data'];
-        //     //print_r($acls_data);
-        //     $np_licence_num = $data['np_license_number'];
-        //     $np_licence_expiry = $data['np_expiry'];
-        //     $np_file =  $data['np_upload_certification'];
+           if($data['np_data'] != '[]'){
+            $np_data = $data['np_data'];
+            //print_r($acls_data);
+            $np_licence_num = $data['np_license_number'];
+            $np_licence_expiry = $data['np_expiry'];
+            $np_file =  $data['np_upload_certification'];
+            $np_file_name = '';
 
-        //     if($np_file){
-        //         $destinationPath = public_path().'/uploads';
-        //         $np_file_name = $np_file->getClientOriginalName();
-        //         $np_file->move($destinationPath,$np_file->getClientOriginalName());
-        //     }
-        //     $np_array = array();
-        //     $np_array = array("np_data"=>$np_data,"np_licence_num"=>$np_licence_num,"np_licence_expiry"=>$np_licence_expiry,"np_file"=>$np_file_name);
-        //     }else{
-        //     $np_array = "";
-        //     }
+            if($np_file != 'undefined'){
+                $destinationPath = public_path().'/uploads';
+                $np_file_name = $np_file->getClientOriginalName();
+                $np_file->move($destinationPath,$np_file->getClientOriginalName());
+            }
+            $np_array = array();
+            $np_array = array("np_data"=>$np_data,"np_licence_num"=>$np_licence_num,"np_licence_expiry"=>$np_licence_expiry,"np_file"=>$np_file_name);
+            }else{
+            $np_array = "";
+            }
+            
 
-        //     // if($data['cna_data'] != '[]'){
-        //     //     $cna_data = $data['cna_data'];
-        //     //     //print_r($acls_data);
-        //     //     $cna_licence_num = $data['cna_license_number'];
-        //     //     $cna_licence_expiry = $data['cna_expiry'];
+            if($data['cn_data'] != '[]'){
+                $cna_data = $data['cn_data'];
+                //print_r($acls_data);
+                $cna_licence_num = $data['cn_license_number'];
+                $cna_licence_expiry = $data['cn_expiry'];
 
-        //     //     $cna_file =  $data['cna_upload_certification'];
+                $cna_file =  $data['cn_upload_certification'];
 
-        //     //     if($cna_file){
-        //     //         $destinationPath = public_path().'/uploads';
-        //     //         $cna_file_name = $cna_file->getClientOriginalName();
-        //     //         $cna_file->move($destinationPath,$cna_file->getClientOriginalName());
-        //     //     }
+                $cna_file_name = '';
+
+                if($cna_file != 'undefined'){
+                    $destinationPath = public_path().'/uploads';
+                    $cna_file_name = $cna_file->getClientOriginalName();
+                    $cna_file->move($destinationPath,$cna_file->getClientOriginalName());
+                }
                 
-        //     //     $cna_array = array();
-        //     //     $cna_array = array("cna_data"=>$cna_data,"cna_licence_num"=>$cna_licence_num,"cna_licence_expiry"=>$cna_licence_expiry,"cna_file"=>$cna_file_name);
-        //     // }else{
-        //     //     $cna_array = "";
-        //     // }
+                $cna_array = array();
+                $cna_array = array("cna_data"=>$cna_data,"cna_licence_num"=>$cna_licence_num,"cna_licence_expiry"=>$cna_licence_expiry,"cna_file"=>$cna_file_name);
+            }else{
+                $cna_array = "";
+            }
 
-        //   if($data['lpn_data'] != '[]'){
+          if($data['lpn_data'] != '[]'){
             
-        //     $lpn_data = $data['lpn_data'];
-        //     $lpn_licence_num = $data['lpn_license_number'];
-        //     $lpn_licence_expiry = $data['lpn_expiry'];
-        //     $lpn_file =  $data['lpn_upload_certification'];
+            $lpn_data = $data['lpn_data'];
+            $lpn_licence_num = $data['lpn_license_number'];
+            $lpn_licence_expiry = $data['lpn_expiry'];
+            $lpn_file =  $data['lpn_upload_certification'];
+            $lpn_file_name = '' ;
 
-        //     if($lpn_file){
-        //         $destinationPath = public_path().'/uploads';
-        //         $lpn_file_name = $lpn_file->getClientOriginalName();
-        //         $lpn_file->move($destinationPath,$lpn_file->getClientOriginalName());
-        //     }
-        //     $lpn_array = array();
-        //     $lpn_array = array("lpn_data"=>$lpn_data,"lpn_licence_num"=>$lpn_licence_num,"lpn_licence_expiry"=>$lpn_licence_expiry,"lpn_file"=>$lpn_file_name);
-        //     }else{
-        //         $lpn_array = "";
-        //     }
+            if($lpn_file != 'undefined'){
+                $destinationPath = public_path().'/uploads';
+                $lpn_file_name = $lpn_file->getClientOriginalName();
+                $lpn_file->move($destinationPath,$lpn_file->getClientOriginalName());
+            }
+            $lpn_array = array();
+            $lpn_array = array("lpn_data"=>$lpn_data,"lpn_licence_num"=>$lpn_licence_num,"lpn_licence_expiry"=>$lpn_licence_expiry,"lpn_file"=>$lpn_file_name);
+            }else{
+                $lpn_array = "";
+            }
 
-            // if($data['crna_data'] != '[]'){
-            // $crna_data = $data['crna_data'];
-            // //print_r($acls_data);
-            // $crna_licence_num = $data['crna_license_number'];
-            // $crna_licence_expiry = $data['crna_expiry'];
+            if($data['crn_data'] != '[]'){
+            $crna_data = $data['crn_data'];
+            $crna_licence_num = $data['crn_license_number'];
+            $crna_licence_expiry = $data['crn_expiry'];
 
-            // $crna_file = $data['crna_upload_certification'];
+            $crna_file = $data['crn_upload_certification'];
 
-            // if($crna_file){
-            //     $destinationPath = public_path().'/uploads';
-            //     $crna_file_name = $crna_file->getClientOriginalName();
-            //     $crna_file->move($destinationPath,$crna_file->getClientOriginalName());
-            // }
-            // $crna_array = array();
-            // $crna_array = array("crna_data"=>$crna_data,"crna_licence_num"=>$crna_licence_num,"crna_licence_expiry"=>$crna_licence_expiry,"crna_file"=>$crna_file_name);
-            // }else{
-            // $crna_array = "";
-            // }
+            $crna_file_name = '';
 
-            // if($data['cnm_data'] != '[]'){
+            if($crna_file != 'undefined'){
+                $destinationPath = public_path().'/uploads';
+                $crna_file_name = $crna_file->getClientOriginalName();
+                $crna_file->move($destinationPath,$crna_file->getClientOriginalName());
+            }
+            $crna_array = array();
+            $crna_array = array("crna_data"=>$crna_data,"crna_licence_num"=>$crna_licence_num,"crna_licence_expiry"=>$crna_licence_expiry,"crna_file"=>$crna_file_name);
+            }else{
+            $crna_array = "";
+            }
 
-            //     $cnm_data = $data['cnm_data'];
-            //     //print_r($acls_data);
-            //     $cnm_licence_num = $data['cnm_license_number'];
-            //     $cnm_licence_expiry = $data['cnm_expiry'];
+            if($data['cnm_data'] != '[]'){
 
-            //     $cnm_file = $data['cnm_upload_certification'];
+                $cnm_data = $data['cnm_data'];
+                //print_r($acls_data);
+                $cnm_licence_num = $data['cnm_license_number'];
+                $cnm_licence_expiry = $data['cnm_expiry'];
 
-            //     if($cnm_file){
-            //         $destinationPath = public_path().'/uploads';
-            //         $cnm_file_name = $cnm_file->getClientOriginalName();
-            //         $cnm_file->move($destinationPath,$cnm_file->getClientOriginalName());
-            //     }
+                $cnm_file = $data['cnm_upload_certification'];
+
+                $cnm_file_name = '';
+
+                if($cnm_file != 'undefined'){
+                    $destinationPath = public_path().'/uploads';
+                    $cnm_file_name = $cnm_file->getClientOriginalName();
+                    $cnm_file->move($destinationPath,$cnm_file->getClientOriginalName());
+                }
             
-            //     $cnm_array = array();
-            //     $cnm_array = array("cnm_data"=>$cnm_data,"cnm_licence_num"=>$cnm_licence_num,"cnm_licence_expiry"=>$cnm_licence_expiry,"cnm_file"=>$cnm_file_name);
-            // }else{
-            //     $cnm_array = "";
-            // }
+                $cnm_array = array();
+                $cnm_array = array("cnm_data"=>$cnm_data,"cnm_licence_num"=>$cnm_licence_num,"cnm_licence_expiry"=>$cnm_licence_expiry,"cnm_file"=>$cnm_file_name);
+            }else{
+                $cnm_array = "";
+            }
 
-            // if($data['ons_data'] != '[]'){
-            // $ons_data = $data['ons_data'];
-            // //print_r($acls_data);
-            // $ons_licence_num = $data['ons_license_number'];
-            // $ons_licence_expiry = $data['ons_expiry'];
+            if($data['ons_data'] != '[]'){
+            $ons_data = $data['ons_data'];
+            //print_r($acls_data);
+            $ons_licence_num = $data['ons_license_number'];
+            $ons_licence_expiry = $data['ons_expiry'];
 
-            // $ons_file = $data['ons_upload_certification'];
+            $ons_file = $data['ons_upload_certification'];
 
-            // if($ons_file){
-            //     $destinationPath = public_path().'/uploads';
-            //     $ons_file_name = $ons_file->getClientOriginalName();
-            //     $ons_file->move($destinationPath,$ons_file->getClientOriginalName());
-            // }
+            $ons_file_name = '';
 
-            // $ons_array = array();
-            // $ons_array = array("ons_data"=>$ons_data,"ons_licence_num"=>$ons_licence_num,"ons_licence_expiry"=>$ons_licence_expiry,"ons_file"=>$ons_file_name);
-            // }else{
-            //  $ons_array = "";
-            // }
+            if($ons_file != 'undefined'){
+                $destinationPath = public_path().'/uploads';
+                $ons_file_name = $ons_file->getClientOriginalName();
+                $ons_file->move($destinationPath,$ons_file->getClientOriginalName());
+            }
 
-            // if($data['msw_data'] != '[]'){
+            $ons_array = array();
+            $ons_array = array("ons_data"=>$ons_data,"ons_licence_num"=>$ons_licence_num,"ons_licence_expiry"=>$ons_licence_expiry,"ons_file"=>$ons_file_name);
+            }else{
+             $ons_array = "";
+            }
 
-            //     $msw_data = $data['msw_data'];
-            //     //print_r($acls_data);
-            //     $msw_licence_num = $data['msw_license_number'];
-            //     $msw_licence_expiry = $data['msw_expiry'];
+            if($data['msw_data'] != '[]'){
 
-            //     $msw_file = $data['msw_upload_certification'];
+                $msw_data = $data['msw_data'];
+                //print_r($acls_data);
+                $msw_licence_num = $data['msw_license_number'];
+                $msw_licence_expiry = $data['msw_expiry'];
 
-            //     if($msw_file){
-            //         $destinationPath = public_path().'/uploads';
-            //         $msw_file_name = $msw_file->getClientOriginalName();
-            //         $msw_file->move($destinationPath,$msw_file->getClientOriginalName());
-            //     }
-            //     $msw_array = array();
-            //     $msw_array = array("msw_data"=>$msw_data,"msw_licence_num"=>$msw_licence_num,"msw_licence_expiry"=>$msw_licence_expiry,"msw_file"=>$msw_file_name);
-            // }else{
-            //     $msw_array = "";
-            // }
+                $msw_file = $data['msw_upload_certification'];
 
-            // if($data['ain_data'] != '[]'){
-            // $ain_data = $data['ain_data'];
-            // //print_r($acls_data);
-            // $ain_licence_num =    $data['ain_license_number'];
-            // $ain_licence_expiry = $data['ain_expiry'];
+                $msw_file_name = ''; 
 
-            // $ain_file = $data['ain_upload_certification'];
+                if($msw_file  != 'undefined'){
+                    $destinationPath = public_path().'/uploads';
+                    $msw_file_name = $msw_file->getClientOriginalName();
+                    $msw_file->move($destinationPath,$msw_file->getClientOriginalName());
+                }
+                $msw_array = array();
+                $msw_array = array("msw_data"=>$msw_data,"msw_licence_num"=>$msw_licence_num,"msw_licence_expiry"=>$msw_licence_expiry,"msw_file"=>$msw_file_name);
+            }else{
+                $msw_array = "";
+            }
 
-            // if($ain_file){
-            //     $destinationPath = public_path().'/uploads';
-            //     $ain_file_name = $ain_file->getClientOriginalName();
-            //     $ain_file->move($destinationPath,$ain_file->getClientOriginalName());
-            // }
-            // $ain_array = array();
-            // $ain_array = array("ain_data"=>$ain_data,"ain_licence_num"=>$ain_licence_num,"ain_licence_expiry"=>$ain_licence_expiry,"ain_file"=>$ain_file_name);
-            // }else{
-            //     $ain_array = "";
-            // }
+            if($data['ain_data'] != '[]'){
+            $ain_data = $data['ain_data'];
+            //print_r($acls_data);
+            $ain_licence_num =    $data['ain_license_number'];
+            $ain_licence_expiry = $data['ain_expiry'];
 
-            // if($data['rpn_data'] != '[]'){
-            // $rpn_data = $data['rpn_data'];
-            // $rpn_licence_num = $data['rpn_license_number'];
-            // $rpn_licence_expiry = $data['rpn_expiry'];
-            // $rpn_file = $data['rpn_upload_certification'];
+            $ain_file = $data['ain_upload_certification'];
 
-            // if($rpn_file){
-            //     $destinationPath = public_path().'/uploads';
-            //     $rpn_file_name = $rpn_file->getClientOriginalName();
-            //     $rpn_file->move($destinationPath,$rpn_file->getClientOriginalName());
-            // }
-            // $rpn_array = array();
-            // $rpn_array = array("rpn_data"=>$rpn_data,"rpn_licence_num"=>$rpn_licence_num,"rpn_licence_expiry"=>$rpn_licence_expiry,"rpn_file"=>$rpn_file_name);
-            // }else{
-            //     $rpn_array = "";
-            // }
+            $ain_file_name = '';
 
-            // if($data['nl_data'] != '[]'){
-            // $nl_data = $data['nl_data'];
-            // //print_r($acls_data);
-            // $nl_licence_num = $data['nl_license_number'];
-            // $nl_licence_expiry = $data['nl_expiry'];
+            if($ain_file != 'undefined'){
+                $destinationPath = public_path().'/uploads';
+                $ain_file_name = $ain_file->getClientOriginalName();
+                $ain_file->move($destinationPath,$ain_file->getClientOriginalName());
+            }
+            $ain_array = array();
+            $ain_array = array("ain_data"=>$ain_data,"ain_licence_num"=>$ain_licence_num,"ain_licence_expiry"=>$ain_licence_expiry,"ain_file"=>$ain_file_name);
+            }else{
+                $ain_array = "";
+            }
 
-            // $nl_file = $data['nl_upload_certification'];
+            if($data['rpn_data'] != '[]'){
+            $rpn_data = $data['rpn_data'];
+            $rpn_licence_num = $data['rpn_license_number'];
+            $rpn_licence_expiry = $data['rpn_expiry'];
+            $rpn_file = $data['rpn_upload_certification'];
 
-            // if($nl_file){
-            //     $destinationPath = public_path().'/uploads';
-            //     $nl_file_name = $nl_file->getClientOriginalName();
-            //     $nl_file->move($destinationPath,$nl_file->getClientOriginalName());
-            // }
-            // $nl_array = array();
-            // $nl_array = array("nl_data"=>$nl_data,"nl_licence_num"=>$nl_licence_num,"nl_licence_expiry"=>$nl_licence_expiry,"nl_file"=>$nl_file_name);
+            $rpn_file_name = '';
+
+            if($rpn_file != 'undefined'){
+                $destinationPath = public_path().'/uploads';
+                $rpn_file_name = $rpn_file->getClientOriginalName();
+                $rpn_file->move($destinationPath,$rpn_file->getClientOriginalName());
+            }
+            $rpn_array = array();
+            $rpn_array = array("rpn_data"=>$rpn_data,"rpn_licence_num"=>$rpn_licence_num,"rpn_licence_expiry"=>$rpn_licence_expiry,"rpn_file"=>$rpn_file_name);
+            }else{
+                $rpn_array = "";
+            }
+
+            if($data['nlc_data'] != '[]'){
+            $nl_data = $data['nlc_data'];
+            //print_r($acls_data);
+            $nl_licence_num = $data['nlc_license_number'];
+            $nl_licence_expiry = $data['nlc_expiry'];
+
+            $nl_file = $data['nlc_upload_certification'];
+
+            $nl_file_name = '';
+
+            if($nl_file != 'undefined'){
+                $destinationPath = public_path().'/uploads';
+                $nl_file_name = $nl_file->getClientOriginalName();
+                $nl_file->move($destinationPath,$nl_file->getClientOriginalName());
+            }
+            $nl_array = array();
+            $nl_array = array("nl_data"=>$nl_data,"nl_licence_num"=>$nl_licence_num,"nl_licence_expiry"=>$nl_licence_expiry,"nl_file"=>$nl_file_name);
             
-            // }else{
-            // $nl_array = "";
-            // }
+            }else{
+            $nl_array = "";
+            }
 
+            $user_id = $user_id->id;
 
-            $CER = $data['professional_certification'];                
-            // $allData['degree'] = isset($data['ndegree']) ? explode(',', $data['ndegree']) : '';
+            $CER                   = json_encode($data['professional_certification']);                
             $allData['institution'] = $data['institution'];
             $allData['most_relevant'] = $data['most_relevant'];
             $allData['graduate_start_date'] = $data['graduation_start_date'];
             $allData['graduate_end_date'] = $data['graduation_end_date'];
-            $allData['professional_certifications'] = json_encode($CER);
+            $allData['professional_certifications'] = $CER;
             $allData['acls_data'] = json_encode($acls_array);
             $allData['bls_data'] = json_encode($bls_array);
             $allData['cpr_data'] = json_encode($cpr_array);
-            // $allData['nrp_data'] = json_encode($nrp_array);
-            // $allData['pals_data'] = json_encode($pals_array);
-            // $allData['rn_data'] = json_encode($rn_array);
-            // $allData['np_data'] = json_encode($np_array);
-            // $allData['cna_data'] = json_encode($cna_array);
+            $allData['nrp_data'] = json_encode($nrp_array);
+            $allData['pals_data'] = json_encode($pals_array);
+            $allData['rn_data'] = json_encode($rn_array);
+            $allData['np_data'] = json_encode($np_array);
+            $allData['cna_data'] = json_encode($cna_array);
 
-            // $allData['lpn_data'] = json_encode($lpn_array);
-            // $allData['crna_data'] = json_encode($crna_array);
-            // $allData['nl_data'] = json_encode($nl_array);
-            // $allData['rpn_data'] = json_encode($rpn_array);
-            // $allData['ain_data'] = json_encode($ain_array);
-
-            // $allData['cnm_data'] = json_encode($cnm_array);
-            // $allData['ons_data'] = json_encode($ons_array);
-            // $allData['msw_data'] = json_encode($msw_array);
-
-            $allData['user_id'] = 1;
+            $allData['lpn_data']  = json_encode($lpn_array);
+            $allData['crna_data'] = json_encode($crna_array);
+            $allData['cnm_data']  = json_encode($cnm_array);
+            $allData['ons_data']  = json_encode($ons_array);
+            $allData['msw_data']  = json_encode($msw_array);
+            $allData['ain_data']  = json_encode($ain_array);
+            $allData['rpn_data']  = json_encode($rpn_array);
+            $allData['nl_data']   = json_encode($nl_array);
+            $allData['user_id']  =  $user_id ?? 0 ;
             $allData['complete_status'] = 1;
             $allData['training_courses']  = isset($data['training_courses']) ? json_encode($data['training_courses']) : '';
-            $allData['training_workshops'] = isset($data['training_workshop']) ? json_encode($data['training_workshop']) : '';
+            // $allData['training_workshops'] = isset($data['training_workshop']) ? json_encode($data['training_workshop']) : '';
             $run = EducationModel::create($allData);
-            session()->forget('nurseemail'); 
-    
-             $param ='Education and Certification';
+
+            if($run){               
+                $allData['degree'] = $data['ndegree'];
+
+                User::where('id', $user_id)->update([
+                    'degree' => json_encode($data['ndegree']),
+                ]);
+            }
+            
+            $param ='Education and Certification';
             }
             
             if ($run) {
