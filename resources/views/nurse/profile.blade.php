@@ -78,7 +78,7 @@
 
   <section class="section-box mt-0">
     <div class="">
-      <div class="row m-0">
+      <div class="row m-0 profile-wrapper">
         <div class="col-lg-3 col-md-4 col-sm-12 p-0 left_menu">
           <!--<div id="preloader-active" style="display:none;"> <div class="preloader d-flex align-items-center justify-content-center"> <div class="preloader-inner position-relative"> <div class="text-center"><img src="https://nextjs.webwiders.in/mediqa/public/nurse/assets/imgs/template/loading.gif" alt="jobBox"></div> </div> </div> </div>-->
 
@@ -193,12 +193,12 @@
                 <li><a href="#mand_training" id="mand_training" class="btn btn-border aboutus-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true"><i class="fi fi-rr-chart-user"></i> Mandatory Training</a></li>
                 <li><a href="#vaccinations" id="vaccinations" class="btn btn-border aboutus-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true"><i class="fi fi-rr-chart-user"></i> Vaccinations</a></li>
                 <li><a href="#work_clearances" id="work_clearances" class="btn btn-border recruitment-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-myclearance-jobs" aria-selected="false"><i class="fi fi-rr-briefcase-arrow-right"></i> Work Clearances</a></li>
-                <li><a href="#work_clearances" id="work_clearances" class="btn btn-border recruitment-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-myclearance-jobs" aria-selected="false"><i class="fi fi-rr-membership-vip"></i> Professional Memberships</a></li>
+                <li><a href="#professional_membership" id="professional_membership" class="btn btn-border recruitment-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-myclearance-jobs" aria-selected="false"><i class="fi fi-rr-membership-vip"></i> Professional Memberships</a></li>
                 <li><a href="#interview_references" id="interview_references" class="btn btn-border recruitment-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-myclearance-jobs" aria-selected="false"><i class="fi fi-rr-refer-arrow"></i> Interview</a></li>
                 <li><a href="#personal_preferences" id="personal_preferences" class="btn btn-border recruitment-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-myclearance-jobs" aria-selected="false"><i class="fi fi-rr-id-badge"></i> Personal Preferences</a></li>
                 <li><a href="#work_preferences" id="work_preferences" class="btn btn-border recruitment-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-myclearance-jobs" aria-selected="false"><i class="fi fi-rr-magnifying-glass-wave"></i>Job Search & Personal Preferences</a></li>
-                <li><a href="#work_clearances" id="work_clearances" class="btn btn-border recruitment-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-myclearance-jobs" aria-selected="false"><i class="fi fi-rr-feedback-review"></i> Testimonials and Reviews</a></li>
-                <li><a href="#work_clearances" id="work_clearances" class="btn btn-border recruitment-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-myclearance-jobs" aria-selected="false"><i class="fi fi-rr-guide-alt"></i> Additional Information</a></li>
+                <li><a href="#testimonial_reviews" id="testimonial_reviews" class="btn btn-border recruitment-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-myclearance-jobs" aria-selected="false"><i class="fi fi-rr-feedback-review"></i> Testimonials and Reviews</a></li>
+                <li><a href="#additional_info" id="additional_info" class="btn btn-border recruitment-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-myclearance-jobs" aria-selected="false"><i class="fi fi-rr-guide-alt"></i> Additional Information</a></li>
                 <div class="mt-0 mb-20 logout-line"><a class="link-red font-md" href="{{ route("nurse.logout") }}"><i class="fa-solid fa-arrow-right-from-bracket me-2"></i> Log Out</a></div>
               </ul>
               
@@ -832,7 +832,7 @@
                 <h6 class="emergency_text">
                           Educational Background
                         </h6>
-                <form id="educert_form" method="POST" onsubmit="return educert()">
+                <form id="educert_form" method="POST" novalidate onsubmit="return educert()">
                   @csrf
                   <?php
                     $educationData = DB::table("user_education_cerification")->where("user_id",Auth::guard('nurse_middle')->user()->id)->first();
@@ -1103,11 +1103,27 @@
                     <div class="col-md-6">
                       <div class="form-group level-drp">
                         <label class="form-label" for="input-1">Graduation End Date</label>
-                        <input class="form-control graduation_end_date" type="date" name="graduation_end_date" value="@if(!empty($educationData)){{ $educationData->graduate_end_date }}@endif">
+                        <input class="form-control graduation_end_date" type="date" name="graduation_end_date" value="@if(!empty($educationData)){{ $educationData->graduate_end_date }}@endif" onchange="changeEndDate(event)">
                         <span id="reqenddate" class="reqError text-danger valley"></span>
                       </div>
                     </div>
                     <script type="text/javascript">
+                        function changeEndDate(e){
+                          var end_date = e.target.value;
+                          var start_date = $('.graduation_start_date').val();
+
+                          if(end_date < start_date){
+                            $("#reqenddate").html("End date should not less than start date");
+                          }else{
+                            if(end_date == start_date){
+                              $("#reqenddate").html("End date should not equal to start date");
+                            }else{
+                              $("#reqenddate").html("");
+                            }
+                            
+                          }
+                          
+                        }
                         var start_date = $('.graduation_start_date').val();
                         
                         var date = new Date(start_date);
@@ -1808,7 +1824,7 @@
                   <?php
                     $experienceData = DB::table("user_experience")->where("user_id",Auth::guard('nurse_middle')->user()->id)->first();
                   ?>
-                  <form id="experience_form" method="POST" onsubmit="return updateExperience()">
+                  <form id="experience_form" method="POST" novalidate onsubmit="return updateExperience()">
                   @csrf
                   <div class="form-group level-drp">
                     <!-- <label class="form-label" for="input-1">Total Year of Experience</label> -->
@@ -1854,21 +1870,91 @@
                     <div class="col-md-6">
                       <div class="form-group level-drp">
                         <label class="form-label" for="input-1">Employment Start Date</label>
-                        <input class="form-control" type="date" name="start_date" value="@if(!empty($experienceData)){{ $experienceData->employeement_start_date }}@endif">
+                        <input class="form-control employeement_start_date" type="date" name="start_date" value="@if(!empty($experienceData)){{ $experienceData->employeement_start_date }}@endif" onchange="changeEmployeementStartDate(event);">
                         <span id="reqempsdate" class="reqError text-danger valley"></span>
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-group level-drp">
                         <label class="form-label" for="input-1">Employment End Date</label>
-                        <input class="form-control" type="date" name="end_date" value="@if(!empty($experienceData)){{ $experienceData->employeement_end_date }}@endif">
-                        
+                        <input class="form-control employeement_end_date" type="date" name="end_date" value="@if(!empty($experienceData)){{ $experienceData->employeement_end_date }}@endif" onchange="changeEmployeementEndDate(event)">
+                        <span id="reqemployeementenddate" class="reqError text-danger valley"></span>
                       </div>
                       <div class="present_check">
                         <input type="checkbox" name="present_box" value="1" @if(!empty($experienceData))@if(!empty($experienceData->present_status == 1 )) checked @endif @endif>Present Here
                       </div>
                     </div>
-                    
+                    <script type="text/javascript">
+                      function changeEmployeementEndDate(e){
+                        var end_date = e.target.value;
+                        var start_date = $('.employeement_start_date').val();
+                        //alert(end_date);
+                        if(end_date < start_date){
+                          $("#reqemployeementenddate").html("End date should not less than start date");
+                        }else{
+                          if(end_date == start_date){
+                            $("#reqemployeementenddate").html("End date should not equal to start date");
+                          }else{
+                            $("#reqemployeementenddate").html("");
+                          }
+                          
+                        }
+                        
+                      }
+
+                      var start_date = $('.employeement_start_date').val();
+                      
+                      var date = new Date(start_date);
+
+                        
+
+                      // Add five days to current date
+                      date.setDate(date.getDate() + 1);
+                      var date1 = new Date(date);
+
+                      
+                      //var str = date1.toLocaleDateString();
+                      var year_val = `${date1.getFullYear()}`;
+                      var month_val = `${date1.getMonth() + 1}`;
+                      var date_val = `${date1.getDate()}`;
+
+                      var month_len = month_val.length;
+                      if(month_len<2){
+                        var show_month = 0+month_val;
+                      }else{
+                        var show_month = month_val
+                      }
+                      const formattedDate1 = year_val+"-"+show_month+"-"+date_val;
+                      console.log("month_val",formattedDate);
+                      
+                      document.getElementsByName("end_date")[0].setAttribute('min', formattedDate1);
+
+                      function changeEmployeementStartDate(e){
+                        var start_date = e.target.value;
+                        //alert(start_date);
+                        var date = new Date(start_date);
+                        // Add five days to current date
+                        date.setDate(date.getDate() + 1);
+                        var date1 = new Date(date);
+
+                        
+                        //var str = date1.toLocaleDateString();
+                        var year_val = `${date1.getFullYear()}`;
+                        var month_val = `${date1.getMonth() + 1}`;
+                        var date_val = `${date1.getDate()}`;
+
+                        var month_len = month_val.length;
+                        if(month_len<2){
+                          var show_month = 0+month_val;
+                        }else{
+                          var show_month = month_val
+                        }
+                        const formattedDate = year_val+"-"+show_month+"-"+date_val;
+                        console.log("month_val",formattedDate);
+                        
+                        document.getElementsByName("end_date")[0].setAttribute('min', formattedDate);
+                      }
+                    </script>
                   </div>
                   <h6 class="emergency_text">
                     Detailed Job Descriptions  
@@ -1923,18 +2009,87 @@
                       <div class="col-md-6">
                         <div class="form-group level-drp">
                           <label class="form-label" for="input-1">Training Start Date</label>
-                          <input class="form-control" type="date" name="start_date" value="@if(!empty($trainingData)){{ $trainingData->start_date }}@endif">
+                          <input class="form-control training_start_date" type="date" name="start_date" value="@if(!empty($trainingData)){{ $trainingData->start_date }}@endif" onchange="trainingStartDate(event);">
                           <span id="reqempsdate" class="reqError text-danger valley"></span>
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="form-group level-drp">
                           <label class="form-label" for="input-1">Training End Date</label>
-                          <input class="form-control" type="date" name="end_date" value="@if(!empty($trainingData)){{ $trainingData->end_date }}@endif">
-                          
+                          <input class="form-control training_end_date" type="date" name="end_date" value="@if(!empty($trainingData)){{ $trainingData->end_date }}@endif" onchange="trainingEndDate(event);">
+                          <span id="reqtrainingenddate" class="reqError text-danger valley"></span>
                         </div>
                         
                       </div>
+                      <script type="text/javascript">
+                        function trainingEndDate(e){
+                          var end_date = e.target.value;
+                          var start_date = $('.training_start_date').val();
+
+                          if(end_date < start_date){
+                            $("#reqtrainingenddate").html("End date should not less than start date");
+                          }else{
+                            if(end_date == start_date){
+                              $("#reqtrainingenddate").html("End date should not equal to start date");
+                            }else{
+                              $("#reqtrainingenddate").html("");
+                            }
+                            
+                          }
+                          
+                        }
+                        var start_date = $('.training_start_date').val();
+                        
+                        var date = new Date(start_date);
+
+                          
+
+                        // Add five days to current date
+                        date.setDate(date.getDate() + 1);
+                        var date1 = new Date(date);
+
+                        
+                        //var str = date1.toLocaleDateString();
+                        var year_val = `${date1.getFullYear()}`;
+                        var month_val = `${date1.getMonth() + 1}`;
+                        var date_val = `${date1.getDate()}`;
+
+                        var month_len = month_val.length;
+                        if(month_len<2){
+                          var show_month = 0+month_val;
+                        }else{
+                          var show_month = month_val;
+                        }
+                        const formattedDate2 = year_val+"-"+show_month+"-"+date_val;
+                        console.log("month_val",formattedDate);
+                        
+                        document.getElementsClassByName("training_end_date")[0].setAttribute('min', formattedDate2);
+                        function trainingStartDate(e){
+                          var start_date = e.target.value;
+                          var date = new Date(start_date);
+                          // Add five days to current date
+                          date.setDate(date.getDate() + 1);
+                          var date1 = new Date(date);
+
+                          
+                          //var str = date1.toLocaleDateString();
+                          var year_val = `${date1.getFullYear()}`;
+                          var month_val = `${date1.getMonth() + 1}`;
+                          var date_val = `${date1.getDate()}`;
+
+                          var month_len = month_val.length;
+                          if(month_len<2){
+                            var show_month = 0+month_val;
+                          }else{
+                            var show_month = month_val
+                          }
+                          const formattedDate = year_val+"-"+show_month+"-"+date_val;
+                          console.log("month_val",formattedDate);
+                          
+                          document.getElementsByClassName("training_end_date")[0].setAttribute('min', formattedDate);
+                        }
+
+                      </script>
                       <div class="form-group level-drp">
                           <label class="form-label" for="input-1">Institution</label>
                           <input class="form-control" type="text" name="institution" value="@if(!empty($trainingData)){{ $trainingData->institutions }}@endif">
@@ -2169,7 +2324,74 @@
                         </div>
                     </form>
               </div>
-              
+              <div class="tab-pane fade" id="tab-addition-information" role="tabpanel" aria-labelledby="tab-interview-references" style="display: none">
+                <h3 class="mt-30 color-brand-1 mb-50">Additional Information</h3>
+                <form id="additional_info_form" method="POST" onsubmit="return additional_info_form()">
+                  @csrf
+                  <input type="hidden" name="user_id" value="{{ Auth::guard('nurse_middle')->user()->id }}">
+                  <div class="form-group level-drp">
+                    <label class="form-label" for="input-1">Languages Spoken</label>
+                    <select class="form-control" name="language-picker-select" id="language-picker-select">
+                      <option lang="de" value="deutsch">Deutsch</option>
+                      <option lang="en" value="english">English</option>
+                      <option lang="fr" value="francais">Français</option>
+                      <option lang="it" value="italiano">Italiano</option>
+                    </select>
+                  </div>
+                  <div class="form-group level-drp">
+                    <label class="form-label" for="input-1">Volunteer Experience</label>
+                    <input type="text" name="salary_expectation" class="form-control">
+                    <span id="reqvolexp" class="reqError text-danger valley"></span>
+                  </div>
+                  <div class="form-group level-drp">
+                    <label class="form-label" for="input-1">Hobbies and Interests</label>
+                    <textarea name="hobbies_interests" class="form-control"></textarea>
+                    
+                    <span id="reqhobbiesint" class="reqError text-danger valley"></span>
+                  </div>
+                  <div class="box-button mt-15">
+                    <button class="btn btn-apply-big font-md font-bold" type="submit" id="submitWorkPreferences">Save Changes</button>
+                  </div>
+                </form>
+              </div>
+              <div class="tab-pane fade" id="tab-professional-membership" role="tabpanel" aria-labelledby="tab-interview-references" style="display: none">
+			  <div class="card shadow-sm border-0 p-4 mt-30">
+                <h3 class="mt-0 color-brand-1 mb-2">Professional Memberships</h3>
+                <form id="professional_memb_form" method="POST" onsubmit="return additional_info_form()">
+                  @csrf
+                  <input type="hidden" name="user_id" value="{{ Auth::guard('nurse_middle')->user()->id }}">
+                  <div class="form-group level-drp">
+                    <label class="form-label" for="input-1">Professional Associations </label>
+                    
+                    
+                    <ul id="des_profession_association" style="display:none;">
+                        
+                        <li data-value="1">ANA</li>
+                        <li data-value="1">ENA</li>
+                        
+                    </ul>
+                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="des_profession_association" name="des_profession_association[]" multiple="multiple"></select>
+                    
+                  </div>
+                  <div class="form-group level-drp">
+                    <label class="form-label" for="input-1">Membership Numbers</label>
+                    <input type="text" name="membership_numbers" class="form-control">
+                    <span id="reqvolexp" class="reqError text-danger valley"></span>
+                  </div>
+                  <div class="form-group level-drp">
+                    <label class="form-label" for="input-1">Status</label>
+                    <select class="form-control" name="membership_status" id="language-picker-select">
+                      <option value="deutsch">Active</option>
+                      <option value="english">Lapsed</option>
+                     
+                    </select>
+                  </div>
+                  <div class="box-button mt-15">
+                    <button class="btn btn-apply-big font-md font-bold" type="submit" id="submitWorkPreferences">Save Changes</button>
+                  </div>
+                </form> 
+				</div>					
+              </div>
               <div class="tab-pane fade" id="tab-my-profile-setting" role="tabpanel" aria-labelledby="tab-my-profile-setting">
               
             @if(email_verified())
@@ -3979,6 +4201,22 @@ $('.js-example-basic-multiple[data-list-id="profess_cert"]').on('change', functi
       }
 
     });
+    $("#additional_info").click(function(e){
+      e.stopPropagation();
+      window.history.replaceState(null, null, "?page=additional_info");
+
+      var url_string = window.location.href; 
+      var url = new URL(url_string);
+      var c = url.searchParams.get("page");
+      console.log(c);
+
+      if(c == "additional_info"){
+        $(".tab-pane").hide();
+        $("#tab-addition-information").css("opacity","1");
+        $("#tab-addition-information").show();
+      }
+
+    });
     $("#educert").click(function(e){
       e.stopPropagation();
       window.history.replaceState(null, null, "?page=educert");
@@ -4100,6 +4338,24 @@ $('.js-example-basic-multiple[data-list-id="profess_cert"]').on('change', functi
 
     });
 
+    $("#professional_membership").click(function(e){
+      e.stopPropagation();
+      window.history.replaceState(null, null, "?page=professional_membership");
+
+      var url_string = window.location.href; 
+      var url = new URL(url_string);
+      var c = url.searchParams.get("page");
+      console.log(c);
+
+      if(c == "professional_membership"){
+
+        $(".tab-pane").hide();
+        $("#tab-professional-membership").css("opacity","1");
+        $("#tab-professional-membership").show();
+      }
+
+    });
+
   var url_string = window.location.href; 
     var url = new URL(url_string);
     var c = url.searchParams.get("page");
@@ -4213,6 +4469,25 @@ $('.js-example-basic-multiple[data-list-id="profess_cert"]').on('change', functi
         $("#vaccinations").addClass("active");
         $(".prof-profile .dropdown").addClass("show");
         $(".prof-profile .dropdown-menu").addClass("show");
+      }
+
+      if(c == "additional_info"){
+        $(".tab-pane").hide();
+        $("#tab-addition-information").css("opacity","1");
+        $("#tab-addition-information").show();
+        $(".profile_tabs").removeClass("active");
+        $("#additional_info").addClass("active");
+        
+      }
+
+      if(c == "professional_membership"){
+
+        $(".tab-pane").hide();
+        $("#tab-professional-membership").css("opacity","1");
+        $("#tab-professional-membership").show();
+        $(".profile_tabs").removeClass("active");
+        $("#professional_membership").addClass("active");
+        
       }
 
     var phoneInputID = "#contactI_emergency";

@@ -208,6 +208,7 @@ class NurseServices
             $allData['bio'] = $data['bio'];   
             $allData['professional_info_status'] = $data['declare_information'];
             $email = Session::get('nurseemail');
+            // dd($allData);
             $run = $this->nurseRepository->updateData(['email'=>$email], $allData);
             $param = 'Professional detail';
 
@@ -236,7 +237,7 @@ class NurseServices
                 $acls_array = array();
                 $acls_array = array("acls_data"=>$acls_data,"acls_licence_num"=>$acls_licence_num,"acls_licence_expiry"=>$acls_licence_expiry,"acls_file"=>$acls_file_name);
             }else{
-                $acls_array = "";
+                $acls_array = NULL;
             }
 
             
@@ -258,7 +259,7 @@ class NurseServices
                 $bls_array = array();
                 $bls_array = array("bls_data"=>$bls_data,"bls_licence_num"=>$bls_licence_num,"bls_licence_expiry"=>$bls_licence_expiry,"bls_file"=>$bls_file_name);
             }else{
-                $bls_array = "";
+                $bls_array = NULL;
             }
 
             if($data['cpr_data'] != '[]'){
@@ -280,7 +281,7 @@ class NurseServices
                 $cpr_array = array();
                 $cpr_array = array("cpr_data"=>$cpr_data,"cpr_licence_num"=>$cpr_licence_num,"cpr_licence_expiry"=>$cpr_licence_expiry,"cpr_file"=>$cpr_file_name);
             }else{
-                $cpr_array = "";
+                $cpr_array = NULL;
             }    
 
 
@@ -302,7 +303,7 @@ class NurseServices
                 $nrp_array = array();
                 $nrp_array = array("nrp_data"=>$nrp_data,"nrp_licence_num"=>$nrp_licence_num,"nrp_licence_expiry"=>$nrp_licence_expiry,"nrp_file"=>$nrp_file_name);
             }else{
-                $nrp_array = "";
+                $nrp_array = NULL;
             } 
 
             if($data['pals_data'] != '[]'){
@@ -324,7 +325,7 @@ class NurseServices
                 $pals_array = array();
                 $pals_array = array("pals_data"=>$pals_data,"pals_licence_num"=>$pals_licence_num,"pals_licence_expiry"=>$pals_licence_expiry,"pals_file"=>$pals_file_name);
             }else{
-                $pals_array = "";
+                $pals_array = NULL;
             } 
 
             if($data['rn_data'] != '[]'){
@@ -345,7 +346,7 @@ class NurseServices
             $rn_array = array("rn_data"=>$rn_data,"rn_licence_num"=>$rn_licence_num,"rn_licence_expiry"=>$rn_licence_expiry,"rn_file"=>$rn_file_name);
 
             }else{
-                $rn_array = "";
+                $rn_array = NULL;
             } 
 
 
@@ -365,7 +366,7 @@ class NurseServices
             $np_array = array();
             $np_array = array("np_data"=>$np_data,"np_licence_num"=>$np_licence_num,"np_licence_expiry"=>$np_licence_expiry,"np_file"=>$np_file_name);
             }else{
-            $np_array = "";
+            $np_array = NULL;
             }
             
 
@@ -377,7 +378,7 @@ class NurseServices
 
                 $cna_file =  $data['cn_upload_certification'];
 
-                $cna_file_name = '';
+                $cna_file_name = NULL;
 
                 if($cna_file != 'undefined'){
                     $destinationPath = public_path().'/uploads';
@@ -388,7 +389,7 @@ class NurseServices
                 $cna_array = array();
                 $cna_array = array("cna_data"=>$cna_data,"cna_licence_num"=>$cna_licence_num,"cna_licence_expiry"=>$cna_licence_expiry,"cna_file"=>$cna_file_name);
             }else{
-                $cna_array = "";
+                $cna_array = NULL;
             }
 
           if($data['lpn_data'] != '[]'){
@@ -397,7 +398,7 @@ class NurseServices
             $lpn_licence_num = $data['lpn_license_number'];
             $lpn_licence_expiry = $data['lpn_expiry'];
             $lpn_file =  $data['lpn_upload_certification'];
-            $lpn_file_name = '' ;
+            $lpn_file_name = NULL;
 
             if($lpn_file != 'undefined'){
                 $destinationPath = public_path().'/uploads';
@@ -407,7 +408,7 @@ class NurseServices
             $lpn_array = array();
             $lpn_array = array("lpn_data"=>$lpn_data,"lpn_licence_num"=>$lpn_licence_num,"lpn_licence_expiry"=>$lpn_licence_expiry,"lpn_file"=>$lpn_file_name);
             }else{
-                $lpn_array = "";
+                $lpn_array = NULL;
             }
 
             if($data['crn_data'] != '[]'){
@@ -417,7 +418,7 @@ class NurseServices
 
             $crna_file = $data['crn_upload_certification'];
 
-            $crna_file_name = '';
+            $crna_file_name = NULL;
 
             if($crna_file != 'undefined'){
                 $destinationPath = public_path().'/uploads';
@@ -427,7 +428,7 @@ class NurseServices
             $crna_array = array();
             $crna_array = array("crna_data"=>$crna_data,"crna_licence_num"=>$crna_licence_num,"crna_licence_expiry"=>$crna_licence_expiry,"crna_file"=>$crna_file_name);
             }else{
-            $crna_array = "";
+            $crna_array = NULL;
             }
 
             if($data['cnm_data'] != '[]'){
@@ -439,7 +440,7 @@ class NurseServices
 
                 $cnm_file = $data['cnm_upload_certification'];
 
-                $cnm_file_name = '';
+                $cnm_file_name = NULL;
 
                 if($cnm_file != 'undefined'){
                     $destinationPath = public_path().'/uploads';
@@ -450,7 +451,7 @@ class NurseServices
                 $cnm_array = array();
                 $cnm_array = array("cnm_data"=>$cnm_data,"cnm_licence_num"=>$cnm_licence_num,"cnm_licence_expiry"=>$cnm_licence_expiry,"cnm_file"=>$cnm_file_name);
             }else{
-                $cnm_array = "";
+                $cnm_array = NULL;
             }
 
             if($data['ons_data'] != '[]'){
@@ -461,7 +462,7 @@ class NurseServices
 
             $ons_file = $data['ons_upload_certification'];
 
-            $ons_file_name = '';
+            $ons_file_name = NULL;
 
             if($ons_file != 'undefined'){
                 $destinationPath = public_path().'/uploads';
@@ -472,7 +473,7 @@ class NurseServices
             $ons_array = array();
             $ons_array = array("ons_data"=>$ons_data,"ons_licence_num"=>$ons_licence_num,"ons_licence_expiry"=>$ons_licence_expiry,"ons_file"=>$ons_file_name);
             }else{
-             $ons_array = "";
+             $ons_array = NULL;
             }
 
             if($data['msw_data'] != '[]'){
@@ -494,7 +495,7 @@ class NurseServices
                 $msw_array = array();
                 $msw_array = array("msw_data"=>$msw_data,"msw_licence_num"=>$msw_licence_num,"msw_licence_expiry"=>$msw_licence_expiry,"msw_file"=>$msw_file_name);
             }else{
-                $msw_array = "";
+                $msw_array = NULL;
             }
 
             if($data['ain_data'] != '[]'){
@@ -515,7 +516,7 @@ class NurseServices
             $ain_array = array();
             $ain_array = array("ain_data"=>$ain_data,"ain_licence_num"=>$ain_licence_num,"ain_licence_expiry"=>$ain_licence_expiry,"ain_file"=>$ain_file_name);
             }else{
-                $ain_array = "";
+                $ain_array = NULL;
             }
 
             if($data['rpn_data'] != '[]'){
@@ -534,7 +535,7 @@ class NurseServices
             $rpn_array = array();
             $rpn_array = array("rpn_data"=>$rpn_data,"rpn_licence_num"=>$rpn_licence_num,"rpn_licence_expiry"=>$rpn_licence_expiry,"rpn_file"=>$rpn_file_name);
             }else{
-                $rpn_array = "";
+                $rpn_array = NULL;
             }
 
             if($data['nlc_data'] != '[]'){
@@ -556,12 +557,12 @@ class NurseServices
             $nl_array = array("nl_data"=>$nl_data,"nl_licence_num"=>$nl_licence_num,"nl_licence_expiry"=>$nl_licence_expiry,"nl_file"=>$nl_file_name);
             
             }else{
-            $nl_array = "";
+            $nl_array = NULL;
             }
 
-            $user_id = $user_id->id;
+            $user_id =  $user_id->id;
 
-            $CER                   = json_encode($data['professional_certification']);                
+            $CER                   = json_encode($data['professional_certification']);            
             $allData['institution'] = $data['institution'];
             $allData['most_relevant'] = $data['most_relevant'];
             $allData['graduate_start_date'] = $data['graduation_start_date'];
@@ -584,7 +585,7 @@ class NurseServices
             $allData['ain_data']  = json_encode($ain_array);
             $allData['rpn_data']  = json_encode($rpn_array);
             $allData['nl_data']   = json_encode($nl_array);
-            $allData['user_id']  =  $user_id ?? 0 ;
+            $allData['user_id']  =  $user_id  ;
             $allData['complete_status'] = 1;
             $allData['training_courses']  = isset($data['training_courses']) ? json_encode($data['training_courses']) : '';
             // $allData['training_workshops'] = isset($data['training_workshop']) ? json_encode($data['training_workshop']) : '';
@@ -594,7 +595,7 @@ class NurseServices
                 $allData['degree'] = $data['ndegree'];
 
                 User::where('id', $user_id)->update([
-                    'degree' => json_encode($data['ndegree']),
+                    'degree' => $data['ndegree'],
                 ]);
             }
             

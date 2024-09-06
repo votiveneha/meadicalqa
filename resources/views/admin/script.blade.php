@@ -263,10 +263,10 @@
         }
     });
 
-    $('.js-example-basic-multiple[data-list-id="cnm_data"]').on('change', function() {
+    $('.js-example-basic-multiple[data-list-id="speciality_entry-3"]').on('change', function() {
         let selectedValues = $(this).val();
         //alert("hello");
-        var speciality_entry = $("#cnm_data li").length;
+        var speciality_entry = $("#speciality_entry-3 li").length;
         console.log("speciality_entry",speciality_entry);
         $(".surgical_rowp").wrapAll("<div class='col-md-12 row surgical_rowp_data'>");
         $(".paediatric_surgical_div").insertAfter("#specility_level-3");
@@ -284,14 +284,14 @@
             $('.neonatal_row').removeClass('d-none');
         }else{
             $('.neonatal_row').addClass('d-none');
-            $('.js-example-basic-multiple[data-list-id="ons_data"]').select2().val(null).trigger('change');
+            $('.js-example-basic-multiple[data-list-id="neonatal_care"]').select2().val(null).trigger('change');
         }
 
         if(selectedValues.includes('285')){
             $('.surgicalpad_row_data').removeClass('d-none');
         }else{
             $('.surgicalpad_row_data').addClass('d-none');
-            $('.js-example-basic-multiple[data-list-id="msw_data"]').select2().val(null).trigger('change');
+            $('.js-example-basic-multiple[data-list-id="surgical_rowpad_box"]').select2().val(null).trigger('change');
         }
 
         if(selectedValues.includes("285") == false){
@@ -312,10 +312,10 @@
         // }
     });
 
-    $('.js-example-basic-multiple[data-list-id="msw_data"]').on('change', function() {
+    $('.js-example-basic-multiple[data-list-id="surgical_rowpad_box"]').on('change', function() {
         let selectedValues = $(this).val();
         //alert("hello");
-        var speciality_entry = $("#msw_data li").length;
+        var speciality_entry = $("#surgical_rowpad_box li").length;
         console.log("speciality_entry",speciality_entry);
         // $(".surgical_rowp").wrapAll("<div class='col-md-12 row surgical_rowp_data'>");
         $(".surgical_rowp_data").insertAfter(".surgicalpad_row_data");
@@ -345,7 +345,7 @@
         }
     });
 
-    $('.js-example-basic-multiple[data-list-id="lpn_data"]').on('change', function() {
+    $('.js-example-basic-multiple[data-list-id="speciality_entry-2"]').on('change', function() {
         let selectedValues = $(this).val();
         //alert("hello");
         var speciality_entry = $("#speciality_entry-1 li").length;
@@ -362,7 +362,7 @@
             $('.surgicalobs_row').removeClass('d-none');
         }else{
             $('.surgicalobs_row').addClass('d-none');
-            $('.js-example-basic-multiple[data-list-id="crn_data"]').select2().val(null).trigger('change');
+            $('.js-example-basic-multiple[data-list-id="surgical_obs_care"]').select2().val(null).trigger('change');
         }
 
         // for(var k = 1;k<=speciality_entry;k++){
@@ -784,7 +784,7 @@ $(document).ready(function() {
         
         // Append the file
         var profile_image = $('#profile_image')[0].files[0];
-       
+        
         if (profile_image) {
             formData.append('profile_image', profile_image);
         }
@@ -1003,58 +1003,58 @@ $(document).ready(function() {
             // Get the selected value(s) from the Select2 element
             var adults = specialtiest_2.val(); 
 
-            var selectElement7 = $('select[data-list-id="surgical_row_box"]');        
+            var specialtiest_3 = $('select[data-list-id="surgical_row_box"]');        
             // Get the selected value(s) from the Select2 element
-            var surgical_data = selectElement7.val(); 
+            var surgical_data = specialtiest_3.val(); 
 
-            var selectElement8 = $('select[data-list-id="surgical_operative_care-1"]');        
+            var specialtiest_4 = $('select[data-list-id="surgical_operative_care-1"]');        
             // Get the selected value(s) from the Select2 element
-            var surgical_operative_care_1 = selectElement8.val(); 
+            var surgical_operative_care_1 = specialtiest_4.val(); 
 
-            var selectElement9= $('select[data-list-id="surgical_operative_care-2"]');        
+            var specialtiest_5 = $('select[data-list-id="surgical_operative_care-2"]');        
             // Get the selected value(s) from the Select2 element
-            var surgical_operative_care_2 = selectElement9.val(); 
+            var surgical_operative_care_2 = specialtiest_5.val(); 
             
             
-            var selectElement10 = $('select[data-list-id="surgical_operative_care-3"]');        
+            var specialtiest_6 = $('select[data-list-id="surgical_operative_care-3"]');        
             // Get the selected value(s) from the Select2 element
-            var surgical_operative_care_3 = selectElement10.val(); 
+            var surgical_operative_care_3 = specialtiest_6.val(); 
 
-            var selectElement11 = $('select[data-list-id="lpn_data"]');        
+            var specialtiest_7 = $('select[data-list-id="speciality_entry-2"]');        
             // Get the selected value(s) from the Select2 element
-            var speciality_entry_2 = selectElement11.val();
+            var speciality_entry_2 = specialtiest_7.val();
 
-            var selectElement12 = $('select[data-list-id="crn_data"]');        
+            var specialtiest_8 = $('select[data-list-id="surgical_obs_care"]');        
             // Get the selected value(s) from the Select2 element
-            var crn_data = selectElement12.val();
+            var surgical_obs_care = specialtiest_8.val();
+           
+            var specialtiest_9 = $('select[data-list-id="speciality_entry-3"]');        
+            // Get the selected value(s) from the Select2 element
+            var speciality_entry_3 = specialtiest_9.val();
 
-            var selectElement13 = $('select[data-list-id="cnm_data"]');        
+            var specialtiest_10 = $('select[data-list-id="neonatal_care"]');        
             // Get the selected value(s) from the Select2 element
-            var speciality_entry_3 = selectElement13.val();
+            var neonatal_care = specialtiest_10.val();
 
-            var selectElement14= $('select[data-list-id="ons_data"]');        
+            var specialtiest_11 = $('select[data-list-id="surgical_rowpad_box"]');        
             // Get the selected value(s) from the Select2 element
-            var ons_data = selectElement14.val();msw_data
+            var surgical_rowpad_box = specialtiest_11.val();
 
-            var selectElement15 = $('select[data-list-id="msw_data"]');        
+            var specialtiest_12 = $('select[data-list-id="surgical_operative_carep-1"]');        
             // Get the selected value(s) from the Select2 element
-            var msw_data = selectElement15.val();
+            var surgical_operative_carep_1 = specialtiest_12.val();
 
-            var selectElement16 = $('select[data-list-id="ain_data"]');        
+            var specialtiest_13 = $('select[data-list-id="surgical_operative_carep-2"]');        
             // Get the selected value(s) from the Select2 element
-            var surgical_operative_carep_1 = selectElement16.val();
+            var surgical_operative_carep_2 = specialtiest_13.val();
 
-            var selectElement17 = $('select[data-list-id="rpn_data"]');        
+            var specialtiest_14 = $('select[data-list-id="surgical_operative_carep-3"]');        
             // Get the selected value(s) from the Select2 element
-            var surgical_operative_carep_2 = selectElement17.val();
+            var surgical_operative_carep_3 = specialtiest_14.val();
 
-            var selectElement18 = $('select[data-list-id="nlc_data"]');        
+            var specialtiest_15 = $('select[data-list-id="speciality_entry-4"]');        
             // Get the selected value(s) from the Select2 element
-            var surgical_operative_carep_3 = selectElement18.val();
-
-            var selectElement19 = $('select[data-list-id="speciality_entry-4"]');        
-            // Get the selected value(s) from the Select2 element
-            var speciality_entry_4 = selectElement19.val();
+            var speciality_entry_4 = specialtiest_15.val();
 
             var employee_status = $('#employee_status').val();
 
@@ -1083,12 +1083,12 @@ $(document).ready(function() {
         formData.append('surgical_preoperative', surgical_data);
         formData.append('operating_room', surgical_operative_care_1);
         formData.append('operating_room_scout', surgical_operative_care_2);
-        formData.append('operating_room_scrub	', surgical_operative_care_3);
+        formData.append('operating_room_scrub', surgical_operative_care_3);
         formData.append('maternity', speciality_entry_2);
-        formData.append('surgical_obstrics_gynacology', crn_data);
+        formData.append('surgical_obstrics_gynacology', surgical_obs_care);
         formData.append('paediatrics_neonatal', speciality_entry_3);
-        formData.append('ons_data', ons_data);
-        formData.append('paedia_surgical_preoperative', msw_data);
+        formData.append('neonatal_care', neonatal_care);
+        formData.append('paedia_surgical_preoperative',surgical_rowpad_box);
         formData.append('pad_op_room', surgical_operative_carep_1);
         formData.append('tab', 'tab2');
         formData.append('pad_qr_scout',surgical_operative_carep_2);

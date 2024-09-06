@@ -555,6 +555,7 @@
                                                                 @empty
                                                                     <span></span>
                                                                 @endforelse --}}
+                                                                
                                                                 <ul class="dropdown-list">
                                                                 @forelse($specsubType as $key => $subtype)
                                                                     <li><span class="dropdown-item-custom">{{ practitioner_type_by_id($subtype) }} , </span></li>
@@ -562,6 +563,7 @@
                                                                     <li><a href="#" class="dropdown-item-custom"></a></li>
                                                                 @endforelse
                                                             </ul>
+                                                            
                                                             </div>
                                                         </div>
                                                         <?php $i++ ;?>
@@ -834,7 +836,9 @@
                                                 
                                                <h4  class="mt-4 fw-bolder fs-6 lh-base d-flex align-items-center">Educational Background : </h4>
                                                @if ($profileData->degree != 'null')
-                                                @php $degree = json_decode($profileData->degree); @endphp
+                                                @php $degree = json_decode($profileData->degree); 
+                                                // print_r($degree);die;
+                                                @endphp
                                                 <div class="col-md-12 mt-3">
                                                     <div class="d-flex gap-3 flex-wrap">
                                                         <strong>Nurse & Midwife degree: </strong>
@@ -875,19 +879,974 @@
                                                 @if ($educationData->professional_certifications != 'null')
                                                 @php $certifications = json_decode($educationData->professional_certifications); 
                                                 @endphp
+                                                
                                                 <div class="col-md-12 mt-3">
                                                     <div class="d-flex gap-3 flex-wrap">
                                                         <strong>Professional Certifications :</strong>
+                                                        <?php
+                                                        $certificates = DB::table("professional_certificate")->orderBy("ordering_id", "asc")->get();
+                                                        ?>
+                                                       
                                                         <ul class="dropdown-list">
-                                                            @forelse($certifications as $key => $value)
-                                                                <li><span class="dropdown-item-custom">{{ $value }} , </span></li>
+                                                            @forelse($certificates as $certificate)
+                                                                @if(in_array($certificate->id,$certifications))
+                                                                    <li><span class="dropdown-item-custom">{{ $certificate->name }} , </span></li>
+                                                                @endif
                                                             @empty
-                                                                <li><a href="#" class="dropdown-item-custom"></a></li>
+                                                                <li><a href="#" class="dropdown-item-custom">No certifications found</a></li>
                                                             @endforelse
                                                         </ul>
                                                     </div>
                                                 </div>
                                                 @endif
+
+                                                @if($educationData->acls_data && $educationData->acls_data != 'null')
+                                                    @php 
+                                                        $acls_cert_ids = json_decode($educationData->acls_data, true); // Decode the acls_data field into an array
+                                                        // Decode the 'acls_data' string into an array
+                                                        $aclsData = json_decode($acls_cert_ids['acls_data'], true);
+                                                        //   dd($acls_cert_ids['acls_licence_expiry']);
+                                                        $acls_licence_num = $acls_cert_ids['acls_licence_num'];
+                                                        $acls_licence_expiry = $acls_cert_ids['acls_licence_expiry'];
+                                                      
+                                                        $acls_file = $acls_cert_ids['acls_file'];
+                                                    @endphp
+                                                    
+                                                     <div class="col-md-12 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>ACLS (Advanced Cardiovascular Life Support) :</strong>
+                                                            <?php
+                                                                $acls_datas = DB::table("professional_certificate_table")
+                                                                                ->where("cert_id", "6")
+                                                                                ->get();
+                                                            ?>
+                                                            <ul class="dropdown-list">
+                                                                @forelse($acls_datas as $acls_data)
+                                                                    @if(is_array($acls_cert_ids) && in_array($acls_data->professionalcert_id,$aclsData))
+                                                                        <li><span class="dropdown-item-custom">{{ $acls_data->name }} , </span></li>
+                                                                    @endif
+                                                                @empty
+                                                                    <li><a href="#" class="dropdown-item-custom">No certifications found</a></li>
+                                                                @endforelse
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>Certification/Licence Number :</strong>
+                                                             <span class="">{{ $acls_licence_num }}</span>                                                  
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>Expiry :</strong>
+                                                             <span class="">{{ $acls_licence_expiry }}</span>                                                  
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>Certification/Licence Image :</strong>
+                                                             @if($acls_file)
+                                                            <a href="{{ asset('uploads/'.$acls_file) }}" target="_blank">
+                                                                <span class="text-success">View Image</span>
+                                                            </a> 
+                                                            @else   
+                                                            <span class="text-success">View Image</span>
+                                                            @endif                                            
+                                                        </div>
+                                                    </div>
+                                                @endif
+
+                                                @if($educationData->bls_data && $educationData->bls_data != 'null')
+                                                    @php 
+                                                        $bls_data_ids = json_decode($educationData->bls_data, true); // Decode the acls_data field into an array
+                                                        // Decode the 'acls_data' string into an array
+                                                        $blsData = json_decode($bls_data_ids['bls_data'], true);
+                                                        //   dd($acls_cert_ids['acls_licence_expiry']);
+                                                        $bls_licence_num = $bls_data_ids['bls_licence_num'];
+                                                        $bls_licence_expiry = $bls_data_ids['bls_licence_expiry'];
+                                                      
+                                                        $bls_file = $bls_data_ids['bls_file'];
+                                                    @endphp
+                                                    
+                                                     <div class="col-md-12 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>BLS (Basic Life Support) :</strong>
+                                                            <?php
+                                                                $bls_datas = DB::table("professional_certificate_table")
+                                                                                ->where("cert_id", "7")
+                                                                                ->get();
+                                                            ?>
+                                                            <ul class="dropdown-list">
+                                                                @forelse($bls_datas as $bls_data)
+                                                                    @if(is_array($bls_data_ids) && in_array($bls_data->professionalcert_id,$blsData))
+                                                                        <li><span class="dropdown-item-custom">{{ $bls_data->name }} , </span></li>
+                                                                    @endif
+                                                                @empty
+                                                                    <li><a href="#" class="dropdown-item-custom">No certifications found</a></li>
+                                                                @endforelse
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>Certification/Licence Number :</strong>
+                                                             <span class="">{{ $bls_licence_num }}</span>                                                  
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>Expiry :</strong>
+                                                             <span class="">{{ $bls_licence_expiry }}</span>                                                  
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>Certification/Licence Image :</strong>
+                                                            @if($bls_file)
+                                                            <a href="{{ asset('uploads/'.$bls_file) }}" target="_blank">
+                                                                <span class="text-success">View Image</span>
+                                                            </a> 
+                                                            @else
+                                                            <span class="text-success">No Image</span>
+                                                            @endif
+
+                                                        </div>
+                                                    </div>
+                                                @endif
+
+                                                @if($educationData->cpr_data && $educationData->cpr_data != 'null')
+                                                    @php 
+                                                        $cpr_data_ids = json_decode($educationData->cpr_data, true); // Decode the acls_data field into an array
+                                                        // Decode the 'acls_data' string into an array
+                                                        $cprData = json_decode($cpr_data_ids['cpr_data'], true);
+                                                        //   dd($acls_cert_ids['acls_licence_expiry']);
+                                                        $cpr_licence_num = $cpr_data_ids['cpr_licence_num'];
+                                                        $cpr_licence_expiry = $cpr_data_ids['cpr_licence_expiry'];
+                                                      
+                                                        $cpr_file = $cpr_data_ids['cpr_file'];
+                                                    @endphp
+                                                    
+                                                     <div class="col-md-12 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>CPR (Cardiopulmonary Resuscitation) :</strong>
+                                                            <?php
+                                                                $cpr_datas = DB::table("professional_certificate_table")
+                                                                                ->where("cert_id", "8")
+                                                                                ->get();
+                                                            ?>
+                                                            <ul class="dropdown-list">
+                                                                @forelse($cpr_datas as $cpr_data)
+                                                                    @if(is_array($cpr_data_ids) && in_array($cpr_data->professionalcert_id,$cprData))
+                                                                        <li><span class="dropdown-item-custom">{{ $cpr_data->name }} , </span></li>
+                                                                    @endif
+                                                                @empty
+                                                                    <li><a href="#" class="dropdown-item-custom">No Data found</a></li>
+                                                                @endforelse
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>Certification/Licence Number :</strong>
+                                                             <span class="">{{ $cpr_licence_num }}</span>                                                  
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>Expiry :</strong>
+                                                             <span class="">{{ $cpr_licence_expiry }}</span>                                                  
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>Certification/Licence Image :</strong>
+                                                            @if($cpr_file)
+                                                            <a href="{{ asset('uploads/'.$cpr_file) }}" target="_blank">
+                                                                <span class="text-success">View Image</span>
+                                                            </a>  
+                                                            @else  
+                                                            <span class="">No Image</span> 
+                                                            @endif                                           
+                                                        </div>
+                                                    </div>
+                                                @endif
+
+                                                @if($educationData->nrp_data && $educationData->nrp_data != 'null')
+                                                    @php 
+                                                        $nrp_data_ids = json_decode($educationData->nrp_data, true); // Decode the acls_data field into an array
+                                                        // Decode the 'acls_data' string into an array
+                                                        $nrpData = json_decode($nrp_data_ids['nrp_data'], true);
+                                                        //   dd($acls_cert_ids['acls_licence_expiry']);
+                                                        $nrp_licence_num = $nrp_data_ids['nrp_licence_num'];
+                                                        $nrp_licence_expiry = $nrp_data_ids['nrp_licence_expiry'];                                      
+                                                        $nrp_file = $nrp_data_ids['nrp_file'];
+                                                    @endphp
+                                                    
+                                                     <div class="col-md-12 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>NRP (Neonatal Resuscitation Program) :</strong>
+                                                            <?php
+                                                                $nrp_datas = DB::table("professional_certificate_table")
+                                                                                ->where("cert_id", "9")
+                                                                                ->get();
+                                                            ?>
+                                                            <ul class="dropdown-list">
+                                                                @forelse($nrp_datas as $nrp_data)
+                                                                    @if(is_array($nrp_data_ids) && in_array($nrp_data->professionalcert_id,$nrpData))
+                                                                        <li><span class="dropdown-item-custom">{{ $nrp_data->name }} , </span></li>
+                                                                    @endif
+                                                                @empty
+                                                                    <li><a href="#" class="dropdown-item-custom">No Data found</a></li>
+                                                                @endforelse
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>Certification/Licence Number :</strong>
+                                                             <span class="">{{ $nrp_licence_num }}</span>                                                  
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>Expiry :</strong>
+                                                             <span class="">{{ $nrp_licence_expiry }}</span>                                                  
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>Certification/Licence Image :</strong>
+                                                            @if($nrp_file)
+                                                            <a href="{{ asset('uploads/'.$nrp_file) }}" target="_blank">
+                                                                <span class="text-success">View Image</span>
+                                                            </a>  
+                                                            @else  
+                                                            <span class="">No Image</span> 
+                                                            @endif                                           
+                                                        </div>
+                                                    </div>
+                                                @endif
+
+                                                @if($educationData->pals_data && $educationData->pals_data != 'null')
+                                                    @php 
+                                                        $pals_data_ids = json_decode($educationData->pals_data, true); // Decode the acls_data field into an array
+                                                        $palsData = json_decode($pals_data_ids['pals_data'], true);
+                                                        $pals_licence_num = $pals_data_ids['pals_licence_num'];
+                                                        $pals_licence_expiry = $pals_data_ids['pals_licence_expiry'];                                      
+                                                        $pals_file = $pals_data_ids['pals_file'];
+                                                    @endphp
+                                                    
+                                                     <div class="col-md-12 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>PALS (Pediatric Advanced Life Support) :</strong>
+                                                            @if($palsData)
+                                                            <?php
+                                                                $pals_datas = DB::table("professional_certificate_table")
+                                                                                ->where("cert_id", "10")
+                                                                                ->get();
+                                                            ?>
+                                                            <ul class="dropdown-list">
+                                                                @forelse($pals_datas as $pals_data)
+                                                                    @if(is_array($pals_data_ids) && in_array($pals_data->professionalcert_id,$palsData))
+                                                                        <li><span class="dropdown-item-custom">{{ $pals_data->name }} , </span></li>
+                                                                    @endif
+                                                                @empty
+                                                                    <li><a href="#" class="dropdown-item-custom">No Data found</a></li>
+                                                                @endforelse
+                                                            </ul>
+                                                            @else
+                                                            <ul class="dropdown-list">
+                                                               
+                                                                    <li><a href="#" class="dropdown-item-custom">No Data found</a></li>
+                                                                
+                                                            </ul>
+                                                            @endif
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>Certification/Licence Number :</strong>
+                                                             <span class="">{{ $pals_licence_num }}</span>                                                  
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>Expiry :</strong>
+                                                             <span class="">{{ $pals_licence_expiry }}</span>                                                  
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>Certification/Licence Image :</strong>
+                                                            @if($nrp_file)
+                                                            <a href="{{ asset('uploads/'.$pals_file) }}" target="_blank">
+                                                                <span class="text-success">View Image</span>
+                                                            </a>  
+                                                            @else  
+                                                            <span class="">No Image</span> 
+                                                            @endif                                           
+                                                        </div>
+                                                    </div>
+                                                @endif
+
+                                                @if($educationData->rn_data && $educationData->rn_data != 'null')
+                                                    @php 
+                                                        $rn_data_ids = json_decode($educationData->rn_data, true); // Decode the acls_data field into an array
+                                                        $rnData = json_decode($rn_data_ids['rn_data'], true);
+                                                        $rn_licence_num = $rn_data_ids['rn_licence_num'];
+                                                        $rn_licence_expiry = $rn_data_ids['rn_licence_expiry'];                                      
+                                                        $rn_file = $rn_data_ids['rn_file'];
+                                                    @endphp
+                                                    
+                                                     <div class="col-md-12 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>RN (Registered Nurse) :</strong>
+                                                            
+                                                            <?php
+                                                                $rn_datas = DB::table("professional_certificate_table")
+                                                                                ->where("cert_id", "11")
+                                                                                ->get();
+                                                            ?>
+                                                            <ul class="dropdown-list">
+                                                                @forelse($rn_datas as $rn_data)
+                                                                    @if(is_array($rn_data_ids) && in_array($rn_data->professionalcert_id,$rnData))
+                                                                        <li><span class="dropdown-item-custom">{{ $rn_data->name }} , </span></li>
+                                                                    @endif
+                                                                @empty
+                                                                    <li><a href="#" class="dropdown-item-custom">No Data found</a></li>
+                                                                @endforelse
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>Certification/Licence Number :</strong>
+                                                             <span class="">{{ $rn_licence_num }}</span>                                                  
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>Expiry :</strong>
+                                                             <span class="">{{ $rn_licence_expiry }}</span>                                                  
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>Certification/Licence Image :</strong>
+                                                            @if($rn_file)
+                                                            <a href="{{ asset('uploads/'.$rn_file) }}" target="_blank">
+                                                                <span class="text-success">View Image</span>
+                                                            </a>  
+                                                            @else  
+                                                            <span class="">No Image</span> 
+                                                            @endif                                           
+                                                        </div>
+                                                    </div>
+                                                @endif
+
+                                                @if($educationData->np_data && $educationData->np_data != 'null')
+                                                    @php 
+                                                        $np_data_ids = json_decode($educationData->np_data, true); // Decode the acls_data field into an array
+                                                        $npData = json_decode($np_data_ids['np_data'], true);
+                                                        $np_licence_num = $np_data_ids['np_licence_num'];
+                                                        $np_licence_expiry = $np_data_ids['np_licence_expiry'];                                      
+                                                        $np_file = $np_data_ids['np_file'];
+                                                    @endphp
+                                                    
+                                                     <div class="col-md-12 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>NP (Nurse Practioner) / (APRN) Advanced Practice Registered Nurse :</strong>
+                                                            
+                                                            <?php
+                                                                $np_datas = DB::table("professional_certificate_table")
+                                                                                ->where("cert_id", "12")
+                                                                                ->get();
+                                                            ?>
+                                                            <ul class="dropdown-list">
+                                                                @forelse($np_datas as $np_data)
+                                                                    @if(is_array($np_data_ids) && in_array($np_data->professionalcert_id,$npData))
+                                                                        <li><span class="dropdown-item-custom">{{ $np_data->name }} , </span></li>
+                                                                    @endif
+                                                                @empty
+                                                                    <li><a href="#" class="dropdown-item-custom">No Data found</a></li>
+                                                                @endforelse
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>Certification/Licence Number :</strong>
+                                                             <span class="">{{ $np_licence_num }}</span>                                                  
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>Expiry :</strong>
+                                                             <span class="">{{ $np_licence_expiry }}</span>                                                  
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>Certification/Licence Image :</strong>
+                                                            @if($rn_file)
+                                                            <a href="{{ asset('uploads/'.$np_file) }}" target="_blank">
+                                                                <span class="text-success">View Image</span>
+                                                            </a>  
+                                                            @else  
+                                                            <span class="">No Image</span> 
+                                                            @endif                                           
+                                                        </div>
+                                                    </div>
+                                                @endif
+
+                                                @if($educationData->cna_data && $educationData->cna_data != 'null')
+                                                    @php 
+                                                        $cna_data_ids = json_decode($educationData->cna_data, true); // Decode the acls_data field into an array
+                                                        $cnaData = json_decode($cna_data_ids['cna_data'], true);
+                                                        $cna_licence_num = $cna_data_ids['cna_licence_num'];
+                                                        $cna_licence_expiry = $cna_data_ids['cna_licence_expiry'];                                      
+                                                        $cna_file = $cna_data_ids['cna_file'];
+                                                    @endphp
+                                                    
+                                                     <div class="col-md-12 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>CNA (Certified Nursing Assistant) / EN (Enrolled Nurse) :</strong>
+                                                            
+                                                            <?php
+                                                                $cna_datas = DB::table("professional_certificate_table")
+                                                                                ->where("cert_id", "13")
+                                                                                ->get();
+                                                            ?>
+                                                            <ul class="dropdown-list">
+                                                                @forelse($cna_datas as $cna_data)
+                                                                    @if(is_array($cna_data_ids) && in_array($cna_data->professionalcert_id,$cnaData))
+                                                                        <li><span class="dropdown-item-custom">{{ $cna_data->name }} , </span></li>
+                                                                    @endif
+                                                                @empty
+                                                                    <li><a href="#" class="dropdown-item-custom">No Data found</a></li>
+                                                                @endforelse
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>Certification/Licence Number :</strong>
+                                                             <span class="">{{ $cna_licence_num }}</span>                                                  
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>Expiry :</strong>
+                                                             <span class="">{{ $cna_licence_expiry }}</span>                                                  
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>Certification/Licence Image :</strong>
+                                                            @if($cna_file)
+                                                            <a href="{{ asset('uploads/'.$cna_file) }}" target="_blank">
+                                                                <span class="text-success">View Image</span>
+                                                            </a>  
+                                                            @else  
+                                                            <span class="">No Image</span> 
+                                                            @endif                                           
+                                                        </div>
+                                                    </div>
+                                                @endif
+
+                                                @if($educationData->lpn_data && $educationData->lpn_data != 'null')
+                                                    @php 
+                                                        $lpn_data_ids = json_decode($educationData->lpn_data, true); // Decode the acls_data field into an array
+                                                        $lpnData = json_decode($lpn_data_ids['lpn_data'], true);
+                                                        $lpn_licence_num = $lpn_data_ids['lpn_licence_num'];
+                                                        $lpn_licence_expiry = $lpn_data_ids['lpn_licence_expiry'];                                      
+                                                        $lpn_file = $lpn_data_ids['cna_file'];
+                                                    @endphp
+                                                    
+                                                     <div class="col-md-12 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>LPN (Licensed Practical Nurse) / LVN (Licensed Vocational Nurse) :</strong>
+                                                            
+                                                            <?php
+                                                                $lpn_datas = DB::table("professional_certificate_table")
+                                                                                ->where("cert_id", "14")
+                                                                                ->get();
+                                                            ?>
+                                                            <ul class="dropdown-list">
+                                                                @forelse($lpn_datas as $lpn_data)
+                                                                    @if(is_array($lpn_data_ids) && in_array($lpn_data->professionalcert_id,$lpnData))
+                                                                        <li><span class="dropdown-item-custom">{{ $lpn_data->name }} , </span></li>
+                                                                    @endif
+                                                                @empty
+                                                                    <li><a href="#" class="dropdown-item-custom">No Data found</a></li>
+                                                                @endforelse
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>Certification/Licence Number :</strong>
+                                                             <span class="">{{ $lpn_licence_num }}</span>                                                  
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>Expiry :</strong>
+                                                             <span class="">{{ $lpn_licence_expiry }}</span>                                                  
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>Certification/Licence Image :</strong>
+                                                            @if($lpn_file)
+                                                            <a href="{{ asset('uploads/'.$lpn_file) }}" target="_blank">
+                                                                <span class="text-success">View Image</span>
+                                                            </a>  
+                                                            @else  
+                                                            <span class="">No Image</span> 
+                                                            @endif                                           
+                                                        </div>
+                                                    </div>
+                                                @endif
+
+                                                @if($educationData->crna_data && $educationData->crna_data != 'null')
+                                                    @php 
+                                                        $crna_data_ids = json_decode($educationData->crna_data, true); // Decode the acls_data field into an array
+                                                        $crnaData = json_decode($crna_data_ids['crna_data'], true);
+                                                        $crna_licence_num = $crna_data_ids['lpn_licence_num'];
+                                                        $crna_licence_expiry = $crna_data_ids['lpn_licence_expiry'];                                      
+                                                        $crna_file = $crna_data_ids['cna_file'];
+                                                    @endphp
+                                                    
+                                                     <div class="col-md-12 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>CRNA (Certified Registered Nurse Anesthetist) :</strong>
+                                                            
+                                                            <?php
+                                                                $crna_datas = DB::table("professional_certificate_table")
+                                                                                ->where("cert_id", "15")
+                                                                                ->get();
+                                                            ?>
+                                                            <ul class="dropdown-list">
+                                                                @forelse($crna_datas as $crna_data)
+                                                                    @if(is_array($crna_data_ids) && in_array($crna_data->professionalcert_id,$crnaData))
+                                                                        <li><span class="dropdown-item-custom">{{ $crna_data->name }} , </span></li>
+                                                                    @endif
+                                                                @empty
+                                                                    <li><a href="#" class="dropdown-item-custom">No Data found</a></li>
+                                                                @endforelse
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>Certification/Licence Number :</strong>
+                                                             <span class="">{{ $crna_licence_num }}</span>                                                  
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>Expiry :</strong>
+                                                             <span class="">{{ $crna_licence_expiry }}</span>                                                  
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>Certification/Licence Image :</strong>
+                                                            @if($crna_file)
+                                                            <a href="{{ asset('uploads/'.$crna_file) }}" target="_blank">
+                                                                <span class="text-success">View Image</span>
+                                                            </a>  
+                                                            @else  
+                                                            <span class="">No Image</span> 
+                                                            @endif                                           
+                                                        </div>
+                                                    </div>
+                                                @endif
+
+                                                @if($educationData->cnm_data && $educationData->cnm_data != 'null')
+                                                    @php 
+                                                        $cnm_data_ids = json_decode($educationData->cnm_data, true); // Decode the acls_data field into an array
+                                                        $cnmData = json_decode($cnm_data_ids['cnm_data'], true);
+                                                        $cnm_licence_num = $cnm_data_ids['cnm_licence_num'];
+                                                        $cnm_licence_expiry = $cnm_data_ids['cnm_licence_expiry'];                                      
+                                                        $cnm_file = $cnm_data_ids['cnm_file'];
+                                                    @endphp
+                                                    
+                                                     <div class="col-md-12 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>CNM (Certified Nurse Midwife) :</strong>
+                                                            
+                                                            <?php
+                                                                $cnm_datas = DB::table("professional_certificate_table")
+                                                                                ->where("cert_id", "16")
+                                                                                ->get();
+                                                            ?>
+                                                            <ul class="dropdown-list">
+                                                                @forelse($cnm_datas as $cnm_data)
+                                                                    @if(is_array($cnm_data_ids) && in_array($cnm_data->professionalcert_id,$cnmData))
+                                                                        <li><span class="dropdown-item-custom">{{ $cnm_data->name }} , </span></li>
+                                                                    @endif
+                                                                @empty
+                                                                    <li><a href="#" class="dropdown-item-custom">No Data found</a></li>
+                                                                @endforelse
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>Certification/Licence Number :</strong>
+                                                             <span class="">{{ $cnm_licence_num }}</span>                                                  
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>Expiry :</strong>
+                                                             <span class="">{{ $cnm_licence_expiry }}</span>                                                  
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>Certification/Licence Image :</strong>
+                                                            @if($cnm_file)
+                                                            <a href="{{ asset('uploads/'.$cnm_file) }}" target="_blank">
+                                                                <span class="text-success">View Image</span>
+                                                            </a>  
+                                                            @else  
+                                                            <span class="">No Image</span> 
+                                                            @endif                                           
+                                                        </div>
+                                                    </div>
+                                                @endif
+
+                                                @if($educationData->ons_data && $educationData->ons_data != 'null')
+                                                    @php 
+                                                        $ons_data_ids = json_decode($educationData->ons_data, true); // Decode the acls_data field into an array
+                                                        $onsData = json_decode($ons_data_ids['ons_data'], true);
+                                                        $ons_licence_num = $ons_data_ids['ons_licence_num'];
+                                                        $ons_licence_expiry = $ons_data_ids['ons_licence_expiry'];                                      
+                                                        $ons_file = $ons_data_ids['ons_file'];
+                                                    @endphp
+                                                    
+                                                     <div class="col-md-12 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>ONS/ONCC (Oncology Nursing Society/Oncology Nursing Certification Corporation) :</strong>
+                                                            
+                                                            <?php
+                                                                $ons_datas = DB::table("professional_certificate_table")
+                                                                                ->where("cert_id", "17")
+                                                                                ->get();
+                                                            ?>
+                                                            <ul class="dropdown-list">
+                                                                @forelse($ons_datas as $ons_data)
+                                                                    @if(is_array($ons_data_ids) && in_array($ons_data->professionalcert_id,$onsData))
+                                                                        <li><span class="dropdown-item-custom">{{ $ons_data->name }} , </span></li>
+                                                                    @endif
+                                                                @empty
+                                                                    <li><a href="#" class="dropdown-item-custom">No Data found</a></li>
+                                                                @endforelse
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>Certification/Licence Number :</strong>
+                                                             <span class="">{{ $ons_licence_num }}</span>                                                  
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>Expiry :</strong>
+                                                             <span class="">{{ $ons_licence_expiry }}</span>                                                  
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>Certification/Licence Image :</strong>
+                                                            @if($cnm_file)
+                                                            <a href="{{ asset('uploads/'.$ons_file) }}" target="_blank">
+                                                                <span class="text-success">View Image</span>
+                                                            </a>  
+                                                            @else  
+                                                            <span class="">No Image</span> 
+                                                            @endif                                           
+                                                        </div>
+                                                    </div>
+                                                @endif
+
+                                                @if($educationData->msw_data && $educationData->msw_data != 'null')
+                                                    @php 
+                                                        $msw_data_ids = json_decode($educationData->msw_data, true); // Decode the acls_data field into an array
+                                                        $mswData = json_decode($msw_data_ids['msw_data'], true);
+                                                        $msw_licence_num = $msw_data_ids['msw_licence_num'];
+                                                        $msw_licence_expiry = $msw_data_ids['msw_licence_expiry'];                                      
+                                                        $msw_file = $msw_data_ids['msw_file'];
+                                                    @endphp
+                                                    
+                                                     <div class="col-md-12 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>MSW/AiM (Maternity Support Worker/Assistant in Midwifery ) / Midwife Assistant :</strong>
+                                                            
+                                                            <?php
+                                                                $msw_datas = DB::table("professional_certificate_table")
+                                                                                ->where("cert_id", "18")
+                                                                                ->get();
+                                                            ?>
+                                                            <ul class="dropdown-list">
+                                                                @forelse($msw_datas as $msw_data)
+                                                                    @if(is_array($msw_data_ids) && in_array($msw_data->professionalcert_id,$mswData))
+                                                                        <li><span class="dropdown-item-custom">{{ $msw_data->name }} , </span></li>
+                                                                    @endif
+                                                                @empty
+                                                                    <li><a href="#" class="dropdown-item-custom">No Data found</a></li>
+                                                                @endforelse
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>Certification/Licence Number :</strong>
+                                                             <span class="">{{ $msw_licence_num }}</span>                                                  
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>Expiry :</strong>
+                                                             <span class="">{{ $msw_licence_expiry }}</span>                                                  
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>Certification/Licence Image :</strong>
+                                                            @if($msw_file)
+                                                            <a href="{{ asset('uploads/'.$msw_file) }}" target="_blank">
+                                                                <span class="text-success">View Image</span>
+                                                            </a>  
+                                                            @else  
+                                                            <span class="">No Image</span> 
+                                                            @endif                                           
+                                                        </div>
+                                                    </div>
+                                                @endif
+
+                                                @if($educationData->ain_data && $educationData->ain_data != 'null')
+                                                    @php 
+                                                        $ain_data_ids = json_decode($educationData->ain_data, true); // Decode the acls_data field into an array
+                                                        $ainData = json_decode($ain_data_ids['ain_data'], true);
+                                                        $ain_licence_num = $ain_data_ids['ain_licence_num'];
+                                                        $ain_licence_expiry = $ain_data_ids['ain_licence_expiry'];                                      
+                                                        $ain_file = $ain_data_ids['ain_file'];
+                                                    @endphp
+                                                    
+                                                     <div class="col-md-12 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>AIN (Assistant in Nursing) / NA (Nurse Associate) / HCA (Healthcare Assistant) :</strong>
+                                                            
+                                                            <?php
+                                                                $ain_datas = DB::table("professional_certificate_table")
+                                                                                ->where("cert_id", "19")
+                                                                                ->get();
+                                                            ?>
+                                                            <ul class="dropdown-list">
+                                                                @forelse($ain_datas as $ain_data)
+                                                                    @if(is_array($ain_data_ids) && in_array($ain_data->professionalcert_id,$ainData))
+                                                                        <li><span class="dropdown-item-custom">{{ $ain_data->name }} , </span></li>
+                                                                    @endif
+                                                                @empty
+                                                                    <li><a href="#" class="dropdown-item-custom">No Data found</a></li>
+                                                                @endforelse
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>Certification/Licence Number :</strong>
+                                                             <span class="">{{ $ain_licence_num }}</span>                                                  
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>Expiry :</strong>
+                                                             <span class="">{{ $ain_licence_expiry }}</span>                                                  
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>Certification/Licence Image :</strong>
+                                                            @if($ain_file)
+                                                            <a href="{{ asset('uploads/'.$ain_file) }}" target="_blank">
+                                                                <span class="text-success">View Image</span>
+                                                            </a>  
+                                                            @else  
+                                                            <span class="">No Image</span> 
+                                                            @endif                                           
+                                                        </div>
+                                                    </div>
+                                                @endif
+
+                                                @if($educationData->rpn_data && $educationData->rpn_data != 'null')
+                                                    @php 
+                                                        $rpn_data_ids = json_decode($educationData->rpn_data, true); // Decode the acls_data field into an array
+                                                        $rpnData = json_decode($rpn_data_ids['rpn_data'], true);
+                                                        $rpn_licence_num = $rpn_data_ids['rpn_licence_num'];
+                                                        $rpn_licence_expiry = $rpn_data_ids['rpn_licence_expiry'];                                      
+                                                        $rpn_file = $rpn_data_ids['rpn_file'];
+                                                    @endphp
+                                                    
+                                                     <div class="col-md-12 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>RPN (Registered Practical Nurse) / RGN (Registered General Nurse) :</strong>
+                                                            
+                                                            <?php
+                                                                $rpn_datas = DB::table("professional_certificate_table")
+                                                                                ->where("cert_id", "20")
+                                                                                ->get();
+                                                            ?>
+                                                            <ul class="dropdown-list">
+                                                                @forelse($rpn_datas as $rpn_data)
+                                                                    @if(is_array($rpn_data_ids) && in_array($rpn_data->professionalcert_id,$rpnData))
+                                                                        <li><span class="dropdown-item-custom">{{ $rpn_data->name }} , </span></li>
+                                                                    @endif
+                                                                @empty
+                                                                    <li><a href="#" class="dropdown-item-custom">No Data found</a></li>
+                                                                @endforelse
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>Certification/Licence Number :</strong>
+                                                             <span class="">{{ $rpn_licence_num }}</span>                                                  
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>Expiry :</strong>
+                                                             <span class="">{{ $rpn_licence_expiry }}</span>                                                  
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>Certification/Licence Image :</strong>
+                                                            @if($rpn_file)
+                                                            <a href="{{ asset('uploads/'.$rpn_file) }}" target="_blank">
+                                                                <span class="text-success">View Image</span>
+                                                            </a>  
+                                                            @else  
+                                                            <span class="">No Image</span> 
+                                                            @endif                                           
+                                                        </div>
+                                                    </div>
+                                                @endif
+
+                                                @if($educationData->nl_data && $educationData->nl_data != 'null')
+                                                    @php 
+                                                        $nl_data_ids = json_decode($educationData->nl_data, true); // Decode the acls_data field into an array
+                                                        $nlData = json_decode($nl_data_ids['nl_data'], true);
+                                                        $nl_licence_num = $nl_data_ids['nl_licence_num'];
+                                                        $nl_licence_expiry = $nl_data_ids['nl_licence_expiry'];                                      
+                                                        $nl_file = $nl_data_ids['nl_file'];
+                                                    @endphp
+                                                    
+                                                     <div class="col-md-12 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>No License/Certification :</strong>
+                                                            
+                                                            <?php
+                                                                $nl_datas = DB::table("professional_certificate_table")
+                                                                                ->where("cert_id", "21")
+                                                                                ->get();
+                                                            ?>
+                                                            <ul class="dropdown-list">
+                                                                @forelse($nl_datas as $nl_data)
+                                                                    @if(is_array($nl_data_ids) && in_array($nl_data->professionalcert_id,$nlData))
+                                                                        <li><span class="dropdown-item-custom">{{ $nl_data->name }} , </span></li>
+                                                                    @endif
+                                                                @empty
+                                                                    <li><a href="#" class="dropdown-item-custom">No Data found</a></li>
+                                                                @endforelse
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>Certification/Licence Number :</strong>
+                                                             <span class="">{{ $nl_licence_num }}</span>                                                  
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>Expiry :</strong>
+                                                             <span class="">{{ $nl_licence_expiry }}</span>                                                  
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 mt-3">
+                                                        <div class="d-flex gap-3 flex-wrap">
+                                                            <strong>Certification/Licence Image :</strong>
+                                                            @if($nl_file)
+                                                            <a href="{{ asset('uploads/'.$nl_file) }}" target="_blank">
+                                                                <span class="text-success">View Image</span>
+                                                            </a>  
+                                                            @else  
+                                                            <span class="">No Image</span> 
+                                                            @endif                                           
+                                                        </div>
+                                                    </div>
+                                                @endif
+
+
+
+
+
                                                 @if($educationData->licence_number && $educationData->country &&
                                                 $educationData->state && $educationData->expiration_date )
                                                 <h4  class="mt-4 fw-bolder fs-6 lh-base d-flex align-items-center">Licenses: </h4>
@@ -936,18 +1895,7 @@
                                                         </ul>  
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6 mt-3">
-                                                    <div class="d-flex gap-3 flex-wrap">
-                                                        <strong>Workshops : </strong>
-                                                         <ul class="dropdown-list">
-                                                            @forelse($training_workshops as $key => $value)
-                                                                <li><span class="dropdown-item-custom">{{ training_name_by_id($value) }} , </span></li>
-                                                            @empty
-                                                                <li><a href="#" class="dropdown-item-custom"></a></li>
-                                                            @endforelse
-                                                        </ul>  
-                                                    </div>
-                                                </div>
+                                                
                                                 @endif
 
                                             </div>
@@ -1757,8 +2705,9 @@
     <script type="text/javascript"
         src="https://nextjs.webwiders.in/pindrow/public/advertiser/dist/libs/owl.carousel/dist/owl.carousel.min.js">
     </script>
+    @include('admin.script');
     <script type="text/javascript"></script>
-<script>
+    <script>
         $(document).ready(function() {
             // cate_1
             $('#cat_1').after(sugical_care);
@@ -1775,7 +2724,6 @@
             $('#Surgical_Preop').after(Paediatric_Operating);
             $('#Paediatric_Operating').after(Paediatric_Operating_Scout);
             $('#Paediatric_Operating_Scout').after(Paediatric_Operating_Scrub);
-
         });
     </script>
 @endsection

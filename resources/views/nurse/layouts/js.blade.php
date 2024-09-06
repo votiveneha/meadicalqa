@@ -827,6 +827,26 @@ function pad(number) {
       isValid = false;
     }
 
+    var end_date = $('.graduation_end_date').val();
+    var start_date = $('.graduation_start_date').val();
+
+
+    if(end_date < start_date){
+      
+      
+      document.getElementById("reqenddate").innerHTML = "* End date should not less than start date";
+      isValid = false;
+
+    }
+
+    if(end_date == start_date){
+      
+      
+      document.getElementById("reqenddate").innerHTML = "* End date should not equal to start date";
+      isValid = false;
+      
+    }
+
     if(isValid == true){
     $('#educert_form').find('.text-danger').hide();
       $.ajax({

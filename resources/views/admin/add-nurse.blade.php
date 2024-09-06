@@ -82,21 +82,21 @@
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link" data-bs-toggle="tab" href="#navpill-2" role="tab" aria-selected="false"
+                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-2" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Profession</span>
                         </a>
                     </li>
                     <li class="nav-item disabled" role="presentation">
-                        <a class="nav-link" data-bs-toggle="tab" href="#navpill-3" role="tab" aria-selected="false"
+                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-3" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Education and Certifications</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-4" role="tab" aria-selected="false"
+                        <a class="nav-link " data-bs-toggle="tab" href="#navpill-4" role="tab" aria-selected="false"
                             tabindex="-1">
-                            <span>Experience</span>
+                            <span>Experience and References</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
@@ -1232,83 +1232,110 @@
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
-                                    <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center ">Eligibility For Work</h3>
+                                    <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center ">Experience and References</h3>
                                 </div>
                                 <div class="card-body p-3 px-md-4">
                                     <div class="col-md-12">
-                                            @if($eligibilityToWorkData)
-                                                <div class="row">
-                                                    @if(isset($eligibilityToWorkData->residency) && $eligibilityToWorkData->residency)
-                                                    <div class="col-md-6 mt-3">
-                                                        <div class="d-flex gap-3 flex-wrap">
-                                                            <strong>Residency : </strong><span>{{ $eligibilityToWorkData->residency}}</span>
-                                                        </div>
-                                                    </div>
-                                                    @endif
-                                                    @if(isset($eligibilityToWorkData->support_document) && $eligibilityToWorkData->support_document)
-                                                    <div class="col-md-6 mt-3">
-                                                        <div class="d-flex gap-3 flex-wrap">
-                                                            <strong>Support Document:</strong>
-                                                            <a href="{{ asset($eligibilityToWorkData->support_document) }}" target="_blank">
-                                                                <span class="text-success">View Document</span>
-                                                            </a>
-                                                        </div>
-                                                        
-                                                    </div>
-                                                    @endif
-
-                                                    @if(isset($eligibilityToWorkData->visa_subclass_number) && $eligibilityToWorkData->visa_subclass_number)
-                                                    <div class="col-md-6 mt-3">
-                                                        <div class="d-flex gap-3 flex-wrap">
-                                                            <strong>Visa Subclass Number : </strong>
-                                                            <span>{{$eligibilityToWorkData->visa_subclass_number}}</span>
-                                                        </div>
-                                                    </div>
-                                                    @endif
-
-                                                    @if(isset($eligibilityToWorkData->passport_number) && $eligibilityToWorkData->passport_number)
-                                                    <div class="col-md-6 mt-3">
-                                                        <div class="d-flex gap-3 flex-wrap">
-                                                            <strong>Passport Number : </strong>
-                                                            <span>{{$eligibilityToWorkData->passport_number}}</span>
-                                                        </div>
-                                                    </div>
-                                                    @endif
-
-
-                                                    @if(isset($eligibilityToWorkData->visa_grant_number) && $eligibilityToWorkData->visa_grant_number)
-                                                    <div class="col-md-6 mt-3">
-                                                        <div class="d-flex gap-3 flex-wrap">
-                                                            <strong>Visa grant number: </strong>
-                                                            <span>{{$eligibilityToWorkData->visa_grant_number}}</span>
-                                                        </div>
-                                                    </div>
-                                                    @endif
-
-                                                    @if(isset($eligibilityToWorkData->passport_country_of_Issue) && $eligibilityToWorkData->passport_country_of_Issue)
-                                                    <div class="col-md-6 mt-3">
-                                                        <div class="d-flex gap-3 flex-wrap">
-                                                            <strong>Passport Country Of Issue: </strong>
-                                                            {{-- <span>{{country_name($eligibilityToWorkData->passport_country_of_Issue)}}</span> --}}
-                                                        </div>
-                                                    </div>
-                                                    @endif
-
-                                                    @if(isset($eligibilityToWorkData->expiry_date) && $eligibilityToWorkData->expiry_date)
-                                                    <div class="col-md-6 mt-3">
-                                                        <div class="d-flex gap-3 flex-wrap">
-                                                            <strong>Expiry Date: </strong>
-                                                            <span>{{$eligibilityToWorkData->expiry_date}}</span>
-                                                        </div>
-                                                    </div>
-                                                    @endif
-                            
+                                        <div class="row">
+                                            <div class="col-md-12 mt-3">
+                                                <div class="form-group">
+                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>What is your level of experience?</strong></label>
+                                                    <select class="form-control mr-10 select-active" name="assistent_level" id="assistent_level">                      
+                                                    @for($i = 1; $i <= 30; $i++) <option value="{{ $i }}"  >{{ $i }}{{ $i == 1 ? 'st' : ($i == 2 ? 'nd' : ($i == 3 ? 'rd' : 'th')) }} Year</option>
+                                                        @endfor
+                                                    </select>
+                                                    <span id="experience_error" class="text-danger"></span>
                                                 </div>
-                                                @else
-                                                <div class="col-md-12">
-                                                    <div class="text-center text-danger fs-5">No data found</div>
-                                                </div>                                                
-                                                @endif                
+                                            </div>
+
+                                             <h4 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3">Previous Employers</h4>
+
+                                            <div class="col-md-12 mt-3">
+                                                <div class="form-group">
+                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Names</strong></label>
+                                                    <input class="form-control" type="text" name="previous_employer_name"  value=" ">
+                                                    <span id="previous_employer_name_error" class="text-danger"></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12 mt-3">
+                                                <div class="form-group">
+                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Position Held</strong></label>
+                                                    <?php
+                                                            $practitioner_type = DB::table("practitioner_type")->get();
+                                                        ?>
+                                                        <ul id="positions_held" style="display:none;">
+                                                            @foreach($practitioner_type as $cert)
+                                                            <li data-value="{{ $cert->id }}">{{ $cert->name }}</li>
+                                                            @endforeach
+                                                            
+                                                        </ul>
+                                                        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="positions_held" name="positions_held[]" multiple="multiple"></select>
+                                                    <span id="positions_held_error" class="text-danger"></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6 mt-3">
+                                                <div class="form-group">
+                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Employment Start Date</strong></label>
+                                                    <input class="form-control" type="text" name="start_date"  value=" ">
+                                                    <span id="start_date_error" class="text-danger"></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6 mt-3">
+                                                <div class="form-group">
+                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Employment End Date</strong></label>
+                                                    <input class="form-control" type="text" name="end_date"  value=" ">
+                                                    <span id="end_date_error" class="text-danger"></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="present_check mt-3">
+                                                <input type="checkbox" name="present_box" value="1">Present Here
+                                            </div>
+
+                                            <h4 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3">Detailed Job Descriptions</h4>
+
+                                            <div class="col-md-12 mt-3">
+                                                <div class="form-group">
+                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Responsibilities</strong></label>
+                                                    <textarea class="form-control" name="job_responeblities"></textarea>
+                                                    <span id="job_responeblities_error" class="text-danger"></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12 mt-3">
+                                                <div class="form-group">
+                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Achievements</strong></label>
+                                                    <textarea class="form-control" name="achievements"></textarea>
+                                                    <span id="job_responeblities_error" class="text-danger"></span>
+                                                </div>
+                                            </div>
+
+                                            <h4 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3">Areas of Expertise</h4>
+
+                                            <div class="col-md-12 mt-3">
+                                                <div class="form-group">
+                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Specific skills and competencies</strong></label>
+                                                    <?php
+                                                            $skills = DB::table("skills")->get();
+                                                        ?>
+                                                        <ul id="skills_compantancies" style="display:none;">
+                                                            @foreach($skills as $cert)
+                                                            <li data-value="{{ $cert->id }}">{{ $cert->name }}</li>
+                                                            @endforeach
+                                                            
+                                                        </ul>
+                                                        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="skills_compantancies" name="skills_compantancies[]" multiple="multiple"></select>
+                                                    <span id="skills_compantancies_error" class="text-danger"></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="d-flex align-items-center justify-content-between mt-3">
+                                                <button type="button" class="btn btn-default next-step-4 align-items-center justify-content-between" data-target="#navpill-5">Next</button>
+                                            </div>
+                                        </div>                                                          
                                     </div>                    
                                 </div>
                             </div>
