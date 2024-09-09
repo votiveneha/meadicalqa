@@ -101,7 +101,7 @@ class NurseServices
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
         }
     }
-    public function changeStatusBlockUnblock($request)
+    public function changeStatusBlockUnblockold($request)
     {
         try {
             $userData = $this->nurseRepository->getOneUser(['id'=>$request->id]);
@@ -145,6 +145,60 @@ class NurseServices
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
         }
     }
+
+    public function changeStatusBlockUnblock($request)
+    {
+        try {
+            $userData = $this->nurseRepository->getOneUser(['id'=>$request->id]);
+            $updateData['status'] = $request->status;
+            $run = $this->nurseRepository->updateData(['id'=>$request->id], $updateData);
+            if ($run == 1) {
+                 $body = 'Hello, ' . $userData->name . ' ' . $userData->lastname;
+
+                 if($request->status == 2){
+                  
+                 $body .= '<p>This is to inform you that your account has been blocked.';
+                  $mailData = [
+                    'subject' =>  'Block',
+                    'email' =>$userData->email,
+                    'body' => $body,
+                  ];
+
+                  $sendMail = Mail::to($userData->email)->send(new \App\Mail\DemoMail($mailData));
+
+
+                 }else{
+
+                    $body .= '<p>We are excited to inform you that your account has been unblocked by the admin. For more details, please check your account..';
+                    $mailData = [
+                    'subject' =>  'Unblock',
+                    'email' =>$userData->email,
+                    'body' => '1',
+                  ];
+
+                  $sendMail = Mail::to($userData->email)->send(new \App\Mail\DemoMail($mailData));
+                 
+                 }
+   
+                if ($sendMail) {
+                    if($request->status == 2)
+                {
+                    $message =  __('message.block');
+                }else{
+                    $message =__('message.unblock');
+                }
+                return response()->json(['status' => '2', 'message' =>$message]);
+                } else {
+                    return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+                }
+            } else {
+                return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+            }
+        } catch (\Exception $e) {
+            Log::error('Error in NurseServices.changeStatus(): ' . $e->getMessage());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
     
    public function addNursePost($data)
     {
@@ -152,7 +206,6 @@ class NurseServices
 
             if($data['tab'] == 'tab1'){
             Session::put('nurseemail', $data['email']);
-            // dd($data['contact']);
             $allData['name'] = $data['first_name'];
             $allData['lastname'] = $data['last_name'];
             $allData['phone'] = $data['contact'];

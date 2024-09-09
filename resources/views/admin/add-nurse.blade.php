@@ -1253,7 +1253,7 @@
                                             <div class="col-md-12 mt-3">
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Names</strong></label>
-                                                    <input class="form-control" type="text" name="previous_employer_name"  value=" ">
+                                                    <input class="form-control" type="text" name="previous_employer_name"  value=" " id="previous_employer_name">
                                                     <span id="previous_employer_name_error" class="text-danger"></span>
                                                 </div>
                                             </div>
@@ -1278,7 +1278,7 @@
                                             <div class="col-md-6 mt-3">
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Employment Start Date</strong></label>
-                                                    <input class="form-control" type="text" name="start_date"  value=" ">
+                                                    <input class="form-control" type="text" name="start_date"  value=" " id="start_date">
                                                     <span id="start_date_error" class="text-danger"></span>
                                                 </div>
                                             </div>
@@ -1286,13 +1286,13 @@
                                             <div class="col-md-6 mt-3">
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Employment End Date</strong></label>
-                                                    <input class="form-control" type="text" name="end_date"  value=" ">
+                                                    <input class="form-control" type="text" name="end_date"  value=" " id="end_date">
                                                     <span id="end_date_error" class="text-danger"></span>
                                                 </div>
                                             </div>
 
                                             <div class="present_check mt-3">
-                                                <input type="checkbox" name="present_box" value="1">Present Here
+                                                <input type="checkbox" name="present_box" value="1" id="present_box">Present Here
                                             </div>
 
                                             <h4 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3">Detailed Job Descriptions</h4>
@@ -1300,7 +1300,7 @@
                                             <div class="col-md-12 mt-3">
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Responsibilities</strong></label>
-                                                    <textarea class="form-control" name="job_responeblities"></textarea>
+                                                    <textarea class="form-control" name="job_responeblities" id="job_responeblities"></textarea>
                                                     <span id="job_responeblities_error" class="text-danger"></span>
                                                 </div>
                                             </div>
@@ -1308,8 +1308,8 @@
                                             <div class="col-md-12 mt-3">
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Achievements</strong></label>
-                                                    <textarea class="form-control" name="achievements"></textarea>
-                                                    <span id="job_responeblities_error" class="text-danger"></span>
+                                                    <textarea class="form-control" name="achievements" id="achievements"></textarea>
+                                                    <span id="achievements_error" class="text-danger"></span>
                                                 </div>
                                             </div>
 

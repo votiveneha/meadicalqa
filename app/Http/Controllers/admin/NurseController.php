@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\Nurseform2Request;
 use App\Http\Requests\Nurseform1Request;
 use App\Http\Requests\Nurseform3Request;
+use App\Http\Requests\Nurseform4Request;
 
 
 class NurseController extends Controller
@@ -179,10 +180,19 @@ class NurseController extends Controller
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
         }
     }
-      public function addNursePostForm3(Nurseform3Request $request)
+    public function addNursePostForm3(Nurseform3Request $request)
     {      
         try {
 
+           return $this->nurseServices->addNursePost($request);
+        } catch (\Exception $e) {
+            log::error('Error in NurseController/addNursePost :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+    public function addNursePostForm4(Nurseform4Request $request)
+    {      
+        try {      
            return $this->nurseServices->addNursePost($request);
         } catch (\Exception $e) {
             log::error('Error in NurseController/addNursePost :' . $e->getMessage() . 'in line' . $e->getLine());
