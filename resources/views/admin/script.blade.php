@@ -1621,320 +1621,41 @@ $(document).ready(function() {
         // Create a new FormData object
         var formData = new FormData();
 
-        var selectElement = $('select[data-list-id="ndegree"]');
-        var ndegree = selectElement.val();
+        var selectElement = $('select[id="assistent_level"]');
+        var assistent_level = selectElement.val();
 
-        var selectElement1 = $('select[data-list-id="profess_cert"]');
-        var profess_cert = selectElement1.val();
+        var previous_employer_name = $('#previous_employer_name').val();
 
-        // if(profess_cert == ''){
-        //    $('#profess_cert_error').text('This field is required.')
-        // }else{
-        //   $('#profess_cert_error').text('')
-        // }
+        var selectElement1 = $('select[data-list-id="positions_held"]');
+        var positions_held = selectElement1.val();
 
+        var start_date = $('#start_date').val();
 
-        var selectElement2 = $('select[data-list-id="acls_data"]');
-        var acls_data = selectElement2.val();
+        var end_date  = $('#end_date').val();
 
-        var acls_license_number = $('#acls_license_number').val();
+        var present_box  = $('#present_box').val();
 
-        var acls_expiry = $('#acls_expiry').val();
+        var job_responeblities  = $('#job_responeblities').val();
 
-        // Append the file
-        var acls_upload_certification = $('#acls_upload_certification')[0].files[0];
+        var achievements  = $('#achievements').val();
 
+        var selectElement2 = $('select[data-list-id="skills_compantancies"]');
+        var skills_compantancies = selectElement2.val();
 
-        var selectElement3 = $('select[data-list-id="bls_data"]');
-        // Get the selected value(s) from the Select2 element
-        var bls_data = selectElement3.val();
-
-
-        var bls_license_number = $('#bls_license_number').val();
-
-        var bls_expiry = $('#bls_expiry').val();
-
-        // Append the file
-        var bls_upload_certification = $('#bls_upload_certification')[0].files[0];
-
-        var selectElement4 = $('select[data-list-id="cpr_data"]');
-        // Get the selected value(s) from the Select2 element
-        var cpr_data = selectElement4.val();
-
-        var cpr_license_number = $('#cpr_license_number').val();
-
-        var cpr_expiry = $('#cpr_expiry').val();
-
-        // Append the file
-        var cpr_upload_certification = $('#cpr1_upload_certification')[0].files[0];
-
-        // Specialties cpr_upload_certification
-        var selectElement5 = $('select[data-list-id="nrp_data"]');
-        // Get the selected value(s) from the Select2 element
-        var nrp_data = selectElement5.val();
-
-        var nrp_license_number = $('#nrp_license_number').val();
-
-        var nrp_expiry = $('#nrp_expiry').val();
-
-        // Append the file
-        var nrp_upload_certification = $('#nrp_upload_certification')[0].files[0];
-
-        var selectElement6 = $('select[data-list-id="pals_data"]');
-        // Get the selected value(s) from the Select2 element
-        var pals_data = selectElement6.val();
-
-        var pals_license_number = $('#pals_license_number').val();
-
-        var pals_expiry = $('#pals_expiry').val();
-
-        // Append the file
-        var pals_upload_certification = $('#pals_upload_certification')[0].files[0];
-
-        var selectElement7 = $('select[data-list-id="rn_data"]');
-        // Get the selected value(s) from the Select2 element
-        var rn_data = selectElement7.val();
-
-        var rn_license_number = $('#rn_license_number').val();
-        var rn_expiry = $('#rn_expiry').val();
-
-        // Append the file
-        var rn_upload_certification = $('#rn_upload_certification')[0].files[0];
-
-        var selectElement8 = $('select[data-list-id="np_data"]');
-        // Get the selected value(s) from the Select2 element
-        var np_data = selectElement8.val();
-
-        var np_license_number = $('#np_license_number').val();
-
-        var np_expiry = $('#np_expiry').val();
-
-        // Append the file
-        var np_upload_certification = $('#np_upload_certification')[0].files[0];
-
-        var selectElement9 = $('select[data-list-id="rn_data"]');
-        // Get the selected value(s) from the Select2 element
-        var rn_data = selectElement9.val();
-
-        var rn_license_number = $('#rn_license_number').val();
-
-        var rn_expiry = $('#rn_expiry').val();
-
-        // Append the file
-        var rn_upload_certification = $('#rn_upload_certification')[0].files[0];
-
-
-        var selectElement10 = $('select[data-list-id="cn_data"]');
-        // Get the selected value(s) from the Select2 element
-        var cn_data = selectElement10.val();
-
-        var cn_license_number = $('#cn_license_number').val();
-
-        var cn_expiry = $('#cn_expiry').val();
-
-        // Append the file
-        var cn_upload_certification = $('#cn_upload_certification')[0].files[0];
-
-        var selectElement11 = $('select[data-list-id="lpn_data"]');
-        // Get the selected value(s) from the Select2 element
-        var lpn_data = selectElement11.val();
-
-        var lpn_license_number = $('#lpn_license_number').val();
-
-        var lpn_expiry = $('#lpn_expiry').val();
-
-        // Append the file
-        var lpn_upload_certification = $('#lpn_upload_certification')[0].files[0];
-
-        var selectElement12 = $('select[data-list-id="crn_data"]');
-        // Get the selected value(s) from the Select2 element
-        var crn_data = selectElement12.val();
-
-        var crn_license_number = $('#crn_license_number').val();
-
-        var crn_expiry = $('#crn_expiry').val();
-
-        // Append the file
-        var crn_upload_certification = $('#lpn_upload_certification')[0].files[0];
-
-        var selectElement13 = $('select[data-list-id="cnm_data"]');
-        // Get the selected value(s) from the Select2 element
-        var cnm_data = selectElement13.val();
-
-        var cnm_license_number = $('#cnm_license_number').val();
-
-        var cnm_expiry = $('#cnm_expiry').val();
-
-        // Append the file
-        var cnm_upload_certification = $('#cnm_upload_certification')[0].files[0];
-
-        var selectElement14 = $('select[data-list-id="ons_data"]');
-        // Get the selected value(s) from the Select2 element
-        var ons_data = selectElement14.val();
-
-        var ons_license_number = $('#ons_license_number').val();
-
-        var ons_expiry = $('#ons_expiry').val();
-
-        // Append the file
-        var ons_upload_certification = $('#ons_upload_certification')[0].files[0];
-
-        var selectElement15 = $('select[data-list-id="msw_data"]');
-        // Get the selected value(s) from the Select2 element
-        var msw_data = selectElement15.val();
-
-        var msw_license_number = $('#msw_license_number').val();
-
-        var msw_expiry = $('#msw_expiry').val();
-
-        // Append the file
-        var msw_upload_certification = $('#msw_upload_certification')[0].files[0];
-
-        var selectElement16 = $('select[data-list-id="ain_data"]');
-        // Get the selected value(s) from the Select2 element
-        var ain_data = selectElement16.val();
-
-        var ain_license_number = $('#ain_license_number').val();
-
-        var ain_expiry = $('#ain_expiry').val();
-
-        // Append the file
-        var ain_upload_certification = $('#ain_upload_certification')[0].files[0];
-
-        var selectElement17 = $('select[data-list-id="rpn_data"]');
-        // Get the selected value(s) from the Select2 element
-        var rpn_data = selectElement17.val();
-
-        var rpn_license_number = $('#rpn_license_number').val();
-
-        var rpn_expiry = $('#rpn_expiry').val();
-
-        // Append the file
-        var rpn_upload_certification = $('#rpn_upload_certification')[0].files[0];
-
-        var selectElement18 = $('select[data-list-id="nlc_data"]');
-        // Get the selected value(s) from the Select2 element
-        var nlc_data = selectElement18.val();
-
-        var nlc_license_number = $('#nlc_license_number').val();
-
-        var nlc_expiry = $('#nlc_expiry').val();
-
-        // Append the file
-        var nlc_upload_certification = $('#nlc_upload_certification')[0].files[0];
-
-        var selectElement19 = $('select[data-list-id="training_courses"]');
-        // Get the selected value(s) from the Select2 element
-        var training_courses = selectElement19.val();
-
-        // var selectElement20 = $('select[data-list-id="training_workshop"]');        
-        // // Get the selected value(s) from the Select2 element
-        // var training_workshop = selectElement20.val();
-
-        var institution = $('#institution').val();
-        var most_relevant = $('#most_relevant').val();
-
-        var graduation_start_date = $('#graduation_start_date').val();
-
-        var graduation_end_date = $('#graduation_end_date').val();
-
-
+    
         let hasErrors = false;
 
-        // if(targetTab ==  '#navpill-2'){
-        //   alert(JSON.stringify(profess_cert));
-        formData.append('ndegree', JSON.stringify(ndegree));
-        formData.append('institution', institution);
-        formData.append('most_relevant', most_relevant);
-        formData.append('graduation_start_date', graduation_start_date);
-        formData.append('graduation_end_date', graduation_end_date);
-        formData.append('professional_certification', JSON.stringify(profess_cert));
-        formData.append('acls_data', JSON.stringify(acls_data));
-        formData.append('acls_license_number', acls_license_number);
-        formData.append('acls_expiry', acls_expiry);
-        formData.append('acls_upload_certification', acls_upload_certification);
+        formData.append('assistent_level', JSON.stringify(assistent_level));
+        formData.append('previous_employer_name', previous_employer_name);
+        formData.append('start_date', start_date);
+        formData.append('end_date', end_date);
+        formData.append('present_box', present_box);
+        formData.append('job_responeblities', job_responeblities);
+        formData.append('positions_held',JSON.stringify(positions_held));
+        formData.append('achievements', achievements);
+        formData.append('skills_compantancies', JSON.stringify(skills_compantancies));
 
-        formData.append('bls_data', JSON.stringify(bls_data));
-        formData.append('bls_license_number', bls_license_number);
-        formData.append('bls_expiry', bls_expiry);
-        formData.append('bls_upload_certification', bls_upload_certification);
-
-        formData.append('cpr_data', JSON.stringify(cpr_data));
-        formData.append('cpr_license_number', cpr_license_number);
-        formData.append('cpr_expiry', cpr_expiry);
-        formData.append('cpr_upload_certification', cpr_upload_certification);
-
-        formData.append('tab', 'tab3');
-
-        formData.append('nrp_data', JSON.stringify(nrp_data));
-        formData.append('nrp_license_number', nrp_license_number);
-        formData.append('nrp_expiry', nrp_expiry);
-        formData.append('nrp_upload_certification', nrp_upload_certification);
-
-        formData.append('pals_data', JSON.stringify(pals_data));
-        formData.append('pals_license_number', pals_license_number);
-        formData.append('pals_expiry', pals_expiry);
-        formData.append('pals_upload_certification', pals_upload_certification);
-
-        formData.append('rn_data', JSON.stringify(rn_data));
-        formData.append('rn_license_number', rn_license_number);
-        formData.append('rn_expiry', rn_expiry);
-        formData.append('rn_upload_certification', rn_upload_certification);
-
-        formData.append('np_data', JSON.stringify(np_data));
-        formData.append('np_license_number', np_license_number);
-        formData.append('np_expiry', np_expiry);
-        formData.append('np_upload_certification', np_upload_certification);
-
-        formData.append('cn_data', JSON.stringify(cn_data));
-        formData.append('cn_license_number', cn_license_number);
-        formData.append('cn_expiry', cn_expiry);
-        formData.append('cn_upload_certification', cn_upload_certification);
-
-
-        formData.append('lpn_data', JSON.stringify(lpn_data));
-        formData.append('lpn_license_number', lpn_license_number);
-        formData.append('lpn_expiry', lpn_expiry);
-        formData.append('lpn_upload_certification', lpn_upload_certification);
-
-        formData.append('crn_data', JSON.stringify(crn_data));
-        formData.append('crn_license_number', crn_license_number);
-        formData.append('crn_expiry', crn_expiry);
-        formData.append('crn_upload_certification  ', crn_upload_certification);
-
-        formData.append('cnm_data', JSON.stringify(cnm_data));
-        formData.append('cnm_license_number', cnm_license_number);
-        formData.append('cnm_expiry', cnm_expiry);
-        formData.append('cnm_upload_certification', cnm_upload_certification);
-
-        formData.append('ons_data', JSON.stringify(ons_data));
-        formData.append('ons_license_number', ons_license_number);
-        formData.append('ons_expiry', ons_expiry);
-        formData.append('ons_upload_certification ', ons_upload_certification);
-
-
-        formData.append('msw_data', JSON.stringify(msw_data));
-        formData.append('msw_license_number', msw_license_number);
-        formData.append('msw_expiry', msw_expiry);
-        formData.append('msw_upload_certification', msw_upload_certification);
-
-        formData.append('ain_data', JSON.stringify(ain_data));
-        formData.append('ain_license_number', ain_license_number);
-        formData.append('ain_expiry', ain_expiry);
-        formData.append('ain_upload_certification', ain_upload_certification);
-
-        formData.append('rpn_data', JSON.stringify(rpn_data));
-        formData.append('rpn_license_number  ', rpn_license_number);
-        formData.append('rpn_expiry', rpn_expiry);
-        formData.append('rpn_upload_certification', rpn_upload_certification);
-
-        formData.append('nlc_data', JSON.stringify(nlc_data));
-        formData.append('nlc_license_number', nlc_license_number);
-        formData.append('nlc_expiry', nlc_expiry);
-        formData.append('nlc_upload_certification', nlc_upload_certification);
-
-        formData.append('training_courses', JSON.stringify(training_courses));
-        // formData.append('training_workshop',JSON.stringify(training_workshop));
+        formData.append('tab', 'tab4');
 
         $.ajax({
             url: "{{ route('admin.add_nurse_post_4') }}",
@@ -2013,13 +1734,210 @@ $(document).ready(function() {
                         $('#skills_compantancies_error').text('');
                     }
 
-                    // if (error.responseJSON.errors.training_workshop) {
-                    //     $('#training_workshop_error').text(error.responseJSON.errors.training_workshop[0]);                           
-                    // } else {
-                    //     $('#training_workshop_error').text('');
-                    // }
+                    if (error.responseJSON.errors.present_box) {
+                        $('#present_box_error').text(error.responseJSON.errors.present_box[0]);                           
+                    } else {
+                        $('#present_box_error').text('');
+                    }
 
                     // }                        
+                }
+            }
+        });
+
+        // if (!hasErrors) {
+        //     $('a[href="' + targetTab + '"]').tab('show'); // Show the target tab
+        // }
+
+    }); 
+    </script>
+
+    <script>
+    //four form        
+    $('.next-step-5').on('click', function(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        var targetTab = $(this).data('target');
+        // Initially deactivate all tabs except the first one
+        // $('.nav-pills .nav-link').not('.active').addClass('disabled');
+
+        // Function to enable the next tab
+        function enableNextTab(targetTab) {
+            $('a[href="' + targetTab + '"]').removeClass('disabled').tab('show');
+        }
+
+        // Create a new FormData object
+        var formData = new FormData();
+
+        var tra_start_date = $('#tra_start_date').val();
+        var tra_end_date = $('#tra_end_date').val();
+
+        var selectElement1 = $('select[id="mand_continue_education"]');
+        var mand_continue_education = selectElement1.val();
+     
+        var institution1 = $('#institution1').val();
+
+        let hasErrors = false;
+
+        formData.append('tra_start_date',tra_start_date);
+        formData.append('tra_end_date', tra_end_date);
+        formData.append('mand_continue_education', mand_continue_education);
+        formData.append('institution1',institution1);
+        formData.append('tab', 'tab5');
+
+        $.ajax({
+            url: "{{ route('admin.add_nurse_post_5') }}",
+            type: "POST",
+            data: formData,
+            data: formData,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include CSRF token for security
+            },
+            success: function(res) {
+                console.log(res.type);
+
+                if (res.status == '2') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: res.message,
+                    }).then(function() {
+                        $('a[href="' + targetTab + '"]').tab('show');
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: res.message,
+                    });
+                }
+                // Show the target tab
+            },
+            error: function(error) {
+                // if(targetTab ==  '#navpill-2'){
+                if (error.responseJSON.errors) {
+                    if (error.responseJSON.errors.tra_start_date) {
+                        $('#tra_start_date_error').text(error.responseJSON.errors.tra_start_date[0]);
+                    } else {
+                        $('#tra_start_date_error').text('');
+                    }
+
+                    if (error.responseJSON.errors.tra_end_date) {
+                        $('#tra_end_date_error').text(error.responseJSON.errors.tra_end_date[0]);
+                    } else {
+                        $('#tra_end_date_error').text('');
+                    }
+
+                    if (error.responseJSON.errors.start_date) {
+                        $('#start_date_error').text(error.responseJSON.errors.start_date[0]);
+                    } else {
+                        $('#start_date_error').text('');
+                    }
+
+                    if (error.responseJSON.errors.institution1) {
+                        $('#institution_error_2').text(error.responseJSON.errors.institution1[0]);
+                    } else {
+                        $('#institution_error_2').text('');
+                    }
+
+                    if (error.responseJSON.errors.mand_continue_education) {
+                        $('#mand_continue_education_error').text(error.responseJSON.errors.mand_continue_education[0]);
+                    } else {
+                        $('#mand_continue_education_error').text('');
+                    }
+                     
+                }
+            }
+        });
+
+        // if (!hasErrors) {
+        //     $('a[href="' + targetTab + '"]').tab('show'); // Show the target tab
+        // }
+
+    }); 
+    </script>
+
+    <script>
+    //five form        
+    $('.next-step-6').on('click', function(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        var targetTab = $(this).data('target');
+        // Initially deactivate all tabs except the first one
+        // $('.nav-pills .nav-link').not('.active').addClass('disabled');
+
+        // Function to enable the next tab
+        function enableNextTab(targetTab) {
+            $('a[href="' + targetTab + '"]').removeClass('disabled').tab('show');
+        }
+
+        // Create a new FormData object
+        var formData = new FormData();
+
+        var selectElement1 = $('select[data-list-id="vaccination_record"]');
+        var vaccination_record = selectElement1.val();
+
+        var selectElement2 = $('select[id="immunization_status"]');
+        var immunization_status = selectElement2.val();
+     
+
+
+        let hasErrors = false;
+
+        formData.append('vaccination_record',JSON.stringify(vaccination_record));
+        formData.append('immunization_status', immunization_status);
+        formData.append('tab', 'tab6');
+
+        $.ajax({
+            url: "{{ route('admin.add_nurse_post_6') }}",
+            type: "POST",
+            data: formData,
+            data: formData,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include CSRF token for security
+            },
+            success: function(res) {
+                console.log(res.type);
+
+                if (res.status == '2') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: res.message,
+                    }).then(function() {
+                        $('a[href="' + targetTab + '"]').tab('show');
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: res.message,
+                    });
+                }
+                // Show the target tab
+            },
+            error: function(error) {
+                // if(targetTab ==  '#navpill-2'){
+                if (error.responseJSON.errors) {
+                    if (error.responseJSON.errors.vaccination_record) {
+                        $('#vaccination_error').text(error.responseJSON.errors.vaccination_record[0]);
+                    } else {
+                        $('#vaccination_error').text('');
+                    }
+
+                    if (error.responseJSON.errors.immunization_status) {
+                        $('#immunization_status_error').text(error.responseJSON.errors.immunization_status[0]);
+                    } else {
+                        $('#immunization_status_error').text('');
+                    }
+
+                 
                 }
             }
         });

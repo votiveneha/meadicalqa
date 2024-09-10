@@ -41,6 +41,7 @@ use App\Models\InterviewModel;
 use App\Models\PreferencesModel;
 use App\Models\WorkPreferencesModel;
 use App\Models\VaccinationFrontModel;
+use App\Models\AdditionalInfo;
 use App\Repository\Eloquent\SpecialityRepository;
 
 class HomeController extends Controller
@@ -1762,7 +1763,7 @@ class HomeController extends Controller
         if(!empty($getpreferencesdata)>0){
             
             
-            $run = WorkPreferencesModel::where('user_id',$user_id)->update(['desired_job_role'=>$des_job_role,'salary_expectations'=>$salary_expectations,'benefits_preferences'=>$benefit_prefer]);
+            $run = WorkPreferencesModel::where('user_id',$user_id)->update(['desired_job_role'=>$des_job_role,'salary_expectations'=>$salary_expectation,'benefits_preferences'=>$benefit_prefer]);
         }else{
 
             
@@ -1793,6 +1794,53 @@ class HomeController extends Controller
         
         echo json_encode($json);
     }
+
+    public function updateAdditionalInfo(Request $request){
+        $user_id = $request->user_id;
+        $additional_info_language = $request->additional_info_language;
+        $volunteer_experience = $request->volunteer_experience;
+        $hobbies_interests = $request->hobbies_interests;
+        
+        
+        
+        $getinfodata = DB::table("additional_information")->where("user_id",$user_id)->first();
+        //$post = User::find($request->user_id);
+        
+        if(!empty($getinfodata)>0){
+            
+            
+            $run = AdditionalInfo::where('user_id',$user_id)->update(['additional_info_language'=>$additional_info_language,'volunteer_experience'=>$volunteer_experience,'hobbies_interests'=>$hobbies_interests]);
+        }else{
+
+            
+
+            $post = new AdditionalInfo();
+            $post->user_id = $user_id;
+            
+            //$post->year_experience = $year_experience;
+            $post->additional_info_language = $additional_info_language;
+            $post->volunteer_experience = $volunteer_experience;
+           
+            $post->hobbies_interests = $hobbies_interests;
+           
+            
+            
+            $run = $post->save();
+
+        }
+
+        if ($run) {
+            $json['status'] = 1;
+            $json['url'] = url('nurse/my-profile');
+            $json['message'] = 'Education Information Updated Successfully';
+         } else {
+            $json['status'] = 0;
+            $json['message'] = 'Please Try Again';
+        }
+        
+        echo json_encode($json);
+    }
+
     public function updateTraining(Request $request){
         $user_id = $request->user_id;
         $start_date = $request->start_date;

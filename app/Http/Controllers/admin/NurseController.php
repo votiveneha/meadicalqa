@@ -13,6 +13,8 @@ use App\Http\Requests\Nurseform2Request;
 use App\Http\Requests\Nurseform1Request;
 use App\Http\Requests\Nurseform3Request;
 use App\Http\Requests\Nurseform4Request;
+use App\Http\Requests\Nurseform5Request;
+use App\Http\Requests\Nurseform6Request;
 
 
 class NurseController extends Controller
@@ -191,6 +193,24 @@ class NurseController extends Controller
         }
     }
     public function addNursePostForm4(Nurseform4Request $request)
+    {      
+        try {      
+           return $this->nurseServices->addNursePost($request);
+        } catch (\Exception $e) {
+            log::error('Error in NurseController/addNursePost :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+    public function addNursePostForm6(Nurseform6Request $request)
+    {      
+        try {      
+           return $this->nurseServices->addNursePost($request);
+        } catch (\Exception $e) {
+            log::error('Error in NurseController/addNursePost :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+    public function addNursePostForm5(Nurseform5Request $request)
     {      
         try {      
            return $this->nurseServices->addNursePost($request);

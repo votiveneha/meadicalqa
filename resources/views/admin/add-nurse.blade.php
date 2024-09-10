@@ -94,7 +94,7 @@
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link " data-bs-toggle="tab" href="#navpill-4" role="tab" aria-selected="false"
+                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-4" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Experience and References</span>
                         </a>
@@ -102,53 +102,47 @@
                     <li class="nav-item" role="presentation">
                         <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-5" role="tab" aria-selected="false"
                             tabindex="-1">
-                            <span>Financial Details</span>
+                            <span>Mandatory Training</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
                         <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-6" role="tab" aria-selected="false"
                             tabindex="-1">
-                            <span>Mandatory Training</span>
+                            <span>Vaccinations</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
                         <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-7" role="tab" aria-selected="false"
                             tabindex="-1">
-                            <span>Vaccinations</span>
+                            <span>Work Clearances</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
                         <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-8" role="tab" aria-selected="false"
                             tabindex="-1">
-                            <span>Work Clearances</span>
+                            <span>Professional Memberships</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
                         <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-9" role="tab" aria-selected="false"
                             tabindex="-1">
-                            <span>Professional Memberships</span>
+                            <span>Interview and References</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
                         <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-10" role="tab" aria-selected="false"
                             tabindex="-1">
-                            <span>Interview and References</span>
+                            <span>Personal Preferences</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
                         <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-11" role="tab" aria-selected="false"
                             tabindex="-1">
-                            <span>Personal Preferences</span>
-                        </a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-12" role="tab" aria-selected="false"
-                            tabindex="-1">
                             <span>Find Work Preferences</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-13" role="tab" aria-selected="false"
+                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-12" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Testimonials and Reviews</span>
                         </a>
@@ -1253,7 +1247,7 @@
                                             <div class="col-md-12 mt-3">
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Names</strong></label>
-                                                    <input class="form-control" type="text" name="previous_employer_name"  value=" " id="previous_employer_name">
+                                                    <input class="form-control" type="text" name="previous_employer_name"  id="previous_employer_name">
                                                     <span id="previous_employer_name_error" class="text-danger"></span>
                                                 </div>
                                             </div>
@@ -1278,7 +1272,7 @@
                                             <div class="col-md-6 mt-3">
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Employment Start Date</strong></label>
-                                                    <input class="form-control" type="text" name="start_date"  value=" " id="start_date">
+                                                    <input class="form-control" type="date" name="start_date" id="start_date">
                                                     <span id="start_date_error" class="text-danger"></span>
                                                 </div>
                                             </div>
@@ -1286,7 +1280,7 @@
                                             <div class="col-md-6 mt-3">
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Employment End Date</strong></label>
-                                                    <input class="form-control" type="text" name="end_date"  value=" " id="end_date">
+                                                    <input class="form-control" type="date" name="end_date" id="end_date">
                                                     <span id="end_date_error" class="text-danger"></span>
                                                 </div>
                                             </div>
@@ -1294,6 +1288,7 @@
                                             <div class="present_check mt-3">
                                                 <input type="checkbox" name="present_box" value="1" id="present_box">Present Here
                                             </div>
+                                            <span id="present_box_error" class="text-danger"></span>
 
                                             <h4 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3">Detailed Job Descriptions</h4>
 
@@ -1345,48 +1340,95 @@
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
-                                    <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center ">Children Work</h3>
+                                    <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center ">Mandatory Training</h3>
                                 </div>
                                 <div class="card-body p-3 px-md-4">
                                     <div class="col-md-12">
-                                        @if($workingChildrenCheckData)
                                         <div class="row">
-                                            @if(isset($workingChildrenCheckData->clearance_number) && $workingChildrenCheckData->clearance_number)
-                                            <div class="col-md-6 mt-3">
-                                                <div class="d-flex gap-3 flex-wrap">
-                                                    <strong>Clearance Number : </strong><span>{{ $workingChildrenCheckData->clearance_number}}</span>
-                                                </div>
+                                        <h6 class="fw-bolder fs-6 lh-base d-flex align-items-center ">Completed training programs</h6>
+                                        <div class="col-md-6 mt-3">
+                                            <div class="form-group">
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Training Start Date</strong></label>
+                                                <input class="form-control" type="date" name="tra_start_date"  id="tra_start_date">
+                                                <span id="tra_start_date_error" class="text-danger"></span>
                                             </div>
-                                            @endif
-                                            @if(isset($workingChildrenCheckData->state) && $workingChildrenCheckData->state)
-                                            <div class="col-md-6 mt-3">
-                                                <div class="d-flex gap-3 flex-wrap">
-                                                    <strong>State: </strong><span>{{ state_name($workingChildrenCheckData->state)}}</span>
-                                                </div>
-                                                
+                                        </div> 
+                                        <div class="col-md-6 mt-3">
+                                            <div class="form-group">
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Training End Date</strong></label>
+                                                <input class="form-control" type="date" name="tra_end_date" id="tra_end_date">
+                                                <span id="tra_end_date_error" class="text-danger"></span>
                                             </div>
-                                            @endif
-
-                                            @if(isset($workingChildrenCheckData->expiry_date) && $workingChildrenCheckData->expiry_date)
-                                            <div class="col-md-6 mt-3">
-                                                <div class="d-flex gap-3 flex-wrap">
-                                                    <strong>Expiry Date: </strong>
-                                                    <span>{{$workingChildrenCheckData->expiry_date}}</span>
-                                                </div>
+                                        </div>   
+                                        <div class="col-md-12 mt-3">
+                                            <div class="form-group">
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Institution</strong></label>
+                                                <input class="form-control" type="text" name="institution"  id="institution1">
+                                                <span id="institution_error_2" class="text-danger"></span>
                                             </div>
-                                            @endif
-
-                                           
                                         </div>
-                                    @else
+                                        <div class="col-md-12 mt-3">
+                                            <div class="form-group">
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Mandatory Continuing Education</strong></label>
+                                                <select class="form-control form-select ps-5" name="mand_continue_education" id="mand_continue_education">
+                                                    <option value="">Select mandatory continuing education</option>                                                    
+                                                    <option value="Ongoing">Ongoing</option>
+                                                    <option value="Completed">Completed</option>
+                                                </select>
+                                                <span id="mand_continue_education_error" class="text-danger"></span>
+                                            </div>
+                                        </div> 
+                                        <div class="d-flex align-items-center justify-content-between mt-3">
+                                            <button type="button" class="btn btn-default next-step-5 align-items-center justify-content-between" data-target="#navpill-6">Next</button>
+                                        </div>
+                                    </div>                     
+                                    </div>                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane p-3" id="navpill-6" role="tabpanel">
+                        <div class="row">
+                            <div class=" w-100  overflow-hidden">
+                                <div class="card-body p-3 px-md-4 pb-0">
+                                    <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center">Vaccinations</h3>
+                                </div>
+                                <div class="card-body p-3 px-md-4">
                                     <div class="col-md-12">
-                                        <div class="text-center text-danger fs-5">No data found</div>
-                                    </div>
-                                    
-                                    @endif
-                    
-                                    </div>
-                    
+                                        <div class="row">
+                                        <div class="col-md-12 mt-3">
+                                            <div class="form-group">
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Vaccination Records</strong></label>
+                                                 <?php
+                                                $vaccination_record = DB::table("vaccination")->get();
+                                                ?>
+                                                <ul id="vaccination_record" style="display:none;">
+                                                    @foreach($vaccination_record as $v_record)
+                                                    <li data-value="{{ $v_record->id }}">{{ $v_record->name }}</li>
+                                                    @endforeach
+                                                </ul>
+                                                <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="vaccination_record" name="vaccination_record[]" multiple="multiple"></select>
+                                                <span id="vaccination_error" class="text-danger"></span>
+                                            </div>
+                                        </div> 
+                                        <div class="col-md-12 mt-3">
+                                            <div class="form-group">
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Immunization Status</strong></label>
+                                               <select class="form-control mr-10 select-active" name="immunization_status" id="immunization_status">
+                                                    <option value="">Immunization Status</option>
+                                                    <option value="Up-to-date" @if(!empty($vaccinationData)) @if($vaccinationData->immunization_status == "Up-to-date") selected @endif @endif>Up-to-date</option>
+                                                    <option value="Pending" @if(!empty($vaccinationData)) @if($vaccinationData->immunization_status == "Pending") selected @endif @endif>Pending</option>
+                                                </select>
+                                                <span id="immunization_status_error" class="text-danger"></span>
+                                            </div>
+                                        </div>   
+                                        
+                            
+                                        <div class="d-flex align-items-center justify-content-between mt-3">
+                                            <button type="button" class="btn btn-default next-step-6 align-items-center justify-content-between" data-target="#navpill-7">Next</button>
+                                        </div>
+                                    </div>                     
+                                    </div>                    
                                 </div>
                             </div>
                         </div>

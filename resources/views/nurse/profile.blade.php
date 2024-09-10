@@ -2325,39 +2325,43 @@
                     </form>
               </div>
               <div class="tab-pane fade" id="tab-addition-information" role="tabpanel" aria-labelledby="tab-interview-references" style="display: none">
+                <?php
+                  $InfoData = DB::table("additional_information")->where("user_id",Auth::guard('nurse_middle')->user()->id)->first();
+                ?>
                 <h3 class="mt-30 color-brand-1 mb-50">Additional Information</h3>
                 <form id="additional_info_form" method="POST" onsubmit="return additional_info_form()">
                   @csrf
                   <input type="hidden" name="user_id" value="{{ Auth::guard('nurse_middle')->user()->id }}">
                   <div class="form-group level-drp">
                     <label class="form-label" for="input-1">Languages Spoken</label>
-                    <select class="form-control" name="language-picker-select" id="language-picker-select">
-                      <option lang="de" value="deutsch">Deutsch</option>
-                      <option lang="en" value="english">English</option>
-                      <option lang="fr" value="francais">Français</option>
-                      <option lang="it" value="italiano">Italiano</option>
+                    <select class="form-control" name="additional_info_language" id="language-picker-select">
+                      <option lang="de" value="deutsch" @if(!empty($InfoData) && $InfoData->additional_info_language == "deutsch") selected @endif>Deutsch</option>
+                      <option lang="en" value="english" @if(!empty($InfoData) && $InfoData->additional_info_language == "english") selected @endif>English</option>
+                      <option lang="fr" value="francais" @if(!empty($InfoData) && $InfoData->additional_info_language == "francais") selected @endif>Français</option>
+                      <option lang="it" value="italiano" @if(!empty($InfoData) && $InfoData->additional_info_language == "italiano") selected @endif>Italiano</option>
                     </select>
+                    <span id="reqinfolanguage" class="reqError text-danger valley"></span>
                   </div>
                   <div class="form-group level-drp">
                     <label class="form-label" for="input-1">Volunteer Experience</label>
-                    <input type="text" name="salary_expectation" class="form-control">
+                    <input type="text" name="volunteer_experience" class="form-control" value="@if(!empty($InfoData)){{ $InfoData->volunteer_experience }}@endif">
                     <span id="reqvolexp" class="reqError text-danger valley"></span>
                   </div>
                   <div class="form-group level-drp">
                     <label class="form-label" for="input-1">Hobbies and Interests</label>
-                    <textarea name="hobbies_interests" class="form-control"></textarea>
+                    <textarea name="hobbies_interests" class="form-control">@if(!empty($InfoData)){{ $InfoData->hobbies_interests }}@endif</textarea>
                     
                     <span id="reqhobbiesint" class="reqError text-danger valley"></span>
                   </div>
                   <div class="box-button mt-15">
-                    <button class="btn btn-apply-big font-md font-bold" type="submit" id="submitWorkPreferences">Save Changes</button>
+                    <button class="btn btn-apply-big font-md font-bold" type="submit" id="submitAdditionalInformation">Save Changes</button>
                   </div>
                 </form>
               </div>
               <div class="tab-pane fade" id="tab-professional-membership" role="tabpanel" aria-labelledby="tab-interview-references" style="display: none">
 			  <div class="card shadow-sm border-0 p-4 mt-30">
                 <h3 class="mt-0 color-brand-1 mb-2">Professional Memberships</h3>
-                <form id="professional_memb_form" method="POST" onsubmit="return additional_info_form()">
+                <form id="professional_memb_form" method="POST" onsubmit="return professional_membership_form()">
                   @csrf
                   <input type="hidden" name="user_id" value="{{ Auth::guard('nurse_middle')->user()->id }}">
                   <div class="form-group level-drp">

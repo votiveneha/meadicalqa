@@ -1241,6 +1241,73 @@ function pad(number) {
     }
     return false;
   }
+
+  function additional_info_form() {
+
+    var isValid = true;
+    if ($('[name="additional_info_language"]').val() == '') {
+      document.getElementById("reqinfolanguage").innerHTML = "* Please select language";
+      isValid = false;
+    }
+
+    if ($('[name="volunteer_experience"]').val() == '') {
+      document.getElementById("reqvolexp").innerHTML = "* Please enter Volunteer Experience";
+      isValid = false;
+    }
+
+    if ($('[name="hobbies_interests"]').val() == '') {
+      document.getElementById("reqhobbiesint").innerHTML = "* Please enter Hobbies and Interests";
+      isValid = false;
+    } 
+
+
+    if(isValid == true){
+      $('#additional_info_form').find('.text-danger').hide();
+      $.ajax({
+        url: "{{ route('nurse.updateAdditionalInfo') }}",
+        type: "POST",
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: new FormData($('#additional_info_form')[0]),
+        dataType: 'json',
+        beforeSend: function() {
+          $('#submitAdditionalInformation').prop('disabled', true);
+          $('#submitAdditionalInformation').text('Process....');
+        },
+        success: function(res) {
+          $('#submitAdditionalInformation').prop('disabled', false);
+          $('#submitAdditionalInformation').text('Update Profile');
+
+          if (res.status == '1') {
+            Swal.fire({
+              icon: 'success',
+              title: 'Success',
+              text: 'Additional Information Updated Successfully',
+            }).then(function() {
+              window.location.href = "{{ route('nurse.my-profile') }}?page=additional_info";
+            });
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: res.message,
+            })
+          }
+          
+        },
+        error: function(errorss) {
+          $('#submitPersonalPreferences').prop('disabled', false);
+          $('#submitPersonalPreferences').text('Submit');
+          console.log("errorss",errorss);
+          for (var err in errorss.responseJSON.errors) {
+            $("#submitPersonalPreferences").find("[name='" + err + "']").after("<div class='text-danger'>" + errorss.responseJSON.errors[err] + "</div>");
+          }
+        }
+      });
+    }
+    return false;
+  }
   </script>
 <!-- =================================
 
