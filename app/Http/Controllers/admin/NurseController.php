@@ -201,15 +201,6 @@ class NurseController extends Controller
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
         }
     }
-    public function addNursePostForm6(Nurseform6Request $request)
-    {      
-        try {      
-           return $this->nurseServices->addNursePost($request);
-        } catch (\Exception $e) {
-            log::error('Error in NurseController/addNursePost :' . $e->getMessage() . 'in line' . $e->getLine());
-            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
-        }
-    }
     public function addNursePostForm5(Nurseform5Request $request)
     {      
         try {      
@@ -219,6 +210,25 @@ class NurseController extends Controller
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
         }
     }
+    public function addNursePostForm6(Nurseform6Request $request)
+    {      
+        try {      
+           return $this->nurseServices->addNursePost($request);
+        } catch (\Exception $e) {
+            log::error('Error in NurseController/addNursePost :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+    public function addNursePostForm7(Request $request)
+    {      
+        try {      
+           return $this->nurseServices->addNursePost($request);
+        } catch (\Exception $e) {
+            log::error('Error in NurseController/addNursePost :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+    
   
     public function changeStatus(Request $request)
     {

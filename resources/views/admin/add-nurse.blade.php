@@ -112,7 +112,7 @@
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-7" role="tab" aria-selected="false"
+                        <a class="nav-link" data-bs-toggle="tab" href="#navpill-7" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Work Clearances</span>
                         </a>
@@ -1433,12 +1433,213 @@
                             </div>
                         </div>
                     </div>
+                    <div class="tab-pane p-3" id="navpill-7" role="tabpanel">
+                        <div class="row">
+                            <div class="w-100  overflow-hidden">
+                                <div class="card-body p-3 px-md-4 pb-0">
+                                    <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center">Work Clearances</h3>
+                                </div>
+                                <div class="card-body p-3 px-md-4">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <h6 class="mt-2 color-brand-1 mb-2">Eligibility To Work</h6>
+                                             <a class="font-md color-text-paragraph-2" href="#">{{ env('APP_NAME') }} does not yet connect talent to sponsorship opportunities</a>
+
+                                            <div class="col-md-12 mt-3">
+                                                <div class="form-group">
+                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Residency</strong></label>
+                                                    <select class="form-control" name="residency" id="residencyId">
+                                                        <option value="">Select</option>
+                                                        <option value="Citizen">Citizen</option>
+                                                        <option value="Permanent Resident">Permanent Resident</option>
+                                                        <option value="Visa Holder">Visa Holder</option>
+                                                    </select>
+                                                    <span id="residency_error" class="text-danger reqError valley"></span>
+                                                </div>
+                                            </div>
+                                             
+
+                                            <div id="passport_detail" style="display: none">
+                                                <div class="col-md-12 mt-3">
+                                                    <div class="form-group">
+                                                        <label class="d-flex gap-3 flex-wrap"><strong>Visa Subclass Number *</strong></label>
+                                                        <input class="form-control" type="text" name="visa_subclass_number" id="visa_subclass_numberI" placeholder="" value="">
+                                                    </div>
+                                                    <span id="visa_subclass_error" class="text-danger  reqError valley"></span>
+                                                </div>
+
+                                                <div class="col-md-12 mt-3">
+                                                    <div class="form-group ">
+                                                        <label class="d-flex gap-3 flex-wrap"><strong>Passport Number *</strong></label>
+                                                        <input class="form-control" type="text" name="passport_number" id="passport_numberI" placeholder="" value="">
+                                                    </div>
+                                                    <span id="passport_number_error" class="text-danger reqError valley"></span>
+                                                </div>
+
+                                                <div class="col-md-12 mt-3">
+                                                    <div class="form-group position-relative">
+                                                        <!-- <textarea type="text" class="form-control ps-5" placeholder="Address"></textarea> -->
+                                                        <select class="form-control form-select ps-5" name="passport_country_of_Issue" id="passportcountryI">
+                                                        <option value="">Select Country</option>
+                                                        @php $country_data=country_name_from_db();@endphp
+                                                        @foreach ($country_data as $data)
+                                                        <option value="{{$data->id}}" > {{$data->name}} </option>
+                                                        @endforeach
+                                                        </select>
+                                                        <span id="passport_country_error" class="reqError text-danger valley"></span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-12 mt-3">
+                                                    <div class="form-group ">
+                                                        <label class="d-flex gap-3 flex-wrap"><strong>Visa Grant Number*</strong></label>
+                                                        <input class="form-control" type="text" name="visa_grant_number" id="visa_grant_numberI" placeholder="" value="">
+                                                    </div>
+                                                    <span id="visa_grant_error" class="reqError text-danger valley"></span>
+                                                </div>
+
+                                            </div>
+
+                                            <div id="passport_detail_date" style="display:none;">
+                                                <div class="col-md-12 mt-3">
+                                                    <div class="form-group ">
+                                                        <label class="d-flex gap-3 flex-wrap"><strong>Expiry Date*</strong></label>
+                                                        <input class="form-control" type="date" name="expiry_date" id="expiry_dataI" value="" min="{{ date('Y-m-d') }}">
+                                                    </div>
+                                                <span id="expiry_date_error" class="reqError text-danger valley"></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12 mt-3">
+                                                <div class="form-group ">
+                                                    <label class="d-flex gap-3 flex-wrap"><strong>Support Document*</strong></label>
+                                                    <input type="file" name="image_support_document" id="image_support_documentI" class="form-control h-100" accept="image/*">
+                                                </div>
+                                              <span id="image_support_error" class="reqError text-danger valley"></span>
+                                            </div> 
+
+                                            <div class="d-flex align-items-center justify-content-between mt-3">
+                                              <button type="button" class="btn btn-default eligibility_work align-items-center justify-content-between" data-target="#navpill-7">Save</button>
+                                            </div> 
+                                        </div> 
+
+                                        <div class="row mt-3">
+                                            <h6 class="mt-2 color-brand-1 mb-2">Working With Children Check</h6>
+                                            <a class="font-md color-text-paragraph-2" href="#">Add your state specific working with children clearance/s as required. Refer to your profile checklist</a>
+                                            <span class="btn-dark badge badge-dark">Optional</span>
+                                            <div class="col-md-12 mt-3">
+                                                <div class="form-group">
+                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Clearance Number</strong></label>
+                                                    <input class="form-control" type="text" name="clearance_number" id="clearance_numberI" placeholder="" value="">
+                                                    <span id="reqTxtclearance_numberI" class="text-danger reqError valley"></span>
+                                                </div>
+                                            </div>
+                                             
+
+                                            <div id="passport_detail">
+                                                <div class="col-md-12 mt-3">
+                                                    <div class="form-group">
+                                                        <label class="d-flex gap-3 flex-wrap"><strong>State *</strong></label>
+                                                        <select class="form-control form-select" name="clearance_state" id="clearancestateI" id="stateI">
+                                                            @php
+                                                            
+                                                            $state_data =state_list();
+                                                            
+                                                            @endphp
+                                                            
+                                                            ?>
+                                                            @if(isset($state_data) && !empty($state_data))
+                                                            @foreach ($state_data as $data_state)
+                                                            <option value="{{$data_state->id}}" ?>{{$data_state->name}} </option>
+                                                            @endforeach
+                                                            @endif
+
+                                                        </select>
+                                                    </div>
+                                                    <span id="reqTxtclearancestateI" class="text-danger  reqError valley"></span>
+                                                </div>
+
+                                                <div class="col-md-12 mt-3">
+                                                    <div class="form-group ">
+                                                        <label class="d-flex gap-3 flex-wrap"><strong>Expiry Date*</strong></label>
+                                                       <input class="form-control" type="date" name="clearance_expiry_date" id="clearance_expiry_dataI" value="" min="{{ date('Y-m-d') }}">
+                                                    </div>
+                                                    <span id="reqTxtclearance_expiry_dataI" class="text-danger reqError valley"></span>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="d-flex align-items-center justify-content-between mt-3">
+                                              <button type="button" class="btn btn-default children_check align-items-center justify-content-between" data-target="#navpill-7">Save</button>
+                                            </div> 
+                                        </div>
+                                        
+                                        <div class="row mt-3">
+                                            <h4 class="fw-bolder fs-6 lh-base d-flex align-items-center">Police check</h4>
+                                             <a class="font-md color-text-paragraph-2" href="#">Add your national police check certificate, if you have one already. The recency of the check required, will depend on the role you want. Find work you want, to learn what’s required. The check must be for employment purposes. Volunteer checks will not be accepted</a>
+                                             <div><span class="btn-dark badge badge-dark">Optional</span> </div>
+                                             <div class=""><span class="btn-light badge badge-dark">Get new police check</span> <i class="fi fi-rr-info" onclick="get_new_plice_check()"></i></div>
+                                            <div class="">
+                                                <a href="https://secure.policecheckexpress.com.au/intercheck/landing/1389/507997" target="_blank">
+                                                <span class="btn-secondary badge badge-secondary" target="_blank"><i class="fi fi-rr-info"></i> Get new police check </span>
+                                                </a>
+                                            </div>
+
+                                            <div class="col-md-12 mt-3">
+                                                <div class="form-group">
+                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Date Acquired*</strong></label>
+                                                     <input class="form-control" type="date" name="date_acquired" id="date_acquiredI" value="" max="{{ date('Y-m-d') }}">
+                                                    <span id="reqTxtdate_acquiredI" class="text-danger reqError valley"></span>
+                                                </div>
+                                            </div>
+                                             
+
+                                            <div class="col-md-12 mt-3">
+                                                <div class="form-group ">
+                                                    <label class="d-flex gap-3 flex-wrap"><strong>Police Check</strong></label>
+                                                    <input type="file" name="image_support_document_police" id="image_support_document_policeI" class="form-control" accept="image/*">
+                                                </div>
+                                              <span id="reqTxtimage_support_documentI" class="reqError text-danger valley"></span>
+                                            </div> 
+                                             
+                                            <div class="col-md-12 mt-3">
+                                            <label class="ml-20">
+                                            <input class="float-start mr-5 mt-6" type="checkbox" id="confirmationCheckboxPoliceCheck"> Since I obtained this National Police Check, I confirm that there have been no changes to my criminal history, and that I have not been charged with an offence punishable by 12 months imprisonment or more, or convicted, pleaded guilty to, or found guilty of an offence punishable by imprisonment in Australia and/or overseas.
+                                            </label>
+                                              <span id="reqTxtconfirmationCheckboxPoliceCheckI" class="reqError text-danger valley"></span>
+                                            </div>
+
+                                            <div class="d-flex align-items-center justify-content-between mt-3">
+                                              <button type="button" class="btn btn-default police_check align-items-center justify-content-between" data-target="#navpill-8">Save</button>
+                                            </div> 
+                                        </div> 
+                                       
+                                        </div>                     
+                                    </div>                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </form>
             </div>
         </div>
 
     </div>
+    <div class="modal fade" id="get_new_plice_checkModel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+                <div class="modal-content">
+                        <div class="modal-header">
+                             <h1 class="modal-title fs-5 fw-semibold" id="exampleModalLabel">GET NEW POLICE CHECK</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+          <div class="modal-body">
+                                <p id="paydatadata">A Police Check is a requirement for clinical practice in Australia. As this is also your identity check, uPaged can only accept checks via our preferred partner using the link below. The Police Check costs $42.90, and once you have completed 5 uPaged shifts we will reimburse you this cost if you email your invoice to hello@medica.com. HEADS UP: This will take you up to 15 minutes You’ll need 4 identification documents</p>
+                        </div>
+                        <!-- <a href="javascript:void(0);" class="btn btn-sm mybtn p-0 px-2 m-0 " data-bs-dismiss="modal" aria-label="Close" type="button">Ok</a>   -->
+                </div>
+        </div>
+</div>
 @endsection
 @section('js')
     <script type="text/javascript"

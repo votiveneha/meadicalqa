@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Sep 10, 2024 at 10:44 AM
+-- Generation Time: Sep 11, 2024 at 10:56 AM
 -- Server version: 5.7.23-23
 -- PHP Version: 8.1.29
 
@@ -483,7 +483,9 @@ INSERT INTO `eligibility_to_work` (`id`, `residency`, `support_document`, `visa_
 (4, 'Citizen', '/nurse/assets/imgs/support_document/1723546985.jpg', NULL, NULL, NULL, NULL, NULL, 58, '0', '2024-08-13 16:33:05', '2024-08-13 16:33:05', '2024-08-13 16:33:05'),
 (5, 'Citizen', '/nurse/assets/imgs/support_document/1723554432.jpg', NULL, NULL, NULL, NULL, NULL, 136, '0', '2024-08-13 18:37:12', '2024-08-13 18:37:12', '2024-08-13 18:37:12'),
 (6, 'Permanent Resident', '/nurse/assets/imgs/support_document/1724143234.png', '45625151254', '4512325698', 'kil123216', '101', NULL, 139, '0', '2024-08-20 14:10:34', '2024-08-20 14:10:34', '2024-08-20 14:10:34'),
-(9, 'Permanent Resident', '/nurse/assets/imgs/support_document/1725865150.jpg', '451841616484650', '16165498406216584', '554', '101', NULL, 141, '0', '2024-09-09 12:29:10', '2024-09-09 12:29:10', '2024-09-09 12:29:10');
+(9, 'Permanent Resident', '/nurse/assets/imgs/support_document/1725865150.jpg', '451841616484650', '16165498406216584', '554', '101', NULL, 141, '0', '2024-09-09 12:29:10', '2024-09-09 12:29:10', '2024-09-09 12:29:10'),
+(10, 'Citizen', '/nurse/assets/imgs/support_document/1725969356.jpg', NULL, NULL, NULL, NULL, NULL, 148, '0', '2024-09-10 17:25:56', '2024-09-10 17:25:56', '2024-09-10 17:25:56'),
+(11, 'Citizen', '/nurse/assets/imgs/support_document/download (1).jfif', NULL, NULL, NULL, '101', NULL, 150, '0', '2024-09-10 13:03:56', '2024-09-10 13:03:56', '2024-09-10 18:33:56');
 
 -- --------------------------------------------------------
 
@@ -643,7 +645,8 @@ INSERT INTO `mandatory_training` (`train_id`, `user_id`, `start_date`, `end_date
 (6, 139, '2020-06-01', '2020-12-01', 'ssk university London', 'Ongoing', '2024-08-20 03:09:03', '2024-08-20 03:09:03'),
 (7, 141, '2024-08-28', '2024-09-29', 'ssk university London', 'Completed', '2024-08-26 00:28:53', '2024-09-09 01:28:45'),
 (8, 146, '2024-09-25', '2024-09-20', 'test', 'Completed', '2024-09-09 07:38:49', '2024-09-09 07:38:49'),
-(9, 147, '2024-09-19', '2024-09-19', 'trrtrt', 'Ongoing', '2024-09-09 07:51:46', '2024-09-09 07:51:46');
+(9, 147, '2024-09-19', '2024-09-19', 'trrtrt', 'Ongoing', '2024-09-09 07:51:46', '2024-09-09 07:51:46'),
+(10, 150, '2024-09-11', '2024-09-10', 'test', 'Ongoing', '2024-09-10 07:33:43', '2024-09-10 07:33:43');
 
 -- --------------------------------------------------------
 
@@ -718,7 +721,8 @@ CREATE TABLE `password_reset_tokens` (
 --
 
 INSERT INTO `password_reset_tokens` (`email`, `token`, `created_at`) VALUES
-('vincentriviera@gmail.com', '5fMC15CxOCmz2fp03QTQuoxoRVHaahJ4OUD3BLIiPaCzDVQDiwhWwXyoCDvxHmhx', '2024-06-30 07:05:10');
+('vincentriviera@gmail.com', '5fMC15CxOCmz2fp03QTQuoxoRVHaahJ4OUD3BLIiPaCzDVQDiwhWwXyoCDvxHmhx', '2024-06-30 07:05:10'),
+('votivephp.neha@gmail.com', 'Xcr8EDlLHfWHw8IwDmhmVIrrr8tWqBh3VZ1ccMNGqXFDqi4vefyXQ2iA1ZAxq3ph', '2024-09-10 04:00:43');
 
 -- --------------------------------------------------------
 
@@ -796,8 +800,10 @@ INSERT INTO `police_check` (`id`, `date`, `image`, `user_id`, `reason`, `status`
 (2, '2025-03-12', '/nurse/assets/imgs/police_check/1723455646.jpg', 131, NULL, 1, '2024-08-12 09:40:46', '2024-08-12 04:12:09'),
 (3, '2024-08-07', '/nurse/assets/imgs/police_check/1723547012.jpg', 58, NULL, 1, '2024-08-13 11:03:32', '2024-08-13 07:46:07'),
 (4, '2025-08-05', '/nurse/assets/imgs/police_check/1723554473.jpg', 136, NULL, 1, '2024-08-13 13:07:53', '2024-08-13 07:46:00'),
-(5, '2023-12-01', '/nurse/assets/imgs/police_check/1724143292.png', 139, NULL, 0, '2024-08-20 08:41:32', NULL),
-(6, '2011-12-01', '/nurse/assets/imgs/police_check/1724652140.jpg', 141, NULL, 1, '2024-08-26 06:02:20', '2024-08-26 00:43:57');
+(5, '2023-12-01', '/nurse/assets/imgs/police_check/1724143292.png', 139, 'becouse of name', 1, '2024-08-20 08:41:32', '2024-09-10 06:20:00'),
+(6, '2011-12-01', '/nurse/assets/imgs/police_check/1724652140.jpg', 141, NULL, 1, '2024-08-26 06:02:20', '2024-08-26 00:43:57'),
+(7, '2025-01-01', '/nurse/assets/imgs/police_check/1725969493.jpg', 148, NULL, 1, '2024-09-10 11:58:13', '2024-09-10 06:31:15'),
+(8, '2024-09-04', '/nurse/assets/imgs/police_check/download - Copy.jfif', 150, NULL, 0, '2024-09-10 07:35:33', '2024-09-10 07:35:33');
 
 -- --------------------------------------------------------
 
@@ -1346,6 +1352,29 @@ INSERT INTO `professional_certificate_table` (`professionalcert_id`, `cert_id`, 
 (163, 21, 'Nurse Student', '2024-08-29 02:09:01', '2024-08-29 02:09:01'),
 (164, 21, 'Student Midwife', '2024-08-29 02:09:21', '2024-08-29 02:09:21'),
 (165, 21, 'Temporary Nurse Aide', '2024-08-29 02:09:42', '2024-08-29 02:09:42');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `professional_membership`
+--
+
+CREATE TABLE `professional_membership` (
+  `membership_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `des_profession_association` text NOT NULL,
+  `membership_numbers` text NOT NULL,
+  `membership_status` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `professional_membership`
+--
+
+INSERT INTO `professional_membership` (`membership_id`, `user_id`, `des_profession_association`, `membership_numbers`, `membership_status`, `created_at`, `updated_at`) VALUES
+(6, 112, '[\"ENA\"]', '3434', 'Active', '2024-09-10 01:44:04', '2024-09-10 01:44:04');
 
 -- --------------------------------------------------------
 
@@ -6893,10 +6922,9 @@ INSERT INTO `users` (`id`, `name`, `lastname`, `email`, `profile_img`, `email_ve
 (84, 'Demo', 'DO', 'Demo2332@gmail.com', 'nurse/assets/imgs/nurse06.png', NULL, '$2y$10$Oh6.cjLMPj9WP6ad6e8VmumvPb5YTY7FDva4K2KIM2Lu/Zc9vjv9O', NULL, 'eyJpdiI6IkRGR3puSytsNzJveUxjd05FeitMRmc9PSIsInZhbHVlIjoiNTljZktGMmFSQnB3bnRqbHpmdTRFZVRQeUMzTU1XY05OeExMVDdXUzNjST0iLCJtYWMiOiJlZmZmNDhlMzM1MWI4Y2E3ZGQyZGY4Y2U0MjcyNWY1ZGE2MmE2NDVjYWYzYzkzY2I4ZDNjNjgxMDE3OTFmYzRhIiwidGFnIjoiIn0=', 0, '0', '1', '1', 'null', 'null', 'null', 'null', '3', 'null', 'null', 'null', '[\"11\"]', '77070', NULL, NULL, '2024-07-26 06:35:15', NULL, '0', '1', 'No', 'No', 'No', 'No', 'No', '61', NULL, '123456789', '7089980388@Veer', 'AU', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (87, 'Preeti', 'tester', 'vijendraparmar@gmail.com', 'nurse/assets/imgs/nurse06.png', NULL, '$2y$10$HoKIUjzkzaclYwqC7hKUcu4JRlM9cDK4VcxDLYr5qt6N3lGJBClzS', NULL, 'eyJpdiI6IlNRT2pzUVFJbThEQU80YkdlbUMwamc9PSIsInZhbHVlIjoiaHJTQjVONUVJaGxJTnJRN2FicElQN3htOWdlQUFyQWo2SXJTMGpRbURFRT0iLCJtYWMiOiI4ODJlZDVjN2ZjNDRiMjkyODkzNzdlNGVkZWYzYzVhZTgzZDhhMmQ1MTBjNGQwZGM0YjUxZTZiYmMxYTYxMWNkIiwidGFnIjoiIn0=', 0, '0', '1', '1', 'null', 'null', 'null', 'null', '6', 'null', 'null', 'null', '[\"11\"]', '462001', NULL, NULL, '2024-07-26 09:05:27', NULL, '0', '1', 'No', 'No', 'No', 'No', 'No', '61', NULL, '7083899803', 'Veer@123456', 'AU', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (95, 'Neha', 'Mandloi', 'votivephp.neha2323@gmail.com', 'nurse/assets/imgs/nurse06.png', NULL, '$2y$10$aWblkpw0L2SbIwzjU3JCbuACTgkaGw/6hDUZSSOzmlMG0lXdfgc.2', NULL, 'eyJpdiI6ImpGVCtkNkRLTVpIRnE5ZmxNV3RuR0E9PSIsInZhbHVlIjoiQ1ZIRFdST0FZcVRFb0E4MzRUcFpMSXoxRG1YY2dUdjRMZXBVVHNDbGtDMD0iLCJtYWMiOiIyOTQ0YWY5ZDRmNGM2OTlkMTQ0ODllYWQzZmY2ZjZkODhkMTk5NjViZWQ2OWI1ZWNkMGZlNmMzNTk0YTc5ZTg3IiwidGFnIjoiIn0=', 0, '0', '1', '1', '[\"1\",\"2\",\"3\",\"4\"]', '[\"2\",\"1\",\"3\"]', 'null', 'null', '1', 'null', 'null', 'null', '[\"1\",\"10\",\"7\",\"11\",\"2\",\"6\",\"9\",\"4\",\"12\",\"13\",\"8\",\"3\",\"5\"]', '452001', NULL, NULL, '2024-07-27 13:45:37', NULL, '0', '1', 'No', 'No', 'No', 'No', 'No', '61', NULL, '1234567890', 'Neha@1994', 'AU', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '[\"6\",\"5\",\"10\",\"7\",\"9\",\"8\",\"11\",\"12\",\"13\",\"14\",\"15\",\"16\"]', '[\"18\",\"19\",\"20\",\"21\",\"22\",\"23\",\"24\",\"25\",\"26\",\"27\",\"28\",\"29\",\"30\",\"31\",\"32\",\"33\",\"34\",\"35\",\"36\",\"37\",\"38\",\"39\",\"40\",\"41\",\"42\",\"44\",\"43\",\"45\",\"46\",\"47\",\"48\",\"49\",\"50\",\"51\",\"52\",\"53\",\"54\",\"55\",\"56\",\"57\",\"58\",\"59\",\"60\",\"61\",\"63\",\"62\",\"64\",\"65\",\"66\",\"67\",\"68\",\"69\",\"70\",\"71\",\"72\",\"73\",\"74\",\"75\",\"76\",\"77\",\"78\",\"79\",\"80\",\"81\",\"82\",\"83\",\"84\",\"85\",\"86\",\"87\",\"88\",\"90\",\"89\",\"91\",\"92\",\"93\",\"95\",\"94\",\"96\",\"97\",\"98\",\"99\",\"100\",\"101\",\"102\",\"103\",\"104\",\"105\",\"106\",\"107\",\"108\",\"109\",\"110\",\"111\",\"112\",\"113\",\"114\",\"115\",\"116\",\"117\",\"118\",\"119\",\"120\",\"121\",\"122\",\"123\",\"124\",\"125\",\"126\",\"127\",\"128\",\"129\",\"130\",\"131\",\"132\",\"133\",\"134\",\"135\",\"136\",\"137\",\"138\",\"139\",\"140\",\"141\",\"142\",\"143\",\"144\",\"145\",\"146\",\"147\",\"148\",\"149\",\"150\",\"151\",\"152\",\"153\",\"154\",\"155\",\"156\",\"157\",\"158\",\"159\",\"160\",\"161\",\"162\",\"163\",\"164\",\"165\",\"166\",\"167\",\"168\",\"169\",\"170\",\"171\"]', '[\"173\",\"174\",\"232\",\"176\",\"234\",\"233\",\"177\",\"175\",\"178\",\"179\"]', '[\"Entry level nursing\",\"Entry level nursing\",\"Entry level nursing\",\"Entry level nursing\",\"Entry level nursing\",\"Entry level nursing\",\"Entry level nursing\",\"Entry level nursing\",\"Entry level nursing\",\"Entry level nursing\",\"Entry level nursing\",\"Entry level nursing\",\"Entry level nursing\",\"Entry level nursing\",\"Entry level nursing\",\"Entry level nursing\",\"Entry level nursing\",\"Entry level nursing\",\"Entry level nursing\",\"Entry level nursing\",\"Entry level nursing\",\"Entry level nursing\",\"Entry level nursing\",\"Entry level nursing\",\"Entry level nursing\",\"Entry level nursing\",\"Entry level nursing\",\"Entry level nursing\",\"Entry level nursing\",\"Entry level nursing\",\"Entry level nursing\",\"Entry level nursing\",\"Entry level nursing\",\"Entry level nursing\",\"Entry level nursing\",\"Entry level nursing\",\"Entry level nursing\",\"Entry level nursing\",\"Entry level nursing\",\"Entry level nursing\",\"Entry level nursing\",\"Entry level nursing\",\"Entry level nursing\",\"Entry level nursing\",\"Entry level nursing\",\"Entry level nursing\",\"Entry level nursing\"]', '[\"6\",\"7\",\"8\",\"9\",\"10\",\"11\",\"12\",\"13\",\"14\",\"15\",\"16\",\"17\",\"18\",\"19\",\"20\",\"21\",\"22\",\"23\",\"24\",\"25\",\"26\",\"27\",\"28\",\"29\",\"30\",\"31\",\"32\",\"33\",\"34\",\"35\",\"36\",\"37\",\"38\",\"39\",\"40\",\"41\",\"42\",\"43\",\"44\",\"45\",\"46\",\"47\",\"48\",\"49\",\"50\",\"51\",\"52\",\"53\",\"54\",\"55\",\"56\",\"57\",\"58\",\"59\",\"60\",\"61\",\"62\",\"63\",\"64\",\"65\",\"66\",\"67\",\"68\",\"69\",\"70\",\"71\",\"72\",\"73\",\"74\",\"75\",\"76\",\"77\",\"78\",\"79\",\"80\",\"81\",\"82\",\"83\",\"84\",\"85\",\"86\",\"87\",\"88\",\"89\",\"90\",\"91\",\"92\",\"93\",\"94\",\"95\",\"96\",\"394\",\"395\",\"396\",\"397\",\"398\"]', '[\"201\",\"202\",\"203\",\"204\",\"205\",\"206\",\"207\",\"208\",\"209\",\"210\",\"211\",\"212\",\"213\",\"214\",\"215\",\"216\",\"217\",\"218\",\"219\",\"220\",\"221\",\"222\",\"223\",\"224\",\"225\",\"226\",\"227\",\"228\",\"229\",\"230\",\"231\",\"232\",\"233\",\"399\"]', '[\"239\",\"240\",\"241\",\"242\",\"243\",\"244\",\"245\",\"246\",\"247\",\"248\",\"249\",\"250\",\"255\",\"256\",\"257\",\"258\",\"259\",\"260\",\"261\",\"262\",\"263\",\"264\",\"265\",\"266\",\"267\",\"268\",\"269\",\"270\",\"271\",\"272\",\"273\",\"274\",\"275\",\"276\",\"277\",\"278\",\"279\",\"280\",\"281\",\"282\",\"283\",\"284\",\"285\",\"404\",\"405\",\"406\",\"407\"]', '[\"384\",\"385\",\"386\",\"387\",\"388\",\"389\",\"390\",\"391\",\"392\",\"393\"]', '[\"97\",\"98\",\"99\"]', '[\"101\",\"102\",\"103\",\"104\",\"105\",\"106\",\"107\",\"108\",\"109\",\"110\",\"111\",\"112\",\"113\",\"114\",\"115\",\"116\",\"118\"]', '[\"120\",\"121\",\"122\",\"123\",\"124\",\"125\",\"126\",\"127\",\"128\",\"129\",\"130\",\"131\",\"132\",\"133\",\"134\",\"135\",\"136\",\"137\",\"138\",\"139\",\"140\",\"141\",\"142\",\"143\",\"144\",\"145\",\"146\",\"147\",\"148\",\"149\",\"150\",\"151\",\"152\",\"153\",\"154\",\"155\",\"156\"]', '[\"158\",\"159\",\"160\",\"161\",\"162\",\"163\",\"164\",\"165\",\"166\",\"167\",\"168\",\"169\",\"170\",\"171\",\"172\",\"173\",\"174\",\"175\",\"176\",\"177\",\"178\",\"179\",\"180\",\"181\",\"182\",\"183\",\"184\",\"185\",\"186\",\"187\",\"188\",\"189\",\"190\",\"191\",\"192\",\"193\",\"194\"]', '[\"234\",\"235\",\"236\",\"237\"]', '[\"400\",\"401\",\"402\",\"403\"]', '[\"286\",\"287\",\"288\"]', '[\"290\",\"291\",\"292\",\"293\",\"294\",\"295\",\"296\",\"297\",\"298\",\"299\",\"300\",\"301\",\"302\",\"303\",\"304\"]', '[\"306\",\"307\",\"309\",\"308\",\"310\",\"311\",\"312\",\"313\",\"314\",\"315\",\"316\",\"317\",\"318\",\"319\",\"320\",\"321\",\"322\",\"323\",\"324\",\"325\",\"328\",\"326\",\"329\",\"327\",\"330\",\"331\",\"332\",\"333\",\"334\",\"335\",\"336\",\"337\",\"338\",\"339\",\"340\",\"341\"]', '[\"346\",\"343\",\"344\",\"345\",\"347\",\"348\",\"349\",\"350\",\"352\",\"353\",\"354\",\"355\",\"356\",\"357\",\"358\",\"359\",\"360\",\"361\",\"362\",\"365\",\"363\",\"366\",\"364\",\"367\",\"368\",\"369\",\"370\",\"371\",\"372\",\"373\",\"374\",\"375\",\"377\",\"378\",\"376\",\"351\"]', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(101, 'Vincent', 'Boueshaghi', 'vincent.boueshaghi@gmail.com', '/nurse/assets/imgs/1722572908.jpg', NULL, '$2y$10$7ZsK407SqNahqm2WaRtfYu6ZjD4JqSbYpqQegKeoU55OYwCQWFLy.', NULL, '', 0, '1', '1', '1', '[\"1\",\"2\",\"3\",\"4\"]', '[\"2\"]', 'null', 'null', '1', 'null', 'null', 'null', '[\"8\"]', '6009', NULL, NULL, '2024-08-27 12:36:49', '2024-09-08 22:16:12', '2', '1', 'No', 'No', 'Yes', 'Yes', 'Yes', '61', 'au', '0426923779', 'Pizzas77', 'AU', 202, 'Perth', 'aqwerr', 'mediqa.com.au', NULL, 'Male', '1976-08-29', '25/25 cook street edw', '0426923779', '61', 'au', 'vincentriviera@gmail.com', '[\"253\"]', 'null', 'null', 'null', 'null', 'null', 'null', '[\"388\"]', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'Agency / Staffing Agency', 1, 1, '14', 0, '2024-09-26', NULL),
+(101, 'Vincent', 'Boueshaghi', 'vincent.boueshaghi@gmail.com', '/nurse/assets/imgs/1722572908.jpg', NULL, '$2y$10$7ZsK407SqNahqm2WaRtfYu6ZjD4JqSbYpqQegKeoU55OYwCQWFLy.', NULL, '', 0, '1', '1', '1', '[\"1\",\"2\",\"3\",\"4\"]', '[\"2\"]', 'null', 'null', '1', 'null', 'null', 'null', 'null', '6009', NULL, NULL, '2024-08-27 12:36:49', '2024-09-10 00:57:41', '2', '1', 'No', 'No', 'Yes', 'Yes', 'Yes', '61', 'au', '0426923779', 'Pizzas77', 'AU', 202, 'Perth', 'aqwerrhuh98', 'mediqa.com.au', NULL, 'Male', '1976-08-29', '25/25 cook street edw', '0426923779', '61', 'au', 'vincentriviera@gmail.com', '[\"253\"]', 'null', 'null', 'null', '[\"7\"]', 'null', 'null', '[\"388\"]', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'Agency / Staffing Agency', 1, 1, '14', 0, '2024-09-26', 1),
 (102, 'Neha', 'Mandloi', 'wew@gmail.com', 'nurse/assets/imgs/nurse06.png', NULL, '$2y$10$TPOMghGjJln8oF1BeUwmU.nhe7H8Hbx.qSeFwZFppVu8pvySGmsp.', NULL, 'eyJpdiI6ImZNTW9YaFNVNzhwRkZjTXBKS2w0TFE9PSIsInZhbHVlIjoiQnFWMlN4akRYcWY5djlSK1BCM3pHUT09IiwibWFjIjoiNzVmNWFjOTAxYmZiYTQwNmExMTFjY2RiZTZhYTZlY2FkYWM0NjkzZGI2OTA2YWJiM2E0MjU3MWFiNjlkYjdiOCIsInRhZyI6IiJ9', 0, '0', '1', '1', '[\"1\",\"3\",\"4\"]', '[\"1\"]', 'null', 'null', '1', 'null', 'null', 'null', '[\"11\"]', '452001', NULL, NULL, '2024-07-30 13:01:30', NULL, '0', '1', 'No', 'No', 'No', 'No', 'No', '355', NULL, '1234567890', 'Neha@1234', 'AL', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'null', '[\"19\"]', 'null', 'null', '[\"10\"]', '[\"233\"]', '[\"243\"]', '[\"389\"]', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(109, 'robert', 'na', 'v.harshivta@gmail.comv', 'nurse/assets/imgs/nurse06.png', NULL, '$2y$10$dlB3AUe7DPDvgT0/L3eAUOFuDb4dtOiXfLc.6DpZ6/0LlhxliYa.u', NULL, '', 0, '1', '1', '1', '[\"2\"]', '[\"1\"]', 'null', 'null', '5', 'null', 'null', 'null', '[\"2\"]', '451666', NULL, NULL, '2024-08-02 06:12:06', '2024-08-02 00:42:06', '4', '1', 'No', 'No', 'No', 'No', 'No', '93', 'af', '7894561237', 'Ganeshu@15', 'IN', 1614, 'indore', 'ttest', 'https://votivetech.in/mediqa/nurse/my-profile', '2024-08-13 06:10:15', 'Female', '08/01/2024', 'indore', '7894561238', '61', 'au', 'votivephp.harshita@gmail.com', 'null', '[\"19\"]', 'null', 'null', 'null', '[\"205\"]', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(112, 'Neha', 'Mandloi', 'votivephp.neha@gmail.com', 'nurse/assets/imgs/nurse06.png', NULL, '$2y$10$JlZJrE20.hk4hlvFPM2BNOvtgDqYAn2kqF.q8aXrtWHPHMq7YLrMC', NULL, '', 0, '1', '1', '1', '[\"2\",\"3\"]', '[\"1\"]', 'null', 'null', '3', 'null', 'null', 'null', 'null', '452001', NULL, NULL, '2024-08-29 09:57:35', '2024-09-08 23:56:00', '5', '1', 'No', 'Yes', 'No', 'No', 'Yes', '91', 'in', '9131403180', 'Neha@1234', 'IN', 1598, 'Indore', 'dsd', 'http://localhost/medical/nurse/my-profile', NULL, 'Female', '2000-05-02', 'sd, dsfd, dsfd, dsfd, dsfd', '1234567890', '61', 'au', 'votivephp.neha@gmail.com', 'null', '[\"22\"]', 'null', 'null', 'null', '[\"203\"]', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'Travel', 1, 1, '87', 0, '2024-08-06', 1),
+(112, 'Neha', 'Mandloi', 'votivephp.neha@gmail.com', 'nurse/assets/imgs/nurse06.png', NULL, '$2y$10$JlZJrE20.hk4hlvFPM2BNOvtgDqYAn2kqF.q8aXrtWHPHMq7YLrMC', NULL, '', 0, '1', '1', '1', '[\"2\",\"3\"]', '[\"1\"]', 'null', 'null', '3', 'null', 'null', 'null', '[\"10\",\"7\"]', '452001', NULL, NULL, '2024-08-29 09:57:35', '2024-09-10 05:17:32', '5', '1', 'No', 'Yes', 'No', 'No', 'Yes', '91', 'in', '9131403180', 'Neha@1234', 'IN', 1598, 'Indore', 'dsd', 'http://localhost/medical/nurse/my-profile', NULL, 'Female', '2000-05-02', 'sd, dsfd, dsfd, dsfd, dsfd', '1234567890', '61', 'au', 'votivephp.neha@gmail.com', 'null', '[\"22\"]', 'null', 'null', 'null', '[\"203\"]', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'Travel', 1, 1, '87', 0, '2024-08-06', 1),
 (113, 'Neha', 'Mandloi', 'aw@gmail.com', 'nurse/assets/imgs/nurse06.png', NULL, '$2y$10$NOVYSOyoJ38r0alUTziwM.OtfQmt9NNCRXPYzqyWnfQ1I5abAjOxa', NULL, 'eyJpdiI6InpGemFEY0NGNkdzbGlqTDhZb3dXVnc9PSIsInZhbHVlIjoidnYzV3cwZW1UelZ2MGx4UWxoUzVsdz09IiwibWFjIjoiNzQ2ZTgwYzkxMzc3OGI5NDBkYmE1YWMzMGU1YTY2YWU4ODE1YWVjNDY1ZGRmYmI1ZTU4MDUwN2VmNmZiOGEzZiIsInRhZyI6IiJ9', 0, '0', '1', '1', '[\"4\"]', '[\"1\"]', 'null', 'null', '3', 'null', 'null', 'null', '[\"11\"]', '452001', NULL, NULL, '2024-08-02 08:16:20', NULL, '0', '1', 'No', 'No', 'No', 'No', 'No', '91', 'in', '9131403180', 'Neha@1234', 'IN', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'null', '[\"21\"]', 'null', 'null', 'null', 'null', 'null', '[\"388\"]', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (123, 'Ravi JadhavKunal', 'hgdvcwd', 'votivewpravi@gmail.com', 'nurse/assets/imgs/nurse06.png', NULL, '$2y$10$QZZq77oIk7X.pr6HOSxq4uDVcs/N0N4/wDw6puR.71Ah1V8RSA22a', NULL, 'eyJpdiI6ImxRdlZKRHpiUjYySlBEWmJ6ZmVOQXc9PSIsInZhbHVlIjoiaDFoYXNoN2JKRHZteDFnYXRrcnhvd045WEhSR2F6KzdnMFRoMFdOTTlMTT0iLCJtYWMiOiIwMjM1ZDAzY2RjMGFmMjZmYTA4YmRmZTU2MDBiNzUyM2ZiNzMxMTgxMjYxNTM4NDgwZGE4NjcxYzNlODJlNjBmIiwidGFnIjoiIn0=', 0, '0', '1', '1', '[\"3\"]', '[\"1\"]', 'null', 'null', '4', 'null', 'null', 'null', '[\"11\"]', '452002', NULL, NULL, '2024-08-02 13:40:42', NULL, '0', '1', 'No', 'No', 'No', 'No', 'No', '91', 'in', '6265522541', 'Test@2024', 'IN', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'null', '[\"21\"]', 'null', 'null', 'null', 'null', '[\"242\"]', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (126, 'ss', 'ss', 'votive.techs@gmail.com', 'nurse/assets/imgs/nurse06.png', NULL, '$2y$10$oUiyziBmPO0VzvMRbZeUkO.9J0sF9HIxeYg9ZDeikPSLQR0uIb2fW', NULL, 'eyJpdiI6Ilg2bXhXcHNHcDlOVTlmQmVPNmJQZlE9PSIsInZhbHVlIjoiTWNGSWp6ZWVIY0JuMFpnc1BGS1NoZjYwUkhlUEUwNklodWFFSVoxYmZ5dz0iLCJtYWMiOiJjNGI2ODEyNDZkYmVlODdjYjRjNGY1MjlmZTZiNzYwMmVkMjQ4NDg3OTA0NDliNGU3YTYxYjE4OGU3Nzc2OWZlIiwidGFnIjoiIn0=', 0, '0', '1', '1', '[\"2\"]', '[\"1\"]', 'null', 'null', '5', 'null', 'null', 'null', '[\"2\"]', '500256', NULL, NULL, '2024-08-03 05:28:45', NULL, '0', '1', 'No', 'No', 'No', 'No', 'No', '61', 'au', '4144645465', 'Sahu@12345', 'AU', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'null', '[\"20\"]', 'null', 'null', 'null', '[\"205\"]', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
@@ -6905,8 +6933,9 @@ INSERT INTO `users` (`id`, `name`, `lastname`, `email`, `profile_img`, `email_ve
 (132, 'yas', 'mishra', 'votivesales.yashica@gmail.com', 'nurse/assets/imgs/nurse06.png', NULL, '$2y$10$LwnU2Yo2gqlcW13hvOUNO.reBJE3LmJQguC.cRHuCArDHyMm6zxYS', NULL, 'eyJpdiI6Ik9uQkpsQkM3TTNnVGpFbnJSOXBiMUE9PSIsInZhbHVlIjoiakxueWVnMlVodDFnMGd4bWhsakpLSFU1TndEMFcwUjc2NUZxcWx5c3hrbz0iLCJtYWMiOiI0MjAzZmU3MTRmYzk5ZDhjZTAxNmNiNjQyZjhhZjEwZDMwNDQ2YmZiZjA3MDU3NDFlMGE4NzhiYmIzOWRhMDY5IiwidGFnIjoiIn0=', 0, '0', '1', '1', '[\"1\",\"3\",\"4\"]', '[\"2\",\"1\",\"3\"]', 'null', 'null', '2', 'null', 'null', 'null', '[\"1\",\"10\",\"7\",\"11\",\"2\",\"6\",\"9\",\"4\",\"12\",\"13\",\"8\",\"3\",\"5\"]', '12345', NULL, NULL, '2024-08-05 05:52:00', NULL, '0', '1', 'No', 'No', 'No', 'No', 'No', '61', 'au', '4123456712', '@Votive123', 'AU', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '[\"6\",\"5\",\"10\",\"7\",\"9\",\"8\",\"11\",\"12\",\"13\",\"14\",\"15\",\"16\"]', '[\"18\",\"19\",\"20\",\"21\",\"22\",\"23\",\"24\",\"25\",\"26\",\"27\",\"28\",\"29\",\"30\",\"31\",\"32\",\"33\",\"34\",\"35\",\"36\",\"37\",\"38\",\"39\",\"40\",\"41\",\"42\",\"44\",\"43\",\"45\",\"46\",\"47\",\"48\",\"49\",\"50\",\"51\",\"52\",\"53\",\"54\",\"55\",\"56\",\"57\",\"58\",\"59\",\"60\",\"61\",\"63\",\"62\",\"64\",\"65\",\"66\",\"67\",\"68\",\"69\",\"70\",\"71\",\"72\",\"73\",\"74\",\"75\",\"76\",\"77\",\"78\",\"79\",\"80\",\"81\",\"82\",\"83\",\"84\",\"85\",\"86\",\"87\",\"88\",\"90\",\"89\",\"91\",\"92\",\"93\",\"95\",\"94\",\"96\",\"97\",\"98\",\"99\",\"100\",\"101\",\"102\",\"103\",\"104\",\"105\",\"106\",\"107\",\"108\",\"109\",\"110\",\"111\",\"112\",\"113\",\"114\",\"115\",\"116\",\"117\",\"118\",\"119\",\"120\",\"121\",\"122\",\"123\",\"124\",\"125\",\"126\",\"127\",\"128\",\"129\",\"130\",\"131\",\"132\",\"133\",\"134\",\"135\",\"136\",\"137\",\"138\",\"139\",\"140\",\"141\",\"142\",\"143\",\"144\",\"145\",\"146\",\"147\",\"148\",\"149\",\"150\",\"151\",\"152\",\"153\",\"154\",\"155\",\"156\",\"157\",\"158\",\"159\",\"160\",\"161\",\"162\",\"163\",\"164\",\"165\",\"166\",\"167\",\"168\",\"169\",\"170\",\"171\"]', '[\"173\",\"174\",\"232\",\"176\",\"234\",\"233\",\"177\",\"175\",\"178\",\"179\"]', '[\"181\",\"182\",\"183\",\"184\",\"185\",\"186\",\"187\",\"188\",\"189\",\"190\",\"191\",\"192\",\"193\",\"194\",\"195\",\"196\",\"197\",\"198\",\"199\",\"200\",\"201\",\"202\",\"203\",\"204\",\"205\",\"206\",\"207\",\"208\",\"209\",\"210\",\"211\",\"212\",\"213\",\"214\",\"215\",\"216\",\"217\",\"218\",\"219\",\"220\",\"221\",\"222\",\"223\",\"224\",\"225\",\"226\",\"227\"]', '[\"6\",\"9\",\"10\"]', 'null', '[\"240\"]', '[\"386\"]', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (133, 'Neha', 'Mandloi', 'votivephp.neha434355@gmail.com', 'nurse/assets/imgs/nurse06.png', NULL, '$2y$10$xZYiBzLwq9va7vU/3CaAxOflPy1o4XXL4P/XnhLBZOzQZzQsU9/gi', NULL, 'eyJpdiI6InhRQjdZSTZLS1R1LzBscEdaTWlJSXc9PSIsInZhbHVlIjoiTHBDZTJWZ3RvdW9vT2p2bC9RY2EwNmJDNHB2YjB5amdoYnYxVWZmVUUwcz0iLCJtYWMiOiIyNWRiZjlhYjQ1MDFmMzIxYTYyNDUyNTYyNjU0NDg3NWEzZTQ4ZGYxYTdhODQ0NzEwOWEwNzVhZjRiNTMzYTJmIiwidGFnIjoiIn0=', 0, '0', '1', '1', '[\"3\"]', '[\"1\"]', 'null', 'null', '1', 'null', 'null', 'null', '[\"2\"]', '452001', NULL, NULL, '2024-08-06 05:45:46', '2024-08-06 02:49:31', '0', '1', 'No', 'No', 'No', 'No', 'No', '61', 'au', '1234567890', 'Neha@1234', 'AU', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'null', '[\"22\"]', 'null', 'null', 'null', 'null', '[\"243\"]', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (135, 'robert', 'test', 'test333@gmail.com', '/tmp/phpGqQJEN', NULL, NULL, NULL, NULL, 0, '0', '1', '1', NULL, '', '', NULL, '', '', NULL, NULL, '', '451666', NULL, NULL, '2024-08-08 07:58:35', '2024-08-08 07:58:35', '0', '1', 'No', 'No', 'No', 'No', 'No', '91', 'in', '54e4545454', NULL, 'IN', 1613, 'indore', NULL, 'test.com', NULL, 'male', '2024-08-10', 'indore', '3434343434', '91', 'in', 'votivephp.harshita@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(141, 'veer', 'Demo', 'vijehndraparmar1789@gmail.com', '/nurse/assets/imgs/1725527696.jpg', NULL, '$2y$10$KQGz..oZnbxMrXli2e0GHuTuVXNKFmTw0zw5dQHNl2j/CZcJGl2ZC', NULL, '', 0, '1', '1', '1', '[\"1\"]', '[\"2\",\"1\",\"3\"]', 'null', 'null', '3', 'null', 'null', 'null', 'null', '462001', NULL, NULL, '2024-09-09 06:48:49', '2024-09-09 01:19:38', '5', '1', 'Yes', 'Yes', 'No', 'Yes', 'No', '61', 'au', '1234567891', '708998@Veer', 'AU', 201, 'Victoria', 'I declare that the information provided is true and correct', 'chrome-extension://bpconcjcammlapcogcnnelfmaeghhagj/edit.html#/screencast?action=edit', NULL, 'Male', '1996-12-04', 'Bhopal', '4562317895', '61', 'au', 'testg1212254552b01@hulas.co', '[\"252\"]', '[\"18\"]', '[\"173\"]', 'null', '[\"7\"]', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'Intern / Residency', 1, 1, '101', 1, '2024-02-12', 1),
-(147, 'harsh', 'test', 'sanwale@gmail.com', '/tmp/phpNwDbHp', NULL, NULL, NULL, NULL, 0, '1', '1', '1', '[\"2\"]', '[\"3\"]', '', NULL, '5', '', NULL, NULL, '[\"11\"]', '451666', NULL, NULL, '2024-09-09 07:49:12', '2024-09-09 07:49:48', '1', '1', 'No', 'No', 'No', 'No', 'No', '61', 'au', '6986896898', NULL, 'IN', 1614, 'indore', '34343434', 'ewewewewewe', NULL, 'female', '2024-09-25', 'indore', '4543545454', '61', 'au', 'votivephp.harshita@gmail.com', '[\"\"]', '[\"\"]', '[\"174\"]', '[\"\"]', '[\"\"]', '[\"206\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', 'Permanent Part-Time', NULL, 0, NULL, NULL, NULL, NULL);
+(147, 'harsh', 'test', 'sanwale@gmail.com', '/tmp/phpNwDbHp', NULL, NULL, NULL, NULL, 0, '1', '1', '1', '[\"2\"]', '[\"3\"]', '', NULL, '5', '', NULL, NULL, '[\"11\"]', '451666', NULL, NULL, '2024-09-09 07:49:12', '2024-09-09 07:49:48', '1', '1', 'No', 'No', 'No', 'No', 'No', '61', 'au', '6986896898', NULL, 'IN', 1614, 'indore', '34343434', 'ewewewewewe', NULL, 'female', '2024-09-25', 'indore', '4543545454', '61', 'au', 'votivephp.harshita@gmail.com', '[\"\"]', '[\"\"]', '[\"174\"]', '[\"\"]', '[\"\"]', '[\"206\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', 'Permanent Part-Time', NULL, 0, NULL, NULL, NULL, NULL),
+(149, 'karli', 'jenner', 'votivetester.preeti@gmail.com', '/nurse/assets/imgs/1725974500.jpg', NULL, '$2y$10$m9eXXeHEnTHvU57QDNoWOO4Alsur3R2e7F45fdUt2WWTd0o1ma67W', NULL, '', 0, '1', '1', '1', '[\"3\"]', '[\"1\"]', 'null', 'null', '5', 'null', 'null', 'null', '[\"7\"]', '452010', NULL, NULL, '2024-09-10 12:04:16', '2024-09-10 07:51:40', '1', '1', 'No', 'No', 'No', 'No', 'No', '61', 'au', '1234567891', '7089@Veer', 'AU', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'null', '[\"18\"]', 'null', 'null', 'null', 'null', '[\"243\"]', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(150, 'test', 'testr1', 'test@gmail.com', '/tmp/phpJiPX0N', NULL, NULL, NULL, NULL, 0, '1', '1', '1', '[\"2\"]', '[\"1\"]', '', NULL, '3', '', NULL, NULL, '[\"11\"]', '451666', NULL, NULL, '2024-09-10 07:32:17', '2024-09-10 07:33:03', '1', '1', 'No', 'No', 'No', 'No', 'No', '61', 'au', '5465656565', NULL, 'IN', 1601, 'indore', 'test', 'test', NULL, 'female', '2024-09-11', 'indore', '4555454545', '61', 'au', 'votivephp.harshita@gmail.com', '[\"\"]', '[\"19\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"202\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', 'Travel', NULL, 0, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -6921,6 +6950,7 @@ CREATE TABLE `user_education_cerification` (
   `institution` text,
   `most_relevant` text,
   `graduate_start_date` text,
+  `degree_transcript` text,
   `graduate_end_date` text,
   `professional_certifications` text,
   `licence_number` text NOT NULL,
@@ -6955,19 +6985,20 @@ CREATE TABLE `user_education_cerification` (
 -- Dumping data for table `user_education_cerification`
 --
 
-INSERT INTO `user_education_cerification` (`education_id`, `user_id`, `degrees`, `institution`, `most_relevant`, `graduate_start_date`, `graduate_end_date`, `professional_certifications`, `licence_number`, `country`, `state`, `expiration_date`, `training_courses`, `training_workshops`, `complete_status`, `declaration_status`, `acls_data`, `bls_data`, `cpr_data`, `nrp_data`, `pals_data`, `rn_data`, `np_data`, `cna_data`, `lpn_data`, `crna_data`, `cnm_data`, `ons_data`, `msw_data`, `ain_data`, `rpn_data`, `nl_data`, `created_at`, `updated_at`) VALUES
-(4, 58, NULL, 'rdfd', 'drer', '2024-07-23', '2024-07-27', '[\"6\",\"7\",\"8\",\"9\",\"10\",\"11\",\"18\",\"12\",\"13\",\"14\",\"15\",\"16\",\"17\",\"19\",\"20\",\"21\"]', '', NULL, 0, '', '[\"4\",\"5\"]', 'null', 1, 1, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2024-09-05 13:03:29', '2024-09-05 07:33:29'),
-(5, 112, NULL, 'rdfd', 'sde', '2024-08-16', '2024-09-07', '[\"7\",\"8\"]', '', NULL, 0, '', '[\"5\",\"6\"]', 'null', 1, 1, '', '{\"bls_data\":\"[\\\"15\\\"]\",\"bls_licence_num\":\"cdf\",\"bls_licence_expiry\":\"2024-09-21\",\"bls_file\":\"dummy_product.jpg\"}', '{\"cpr_data\":\"[\\\"28\\\"]\",\"cpr_licence_num\":\"sdse\",\"cpr_licence_expiry\":\"2024-09-20\",\"cpr_file\":\"dummy_product.jpg\"}', '', '', '', '', '', '', '', '', '', '', '', '', '', '2024-09-03 11:40:30', '2024-09-03 06:10:30'),
-(7, 133, NULL, 'Test', NULL, '2024-08-01', '2024-09-04', '[\"ALS\",\"BLS\",\"PALS\"]', '123df', 'AR', 176, '2024-08-30', '[\"4\",\"5\"]', '[\"6\"]', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-08-06 02:49:30', '2024-08-06 02:49:30'),
-(8, 120, NULL, 'ssk university London', NULL, '2013-07-01', '2016-03-01', '[\"BLS\"]', '0221654455185Bcs13', 'BS', 287, '2025-07-03', '[\"5\"]', '[\"7\"]', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-08-07 11:48:25', '2024-08-07 06:18:25'),
-(9, 131, NULL, 'ssk university London', NULL, '2013-07-01', '2016-06-08', '[\"BLS\"]', '0221654455185Bcs13', 'IN', 1603, '2028-01-01', '[\"5\"]', '[\"6\"]', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-08-12 09:54:20', '2024-08-12 04:24:20'),
-(10, 136, NULL, 'ssk university London', NULL, '2024-01-04', '2015-02-05', '[\"BLS (Basic Life Support)\"]', '0221654455185bcs13', 'IN', 1609, '2025-01-01', '[\"5\"]', '[\"8\"]', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-08-20 06:13:51', '2024-08-20 00:43:51'),
-(11, 139, NULL, 'ssk university London', NULL, '2015-12-04', '2020-12-04', '[\"BLS (Basic Life Support)\"]', '0221654455185Bcs13', 'GY', 1498, '2030-12-04', '[\"5\"]', '[\"8\"]', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-08-20 03:06:44', '2024-08-20 03:06:44'),
-(12, 101, NULL, 'NDPS PSA Ecole des mines', NULL, '1977-04-25', '1984-04-25', '[\"6\"]', '', NULL, 0, '', '[\"5\"]', 'null', 1, 1, '{\"acls_data\":\"[\\\"4\\\",\\\"8\\\"]\",\"acls_licence_num\":\"J12325\",\"acls_licence_expiry\":\"2024-09-26\",\"acls_file\":\"3.jpg\"}', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2024-09-09 04:32:28', '2024-09-08 23:02:28'),
-(13, 143, NULL, 'trrtrt', 'drer', '2024-09-25', '2024-09-25', '[\"6\"]', '', NULL, 0, '', '[\"4\",\"5\",\"6\",\"8\"]', NULL, 1, NULL, '\"\"', '\"\"', '\"\"', '\"\"', '\"\"', '\"\"', '\"\"', '\"\"', '\"\"', '\"\"', '\"\"', '\"\"', '\"\"', '\"\"', '\"\"', '\"\"', '2024-09-04 07:51:52', '2024-09-04 07:51:52'),
-(14, 145, NULL, 'tesdt', 'tesdt', '2024-09-19', '2024-09-26', '[\"6\",\"7\",\"8\",\"9\",\"10\",\"11\",\"18\",\"12\",\"13\",\"14\",\"15\",\"16\",\"17\",\"19\",\"20\",\"21\"]', '', NULL, 0, '', '[\"4\",\"5\",\"6\",\"8\"]', NULL, 1, NULL, '{\"acls_data\":\"[\\\"4\\\"]\",\"acls_licence_num\":\"565656565656\",\"acls_licence_expiry\":\"2024-10-01\",\"acls_file\":\"download - Copy.jfif\"}', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', '2024-09-05 07:31:35', '2024-09-05 07:31:35'),
-(15, 146, NULL, 'trrtrt', 'drer', '2024-09-27', '2024-09-19', '[\"7\"]', '', NULL, 0, '', '[\"8\"]', NULL, 1, NULL, 'null', '{\"bls_data\":\"[\\\"19\\\"]\",\"bls_licence_num\":\"343434343\",\"bls_licence_expiry\":\"2024-09-24\",\"bls_file\":\"download - Copy.jfif\"}', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', '2024-09-09 07:37:13', '2024-09-09 07:37:13'),
-(16, 147, NULL, 'trrtrt', 'drer', '2024-09-26', '2024-09-11', '[\"10\"]', '', NULL, 0, '', '[\"8\"]', NULL, 1, NULL, 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', '2024-09-09 07:49:48', '2024-09-09 07:49:48');
+INSERT INTO `user_education_cerification` (`education_id`, `user_id`, `degrees`, `institution`, `most_relevant`, `graduate_start_date`, `degree_transcript`, `graduate_end_date`, `professional_certifications`, `licence_number`, `country`, `state`, `expiration_date`, `training_courses`, `training_workshops`, `complete_status`, `declaration_status`, `acls_data`, `bls_data`, `cpr_data`, `nrp_data`, `pals_data`, `rn_data`, `np_data`, `cna_data`, `lpn_data`, `crna_data`, `cnm_data`, `ons_data`, `msw_data`, `ain_data`, `rpn_data`, `nl_data`, `created_at`, `updated_at`) VALUES
+(4, 58, NULL, 'rdfd', 'drer', '2024-07-23', NULL, '2024-07-27', '[\"6\",\"7\",\"8\",\"9\",\"10\",\"11\",\"18\",\"12\",\"13\",\"14\",\"15\",\"16\",\"17\",\"19\",\"20\",\"21\"]', '', NULL, 0, '', '[\"4\",\"5\"]', 'null', 1, 1, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2024-09-05 13:03:29', '2024-09-05 07:33:29'),
+(5, 112, NULL, 'rdfd', 'sde', '2024-08-27', '1725974889banner_two.jpg', '2024-09-07', '[\"7\",\"8\"]', '', NULL, 0, '', '[\"5\",\"6\"]', 'null', 1, 1, '', '{\"bls_data\":\"[\\\"15\\\"]\",\"bls_licence_num\":\"cdf\",\"bls_licence_expiry\":\"2024-09-21\",\"bls_file\":\"dummy_product.jpg\"}', '{\"cpr_data\":\"[\\\"28\\\"]\",\"cpr_licence_num\":\"sdse\",\"cpr_licence_expiry\":\"2024-09-20\",\"cpr_file\":\"dummy_product.jpg\"}', '', '', '', '', '', '', '', '', '', '', '', '', '', '2024-09-10 13:31:18', '2024-09-10 08:01:18'),
+(7, 133, NULL, 'Test', NULL, '2024-08-01', NULL, '2024-09-04', '[\"ALS\",\"BLS\",\"PALS\"]', '123df', 'AR', 176, '2024-08-30', '[\"4\",\"5\"]', '[\"6\"]', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-08-06 02:49:30', '2024-08-06 02:49:30'),
+(8, 120, NULL, 'ssk university London', NULL, '2013-07-01', NULL, '2016-03-01', '[\"BLS\"]', '0221654455185Bcs13', 'BS', 287, '2025-07-03', '[\"5\"]', '[\"7\"]', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-08-07 11:48:25', '2024-08-07 06:18:25'),
+(9, 131, NULL, 'ssk university London', NULL, '2013-07-01', NULL, '2016-06-08', '[\"BLS\"]', '0221654455185Bcs13', 'IN', 1603, '2028-01-01', '[\"5\"]', '[\"6\"]', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-08-12 09:54:20', '2024-08-12 04:24:20'),
+(10, 136, NULL, 'ssk university London', NULL, '2024-01-04', NULL, '2015-02-05', '[\"BLS (Basic Life Support)\"]', '0221654455185bcs13', 'IN', 1609, '2025-01-01', '[\"5\"]', '[\"8\"]', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-08-20 06:13:51', '2024-08-20 00:43:51'),
+(11, 139, NULL, 'ssk university London', NULL, '2015-12-04', NULL, '2020-12-04', '[\"BLS (Basic Life Support)\"]', '0221654455185Bcs13', 'GY', 1498, '2030-12-04', '[\"5\"]', '[\"8\"]', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-08-20 03:06:44', '2024-08-20 03:06:44'),
+(12, 101, NULL, 'NDPS PSA Ecole des mines', NULL, '1977-04-25', NULL, '1984-04-25', '[\"6\"]', '', NULL, 0, '', '[\"5\"]', 'null', 1, 1, '{\"acls_data\":\"[\\\"4\\\",\\\"8\\\"]\",\"acls_licence_num\":\"J12325\",\"acls_licence_expiry\":\"2024-09-26\",\"acls_file\":\"3.jpg\"}', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2024-09-09 04:32:28', '2024-09-08 23:02:28'),
+(13, 143, NULL, 'trrtrt', 'drer', '2024-09-25', NULL, '2024-09-25', '[\"6\"]', '', NULL, 0, '', '[\"4\",\"5\",\"6\",\"8\"]', NULL, 1, NULL, '\"\"', '\"\"', '\"\"', '\"\"', '\"\"', '\"\"', '\"\"', '\"\"', '\"\"', '\"\"', '\"\"', '\"\"', '\"\"', '\"\"', '\"\"', '\"\"', '2024-09-04 07:51:52', '2024-09-04 07:51:52'),
+(14, 145, NULL, 'tesdt', 'tesdt', '2024-09-19', NULL, '2024-09-26', '[\"6\",\"7\",\"8\",\"9\",\"10\",\"11\",\"18\",\"12\",\"13\",\"14\",\"15\",\"16\",\"17\",\"19\",\"20\",\"21\"]', '', NULL, 0, '', '[\"4\",\"5\",\"6\",\"8\"]', NULL, 1, NULL, '{\"acls_data\":\"[\\\"4\\\"]\",\"acls_licence_num\":\"565656565656\",\"acls_licence_expiry\":\"2024-10-01\",\"acls_file\":\"download - Copy.jfif\"}', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', '2024-09-05 07:31:35', '2024-09-05 07:31:35'),
+(15, 146, NULL, 'trrtrt', 'drer', '2024-09-27', NULL, '2024-09-19', '[\"7\"]', '', NULL, 0, '', '[\"8\"]', NULL, 1, NULL, 'null', '{\"bls_data\":\"[\\\"19\\\"]\",\"bls_licence_num\":\"343434343\",\"bls_licence_expiry\":\"2024-09-24\",\"bls_file\":\"download - Copy.jfif\"}', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', '2024-09-09 07:37:13', '2024-09-09 07:37:13'),
+(16, 147, NULL, 'trrtrt', 'drer', '2024-09-26', NULL, '2024-09-11', '[\"10\"]', '', NULL, 0, '', '[\"8\"]', NULL, 1, NULL, 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', '2024-09-09 07:49:48', '2024-09-09 07:49:48'),
+(17, 150, NULL, 'trrtrt', 'drer', '2024-09-12', NULL, '2024-09-06', '[\"7\"]', '', NULL, 0, '', '[\"8\"]', NULL, 1, NULL, 'null', '{\"bls_data\":\"[\\\"14\\\"]\",\"bls_licence_num\":\"44545454545\",\"bls_licence_expiry\":\"2024-10-02\",\"bls_file\":\"download - Copy.jfif\"}', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', '2024-09-10 07:33:03', '2024-09-10 07:33:03');
 
 -- --------------------------------------------------------
 
@@ -7002,10 +7033,11 @@ INSERT INTO `user_experience` (`experience_id`, `user_id`, `employer_name`, `pos
 (8, 58, 'test', '[\"6\"]', '2024-08-14', '2024-07-30', NULL, 'ererere', 'erer', '[\"1\",\"5\",\"6\"]', 1, '2024-08-12 06:24:23', '2024-08-12 06:24:23'),
 (9, 136, 'Preeti tester', '[\"2\",\"5\"]', '2016-12-01', '2011-01-01', 1, 'Employment End Date\r\n14-May-275760\r\nPresent Here\r\nDetailed Job Descriptions\r\nResponsibilities\r\nAchievements\r\nAreas of Expertise\r\nSpecific skills and compe', 'Employment End Date\r\n14-May-275760\r\nPresent Here\r\nDetailed Job Descriptions\r\nResponsibilities\r\nAchievements\r\nAreas of Expertise\r\nSpecific skills and compe', '[\"5\",\"6\"]', 1, '2024-08-12 06:40:54', '2024-08-16 00:16:04'),
 (10, 139, '‎Android · ‎Educational', '[\"1\"]', '2021-12-04', '2023-01-01', NULL, 'Detailed Job Descriptions\r\nResponsibilities\r\nAchievements\r\nAreas of Expertise\r\nSpecific skills and competencies', 'Detailed Job Descriptions\r\nResponsibilities\r\nAchievements\r\nAreas of Expertise\r\nSpecific skills and competencies', '[\"5\"]', 1, '2024-08-20 03:07:40', '2024-08-20 03:07:40'),
-(11, 141, '‎Android · ‎Educational', '[\"1\",\"2\",\"3\",\"5\",\"6\",\"7\",\"8\",\"9\",\"10\",\"11\",\"12\",\"13\",\"14\",\"15\",\"18\",\"19\",\"20\",\"21\",\"22\",\"23\",\"24\",\"25\",\"26\",\"27\",\"28\",\"29\",\"30\",\"31\",\"32\",\"33\",\"34\",\"35\",\"36\",\"37\",\"38\",\"39\",\"40\",\"41\",\"42\",\"43\",\"44\",\"45\",\"46\",\"47\",\"48\",\"49\",\"50\",\"51\",\"52\",\"53\",\"54\",\"55\",\"56\",\"57\",\"58\",\"59\",\"60\",\"61\",\"62\",\"63\",\"64\",\"65\",\"66\",\"67\",\"68\",\"69\",\"70\",\"71\",\"72\",\"73\",\"74\",\"75\",\"76\",\"77\",\"78\",\"79\",\"80\",\"81\",\"82\",\"83\",\"84\",\"85\",\"86\",\"87\",\"88\",\"89\",\"90\",\"91\",\"92\",\"93\",\"94\",\"95\",\"96\",\"97\",\"98\",\"99\",\"100\",\"101\",\"102\",\"103\",\"104\",\"105\",\"106\",\"107\",\"108\",\"109\",\"110\",\"111\",\"112\",\"113\",\"114\",\"115\",\"116\",\"117\",\"118\",\"119\",\"120\",\"121\",\"122\",\"123\",\"124\",\"125\",\"126\",\"127\",\"128\",\"129\",\"130\",\"131\",\"132\",\"133\",\"134\",\"135\",\"136\",\"137\",\"138\",\"139\",\"140\",\"141\",\"142\",\"143\",\"144\",\"145\",\"146\",\"147\",\"148\",\"149\",\"150\",\"151\",\"152\",\"153\",\"154\",\"155\",\"156\",\"158\",\"159\",\"160\",\"161\",\"162\",\"163\",\"164\",\"165\",\"166\",\"167\",\"168\",\"169\",\"170\",\"171\",\"173\",\"174\",\"175\",\"176\",\"177\",\"178\",\"179\",\"181\",\"182\",\"183\",\"184\",\"185\",\"186\",\"187\",\"188\",\"189\",\"190\",\"191\",\"192\",\"193\",\"194\",\"195\",\"196\",\"197\",\"198\",\"199\",\"200\",\"201\",\"202\",\"203\",\"204\",\"205\",\"206\",\"207\",\"208\",\"209\",\"210\",\"211\",\"212\",\"213\",\"214\",\"215\",\"216\",\"217\",\"218\",\"219\",\"220\",\"221\",\"222\",\"223\",\"224\",\"225\",\"226\",\"227\",\"232\",\"233\",\"234\",\"237\",\"238\",\"239\",\"240\",\"241\",\"242\",\"243\",\"244\",\"245\",\"246\",\"247\",\"248\",\"249\",\"250\",\"251\",\"252\",\"253\",\"254\",\"255\",\"256\",\"257\",\"258\",\"259\",\"260\",\"261\",\"262\",\"263\",\"264\",\"265\",\"266\",\"267\",\"268\",\"269\",\"270\",\"271\",\"272\",\"273\",\"274\",\"275\",\"276\",\"277\",\"278\",\"279\",\"280\",\"281\",\"282\",\"283\",\"284\",\"285\",\"286\",\"287\",\"288\",\"289\",\"290\",\"291\",\"293\",\"294\",\"296\",\"297\",\"298\",\"299\",\"300\"]', '2024-12-01', '2024-08-26', 1, 'https://prnt.sc/7O01dVklzhmR', 'https://prnt.sc/7O01dVklzhmR', '[\"1\",\"5\",\"6\"]', 1, '2024-08-26 00:27:49', '2024-09-09 01:28:30'),
+(11, 141, '‎Android · ‎Educational', '[\"1\",\"2\",\"3\",\"5\",\"6\",\"7\",\"8\",\"9\",\"10\",\"11\",\"12\",\"13\",\"14\",\"15\",\"18\",\"19\",\"20\",\"21\",\"22\",\"23\",\"24\",\"25\",\"26\",\"27\",\"28\",\"29\",\"30\",\"31\",\"32\",\"33\",\"34\",\"35\",\"36\",\"37\",\"38\",\"39\",\"40\",\"41\",\"42\",\"43\",\"44\",\"45\",\"46\",\"47\",\"48\",\"49\",\"50\",\"51\",\"52\",\"53\",\"54\",\"55\",\"56\",\"57\",\"58\",\"59\",\"60\",\"61\",\"62\",\"63\",\"64\",\"65\",\"66\",\"67\",\"68\",\"69\",\"70\",\"71\",\"72\",\"73\",\"74\",\"75\",\"76\",\"77\",\"78\",\"79\",\"80\",\"81\",\"82\",\"83\",\"84\",\"85\",\"86\",\"87\",\"88\",\"89\",\"90\",\"91\",\"92\",\"93\",\"94\",\"95\",\"96\",\"97\",\"98\",\"99\",\"100\",\"101\",\"102\",\"103\",\"104\",\"105\",\"106\",\"107\",\"108\",\"109\",\"110\",\"111\",\"112\",\"113\",\"114\",\"115\",\"116\",\"117\",\"118\",\"119\",\"120\",\"121\",\"122\",\"123\",\"124\",\"125\",\"126\",\"127\",\"128\",\"129\",\"130\",\"131\",\"132\",\"133\",\"134\",\"135\",\"136\",\"137\",\"138\",\"139\",\"140\",\"141\",\"142\",\"143\",\"144\",\"145\",\"146\",\"147\",\"148\",\"149\",\"150\",\"151\",\"152\",\"153\",\"154\",\"155\",\"156\",\"158\",\"159\",\"160\",\"161\",\"162\",\"163\",\"164\",\"165\",\"166\",\"167\",\"168\",\"169\",\"170\",\"171\",\"173\",\"174\",\"175\",\"176\",\"177\",\"178\",\"179\",\"181\",\"182\",\"183\",\"184\",\"185\",\"186\",\"187\",\"188\",\"189\",\"190\",\"191\",\"192\",\"193\",\"194\",\"195\",\"196\",\"197\",\"198\",\"199\",\"200\",\"201\",\"202\",\"203\",\"204\",\"205\",\"206\",\"207\",\"208\",\"209\",\"210\",\"211\",\"212\",\"213\",\"214\",\"215\",\"216\",\"217\",\"218\",\"219\",\"220\",\"221\",\"222\",\"223\",\"224\",\"225\",\"226\",\"227\",\"232\",\"233\",\"234\",\"237\",\"238\",\"239\",\"240\",\"241\",\"242\",\"243\",\"244\",\"245\",\"246\",\"247\",\"248\",\"249\",\"250\",\"251\",\"252\",\"253\",\"254\",\"255\",\"256\",\"257\",\"258\",\"259\",\"260\",\"261\",\"262\",\"263\",\"264\",\"265\",\"266\",\"267\",\"268\",\"269\",\"270\",\"271\",\"272\",\"273\",\"274\",\"275\",\"276\",\"277\",\"278\",\"279\",\"280\",\"281\",\"282\",\"283\",\"284\",\"285\",\"286\",\"287\",\"288\",\"289\",\"290\",\"291\",\"293\",\"294\",\"296\",\"297\",\"298\",\"299\",\"300\"]', '2024-12-01', '2024-08-26', 1, 'https://prnt.sc/7O01dVklzhmR', 'https://prnt.sc/7O01dVklzhmR', '[\"1\",\"5\",\"6\"]', 1, '2024-08-26 00:27:49', '2024-09-10 06:13:03'),
 (12, 112, 'asdsadf', '[\"3\",\"5\"]', '2024-09-09', '2024-09-14', NULL, 'sdfsdf', 'sdf sdfsd', '[\"1\",\"6\"]', 1, '2024-09-08 23:56:00', '2024-09-08 23:56:00'),
 (13, 146, 'robert test', '[\"2\"]', '2024-09-11', '2024-09-11', 2024, 'test', 'test', '[\"5\"]', NULL, '2024-09-09 07:38:35', '2024-09-09 07:38:35'),
-(14, 147, 'robert test', '[\"6\"]', '2024-09-15', '2024-09-20', 2024, 'test', 'test', '[\"1\"]', NULL, '2024-09-09 07:50:52', '2024-09-09 07:50:52');
+(14, 147, 'robert test', '[\"6\"]', '2024-09-15', '2024-09-20', 2024, 'test', 'test', '[\"1\"]', NULL, '2024-09-09 07:50:52', '2024-09-09 07:50:52'),
+(15, 150, 'test', '[\"5\"]', '2024-09-11', '2024-09-13', 2024, 'test', 'test', '[\"5\"]', NULL, '2024-09-10 07:33:30', '2024-09-10 07:33:30');
 
 -- --------------------------------------------------------
 
@@ -7027,7 +7059,7 @@ CREATE TABLE `vaccination` (
 INSERT INTO `vaccination` (`id`, `name`, `created_at`, `updated_at`) VALUES
 (4, 'TEST1', '2024-08-09 08:27:31', '2024-08-09 08:27:37'),
 (5, 'Demo1', '2024-08-26 01:13:39', '2024-08-26 01:13:39'),
-(6, 'Demo1', '2024-09-04 07:52:38', '2024-09-04 07:52:59');
+(6, 'Test1228', '2024-09-04 07:52:38', '2024-09-10 01:11:55');
 
 -- --------------------------------------------------------
 
@@ -7057,7 +7089,8 @@ INSERT INTO `vaccination_front` (`vaccination_id`, `user_id`, `vaccination_recor
 (5, 139, '[\"4\"]', 'Up-to-date', 1, '2024-08-20 03:09:44', '2024-08-20 03:09:44'),
 (6, 141, '[\"4\"]', 'Pending', 1, '2024-08-26 00:29:15', '2024-09-09 01:28:51'),
 (7, 146, '[\"4\",\"5\",\"6\"]', 'Up-to-date', 1, '2024-09-09 07:38:56', '2024-09-09 07:38:56'),
-(8, 147, '[\"5\"]', 'Up-to-date', 1, '2024-09-09 07:52:23', '2024-09-09 07:52:23');
+(8, 147, '[\"5\"]', 'Up-to-date', 1, '2024-09-09 07:52:23', '2024-09-09 07:52:23'),
+(9, 150, '[\"4\"]', 'Up-to-date', 1, '2024-09-10 07:33:48', '2024-09-10 07:33:48');
 
 -- --------------------------------------------------------
 
@@ -7087,7 +7120,9 @@ INSERT INTO `working_children_check` (`id`, `clearance_number`, `state`, `expiry
 (3, '3434343434', 1614, '2024-08-17', 58, '1', '2024-08-13 16:33:18', '2024-08-13 16:33:18', NULL),
 (6, '45', 1598, '2002-08-02', 136, '1', '2024-08-20 11:46:10', '2024-08-20 11:46:10', NULL),
 (7, '41', 1618, '2035-12-04', 139, '1', '2024-08-20 14:10:57', '2024-08-20 14:10:57', NULL),
-(10, '41', 195, '2011-01-01', 141, '1', '2024-09-09 12:29:18', '2024-09-09 12:29:18', NULL);
+(11, '41', 195, '2011-01-01', 141, '1', '2024-09-10 11:20:04', '2024-09-10 11:20:04', NULL),
+(12, '41', 195, '2032-01-01', 148, '1', '2024-09-10 17:26:14', '2024-09-10 17:26:14', NULL),
+(13, '3434343434', 1, '2024-09-28', 150, '1', '2024-09-10 13:04:33', '2024-09-10 13:04:33', NULL);
 
 -- --------------------------------------------------------
 
@@ -7263,6 +7298,12 @@ ALTER TABLE `professional_certificate_table`
   ADD PRIMARY KEY (`professionalcert_id`);
 
 --
+-- Indexes for table `professional_membership`
+--
+ALTER TABLE `professional_membership`
+  ADD PRIMARY KEY (`membership_id`);
+
+--
 -- Indexes for table `skills`
 --
 ALTER TABLE `skills`
@@ -7373,7 +7414,7 @@ ALTER TABLE `degree`
 -- AUTO_INCREMENT for table `eligibility_to_work`
 --
 ALTER TABLE `eligibility_to_work`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `emergency_contact`
@@ -7409,7 +7450,7 @@ ALTER TABLE `level_year`
 -- AUTO_INCREMENT for table `mandatory_training`
 --
 ALTER TABLE `mandatory_training`
-  MODIFY `train_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `train_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -7439,7 +7480,7 @@ ALTER TABLE `personal_preferences`
 -- AUTO_INCREMENT for table `police_check`
 --
 ALTER TABLE `police_check`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `practitioner_type`
@@ -7464,6 +7505,12 @@ ALTER TABLE `professional_certificate`
 --
 ALTER TABLE `professional_certificate_table`
   MODIFY `professionalcert_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=166;
+
+--
+-- AUTO_INCREMENT for table `professional_membership`
+--
+ALTER TABLE `professional_membership`
+  MODIFY `membership_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `skills`
@@ -7493,19 +7540,19 @@ ALTER TABLE `sub_job_specialities`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=148;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=151;
 
 --
 -- AUTO_INCREMENT for table `user_education_cerification`
 --
 ALTER TABLE `user_education_cerification`
-  MODIFY `education_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `education_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `user_experience`
 --
 ALTER TABLE `user_experience`
-  MODIFY `experience_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `experience_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `vaccination`
@@ -7517,13 +7564,13 @@ ALTER TABLE `vaccination`
 -- AUTO_INCREMENT for table `vaccination_front`
 --
 ALTER TABLE `vaccination_front`
-  MODIFY `vaccination_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `vaccination_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `working_children_check`
 --
 ALTER TABLE `working_children_check`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `work_preferences`

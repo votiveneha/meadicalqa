@@ -42,6 +42,7 @@ use App\Models\PreferencesModel;
 use App\Models\WorkPreferencesModel;
 use App\Models\VaccinationFrontModel;
 use App\Models\AdditionalInfo;
+use App\Models\ProfessionalAssocialtionModel;
 use App\Repository\Eloquent\SpecialityRepository;
 
 class HomeController extends Controller
@@ -571,7 +572,13 @@ class HomeController extends Controller
         } elseif (User::where("email", $request->email)->where('status', '0')->exists()) {
             return back()->with('error', 'No user found with this email. None of the accounts are associated with this detail.');
         } elseif (Auth::guard('nurse_middle')->attempt(['email' => $request->email, 'password' => $request->password])) {
-
+            if(isset($request->remember_me) && !empty($request->remember_me)){
+                setcookie("email",$request->email,time()+3600);
+                setcookie("password",$request->password,time()+3600);
+            }else{
+                setcookie("email","");
+                setcookie("password","");
+            }
             return redirect('/nurse/my-profile?page=my_profile')->with('success', 'You are Logged in sucessfully.');
         } else {
             return back()->with('error', 'Invalid login details.');
@@ -681,7 +688,7 @@ class HomeController extends Controller
 
             return response()->json([
                 'status' => 1,
-                'message' => 'Please check your registered email address. We have sent you a password reset link. !'
+                'message' => 'Please check your email for the password reset link.'
             ], 200);
         }
     }
@@ -984,10 +991,10 @@ class HomeController extends Controller
         $degree = json_encode($request->ndegree);
 
         $institution = $request->institution;
-        $most_relevant = $request->most_relevant;
+        
         $user_id = $request->user_id;
         $graduation_start_date = $request->graduation_start_date;
-        $graduation_end_date = $request->graduation_end_date;
+        
         $professional_certification = json_encode($request->professional_certification);
         $license_number = $request->license_number;
         $country = $request->country;
@@ -996,9 +1003,19 @@ class HomeController extends Controller
         $training_courses = json_encode($request->training_courses);
         $training_workshop = json_encode($request->training_workshop);
         $declare_information = $request->declare_information;
+
+        $file = $request->file('degree_transcript');
         
         $getedudata = DB::table("user_education_cerification")->where("user_id",$user_id)->first();
         //$post = User::find($request->user_id);
+
+        if(!empty($file)){
+            $destinationPath = public_path() . '/uploads/education_degree';
+            $file->move($destinationPath,time().$file->getClientOriginalName());
+            $degree_transcript = time().$file->getClientOriginalName();
+        }else{
+            $degree_transcript = $getedudata->degree_transcript;
+        }
         
         if(!empty($getedudata)>0){
 
@@ -1502,7 +1519,7 @@ class HomeController extends Controller
                 $nl_array = "";
             }
             
-            $run = EducationModel::where('user_id',$user_id)->update(['institution'=>$institution,'most_relevant'=>$most_relevant,'graduate_start_date'=>$graduation_start_date,'graduate_end_date'=>$graduation_end_date,'professional_certifications'=>$professional_certification,'licence_number'=>$license_number,'country'=>$country,'state'=>$state,'expiration_date'=>$expiration_date,'training_courses'=>$training_courses,'training_workshops'=>$training_workshop,'complete_status'=>1,'declaration_status'=>$declare_information,'acls_data'=>$acls_array,'bls_data'=>$bls_array,'cpr_data'=>$cpr_array,'nrp_data'=>$nrp_array,'pals_data'=>$pals_array,'rn_data'=>$rn_array,'np_data'=>$np_array,'cna_data'=>$cna_array,'lpn_data'=>$lpn_array,'crna_data'=>$crna_array,'cnm_data'=>$cnm_array,'ons_data'=>$ons_array,'msw_data'=>$msw_array,'ain_data'=>$ain_array,'rpn_data'=>$rpn_array,'nl_data'=>$nl_array]);
+            $run = EducationModel::where('user_id',$user_id)->update(['institution'=>$institution,'graduate_start_date'=>$graduation_start_date,'degree_transcript'=>$degree_transcript,'professional_certifications'=>$professional_certification,'licence_number'=>$license_number,'country'=>$country,'state'=>$state,'expiration_date'=>$expiration_date,'training_courses'=>$training_courses,'training_workshops'=>$training_workshop,'complete_status'=>1,'declaration_status'=>$declare_information,'acls_data'=>$acls_array,'bls_data'=>$bls_array,'cpr_data'=>$cpr_array,'nrp_data'=>$nrp_array,'pals_data'=>$pals_array,'rn_data'=>$rn_array,'np_data'=>$np_array,'cna_data'=>$cna_array,'lpn_data'=>$lpn_array,'crna_data'=>$crna_array,'cnm_data'=>$cnm_array,'ons_data'=>$ons_array,'msw_data'=>$msw_array,'ain_data'=>$ain_array,'rpn_data'=>$rpn_array,'nl_data'=>$nl_array]);
         }else{
 
             
@@ -1512,7 +1529,7 @@ class HomeController extends Controller
             
             $post->institution = $institution;
             $post->graduate_start_date = $graduation_start_date;
-            $post->graduate_end_date = $graduation_end_date;
+            $post->degree_transcript = $degree_transcript;
             $post->professional_certifications = $professional_certification;
             $post->licence_number = $license_number;
             $post->country = $country;
@@ -1822,6 +1839,52 @@ class HomeController extends Controller
             $post->volunteer_experience = $volunteer_experience;
            
             $post->hobbies_interests = $hobbies_interests;
+           
+            
+            
+            $run = $post->save();
+
+        }
+
+        if ($run) {
+            $json['status'] = 1;
+            $json['url'] = url('nurse/my-profile');
+            $json['message'] = 'Education Information Updated Successfully';
+         } else {
+            $json['status'] = 0;
+            $json['message'] = 'Please Try Again';
+        }
+        
+        echo json_encode($json);
+    }
+
+    public function updateProfessionalMembership(Request $request){
+        $user_id = $request->user_id;
+        $des_profession_association = json_encode($request->des_profession_association);
+        $membership_numbers = $request->prof_membership_numbers;
+        $membership_status = $request->prof_membership_status;
+        
+        
+        
+        $getassodata = DB::table("professional_membership")->where("user_id",$user_id)->first();
+        //$post = User::find($request->user_id);
+        
+        if(!empty($getassodata)>0){
+            
+            
+            $run = ProfessionalAssocialtionModel::where('user_id',$user_id)->update(['des_profession_association'=>$des_profession_association,'membership_numbers'=>$membership_numbers,'membership_status'=>$membership_status]);
+        }else{
+
+            
+
+            $post = new ProfessionalAssocialtionModel();
+            $post->user_id = $user_id;
+            
+            //$post->year_experience = $year_experience;
+            $post->des_profession_association = $des_profession_association;
+            $post->membership_numbers = $membership_numbers;
+           
+            $post->membership_status = $membership_status;
            
             
             

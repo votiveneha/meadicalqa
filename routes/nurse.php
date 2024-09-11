@@ -94,5 +94,6 @@ Route::prefix('nurse')->name('nurse.')->namespace('App\Http\Controllers\nurse')-
     Route::post('/updateWorkPreference', 'HomeController@updateWorkPreference')->name('updateWorkPreference');
     Route::post('/vaccinationForm', 'HomeController@vaccinationForm')->name('vaccinationForm');
     Route::post('/updateAdditionalInfo', 'HomeController@updateAdditionalInfo')->name('updateAdditionalInfo');
+    Route::post('/updateProfessionalMembership', 'HomeController@updateProfessionalMembership')->name('updateProfessionalMembership');
   });
 });

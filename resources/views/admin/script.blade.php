@@ -1861,7 +1861,7 @@ $(document).ready(function() {
     </script>
 
     <script>
-    //five form        
+    //six form        
     $('.next-step-6').on('click', function(event) {
         event.preventDefault(); // Prevent default form submission
 
@@ -1947,6 +1947,325 @@ $(document).ready(function() {
         // }
 
     }); 
+    </script>
+
+    <script>
+    //seven form        
+    $('.eligibility_work').on('click', function(event){
+        event.preventDefault(); // Prevent default form submission
+
+        var targetTab = $(this).data('target');
+
+        // // Function to enable the next tab
+        // function enableNextTab(targetTab) {
+        //     $('a[href="' + targetTab + '"]').removeClass('disabled').tab('show');
+        // }
+        var returnValue = true;
+        $(".valley").html("");
+
+        var residencyId = $("#residencyId").val();
+        var image_support_documentI = $("#image_support_documentI").val();
+        var visa_subclass_numberI = $("#visa_subclass_numberI").val();
+        var passport_numberI = $("#passport_numberI").val();
+        var passportcountryI = $("#passportcountryI").val();
+        var visa_grant_numberI = $("#visa_grant_numberI").val();
+        var expiry_dataI = $("#expiry_dataI").val();
+
+        if (residencyId.trim() === "") {
+            $("#residency_error").html("* Please Select the Residency.");
+            returnValue = false;
+        }
+
+        if (residencyId.trim() !== 'Citizen') {
+            if (visa_subclass_numberI.trim() === "") {
+                $("#visa_subclass_error").html("* Please Enter the Subclass Number.");
+                returnValue = false;
+            }
+            if (passport_numberI.trim() === "") {
+                $("#passport_number_error").html("* Please Enter the Passport Number.");
+                returnValue = false;
+            }
+            if (passportcountryI.trim() === "") {
+                $("#passport_country_error").html("* Please Select the Passport Country.");
+                returnValue = false;
+            }
+            if (visa_grant_numberI.trim() === "") {
+                $("#visa_grant_error").html("* Please Enter the Passport Number.");
+                returnValue = false;
+            }
+            if (residencyId.trim() === 'Visa Holder') {
+                if (expiry_dataI.trim() === "") {
+                    $("#expiry_date_error").html("* Please Select the Expiry Date.");
+                    returnValue = false;
+                }
+            }
+        }
+
+        if (image_support_documentI.trim() === "") {
+            $("#image_support_error").html("* Please Upload the Support Document.");
+            returnValue = false;
+        }
+
+        if (!returnValue) {
+            // $('.submit-btn-120').prop('disabled', false);
+            // $('.submit-btn-1').hide();
+            // $('.resetpassword').show();
+            return false;
+        }
+
+        if (returnValue) {
+
+        // Create a new FormData object
+        var formData = new FormData();
+
+       // Append the file
+        var image_support_documentI = $('#image_support_documentI')[0].files[0];
+     
+        formData.append('residencyId',residencyId);
+        formData.append('image_support_documentI', image_support_documentI);
+        formData.append('visa_subclass_numberI', visa_subclass_numberI);
+        formData.append('passport_numberI', passport_numberI);
+        formData.append('passportcountryI', passportcountryI );
+        formData.append('visa_grant_numberI', visa_grant_numberI);
+        formData.append('expiry_dataI', expiry_dataI);
+        formData.append('type','eligibility_work');
+
+        formData.append('tab', 'tab7');
+
+        $.ajax({
+            url: "{{ route('admin.add_nurse_post_7') }}",
+            type: "POST",
+            data: formData,
+            data: formData,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include CSRF token for security
+            },
+            success: function(res) {
+                console.log(res.type);
+
+                if (res.status == '2') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: res.message,
+                    }).then(function() {
+                        $('a[href="' + targetTab + '"]').tab('show');
+                    });
+                } else {
+                    Swal.fire({
+                        icon:  'error',
+                        title: 'Error',
+                        text: res.message,
+                    });
+                }
+                // Show the target tab
+            },
+            error: function(error) {
+
+            }
+        });
+
+    }
+    }); 
+
+    $('.children_check').on('click', function(event){
+        event.preventDefault(); // Prevent default form submission
+
+        var targetTab = $(this).data('target');
+
+        // // Function to enable the next tab
+        // function enableNextTab(targetTab) {
+        //     $('a[href="' + targetTab + '"]').removeClass('disabled').tab('show');
+        // }
+        var returnValue = true;
+        $(".valley").html("");
+
+        var clearance_numberI = $("#clearance_numberI").val();
+        var clearancestateI = $("#clearancestateI").val();
+        var clearance_expiry_dataI = $("#clearance_expiry_dataI").val();
+        if (clearance_numberI.trim() == "") {
+
+        document.getElementById("reqTxtclearance_numberI").innerHTML = "* Please Enter the Clearance Number.";
+
+        returnValue = false;
+
+        }
+
+        if (clearancestateI.trim() == "") {
+
+        document.getElementById("reqTxtclearancestateI").innerHTML = "* Please Select  the state.";
+
+        returnValue = false;
+
+        }
+        if (clearance_expiry_dataI.trim() == "") {
+
+        document.getElementById("reqTxtclearance_expiry_dataI").innerHTML = "* Please Select the Expiry Date.";
+
+        returnValue = false;
+
+
+        }
+
+
+        if (!returnValue) {
+            // $('.submit-btn-120').prop('disabled', false);
+            // $('.submit-btn-1').hide();
+            // $('.resetpassword').show();
+            return false;
+        }
+
+        if (returnValue) {
+
+        // Create a new FormData object
+        var formData = new FormData();
+     
+        formData.append('clearance_numberI',clearance_numberI);
+        formData.append('clearance_expiry_dataI', clearance_expiry_dataI);
+        formData.append('clearancestateI', clearancestateI);
+        formData.append('type','children_check');
+
+        formData.append('tab', 'tab7');
+
+        $.ajax({
+            url: "{{ route('admin.add_nurse_post_7') }}",
+            type: "POST",
+            data: formData,
+            data: formData,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include CSRF token for security
+            },
+            success: function(res) {
+                console.log(res.type);
+
+                if (res.status == '2') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: res.message,
+                    }).then(function() {
+                        $('a[href="' + targetTab + '"]').tab('show');
+                    });
+                } else {
+                    Swal.fire({
+                        icon:  'error',
+                        title: 'Error',
+                        text: res.message,
+                    });
+                }
+                // Show the target tab
+            },
+            error: function(error) {
+
+            }
+        });
+
+    }
+    });
+    
+    $('.police_check').on('click', function(event){
+        event.preventDefault(); // Prevent default form submission
+
+        var targetTab = $(this).data('target');
+
+        // // Function to enable the next tab
+        // function enableNextTab(targetTab) {
+        //     $('a[href="' + targetTab + '"]').removeClass('disabled').tab('show');
+        // }
+        var returnValue = true;
+
+        $(".valley").html("");
+
+        var date_acquiredI = $("#date_acquiredI").val();
+        var image_support_document_policeI = $("#image_support_document_policeI").val();
+        var checkbox = $("#confirmationCheckboxPoliceCheck");
+
+
+        if (date_acquiredI.trim() == "") {
+
+        document.getElementById("reqTxtdate_acquiredI").innerHTML = "* Please Select  the date of  Acquired.";
+
+        returnValue = false;
+
+        }
+
+        if (image_support_document_policeI.trim() == "") {
+
+        document.getElementById("reqTxtimage_support_documentI").innerHTML = "* Please Upload the Police Check File.";
+
+        returnValue = false;
+
+        }
+        if (!checkbox.is(':checked')) {
+            alert('Please confirm your action.');
+            document.getElementById("reqTxtconfirmationCheckboxPoliceCheckI").innerHTML = "Required field: Confirmation required.";
+            returnValue = false;
+        }
+
+
+        if (!returnValue) {
+            // $('.submit-btn-120').prop('disabled', false);
+            // $('.submit-btn-1').hide();
+            // $('.resetpassword').show();
+            return false;
+        }
+
+        if (returnValue) {
+
+        // Create a new FormData object
+        var formData = new FormData();
+        var image_support_document_policeI = $('#image_support_document_policeI')[0].files[0];
+        formData.append('date_acquiredI',date_acquiredI);
+        formData.append('confirmationCheckboxPoliceCheck', confirmationCheckboxPoliceCheck);
+        formData.append('image_support_document_policeI', image_support_document_policeI);
+        formData.append('type','police_check');
+
+        formData.append('tab', 'tab7');
+
+        $.ajax({
+            url: "{{ route('admin.add_nurse_post_7') }}",
+            type: "POST",
+            data: formData,
+            data: formData,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include CSRF token for security
+            },
+            success: function(res) {
+                console.log(res.type);
+
+                if (res.status == '2') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: res.message,
+                    }).then(function() {
+                        $('a[href="' + targetTab + '"]').tab('show');
+                    });
+                } else {
+                    Swal.fire({
+                        icon:  'error',
+                        title: 'Error',
+                        text: res.message,
+                    });
+                }
+                // Show the target tab
+            },
+            error: function(error) {
+
+            }
+        });
+
+    }
+    });
     </script>
 
     
@@ -2074,5 +2393,26 @@ $(document).ready(function() {
             $('.license_number_nlc').addClass('d-none');
         }          
     });
+    </script>
+
+    <script>
+    $(document).ready(function() {
+    $('#residencyId').change(function() {
+      var residencyId = $(this).val();
+      $('#passport_detail_date').hide();
+      $('#passport_detail').hide();
+      if (residencyId !== 'Citizen') {
+        if (residencyId == 'Visa Holder') {
+          $('#passport_detail_date').show();
+        }
+        $('#passport_detail').show();
+
+      }
+    });
+  });
+
+    function get_new_plice_check() {
+    $('#get_new_plice_checkModel').modal('show');
+    }
     </script>
     

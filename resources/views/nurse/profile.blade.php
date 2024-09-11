@@ -188,7 +188,7 @@
                <li><a href="#tab-my-jobs" id="my_profession" class="btn btn-border recruitment-icon mb-20 profile_tabs" data-bs-toggle="tab" role="tab" aria-controls="tab-my-jobs" aria-selected="false"><i class="fi fi-rr-employee-man"></i> Profession</a></li>
                 
                 <li><a class="btn btn-border people-icon mb-20" id="educert"  data-bs-toggle="tab" role="tab" aria-controls="tab-saved-jobs" aria-selected="false"><i class="fi fi-rr-graduation-cap"></i> Education and Certifications</a></li>
-                <li><a href="#experience" id="experience_info" class="btn btn-border aboutus-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true"><i class="fi fi-rr-suitcase-alt"></i> Experience and References</a></li>
+                <li><a href="#experience" id="experience_info" class="btn btn-border aboutus-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true"><i class="fi fi-rr-suitcase-alt"></i> Experience</a></li>
                 <!-- <li><a href="#experience" id="experience_info" class="btn btn-border aboutus-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true"><i class="fi fi-rr-chart-histogram"></i>  Financial Details</a></li> -->
                 <li><a href="#mand_training" id="mand_training" class="btn btn-border aboutus-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true"><i class="fi fi-rr-chart-user"></i> Mandatory Training</a></li>
                 <li><a href="#vaccinations" id="vaccinations" class="btn btn-border aboutus-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true"><i class="fi fi-rr-chart-user"></i> Vaccinations</a></li>
@@ -502,6 +502,10 @@
                 <div class="card shadow-sm border-0 p-4 mt-30">
                   <h3 class="mt-0 color-brand-1 mb-2">Profession</h3>
                   <!-- <a class="font-md color-text-paragraph-2" href="#">Add your profession/s here, and any relevant registrations and qualifications</a> -->
+                  <h6 class="emergency_text">
+                          Please Select all specialties you have experience in:
+
+                        </h6>
                   <form id="profession_form" method="POST" onsubmit="return myFunction1()">
                     @csrf
                      <div class="condition_set">   
@@ -754,7 +758,8 @@
     @endforeach
 </div>
 <div class="form-group level-drp">
-                    <label class="form-label" for="input-1">What is your level of experience?</label>
+                    <label class="form-label" for="input-1">What is your overall level of experience in nursing/midwifery?
+</label>
                     <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
                     <select class="form-input mr-10 select-active" name="assistent_level">
                       
@@ -1083,102 +1088,30 @@
                   </div>
                   
                   <div class="form-group level-drp">
-                    <label class="form-label" for="input-1">Institutions</label>
+                    <label class="form-label" for="input-1">Institutions (Please start with the most relevant)</label>
                     <input class="form-control" type="text" name="institution" value="@if(!empty($educationData)){{ $educationData->institution }}@endif">
                     <span id="reqinstitute" class="reqError text-danger valley"></span>
                   </div>
-                  <div class="form-group level-drp">
-                    <label class="form-label" for="input-1">Please start with the most relevant</label>
-                    <input class="form-control" type="text" name="most_relevant" value="@if(!empty($educationData)){{ $educationData->most_relevant }}@endif">
-                    <span id="reqinstitute" class="reqError text-danger valley"></span>
-                  </div>
+                  
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group level-drp">
-                        <label class="form-label" for="input-1">Graduation Start Date</label>
+                        <label class="form-label" for="input-1">Graduation Date</label>
                         <input class="form-control graduation_start_date" type="date" name="graduation_start_date" value="@if(!empty($educationData)){{ $educationData->graduate_start_date }}@endif" onchange="changeDate(event);">
                         <span id="reqstartdate" class="reqError text-danger valley"></span>
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-group level-drp">
-                        <label class="form-label" for="input-1">Graduation End Date</label>
-                        <input class="form-control graduation_end_date" type="date" name="graduation_end_date" value="@if(!empty($educationData)){{ $educationData->graduate_end_date }}@endif" onchange="changeEndDate(event)">
-                        <span id="reqenddate" class="reqError text-danger valley"></span>
+                        <label class="form-label" for="input-1">Upload Degree & Transcript</label>
+                        <input class="form-control degree_transcript" type="file" name="degree_transcript">
+                        @if(!empty($educationData) && $educationData->degree_transcript)
+                        <img src="{{ url('/public/uploads/education_degree') }}/{{ $educationData->degree_transcript }}" style="width:100px;">
+                        @endif
+                        <span id="reqdegreetranscript" class="reqError text-danger valley"></span>
                       </div>
                     </div>
-                    <script type="text/javascript">
-                        function changeEndDate(e){
-                          var end_date = e.target.value;
-                          var start_date = $('.graduation_start_date').val();
-
-                          if(end_date < start_date){
-                            $("#reqenddate").html("End date should not less than start date");
-                          }else{
-                            if(end_date == start_date){
-                              $("#reqenddate").html("End date should not equal to start date");
-                            }else{
-                              $("#reqenddate").html("");
-                            }
-                            
-                          }
-                          
-                        }
-                        var start_date = $('.graduation_start_date').val();
-                        
-                        var date = new Date(start_date);
-
-                          
-
-                        // Add five days to current date
-                        date.setDate(date.getDate() + 1);
-                        var date1 = new Date(date);
-
-                        
-                        //var str = date1.toLocaleDateString();
-                        var year_val = `${date1.getFullYear()}`;
-                        var month_val = `${date1.getMonth() + 1}`;
-                        var date_val = `${date1.getDate()}`;
-
-                        var month_len = month_val.length;
-                        if(month_len<2){
-                          var show_month = 0+month_val;
-                        }else{
-                          var show_month = month_val
-                        }
-                        const formattedDate = year_val+"-"+show_month+"-"+date_val;
-                        console.log("month_val",formattedDate);
-                        
-                        document.getElementsByName("graduation_end_date")[0].setAttribute('min', formattedDate);
-                        function changeDate(e){
-                          var start_date = e.target.value;
-                          var date = new Date(start_date);
-
-                          
-
-                          // Add five days to current date
-                          date.setDate(date.getDate() + 1);
-                          var date1 = new Date(date);
-
-                          
-                          //var str = date1.toLocaleDateString();
-                          var year_val = `${date1.getFullYear()}`;
-                          var month_val = `${date1.getMonth() + 1}`;
-                          var date_val = `${date1.getDate()}`;
-
-                          var month_len = month_val.length;
-                          if(month_len<2){
-                            var show_month = 0+month_val;
-                          }else{
-                            var show_month = month_val
-                          }
-                          const formattedDate = year_val+"-"+show_month+"-"+date_val;
-                          console.log("month_val",formattedDate);
-                          
-                          document.getElementsByName("graduation_end_date")[0].setAttribute('min', formattedDate);
-                          $(".graduation_end_date").val(formattedDate);
-                        }
-                      </script>
+                    
                   </div>
                             <h6 class="emergency_text">
                          General Certifications/Licences:
@@ -1820,7 +1753,7 @@
         </div>
         <div class="tab-pane fade" id="tab-experience" role="tabpanel" aria-labelledby="tab-educert" style="display: none">
                 <div class="card shadow-sm border-0 p-4 mt-30">
-                  <h3 class="mt-0 color-brand-1 mb-2">Experience and References</h3>
+                  <h3 class="mt-0 color-brand-1 mb-2">Experience</h3>
                   <?php
                     $experienceData = DB::table("user_experience")->where("user_id",Auth::guard('nurse_middle')->user()->id)->first();
                   ?>
@@ -2359,39 +2292,45 @@
                 </form>
               </div>
               <div class="tab-pane fade" id="tab-professional-membership" role="tabpanel" aria-labelledby="tab-interview-references" style="display: none">
+
 			  <div class="card shadow-sm border-0 p-4 mt-30">
                 <h3 class="mt-0 color-brand-1 mb-2">Professional Memberships</h3>
+                <?php
+                  $MembershipData = DB::table("professional_membership")->where("user_id",Auth::guard('nurse_middle')->user()->id)->first();
+                ?>
                 <form id="professional_memb_form" method="POST" onsubmit="return professional_membership_form()">
                   @csrf
                   <input type="hidden" name="user_id" value="{{ Auth::guard('nurse_middle')->user()->id }}">
                   <div class="form-group level-drp">
                     <label class="form-label" for="input-1">Professional Associations </label>
                     
-                    
+                    <input type="hidden" name="professional_as" class="professional_as" value="@if(!empty($MembershipData)){{ $MembershipData->des_profession_association }}@endif">
                     <ul id="des_profession_association" style="display:none;">
                         
-                        <li data-value="1">ANA</li>
-                        <li data-value="1">ENA</li>
+                        <li data-value="ANA">ANA</li>
+                        <li data-value="ENA">ENA</li>
                         
                     </ul>
                     <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="des_profession_association" name="des_profession_association[]" multiple="multiple"></select>
-                    
+                    <span id="reqprofessassociation" class="reqError text-danger valley"></span>
                   </div>
                   <div class="form-group level-drp">
                     <label class="form-label" for="input-1">Membership Numbers</label>
-                    <input type="text" name="membership_numbers" class="form-control">
-                    <span id="reqvolexp" class="reqError text-danger valley"></span>
+                    <input type="text" name="prof_membership_numbers" class="form-control" value="@if(!empty($MembershipData)){{ $MembershipData->membership_numbers }}@endif">
+                    <span id="reqmembernumbers" class="reqError text-danger valley"></span>
                   </div>
                   <div class="form-group level-drp">
                     <label class="form-label" for="input-1">Status</label>
-                    <select class="form-control" name="membership_status" id="language-picker-select">
-                      <option value="deutsch">Active</option>
-                      <option value="english">Lapsed</option>
+                    <select class="form-control" name="prof_membership_status" id="language-picker-select">
+                      <option value="">Select Status</option>
+                      <option value="Active" @if(!empty($MembershipData) && $MembershipData->membership_status == "Active") selected @endif>Active</option>
+                      <option value="Lapsed" @if(!empty($MembershipData) && $MembershipData->membership_status == "Lapsed") selected @endif>Lapsed</option>
                      
                     </select>
+                    <span id="reqmemberstatus" class="reqError text-danger valley"></span>
                   </div>
                   <div class="box-button mt-15">
-                    <button class="btn btn-apply-big font-md font-bold" type="submit" id="submitWorkPreferences">Save Changes</button>
+                    <button class="btn btn-apply-big font-md font-bold" type="submit" id="submitProfessionalMembership">Save Changes</button>
                   </div>
                 </form> 
 				</div>					
@@ -2535,9 +2474,9 @@
 
                 <div class="card shadow-sm border-0 p-4 mt-30">
         
-                  <h3 class="mt-0 color-brand-1 mb-2">Work Clearances</h3>
+                  <h3 class="mt-2 color-brand-1 mb-2">Work Clearances</h3>
                   <a class="font-md color-text-paragraph-2" href="#">Please provide your work clearances, as required for the roles you want to apply to. Find work you want, to learn what’s required. Keep your work clearances up-to-date to maintain your eligibility for jobs</a>
-                  <h6 class="mt-0 color-brand-1 mb-2">Eligibility To Work</h6>
+                  <h6 class="mt-2 color-brand-1 mb-2">Eligibility To Work</h6>
                   <a class="font-md color-text-paragraph-2" href="#">{{ env('APP_NAME') }} does not yet connect talent to sponsorship opportunities</a>
                   <form id="multi-step-form-eligibility" enctype="multipart/form-data">
                     @csrf
@@ -2583,7 +2522,7 @@
 
                       <div class="form-group position-relative">
                         <!-- <textarea type="text" class="form-control ps-5" placeholder="Address"></textarea> -->
-                        <select class="form-control form-select ps-5" name="passport_country_of_Issue" id="passportcountryI">
+                        <select class="form-control form-select" name="passport_country_of_Issue" id="passportcountryI">
                           <option value="">Select Country</option>
                           <?php $countryumber = Auth::guard('nurse_middle')->user()->country;
                           if ($clearances_data != 'null') $countryumber = $clearances_data->passport_country_of_Issue; ?>
@@ -2746,10 +2685,10 @@
                 <!--==========-->
                 <div class="card shadow-sm border-0 p-4 mt-30">
                   <h3 class="mt-0 color-brand-1 mb-2">Police check</h3>
-                  <a class="font-md color-text-paragraph-2" href="#">Add your national police check certificate, if you have one already. The recency of the check required, will depend on the role you want. Find work you want, to learn what’s required. The check must be for employment purposes. Volunteer checks will not be accepted</a>
+                  <a class="font-md color-text-paragraph-2 mb-2" href="#">Add your national police check certificate, if you have one already. The recency of the check required, will depend on the role you want. Find work you want, to learn what’s required. The check must be for employment purposes. Volunteer checks will not be accepted</a>
                   <div><span class="btn-dark badge badge-dark">Optional</span> </div>
-                  <div class=""><span class="btn-light badge badge-dark">Get new police check</span> <i class="fi fi-rr-info" onclick="get_new_plice_check()"></i></div>
-                  <div class="">
+                  <div class="mt-2 mb-2"><span class="btn-light badge badge-dark"  style="color:#000;">Get new police check</span> <i class="fi fi-rr-info" onclick="get_new_plice_check()"></i></div>
+                  <div class="mb-2">
                     <a href="https://secure.policecheckexpress.com.au/intercheck/landing/1389/507997" target="_blank">
                       <span class="btn-secondary badge badge-secondary" target="_blank"><i class="fi fi-rr-info"></i> Get new police check </span>
                     </a>
@@ -2827,7 +2766,7 @@
                             <b> {{ $police_check_data->reason }} </b> . Please Resubmit the details.
                           </div>
                           <div class="col-lg-12 col-md-12">
-                            <label class="ml-20">
+                            <label class="">
                               <input class="float-start mr-5 mt-6" type="checkbox" id="confirmationCheckboxPoliceCheck"> Since I obtained this National Police Check, I confirm that there have been no changes to my criminal history, and that I have not been charged with an offence punishable by 12 months imprisonment or more, or convicted, pleaded guilty to, or found guilty of an offence punishable by imprisonment in Australia and/or overseas.
                             </label>
                             <span id="reqTxtconfirmationCheckboxPoliceCheckI" class="reqError text-danger valley"></span>
@@ -2861,12 +2800,14 @@
                               }
                             } else {
                                 ?>
-                        <div class="col-lg-12 col-md-12">
-                          <label class="ml-20">
-                            <input class="float-start mr-5 mt-6" type="checkbox" id="confirmationCheckboxPoliceCheck"> Since I obtained this National Police Check, I confirm that there have been no changes to my criminal history, and that I have not been charged with an offence punishable by 12 months imprisonment or more, or convicted, pleaded guilty to, or found guilty of an offence punishable by imprisonment in Australia and/or overseas.
+                        <div class="col-lg-12 col-md-12 declaration_box_profile mb-3">      
+                            <input type="checkbox" id="confirmationCheckboxPoliceCheck">
+							<label class="">Since I obtained this National Police Check, I confirm that there have been no changes to my criminal history, and that I have not been charged with an offence punishable by 12 months imprisonment or more, or convicted, pleaded guilty to, or found guilty of an offence punishable by imprisonment in Australia and/or overseas.
                           </label>
-                          <span id="reqTxtconfirmationCheckboxPoliceCheckI" class="reqError text-danger valley"></span>
-                          <div class="d-flex align-items-center justify-content-between">
+                          <span id="reqTxtconfirmationCheckboxPoliceCheckI" class="reqError text-danger valley"></span>  
+                        </div>
+						<div class="col-lg-12 col-md-12">
+							<div class="d-flex align-items-center justify-content-between">
                             <button onclick="do_police_check()" @if(!email_verified())  disabled  @endif class="btn btn-default px-5 py-8  rounded-2 mb-0 submit-btn-120" type="submit"><span class="resetpassword">Submit</span>
                               <div class="spinner-border submit-btn-1" role="status" style="display:none;">
                                 <span class="sr-only">Loading...</span>
@@ -2874,7 +2815,7 @@
                             </button>
 
                           </div>
-                        </div>
+						</div>
                       <?php
 
                             }
@@ -3601,6 +3542,12 @@
     var pro_cert_nl = JSON.parse($(".pro_cert_nl").val());
     console.log("pro_cert_bls",pro_cert_nl);
     $('.js-example-basic-multiple[data-list-id="nl_data"]').select2().val(pro_cert_nl).trigger('change');
+  }
+
+  if($(".professional_as").val() != ""){
+    var professional_as = JSON.parse($(".professional_as").val());
+    console.log("professional_as",professional_as);
+    $('.js-example-basic-multiple[data-list-id="des_profession_association"]').select2().val(professional_as).trigger('change');
   }
   
   $(".surgical_row_data").insertAfter("#specility_level-1");

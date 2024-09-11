@@ -1259,7 +1259,7 @@ function pad(number) {
       document.getElementById("reqhobbiesint").innerHTML = "* Please enter Hobbies and Interests";
       isValid = false;
     } 
-
+    
 
     if(isValid == true){
       $('#additional_info_form').find('.text-danger').hide();
@@ -1302,6 +1302,79 @@ function pad(number) {
           console.log("errorss",errorss);
           for (var err in errorss.responseJSON.errors) {
             $("#submitPersonalPreferences").find("[name='" + err + "']").after("<div class='text-danger'>" + errorss.responseJSON.errors[err] + "</div>");
+          }
+        }
+      });
+    }
+    return false;
+  }
+
+  function professional_membership_form() {
+   
+    var isValid = true;
+    
+    if ($('[name="des_profession_association[]"]').val() == '') {
+      
+      document.getElementById("reqprofessassociation").innerHTML = "* Please select professional association";
+      isValid = false;
+
+    }
+    
+    
+    if ($('[name="prof_membership_numbers"]').val() == '') {
+
+      document.getElementById("reqmembernumbers").innerHTML = "* Please enter memebership numbers";
+      isValid = false;
+    }
+
+    if ($('[name="prof_membership_status"]').val() == '') {
+      
+      document.getElementById("reqmemberstatus").innerHTML = "* Please select membership status";
+      isValid = false;
+    } 
+    
+    
+    if(isValid == true){
+      $('#professional_memb_form').find('.text-danger').hide();
+      $.ajax({
+        url: "{{ route('nurse.updateProfessionalMembership') }}",
+        type: "POST",
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: new FormData($('#professional_memb_form')[0]),
+        dataType: 'json',
+        beforeSend: function() {
+          $('#submitProfessionalMembership').prop('disabled', true);
+          $('#submitProfessionalMembership').text('Process....');
+        },
+        success: function(res) {
+          $('#submitProfessionalMembership').prop('disabled', false);
+          $('#submitProfessionalMembership').text('Update Profile');
+
+          if (res.status == '1') {
+            Swal.fire({
+              icon: 'success',
+              title: 'Success',
+              text: 'Professional Membership Updated Successfully',
+            }).then(function() {
+              window.location.href = "{{ route('nurse.my-profile') }}?page=professional_membership";
+            });
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: res.message,
+            })
+          }
+          
+        },
+        error: function(errorss) {
+          $('#submitProfessionalMembership').prop('disabled', false);
+          $('#submitProfessionalMembership').text('Submit');
+          console.log("errorss",errorss);
+          for (var err in errorss.responseJSON.errors) {
+            $("#submitProfessionalMembership").find("[name='" + err + "']").after("<div class='text-danger'>" + errorss.responseJSON.errors[err] + "</div>");
           }
         }
       });

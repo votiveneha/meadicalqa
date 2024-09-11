@@ -11,6 +11,9 @@ use App\Models\EducationModel;
 use App\Models\ExperienceModel;
 use App\Models\MandatoryTrainModel;
 use App\Models\VaccinationFrontModel;
+use App\Models\EligibilityToWorkModel;
+use App\Models\WorkingChildrenCheckModel;
+use App\Models\PoliceCheckModel;
 use App\Models\User;
 
 class NurseServices
@@ -711,7 +714,72 @@ class NurseServices
 
                 $param='Vaccination Records';
            
+            }else if($data['tab'] == 'tab7'){
+
+                if($data['type'] == 'eligibility_work'){
+
+                 $image_support_documentI=$data['image_support_documentI'];
+                 $support_file_name='';
+
+                 if($support_file_name != 'undefined'){
+                    $destinationPath=public_path().'/nurse/assets/imgs/support_document/';
+                    $support_file_name=$image_support_documentI->getClientOriginalName();
+                    $image_support_documentI->move($destinationPath,$image_support_documentI->getClientOriginalName());
+                  }
+                
+                $profile_image = $image_support_documentI->getClientOriginalName();
+                // dd('test');
+                $allData['support_document'] = '/nurse/assets/imgs/support_document/' . $profile_image;
+
+                $email=Session::get('nurseemail');
+                $user_id=User::where('email',$email)->first();
+                $allData['user_id'] = $user_id->id;
+                $allData['residency'] = $data['residencyId'];
+                $allData['visa_subclass_number'] = $data['visa_subclass_numberI'];
+                $allData['passport_number'] = $data['passport_numberI'];
+                $allData['passport_country_of_Issue'] = $data['passportcountryI'];
+                $allData['expiry_date'] = $data['expiry_dataI'];
+                $allData['visa_grant_number'] = $data['visa_grant_numberI'];
+
+                $run=EligibilityToWorkModel::create($allData);
+
+                $param='Eligibility To Work';
+              }else if ($data['type'] == 'children_check') {
+
+                $email=Session::get('nurseemail');
+                $user_id=User::where('email',$email)->first();
+                $allData['user_id'] = $user_id->id;
+                $allData['clearance_number'] = $data['clearance_numberI'];
+                $allData['state'] = $data['clearancestateI'];
+                $allData['expiry_date'] = $data['clearance_expiry_dataI'];
+                $run=WorkingChildrenCheckModel::create($allData);
+
+                $param='Children Check';
+               }else if ($data['type'] == 'police_check') {
+
+                $image_support_document_policeI=$data['image_support_document_policeI'];
+                 $plice_file_name='';
+
+                 if($image_support_document_policeI != 'undefined'){
+                    $destinationPath=public_path().'/nurse/assets/imgs/police_check/';
+                    $plice_file_name=$image_support_document_policeI->getClientOriginalName();
+                    $image_support_document_policeI->move($destinationPath,$image_support_document_policeI->getClientOriginalName());
+                  }
+                
+                $police_image = $image_support_document_policeI->getClientOriginalName();
+                // dd('test');
+                $allData['image'] = '/nurse/assets/imgs/police_check/' . $police_image;
+
+                $email=Session::get('nurseemail');
+                $user_id=User::where('email',$email)->first();
+                $allData['user_id'] = $user_id->id;
+                $allData['date'] = $data['date_acquiredI'];
+                $run=PoliceCheckModel::create($allData);
+
+                $param='Police check';
+               }
             }
+
 
             
             if ($run) {
