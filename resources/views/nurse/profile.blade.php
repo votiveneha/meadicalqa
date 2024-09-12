@@ -1328,10 +1328,10 @@
                             <input type="hidden" name="pro_cert_np" class="pro_cert_np" value="@if(!empty($educationData)){{ $np_data_new }}@endif">
                             <label class="form-label" for="input-1">NP (Nurse Practioner) / (APRN) Advanced Practice Registered Nurse</label>
                               <?php
-                                $rn_data = DB::table("professional_certificate_table")->where("cert_id","18")->get();
+                                $np_data = DB::table("professional_certificate_table")->where("cert_id","18")->get();
                               ?>
                               <ul id="np_data" style="display:none;">
-                                  @foreach($rn_data as $data)
+                                  @foreach($np_data as $data)
                                   <li data-value="{{ $data->professionalcert_id }}">{{ $data->name }}</li>
                                   @endforeach
                                   
@@ -1363,7 +1363,7 @@
                               <?php
                                 $cn_data = DB::table("professional_certificate_table")->where("cert_id","12")->get();
                               ?>
-                              <ul id="rn_data" style="display:none;">
+                              <ul id="cn_data" style="display:none;">
                                   @foreach($cn_data as $data)
                                   <li data-value="{{ $data->professionalcert_id }}">{{ $data->name }}</li>
                                   @endforeach
@@ -1394,7 +1394,7 @@
                               <?php
                                 $lpn_data = DB::table("professional_certificate_table")->where("cert_id","13")->get();
                               ?>
-                              <ul id="rn_data" style="display:none;">
+                              <ul id="lpn_data" style="display:none;">
                                   @foreach($lpn_data as $data)
                                   <li data-value="{{ $data->professionalcert_id }}">{{ $data->name }}</li>
                                   @endforeach
@@ -1425,7 +1425,7 @@
                               <?php
                                 $crn_data = DB::table("professional_certificate_table")->where("cert_id","14")->get();
                               ?>
-                              <ul id="rn_data" style="display:none;">
+                              <ul id="crn_data" style="display:none;">
                                   @foreach($crn_data as $data)
                                   <li data-value="{{ $data->professionalcert_id }}">{{ $data->name }}</li>
                                   @endforeach
@@ -1639,28 +1639,91 @@
                         </div>
                       
                       <span id="reqcertificate" class="reqError text-danger valley"></span>
-						
-						<h6 class="emergency_text">
+            
+            <h6 class="emergency_text">
                           Additional Training 
                         </h6>
-						<div class="row">
-                          <div class="col-md-12">
-                             <div class="form-group level-drp">
-                                <input type="hidden" name="training_course" class="training_course" value="@if(!empty($educationData)){{ $educationData->training_courses }}@endif">
-                                <label class="form-label" for="input-1">Please add most relevant courses/workshops</label>
-                                  <?php
-                                    $courses = DB::table("additional_training")->get();
-                                  ?>
-                                  <ul id="training_courses" style="display:none;">
-                                      @foreach($courses as $c)
-                                      <li data-value="{{ $c->id }}">{{ $c->name }}</li>
-                                      @endforeach
-                                      
-                                  </ul>
-                              <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="training_courses" name="training_courses[]" multiple="multiple"></select>
-                            </div>
-                            <span id="reqaddtraining" class="reqError text-danger valley"></span>
+            <div class="row">
+              <?php
+                if(!empty($educationData)){
+                  $certificate_data = json_decode($educationData->additional_training_data);
+                }else{
+                  $certificate_data = "";
+                }
+
+              ?>
+              <div class="certification_box">
+                <?php
+                  $i = 1;
+                ?>
+                @if(!empty($certificate_data))
+                  <p>Please add most relevant courses/workshops</p>
+                  @foreach($certificate_data as $c_data)
+                    <h6>Certification/Licence {{ $i }}</h6>
+                    
+                    <div class="license_number_div row license_number_additional">
+                        <div class="form-group col-md-6">
+                          <label class="form-label" for="input-1">Courses/workshops</label>
+                          <input class="form-control" type="text" name="training_courses[]" value="{{ $c_data->training_courses }}">
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label class="form-label" for="input-1">Certification/Licence Number</label>
+                          <input class="form-control" type="text" name="additional_license_number[]" value="{{ $c_data->additional_license_number }}">
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label class="form-label" for="input-1">Expiry</label>
+                          <input class="form-control" type="date" name="additional_expiry[]" value="{{ $c_data->additional_expiry }}">
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                          <input class="form-control" type="file" name="additional_upload_certification[]">
+                          @if($c_data->additional_upload_certification)
+                          <img src="{{ url('/public/uploads/certificates') }}/{{ $c_data->additional_upload_certification }}" style="width:100px;height: 70px; object-fit: cover;">
+                          @endif
+                        </div>
+                      </div>
+                      <?php
+                        $i++;
+                      ?>
+                  @endforeach
+                @else
+                <h6>Certification/Licence 1</h6>
+                <div class="license_number_div row license_number_additional">
+                        <div class="form-group col-md-6">
+                          <label class="form-label" for="input-1">Courses/workshops</label>
+                          <input class="form-control" type="text" name="training_courses[]">
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label class="form-label" for="input-1">Certification/Licence Number</label>
+                          <input class="form-control" type="text" name="additional_license_number[]">
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label class="form-label" for="input-1">Expiry</label>
+                          <input class="form-control" type="date" name="additional_expiry[]">
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                          <input class="form-control" type="file" name="additional_upload_certification[]">
+                        </div>
+                      </div>
+                @endif
+                          
+                          
+                            
                           </div>
+                          
+                          <div class="add_new_certification_div mb-3 mt-3">
+                            <a style="cursor: pointer;" onclick="add_certfication()">+ Add another certification/Licence</a>
+                          </div>
+                          <script type="text/javascript">
+                            var licence_div_count = $(".license_number_additional").length;
+                            console.log("licence_div_count",licence_div_count);
+                            function add_certfication(){
+                              licence_div_count++;
+                              $(".certification_box").append('<h6>Certification/Licence '+licence_div_count+'</h6><div class="license_number_div row license_number_additional"><div class="form-group col-md-6"><label class="form-label" for="input-1">Courses/workshops</label><input class="form-control" type="text" name="training_courses[]"></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control" type="text" name="additional_license_number[]"></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control" type="date" name="additional_expiry[]"></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control" type="file" name="additional_upload_certification[]"></div></div>');
+                              
+                            }
+                          </script>
                           <!-- <div class="col-md-6">
                             <div class="form-group level-drp">
                                 <input type="hidden" name="training_workshops" class="training_workshops" value="@if(!empty($educationData)){{ $educationData->training_workshops }}@endif">
@@ -1740,7 +1803,7 @@
                           <span id="reqexpiration_date" class="reqError text-danger valley"></span>
                         </div> -->
                         <div class="declaration_box">
-                      <input type="checkbox" name="declare_information" class="declare_information1" value="1" @if(!empty($educationData)) @if($educationData->declaration_status == 1) checked @endif @endif>
+                      <input type="checkbox" name="declare_information" class="declare_information" value="1" @if(!empty($educationData)) @if($educationData->declaration_status == 1) checked @endif @endif>
                       <label for="declare_information1">I declare that the information provided is true and correct</label>
                   </div>  
                   <span id="reqdeclare_information1" class="reqError text-danger valley"></span> 
@@ -1813,8 +1876,8 @@
                         <input class="form-control employeement_end_date" type="date" name="end_date" value="@if(!empty($experienceData)){{ $experienceData->employeement_end_date }}@endif" onchange="changeEmployeementEndDate(event)">
                         <span id="reqemployeementenddate" class="reqError text-danger valley"></span>
                       </div>
-                      <div class="present_check">
-                        <input type="checkbox" name="present_box" value="1" @if(!empty($experienceData))@if(!empty($experienceData->present_status == 1 )) checked @endif @endif>Present Here
+                      <div class="declaration_box">
+                        <input class="declare_information" type="checkbox" name="present_box" value="1" @if(!empty($experienceData))@if(!empty($experienceData->present_status == 1 )) checked @endif @endif>Present Here
                       </div>
                     </div>
                     <script type="text/javascript">
@@ -2094,7 +2157,7 @@
                       </div>
                       <div class="form-group level-drp">
                         <label class="form-label" for="input-1">Relationship</label>
-                        <select class="form-control form-select ps-5" name="reference_relationship" id="reference_relationship">
+                        <select class="form-control form-select" name="reference_relationship" id="reference_relationship">
                             <option value="">Select Relationship</option>
                             
                             
@@ -2293,7 +2356,7 @@
               </div>
               <div class="tab-pane fade" id="tab-professional-membership" role="tabpanel" aria-labelledby="tab-interview-references" style="display: none">
 
-			  <div class="card shadow-sm border-0 p-4 mt-30">
+        <div class="card shadow-sm border-0 p-4 mt-30">
                 <h3 class="mt-0 color-brand-1 mb-2">Professional Memberships</h3>
                 <?php
                   $MembershipData = DB::table("professional_membership")->where("user_id",Auth::guard('nurse_middle')->user()->id)->first();
@@ -2333,7 +2396,7 @@
                     <button class="btn btn-apply-big font-md font-bold" type="submit" id="submitProfessionalMembership">Save Changes</button>
                   </div>
                 </form> 
-				</div>					
+        </div>          
               </div>
               <div class="tab-pane fade" id="tab-my-profile-setting" role="tabpanel" aria-labelledby="tab-my-profile-setting">
               
@@ -2800,14 +2863,14 @@
                               }
                             } else {
                                 ?>
-                        <div class="col-lg-12 col-md-12 declaration_box_profile mb-3">      
+                        <div class="col-lg-12 col-md-12 declaration_box mb-3">      
                             <input type="checkbox" id="confirmationCheckboxPoliceCheck">
-							<label class="">Since I obtained this National Police Check, I confirm that there have been no changes to my criminal history, and that I have not been charged with an offence punishable by 12 months imprisonment or more, or convicted, pleaded guilty to, or found guilty of an offence punishable by imprisonment in Australia and/or overseas.
+              <label class="">Since I obtained this National Police Check, I confirm that there have been no changes to my criminal history, and that I have not been charged with an offence punishable by 12 months imprisonment or more, or convicted, pleaded guilty to, or found guilty of an offence punishable by imprisonment in Australia and/or overseas.
                           </label>
                           <span id="reqTxtconfirmationCheckboxPoliceCheckI" class="reqError text-danger valley"></span>  
                         </div>
-						<div class="col-lg-12 col-md-12">
-							<div class="d-flex align-items-center justify-content-between">
+            <div class="col-lg-12 col-md-12">
+              <div class="d-flex align-items-center justify-content-between">
                             <button onclick="do_police_check()" @if(!email_verified())  disabled  @endif class="btn btn-default px-5 py-8  rounded-2 mb-0 submit-btn-120" type="submit"><span class="resetpassword">Submit</span>
                               <div class="spinner-border submit-btn-1" role="status" style="display:none;">
                                 <span class="sr-only">Loading...</span>
@@ -2815,7 +2878,7 @@
                             </button>
 
                           </div>
-						</div>
+            </div>
                       <?php
 
                             }
@@ -3088,12 +3151,12 @@
             
       
           </div>
-		  
-		  
-		  
-		  
+      
+      
+      
+      
         </div>
-		<footer class="footer pt-0" style="margin: 0 11px;">
+    <footer class="footer pt-0" style="margin: 0 11px;">
 
       <div class="container">
 
@@ -3414,10 +3477,10 @@
     $('.js-example-basic-multiple[data-list-id="profess_cert"]').select2().val(prof_cert_new).trigger('change');
   }
 
-  if($(".training_course").val() != ""){
-    var training_course = JSON.parse($(".training_course").val());
-    $('.js-example-basic-multiple[data-list-id="training_courses"]').select2().val(training_course).trigger('change');
-  }
+  // if($(".training_course").val() != ""){
+  //   var training_course = JSON.parse($(".training_course").val());
+  //   $('.js-example-basic-multiple[data-list-id="training_courses"]').select2().val(training_course).trigger('change');
+  // }
 
   // if($(".training_workshops").val() != ""){
   //   var training_workshops = JSON.parse($(".training_workshops").val());

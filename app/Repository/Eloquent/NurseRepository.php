@@ -10,6 +10,7 @@ use App\Models\InterviewModel;
 use App\Models\PreferencesModel;
 use App\Models\WorkPreferencesModel;
 use App\Models\VaccinationFrontModel;
+use App\Models\ProfessionalAssocialtionModel;
 use Illuminate\Contracts\Cache\Repository as Cache;
 use Illuminate\Support\Facades\Log;
 
@@ -24,10 +25,11 @@ class NurseRepository extends BaseRepository{
     protected $preferences;
     protected $workpreferences;
     protected $vaccination;
+    protected $promembership;
     protected $cache;
 
     public function __construct(User $model,UserEducationCertiModel $usereducationcertification,ExperienceModel $experience,MandatoryTrainModel $mandatoryTraing , 
-    Cache $cache,InterviewModel $interviewRef,PreferencesModel $preferences,WorkPreferencesModel $workpreferences,VaccinationFrontModel $vaccination){
+    Cache $cache,InterviewModel $interviewRef,PreferencesModel $preferences,WorkPreferencesModel $workpreferences,VaccinationFrontModel $vaccination,ProfessionalAssocialtionModel $promembership){
         $this->model = $model;
         $this->experience = $experience;
         $this->usereducationcertification = $usereducationcertification;
@@ -36,6 +38,7 @@ class NurseRepository extends BaseRepository{
         $this->preferences = $preferences;
         $this->workpreferences = $workpreferences;
         $this->vaccination = $vaccination;
+        $this->promembership = $promembership;
         parent::__construct($model, $cache);
     }
     public function getIncomingNurseList(){
@@ -173,6 +176,14 @@ class NurseRepository extends BaseRepository{
             return $this->vaccination->where($byWhere)->first();
         } catch(\Exception $e){
             Log::error("Error in NurseRepository.getvaccinationdetails(): " . $e->getMessage());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+   }
+   public function getProMembershipData($byWhere){
+        try {
+            return $this->promembership->where($byWhere)->first();
+        } catch(\Exception $e){
+            Log::error("Error in NurseRepository.getProMembershipData(): " . $e->getMessage());
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
         }
    }

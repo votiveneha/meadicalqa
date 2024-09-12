@@ -112,13 +112,13 @@
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link" data-bs-toggle="tab" href="#navpill-7" role="tab" aria-selected="false"
+                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-7" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Work Clearances</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-8" role="tab" aria-selected="false"
+                        <a class="nav-link" data-bs-toggle="tab" href="#navpill-8" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Professional Memberships</span>
                         </a>
@@ -1546,11 +1546,11 @@
                                                             $state_data =state_list();
                                                             
                                                             @endphp
-                                                            
+                                                            <?php 
                                                             ?>
                                                             @if(isset($state_data) && !empty($state_data))
                                                             @foreach ($state_data as $data_state)
-                                                            <option value="{{$data_state->id}}" ?>{{$data_state->name}} </option>
+                                                            <option value="{{$data_state->id}}"> {{$data_state->name}} </option>
                                                             @endforeach
                                                             @endif
 
@@ -1614,12 +1614,63 @@
                                             </div> 
                                         </div> 
                                        
-                                        </div>                     
+                                        {{-- </div>                      --}}
                                     </div>                    
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <div class="tab-pane p-3" id="navpill-8" role="tabpanel">
+                        <div class="row">
+                            <div class=" w-100  overflow-hidden">
+                                <div class="card-body p-3 px-md-4 pb-0">
+                                    <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center">Professional Memberships</h3>
+                                </div>
+                                <div class="card-body p-3 px-md-4">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                        <div class="col-md-12 mt-3">
+                                            <div class="form-group">
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Professional Associations</strong></label>
+                                                <ul id="des_profession_association" style="display:none;">
+                        
+                                                    <li data-value="ANA">ANA</li>
+                                                    <li data-value="ENA">ENA</li>
+                                                    
+                                                </ul>
+                                                <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="des_profession_association" name="des_profession_association[]" multiple="multiple"></select>
+                                                <span id="des_profession_error" class="text-danger valley"></span>
+                                            </div>
+                                        </div> 
+                                        <div class="col-md-12 mt-3">
+                                            <div class="form-group">
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Membership Numbers</strong></label>
+                                                <input type="text" name="membership_numbers" class="form-control" id="membership_numbers">
+                                                <span id="membership_numbers_error" class="reqError text-danger valley"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 mt-3">
+                                            <div class="form-group">
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Status</strong></label>
+                                                <select class="form-control" name="membership_status" id="membership_status">
+                                                    <option value="Active">Active</option>
+                                                    <option value="Lapsed">Lapsed</option>                                                
+                                                </select>
+                                                 <span id="membership_status_error" class="reqError text-danger valley"></span>
+                                            </div>
+                                        </div> 
+                                        <div class="d-flex align-items-center justify-content-between mt-3">
+                                            <button type="button" class="btn btn-default next-step-8 align-items-center justify-content-between" data-target="#navpill-9">Next</button>
+                                        </div>
+                                    </div>                     
+                                    </div>                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                    
                 </div>
             </form>
             </div>

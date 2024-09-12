@@ -136,8 +136,9 @@ class NurseController extends Controller
             $policeCheckVerificationData = $this->verificationRepository->getPoliceCheckVerificationData(['user_id' => $request->id]);
             $eligibilityToWorkData = $this->verificationRepository->getEligibilityToWorkData(['user_id' => $request->id]);
             $workingChildrenCheckData = $this->verificationRepository->getWorkingChildrenCheckData(['user_id' => $request->id]);
+            $proMembershipData = $this->nurseRepository->getProMembershipData(['user_id' => $request->id]);
             return view('admin.profile-view',compact('profileData','experienceData','policeCheckVerificationData','eligibilityToWorkData','workingChildrenCheckData','educationData','mandatorytrainingData',
-            'interviewrefData','personalprefData','findworkData','vaccinationData'));
+            'interviewrefData','personalprefData','findworkData','vaccinationData','proMembershipData'));
         } catch (\Exception $e) {
             log::error('Error in NurseController/viewProfile :' . $e->getMessage() . 'in line' . $e->getLine());
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
@@ -220,6 +221,15 @@ class NurseController extends Controller
         }
     }
     public function addNursePostForm7(Request $request)
+    {      
+        try {      
+           return $this->nurseServices->addNursePost($request);
+        } catch (\Exception $e) {
+            log::error('Error in NurseController/addNursePost :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+    public function addNursePostForm8(Request $request)
     {      
         try {      
            return $this->nurseServices->addNursePost($request);

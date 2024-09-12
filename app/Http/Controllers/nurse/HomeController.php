@@ -1000,13 +1000,37 @@ class HomeController extends Controller
         $country = $request->country;
         $state = $request->state;
         $expiration_date = $request->expiration_date;
-        $training_courses = json_encode($request->training_courses);
+        $training_courses = $request->training_courses;
         $training_workshop = json_encode($request->training_workshop);
         $declare_information = $request->declare_information;
 
+        $training_courses = $request->training_courses;
+        $additional_license_number = $request->additional_license_number;
+        $additional_expiry = $request->additional_expiry;
+        $additional_upload_certification = $request->file('additional_upload_certification');
+        //echo count($additional_license_number);die;
+        $getedudata = DB::table("user_education_cerification")->where("user_id",$user_id)->first();
+
+        $certificate_array = array();
+        for($i=0;$i<count($training_courses);$i++){
+            if(!empty($additional_upload_certification[$i])){
+                $name1=$additional_upload_certification[$i]->getClientOriginalName();
+                $name= time().$name1;
+                $destinationPathcert = public_path()."/uploads/certificates"; 
+                $additional_upload_certification[$i]->move($destinationPathcert,$name);
+            }else{
+                $certificate_data = json_decode($getedudata->additional_training_data);
+                $name = $certificate_data[$i]->additional_upload_certification;
+            }
+            
+            $certificate_array[] = array("training_courses"=>$training_courses[$i],"additional_license_number"=>$additional_license_number[$i],"additional_expiry"=>$additional_expiry[$i],"additional_upload_certification"=>$name);
+        }
+
+        $certificate_json = json_encode($certificate_array);
+
         $file = $request->file('degree_transcript');
         
-        $getedudata = DB::table("user_education_cerification")->where("user_id",$user_id)->first();
+        
         //$post = User::find($request->user_id);
 
         if(!empty($file)){
@@ -1519,7 +1543,7 @@ class HomeController extends Controller
                 $nl_array = "";
             }
             
-            $run = EducationModel::where('user_id',$user_id)->update(['institution'=>$institution,'graduate_start_date'=>$graduation_start_date,'degree_transcript'=>$degree_transcript,'professional_certifications'=>$professional_certification,'licence_number'=>$license_number,'country'=>$country,'state'=>$state,'expiration_date'=>$expiration_date,'training_courses'=>$training_courses,'training_workshops'=>$training_workshop,'complete_status'=>1,'declaration_status'=>$declare_information,'acls_data'=>$acls_array,'bls_data'=>$bls_array,'cpr_data'=>$cpr_array,'nrp_data'=>$nrp_array,'pals_data'=>$pals_array,'rn_data'=>$rn_array,'np_data'=>$np_array,'cna_data'=>$cna_array,'lpn_data'=>$lpn_array,'crna_data'=>$crna_array,'cnm_data'=>$cnm_array,'ons_data'=>$ons_array,'msw_data'=>$msw_array,'ain_data'=>$ain_array,'rpn_data'=>$rpn_array,'nl_data'=>$nl_array]);
+            $run = EducationModel::where('user_id',$user_id)->update(['institution'=>$institution,'graduate_start_date'=>$graduation_start_date,'degree_transcript'=>$degree_transcript,'professional_certifications'=>$professional_certification,'licence_number'=>$license_number,'country'=>$country,'state'=>$state,'expiration_date'=>$expiration_date,'training_courses'=>$training_courses,'training_workshops'=>$training_workshop,'additional_training_data'=>$certificate_json,'complete_status'=>1,'declaration_status'=>$declare_information,'acls_data'=>$acls_array,'bls_data'=>$bls_array,'cpr_data'=>$cpr_array,'nrp_data'=>$nrp_array,'pals_data'=>$pals_array,'rn_data'=>$rn_array,'np_data'=>$np_array,'cna_data'=>$cna_array,'lpn_data'=>$lpn_array,'crna_data'=>$crna_array,'cnm_data'=>$cnm_array,'ons_data'=>$ons_array,'msw_data'=>$msw_array,'ain_data'=>$ain_array,'rpn_data'=>$rpn_array,'nl_data'=>$nl_array]);
         }else{
 
             
@@ -1531,12 +1555,13 @@ class HomeController extends Controller
             $post->graduate_start_date = $graduation_start_date;
             $post->degree_transcript = $degree_transcript;
             $post->professional_certifications = $professional_certification;
-            $post->licence_number = $license_number;
-            $post->country = $country;
-            $post->state = $state;
-            $post->expiration_date = $expiration_date;
-            $post->training_courses = $training_courses;
-            $post->training_workshops = $training_workshop;
+            // $post->licence_number = $license_number;
+            // $post->country = $country;
+            // $post->state = $state;
+            // $post->expiration_date = $expiration_date;
+            // $post->training_courses = $training_courses;
+            // $post->training_workshops = $training_workshop;
+            $post->additional_training_data = $certificate_json;
             $post->complete_status = 1;
             $run = $post->save();
 

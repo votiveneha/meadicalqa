@@ -14,6 +14,7 @@ use App\Models\VaccinationFrontModel;
 use App\Models\EligibilityToWorkModel;
 use App\Models\WorkingChildrenCheckModel;
 use App\Models\PoliceCheckModel;
+use App\Models\ProfessionalAssocialtionModel;
 use App\Models\User;
 
 class NurseServices
@@ -778,6 +779,18 @@ class NurseServices
 
                 $param='Police check';
                }
+            }else if($data['tab'] == 'tab8'){
+               
+                $email=Session::get('nurseemail');
+                $user_id=User::where('email',$email)->first();
+                $allData['user_id'] = $user_id->id;
+                $allData['des_profession_association'] = $data['des_profession_association'];
+                $allData['membership_numbers'] = $data['membership_numbers'];
+                $allData['membership_status'] = $data['membership_status'];
+                $run=ProfessionalAssocialtionModel::create($allData);
+
+                $param='Professional Memberships';
+
             }
 
 

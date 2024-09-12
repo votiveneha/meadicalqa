@@ -2268,6 +2268,109 @@ $(document).ready(function() {
     });
     </script>
 
+    <script>
+        // Eight form
+    $('.next-step-8').on('click', function(event){
+        event.preventDefault(); // Prevent default form submission
+
+        var targetTab = $(this).data('target');
+
+        // // Function to enable the next tab
+        // function enableNextTab(targetTab) {
+        //     $('a[href="' + targetTab + '"]').removeClass('disabled').tab('show');
+        // }
+        var returnValue = true;
+
+        $(".valley").html("");
+
+        var selectElement1 = $('select[data-list-id="des_profession_association"]');
+        var des_profession_association = selectElement1.val();
+        alert(des_profession_association);
+        var membership_numbers= $("#membership_numbers").val();
+        var membership_status = $("#membership_status").val();
+
+
+        if ($('[name="des_profession_association[]"]').val() == "") {
+
+        document.getElementById("des_profession_error").innerHTML = "* Please select professional association.";
+
+        returnValue = false;
+
+        }
+
+        if (membership_numbers.trim() == "") {
+
+        document.getElementById("membership_numbers_error").innerHTML = "* Please enter memebership numbers.";
+
+        returnValue = false;
+
+        }
+        if (membership_status.trim() == "") {
+
+        document.getElementById("membership_status_error").innerHTML = "* Please select membership status.";
+
+        returnValue = false;
+
+        }
+
+
+        if (!returnValue) {
+            // $('.submit-btn-120').prop('disabled', false);
+            // $('.submit-btn-1').hide();
+            // $('.resetpassword').show();
+            return false;
+        }
+
+        if (returnValue) {
+
+        // Create a new FormData object
+        var formData = new FormData();
+        formData.append('des_profession_association',JSON.stringify(des_profession_association));
+        formData.append('membership_numbers', membership_numbers);
+        formData.append('membership_status', membership_status);
+
+        formData.append('tab', 'tab8');
+
+        $.ajax({
+            url: "{{ route('admin.add_nurse_post_8') }}",
+            type: "POST",
+            data: formData,
+            data: formData,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include CSRF token for security
+            },
+            success: function(res) {
+                console.log(res.type);
+
+                if (res.status == '2') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: res.message,
+                    }).then(function() {
+                        $('a[href="' + targetTab + '"]').tab('show');
+                    });
+                } else {
+                    Swal.fire({
+                        icon:  'error',
+                        title: 'Error',
+                        text: res.message,
+                    });
+                }
+                // Show the target tab
+            },
+            error: function(error) {
+
+            }
+        });
+
+    }
+    });
+    </script>
+
     
 
     <script>

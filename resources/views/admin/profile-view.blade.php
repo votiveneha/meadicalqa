@@ -153,50 +153,50 @@
                             <span>Experience</span>
                         </a>
                     </li>
-                    <li class="nav-item" role="presentation">
+                    {{-- <li class="nav-item" role="presentation">
                         <a class="nav-link" data-bs-toggle="tab" href="#navpill-5" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Financial Details</span>
                         </a>
-                    </li>
+                    </li> --}}
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link" data-bs-toggle="tab" href="#navpill-6" role="tab" aria-selected="false"
+                        <a class="nav-link" data-bs-toggle="tab" href="#navpill-5" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Mandatory Training</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link" data-bs-toggle="tab" href="#navpill-7" role="tab" aria-selected="false"
+                        <a class="nav-link" data-bs-toggle="tab" href="#navpill-6" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Vaccinations</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link" data-bs-toggle="tab" href="#navpill-8" role="tab" aria-selected="false"
+                        <a class="nav-link" data-bs-toggle="tab" href="#navpill-7" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Work Clearances</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link" data-bs-toggle="tab" href="#navpill-9" role="tab" aria-selected="false"
+                        <a class="nav-link" data-bs-toggle="tab" href="#navpill-8" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Professional Memberships</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link" data-bs-toggle="tab" href="#navpill-10" role="tab" aria-selected="false"
+                        <a class="nav-link" data-bs-toggle="tab" href="#navpill-9" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Interview and References</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link" data-bs-toggle="tab" href="#navpill-11" role="tab" aria-selected="false"
+                        <a class="nav-link" data-bs-toggle="tab" href="#navpill-10" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Personal Preferences</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link" data-bs-toggle="tab" href="#navpill-12" role="tab" aria-selected="false"
+                        <a class="nav-link" data-bs-toggle="tab" href="#navpill-11" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Find Work Preferences</span>
                         </a>
@@ -1877,13 +1877,13 @@
                                                     </div>
                                                 </div>
                                                 @endif
-                                                  @if($educationData->training_courses != null  || $educationData->training_workshops != null)
-                                                @php $training_courses = json_decode($educationData->training_courses);
-                                                    $training_workshops = json_decode($educationData->training_workshops);
+                                                  @if($educationData->training_courses != null )
+                                                @php 
+                                                    // $training_workshops = json_decode($educationData->training_workshops);
                                                 @endphp
                                                
                                                 <h4  class="mt-4 fw-bolder fs-6 lh-base d-flex align-items-center">Additional Training :</h4>
-                                                <div class="col-md-6 mt-3">
+                                                {{-- <div class="col-md-6 mt-3">
                                                     <div class="d-flex gap-3 flex-wrap">
                                                         <strong>Courses : </strong>
                                                          <ul class="dropdown-list">
@@ -1894,7 +1894,7 @@
                                                             @endforelse
                                                         </ul>  
                                                     </div>
-                                                </div>
+                                                </div> --}}
                                                 
                                                 @endif
 
@@ -2037,56 +2037,6 @@
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
-                                    <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center ">Financial Details</h3>
-                                </div>
-                                <div class="card-body p-3 px-md-4">
-                                    <div class="col-md-12">
-                                        @if($workingChildrenCheckData)
-                                        <div class="row">
-                                            @if(isset($workingChildrenCheckData->clearance_number) && $workingChildrenCheckData->clearance_number)
-                                            <div class="col-md-6 mt-3">
-                                                <div class="d-flex gap-3 flex-wrap">
-                                                    <strong>Clearance Number : </strong><span>{{ $workingChildrenCheckData->clearance_number}}</span>
-                                                </div>
-                                            </div>
-                                            @endif
-                                            @if(isset($workingChildrenCheckData->state) && $workingChildrenCheckData->state)
-                                            <div class="col-md-6 mt-3">
-                                                <div class="d-flex gap-3 flex-wrap">
-                                                    <strong>State: </strong><span>{{ state_name($workingChildrenCheckData->state)}}</span>
-                                                </div>
-                                                
-                                            </div>
-                                            @endif
-
-                                            @if(isset($workingChildrenCheckData->expiry_date) && $workingChildrenCheckData->expiry_date)
-                                            <div class="col-md-6 mt-3">
-                                                <div class="d-flex gap-3 flex-wrap">
-                                                    <strong>Expiry Date: </strong>
-                                                    <span>{{$workingChildrenCheckData->expiry_date}}</span>
-                                                </div>
-                                            </div>
-                                            @endif
-
-                                           
-                                        </div>
-                                    @else
-                                    <div class="col-md-12">
-                                        <div class="text-center text-danger fs-5">No data found</div>
-                                    </div>
-                                    
-                                    @endif
-                    
-                                    </div>
-                    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tab-pane p-3" id="navpill-6" role="tabpanel">
-                        <div class="row">
-                            <div class=" w-100  overflow-hidden">
-                                <div class="card-body p-3 px-md-4 pb-0">
                                     <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center ">Mandatory Training</h3>
                                 </div>
                                 <div class="card-body p-3 px-md-4">
@@ -2139,7 +2089,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane p-3" id="navpill-7" role="tabpanel">
+                    <div class="tab-pane p-3" id="navpill-6" role="tabpanel">
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
@@ -2195,7 +2145,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane p-3" id="navpill-8" role="tabpanel">
+                    <div class="tab-pane p-3" id="navpill-7" role="tabpanel">
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
@@ -2372,55 +2322,54 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane p-3" id="navpill-84" role="tabpanel">
+                    <div class="tab-pane p-3" id="navpill-8" role="tabpanel">
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
-                                    <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center ">Work Clearances</h3>
+                                    <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center ">Professional Memberships</h3>
                                 </div>
                                 <div class="card-body p-3 px-md-4">
                                     <div class="col-md-12">
-                                        {{-- @if($mandatorytrainingData)
+                                         @if($proMembershipData)
                                         <div class="row">
-                                            <h4>Completed training programs</h4>
-                                            @if(isset($mandatorytrainingData->start_date) && $mandatorytrainingData->start_date)
-                                            <div class="col-md-6 mt-3">
+                                            @if(isset($proMembershipData->des_profession_association) && $proMembershipData->des_profession_association)
+                                            <?php $data = json_decode($proMembershipData->des_profession_association,true)?>
+                                            <div class="col-md-12 mt-3">
                                                 <div class="d-flex gap-3 flex-wrap">
-                                                    <strong>Training Start Date : </strong><span>{{ \Carbon\Carbon::parse($mandatorytrainingData->start_date)->format('d/m/Y') }}</span>
+                                                    <strong>Professional Associations : </strong>
+                                                    <ul class="dropdown-list">
+                                                        @forelse($data as $key => $value)
+                                                            <li><span class="dropdown-item-custom">{{ $value }} , </span></li>
+                                                        @empty
+                                                            <li><a href="#" class="dropdown-item-custom"></a></li>
+                                                        @endforelse
+                                                    </ul> 
                                                 </div>
                                             </div>
                                             @endif
-                                            @if(isset($mandatorytrainingData->end_date) && $mandatorytrainingData->end_date)
+                                            @if(isset($proMembershipData->membership_numbers) && $proMembershipData->membership_numbers)
                                             <div class="col-md-6 mt-3">
                                                 <div class="d-flex gap-3 flex-wrap">
-                                                    <strong>Training End Date : </strong><span>{{ \Carbon\Carbon::parse($mandatorytrainingData->end_date)->format('d/m/Y') }}</span>
+                                                    <strong>Membership Numbers : </strong><span>{{ $proMembershipData->membership_numbers }}</span>
                                                 </div>
                                             </div>
                                             @endif
 
-                                            @if(isset($mandatorytrainingData->institutions) && $mandatorytrainingData->institutions)
+                                            @if(isset($proMembershipData->membership_status) && $proMembershipData->membership_status)
                                             <div class="col-md-6 mt-3">
                                                 <div class="d-flex gap-3 flex-wrap">
-                                                    <strong>Institution: </strong>
-                                                    <span>{{$mandatorytrainingData->institutions}}</span>
+                                                    <strong>Status: </strong>
+                                                    <span>{{$proMembershipData->membership_status}}</span>
                                                 </div>
                                             </div>
-                                            @endif
-                                            @if(isset($mandatorytrainingData->continuing_education) && $mandatorytrainingData->continuing_education)
-                                            <div class="col-md-6 mt-3">
-                                                <div class="d-flex gap-3 flex-wrap">
-                                                    <strong>Mandatory Continuing Education: </strong>
-                                                    <span>{{$mandatorytrainingData->continuing_education}}</span>
-                                                </div>
-                                            </div>
-                                            @endif       
+                                            @endif      
                                         </div>
-                                    @else --}}
+                                    @else
                                     <div class="col-md-12">
                                         <div class="text-center text-danger fs-5">No data found</div>
                                     </div>
                                     
-                                    {{-- @endif --}}
+                                    @endif
                     
                                     </div>
                     
@@ -2429,62 +2378,6 @@
                         </div>
                     </div>
                     <div class="tab-pane p-3" id="navpill-9" role="tabpanel">
-                        <div class="row">
-                            <div class=" w-100  overflow-hidden">
-                                <div class="card-body p-3 px-md-4 pb-0">
-                                    <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center ">Professional Memberships</h3>
-                                </div>
-                                <div class="card-body p-3 px-md-4">
-                                    <div class="col-md-12">
-                                        {{-- @if($mandatorytrainingData)
-                                        <div class="row">
-                                            <h4>Completed training programs</h4>
-                                            @if(isset($mandatorytrainingData->start_date) && $mandatorytrainingData->start_date)
-                                            <div class="col-md-6 mt-3">
-                                                <div class="d-flex gap-3 flex-wrap">
-                                                    <strong>Training Start Date : </strong><span>{{ \Carbon\Carbon::parse($mandatorytrainingData->start_date)->format('d/m/Y') }}</span>
-                                                </div>
-                                            </div>
-                                            @endif
-                                            @if(isset($mandatorytrainingData->end_date) && $mandatorytrainingData->end_date)
-                                            <div class="col-md-6 mt-3">
-                                                <div class="d-flex gap-3 flex-wrap">
-                                                    <strong>Training End Date : </strong><span>{{ \Carbon\Carbon::parse($mandatorytrainingData->end_date)->format('d/m/Y') }}</span>
-                                                </div>
-                                            </div>
-                                            @endif
-
-                                            @if(isset($mandatorytrainingData->institutions) && $mandatorytrainingData->institutions)
-                                            <div class="col-md-6 mt-3">
-                                                <div class="d-flex gap-3 flex-wrap">
-                                                    <strong>Institution: </strong>
-                                                    <span>{{$mandatorytrainingData->institutions}}</span>
-                                                </div>
-                                            </div>
-                                            @endif
-                                            @if(isset($mandatorytrainingData->continuing_education) && $mandatorytrainingData->continuing_education)
-                                            <div class="col-md-6 mt-3">
-                                                <div class="d-flex gap-3 flex-wrap">
-                                                    <strong>Mandatory Continuing Education: </strong>
-                                                    <span>{{$mandatorytrainingData->continuing_education}}</span>
-                                                </div>
-                                            </div>
-                                            @endif       
-                                        </div>
-                                    @else --}}
-                                    <div class="col-md-12">
-                                        <div class="text-center text-danger fs-5">No data found</div>
-                                    </div>
-                                    
-                                    {{-- @endif --}}
-                    
-                                    </div>
-                    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tab-pane p-3" id="navpill-10" role="tabpanel">
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
@@ -2550,7 +2443,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane p-3" id="navpill-11" role="tabpanel">
+                    <div class="tab-pane p-3" id="navpill-10" role="tabpanel">
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
@@ -2624,7 +2517,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane p-3" id="navpill-12" role="tabpanel">
+                    <div class="tab-pane p-3" id="navpill-11" role="tabpanel">
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
