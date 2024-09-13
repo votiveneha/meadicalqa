@@ -856,17 +856,16 @@
                     }
 
                     if($educationData && $educationData->bls_data){
-                      $bls_data = json_decode($educationData->bls_data);
-                      $bls_data_new = $bls_data->bls_data;
-                      $bls_data_cert = $bls_data->bls_licence_num;
-                      $bls_data_expiry = $bls_data->bls_licence_expiry;
-                      $bls_data_img = $bls_data->bls_file;
+                      $bls_data1 = json_decode($educationData->bls_data);
+                      $b_data_arr = array();
+                      foreach ($bls_data1 as $b_data) {
+                        $b_data_arr[] = $b_data->bls_certification_id;
+                      }
+                      $b_data_json = json_encode($b_data_arr);
                     }else{
-                      $bls_data = "";
-                      $bls_data_new = "";
-                      $bls_data_cert = "";
-                      $bls_data_expiry = "";
-                      $bls_data_img = "";
+                      $bls_data1 = "";
+                      $b_data_json = "";
+                      
                     }
 
                     if($educationData && $educationData->cpr_data){
@@ -1170,35 +1169,43 @@
                         </div>
 
                         <div class="form-group level-drp  @if($education_data && $education_data->bls_data == NULL) d-none @endif @if(empty($educationData)) d-none @endif procertdivone">
-                            <input type="hidden" name="pro_cert_bls" class="pro_cert_bls" value="@if(!empty($educationData)){{ $bls_data_new }}@endif">
+                            <input type="hidden" name="pro_cert_bls" class="pro_cert_bls" value="@if(!empty($educationData)){{ $b_data_json }}@endif">
                             <label class="form-label" for="input-1">BLS (Basic Life Support)</label>
                               <?php
                                 $bls_data = DB::table("professional_certificate_table")->where("cert_id","7")->get();
                               ?>
                               <ul id="bls_data" style="display:none;">
                                   @foreach($bls_data as $data)
-                                  <li data-value="{{ $data->professionalcert_id }}">{{ $data->name }}</li>
+                                  <li data-value="{{ $data->name }}">{{ $data->name }}</li>
                                   @endforeach
                                   
                               </ul>
                           <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="bls_data" name="bls_data[]" multiple="multiple"></select>
                         </div>
-                        <div class="license_number_div row license_number_bls @if($education_data && $education_data->bls_data == NULL) d-none @endif @if(empty($educationData)) d-none @endif">
-                          <div class="form-group col-md-6">
-                            <label class="form-label" for="input-1">Certification/Licence Number</label>
-                            <input class="form-control" type="text" name="bls_license_number" value="{{ $bls_data_cert }}">
+                        <div class="bls_certification_div">
+                          @if(!empty($bls_data1))
+                          @foreach($bls_data1 as $b_data)
+                            <h6>{{ $b_data->bls_certification_id }}</h6>
+                            <div class="license_number_div row license_number_bls">
+                            
+                            <div class="form-group col-md-6">
+                              <label class="form-label" for="input-1">Certification/Licence Number</label>
+                              <input class="form-control" type="text" name="bls_license_number[]" value="{{ $b_data->bls_license_number }}">
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label class="form-label" for="input-1">Expiry</label>
+                              <input class="form-control" type="date" name="bls_expiry[]" value="{{ $b_data->bls_expiry }}">
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                              <input class="form-control" type="file" name="bls_upload_certification[]">
+                              @if($b_data->bls_upload_certification)
+                              <img src="{{ url('/public/uploads/certificates') }}/{{ $b_data->bls_upload_certification }}" style="width:100px;">
+                              @endif
+                            </div>
                           </div>
-                          <div class="form-group col-md-6">
-                            <label class="form-label" for="input-1">Expiry</label>
-                            <input class="form-control" type="date" name="bls_expiry" value="{{ $bls_data_expiry }}">
-                          </div>
-                          <div class="form-group col-md-6">
-                            <label class="form-label" for="input-1">Upload your certification/Licence</label>
-                            <input class="form-control" type="file" name="bls_upload_certification">
-                            @if($bls_data_img)
-                            <img src="{{ url('/public/uploads') }}/{{ $bls_data_img }}" style="width:100px;">
-                            @endif
-                          </div>
+                          @endforeach
+                          @endif
                         </div>
                         <div class="form-group level-drp @if($education_data && $education_data->cpr_data == NULL) d-none @endif @if(empty($educationData)) d-none @endif procertdivtwo">
                             <input type="hidden" name="pro_cert_cpr" class="pro_cert_cpr" value="@if(!empty($educationData)){{ $cpr_data_new }}@endif">
@@ -1310,7 +1317,7 @@
                         <div class="license_number_div row license_number_rn @if($education_data && $education_data->rn_data == NULL) d-none @endif @if(empty($educationData)) d-none @endif">
                           <div class="form-group col-md-6">
                             <label class="form-label" for="input-1">Certification/Licence Number</label>
-                            <input class="form-control" type="text" name="rn_license_number" value="{{ $bls_data_cert }}">
+                            <input class="form-control" type="text" name="rn_license_number" value="{{ $rn_data_cert }}">
                           </div>
                           <div class="form-group col-md-6">
                             <label class="form-label" for="input-1">Expiry</label>
@@ -1529,7 +1536,7 @@
                         <div class="license_number_div row license_number_ons @if($education_data && $education_data->msw_data == NULL) d-none @endif @if(empty($educationData)) d-none @endif">
                           <div class="form-group col-md-6">
                             <label class="form-label" for="input-1">Certification/Licence Number</label>
-                            <input class="form-control" type="text" name="msw_license_number" value="{{ $bls_data_cert }}">
+                            <input class="form-control" type="text" name="msw_license_number" value="{{ $msw_data_cert }}">
                           </div>
                           <div class="form-group col-md-6">
                             <label class="form-label" for="input-1">Expiry</label>
@@ -4115,6 +4122,23 @@ $('.js-example-basic-multiple[data-list-id="profess_cert"]').on('change', functi
         
         
         
+    });
+    $('.js-example-basic-multiple[data-list-id="bls_data"]').on('change', function() {
+        let selectedValues = $(this).val();
+        var bls_certification_array = [];
+        
+        $(".bls_certification_div h6").each(function(){
+          var text = $(this).text();
+          
+          bls_certification_array.push(text);
+        });
+        console.log("selectedValues",selectedValues);
+        
+        $(".bls_certification_div").empty();
+        for(var i = 0;i<selectedValues.length;i++){
+          
+          $(".bls_certification_div").append('<h6>'+selectedValues[i]+'</h6><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control" type="text" name="bls_license_number[]"></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control" type="date" name="bls_expiry[]"></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control" type="file" name="bls_upload_certification[]"></div></div>');
+        }
     });
   $(".change_password_link").click(function(){
 
