@@ -2269,7 +2269,129 @@ $(document).ready(function() {
     </script>
 
     <script>
-        // Eight form
+    // Eight form
+    $('.next-step-9').on('click', function(event){
+        event.preventDefault(); // Prevent default form submission
+
+        var targetTab = $(this).data('target');
+
+        // // Function to enable the next tab
+        // function enableNextTab(targetTab) {
+        //     $('a[href="' + targetTab + '"]').removeClass('disabled').tab('show');
+        // }
+        var returnValue = true;
+
+        $(".valley").html("");
+
+        var selectElement1 = $('select[id="reference_relationship"]');
+        var reference_relationship = selectElement1.val();
+        var interview_availablity= $("#interview_availablity").val();
+        var reference_name = $("#reference_name").val();
+        var reference_email = $("#reference_email").val();
+        var reference_contactI = $("#reference_contactI").val();
+
+
+        if ( reference_relationship == "") {
+
+       document.getElementById("reqprofessionalrelationship").innerHTML = "* Please select the reference relationship";
+
+        returnValue = false;
+
+        }
+
+        if (interview_availablity.trim() == "") {
+
+        document.getElementById("reqinterviewdate").innerHTML = "* Please enter the interview availability";
+
+        returnValue = false;
+
+        }
+        if (reference_name.trim() == "") {
+
+        document.getElementById("reqprofessionalnames").innerHTML = "* Please enter the references name";
+
+        returnValue = false;
+
+        }
+        if (reference_contactI.trim() == "") {
+
+        document.getElementById("reqTxtreferencecontactI").innerHTML = "* Please enter the reference contact";
+
+        returnValue = false;
+
+        }
+        if (reference_email.trim() == "") {
+
+         document.getElementById("reqprofessionalemail").innerHTML = "* Please enter the references email";
+
+        returnValue = false;
+
+        }
+
+
+        if (!returnValue) {
+            // $('.submit-btn-120').prop('disabled', false);
+            // $('.submit-btn-1').hide();
+            // $('.resetpassword').show();
+            return false;
+        }
+
+        if (returnValue) {
+
+        // Create a new FormData object
+        var formData = new FormData();
+        formData.append('reference_relationship',reference_relationship);
+        formData.append('interview_availablity', interview_availablity);
+        formData.append('reference_name', reference_name);
+        formData.append('reference_email', reference_email);
+        formData.append('reference_contactI', reference_contactI);
+        formData.append('reference_countryiso', $("#reference_countryiso").val());
+        formData.append('reference_countryCode', $("#reference_countryCode").val());
+
+        formData.append('tab','tab9');
+
+        $.ajax({
+            url: "{{ route('admin.add_nurse_post_9') }}",
+            type: "POST",
+            data: formData,
+            data: formData,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include CSRF token for security
+            },
+            success: function(res) {
+                console.log(res.type);
+
+                if (res.status == '2') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: res.message,
+                    }).then(function() {
+                        $('a[href="' + targetTab + '"]').tab('show');
+                    });
+                } else {
+                    Swal.fire({
+                        icon:  'error',
+                        title: 'Error',
+                        text: res.message,
+                    });
+                }
+                // Show the target tab
+            },
+            error: function(error) {
+
+            }
+        });
+
+    }
+    });
+    </script>
+
+    <script>
+    // Eight form
     $('.next-step-8').on('click', function(event){
         event.preventDefault(); // Prevent default form submission
 
@@ -2329,7 +2451,7 @@ $(document).ready(function() {
         formData.append('membership_numbers', membership_numbers);
         formData.append('membership_status', membership_status);
 
-        formData.append('tab', 'tab8');
+        formData.append('tab','tab8');
 
         $.ajax({
             url: "{{ route('admin.add_nurse_post_8') }}",
@@ -2517,5 +2639,63 @@ $(document).ready(function() {
     function get_new_plice_check() {
     $('#get_new_plice_checkModel').modal('show');
     }
+    </script>
+
+    <script>
+    var phoneInputID2 = "#reference_contactI";
+  var input2 = document.querySelector(phoneInputID2);
+  var iti2 = window.intlTelInput(input2, {
+    // allowDropdown: false,
+    // autoHideDialCode: false,
+    // autoPlaceholder: "off",
+    // dropdownContainer: document.body,
+    // excludeCountries: ["us"],
+    formatOnDisplay: false,
+    // geoIpLookup: function(callback) {
+    //   $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+    //     var countryCode = (resp && resp.country) ? resp.country : "";
+    //     callback(countryCode);
+    //   });
+    // },
+    hiddenInput: "full_number",
+    initialCountry: "",
+    // localizedCountries: { 'de': 'Deutschland' },
+    // nationalMode: false,
+    // onlyCountries: ['us', 'gb', 'ch', 'ca', 'do'],
+    // placeholderNumberType: "MOBILE",
+    preferredCountries: ['AU'],
+    // separateDialCode: true,
+    utilsScript: ""
+  });
+
+  $(phoneInputID2).on("countrychange", function(event) {
+
+    // Get the selected country data to know which country is selected.
+    var selectedCountryData = iti2.getSelectedCountryData();
+    console.log("selectedCountryData",selectedCountryData.dialCode);
+    $("#reference_countryCode").val(selectedCountryData.dialCode);
+    $("#reference_countryiso").val(selectedCountryData.iso2);
+    //alert($("#contactI").intlTelInput("getSelectedCountryData").dialCode);
+    // Get an example number for the selected country to use as placeholder.
+    // newPlaceholder = intlTelInputUtils.getExampleNumber(selectedCountryData.iso2, true, intlTelInputUtils.numberFormat.INTERNATIONAL),
+
+    //   // Reset the phone number input.
+    //   iti.setNumber("");
+
+    // // Convert placeholder as exploitable mask by replacing all 1-9 numbers with 0s
+    // mask = newPlaceholder.replace(/[1-9]/g, "0");
+
+    // // Apply the new mask for the input
+    // $(this).mask(mask);
+  });
+
+
+  // When the plugin loads for the first time, we have to trigger the "countrychange" event manually, 
+  // but after making sure that the plugin is fully loaded by associating handler to the promise of the 
+  // plugin instance.
+
+  iti2.promise.then(function() {
+    $(phoneInputID2).trigger("countrychange");
+  });
     </script>
     

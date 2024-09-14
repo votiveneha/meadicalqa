@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Sep 13, 2024 at 10:53 AM
+-- Generation Time: Sep 14, 2024 at 10:34 AM
 -- Server version: 5.7.23-23
 -- PHP Version: 8.1.29
 
@@ -487,7 +487,8 @@ INSERT INTO `eligibility_to_work` (`id`, `residency`, `support_document`, `visa_
 (9, 'Permanent Resident', '/nurse/assets/imgs/support_document/1725865150.jpg', '451841616484650', '16165498406216584', '554', '101', NULL, 141, '0', '2024-09-09 12:29:10', '2024-09-09 12:29:10', '2024-09-09 12:29:10'),
 (10, 'Citizen', '/nurse/assets/imgs/support_document/1725969356.jpg', NULL, NULL, NULL, NULL, NULL, 148, '0', '2024-09-10 17:25:56', '2024-09-10 17:25:56', '2024-09-10 17:25:56'),
 (11, 'Citizen', '/nurse/assets/imgs/support_document/download (1).jfif', NULL, NULL, NULL, '101', NULL, 150, '0', '2024-09-10 13:03:56', '2024-09-10 13:03:56', '2024-09-10 18:33:56'),
-(12, 'Permanent Resident', '/nurse/assets/imgs/support_document/download (1).jfif', '34545454', '45454545', '45454545', '101', NULL, 151, '0', '2024-09-11 13:10:49', '2024-09-11 13:10:49', '2024-09-11 18:40:49');
+(12, 'Permanent Resident', '/nurse/assets/imgs/support_document/download (1).jfif', '34545454', '45454545', '45454545', '101', NULL, 151, '0', '2024-09-11 13:10:49', '2024-09-11 13:10:49', '2024-09-11 18:40:49'),
+(13, 'Permanent Resident', '/nurse/assets/imgs/support_document/1726219895.jpg', '45126589342638', '1478552963369985521470', 'Cuba1235342638', '56', NULL, 149, '0', '2024-09-13 15:01:35', '2024-09-13 15:01:35', '2024-09-13 15:01:35');
 
 -- --------------------------------------------------------
 
@@ -649,7 +650,8 @@ INSERT INTO `mandatory_training` (`train_id`, `user_id`, `start_date`, `end_date
 (8, 146, '2024-09-25', '2024-09-20', 'test', 'Completed', '2024-09-09 07:38:49', '2024-09-09 07:38:49'),
 (9, 147, '2024-09-19', '2024-09-19', 'trrtrt', 'Ongoing', '2024-09-09 07:51:46', '2024-09-09 07:51:46'),
 (10, 150, '2024-09-11', '2024-09-10', 'test', 'Ongoing', '2024-09-10 07:33:43', '2024-09-10 07:33:43'),
-(11, 151, '2024-09-25', '2024-09-25', 'trrtrt', 'Ongoing', '2024-09-11 07:40:20', '2024-09-11 07:40:20');
+(11, 151, '2024-09-25', '2024-09-25', 'trrtrt', 'Ongoing', '2024-09-11 07:40:20', '2024-09-11 07:40:20'),
+(12, 149, '2021-01-01', '2022-01-01', 'ssk university og bagdad', 'Ongoing', '2024-09-13 03:56:23', '2024-09-13 03:56:23');
 
 -- --------------------------------------------------------
 
@@ -807,7 +809,8 @@ INSERT INTO `police_check` (`id`, `date`, `image`, `user_id`, `reason`, `status`
 (6, '2011-12-01', '/nurse/assets/imgs/police_check/1724652140.jpg', 141, NULL, 1, '2024-08-26 06:02:20', '2024-08-26 00:43:57'),
 (7, '2025-01-01', '/nurse/assets/imgs/police_check/1725969493.jpg', 148, NULL, 1, '2024-09-10 11:58:13', '2024-09-10 06:31:15'),
 (8, '2024-09-04', '/nurse/assets/imgs/police_check/download - Copy.jfif', 150, 'name', 1, '2024-09-10 07:35:33', '2024-09-12 05:18:34'),
-(9, '2024-09-06', '/nurse/assets/imgs/police_check/download - Copy.jfif', 151, 'NAme', 2, '2024-09-11 07:42:27', '2024-09-12 06:09:03');
+(9, '2024-09-06', '/nurse/assets/imgs/police_check/download - Copy.jfif', 151, 'NAme', 2, '2024-09-11 07:42:27', '2024-09-12 06:09:03'),
+(11, '2070-01-01', '/nurse/assets/imgs/police_check/1726220020.jpg', 149, NULL, 1, '2024-09-13 09:33:40', '2024-09-13 04:09:21');
 
 -- --------------------------------------------------------
 
@@ -1400,7 +1403,7 @@ CREATE TABLE `skills` (
 
 INSERT INTO `skills` (`id`, `name`, `created_at`, `updated_at`) VALUES
 (1, 'Communication skills', '2024-04-05 06:36:23', '2024-04-05 06:59:36'),
-(5, 'Empathy', '2024-04-05 06:59:46', '2024-04-05 06:59:52'),
+(5, 'Empathy', '2024-04-05 06:59:46', '2024-09-13 06:15:34'),
 (6, 'Attention to detail', '2024-04-05 07:00:03', '2024-04-25 04:16:20');
 
 -- --------------------------------------------------------
@@ -6937,8 +6940,9 @@ INSERT INTO `users` (`id`, `name`, `lastname`, `email`, `profile_img`, `email_ve
 (132, 'yas', 'mishra', 'votivesales.yashica@gmail.com', 'nurse/assets/imgs/nurse06.png', NULL, '$2y$10$LwnU2Yo2gqlcW13hvOUNO.reBJE3LmJQguC.cRHuCArDHyMm6zxYS', NULL, 'eyJpdiI6Ik9uQkpsQkM3TTNnVGpFbnJSOXBiMUE9PSIsInZhbHVlIjoiakxueWVnMlVodDFnMGd4bWhsakpLSFU1TndEMFcwUjc2NUZxcWx5c3hrbz0iLCJtYWMiOiI0MjAzZmU3MTRmYzk5ZDhjZTAxNmNiNjQyZjhhZjEwZDMwNDQ2YmZiZjA3MDU3NDFlMGE4NzhiYmIzOWRhMDY5IiwidGFnIjoiIn0=', 0, '0', '1', '1', '[\"1\",\"3\",\"4\"]', '[\"2\",\"1\",\"3\"]', 'null', 'null', '2', 'null', 'null', 'null', '[\"1\",\"10\",\"7\",\"11\",\"2\",\"6\",\"9\",\"4\",\"12\",\"13\",\"8\",\"3\",\"5\"]', '12345', NULL, NULL, '2024-08-05 05:52:00', NULL, '0', '1', 'No', 'No', 'No', 'No', 'No', '61', 'au', '4123456712', '@Votive123', 'AU', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '[\"6\",\"5\",\"10\",\"7\",\"9\",\"8\",\"11\",\"12\",\"13\",\"14\",\"15\",\"16\"]', '[\"18\",\"19\",\"20\",\"21\",\"22\",\"23\",\"24\",\"25\",\"26\",\"27\",\"28\",\"29\",\"30\",\"31\",\"32\",\"33\",\"34\",\"35\",\"36\",\"37\",\"38\",\"39\",\"40\",\"41\",\"42\",\"44\",\"43\",\"45\",\"46\",\"47\",\"48\",\"49\",\"50\",\"51\",\"52\",\"53\",\"54\",\"55\",\"56\",\"57\",\"58\",\"59\",\"60\",\"61\",\"63\",\"62\",\"64\",\"65\",\"66\",\"67\",\"68\",\"69\",\"70\",\"71\",\"72\",\"73\",\"74\",\"75\",\"76\",\"77\",\"78\",\"79\",\"80\",\"81\",\"82\",\"83\",\"84\",\"85\",\"86\",\"87\",\"88\",\"90\",\"89\",\"91\",\"92\",\"93\",\"95\",\"94\",\"96\",\"97\",\"98\",\"99\",\"100\",\"101\",\"102\",\"103\",\"104\",\"105\",\"106\",\"107\",\"108\",\"109\",\"110\",\"111\",\"112\",\"113\",\"114\",\"115\",\"116\",\"117\",\"118\",\"119\",\"120\",\"121\",\"122\",\"123\",\"124\",\"125\",\"126\",\"127\",\"128\",\"129\",\"130\",\"131\",\"132\",\"133\",\"134\",\"135\",\"136\",\"137\",\"138\",\"139\",\"140\",\"141\",\"142\",\"143\",\"144\",\"145\",\"146\",\"147\",\"148\",\"149\",\"150\",\"151\",\"152\",\"153\",\"154\",\"155\",\"156\",\"157\",\"158\",\"159\",\"160\",\"161\",\"162\",\"163\",\"164\",\"165\",\"166\",\"167\",\"168\",\"169\",\"170\",\"171\"]', '[\"173\",\"174\",\"232\",\"176\",\"234\",\"233\",\"177\",\"175\",\"178\",\"179\"]', '[\"181\",\"182\",\"183\",\"184\",\"185\",\"186\",\"187\",\"188\",\"189\",\"190\",\"191\",\"192\",\"193\",\"194\",\"195\",\"196\",\"197\",\"198\",\"199\",\"200\",\"201\",\"202\",\"203\",\"204\",\"205\",\"206\",\"207\",\"208\",\"209\",\"210\",\"211\",\"212\",\"213\",\"214\",\"215\",\"216\",\"217\",\"218\",\"219\",\"220\",\"221\",\"222\",\"223\",\"224\",\"225\",\"226\",\"227\"]', '[\"6\",\"9\",\"10\"]', 'null', '[\"240\"]', '[\"386\"]', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (133, 'Neha', 'Mandloi', 'votivephp.neha434355@gmail.com', 'nurse/assets/imgs/nurse06.png', NULL, '$2y$10$xZYiBzLwq9va7vU/3CaAxOflPy1o4XXL4P/XnhLBZOzQZzQsU9/gi', NULL, 'eyJpdiI6InhRQjdZSTZLS1R1LzBscEdaTWlJSXc9PSIsInZhbHVlIjoiTHBDZTJWZ3RvdW9vT2p2bC9RY2EwNmJDNHB2YjB5amdoYnYxVWZmVUUwcz0iLCJtYWMiOiIyNWRiZjlhYjQ1MDFmMzIxYTYyNDUyNTYyNjU0NDg3NWEzZTQ4ZGYxYTdhODQ0NzEwOWEwNzVhZjRiNTMzYTJmIiwidGFnIjoiIn0=', 0, '0', '1', '1', '[\"3\"]', '[\"1\"]', 'null', 'null', '1', 'null', 'null', 'null', '[\"2\"]', '452001', NULL, NULL, '2024-08-06 05:45:46', '2024-08-06 02:49:31', '0', '1', 'No', 'No', 'No', 'No', 'No', '61', 'au', '1234567890', 'Neha@1234', 'AU', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'null', '[\"22\"]', 'null', 'null', 'null', 'null', '[\"243\"]', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (135, 'robert', 'test', 'test333@gmail.com', '/tmp/phpGqQJEN', NULL, NULL, NULL, NULL, 0, '0', '1', '1', NULL, '', '', NULL, '', '', NULL, NULL, '', '451666', NULL, NULL, '2024-08-08 07:58:35', '2024-08-08 07:58:35', '0', '1', 'No', 'No', 'No', 'No', 'No', '91', 'in', '54e4545454', NULL, 'IN', 1613, 'indore', NULL, 'test.com', NULL, 'male', '2024-08-10', 'indore', '3434343434', '91', 'in', 'votivephp.harshita@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(149, 'karli', 'jenner', 'votivetester.preeti@gmail.com', '/nurse/assets/imgs/1725974500.jpg', NULL, '$2y$10$m9eXXeHEnTHvU57QDNoWOO4Alsur3R2e7F45fdUt2WWTd0o1ma67W', NULL, '', 0, '1', '1', '1', '[\"3\"]', '[\"1\"]', 'null', 'null', '5', 'null', 'null', 'null', '[\"7\"]', '452010', NULL, NULL, '2024-09-10 12:04:16', '2024-09-10 07:51:40', '1', '1', 'No', 'No', 'No', 'No', 'No', '61', 'au', '1234567891', '7089@Veer', 'AU', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'null', '[\"18\"]', 'null', 'null', 'null', 'null', '[\"243\"]', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(151, 'test', 'test', 'votivephp.harshitay@gmail.com', '/tmp/phppCYNeq', NULL, NULL, NULL, NULL, 0, '1', '1', '1', '[\"2\"]', '[\"1\"]', '', NULL, '17', '', NULL, NULL, '[\"11\"]', '451666', NULL, NULL, '2024-09-11 07:39:05', '2024-09-11 07:39:48', '1', '1', 'No', 'No', 'No', 'No', 'No', '61', 'au', '7877787878', NULL, 'BS', 304, 'indore', 'test', 'test', NULL, 'female', '2024-09-20', 'indore', '5656565656', '61', 'au', 'votivephp.harshita@gmail.com', '[\"\"]', '[\"22\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"205\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', 'Unemployed', NULL, 0, NULL, NULL, NULL, NULL);
+(149, 'Demo', 'DO', 'votivetester.preeti@gmail.com', '/nurse/assets/imgs/1725974500.jpg', NULL, '$2y$10$m9eXXeHEnTHvU57QDNoWOO4Alsur3R2e7F45fdUt2WWTd0o1ma67W', NULL, '', 0, '1', '1', '1', '[\"3\"]', '[\"1\"]', 'null', 'null', '5', 'null', 'null', 'null', 'null', '77070', NULL, NULL, '2024-09-13 09:08:24', '2024-09-13 06:14:23', '2', '1', 'No', 'Yes', 'No', 'Yes', 'No', '61', 'au', '1234567891', '7089@Veer', 'AU', 195, 'Houston', 'CPRP,RNP,RN', 'https://votivetech.in/mediqa/nurse/my-profile?page=my_profile', NULL, 'Male', '1996-12-04', '11714 Bellaire Blvd,Houston,TX,77072,USA', '7898994455', '61', 'au', 'veer123@gmail.com', 'null', '[\"18\"]', 'null', 'null', 'null', 'null', '[\"243\"]', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'Permanent Part-Time', 1, 1, '101', 1, NULL, 1),
+(151, 'test', 'test', 'votivephp.harshitay@gmail.com', '/tmp/phppCYNeq', NULL, NULL, NULL, NULL, 0, '1', '1', '1', '[\"2\"]', '[\"1\"]', '', NULL, '17', '', NULL, NULL, '[\"11\"]', '451666', NULL, NULL, '2024-09-11 07:39:05', '2024-09-11 07:39:48', '1', '1', 'No', 'No', 'No', 'No', 'No', '61', 'au', '7877787878', NULL, 'BS', 304, 'indore', 'test', 'test', NULL, 'female', '2024-09-20', 'indore', '5656565656', '61', 'au', 'votivephp.harshita@gmail.com', '[\"\"]', '[\"22\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"205\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', 'Unemployed', NULL, 0, NULL, NULL, NULL, NULL),
+(152, 'test', 'test', 'votivephp.harshita@gmail.com', 'nurse/assets/imgs/nurse06.png', NULL, '$2y$10$F4.kERLaRhTPHucIJ3DnKe4snMooa05L8TizSJZtTaZUg0u/mwdXm', NULL, '', 0, '1', '1', '1', '[\"1\"]', '[\"2\"]', 'null', 'null', '2', 'null', 'null', 'null', '[\"1\"]', '451666', NULL, NULL, '2024-09-13 09:38:55', '2024-09-13 04:09:13', '1', '1', 'No', 'No', 'No', 'No', 'No', '61', 'au', '7894561230', 'Ganeshau@15', 'AU', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '[\"252\"]', 'null', 'null', 'null', '[\"10\"]', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -7043,7 +7047,8 @@ INSERT INTO `user_experience` (`experience_id`, `user_id`, `employer_name`, `pos
 (13, 146, 'robert test', '[\"2\"]', '2024-09-11', '2024-09-11', 2024, 'test', 'test', '[\"5\"]', NULL, '2024-09-09 07:38:35', '2024-09-09 07:38:35'),
 (14, 147, 'robert test', '[\"6\"]', '2024-09-15', '2024-09-20', 2024, 'test', 'test', '[\"1\"]', NULL, '2024-09-09 07:50:52', '2024-09-09 07:50:52'),
 (15, 150, 'test', '[\"5\"]', '2024-09-11', '2024-09-13', 2024, 'test', 'test', '[\"5\"]', NULL, '2024-09-10 07:33:30', '2024-09-10 07:33:30'),
-(16, 151, 'na', '[\"6\"]', '2024-09-27', '2024-09-26', 2024, 'test', 'test', '[\"5\"]', NULL, '2024-09-11 07:40:09', '2024-09-11 07:40:09');
+(16, 151, 'na', '[\"6\"]', '2024-09-27', '2024-09-26', 2024, 'test', 'test', '[\"5\"]', NULL, '2024-09-11 07:40:09', '2024-09-11 07:40:09'),
+(17, 149, '‎Android · ‎Educational', '[\"1\",\"2\",\"3\",\"5\",\"6\",\"7\",\"8\",\"9\",\"10\",\"11\",\"12\",\"13\",\"14\",\"15\",\"18\",\"19\",\"20\",\"21\",\"22\",\"23\",\"24\",\"25\",\"26\",\"27\",\"28\",\"29\",\"30\",\"31\",\"32\",\"33\",\"34\",\"35\",\"36\",\"37\",\"38\",\"39\",\"40\",\"41\",\"42\",\"43\",\"44\",\"45\",\"46\",\"47\",\"48\",\"49\",\"50\",\"51\",\"52\",\"53\",\"54\",\"55\",\"56\",\"57\",\"58\",\"59\",\"60\",\"61\",\"62\",\"63\",\"64\",\"65\",\"66\",\"67\",\"68\",\"69\",\"70\",\"71\",\"72\",\"73\",\"74\",\"75\",\"76\",\"77\",\"78\",\"79\",\"80\",\"81\",\"82\",\"83\",\"84\",\"85\",\"86\",\"87\",\"88\",\"89\",\"90\",\"91\",\"92\",\"93\",\"94\",\"95\",\"96\",\"97\",\"98\",\"99\",\"100\",\"101\",\"102\",\"103\",\"104\",\"105\",\"106\",\"107\",\"108\",\"109\",\"110\",\"111\",\"112\",\"113\",\"114\",\"115\",\"116\",\"117\",\"118\",\"119\",\"120\",\"121\",\"122\",\"123\",\"124\",\"125\",\"126\",\"127\",\"128\",\"129\",\"130\",\"131\",\"132\",\"133\",\"134\",\"135\",\"136\",\"137\",\"138\",\"139\",\"140\",\"141\",\"142\",\"143\",\"144\",\"145\",\"146\",\"147\",\"148\",\"149\",\"150\",\"151\",\"152\",\"153\",\"154\",\"155\",\"156\",\"158\",\"159\",\"160\",\"161\",\"162\",\"163\",\"164\",\"165\",\"166\",\"167\",\"168\",\"169\",\"170\",\"171\",\"173\",\"174\",\"175\",\"176\",\"177\",\"178\",\"179\",\"181\",\"182\",\"183\",\"184\",\"185\",\"186\",\"187\",\"188\",\"189\",\"190\",\"191\",\"192\",\"193\",\"194\",\"195\",\"196\",\"197\",\"198\",\"199\",\"200\",\"201\",\"202\",\"203\",\"204\",\"205\",\"206\",\"207\",\"208\",\"209\",\"210\",\"211\",\"212\",\"213\",\"214\",\"215\",\"216\",\"217\",\"218\",\"219\",\"220\",\"221\",\"222\",\"223\",\"224\",\"225\",\"226\",\"227\",\"232\",\"233\",\"234\",\"237\",\"238\",\"239\",\"240\",\"241\",\"242\",\"243\",\"244\",\"245\",\"246\",\"247\",\"248\",\"249\",\"250\",\"251\",\"252\",\"253\",\"254\",\"255\",\"256\",\"257\",\"258\",\"259\",\"260\",\"261\",\"262\",\"263\",\"264\",\"265\",\"266\",\"267\",\"268\",\"269\",\"270\",\"271\",\"272\",\"273\",\"274\",\"275\",\"276\",\"277\",\"278\",\"279\",\"280\",\"281\",\"282\",\"283\",\"284\",\"285\",\"286\",\"287\",\"288\",\"289\",\"290\",\"291\",\"293\",\"294\",\"296\",\"297\",\"298\",\"299\",\"300\"]', '2021-01-01', '2025-01-01', 1, 'Home take care', 'jjujjjjjj', '[\"5\"]', 1, '2024-09-13 03:55:40', '2024-09-13 03:55:40');
 
 -- --------------------------------------------------------
 
@@ -7064,8 +7069,9 @@ CREATE TABLE `vaccination` (
 
 INSERT INTO `vaccination` (`id`, `name`, `created_at`, `updated_at`) VALUES
 (4, 'TEST1', '2024-08-09 08:27:31', '2024-08-09 08:27:37'),
-(5, 'Demo1', '2024-08-26 01:13:39', '2024-08-26 01:13:39'),
-(6, 'Namhdfjfurryue', '2024-09-04 07:52:38', '2024-09-12 05:20:47');
+(5, 'Demo1', '2024-08-26 01:13:39', '2024-09-13 06:21:11'),
+(6, 'Namhdfjfurryue', '2024-09-04 07:52:38', '2024-09-12 05:20:47'),
+(7, 'Namhdfjfurryue', '2024-09-13 06:21:18', '2024-09-13 06:21:18');
 
 -- --------------------------------------------------------
 
@@ -7097,7 +7103,8 @@ INSERT INTO `vaccination_front` (`vaccination_id`, `user_id`, `vaccination_recor
 (7, 146, '[\"4\",\"5\",\"6\"]', 'Up-to-date', 1, '2024-09-09 07:38:56', '2024-09-09 07:38:56'),
 (8, 147, '[\"5\"]', 'Up-to-date', 1, '2024-09-09 07:52:23', '2024-09-09 07:52:23'),
 (9, 150, '[\"4\"]', 'Up-to-date', 1, '2024-09-10 07:33:48', '2024-09-10 07:33:48'),
-(10, 151, '[\"4\"]', 'Up-to-date', 1, '2024-09-11 07:40:25', '2024-09-11 07:40:25');
+(10, 151, '[\"4\"]', 'Up-to-date', 1, '2024-09-11 07:40:25', '2024-09-11 07:40:25'),
+(11, 149, '[\"5\"]', 'Up-to-date', 1, '2024-09-13 03:56:37', '2024-09-13 03:56:47');
 
 -- --------------------------------------------------------
 
@@ -7130,7 +7137,8 @@ INSERT INTO `working_children_check` (`id`, `clearance_number`, `state`, `expiry
 (11, '41', 195, '2011-01-01', 141, '1', '2024-09-10 11:20:04', '2024-09-10 11:20:04', NULL),
 (12, '41', 195, '2032-01-01', 148, '1', '2024-09-10 17:26:14', '2024-09-10 17:26:14', NULL),
 (13, '3434343434', 1, '2024-09-28', 150, '1', '2024-09-10 13:04:33', '2024-09-10 13:04:33', NULL),
-(14, '454545454', 16, '2024-10-06', 151, '1', '2024-09-11 13:11:02', '2024-09-11 13:11:02', NULL);
+(14, '454545454', 16, '2024-10-06', 151, '1', '2024-09-11 13:11:02', '2024-09-11 13:11:02', NULL),
+(15, '41', 201, '2070-01-01', 149, '1', '2024-09-13 15:01:58', '2024-09-13 15:01:58', NULL);
 
 -- --------------------------------------------------------
 
@@ -7422,7 +7430,7 @@ ALTER TABLE `degree`
 -- AUTO_INCREMENT for table `eligibility_to_work`
 --
 ALTER TABLE `eligibility_to_work`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `emergency_contact`
@@ -7458,7 +7466,7 @@ ALTER TABLE `level_year`
 -- AUTO_INCREMENT for table `mandatory_training`
 --
 ALTER TABLE `mandatory_training`
-  MODIFY `train_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `train_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -7488,7 +7496,7 @@ ALTER TABLE `personal_preferences`
 -- AUTO_INCREMENT for table `police_check`
 --
 ALTER TABLE `police_check`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `practitioner_type`
@@ -7548,7 +7556,7 @@ ALTER TABLE `sub_job_specialities`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=152;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=153;
 
 --
 -- AUTO_INCREMENT for table `user_education_cerification`
@@ -7560,25 +7568,25 @@ ALTER TABLE `user_education_cerification`
 -- AUTO_INCREMENT for table `user_experience`
 --
 ALTER TABLE `user_experience`
-  MODIFY `experience_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `experience_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `vaccination`
 --
 ALTER TABLE `vaccination`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `vaccination_front`
 --
 ALTER TABLE `vaccination_front`
-  MODIFY `vaccination_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `vaccination_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `working_children_check`
 --
 ALTER TABLE `working_children_check`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `work_preferences`

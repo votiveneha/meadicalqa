@@ -118,15 +118,15 @@
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link" data-bs-toggle="tab" href="#navpill-8" role="tab" aria-selected="false"
+                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-8" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Professional Memberships</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-9" role="tab" aria-selected="false"
+                        <a class="nav-link" data-bs-toggle="tab" href="#navpill-9" role="tab" aria-selected="false"
                             tabindex="-1">
-                            <span>Interview and References</span>
+                            <span>Interview</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
@@ -1620,57 +1620,75 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane p-3" id="navpill-8" role="tabpanel">
+                    <div class="tab-pane p-3" id="navpill-9" role="tabpanel">
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
-                                    <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center">Professional Memberships</h3>
+                                    <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center">Interview</h3>
                                 </div>
                                 <div class="card-body p-3 px-md-4">
                                     <div class="col-md-12">
                                         <div class="row">
                                         <div class="col-md-12 mt-3">
                                             <div class="form-group">
-                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Professional Associations</strong></label>
-                                                <ul id="des_profession_association" style="display:none;">
-                        
-                                                    <li data-value="ANA">ANA</li>
-                                                    <li data-value="ENA">ENA</li>
-                                                    
-                                                </ul>
-                                                <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="des_profession_association" name="des_profession_association[]" multiple="multiple"></select>
-                                                <span id="des_profession_error" class="text-danger valley"></span>
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Interview Availability</strong></label>
+                                                 <input type="datetime-local" name="interview_availablity" class="form-control" value="" id="interview_availablity">
+                                                  <span id="reqinterviewdate" class="reqError text-danger valley"></span>
                                             </div>
                                         </div> 
+
+                                        <h4 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3">Professional References</h4>
+
                                         <div class="col-md-12 mt-3">
                                             <div class="form-group">
-                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Membership Numbers</strong></label>
-                                                <input type="text" name="membership_numbers" class="form-control" id="membership_numbers">
-                                                <span id="membership_numbers_error" class="reqError text-danger valley"></span>
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Names</strong></label>
+                                                <input type="text" name="reference_name" class="form-control" value="" id="reference_name">
+                                                 <span id="reqprofessionalnames" class="reqError text-danger valley"></span>
                                             </div>
                                         </div>
                                         <div class="col-md-12 mt-3">
                                             <div class="form-group">
-                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Status</strong></label>
-                                                <select class="form-control" name="membership_status" id="membership_status">
-                                                    <option value="Active">Active</option>
-                                                    <option value="Lapsed">Lapsed</option>                                                
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Email</strong></label>
+                                                <input type="text" name="reference_email" class="form-control" value="" id="reference_email">
+                                                  <span id="reqprofessionalemail" class="reqError text-danger valley"></span>
+                                            </div>
+                                        </div> 
+                                        <div class="col-md-12 mt-3">
+                                            <div class="form-group">
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Mobile Number *</strong></label>
+                                                <div class="mob-adj">
+                                                <input type="hidden" name="reference_countryCode" id="reference_countryCode">
+                                                <input type="hidden" name="reference_countryiso" id="reference_countryiso" value="">
+                                                <input class="form-control numbers" type="tel" name="reference_contact" id="reference_contactI" value=""  maxlength="10" style="padding-right: 20rem">
+                                                <span id="reqTxtreferencecontactI" class="reqError text-danger valley"></span>
+                                                </div>
+                                            </div>
+                                        </div> 
+                                        <div class="col-md-12 mt-3">
+                                            <div class="form-group">
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Relationship</strong></label>
+                                                <select class="form-control form-select ps-5" name="reference_relationship" id="reference_relationship">
+                                                    <option value="">Select Relationship</option>
+                                                    <option value="Mother">Mother</option>
+                                                    <option value="Father">Father</option>
+                                                    <option value="Brother">Brother</option>
+                                                    <option value="Sister">Sister</option>
+                                                    <option value="Cousin">Cousin</option>
+                                                    <option value="Uncle">Uncle</option>
+                                                    <option value="Aunt">Aunt</option>
                                                 </select>
-                                                 <span id="membership_status_error" class="reqError text-danger valley"></span>
+                                                <span id="reqprofessionalrelationship" class="reqError text-danger valley"></span>
                                             </div>
                                         </div> 
                                         <div class="d-flex align-items-center justify-content-between mt-3">
-                                            <button type="button" class="btn btn-default next-step-8 align-items-center justify-content-between" data-target="#navpill-9">Next</button>
+                                            <button type="button" class="btn btn-default next-step-9 align-items-center justify-content-between" data-target="#navpill-10">Next</button>
                                         </div>
                                     </div>                     
                                     </div>                    
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    
-                    
-                    
+                    </div>                    
                 </div>
             </form>
             </div>

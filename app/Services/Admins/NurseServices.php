@@ -15,6 +15,7 @@ use App\Models\EligibilityToWorkModel;
 use App\Models\WorkingChildrenCheckModel;
 use App\Models\PoliceCheckModel;
 use App\Models\ProfessionalAssocialtionModel;
+use App\Models\InterviewModel;
 use App\Models\User;
 
 class NurseServices
@@ -758,7 +759,7 @@ class NurseServices
                 $param='Children Check';
                }else if ($data['type'] == 'police_check') {
 
-                $image_support_document_policeI=$data['image_support_document_policeI'];
+                $image_support_document_policeI=$data['image_support_document_policeI   '];
                  $plice_file_name='';
 
                  if($image_support_document_policeI != 'undefined'){
@@ -790,6 +791,22 @@ class NurseServices
                 $run=ProfessionalAssocialtionModel::create($allData);
 
                 $param='Professional Memberships';
+
+            }else if($data['tab'] == 'tab9'){
+               
+                $email=Session::get('nurseemail');
+                $user_id=User::where('email',$email)->first();
+                $allData['user_id'] = $user_id->id;
+                $allData['interview_availablity'] = $data['interview_availablity'];
+                $allData['reference_name'] = $data['reference_name'];
+                $allData['reference_email'] = $data['reference_email'];
+                $allData['contact_country_code'] = $data['reference_countryCode'];
+                $allData['contact_country_iso'] = $data['reference_countryiso'];
+                $allData['reference_contact'] = $data['reference_contactI'];
+                $allData['reference_relationship'] = $data['reference_relationship'];
+                $run=InterviewModel::create($allData);
+
+                $param='Interview';
 
             }
 
