@@ -120,11 +120,11 @@
                     <li class="nav-item" role="presentation">
                         <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-8" role="tab" aria-selected="false"
                             tabindex="-1">
-                            <span>Professional Memberships</span>
+                            <span>Professional</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link" data-bs-toggle="tab" href="#navpill-9" role="tab" aria-selected="false"
+                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-9" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Interview</span>
                         </a>
@@ -138,7 +138,7 @@
                     <li class="nav-item" role="presentation">
                         <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-11" role="tab" aria-selected="false"
                             tabindex="-1">
-                            <span>Find Work Preferences</span>
+                            <span>Job Search & Personal Preferences</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
@@ -1620,6 +1620,54 @@
                             </div>
                         </div>
                     </div>
+                    <div class="tab-pane p-3" id="navpill-8" role="tabpanel">
+                        <div class="row">
+                            <div class=" w-100  overflow-hidden">
+                                <div class="card-body p-3 px-md-4 pb-0">
+                                    <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center">Professional Memberships</h3>
+                                </div>
+                                <div class="card-body p-3 px-md-4">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                        <div class="col-md-12 mt-3">
+                                            <div class="form-group">
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Professional Associations</strong></label>
+                                                <ul id="des_profession_association" style="display:none;">
+
+                                                    <li data-value="ANA">ANA</li>
+                                                    <li data-value="ENA">ENA</li>
+
+                                                </ul>
+                                                <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="des_profession_association" name="des_profession_association[]" multiple="multiple"></select>
+                                                <span id="des_profession_error" class="text-danger valley"></span>
+                                            </div>
+                                        </div> 
+                                        <div class="col-md-12 mt-3">
+                                            <div class="form-group">
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Membership Numbers</strong></label>
+                                                <input type="text" name="membership_numbers" class="form-control" id="membership_numbers">
+                                                <span id="membership_numbers_error" class="reqError text-danger valley"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 mt-3">
+                                            <div class="form-group">
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Status</strong></label>
+                                                <select class="form-control" name="membership_status" id="membership_status">
+                                                    <option value="Active">Active</option>
+                                                    <option value="Lapsed">Lapsed</option>                                                
+                                                </select>
+                                                 <span id="membership_status_error" class="reqError text-danger valley"></span>
+                                            </div>
+                                        </div> 
+                                        <div class="d-flex align-items-center justify-content-between mt-3">
+                                            <button type="button" class="btn btn-default next-step-8 align-items-center justify-content-between" data-target="#navpill-9">Next</button>
+                                        </div>
+                                    </div>                     
+                                    </div>                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="tab-pane p-3" id="navpill-9" role="tabpanel">
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
@@ -1682,6 +1730,157 @@
                                         </div> 
                                         <div class="d-flex align-items-center justify-content-between mt-3">
                                             <button type="button" class="btn btn-default next-step-9 align-items-center justify-content-between" data-target="#navpill-10">Next</button>
+                                        </div>
+                                    </div>                     
+                                    </div>                    
+                                </div>
+                            </div>
+                        </div>
+                    </div> 
+                    <div class="tab-pane p-3" id="navpill-10" role="tabpanel">
+                        <div class="row">
+                            <div class=" w-100  overflow-hidden">
+                                <div class="card-body p-3 px-md-4 pb-0">
+                                    <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center">Personal Preferences</h3>
+                                </div>
+                                <div class="card-body p-3 px-md-4">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                        <div class="col-md-12 mt-3">
+                                            <div class="form-group">
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Preferred Work Schedule</strong></label>
+                                                 <select class="form-control form-select ps-5" name="preferred_work_schedule" id="preferred_work_schedule">
+                                                <option value="">Select preferred work schedule</option>
+                                                <option value="Full-time">Full-time</option>
+                                                <option value="Part-time">Part-time</option>
+                                                <option value="Shift preferences">Shift preferences</option>
+                                                </select>
+                                                <span id="reqpreferecschedule" class="reqError text-danger valley"></span>
+                                            </div>
+                                        </div> 
+
+                                        <h4 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3">Preferred Work Locations</h4>
+
+                                        <div class="col-md-6 mt-3">
+                                            <div class="form-group">
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Country</strong></label>
+                                                <select class="form-control form-select ps-5" name="country" id="countryworkprefer">
+                                                <option value="">Select Country</option>
+                                                @php $country_data=country_name_from_db();@endphp
+                                                
+                                                @foreach ($country_data as $data)
+                                                <option value="{{$data->iso2}}"> {{$data->name}} </option>
+                                                @endforeach
+                                                </select>
+                                                <span id="reqprecountry" class="reqError text-danger valley"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mt-3">
+                                            <div class="form-group">
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>State *</strong></label>
+                                                <select class="form-control form-select ps-5" name="state" id="stateworkprefer">
+                                                    @php
+                                                    if(isset( $preferenceData->country)){
+                                                    $state_data =state_name_array($preferenceData->country);
+                                                    }else{
+                                                    $state_data = '';
+                                                    }
+                                                    @endphp
+                                                    @if(isset($state_data) && !empty($state_data))
+                                                    @foreach ($state_data as $data_state)
+                                                    <option value="{{$data_state->id}}" ?>> {{$data_state->name}} </option>
+                                                    @endforeach
+                                                    @endif
+
+                                                </select>
+                                                  <span id="reqprestateI" class="reqError text-danger valley"></span>
+                                            </div>
+                                        </div> 
+                                        <div class="col-md-12 mt-3">
+                                            <div class="form-group">
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Specific Facilities</strong></label>
+                                                <textarea name="specific_facilities" class="form-control" id="specific_facilities"></textarea>
+                                                <span id="reqspecificfacilities" class="reqError text-danger valley"></span>
+                                            </div>
+                                        </div> 
+                                        <div class="col-md-12 mt-3">
+                                            <div class="form-group">
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Work Environment Preferences</strong></label>
+                                                 <select class="form-control form-select ps-5" name="work_environment" id="work_environment">
+                                                    <option value="">Select Work Environment Preferences</option>
+                                                    <option value="Hospital">Hospital</option>
+                                                    <option value="Clinic">Clinic</option>
+                                                    <option value="Home Health">Home Health</option>
+                                                 </select>
+                                                <span id="reqworkenvironement" class="reqError text-danger valley"></span>
+                                            </div>
+                                        </div> 
+                                        <div class="col-md-12 mt-3">
+                                            <div class="form-group">
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Shift Preferences</strong></label>
+                                                <select class="form-control form-select ps-5" name="shift_preferences" id="shift_preferences">
+                                                    <option value="">Select Shift Preferences</option>
+                                                    <option value="Day">Day</option>
+                                                    <option value="Clinic">Evening</option>
+                                                    <option value="Night">Night</option>
+                                                </select>
+                                                <span id="reqshiftpreferences" class="reqError text-danger valley"></span>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex align-items-center justify-content-between mt-3">
+                                            <button type="button" class="btn btn-default next-step-10 align-items-center justify-content-between" data-target="#navpill-11">Next</button>
+                                        </div>
+                                    </div>                     
+                                    </div>                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane p-3" id="navpill-11" role="tabpanel">
+                        <div class="row">
+                            <div class=" w-100  overflow-hidden">
+                                <div class="card-body p-3 px-md-4 pb-0">
+                                    <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center">Job Search & Personal Preferences</h3>
+                                </div>
+                                <div class="card-body p-3 px-md-4">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                        <div class="col-md-12 mt-3">
+                                            <div class="form-group">
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Desired Job Roles</strong></label>
+                                                <?php
+                                                    $practitioner_type = DB::table("practitioner_type")->get();
+                                                ?>
+                                                <ul id="des_job_role" style="display:none;">
+                                                    @foreach($practitioner_type as $cert)
+                                                    <li data-value="{{ $cert->id }}">{{ $cert->name }}</li>
+                                                    @endforeach
+  
+                                                </ul>
+                                                <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="des_job_role" name="des_job_role[]" multiple="multiple"></select>
+                                                <span id="reqjobroles" class="reqError text-danger valley"></span>
+                                            </div>
+                                        </div> 
+                                        <div class="col-md-12 mt-3">
+                                            <div class="form-group">
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Salary Expectations</strong></label>
+                                                <input type="text" name="salary_expectation" class="form-control"  id="salary_expectation">
+                                                 <span id="reqsalaryexp" class="reqError text-danger valley"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 mt-3">
+                                            <div class="form-group">
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Benefits Preferences</strong></label>
+                                                  <ul id="benefit_prefer" style="display:none;">
+                                                    <li data-value="Health insurance">Health insurance</li>
+                                                    <li data-value="Retirement plans">Retirement plans</li>
+                                                  </ul>
+                                                  <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="benefit_prefer" name="benefit_prefer[]" multiple="multiple"></select>
+                                                  <span id="reqbenefitsprefer" class="reqError text-danger valley"></span>
+                                            </div>
+                                        </div> 
+                                        <div class="d-flex align-items-center justify-content-between mt-3">
+                                            <button type="button" class="btn btn-default next-step-11 align-items-center justify-content-between" data-target="#navpill-12">Next</button>
                                         </div>
                                     </div>                     
                                     </div>                    

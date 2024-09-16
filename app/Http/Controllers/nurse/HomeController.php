@@ -1051,6 +1051,238 @@ class HomeController extends Controller
 
         $bls_data_json = json_encode($bls_data_array);
 
+        $acls_data = $request->acls_data;
+        if($acls_data){
+            $acls_count = count($acls_data);
+        }else{
+            $acls_count = 0;
+        }
+        $aclsnamearr = $request->aclsnamearr;
+        $acls_license_number = $request->acls_license_number;
+        $acls_expiry = $request->acls_expiry;
+        $acls_upload_certification = $request->file('acls_upload_certification');
+
+        $acls_data_array = array();
+
+        for($i=0;$i<$acls_count;$i++){
+            if(!empty($acls_upload_certification[$i])){
+                $name1=$acls_upload_certification[$i]->getClientOriginalName();
+                $name= time().$name1;
+                $destinationPathcert = public_path()."/uploads/certificates"; 
+                $acls_upload_certification[$i]->move($destinationPathcert,$name);
+            }else{
+                $certificate_data = json_decode($getedudata->acls_data);
+                $name = $certificate_data[$i]->acls_upload_certification;
+            }
+            
+            $acls_data_array[] = array("acls_certification_id"=>$aclsnamearr[$i],"acls_license_number"=>$acls_license_number[$i],"acls_expiry"=>$acls_expiry[$i],"acls_upload_certification"=>$name);
+        }
+
+        if(!empty($acls_data_array)){
+            $acls_data_json = json_encode($acls_data_array);
+        }else{
+            $acls_data_json = '';
+        }
+
+        $cpr_data = $request->cpr_data;
+        if($cpr_data){
+            $cpr_count = count($cpr_data);
+        }else{
+            $cpr_count = 0;
+        }
+        $cprnamearr = $request->cprnamearr;
+
+        $cpr_license_number = $request->cpr_license_number;
+        $cpr_expiry = $request->cpr_expiry;
+        $cpr_upload_certification = $request->file('cpr_upload_certification');
+
+        $cpr_data_array = array();
+
+        for($i=0;$i<$cpr_count;$i++){
+            if(!empty($cpr_upload_certification[$i])){
+                $name1=$cpr_upload_certification[$i]->getClientOriginalName();
+                $name= time().$name1;
+                $destinationPathcert = public_path()."/uploads/certificates"; 
+                $cpr_upload_certification[$i]->move($destinationPathcert,$name);
+            }else{
+                $certificate_data = json_decode($getedudata->cpr_data);
+                $name = $certificate_data[$i]->cpr_upload_certification;
+            }
+            
+            $cpr_data_array[] = array("cpr_certification_id"=>$cprnamearr[$i],"cpr_license_number"=>$cpr_license_number[$i],"cpr_expiry"=>$cpr_expiry[$i],"cpr_upload_certification"=>$name);
+        }
+
+        if(!empty($cpr_data_array)){
+            $cpr_data_json = json_encode($cpr_data_array);
+        }else{
+            $cpr_data_json = '';
+        }
+
+        $nrp_data = $request->nrp_data;
+        if($nrp_data){
+            $nrp_count = count($nrp_data);
+        }else{
+            $nrp_count = 0;
+        }
+        $nrpnamearr = $request->nrpnamearr;
+        $nrp_license_number = $request->nrp_license_number;
+        $nrp_expiry = $request->nrp_expiry;
+        $nrp_upload_certification = $request->file('nrp_upload_certification');
+
+        $nrp_data_array = array();
+
+        for($i=0;$i<$nrp_count;$i++){
+            if(!empty($nrp_upload_certification[$i])){
+                $name1=$nrp_upload_certification[$i]->getClientOriginalName();
+                $name= time().$name1;
+                $destinationPathcert = public_path()."/uploads/certificates"; 
+                $nrp_upload_certification[$i]->move($destinationPathcert,$name);
+            }else{
+                $certificate_data = json_decode($getedudata->nrp_data);
+                $name = $certificate_data[$i]->nrp_upload_certification;
+            }
+            
+            $nrp_data_array[] = array("nrp_certification_id"=>$nrpnamearr[$i],"nrp_license_number"=>$nrp_license_number[$i],"nrp_expiry"=>$nrp_expiry[$i],"nrp_upload_certification"=>$name);
+        }
+
+        if(!empty($nrp_data_array)){
+            $nrp_data_json = json_encode($nrp_data_array);
+        }else{
+            $nrp_data_json = '';
+        }
+
+        $pls_data = $request->pls_data;
+        if($pls_data){
+            $pls_count = count($pls_data);
+        }else{
+            $pls_count = 0;
+        }
+        $plsnamearr = $request->plsnamearr;
+        $pls_license_number = $request->pls_license_number;
+        $pls_expiry = $request->pls_expiry;
+        $pls_upload_certification = $request->file('pls_upload_certification');
+
+        $pls_data_array = array();
+
+        for($i=0;$i<$pls_count;$i++){
+            if(!empty($pls_upload_certification[$i])){
+                $name1=$pls_upload_certification[$i]->getClientOriginalName();
+                $name= time().$name1;
+                $destinationPathcert = public_path()."/uploads/certificates"; 
+                $pls_upload_certification[$i]->move($destinationPathcert,$name);
+            }else{
+                $certificate_data = json_decode($getedudata->pals_data);
+                $name = $certificate_data[$i]->pls_upload_certification;
+            }
+            
+            $pls_data_array[] = array("pls_certification_id"=>$plsnamearr[$i],"pls_license_number"=>$pls_license_number[$i],"pls_expiry"=>$pls_expiry[$i],"pls_upload_certification"=>$name);
+        }
+
+        if(!empty($pls_data_array)){
+            $pls_data_json = json_encode($pls_data_array);
+        }else{
+            $pls_data_json = '';
+        }
+
+        $rn_data = $request->rn_data;
+        if($rn_data){
+            $rn_count = count($rn_data);
+        }else{
+            $rn_count = 0;
+        }
+        $rnnamearr = $request->rnnamearr;
+        $rn_license_number = $request->rn_license_number;
+        $rn_expiry = $request->rn_expiry;
+        $rn_upload_certification = $request->file('rn_upload_certification');
+
+        $rn_data_array = array();
+
+        for($i=0;$i<$rn_count;$i++){
+            if(!empty($rn_upload_certification[$i])){
+                $name1=$rn_upload_certification[$i]->getClientOriginalName();
+                $name= time().$name1;
+                $destinationPathcert = public_path()."/uploads/certificates"; 
+                $rn_upload_certification[$i]->move($destinationPathcert,$name);
+            }else{
+                $certificate_data = json_decode($getedudata->rn_data);
+                $name = $certificate_data[$i]->rn_upload_certification;
+            }
+            
+            $rn_data_array[] = array("rn_certification_id"=>$rnnamearr[$i],"rn_license_number"=>$rn_license_number[$i],"rn_expiry"=>$rn_expiry[$i],"rn_upload_certification"=>$name);
+        }
+
+        if(!empty($rn_data_array)){
+            $rn_data_json = json_encode($rn_data_array);
+        }else{
+            $rn_data_json = '';
+        }
+
+        $np_data = $request->np_data;
+        if($np_data){
+            $np_count = count($np_data);
+        }else{
+            $np_count = 0;
+        }
+        $npnamearr = $request->npnamearr;
+        $np_license_number = $request->np_license_number;
+        $np_expiry = $request->np_expiry;
+        $np_upload_certification = $request->file('np_upload_certification');
+
+        $np_data_array = array();
+
+        for($i=0;$i<$np_count;$i++){
+            if(!empty($np_upload_certification[$i])){
+                $name1=$np_upload_certification[$i]->getClientOriginalName();
+                $name= time().$name1;
+                $destinationPathcert = public_path()."/uploads/certificates"; 
+                $np_upload_certification[$i]->move($destinationPathcert,$name);
+            }else{
+                $certificate_data = json_decode($getedudata->np_data);
+                $name = $certificate_data[$i]->np_upload_certification;
+            }
+            
+            $np_data_array[] = array("np_certification_id"=>$npnamearr[$i],"np_license_number"=>$np_license_number[$i],"np_expiry"=>$np_expiry[$i],"np_upload_certification"=>$name);
+        }
+
+        if(!empty($np_data_array)){
+            $np_data_json = json_encode($np_data_array);
+        }else{
+            $np_data_json = '';
+        }
+
+        $cn_data = $request->cn_data;
+        if($cn_data){
+            $cn_count = count($cn_data);
+        }else{
+            $cn_count = 0;
+        }
+        $cnnamearr = $request->cnnamearr;
+        $cn_license_number = $request->cn_license_number;
+        $cn_expiry = $request->cn_expiry;
+        $cn_upload_certification = $request->file('cn_upload_certification');
+
+        $cn_data_array = array();
+
+        for($i=0;$i<$cn_count;$i++){
+            if(!empty($cn_upload_certification[$i])){
+                $name1=$cn_upload_certification[$i]->getClientOriginalName();
+                $name= time().$name1;
+                $destinationPathcert = public_path()."/uploads/certificates"; 
+                $cn_upload_certification[$i]->move($destinationPathcert,$name);
+            }else{
+                $certificate_data = json_decode($getedudata->cn_data);
+                $name = $certificate_data[$i]->cn_upload_certification;
+            }
+            
+            $cn_data_array[] = array("cn_certification_id"=>$cnnamearr[$i],"cn_license_number"=>$cn_license_number[$i],"cn_expiry"=>$cn_expiry[$i],"cn_upload_certification"=>$name);
+        }
+
+        if(!empty($cn_data_array)){
+            $cn_data_json = json_encode($cn_data_array);
+        }else{
+            $cn_data_json = '';
+        }
+
         $file = $request->file('degree_transcript');
         
         
@@ -1074,7 +1306,7 @@ class HomeController extends Controller
             
             
             
-            $run = EducationModel::where('user_id',$user_id)->update(['institution'=>$institution,'graduate_start_date'=>$graduation_start_date,'degree_transcript'=>$degree_transcript,'professional_certifications'=>$professional_certification,'licence_number'=>$license_number,'country'=>$country,'state'=>$state,'expiration_date'=>$expiration_date,'training_courses'=>$training_courses,'training_workshops'=>$training_workshop,'additional_training_data'=>$certificate_json,'complete_status'=>1,'declaration_status'=>$declare_information,'acls_data'=>'','bls_data'=>$bls_data_json,'cpr_data'=>'','nrp_data'=>'','pals_data'=>'','rn_data'=>'','np_data'=>'','cna_data'=>'','lpn_data'=>'','crna_data'=>'','cnm_data'=>'','ons_data'=>'','msw_data'=>'','ain_data'=>'','rpn_data'=>'','nl_data'=>'']);
+            $run = EducationModel::where('user_id',$user_id)->update(['institution'=>$institution,'graduate_start_date'=>$graduation_start_date,'degree_transcript'=>$degree_transcript,'professional_certifications'=>$professional_certification,'licence_number'=>$license_number,'country'=>$country,'state'=>$state,'expiration_date'=>$expiration_date,'training_courses'=>$training_courses,'training_workshops'=>$training_workshop,'additional_training_data'=>$certificate_json,'complete_status'=>1,'declaration_status'=>$declare_information,'acls_data'=>$acls_data_json,'bls_data'=>$bls_data_json,'cpr_data'=>$cpr_data_json,'nrp_data'=>$nrp_data_json,'pals_data'=>$pls_data_json,'rn_data'=>$rn_data_json,'np_data'=>$np_data_json,'cna_data'=>$cn_data_json,'lpn_data'=>'','crna_data'=>'','cnm_data'=>'','ons_data'=>'','msw_data'=>'','ain_data'=>'','rpn_data'=>'','nl_data'=>'']);
         }else{
 
             
@@ -1086,7 +1318,14 @@ class HomeController extends Controller
             $post->graduate_start_date = $graduation_start_date;
             $post->degree_transcript = $degree_transcript;
             $post->professional_certifications = $professional_certification;
+            $post->acls_data = $acls_data_json;
             $post->bls_data = $bls_data_json;
+            $post->cpr_data = $cpr_data_json;
+            $post->nrp_data = $nrp_data_json;
+            $post->pls_data = $pls_data_json;
+            $post->rn_data = $rn_data_json;
+            $post->np_data = $np_data_json;
+            $post->cn_data = $cn_data_json;
             // $post->licence_number = $license_number;
             // $post->country = $country;
             // $post->state = $state;

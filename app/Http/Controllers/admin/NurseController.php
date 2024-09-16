@@ -247,6 +247,24 @@ class NurseController extends Controller
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
         }
     }
+    public function addNursePostForm10(Request $request)
+    {      
+        try {      
+           return $this->nurseServices->addNursePost($request);
+        } catch (\Exception $e) {
+            log::error('Error in NurseController/addNursePost :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+     public function addNursePostForm11(Request $request)
+    {      
+        try {      
+           return $this->nurseServices->addNursePost($request);
+        } catch (\Exception $e) {
+            log::error('Error in NurseController/addNursePost :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
     
   
     public function changeStatus(Request $request)

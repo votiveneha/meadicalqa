@@ -16,6 +16,8 @@ use App\Models\WorkingChildrenCheckModel;
 use App\Models\PoliceCheckModel;
 use App\Models\ProfessionalAssocialtionModel;
 use App\Models\InterviewModel;
+use App\Models\PreferencesModel;
+use App\Models\WorkPreferencesModel;
 use App\Models\User;
 
 class NurseServices
@@ -759,7 +761,7 @@ class NurseServices
                 $param='Children Check';
                }else if ($data['type'] == 'police_check') {
 
-                $image_support_document_policeI=$data['image_support_document_policeI   '];
+                $image_support_document_policeI=$data['image_support_document_policeI'];
                  $plice_file_name='';
 
                  if($image_support_document_policeI != 'undefined'){
@@ -808,6 +810,28 @@ class NurseServices
 
                 $param='Interview';
 
+            }else if($data['tab'] == 'tab10'){
+                $email=Session::get('nurseemail');
+                $user_id=User::where('email',$email)->first();
+                $allData['user_id'] = $user_id->id;
+                $allData['preferred_work_schedule'] = $data['preferred_work_schedule'];
+                $allData['country'] = $data['countryworkprefer'];
+                $allData['state'] = $data['stateworkprefer'];
+                $allData['specific_facilities'] = $data['specific_facilities'];
+                $allData['work_environment'] = $data['work_environment'];
+                $allData['shift_preferences'] = $data['shift_preferences'];
+                $run=PreferencesModel::create($allData);
+                $param='Personal Preferences';
+
+            }else if($data['tab'] == 'tab11'){               
+                $email=Session::get('nurseemail');
+                $user_id=User::where('email',$email)->first();
+                $allData['user_id'] = $user_id->id;
+                $allData['desired_job_role'] = $data['des_job_role'];
+                $allData['salary_expectations'] = $data['salary_expectation'];
+                $allData['benefits_preferences'] = $data['benefit_prefer'];
+                $run=WorkPreferencesModel::create($allData);
+                $param='Job Search & Personal Preferences';
             }
 
 

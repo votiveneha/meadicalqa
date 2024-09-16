@@ -2268,8 +2268,112 @@ $(document).ready(function() {
     });
     </script>
 
+ 
+
     <script>
     // Eight form
+    $('.next-step-8').on('click', function(event){
+        event.preventDefault(); // Prevent default form submission
+
+        var targetTab = $(this).data('target');
+
+        // // Function to enable the next tab
+        // function enableNextTab(targetTab) {
+        //     $('a[href="' + targetTab + '"]').removeClass('disabled').tab('show');
+        // }
+        var returnValue = true;
+
+        $(".valley").html("");
+
+        var selectElement1 = $('select[data-list-id="des_profession_association"]');
+        var des_profession_association = selectElement1.val();
+        var membership_numbers= $("#membership_numbers").val();
+        var membership_status = $("#membership_status").val();
+
+
+        if ($('[name="des_profession_association[]"]').val() == "") {
+
+        document.getElementById("des_profession_error").innerHTML = "* Please select professional association.";
+
+        returnValue = false;
+
+        }
+
+        if (membership_numbers.trim() == "") {
+
+        document.getElementById("membership_numbers_error").innerHTML = "* Please enter memebership numbers.";
+
+        returnValue = false;
+
+        }
+        if (membership_status.trim() == "") {
+
+        document.getElementById("membership_status_error").innerHTML = "* Please select membership status.";
+
+        returnValue = false;
+
+        }
+
+
+        if (!returnValue) {
+            // $('.submit-btn-120').prop('disabled', false);
+            // $('.submit-btn-1').hide();
+            // $('.resetpassword').show();
+            return false;
+        }
+
+        if (returnValue) {
+
+        // Create a new FormData object
+        var formData = new FormData();
+        formData.append('des_profession_association',JSON.stringify(des_profession_association));
+        formData.append('membership_numbers', membership_numbers);
+        formData.append('membership_status', membership_status);
+
+        formData.append('tab','tab8');
+
+        $.ajax({
+            url: "{{ route('admin.add_nurse_post_8') }}",
+            type: "POST",
+            data: formData,
+            data: formData,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include CSRF token for security
+            },
+            success: function(res) {
+                console.log(res.type);
+
+                if (res.status == '2') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: res.message,
+                    }).then(function() {
+                        $('a[href="' + targetTab + '"]').tab('show');
+                    });
+                } else {
+                    Swal.fire({
+                        icon:  'error',
+                        title: 'Error',
+                        text: res.message,
+                    });
+                }
+                // Show the target tab
+            },
+            error: function(error) {
+
+            }
+        });
+
+    }
+    });
+    </script>
+
+       <script>
+    // nine form
     $('.next-step-9').on('click', function(event){
         event.preventDefault(); // Prevent default form submission
 
@@ -2391,8 +2495,8 @@ $(document).ready(function() {
     </script>
 
     <script>
-    // Eight form
-    $('.next-step-8').on('click', function(event){
+    // ten form
+    $('.next-step-10').on('click', function(event){
         event.preventDefault(); // Prevent default form submission
 
         var targetTab = $(this).data('target');
@@ -2405,35 +2509,70 @@ $(document).ready(function() {
 
         $(".valley").html("");
 
-        var selectElement1 = $('select[data-list-id="des_profession_association"]');
-        var des_profession_association = selectElement1.val();
-        alert(des_profession_association);
-        var membership_numbers= $("#membership_numbers").val();
-        var membership_status = $("#membership_status").val();
+        var selectElement1 = $('select[id="preferred_work_schedule"]');
+        var preferred_work_schedule = selectElement1.val();
+
+        var selectElement2 = $('select[id="countryworkprefer"]');
+        var countryworkprefer = selectElement2.val();
+
+        var stateworkprefer = $('[name="state"]').val();
+        // var stateworkprefer = selectElement3.val();
+
+        var specific_facilities= $("#specific_facilities").val();
+       
+        var selectElement4 = $('select[id="work_environment"]');
+        var work_environment = selectElement4.val();
+
+        var selectElement5 = $('select[id="shift_preferences"]');
+        var shift_preferences = selectElement5.val();
 
 
-        if ($('[name="des_profession_association[]"]').val() == "") {
+        if (preferred_work_schedule == "") {
 
-        document.getElementById("des_profession_error").innerHTML = "* Please select professional association.";
+        document.getElementById("reqpreferecschedule").innerHTML = "* Please select prefered work schedule";
+
+        returnValue = false;
+
+        }
+
+        if (countryworkprefer == "") {
+
+        document.getElementById("reqprecountry").innerHTML = "* Please select the country";
 
         returnValue = false;
 
         }
 
-        if (membership_numbers.trim() == "") {
+        if (stateworkprefer == "") {
 
-        document.getElementById("membership_numbers_error").innerHTML = "* Please enter memebership numbers.";
-
-        returnValue = false;
-
-        }
-        if (membership_status.trim() == "") {
-
-        document.getElementById("membership_status_error").innerHTML = "* Please select membership status.";
+        document.getElementById("reqprestateI").innerHTML = "* Please select the state";
 
         returnValue = false;
 
         }
+
+        if (specific_facilities.trim() == "") {
+
+        document.getElementById("reqspecificfacilities").innerHTML = "* Please enter the specific facilities";
+
+        returnValue = false;
+
+        }
+        if (work_environment == "") {
+
+         document.getElementById("reqworkenvironement").innerHTML = "* Please select the work environment";
+
+        returnValue = false;
+
+        }
+        if (shift_preferences == "") {
+
+        document.getElementById("reqshiftpreferences").innerHTML = "* Please select the shift preferences";
+
+        returnValue = false;
+
+        }
+        
 
 
         if (!returnValue) {
@@ -2447,14 +2586,124 @@ $(document).ready(function() {
 
         // Create a new FormData object
         var formData = new FormData();
-        formData.append('des_profession_association',JSON.stringify(des_profession_association));
-        formData.append('membership_numbers', membership_numbers);
-        formData.append('membership_status', membership_status);
+        formData.append('shift_preferences',shift_preferences);
+        formData.append('work_environment',work_environment);
+        formData.append('specific_facilities',specific_facilities);
+        formData.append('stateworkprefer',stateworkprefer);
+        formData.append('countryworkprefer', countryworkprefer);
+        formData.append('preferred_work_schedule', preferred_work_schedule);
 
-        formData.append('tab','tab8');
+        formData.append('tab','tab10');
 
         $.ajax({
-            url: "{{ route('admin.add_nurse_post_8') }}",
+            url: "{{ route('admin.add_nurse_post_10') }}",
+            type: "POST",
+            data: formData,
+            data: formData,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include CSRF token for security
+            },
+            success: function(res) {
+                console.log(res.type);
+
+                if (res.status == '2') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: res.message,
+                    }).then(function() {
+                        $('a[href="' + targetTab + '"]').tab('show');
+                    });
+                } else {
+                    Swal.fire({
+                        icon:  'error',
+                        title: 'Error',
+                        text: res.message,
+                    });
+                }
+                // Show the target tab
+            },
+            error: function(error) {
+
+            }
+        });
+
+    }
+    });
+    </script>
+
+    <script>
+    // ten form
+    $('.next-step-11').on('click', function(event){
+        event.preventDefault(); // Prevent default form submission
+
+        var targetTab = $(this).data('target');
+
+        // // Function to enable the next tab
+        // function enableNextTab(targetTab) {
+        //     $('a[href="' + targetTab + '"]').removeClass('disabled').tab('show');
+        // }
+        var returnValue = true;
+
+        $(".valley").html("");
+
+        var selectElement1 = $('select[data-list-id="des_job_role"]');
+        var des_job_role = selectElement1.val();
+
+        var selectElement2 = $('select[data-list-id="benefit_prefer"]');
+        var benefit_prefer = selectElement2.val();
+
+        var salary_expectation = $('[name="salary_expectation"]').val();
+        // var stateworkprefer = selectElement3.val();
+
+        if (des_job_role == "") {
+
+       document.getElementById("reqjobroles").innerHTML = "* Please select desired job role";
+
+        returnValue = false;
+
+        }
+
+    
+
+        if (benefit_prefer == "") {
+
+        document.getElementById("reqbenefitsprefer").innerHTML = "* Please select benefits preferences ";
+
+        returnValue = false;
+
+        }
+
+        if($('[name="salary_expectation"]').val() == '') {
+        document.getElementById("reqsalaryexp").innerHTML = "* Please enter salary expectation";
+        returnValue = false;
+        }
+        
+        
+
+
+        if (!returnValue) {
+            // $('.submit-btn-120').prop('disabled', false);
+            // $('.submit-btn-1').hide();
+            // $('.resetpassword').show();
+            return false;
+        }
+
+        if (returnValue) {
+
+        // Create a new FormData object
+        var formData = new FormData();
+        formData.append('salary_expectation',salary_expectation);
+        formData.append('benefit_prefer', JSON.stringify(benefit_prefer));
+        formData.append('des_job_role', JSON.stringify(des_job_role));
+
+        formData.append('tab','tab11');
+
+        $.ajax({
+            url: "{{ route('admin.add_nurse_post_11') }}",
             type: "POST",
             data: formData,
             data: formData,
@@ -2697,5 +2946,50 @@ $(document).ready(function() {
   iti2.promise.then(function() {
     $(phoneInputID2).trigger("countrychange");
   });
-    </script>
+</script>
+
+<script>
+ $('#countryworkprefer').on('change', function() {
+  
+      var idCountry = this.value;
+
+      $("#stateworkprefer").html('');
+
+      $.ajax({
+
+        url: "{{url('fetch-provinces')}}",
+
+        type: "POST",
+
+        data: {
+
+          country_id: idCountry,
+
+          _token: '{{csrf_token()}}'
+
+        },
+
+        dataType: 'json',
+
+        success: function(result) {
+
+          $('#stateworkprefer').html('<option value=""> Select  State</option>');
+
+          $.each(result.province, function(key, value) {
+
+            $("#stateworkprefer").append('<option value="' + value
+
+              .id + '">' + value.name + '</option>');
+
+          });
+
+          $('#cityI').html('<option value=""> Select City </option>');
+               
+        }
+
+      });
+      
+
+    });
+</script>
     
