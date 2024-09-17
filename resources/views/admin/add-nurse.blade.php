@@ -147,6 +147,13 @@
                             <span>Testimonials and Reviews</span>
                         </a>
                     </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" data-bs-toggle="tab" href="#navpill-13" role="tab" aria-selected="false"
+                            tabindex="-1">
+                            <span>Additional Information</span>
+                        </a>
+                    </li>
+                    
                     
                 </ul>
                 <form method="post" enctype="multipart/form-data" id="AddNurse">
@@ -1880,14 +1887,58 @@
                                             </div>
                                         </div> 
                                         <div class="d-flex align-items-center justify-content-between mt-3">
-                                            <button type="button" class="btn btn-default next-step-11 align-items-center justify-content-between" data-target="#navpill-12">Next</button>
+                                            <button type="button" class="btn btn-default next-step-11 align-items-center justify-content-between" data-target="#navpill-13">Next</button>
                                         </div>
                                     </div>                     
                                     </div>                    
                                 </div>
                             </div>
                         </div>
-                    </div>                    
+                    </div> 
+                    <div class="tab-pane p-3" id="navpill-13" role="tabpanel">
+                        <div class="row">
+                            <div class=" w-100  overflow-hidden">
+                                <div class="card-body p-3 px-md-4 pb-0">
+                                    <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center">Additional Information</h3>
+                                </div>
+                                <div class="card-body p-3 px-md-4">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                        <div class="col-md-12 mt-3">
+                                            <div class="form-group">
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Languages Spoken</strong></label>
+                                                <select class="form-control" name="additional_info_language" id="language-picker-select">
+                                                <option lang="de" value="deutsch">Deutsch</option>
+                                                <option lang="en" value="english">English</option>
+                                                <option lang="fr" value="francais">Français</option>
+                                                <option lang="it" value="italiano">Italiano</option>
+                                                </select>
+                                                <span id="reqinfolanguage" class="reqError text-danger valley"></span>
+                                            </div>
+                                        </div> 
+                                        <div class="col-md-12 mt-3">
+                                            <div class="form-group">
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Volunteer Experience</strong></label>
+                                                <input type="text" name="volunteer_experience" class="form-control" value="" id="volunteer_experience">
+                                                <span id="reqvolexp" class="reqError text-danger valley"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 mt-3">
+                                            <div class="form-group">
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Hobbies and Interests</strong></label>
+                                                  <textarea name="hobbies_interests" class="form-control"></textarea>
+                                                  <span id="reqhobbiesint" class="reqError text-danger valley"></span>
+                                            </div>
+                                        </div> 
+                                        <div class="d-flex align-items-center justify-content-between mt-3">
+                                            <button type="button" class="btn btn-default next-step-13 align-items-center justify-content-between" data-target="#navpill-12">Next</button>
+                                        </div>
+                                    </div>                     
+                                    </div>                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>                   
                 </div>
             </form>
             </div>

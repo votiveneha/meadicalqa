@@ -18,6 +18,7 @@ use App\Models\ProfessionalAssocialtionModel;
 use App\Models\InterviewModel;
 use App\Models\PreferencesModel;
 use App\Models\WorkPreferencesModel;
+use App\Models\AdditionalInfo;
 use App\Models\User;
 
 class NurseServices
@@ -832,9 +833,17 @@ class NurseServices
                 $allData['benefits_preferences'] = $data['benefit_prefer'];
                 $run=WorkPreferencesModel::create($allData);
                 $param='Job Search & Personal Preferences';
+
+            }else if($data['tab'] == 'tab13'){               
+                $email=Session::get('nurseemail');
+                $user_id=User::where('email',$email)->first();
+                $allData['user_id'] = $user_id->id;
+                $allData['additional_info_language'] = $data['language_picker_select'];
+                $allData['volunteer_experience'] = $data['volunteer_experience'];
+                $allData['hobbies_interests'] = $data['hobbies_interests'];
+                $run=AdditionalInfo::create($allData);
+                $param='Additional Information';
             }
-
-
             
             if ($run) {
                 return response()->json(['status' => '2', 'message' => __('message.statusOne', ['parameter' => $param])]);

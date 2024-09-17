@@ -135,10 +135,7 @@
         }else{
             $('.np_submenu').addClass('d-none');
             $('.js-example-basic-multiple[data-list-id="nurse_practitioner_menu"]').select2().val(null).trigger('change');
-        }
-        
-        
-        
+        }  
     });
 
      $('.js-example-basic-multiple[data-list-id="specialties"]').on('change', function() {
@@ -965,7 +962,14 @@ $(document).ready(function() {
         $('.next-step-2').on('click', function() { 
                var targetTab = $(this).data('target'); 
             // Initially deactivate all tabs except the first one
-                // $('.nav-pills .nav-link').not('.active').addClass('disabled');
+                // Function to enable the next tab
+                function enableNextTab(targetTab) {
+                    // Remove 'active' class
+                    $('a[href="navpill-1"]').removeClass('active');
+                    
+                    // Add 'disabled' class
+                    $('a[href="navpill-1"]').addClass('disabled');
+                }
 
                 // Function to enable the next tab
                 function enableNextTab(targetTab) {
@@ -1752,7 +1756,7 @@ $(document).ready(function() {
     }); 
     </script>
 
-    <script>
+   <script>
     //four form        
     $('.next-step-5').on('click', function(event) {
         event.preventDefault(); // Prevent default form submission
@@ -2636,7 +2640,7 @@ $(document).ready(function() {
     </script>
 
     <script>
-    // ten form
+    // ELENVEN form
     $('.next-step-11').on('click', function(event){
         event.preventDefault(); // Prevent default form submission
 
@@ -2723,6 +2727,105 @@ $(document).ready(function() {
                         text: res.message,
                     }).then(function() {
                         $('a[href="' + targetTab + '"]').tab('show');
+                    });
+                } else {
+                    Swal.fire({
+                        icon:  'error',
+                        title: 'Error',
+                        text: res.message,
+                    });
+                }
+                // Show the target tab
+            },
+            error: function(error) {
+
+            }
+        });
+
+    }
+    });
+    </script>
+
+    <script>
+    // THIRTEEN  form
+    $('.next-step-13').on('click', function(event){
+        event.preventDefault(); // Prevent default form submission
+
+        // var targetTab = $(this).data('target');
+
+        // // Function to enable the next tab
+        // function enableNextTab(targetTab) {
+        //     $('a[href="' + targetTab + '"]').removeClass('disabled').tab('show');
+        // }
+        var returnValue = true;
+
+        $(".valley").html("");
+
+        var selectElement1 = $('select[id="language-picker-select"]');
+        var language_picker_select = selectElement1.val();
+
+        var hobbies_interests = $('[name="hobbies_interests"]').val();
+
+        var volunteer_experience = $('[name="volunteer_experience"]').val();
+        // var stateworkprefer = selectElement3.val();
+
+
+        if ($('[name="additional_info_language"]').val() == '') {
+        document.getElementById("reqinfolanguage").innerHTML = "* Please select language";
+        returnValue = false;
+        }
+
+        if ($('[name="volunteer_experience"]').val() == '') {
+        document.getElementById("reqvolexp").innerHTML = "* Please enter Volunteer Experience";
+        returnValue = false;
+        }
+
+        if ($('[name="hobbies_interests"]').val() == '') {
+        document.getElementById("reqhobbiesint").innerHTML = "* Please enter Hobbies and Interests";
+        returnValue = false;
+        } 
+        
+        
+
+
+        if (!returnValue) {
+            // $('.submit-btn-120').prop('disabled', false);
+            // $('.submit-btn-1').hide();
+            // $('.resetpassword').show();
+            return false;
+        }
+
+        if (returnValue) {
+
+        // Create a new FormData object
+        var formData = new FormData();
+        formData.append('language_picker_select',language_picker_select);
+        formData.append('hobbies_interests', hobbies_interests);
+        formData.append('volunteer_experience', volunteer_experience);
+
+        formData.append('tab','tab13');
+
+        $.ajax({
+            url: "{{ route('admin.add_nurse_post_13') }}",
+            type: "POST",
+            data: formData,
+            data: formData,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include CSRF token for security
+            },
+            success: function(res) {
+                console.log(res.type);
+
+                if (res.status == '2') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: res.message,
+                    }).then(function() {
+                        window.location.href = '{{ route("admin.complete-nurse-nurse-list")}}';
                     });
                 } else {
                     Swal.fire({
