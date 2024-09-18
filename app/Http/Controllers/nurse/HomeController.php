@@ -1002,7 +1002,7 @@ class HomeController extends Controller
         $expiration_date = $request->expiration_date;
         $training_courses = $request->training_courses;
         $training_workshop = json_encode($request->training_workshop);
-        $declare_information = $request->declare_information;
+        $declare_information = $request->declare_information_edu;
 
         $training_courses = $request->training_courses;
         $additional_license_number = $request->additional_license_number;
@@ -1027,6 +1027,28 @@ class HomeController extends Controller
         }
 
         $certificate_json = json_encode($certificate_array);
+
+        $training_certificate = $request->training_certificate;
+        $certificate_license_number = $request->certificate_license_number;
+        $certificate_expiry = $request->certificate_expiry;
+        $certificate_upload_certification = $request->file('certificate_upload_certification');
+
+        $new_certificate_array = array();
+        for($i=0;$i<count($training_certificate);$i++){
+            if(!empty($certificate_upload_certification[$i])){
+                $name1=$certificate_upload_certification[$i]->getClientOriginalName();
+                $name= time().$name1;
+                $destinationPathcert = public_path()."/uploads/certificates"; 
+                $certificate_upload_certification[$i]->move($destinationPathcert,$name);
+            }else{
+                $certificate_data = json_decode($getedudata->additional_training_data);
+                $name = $certificate_data[$i]->additional_upload_certification;
+            }
+            
+            $new_certificate_array[] = array("training_certificate"=>$training_certificate[$i],"certificate_license_number"=>$certificate_license_number[$i],"certificate_expiry"=>$certificate_expiry[$i],"certificate_upload_certification"=>$name);
+        }
+
+        $new_certificate_json = json_encode($new_certificate_array);
 
         $bls_data = $request->bls_data;
         if($bls_data){
@@ -1526,6 +1548,12 @@ class HomeController extends Controller
             $rpn_data_json = '';
         }
 
+        if($request->nl_data){
+            $nl_data = json_encode($request->nl_data);
+        }else{
+            $nl_data = '';
+        }
+
         $file = $request->file('degree_transcript');
         
         
@@ -1549,7 +1577,7 @@ class HomeController extends Controller
             
             
             
-            $run = EducationModel::where('user_id',$user_id)->update(['institution'=>$institution,'graduate_start_date'=>$graduation_start_date,'degree_transcript'=>$degree_transcript,'professional_certifications'=>$professional_certification,'licence_number'=>$license_number,'country'=>$country,'state'=>$state,'expiration_date'=>$expiration_date,'training_courses'=>$training_courses,'training_workshops'=>$training_workshop,'additional_training_data'=>$certificate_json,'complete_status'=>1,'declaration_status'=>$declare_information,'acls_data'=>$acls_data_json,'bls_data'=>$bls_data_json,'cpr_data'=>$cpr_data_json,'nrp_data'=>$nrp_data_json,'pals_data'=>$pls_data_json,'rn_data'=>$rn_data_json,'np_data'=>$np_data_json,'cna_data'=>$cn_data_json,'lpn_data'=>$lpn_data_json,'crna_data'=>$crna_data_json,'cnm_data'=>$cnm_data_json,'ons_data'=>$ons_data_json,'msw_data'=>$msw_data_json,'ain_data'=>$ain_data_json,'rpn_data'=>$rpn_data_json,'nl_data'=>'']);
+            $run = EducationModel::where('user_id',$user_id)->update(['institution'=>$institution,'graduate_start_date'=>$graduation_start_date,'degree_transcript'=>$degree_transcript,'professional_certifications'=>$professional_certification,'licence_number'=>$license_number,'country'=>$country,'state'=>$state,'expiration_date'=>$expiration_date,'training_courses'=>$training_courses,'training_workshops'=>$training_workshop,'additional_training_data'=>$certificate_json,'complete_status'=>1,'declaration_status'=>$declare_information,'acls_data'=>$acls_data_json,'bls_data'=>$bls_data_json,'cpr_data'=>$cpr_data_json,'nrp_data'=>$nrp_data_json,'pals_data'=>$pls_data_json,'rn_data'=>$rn_data_json,'np_data'=>$np_data_json,'cna_data'=>$cn_data_json,'lpn_data'=>$lpn_data_json,'crna_data'=>$crna_data_json,'cnm_data'=>$cnm_data_json,'ons_data'=>$ons_data_json,'msw_data'=>$msw_data_json,'ain_data'=>$ain_data_json,'rpn_data'=>$rpn_data_json,'nl_data'=>$nl_data,'additional_certification'=>$new_certificate_json]);
         }else{
 
             
@@ -1565,10 +1593,10 @@ class HomeController extends Controller
             $post->bls_data = $bls_data_json;
             $post->cpr_data = $cpr_data_json;
             $post->nrp_data = $nrp_data_json;
-            $post->pls_data = $pls_data_json;
+            $post->pals_data = $pls_data_json;
             $post->rn_data = $rn_data_json;
             $post->np_data = $np_data_json;
-            $post->cn_data = $cn_data_json;
+            $post->cna_data = $cn_data_json;
             $post->lpn_data = $lpn_data_json;
             $post->crna_data = $crna_data_json;
             $post->cnm_data = $cnm_data_json;
@@ -1576,6 +1604,7 @@ class HomeController extends Controller
             $post->msw_data = $msw_data_json;
             $post->ain_data = $ain_data_json;
             $post->rpn_data = $rpn_data_json;
+            $post->nl_data = $nl_data;
             // $post->licence_number = $license_number;
             // $post->country = $country;
             // $post->state = $state;
@@ -1583,6 +1612,7 @@ class HomeController extends Controller
             // $post->training_courses = $training_courses;
             // $post->training_workshops = $training_workshop;
             $post->additional_training_data = $certificate_json;
+            $post->additional_certification = $new_certificate_json;
             $post->complete_status = 1;
             $run = $post->save();
 

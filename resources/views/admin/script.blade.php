@@ -615,6 +615,8 @@ $(document).ready(function() {
         });
 
         $('.next-step-1').on('click', function() { 
+
+            $(".valley").html("");
             // alert($('#stateI').val());     
              var targetTab            = $(this).data('target');     
              var first_name          =  $('#first_name').val();
@@ -634,10 +636,58 @@ $(document).ready(function() {
              var zip_code            =  $('#zip_code').val();  
              var home_address        =  $('#home_address').val(); 
              var emrg_contact        =  $('#emrg_contact').val();  
-             var emrg_email          =  $('#emrg_email').val();
+             var emrg_email          =  $('#emrg_email').val();   
+             var passwordI = document.getElementById("passwordI").value;
+             var confirm_passwordI = document.getElementById("confirm_passwordI").value;
              
 
-             let hasErrors = false;
+             let hasErrors = true;
+
+
+             if (passwordI == "") {
+
+            document.getElementById("reqTxtpasswordI").innerHTML = "*  Please enter the PasswordI.";
+
+            hasErrors = false;
+
+            }else {
+                $('#reqTxtpasswordI').text('');
+            }
+
+ 
+
+            var pattern = /^.*(?=.{7,12})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%&!-_]).*$/;
+
+            if (!pattern.test(passwordI)) {
+
+            document.getElementById("reqTxtpasswordI").innerHTML = "Password length should be 7 Characters with atleast 1 number, lower, upper & special(@#$%&!-_&) characters.";
+
+            hasErrors = false;
+
+            }else {
+                $('#reqTxtpasswordI').text('');
+            }
+
+
+            if (confirm_passwordI == "") {
+
+            document.getElementById("reqTxtconfirm_passwordI").innerHTML = "* Please Enter the Confirm password.";
+
+            hasErrors = false;
+
+            }else {
+                $('#reqTxtconfirm_passwordI').text('');
+            }
+
+            if (passwordI != confirm_passwordI) {
+
+            document.getElementById("reqTxtconfirm_passwordI").innerHTML = "Password and Confirm password do not match.";
+
+            hasErrors = false;
+
+            }else {
+                $('#reqTxtconfirm_passwordI').text('');
+            }
 
              // Function to show error message
         // function showError(element, message) {
@@ -799,7 +849,7 @@ $(document).ready(function() {
         formData.append('country_iso_mobile', $('#country_iso_mobile').val());
         formData.append('tab', 'tab1');
         formData.append('nationality', $('#nationality').val());
-        
+        formData.append('passwordI',passwordI);
         $.ajax({
                 url: "{{ route('admin.add_nurse_post_1') }}",
                 type: "POST",

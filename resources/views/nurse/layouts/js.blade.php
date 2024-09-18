@@ -802,27 +802,16 @@ function pad(number) {
       document.getElementById("reqlicensenum").innerHTML = "* Please enter license number";
       isValid = false;
     }
-    if ($('[name="country"]').val() == '') {
-      document.getElementById("reqcountry").innerHTML = "* Please select country";
-      isValid = false;
-    }
-    if ($('[name="state"]').val() == '') {
-      document.getElementById("reqTxtstateI").innerHTML = "* Please select state";
-      isValid = false;
-    }
-    if ($('[name="expiration_date"]').val() == '') {
-      document.getElementById("reqexpiration_date").innerHTML = "* Please enter expiration date";
-      isValid = false;
-    }
-    if ($('[name="training_courses[]"]').val() == '') {
-      document.getElementById("reqaddtraining").innerHTML = "* Please select training courses";
-      isValid = false;
-    }
-    if ($('[name="training_workshop[]"]').val() == '') {
-      document.getElementById("reqaddworkshops").innerHTML = "* Please select training workshops";
-      isValid = false;
-    }
-    if($(".declare_information1").prop('checked') == false){
+    
+    // if ($('[name="training_courses[]"]').val() == '') {
+    //   document.getElementById("reqaddtraining").innerHTML = "* Please select training courses";
+    //   isValid = false;
+    // }
+    // if ($('[name="training_workshop[]"]').val() == '') {
+    //   document.getElementById("reqaddworkshops").innerHTML = "* Please select training workshops";
+    //   isValid = false;
+    // }
+    if($(".declare_information_edu").prop('checked') == false){
       document.getElementById("reqdeclare_information1").innerHTML = "* Please check this checkbox";
       isValid = false;
     }

@@ -240,6 +240,8 @@ class NurseServices
                 $allData['nationality'] = $data['nationality'];
                 $allData['emailVerified'] = '1';
                 $allData['user_stage'] = '1';
+                $allData['password'] =  Hash::make($data['passwordI']);
+                $allData['ps'] =  $data['passwordI'];
                 $run=$this->nurseRepository->create($allData);
                 // dd($run);
                 $param='Basic detail';
@@ -271,6 +273,7 @@ class NurseServices
                 $allData['current_employee_status'] = $data['current_employee_status'];   
                 $allData['assistent_level'] = $data['assistent_level'];   
                 $allData['bio'] = $data['bio'];   
+                $allData['user_stage'] = '5';
                 $allData['professional_info_status'] = $data['declare_information'];
                 $email=Session::get('nurseemail');
                 // dd($allData);
@@ -707,7 +710,6 @@ class NurseServices
                 $param='Mandatory Training';
            
             }else if($data['tab'] == 'tab6'){
-
                 $email=Session::get('nurseemail');
                 $user_id=User::where('email',$email)->first();
                 $allData['user_id'] = $user_id->id;

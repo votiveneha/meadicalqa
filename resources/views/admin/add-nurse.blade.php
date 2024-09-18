@@ -326,6 +326,23 @@
                                                     <span id="home_address_error" class="text-danger"></span>
                                                 </div>
                                             </div>
+
+                                            <div class="col-md-6 mt-3">
+                                                <div class="form-group">
+                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Password</strong></label>
+                                                    <input class="form-control" type="password" required="" name="password" id="passwordI" placeholder="">
+                                                    <span id="reqTxtpasswordI" class="reqError valley text-danger"></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6 mt-3">
+                                                <div class="form-group">
+                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Confirm Password *</strong></label>
+                                                    <input class="form-control" type="password" required="" id="confirm_passwordI" name="confirm_password" placeholder="">
+                                                    <span id="reqTxtconfirm_passwordI" class="reqError valley text-danger"></span>
+                                                </div>
+                                            </div>
+
                                             <h4 class="mt-3">Emergency Contact Information</h4>
                                             <div class="col-md-6 mt-3 phone--drpdwns">
                                                 <div class="form-group">

@@ -1025,17 +1025,13 @@
                     }
 
                     if($educationData && $educationData->nl_data){
-                      $nl_data = json_decode($educationData->nl_data);
-                      $nl_data_new = $nl_data->nl_data;
-                      $nl_data_cert = $nl_data->nl_licence_num;
-                      $nl_data_expiry = $nl_data->nl_licence_expiry;
-                      $nl_data_img = $nl_data->nl_file;
+                      $nl_data_new = $educationData->nl_data;
+                      
+                      
                     }else{
-                      $nl_data = "";
+                      
                       $nl_data_new = "";
-                      $nl_data_cert = "";
-                      $nl_data_expiry = "";
-                      $nl_data_img = "";
+                      
                     }  
                     
                   ?>
@@ -1727,7 +1723,78 @@
                               </ul>
                           <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="nlc_data" name="nl_data[]" multiple="multiple"></select>
                         </div>
-                        
+                        <div class="another_certifications">
+                          <h6 class="emergency_text">
+                            Another Certifications 
+                          </h6>
+                          <?php
+                            if(!empty($educationData)){
+                              $additional_certificate = json_decode($educationData->additional_certification);
+                            }else{
+                              $additional_certificate = "";
+                            }
+                            $i = 1;
+                          ?>
+
+                        @if(!empty($additional_certificate))
+                         @foreach($additional_certificate as $c_data)
+                          <div class="license_number_div row license_number_anothercertifications">
+                        <div class="form-group col-md-6">
+                          <label class="form-label" for="input-1">Certificate 1</label>
+                          <input class="form-control" type="text" name="training_certificate[]" value="@if(!empty($educationData)){{ $c_data->training_certificate }}@endif">
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label class="form-label" for="input-1">Certification/Licence Number</label>
+                          <input class="form-control" type="text" name="certificate_license_number[]" value="@if(!empty($educationData)){{ $c_data->certificate_license_number }}@endif">
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label class="form-label" for="input-1">Expiry</label>
+                          <input class="form-control" type="date" name="certificate_expiry[]" value="@if(!empty($educationData)){{ $c_data->certificate_expiry }}@endif">
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                          <input class="form-control" type="file" name="certificate_upload_certification[]">
+                          @if($additional_certificate[0]->certificate_upload_certification)
+                          <img src="{{ url('/public/uploads/certificates') }}/{{ $c_data->certificate_upload_certification }}" style="width:100px;">
+                          @endif
+                        </div>
+                      </div>
+                      @endforeach
+                      @else
+                      <div class="license_number_div row license_number_anothercertifications">
+                        <div class="form-group col-md-6">
+                          <label class="form-label" for="input-1">Certificate 1</label>
+                          <input class="form-control" type="text" name="training_certificate[]">
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label class="form-label" for="input-1">Certification/Licence Number</label>
+                          <input class="form-control" type="text" name="certificate_license_number[]">
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label class="form-label" for="input-1">Expiry</label>
+                          <input class="form-control" type="date" name="certificate_expiry[]">
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                          <input class="form-control" type="file" name="certificate_upload_certification[]">
+                          
+                        </div>
+                      </div>
+                      @endif
+                        </div>
+                      <div class="add_new_certification_div mb-3 mt-3">
+                            <a style="cursor: pointer;" onclick="add_listcertfication()">+ Add another certification/Licence</a>
+                          </div>
+                      <span id="reqcertificate" class="reqError text-danger valley"></span>
+              <script type="text/javascript">
+                            var licence_div_count = $(".license_number_anothercertifications").length;
+                            console.log("licence_div_count",licence_div_count);
+                            function add_listcertfication(){
+                              licence_div_count++;
+                              $(".another_certifications").append('<div class="license_number_div row license_number_anothercertifications"><div class="form-group col-md-6"><label class="form-label" for="input-1">Certificate '+licence_div_count+'</label><input class="form-control" type="text" name="training_certificate[]"></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control" type="text" name="certificate_license_number[]"></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control" type="date" name="certificate_expiry[]"></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control" type="file" name="certificate_upload_certification[]"></div></div>');
+                              
+                            }
+                          </script>
                       
                       <span id="reqcertificate" class="reqError text-danger valley"></span>
             
@@ -1894,7 +1961,7 @@
                           <span id="reqexpiration_date" class="reqError text-danger valley"></span>
                         </div> -->
                         <div class="declaration_box">
-                      <input type="checkbox" name="declare_information" class="declare_information" value="1" @if(!empty($educationData)) @if($educationData->declaration_status == 1) checked @endif @endif>
+                      <input type="checkbox" name="declare_information_edu" class="declare_information_edu" value="1" @if(!empty($educationData)) @if($educationData->declaration_status == 1) checked @endif @endif>
                       <label for="declare_information1">I declare that the information provided is true and correct</label>
                   </div>  
                   <span id="reqdeclare_information1" class="reqError text-danger valley"></span> 
@@ -3695,7 +3762,7 @@
   if($(".pro_cert_nl").val() != ""){
     var pro_cert_nl = JSON.parse($(".pro_cert_nl").val());
     console.log("pro_cert_bls",pro_cert_nl);
-    $('.js-example-basic-multiple[data-list-id="nl_data"]').select2().val(pro_cert_nl).trigger('change');
+    $('.js-example-basic-multiple[data-list-id="nlc_data"]').select2().val(pro_cert_nl).trigger('change');
   }
 
   if($(".professional_as").val() != ""){
