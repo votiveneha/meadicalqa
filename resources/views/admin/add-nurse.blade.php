@@ -82,73 +82,79 @@
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-2" role="tab" aria-selected="false"
+                        <a class="nav-link" data-bs-toggle="tab" href="#navpill-2" role="tab" aria-selected="false"
+                            tabindex="-1">
+                            <span>Setting</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-3" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Profession</span>
                         </a>
                     </li>
                     <li class="nav-item disabled" role="presentation">
-                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-3" role="tab" aria-selected="false"
+                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-4" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Education and Certifications</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-4" role="tab" aria-selected="false"
+                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-5" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Experience and References</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-5" role="tab" aria-selected="false"
+                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-6" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Mandatory Training</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-6" role="tab" aria-selected="false"
+                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-7" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Vaccinations</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-7" role="tab" aria-selected="false"
+                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-8" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Work Clearances</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-8" role="tab" aria-selected="false"
+                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-9" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Professional</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-9" role="tab" aria-selected="false"
+                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-10" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Interview</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-10" role="tab" aria-selected="false"
+                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-11" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Personal Preferences</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-11" role="tab" aria-selected="false"
+                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-12" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Job Search & Personal Preferences</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-12" role="tab" aria-selected="false"
+                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-13" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Testimonials and Reviews</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link" data-bs-toggle="tab" href="#navpill-13" role="tab" aria-selected="false"
+                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-14" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Additional Information</span>
                         </a>
@@ -163,7 +169,7 @@
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
-                                    <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center ">Basic Details </h3>
+                                    <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center ">Basic Details</h3>
                                 </div>
                                 <div class="card-body p-3 px-md-4">
                                     <div class="col-md-12">
@@ -174,12 +180,9 @@
 												  <div class="image-profile">
 													<img alt=""  id="profileImage" style="object-fit:cover;border-radius: 16px;display: block;width: 85px;height: 85px;" src="{{asset('assets/admin/dist/images/profile/nurse06.png')}}"> 
 													<div class="position-relative overflow-hidden">
-														<a class="btn btn-apply" id="uploadButton">Upload Avatar</a>
-													  
+														<a class="btn btn-apply" id="uploadButton">Upload Avatar</a>													  
 														<input type="file" name="profile_image" id="profile_image" class="position-absolute h-100" accept="image/*" style="top: 0;left: 0;opacity: 0;cursor: pointer;">
-
-														<i class="fa fa-spinner fa-spin" id="preloadeer-active" style="display:none" aria-hidden="true"></i>
-														
+														<i class="fa fa-spinner fa-spin" id="preloadeer-active" style="display:none" aria-hidden="true"></i>									
 													</div>
 													</div>
 												</div>
@@ -224,10 +227,6 @@
                                                     <span id="date_error" class="text-danger"></span>
                                                 </div>
                                             </div>
-                    
-                                            
-                    
-                    
                                             <div class="col-md-6 mt-3">
                                                 <div class="form-group">
                                                     <label for="gender" class="d-flex gap-3 flex-wrap"><strong>Gender</strong></label>
@@ -380,7 +379,83 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane p-3" id="navpill-2" role="tabpanel">
+                    <div class="tab-pane p-3 active show" id="navpill-2" role="tabpanel">
+                        <div class="row">
+                            <div class=" w-100  overflow-hidden">
+                                <div class="card-body p-3 px-md-4 pb-0">
+                                    <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center">Setting</h3>
+                                </div>
+                                <div class="card-body p-3 px-md-4">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col-md-12 mt-3">
+                                                <div class="form-group">
+                                                    <input class="form-check-input" type="checkbox" value="1" id="visibleToMedicalFacilities"> 
+                                                     <label class="form-check-label" for="visibleToMedicalFacilities">
+                                                        Visible to Healthcare Facilities
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 mt-3">
+                                                <div class="form-group">
+                                                    <input class="form-check-input" type="checkbox" value="1"  id="visibleToAgencies" name="agencies">
+                                                    <label class="form-check-label" for="visibleToAgencies">
+                                                        Visible to Agencies
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mt-3">
+                                                <div class="form-group">
+                                                    <input class="form-check-input" type="checkbox" value="1"   id="visibleToIndividuals" name="individuals">
+                                                    <label class="form-check-label" for="visibleToAgencies">
+                                                        Visible to Individuals (Nurse care at home)
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <h4 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3"> Profile Status: </h4>
+                                            <div class="col-md-6 mt-3 phone--drpdwns">
+                                                <div class="form-group">
+                                                    <input class="form-check-input" type="radio" value="1" id="availableNow" name="profile_status">
+                                                    <label class="form-check-label" for="availableNow">
+                                                        Available Now
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6 mt-3">
+                                                <div class="form-group">
+                                                    <input class="form-check-input" type="radio" value="0" id="unavailableNow" name="profile_status">
+                                                    <label class="form-check-label" for="unavailableNow">
+                                                        Unavailable for now
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mt-3 available_date_field d-none">
+                                                <div class="form-group">
+                                                    <label for="gender" class="d-flex gap-3 flex-wrap"><strong>When are you able to start?</strong></label>
+                                                    <input type="date" name="available_date" class="form-control">
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="d-flex align-items-center justify-content-between mt-3">
+                                            <button type="button" class="btn btn-default next-step-2 align-items-center justify-content-between" data-target="#navpill-3">Next</button>
+                                        </div>
+                                    </div>
+
+                                    {{-- <div class="mt-3">
+                                        <!-- PROGRESSBAR START -->
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: 12%" aria-valuenow="12" aria-valuemin="0" aria-valuemax="100">12%</div>
+                                        </div>
+                                        <!-- PROGRESSBAR END -->
+                                    </div> --}}
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane p-3" id="navpill-3" role="tabpanel">
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
@@ -668,7 +743,7 @@
                                                             <span id="diclare_error" class="text-danger"></span>
                                                         </div>
                                                         <div class="d-flex align-items-center justify-content-between mt-3">
-                                                            <button type="button" class="btn btn-default next-step-2 align-items-center justify-content-between" data-target="#navpill-3">Next</button>
+                                                            <button type="button" class="btn btn-default next-step-3 align-items-center justify-content-between" data-target="#navpill-4">Next</button>
                                                         </div>  
                                                     </div>
                                             </div>
@@ -678,7 +753,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane p-3" id="navpill-3" role="tabpanel">
+                    <div class="tab-pane p-3" id="navpill-4" role="tabpanel">
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
@@ -1237,7 +1312,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="d-flex align-items-center justify-content-between mt-3">
-                                                    <button type="button" class="btn btn-default next-step-3 align-items-center justify-content-between" data-target="#navpill-4">Next</button>
+                                                    <button type="button" class="btn btn-default next-step-4 align-items-center justify-content-between" data-target="#navpill-5">Next</button>
                                                 </div>
                                         </div>                     
                                     </div>
@@ -1246,7 +1321,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane p-3" id="navpill-4" role="tabpanel">
+                    <div class="tab-pane p-3" id="navpill-5" role="tabpanel">
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
@@ -1352,7 +1427,7 @@
                                             </div>
 
                                             <div class="d-flex align-items-center justify-content-between mt-3">
-                                                <button type="button" class="btn btn-default next-step-4 align-items-center justify-content-between" data-target="#navpill-5">Next</button>
+                                                <button type="button" class="btn btn-default next-step-5 align-items-center justify-content-between" data-target="#navpill-6">Next</button>
                                             </div>
                                         </div>                                                          
                                     </div>                    
@@ -1360,7 +1435,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane p-3" id="navpill-5" role="tabpanel">
+                    <div class="tab-pane p-3" id="navpill-6" role="tabpanel">
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
@@ -1403,7 +1478,7 @@
                                             </div>
                                         </div> 
                                         <div class="d-flex align-items-center justify-content-between mt-3">
-                                            <button type="button" class="btn btn-default next-step-5 align-items-center justify-content-between" data-target="#navpill-6">Next</button>
+                                            <button type="button" class="btn btn-default next-step-6 align-items-center justify-content-between" data-target="#navpill-7">Next</button>
                                         </div>
                                     </div>                     
                                     </div>                    
@@ -1411,7 +1486,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane p-3" id="navpill-6" role="tabpanel">
+                    <div class="tab-pane p-3" id="navpill-7" role="tabpanel">
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
@@ -1449,7 +1524,7 @@
                                         
                             
                                         <div class="d-flex align-items-center justify-content-between mt-3">
-                                            <button type="button" class="btn btn-default next-step-6 align-items-center justify-content-between" data-target="#navpill-7">Next</button>
+                                            <button type="button" class="btn btn-default next-step-7 align-items-center justify-content-between" data-target="#navpill-8">Next</button>
                                         </div>
                                     </div>                     
                                     </div>                    
@@ -1457,7 +1532,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane p-3" id="navpill-7" role="tabpanel">
+                    <div class="tab-pane p-3" id="navpill-8" role="tabpanel">
                         <div class="row">
                             <div class="w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
@@ -1644,7 +1719,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane p-3" id="navpill-8" role="tabpanel">
+                    <div class="tab-pane p-3" id="navpill-9" role="tabpanel">
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
@@ -1684,7 +1759,7 @@
                                             </div>
                                         </div> 
                                         <div class="d-flex align-items-center justify-content-between mt-3">
-                                            <button type="button" class="btn btn-default next-step-8 align-items-center justify-content-between" data-target="#navpill-9">Next</button>
+                                            <button type="button" class="btn btn-default next-step-9 align-items-center justify-content-between" data-target="#navpill-10">Next</button>
                                         </div>
                                     </div>                     
                                     </div>                    
@@ -1692,7 +1767,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane p-3" id="navpill-9" role="tabpanel">
+                    <div class="tab-pane p-3" id="navpill-10" role="tabpanel">
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
@@ -1753,7 +1828,7 @@
                                             </div>
                                         </div> 
                                         <div class="d-flex align-items-center justify-content-between mt-3">
-                                            <button type="button" class="btn btn-default next-step-9 align-items-center justify-content-between" data-target="#navpill-10">Next</button>
+                                            <button type="button" class="btn btn-default next-step-10 align-items-center justify-content-between" data-target="#navpill-11">Next</button>
                                         </div>
                                     </div>                     
                                     </div>                    
@@ -1761,7 +1836,7 @@
                             </div>
                         </div>
                     </div> 
-                    <div class="tab-pane p-3" id="navpill-10" role="tabpanel">
+                    <div class="tab-pane p-3" id="navpill-11" role="tabpanel">
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
@@ -1852,7 +1927,7 @@
                                             </div>
                                         </div>
                                         <div class="d-flex align-items-center justify-content-between mt-3">
-                                            <button type="button" class="btn btn-default next-step-10 align-items-center justify-content-between" data-target="#navpill-11">Next</button>
+                                            <button type="button" class="btn btn-default next-step-11 align-items-center justify-content-between" data-target="#navpill-12">Next</button>
                                         </div>
                                     </div>                     
                                     </div>                    
@@ -1860,7 +1935,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane p-3" id="navpill-11" role="tabpanel">
+                    <div class="tab-pane p-3" id="navpill-12" role="tabpanel">
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
@@ -1904,7 +1979,7 @@
                                             </div>
                                         </div> 
                                         <div class="d-flex align-items-center justify-content-between mt-3">
-                                            <button type="button" class="btn btn-default next-step-11 align-items-center justify-content-between" data-target="#navpill-13">Next</button>
+                                            <button type="button" class="btn btn-default next-step-12 align-items-center justify-content-between" data-target="#navpill-14">Next</button>
                                         </div>
                                     </div>                     
                                     </div>                    
@@ -1912,7 +1987,7 @@
                             </div>
                         </div>
                     </div> 
-                    <div class="tab-pane p-3" id="navpill-13" role="tabpanel">
+                    <div class="tab-pane p-3" id="navpill-14" role="tabpanel">
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
@@ -1948,7 +2023,7 @@
                                             </div>
                                         </div> 
                                         <div class="d-flex align-items-center justify-content-between mt-3">
-                                            <button type="button" class="btn btn-default next-step-13 align-items-center justify-content-between" data-target="#navpill-12">Next</button>
+                                            <button type="button" class="btn btn-default next-step-14 align-items-center justify-content-between" data-target="#navpill-14">Next</button>
                                         </div>
                                     </div>                     
                                     </div>                    

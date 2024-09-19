@@ -850,6 +850,7 @@ $(document).ready(function() {
         formData.append('tab', 'tab1');
         formData.append('nationality', $('#nationality').val());
         formData.append('passwordI',passwordI);
+
         $.ajax({
                 url: "{{ route('admin.add_nurse_post_1') }}",
                 type: "POST",
@@ -871,7 +872,12 @@ $(document).ready(function() {
                             text: res.message,
                         }).then(function() {
                             $('a[href="' + targetTab + '"]').tab('show');
+
+                           // Disable the previous tab
+                           $('a[href="' + targetTab + '"]').parent().prev().find('a').addClass('disabled');
                         });
+
+                        
                     } else {
                         Swal.fire({
                             icon: 'error',
@@ -1009,16 +1015,16 @@ $(document).ready(function() {
 
 
         // second form        
-        $('.next-step-2').on('click', function() { 
+        $('.next-step-3').on('click', function() { 
                var targetTab = $(this).data('target'); 
             // Initially deactivate all tabs except the first one
                 // Function to enable the next tab
                 function enableNextTab(targetTab) {
                     // Remove 'active' class
-                    $('a[href="navpill-1"]').removeClass('active');
+                    // $('a[href="navpill-1"]').removeClass('active');
                     
-                    // Add 'disabled' class
-                    $('a[href="navpill-1"]').addClass('disabled');
+                    // // Add 'disabled' class
+                    // $('a[href="navpill-1"]').addClass('disabled');
                 }
 
                 // Function to enable the next tab
@@ -1233,7 +1239,7 @@ $(document).ready(function() {
 
     <script> 
         // thired form        
-        $('.next-step-3').on('click', function(event) { 
+        $('.next-step-4').on('click', function(event) { 
             event.preventDefault(); // Prevent default form submission
 
                var targetTab = $(this).data('target'); 
@@ -1660,7 +1666,7 @@ $(document).ready(function() {
 
     <script>
     // thired form        
-    $('.next-step-4').on('click', function(event) {
+    $('.next-step-5').on('click', function(event) {
         event.preventDefault(); // Prevent default form submission
 
         var targetTab = $(this).data('target');
@@ -1808,7 +1814,7 @@ $(document).ready(function() {
 
    <script>
     //four form        
-    $('.next-step-5').on('click', function(event) {
+    $('.next-step-6').on('click', function(event) {
         event.preventDefault(); // Prevent default form submission
 
         var targetTab = $(this).data('target');
@@ -1916,7 +1922,7 @@ $(document).ready(function() {
 
     <script>
     //six form        
-    $('.next-step-6').on('click', function(event) {
+    $('.next-step-7').on('click', function(event) {
         event.preventDefault(); // Prevent default form submission
 
         var targetTab = $(this).data('target');
@@ -2291,7 +2297,7 @@ $(document).ready(function() {
             contentType: false,
             processData: false,
             headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include CSRF token for security
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')// Include CSRF token for security
             },
             success: function(res) {
                 console.log(res.type);
@@ -2326,7 +2332,7 @@ $(document).ready(function() {
 
     <script>
     // Eight form
-    $('.next-step-8').on('click', function(event){
+    $('.next-step-9').on('click', function(event){
         event.preventDefault(); // Prevent default form submission
 
         var targetTab = $(this).data('target');
@@ -2428,7 +2434,7 @@ $(document).ready(function() {
 
        <script>
     // nine form
-    $('.next-step-9').on('click', function(event){
+    $('.next-step-10').on('click', function(event){
         event.preventDefault(); // Prevent default form submission
 
         var targetTab = $(this).data('target');
@@ -2550,7 +2556,7 @@ $(document).ready(function() {
 
     <script>
     // ten form
-    $('.next-step-10').on('click', function(event){
+    $('.next-step-11').on('click', function(event){
         event.preventDefault(); // Prevent default form submission
 
         var targetTab = $(this).data('target');
@@ -2691,7 +2697,7 @@ $(document).ready(function() {
 
     <script>
     // ELENVEN form
-    $('.next-step-11').on('click', function(event){
+    $('.next-step-12').on('click', function(event){
         event.preventDefault(); // Prevent default form submission
 
         var targetTab = $(this).data('target');
@@ -2798,7 +2804,7 @@ $(document).ready(function() {
 
     <script>
     // THIRTEEN  form
-    $('.next-step-13').on('click', function(event){
+    $('.next-step-14').on('click', function(event){
         event.preventDefault(); // Prevent default form submission
 
         // var targetTab = $(this).data('target');
@@ -2875,7 +2881,7 @@ $(document).ready(function() {
                         title: 'Success',
                         text: res.message,
                     }).then(function() {
-                        window.location.href = '{{ route("admin.complete-nurse-nurse-list")}}';
+                        window.location.href = '{{ route("admin.inprogess-nurse-nurse-list")}}';
                     });
                 } else {
                     Swal.fire({
@@ -2892,6 +2898,79 @@ $(document).ready(function() {
         });
 
     }
+    });
+    </script>
+
+    <script>
+    // THIRTEEN  form
+    $('.next-step-2').on('click', function(event){
+        event.preventDefault(); // Prevent default form submission
+
+        var targetTab = $(this).data('target');
+
+        // // Function to enable the next tab
+        function enableNextTab(targetTab) {
+        $('a[href="' + targetTab + '"]').removeClass('disabled').tab('show');
+        }
+        var returnValue = true;
+
+        $(".valley").html("");
+
+        var visibleToAgencies = $('[name="agencies"]').val();
+
+        var individuals = $('[name="individuals"]').val();
+
+        var profile_status = $('[name="profile_status"]').val();
+
+        var available_date = $('[name="available_date"]').val();
+        // var stateworkprefer = selectElement3.val();
+
+        // Create a new FormData object
+        var formData = new FormData();
+        formData.append('visibleToAgencies',visibleToAgencies);
+        formData.append('individuals',individuals);
+        formData.append('profile_status',profile_status);
+        formData.append('available_date',available_date);
+
+        formData.append('tab','tab14');
+
+        $.ajax({
+            url: "{{ route('admin.add_nurse_post_14') }}",
+            type: "POST",
+            data: formData,
+            data: formData,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include CSRF token for security
+            },
+            success: function(res) {
+                console.log(res.type);
+
+                if (res.status == '2') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: res.message,
+                    }).then(function() {
+                        $('a[href="' + targetTab + '"]').tab('show');
+                    });
+                } else {
+                    Swal.fire({
+                        icon:  'error',
+                        title: 'Error',
+                        text: res.message,
+                    });
+                }
+                // Show the target tab
+            },
+            error: function(error) {
+
+            }
+        });
+
+
     });
     </script>
 
@@ -3144,5 +3223,21 @@ $(document).ready(function() {
       
 
     });
+</script>
+
+<script type="text/javascript">
+$("#unavailableNow").click(function(){
+    if($("#unavailableNow").prop('checked') == true){
+        $(".available_date_field").removeClass("d-none");
+    }else{
+    $(".available_date_field").addClass("d-none");
+    }
+});
+$("#availableNow").click(function(){
+    $(".available_date_field").addClass("d-none");
+});
+if($("#unavailableNow").prop('checked') == true){
+    $(".available_date_field").removeClass("d-none");
+}
 </script>
     

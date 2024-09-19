@@ -305,7 +305,7 @@ class NurseServices
                     $acls_array=array();
                     $acls_array=array("acls_data"=>$acls_data,"acls_licence_num"=>$acls_licence_num,"acls_licence_expiry"=>$acls_licence_expiry,"acls_file"=>$acls_file_name);
                 }else{
-                    $acls_array=NULL;
+                    $acls_array = "";
                 }
 
             
@@ -327,7 +327,7 @@ class NurseServices
                     $bls_array=array();
                     $bls_array=array("bls_data"=>$bls_data,"bls_licence_num"=>$bls_licence_num,"bls_licence_expiry"=>$bls_licence_expiry,"bls_file"=>$bls_file_name);
                 }else{
-                    $bls_array=NULL;
+                    $bls_array="";
                 }
 
                 if($data['cpr_data'] != '[]'){
@@ -349,7 +349,7 @@ class NurseServices
                     $cpr_array=array();
                     $cpr_array=array("cpr_data"=>$cpr_data,"cpr_licence_num"=>$cpr_licence_num,"cpr_licence_expiry"=>$cpr_licence_expiry,"cpr_file"=>$cpr_file_name);
                 }else{
-                    $cpr_array=NULL;
+                    $cpr_array="";
                 }    
 
 
@@ -371,7 +371,7 @@ class NurseServices
                     $nrp_array=array();
                     $nrp_array=array("nrp_data"=>$nrp_data,"nrp_licence_num"=>$nrp_licence_num,"nrp_licence_expiry"=>$nrp_licence_expiry,"nrp_file"=>$nrp_file_name);
                 }else{
-                    $nrp_array=NULL;
+                    $nrp_array="";
                 } 
 
                 if($data['pals_data'] != '[]'){
@@ -393,7 +393,7 @@ class NurseServices
                     $pals_array=array();
                     $pals_array=array("pals_data"=>$pals_data,"pals_licence_num"=>$pals_licence_num,"pals_licence_expiry"=>$pals_licence_expiry,"pals_file"=>$pals_file_name);
                 }else{
-                    $pals_array=NULL;
+                    $pals_array="";
                 } 
 
                 if($data['rn_data'] != '[]'){
@@ -402,7 +402,7 @@ class NurseServices
                 $rn_licence_expiry=$data['rn_expiry'];
                 $rn_file=$data['rn_upload_certification'];
 
-                $rn_file_name='';
+                $rn_file_name="";
 
                 if($rn_file != 'undefined'){
                     $destinationPath=public_path().'/uploads';
@@ -414,7 +414,7 @@ class NurseServices
                 $rn_array=array("rn_data"=>$rn_data,"rn_licence_num"=>$rn_licence_num,"rn_licence_expiry"=>$rn_licence_expiry,"rn_file"=>$rn_file_name);
 
                 }else{
-                    $rn_array=NULL;
+                    $rn_array="";
                 } 
 
 
@@ -434,7 +434,7 @@ class NurseServices
                 $np_array=array();
                 $np_array=array("np_data"=>$np_data,"np_licence_num"=>$np_licence_num,"np_licence_expiry"=>$np_licence_expiry,"np_file"=>$np_file_name);
                 }else{
-                $np_array=NULL;
+                $np_array="";
                 }
                 
 
@@ -457,7 +457,7 @@ class NurseServices
                     $cna_array=array();
                     $cna_array=array("cna_data"=>$cna_data,"cna_licence_num"=>$cna_licence_num,"cna_licence_expiry"=>$cna_licence_expiry,"cna_file"=>$cna_file_name);
                 }else{
-                    $cna_array=NULL;
+                    $cna_array="";
                 }
 
                 if($data['lpn_data'] != '[]'){
@@ -476,7 +476,7 @@ class NurseServices
                 $lpn_array=array();
                 $lpn_array=array("lpn_data"=>$lpn_data,"lpn_licence_num"=>$lpn_licence_num,"lpn_licence_expiry"=>$lpn_licence_expiry,"lpn_file"=>$lpn_file_name);
                 }else{
-                    $lpn_array=NULL;
+                    $lpn_array="";
                 }
 
                 if($data['crn_data'] != '[]'){
@@ -496,7 +496,7 @@ class NurseServices
                 $crna_array=array();
                 $crna_array=array("crna_data"=>$crna_data,"crna_licence_num"=>$crna_licence_num,"crna_licence_expiry"=>$crna_licence_expiry,"crna_file"=>$crna_file_name);
                 }else{
-                $crna_array=NULL;
+                $crna_array="";
                 }
 
                 if($data['cnm_data'] != '[]'){
@@ -519,7 +519,7 @@ class NurseServices
                     $cnm_array=array();
                     $cnm_array=array("cnm_data"=>$cnm_data,"cnm_licence_num"=>$cnm_licence_num,"cnm_licence_expiry"=>$cnm_licence_expiry,"cnm_file"=>$cnm_file_name);
                 }else{
-                    $cnm_array=NULL;
+                    $cnm_array="";
                 }
 
                 if($data['ons_data'] != '[]'){
@@ -541,7 +541,7 @@ class NurseServices
                 $ons_array=array();
                 $ons_array=array("ons_data"=>$ons_data,"ons_licence_num"=>$ons_licence_num,"ons_licence_expiry"=>$ons_licence_expiry,"ons_file"=>$ons_file_name);
                 }else{
-                $ons_array=NULL;
+                $ons_array="";
                 }
 
                 if($data['msw_data'] != '[]'){
@@ -563,7 +563,7 @@ class NurseServices
                     $msw_array=array();
                     $msw_array=array("msw_data"=>$msw_data,"msw_licence_num"=>$msw_licence_num,"msw_licence_expiry"=>$msw_licence_expiry,"msw_file"=>$msw_file_name);
                 }else{
-                    $msw_array=NULL;
+                    $msw_array="";
                 }
 
                 if($data['ain_data'] != '[]'){
@@ -584,7 +584,7 @@ class NurseServices
                 $ain_array=array();
                 $ain_array=array("ain_data"=>$ain_data,"ain_licence_num"=>$ain_licence_num,"ain_licence_expiry"=>$ain_licence_expiry,"ain_file"=>$ain_file_name);
                 }else{
-                    $ain_array=NULL;
+                    $ain_array="";
                 }
 
                 if($data['rpn_data'] != '[]'){
@@ -603,7 +603,7 @@ class NurseServices
                 $rpn_array=array();
                 $rpn_array=array("rpn_data"=>$rpn_data,"rpn_licence_num"=>$rpn_licence_num,"rpn_licence_expiry"=>$rpn_licence_expiry,"rpn_file"=>$rpn_file_name);
                 }else{
-                    $rpn_array=NULL;
+                    $rpn_array="";
                 }
 
                 if($data['nlc_data'] != '[]'){
@@ -625,7 +625,7 @@ class NurseServices
                 $nl_array=array("nl_data"=>$nl_data,"nl_licence_num"=>$nl_licence_num,"nl_licence_expiry"=>$nl_licence_expiry,"nl_file"=>$nl_file_name);
                 
                 }else{
-                $nl_array=NULL;
+                $nl_array="";
                 }
 
                 $user_id=$user_id->id;
@@ -636,23 +636,23 @@ class NurseServices
                 $allData['graduate_start_date'] = $data['graduation_start_date'];
                 $allData['graduate_end_date'] = $data['graduation_end_date'];
                 $allData['professional_certifications'] = $CER;
-                $allData['acls_data'] = json_encode($acls_array);
-                $allData['bls_data'] = json_encode($bls_array);
-                $allData['cpr_data'] = json_encode($cpr_array);
-                $allData['nrp_data'] = json_encode($nrp_array);
-                $allData['pals_data'] = json_encode($pals_array);
-                $allData['rn_data'] = json_encode($rn_array);
-                $allData['np_data'] = json_encode($np_array);
-                $allData['cna_data'] = json_encode($cna_array);
+                $allData['acls_data'] = empty($acls_array) ? "" : json_encode($acls_array);
+                $allData['bls_data']  = empty($bls_array) ? "" : json_encode($bls_array);
+                $allData['cpr_data']  = empty($cpr_array) ? "" : json_encode($cpr_array);
+                $allData['nrp_data']  = empty($nrp_array) ? "" : json_encode($nrp_array);
+                $allData['pals_data'] = empty($pals_array) ? "" : json_encode($pals_array);
+                $allData['rn_data']   = empty($rn_array) ? "" : json_encode($rn_array);
+                $allData['np_data']   = empty($np_array) ? "" : json_encode($np_array);
+                $allData['cna_data'] = empty($cna_array) ? "" : json_encode($cna_array);
 
-                $allData['lpn_data']  = json_encode($lpn_array);
-                $allData['crna_data'] = json_encode($crna_array);
-                $allData['cnm_data']  = json_encode($cnm_array);
-                $allData['ons_data']  = json_encode($ons_array);
-                $allData['msw_data']  = json_encode($msw_array);
-                $allData['ain_data']  = json_encode($ain_array);
-                $allData['rpn_data']  = json_encode($rpn_array);
-                $allData['nl_data']   = json_encode($nl_array);
+                $allData['lpn_data']  = empty($lpn_array) ? "" : json_encode($lpn_array);
+                $allData['crna_data'] = empty($crna_array) ? "" : json_encode($crna_array);
+                $allData['cnm_data']  = empty($cnm_array) ? "" : json_encode($cnm_array);
+                $allData['ons_data']  = empty($ons_array) ? "" : json_encode($ons_array);
+                $allData['msw_data']  = empty($msw_array) ? "" : json_encode($msw_array);
+                $allData['ain_data']  = empty($ain_array) ? "" : json_encode($ain_array);
+                $allData['rpn_data']  = empty($rpn_array) ? "" : json_encode($rpn_array);
+                $allData['nl_data']   = empty($nl_array) ? "" : json_encode($nl_array);
                 $allData['user_id']  =  $user_id  ;
                 $allData['complete_status'] = 1;
                 $allData['training_courses']  = isset($data['training_courses']) ? json_encode($data['training_courses']) : '';
@@ -845,6 +845,18 @@ class NurseServices
                 $allData['hobbies_interests'] = $data['hobbies_interests'];
                 $run=AdditionalInfo::create($allData);
                 $param='Additional Information';
+
+            }else if($data['tab'] == 'tab14'){               
+                $email=Session::get('nurseemail');       
+                $user_id=User::where('email',$email)->first();
+                // /$allData['medical_facilities'] = isset($data['language_picker_select']) ? 'Yes' : 'No';
+                $allData['agencies'] = isset($data['visibleToAgencies']) ? 'Yes' : 'No';
+                $allData['individuals'] = isset($data['individuals']) ? 'Yes' : 'No';
+                $allData['profile_status1'] = $data['profile_status'];
+                //$update['unavailable_profile_status'] = isset($request->profile_status) ? 'Yes' : 'No';
+                $allData['available_date'] = $data['available_date'];
+                $run = User::where('id',$user_id->id)->update($allData);
+                $param='Additional Informationyy';
             }
             
             if ($run) {

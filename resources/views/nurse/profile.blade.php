@@ -3851,6 +3851,18 @@
     $(".surgicalopcboxes-"+surgicalpcare_list[k].id).removeClass('d-none');
   }
 
+  $("#tab-experience").insertAfter("#tab-educert");
+  $("#tab-my-profile-setting").insertAfter("#tab-educert");
+  $("#tab-mandtraining").insertAfter("#tab-educert");
+  $("#tab-interview-references").insertAfter("#tab-educert");
+  $("#tab-personal-preferences").insertAfter("#tab-educert");
+  $("#tab-work-preferences").insertAfter("#tab-educert");
+  $("#tab-addition-information").insertAfter("#tab-educert");
+  $("#tab-professional-membership").insertAfter("#tab-educert");
+  $("#tab-professional-membership").insertAfter("#tab-educert");
+  $("#tab-vaccination").insertAfter("#tab-educert");
+  $("#tab-myclearance-jobs").insertAfter("#tab-educert");
+
   var nurse_array = [];
     // Show corresponding job lists when an option is selected in the first select
     $('.js-example-basic-multiple[data-list-id="type-of-nurse"]').on('change', function() {
