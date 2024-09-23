@@ -3240,4 +3240,448 @@ if($("#unavailableNow").prop('checked') == true){
     $(".available_date_field").removeClass("d-none");
 }
 </script>
+
+
+{{-- edit nurse  --}}
+
+<script>
+$(document).ready(function() {
+
+         $('#uploadeditButton').on('click', function() {
+            $('#update_profile_image').click();
+        });
+
+        $('#update_profile_image').on('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    $('#profileImage').attr('src', e.target.result);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        $('.edit-form-1').on('click', function() { 
+
+             var returnValue = true;
+
+             $(".valley").html("");
+            // alert($('#stateI').val());     
+             var targetTab           = $(this).data('target');     
+             var first_name          =  $('#first_name').val();
+             var last_name           =  $('#last_name').val();  
+             var email               =  $('#email').val();  
+             // Get the value of the selected radio button
+             var selectedGender = $('input[name="gender"]:checked').val();
+             var contact        =  $('#contact').val(); 
+     
+            //  alert(profile_image);
+             var profile_image       =  $('#update_profile_image').val();  
+             var dob                 =  $('#dob').val();  
+             var per_website         =  $('#per_website').val();  
+             var countryI            =  $('#countryI').val(); 
+             var stateI              =  $('#stateI').val();  
+             var city                =  $('#city').val(); 
+             var zip_code            =  $('#zip_code').val();  
+             var home_address        =  $('#home_address').val(); 
+             var emrg_contact        =  $('#emrg_contact').val();  
+             var emrg_email          =  $('#emrg_email').val();   
+             var passwordI          = document.getElementById("passwordI").value;
+             var confirm_passwordI   = document.getElementById("confirm_passwordI").value;
+             var nationality         = $('#nationality').val();
+
+             if (first_name.trim() === "") {
+                $("#first_name_error").html("* Please Enter the First name.");
+                returnValue = false;
+             }
+
+             if (nationality === "") {
+                $("#nationality_error").html("* Please Select the nationality.");
+                returnValue = false;
+             }
+
+             if (last_name.trim() === "") {
+                $("#last_name_error").html("* Please Enter the Last name.");
+                returnValue = false;
+             }
+
+             if (email.trim() === "") {
+                $("#email_error").html("* Please Enter the Email.");
+                returnValue = false;
+             }
+
+             if (selectedGender.trim() === "") {
+                $("#genderErr").html("* Please select gender.");
+                returnValue = false;
+             }
+
+             if(contact.trim() === "") {
+                $("#contact_error").html("* Please Enter the phone number.");
+                returnValue = false;
+             }
+
+            //  if(profile_image === "") {
+            //     $("#profile_image_error").html("* Please Upload  the profile image.");
+            //     returnValue = false;
+            //  }
+
+             if(dob.trim() === "") {
+                $("#date_error").html("* Please Enter the date of birth.");
+                returnValue = false;
+             }
+
+             if(per_website.trim() === "") {
+                $("#per_website_error").html("* Please Enter the personal website.");
+                returnValue = false;
+             }
+
+             if(countryI.trim() === "") {
+                $("#country_error").html("* Please Select the country.");
+                returnValue = false;
+             }
+
+             if(city.trim() === "") {
+                $("#city_error").html("* Please Enter the city.");
+                returnValue = false;
+             }
+
+             if(zip_code.trim() === "") {
+                $("#zip_code_error").html("* Please Enter the zip code.");
+                returnValue = false;
+             }
+
+             if(home_address.trim() === "") {
+                $("#home_address_error").html("* Please Enter the home address.");
+                returnValue = false;
+             }
+
+             if(emrg_contact.trim() === "") {
+                $("#emrg_contact_error").html("* Please Enter the Emergency mobile number.");
+                returnValue = false;
+             }
+
+             if(emrg_email.trim() === "") {
+                $("#emrg_email_error").html("* Please Enter the Emergency email.");
+                returnValue = false;
+             }
+
+
+            if(passwordI != ""){
+
+
+            var pattern = /^.*(?=.{7,12})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%&!-_]).*$/;
+
+            if (!pattern.test(passwordI)) {
+
+            document.getElementById("reqTxtpasswordI").innerHTML = "Password length should be 7 Characters with atleast 1 number, lower, upper & special(@#$%&!-_&) characters.";
+
+            returnValue = false;
+
+            }
+
+            if (confirm_passwordI == "") {
+
+            document.getElementById("reqTxtconfirm_passwordI").innerHTML = "* Please Enter the Confirm password.";
+
+            returnValue = false;
+
+            }
+
+            if (passwordI != confirm_passwordI) {
+
+            document.getElementById("reqTxtconfirm_passwordI").innerHTML = "Password and Confirm password do not match.";
+
+            returnValue = false;
+
+            }
+
+            }
+
+             if (!returnValue) {
+            // $('.submit-btn-120').prop('disabled', false);
+            // $('.submit-btn-1').hide();
+            // $('.resetpassword').show();
+            return false;
+            }
+
+
+            if (returnValue) {
+            // Create a new FormData object
+            var formData = new FormData();
+            
+            // if(targetTab ==  '#navpill-2'){
+            // Append form fields to the FormData object
+            formData.append('first_name', $('#first_name').val());
+            formData.append('last_name', $('#last_name').val());
+            formData.append('email', $('#email').val());
+            formData.append('gender', $('input[name="gender"]:checked').val());
+            formData.append('contact', $('#contact').val());
+            formData.append('country_code_phone', $('#country_code_phone').val());
+            formData.append('country_iso_phone', $('#country_iso_phone').val());
+            formData.append('dob',$('#dob').val());
+            formData.append('per_website', $('#per_website').val());
+            formData.append('country', countryI);
+            formData.append('state', stateI);
+            formData.append('city', $('#city').val());
+            formData.append('zip_code', $('#zip_code').val());
+            formData.append('home_address', $('#home_address').val());
+            formData.append('emrg_contact', $('#emrg_contact').val());
+            formData.append('emrg_email', $('#emrg_email').val());
+            formData.append('country_code_mobile', $('#country_code_mobile').val());
+            formData.append('country_iso_mobile', $('#country_iso_mobile').val());
+            formData.append('tab', 'tab1');
+            formData.append('nationality', $('#nationality').val());
+            formData.append('nurse_id', $('#nurse_id').val());
+            formData.append('passwordI',passwordI);
+
+            if(profile_image != ""){
+            // Append the file
+            var profile_image = $('#update_profile_image')[0].files[0];
+            
+            if (profile_image) {
+                formData.append('profile_image', profile_image);
+            }
+
+           }else{
+             formData.append('profile_image','null');
+           }
+
+                $.ajax({
+                    url: "{{ route('admin.edit_nurse_post') }}",
+                    type: "POST",
+                    data: formData,
+                    data: formData,
+                    dataType: 'json',
+                    contentType: false,
+                    processData: false,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include CSRF token for security
+                    },
+                    success: function(res) {
+                        console.log(res.type);
+
+                        if (res.status == '2') {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success',
+                                text: res.message,
+                            }).then(function() {
+                                $('a[href="' + targetTab + '"]').tab('show');
+
+                            // Disable the previous tab
+                            $('a[href="' + targetTab + '"]').parent().prev().find('a').addClass('disabled');
+                            });
+
+                            
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: res.message,
+                            });
+                        }
+                        // Show the target tab
+                    },
+                    error: function(error) {
+                    // if(targetTab ==  '#navpill-2'){
+                    if (error.responseJSON.errors) {
+                            if (error.responseJSON.errors.first_name) {
+                                $('#first_name_error').text(error.responseJSON.errors.first_name[0]);
+                            } else {
+                                $('#first_name_error').text('');
+                            }
+
+                            if (error.responseJSON.errors.last_name) {
+                                $('#last_name_error').text(error.responseJSON.errors.last_name[0]);
+                            
+                            } else {
+                                $('#last_name_error').text('');
+                            }
+
+                            if (error.responseJSON.errors.contact) {
+                                $('#contact_error').text(error.responseJSON.errors.contact[0]);
+                            
+                            } else {
+                                $('#contact_error').text('');
+                            }
+
+                            if (error.responseJSON.errors.email) {
+                                $('#email_error').text(error.responseJSON.errors.email[0]);
+                            
+                            } else {
+                                $('#email_error').text('');
+                            }
+
+                            if(error.responseJSON.errors.gender) {
+                                $('#genderErr').text(error.responseJSON.errors.gender[0]);
+                            
+                            }else{
+                                $('#genderErr').text('');
+                            }
+
+                            if(error.responseJSON.errors.dob) {
+                                $('#date_error').text(error.responseJSON.errors.dob[0]);
+                            
+                            }else{
+                                $('#date_error').text('');
+                            }
+
+                            if(error.responseJSON.errors.per_website) {
+                                $('#per_website_error').text(error.responseJSON.errors.per_website[0]);
+                            
+                            }else{
+                                $('#per_website_error').text('');
+                            }
+
+                            if(error.responseJSON.errors.country) {
+                                $('#country_error').text(error.responseJSON.errors.country[0]);
+                            
+                            }else{
+                                $('#country_error').text('');
+                            }
+
+                            if(error.responseJSON.errors.state) {
+                                $('#state_error').text(error.responseJSON.errors.state[0]);
+                            
+                            }else{
+                                $('#state_error').text('');
+                            }
+
+                            if(error.responseJSON.errors.city) {
+                                $('#city_error').text(error.responseJSON.errors.city[0]);
+                            
+                            }else{
+                                $('#city_error').text('');
+                            }
+
+                            if(error.responseJSON.errors.zip_code) {
+                                $('#zip_code_error').text(error.responseJSON.errors.zip_code[0]);
+                            
+                            }else{
+                                $('#zip_code_error').text('');
+                            }
+
+                            if(error.responseJSON.errors.home_address) {
+                                $('#home_address_error').text(error.responseJSON.errors.home_address[0]);
+                            
+                            }else{
+                                $('#home_address_error').text('');
+                            }
+
+                            if(error.responseJSON.errors.emrg_contact) {
+                                $('#emrg_contact_error').text(error.responseJSON.errors.emrg_contact[0]);
+                            
+                            }else{
+                                $('#emrg_contact_error').text('');
+                            }
+
+                            if(error.responseJSON.errors.emrg_email) {
+                                $('#emrg_email_error').text(error.responseJSON.errors.emrg_email[0]);
+                            
+                            }else{
+                                $('#emrg_email_error').text('');
+                            }
+
+
+                            if(error.responseJSON.errors.home_address) {
+                                $('#home_address_error').text(error.responseJSON.errors.zip_code[0]);
+                            
+                            }else{
+                                $('#home_address_error').text('');
+                            }
+
+                            if(error.responseJSON.errors.profile_image) {
+                                $('#profile_image_error').text(error.responseJSON.errors.profile_image[0]);
+                            
+                            }else{
+                                $('#profile_image_error').text('');
+                            }
+                        // }
+                            
+                        }
+                    }
+                });
+
+            }
+
+            // if (!hasErrors) {
+            //     $('a[href="' + targetTab + '"]').tab('show'); // Show the target tab
+            // }
+            
+        });
+
+    // second form
+    $('.next-step-2').on('click', function(event){
+        event.preventDefault(); // Prevent default form submission
+
+        var targetTab = $(this).data('target');
+
+        // // Function to enable the next tab
+        function enableNextTab(targetTab) {
+        $('a[href="' + targetTab + '"]').removeClass('disabled').tab('show');
+        }
+        var returnValue = true;
+
+        $(".valley").html("");
+
+        var visibleToAgencies = $('[name="agencies"]').val();
+
+        var individuals = $('[name="individuals"]').val();
+
+        var profile_status = $('[name="profile_status"]').val();
+
+        var available_date = $('[name="available_date"]').val();
+        // var stateworkprefer = selectElement3.val();
+
+        // Create a new FormData object
+        var formData = new FormData();
+        formData.append('visibleToAgencies',visibleToAgencies);
+        formData.append('individuals',individuals);
+        formData.append('profile_status',profile_status);
+        formData.append('available_date',available_date);
+
+        formData.append('tab','tab14');
+
+        $.ajax({
+            url: "{{ route('admin.add_nurse_post_14') }}",
+            type: "POST",
+            data: formData,
+            data: formData,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include CSRF token for security
+            },
+            success: function(res) {
+                console.log(res.type);
+
+                if (res.status == '2') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: res.message,
+                    }).then(function() {
+                        $('a[href="' + targetTab + '"]').tab('show');
+                    });
+                } else {
+                    Swal.fire({
+                        icon:  'error',
+                        title: 'Error',
+                        text: res.message,
+                    });
+                }
+                // Show the target tab
+            },
+            error: function(error) {
+
+            }
+        });
+
+
+    });
+
+})
+</script>
     

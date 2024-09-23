@@ -93,6 +93,9 @@ Route::prefix('/admin')->name('admin.')->namespace('App\Http\Controllers\admin')
         Route::post('/add-nurse-post-13','NurseController@addNursePostForm13')->name('add_nurse_post_13');
         Route::post('/add-nurse-post-14','NurseController@addNursePostForm14')->name('add_nurse_post_14');
 
+        Route::get('/edit-nurse/{id}', 'NurseController@EditNurse')->name('edit_nurse');
+        Route::post('/edit-nurse-post', 'NurseController@EditNursePost')->name('edit_nurse_post');
+
         Route::get('/customer-list', 'NurseController@customerList')->name('customer-list'); 
              
 

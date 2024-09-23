@@ -92,6 +92,11 @@
                                                 title="View">
                                                 View
                                             </a>
+                                            <a href="{{ route('admin.edit_nurse', ['id' => $item->id]) }}"
+                                                class="btn btn-primary" data-bs-toggle="tooltip" data-bs-trigger="hover"
+                                                title="View">
+                                                Edit
+                                            </a>
                                             {{-- <button type="button" class="btn btn-success "
                                                 onclick="changeStatus({{ $item->id }},'2')">Approve
                                             </button> --}}

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Sep 20, 2024 at 10:31 AM
+-- Generation Time: Sep 23, 2024 at 10:40 AM
 -- Server version: 5.7.23-23
 -- PHP Version: 8.1.29
 
@@ -1130,7 +1130,8 @@ INSERT INTO `practitioner_type` (`id`, `name`, `parent`, `is_featured`, `status`
 (297, 'Midwife Nurse', '295', 0, '1', 0, '2024-08-26 01:06:45', '2024-08-26 01:06:45'),
 (298, 'VEER', '295', 0, '1', 0, '2024-08-26 01:06:52', '2024-08-26 01:08:44'),
 (299, 'Midwife Nurse', '298', 0, '1', 0, '2024-08-26 01:07:04', '2024-08-26 01:07:04'),
-(300, 'VIJJU', '298', 0, '1', 0, '2024-08-26 01:09:22', '2024-08-26 01:09:22');
+(300, 'VIJJU', '298', 0, '1', 0, '2024-08-26 01:09:22', '2024-08-26 01:09:22'),
+(303, 'Hospital management', '0', 0, '1', 0, '2024-09-20 06:22:26', '2024-09-20 06:22:26');
 
 -- --------------------------------------------------------
 
@@ -1275,7 +1276,7 @@ INSERT INTO `professional_certificate_table` (`professionalcert_id`, `cert_id`, 
 (68, 12, 'Jamaica: HCA (Health Care Assistant) - Various certification programs', '2024-08-21 07:16:07', '2024-08-21 07:16:07'),
 (69, 12, 'New Zealand: EN (Enrolled Nurse) - Nursing Council of New Zealand (NCNZ)', '2024-08-21 07:16:29', '2024-08-21 07:16:29'),
 (70, 12, 'Singapore: EN (Enrolled Nurse) - Singapore Nursing Board (SNB)', '2024-08-21 07:16:57', '2024-08-21 07:16:57'),
-(71, 12, 'South Africa: ENA (Enrolled Nursing Auxiliary) - South African Nursing Council (SANC)', '2024-08-21 07:17:20', '2024-08-21 07:17:20'),
+(71, 12, 'South Africa: ENA (Enrolled Nursing Auxiliary) - South African Nursing Council (SANC)', '2024-08-21 07:17:20', '2024-09-20 06:21:22'),
 (72, 12, 'UK: NA (Nursing Associate) - Nursing and Midwifery Council (NMC)', '2024-08-21 07:18:11', '2024-08-21 07:18:11'),
 (73, 12, 'USA: CNA (Certified Nursing Assistant) - State Certification Boards', '2024-08-21 07:18:31', '2024-08-21 07:18:31'),
 (74, 13, 'Australia: EN (Enrolled Nurse) - Australian Health Practitioner Regulation Agency (AHPRA)', '2024-08-21 07:21:11', '2024-08-21 07:21:11'),
@@ -1417,7 +1418,8 @@ CREATE TABLE `skills` (
 INSERT INTO `skills` (`id`, `name`, `created_at`, `updated_at`) VALUES
 (1, 'Communication skills', '2024-04-05 06:36:23', '2024-04-05 06:59:36'),
 (5, 'Empathy', '2024-04-05 06:59:46', '2024-09-13 06:15:34'),
-(6, 'Attention to detail', '2024-04-05 07:00:03', '2024-04-25 04:16:20');
+(6, 'Attention to detail', '2024-04-05 07:00:03', '2024-04-25 04:16:20'),
+(7, 'Empathy', '2024-09-20 06:22:58', '2024-09-20 06:22:58');
 
 -- --------------------------------------------------------
 
@@ -7527,7 +7529,7 @@ ALTER TABLE `police_check`
 -- AUTO_INCREMENT for table `practitioner_type`
 --
 ALTER TABLE `practitioner_type`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=303;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=304;
 
 --
 -- AUTO_INCREMENT for table `profession`
@@ -7557,7 +7559,7 @@ ALTER TABLE `professional_membership`
 -- AUTO_INCREMENT for table `skills`
 --
 ALTER TABLE `skills`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `speciality`

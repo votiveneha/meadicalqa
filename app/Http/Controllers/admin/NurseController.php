@@ -283,6 +283,41 @@ class NurseController extends Controller
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
         }
     }
+
+    public function EditNurse(Request $request)
+    {
+        try {
+            $professionVerificationData = $this->verificationRepository->get(['user_id' => $request->id]);
+            $profileData  = $this->nurseRepository->getOneUser(['id'=>$request->id]);
+            $educationData  = $this->nurseRepository->getEducationCerdetails(['user_id'=>$request->id]);
+            $experienceData  = $this->nurseRepository->getExperiencedetails(['user_id'=>$request->id]);
+            $mandatorytrainingData  = $this->nurseRepository->getMandatorytrainingdetails(['user_id'=>$request->id]);
+            $interviewrefData  = $this->nurseRepository->getInterviewrefdetails(['user_id'=>$request->id]);
+            $personalprefData  = $this->nurseRepository->getPersonalprefdetails(['user_id'=>$request->id]);
+            $findworkData  = $this->nurseRepository->getfindworkdetails(['user_id'=>$request->id]);
+            $vaccinationData  = $this->nurseRepository->getvaccinationdetails(['user_id'=>$request->id]);
+            $policeCheckVerificationData = $this->verificationRepository->getPoliceCheckVerificationData(['user_id' => $request->id]);
+            $eligibilityToWorkData = $this->verificationRepository->getEligibilityToWorkData(['user_id' => $request->id]);
+            $workingChildrenCheckData = $this->verificationRepository->getWorkingChildrenCheckData(['user_id' => $request->id]);
+            $proMembershipData = $this->nurseRepository->getProMembershipData(['user_id' => $request->id]);
+            return view('admin.edit-nurse',compact('profileData','experienceData','policeCheckVerificationData','eligibilityToWorkData','workingChildrenCheckData','educationData','mandatorytrainingData',
+            'interviewrefData','personalprefData','findworkData','vaccinationData','proMembershipData'));
+        } catch (\Exception $e) {
+            log::error('Error in NurseController/EditNurse :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+
+    public function EditNursePost(Request $request)
+    {      
+        try {      
+           return $this->nurseServices->EditNursePost($request);
+        } catch (\Exception $e) {
+            log::error('Error in NurseController/EditNursePost :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+    
     
   
     public function changeStatus(Request $request)

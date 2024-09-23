@@ -55,11 +55,11 @@
             <div class="card-body px-4 py-3">
                 <div class="row align-items-center">
                     <div class="col-9">
-                        <h4 class="fw-semibold mb-8">Add Nurse</h4>
+                        <h4 class="fw-semibold mb-8">Edit Nurse</h4>
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a class="text-muted " href="index.html">Dashboard</a></li>
-                                <li class="breadcrumb-item" aria-current="page">Add Nurse</li>
+                                <li class="breadcrumb-item" aria-current="page">Edit Nurse</li>
                             </ol>
                         </nav>
                     </div>
@@ -174,39 +174,41 @@
                                 <div class="card-body p-3 px-md-4">
                                     <div class="col-md-12">
                                         <div class="row">
+                                            <input type="hidden" value="{{isset($profileData->id)? $profileData->id : ''}}" id="nurse_id">
 											<div class="upload-pic">
 												<div class="mt-35 mb-40 box-info-profie d-flex align-items-center upload_image">
 					  
 												  <div class="image-profile">
-													<img alt=""  id="profileImage" style="object-fit:cover;border-radius: 16px;display: block;width: 85px;height: 85px;" src="{{asset('assets/admin/dist/images/profile/nurse06.png')}}"> 
+													<img alt="" id="profileImage" style="object-fit: cover; border-radius: 16px; display: block; width: 85px; height: 85px;" 
+                                                     src="{{ isset($profileData->profile_img) ? asset($profileData->profile_img) : asset('assets/admin/dist/images/profile/nurse06.png') }}">
 													<div class="position-relative overflow-hidden">
-														<a class="btn btn-apply" id="uploadButton">Upload Avatar</a>													  
-														<input type="file" name="profile_image" id="profile_image" class="position-absolute h-100" accept="image/*" style="top: 0;left: 0;opacity: 0;cursor: pointer;">
+														<a class="btn btn-apply" id="uploadeditButton">Upload Avatar</a>													  
+														<input type="file" name="profile_image" id="update_profile_image" class="position-absolute h-100" accept="image/*" style="top: 0;left: 0;opacity: 0;cursor: pointer;">
 														<i class="fa fa-spinner fa-spin" id="preloadeer-active" style="display:none" aria-hidden="true"></i>									
 													</div>
 													</div>
 												</div>
-											<span id="profile_image_error" class="text-danger"></span>
+											<span id="profile_image_error" class="text-danger valley"></span>
 											</div>
                                             <div class="col-md-6 mt-3">
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>First Name</strong></label>
-                                                    <input type="text" class="form-control" placeholder="First Name" name="first_name" id="first_name">
-                                                    <span id="first_name_error" class="text-danger"></span>
+                                                    <input type="text" class="form-control" placeholder="First Name" name="first_name" id="first_name" value="{{isset($profileData->name)? $profileData->name : ''}}">
+                                                    <span id="first_name_error" class="text-danger valley"></span>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 mt-3">
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Last Name</strong></label>
-                                                    <input type="text" class="form-control" placeholder="Last Name" name="last_name" id="last_name">
-                                                    <span id="last_name_error" class="text-danger"></span>
+                                                    <input type="text" class="form-control" placeholder="Last Name" name="last_name" id="last_name" value="{{isset($profileData->lastname)? $profileData->lastname : ''}}">
+                                                    <span id="last_name_error" class="text-danger valley"></span>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 mt-3">
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Email Address</strong></label>
-                                                    <input type="text" class="form-control" placeholder="Email Address" name="email" id="email">
-                                                    <span id="email_error" class="text-danger"></span>
+                                                    <input type="text" class="form-control" placeholder="Email Address" name="email" id="email" value="{{isset($profileData->email )? $profileData->email  : ''}}">
+                                                    <span id="email_error" class="text-danger valley"></span>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 mt-3 phone--drpdwns">
@@ -214,17 +216,17 @@
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Phone Number</strong></label>
                                                     <input type="hidden" value="" name="country_code" id="country_code_phone">
                                                     <input type="hidden" value="" name="country_name" id="country_name_phone">
-                                                    <input type="hidden" value="" name="country_iso" id="country_iso_phone">
-                                                    <input class="form-control numbers" type="tel" required="" name="contact" id="contact" placeholder="1234567890" placeholder="1234567890" maxlength="10" pattern="[0-9]{4}" style="width: ">
-                                                    <span id="contact_error" class="text-danger"></span>
+                                                    <input type="hidden" value="" name="country_iso" id="country_iso_phone" value="{{isset($profileData->country_iso )? $profileData->country_iso  : ''}}">
+                                                    <input class="form-control numbers" type="tel" required="" name="contact" id="contact" placeholder="1234567890" placeholder="1234567890" maxlength="10" pattern="[0-9]{4}" style="width:" value="{{isset($profileData->phone )? $profileData->phone  : ''}}">
+                                                    <span id="contact_error" class="text-danger valley"></span>
                                                 </div>
                                             </div>
 
                                             <div class="col-md-6 mt-3">
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Date of Birth</strong></label>
-                                                    <input type="date" class="form-control" placeholder="Date of Birth" name="dob" id="dob">
-                                                    <span id="date_error" class="text-danger"></span>
+                                                    <input type="date" class="form-control" placeholder="Date of Birth" name="dob" id="dob" value="{{isset($profileData->date_of_birth )? $profileData->date_of_birth  : ''}}">
+                                                    <span id="date_error" class="text-danger valley"></span>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 mt-3">
@@ -232,19 +234,19 @@
                                                     <label for="gender" class="d-flex gap-3 flex-wrap"><strong>Gender</strong></label>
                                                     <div class="d-flex gap-3 flex-wrap">
                                                         <div class="form-check">
-                                                            <input class="form-check-input" type="radio" name="gender" id="genderMale" value="Male">
+                                                            <input class="form-check-input" type="radio" name="gender" id="genderMale" value="Male" @if($profileData->gender == "Male") checked @endif>
                                                             <label class="form-check-label" for="genderMale">
                                                                 Male
                                                             </label>
                                                         </div>
                                                         <div class="form-check">
-                                                            <input class="form-check-input" type="radio" name="gender" id="genderFemale" value="Female">
+                                                            <input class="form-check-input" type="radio" name="gender" id="genderFemale" value="Female" @if($profileData->gender == "Female") checked @endif>
                                                             <label class="form-check-label" for="genderFemale">
                                                                 Female
                                                             </label>
                                                         </div>
                                                     </div>
-                                                    <span id="genderErr" class="text-danger"></span>
+                                                    <span id="genderErr" class="text-danger valley"></span>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 mt-3">
@@ -254,16 +256,17 @@
                                                         <option value="">Select Nationality</option>
                                                         @php $country_data=country_name_from_db();@endphp
                                                         @foreach ($country_data as $data)
-                                                        <option value="{{ $data->professionalcert_id }}" <?= isset(Auth::guard('nurse_middle')->user()->nationality) &&  Auth::guard('nurse_middle')->user()->nationality == $data->professionalcert_id ? 'selected' : '' ?>>{{ $data->nationality }}</option>
+                                                        <option value="{{ $data->id }}" <?= isset($profileData->nationality) &&  $profileData->nationality == $data->id ? 'selected' : '' ?>>{{ $data->nationality }}</option>
                                                         @endforeach
                                                     </select>
+                                                     <span id="nationality_error" class="text-danger valley"></span>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 mt-3">
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Personal website</strong></label>
-                                                    <input class="form-control" type="url" required="" name="per_website" id="per_website" placeholder="Personal website">
-                                                    <span id="per_website_error" class="text-danger"></span>
+                                                    <input class="form-control" type="url" required="" name="per_website" id="per_website" placeholder="Personal website" value="{{isset($profileData->personal_website )? $profileData->personal_website  : ''}}">
+                                                    <span id="per_website_error" class="text-danger valley"></span>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 mt-3">
@@ -273,10 +276,10 @@
                                                         <option value="">Select Country</option>
                                                         @php $country_data=country_name_from_db();@endphp
                                                         @foreach ($country_data as $data)
-                                                        <option value="{{$data->iso2}}" <?= isset(Auth::guard('nurse_middle')->user()->country) &&  Auth::guard('nurse_middle')->user()->country == $data->iso2 ? 'selected' : '' ?>> {{$data->name}} </option>
+                                                        <option value="{{$data->iso2}}" <?= isset($profileData->country) &&  $profileData->country == $data->iso2 ? 'selected' : '' ?>> {{$data->name}} </option>
                                                         @endforeach
                                                    </select>
-                                                    <span id="country_error" class="text-danger"></span>
+                                                    <span id="country_error" class="text-danger valley"></span>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 mt-3">
@@ -284,8 +287,8 @@
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>State</strong></label>
                                                     <select class="form-control form-select ps-5" name="state" id="stateI" id="stateI">
                                                     @php
-                                                    if(isset( Auth::guard('nurse_middle')->user()->country)){
-                                                    $state_data =state_name_array( Auth::guard('nurse_middle')->user()->country);
+                                                    if(isset( $profileData->country)){
+                                                    $state_data = state_list();
                                                     }else{
                                                     $state_data = '';
                                                     }
@@ -293,34 +296,34 @@
 
                                                     @if(isset($state_data) && !empty($state_data))
                                                     @foreach ($state_data as $data_state)
-                                                    <option value="{{$data_state->id}}" <?= isset(Auth::guard('nurse_middle')->user()->state) &&  Auth::guard('nurse_middle')->user()->state  == $data_state->id ? 'selected' : '' ?>> {{$data_state->name}} </option>
+                                                    <option value="{{$data_state->id}}" <?= isset($profileData->state) &&  $profileData->state  == $data_state->id ? 'selected' : '' ?>> {{$data_state->name}} </option>
                                                     @endforeach
                                                     @endif
 
                                                     </select>
-                                                    <span id="state_error" class="text-danger"></span>
+                                                    <span id="state_error" class="text-danger valley"></span>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 mt-3">
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>City</strong></label>
-                                                    <input class="form-control" type="text" required="" name="city" id="city" placeholder="City">
-                                                    <span id="city_error" class="text-danger"></span>
+                                                    <input class="form-control" type="text" required="" name="city" id="city" placeholder="City" value="{{isset($profileData->city )? $profileData->city  : ''}}">
+                                                    <span id="city_error" class="text-danger valley"></span>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 mt-3">
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Zip code</strong></label>
-                                                    <input class="form-control" type="text" required="" name="zip_code" id="zip_code" placeholder="Zip code">
-                                                    <span id="zip_code_error" class="text-danger"></span>
+                                                    <input class="form-control" type="text" required="" name="zip_code" id="zip_code" placeholder="Zip code" value="{{isset($profileData->post_code )? $profileData->post_code  : ''}}">
+                                                    <span id="zip_code_error" class="text-danger valley"></span>
                                                 </div>
                                             </div>
                                             
                                             <div class="col-md-6 mt-3">
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Home Address</strong></label>
-                                                    <input class="form-control" type="text" required="" name="home_address" id="home_address" placeholder="Home Address">
-                                                    <span id="home_address_error" class="text-danger"></span>
+                                                    <input class="form-control" type="text" required="" name="home_address" id="home_address" placeholder="Home Address" value="{{isset($profileData->home_address )? $profileData->home_address  : ''}}">
+                                                    <span id="home_address_error" class="text-danger valley"></span>
                                                 </div>
                                             </div>
 
@@ -344,24 +347,24 @@
                                             <div class="col-md-6 mt-3 phone--drpdwns">
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Mobile No</strong></label>
-                                                    <input type="hidden" value="" name="emr_county_code" id="country_code_mobile">
+                                                    <input type="hidden" value="" name="emr_county_code" id="country_code_mobile" value="{{isset($profileData->emegency_country_code )? $profileData->emegency_country_code  : ''}}">
                                                     <input type="hidden" value="" name="emr_country_name" id="country_name_mobile">
-                                                    <input type="hidden" value="" name="emr_country_iso" id="country_iso_mobile">
-                                                    <input class="form-control numbers" type="tel" required="" name="emrg_contact" id="emrg_contact" placeholder="1234567890" placeholder="1234567890" maxlength="10" pattern="[0-9]{4}" style="width: ">
-                                                    <span id="emrg_contact_error" class="text-danger"></span>
+                                                    <input type="hidden" value="" name="emr_country_iso" id="country_iso_mobile" value="{{isset($profileData->emergency_country_iso )? $profileData->emergency_country_iso  : ''}}">
+                                                    <input class="form-control numbers" type="tel" required="" name="emrg_contact" id="emrg_contact" placeholder="1234567890" placeholder="1234567890" maxlength="10" pattern="[0-9]{4}" style="width: " value="{{isset($profileData->emergency_conact_numeber )? $profileData->emergency_conact_numeber  : ''}}">
+                                                    <span id="emrg_contact_error" class="text-danger valley"></span>
                                                 </div>
                                             </div>
                                             
                                             <div class="col-md-6 mt-3">
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Email</strong></label>
-                                                   <input type="text" class="form-control" id="emrg_email" name="emrg_email" placeholder="Email" accept="image/*">
-                                                    <span id="emrg_email_error" class="text-danger"></span>
+                                                   <input type="text" class="form-control" id="emrg_email" name="emrg_email" placeholder="Email" value="{{isset($profileData->emergergency_contact_email )? $profileData->emergergency_contact_email  : ''}}">
+                                                    <span id="emrg_email_error" class="text-danger valley"></span>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="d-flex align-items-center justify-content-between mt-3">
-                                            <button type="button" class="btn btn-default next-step-1 align-items-center justify-content-between" data-target="#navpill-2">Next</button>
+                                            <button type="button" class="btn btn-default edit-form-1 align-items-center justify-content-between" data-target="#navpill-1">Save</button>
                                         </div>
                                     </div>
 
@@ -388,7 +391,7 @@
                                         <div class="row">
                                             <div class="col-md-12 mt-3">
                                                 <div class="form-group">
-                                                    <input class="form-check-input" type="checkbox" value="1" id="visibleToMedicalFacilities"> 
+                                                    <input class="form-check-input" type="checkbox" value="1" id="visibleToMedicalFacilities" > 
                                                      <label class="form-check-label" for="visibleToMedicalFacilities">
                                                         Visible to Healthcare Facilities
                                                     </label>
@@ -397,7 +400,7 @@
 
                                             <div class="col-md-12 mt-3">
                                                 <div class="form-group">
-                                                    <input class="form-check-input" type="checkbox" value="1"  id="visibleToAgencies" name="agencies">
+                                                    <input class="form-check-input" type="checkbox" value="1"  id="visibleToAgencies" name="agencies" @if($profileData->agencies == 1)  {{ checked }}  @endif>
                                                     <label class="form-check-label" for="visibleToAgencies">
                                                         Visible to Agencies
                                                     </label>
@@ -441,7 +444,7 @@
                                             </div>
 
                                             <div class="d-flex align-items-center justify-content-between mt-3">
-                                                <button type="button" class="btn btn-default next-step-2 align-items-center justify-content-between" data-target="#navpill-3">Next</button>
+                                                <button type="button" class="btn btn-default edit-form-1 align-items-center justify-content-between" data-target="#navpill-2">Save</button>
                                             </div>
                                         </div>                                                          
                                     </div>                    
@@ -477,7 +480,7 @@
                                                                 
                                                             </ul>
                                                             <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="type-of-nurse" name="states[]" multiple="multiple" id="type_nurse"></select>
-                                                            <span id="type_nurse_error" class="text-danger"></span>
+                                                            <span id="type_nurse_error" class="text-danger valley"></span>
                                                         </div>
                                                     </div>
                                                 
@@ -495,13 +498,12 @@
                                                         <label for="skill" class="d-flex gap-3 flex-wrap"><strong>{{ $spl->name }}</strong></label>
                                                             <ul id="nursing_entry-{{ $i }}" style="display:none;">
                                                                 @foreach($nursing_data as $nd)
-                                                                <li data-value="{{ $nd->id }}">{{ $nd->name }}</li>
-                                                                
+                                                                <li data-value="{{ $nd->id }}">{{ $nd->name }}</li>                      
                                                                 @endforeach
                                                                 <!-- Add more list items as needed -->
                                                             </ul>
                                                             <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="nursing_entry-{{ $i }}" name="states[]" multiple="multiple"></select>
-                                                        <span id="photo_id" class="text-danger"></span>
+                                                        <span id="photo_id" class="text-danger valley"></span>
                                                     </div>
                                                      <?php
                                                         $i++;
@@ -521,7 +523,7 @@
                                                                 
                                                             </ul>
                                                             <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="nurse_practitioner_menu" name="nurse_practitioner_menu[]" multiple="multiple"></select>
-                                                            <span id="photo_id" class="text-danger"></span>
+                                                            <span id="photo_id" class="text-danger valley"></span>
                                                         </div>
                                                     </div>
 
@@ -543,7 +545,7 @@
                                                                 
                                                             </ul>
                                                             <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="specialties" name="specialties[]" multiple="multiple"></select>
-                                                            <span id="specialties_error" class="text-danger"></span>
+                                                            <span id="specialties_error" class="text-danger valley"></span>
                                                         </div>
                                                     </div>
 
@@ -698,7 +700,7 @@
                                                             @for($i = 1; $i <= 30; $i++) <option value="{{ $i }}"  >{{ $i }}{{ $i == 1 ? 'st' : ($i == 2 ? 'nd' : ($i == 3 ? 'rd' : 'th')) }} Year</option>
                                                                 @endfor
                                                             </select>
-                                                            <span id="experience_error" class="text-danger"></span>
+                                                            <span id="experience_error" class="text-danger valley"></span>
                                                         </div>
                                                     </div>
 
@@ -721,21 +723,21 @@
                                                             <option value="Volunteer" >Volunteer</option>
                                                             <option value="Unemployed" >Unemployed</option>
                                                             </select>
-                                                            <span id="status_error" class="text-danger"></span>
+                                                            <span id="status_error" class="text-danger valley"></span>
                                                         </div>
 
                                                         <div class="col-md-12 mt-2">
                                                             <div class="form-group">
                                                                 <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Professional Bio</strong></label>
                                                                 <textarea class="form-control" rows="4" name="bio" id="bio"></textarea>
-                                                                <span id="bio_error" class="text-danger"></span>
+                                                                <span id="bio_error" class="text-danger valley"></span>
                                                             </div>
                                                         </div>
 
                                                         <div class="declaration_box  mt-3">
                                                             <input type="checkbox" name="declare_information" class="declare_information" id="declare_information">
                                                             <label for="declare_information">I declare that the information provided is true and correct</label>
-                                                            <span id="diclare_error" class="text-danger"></span>
+                                                            <span id="diclare_error" class="text-danger valley"></span>
                                                         </div>
                                                         <div class="d-flex align-items-center justify-content-between mt-3">
                                                             <button type="button" class="btn btn-default next-step-3 align-items-center justify-content-between" data-target="#navpill-4">Next</button>
@@ -773,35 +775,35 @@
                                                             @endforeach
                                                     </ul>
                                                      <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="ndegree" name="ndegree[]" multiple="multiple"></select>
-                                                    <span id="ndegree_error" class="text-danger"></span>
+                                                    <span id="ndegree_error" class="text-danger valley"></span>
                                                 </div>
                                             </div>
                                             <div class="col-md-12 mt-3">
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Institutions</strong></label>
                                                    <input class="form-control" type="text" name="institution" value="" id="institution">
-                                                    <span id="institution_error" class="text-danger"></span>
+                                                    <span id="institution_error" class="text-danger valley"></span>
                                                 </div>
                                             </div>
                                             <div class="col-md-12 mt-3">
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Please start with the most relevant</strong></label>
                                                    <input class="form-control" type="text" name="most_relevant" value="" id="most_relevant">
-                                                    <span id="relevant_error" class="text-danger"></span>
+                                                    <span id="relevant_error" class="text-danger valley"></span>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 mt-3">
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Graduation Start Date</strong></label>
                                                     <input class="form-control" type="date" name="graduation_start_date" value="" id="graduation_start_date">
-                                                    <span id="gra_start_date_error" class="text-danger"></span>
+                                                    <span id="gra_start_date_error" class="text-danger valley"></span>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 mt-3">
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Graduation End Date</strong></label>
                                                     <input class="form-control" type="date" name="graduation_end_date" value="" id="graduation_end_date">
-                                                    <span id="gra_end_date_error" class="text-danger"></span>
+                                                    <span id="gra_end_date_error" class="text-danger valley"></span>
                                                 </div>
                                             </div>
                                             <h4 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3">General Certifications/Licences:
@@ -820,7 +822,7 @@
                                                             
                                                         </ul>
                                                     <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="profess_cert" name="professional_certification[]" multiple="multiple"></select>
-                                                    <span id="profess_cert_error" class="text-danger"></span>
+                                                    <span id="profess_cert_error" class="text-danger valley"></span>
                                                 </div>
                                             </div>
 
@@ -1303,7 +1305,7 @@
                                                                 
                                                             </ul>
                                                         <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="training_courses" name="training_courses[]" multiple="multiple"></select>
-                                                        <span id="training_course_error" class="text-danger"></span>
+                                                        <span id="training_course_error" class="text-danger valley"></span>
                                                     </div>
                                                 </div>
                                                 <div class="d-flex align-items-center justify-content-between mt-3">
@@ -1332,7 +1334,7 @@
                                                     @for($i = 1; $i <= 30; $i++) <option value="{{ $i }}"  >{{ $i }}{{ $i == 1 ? 'st' : ($i == 2 ? 'nd' : ($i == 3 ? 'rd' : 'th')) }} Year</option>
                                                         @endfor
                                                     </select>
-                                                    <span id="experience_error" class="text-danger"></span>
+                                                    <span id="experience_error" class="text-danger valley"></span>
                                                 </div>
                                             </div>
 
@@ -1342,7 +1344,7 @@
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Names</strong></label>
                                                     <input class="form-control" type="text" name="previous_employer_name"  id="previous_employer_name">
-                                                    <span id="previous_employer_name_error" class="text-danger"></span>
+                                                    <span id="previous_employer_name_error" class="text-danger valley"></span>
                                                 </div>
                                             </div>
 
@@ -1359,7 +1361,7 @@
                                                             
                                                         </ul>
                                                         <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="positions_held" name="positions_held[]" multiple="multiple"></select>
-                                                    <span id="positions_held_error" class="text-danger"></span>
+                                                    <span id="positions_held_error" class="text-danger valley"></span>
                                                 </div>
                                             </div>
 
@@ -1367,7 +1369,7 @@
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Employment Start Date</strong></label>
                                                     <input class="form-control" type="date" name="start_date" id="start_date">
-                                                    <span id="start_date_error" class="text-danger"></span>
+                                                    <span id="start_date_error" class="text-danger valley"></span>
                                                 </div>
                                             </div>
 
@@ -1375,14 +1377,14 @@
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Employment End Date</strong></label>
                                                     <input class="form-control" type="date" name="end_date" id="end_date">
-                                                    <span id="end_date_error" class="text-danger"></span>
+                                                    <span id="end_date_error" class="text-danger valley"></span>
                                                 </div>
                                             </div>
 
                                             <div class="present_check mt-3">
                                                 <input type="checkbox" name="present_box" value="1" id="present_box">Present Here
                                             </div>
-                                            <span id="present_box_error" class="text-danger"></span>
+                                            <span id="present_box_error" class="text-danger valley"></span>
 
                                             <h4 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3">Detailed Job Descriptions</h4>
 
@@ -1390,7 +1392,7 @@
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Responsibilities</strong></label>
                                                     <textarea class="form-control" name="job_responeblities" id="job_responeblities"></textarea>
-                                                    <span id="job_responeblities_error" class="text-danger"></span>
+                                                    <span id="job_responeblities_error" class="text-danger valley"></span>
                                                 </div>
                                             </div>
 
@@ -1398,7 +1400,7 @@
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Achievements</strong></label>
                                                     <textarea class="form-control" name="achievements" id="achievements"></textarea>
-                                                    <span id="achievements_error" class="text-danger"></span>
+                                                    <span id="achievements_error" class="text-danger valley"></span>
                                                 </div>
                                             </div>
 
@@ -1417,7 +1419,7 @@
                                                             
                                                         </ul>
                                                         <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="skills_compantancies" name="skills_compantancies[]" multiple="multiple"></select>
-                                                    <span id="skills_compantancies_error" class="text-danger"></span>
+                                                    <span id="skills_compantancies_error" class="text-danger valley"></span>
                                                 </div>
                                             </div>
 
@@ -1444,21 +1446,21 @@
                                             <div class="form-group">
                                                 <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Training Start Date</strong></label>
                                                 <input class="form-control" type="date" name="tra_start_date"  id="tra_start_date">
-                                                <span id="tra_start_date_error" class="text-danger"></span>
+                                                <span id="tra_start_date_error" class="text-danger valley"></span>
                                             </div>
                                         </div> 
                                         <div class="col-md-6 mt-3">
                                             <div class="form-group">
                                                 <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Training End Date</strong></label>
                                                 <input class="form-control" type="date" name="tra_end_date" id="tra_end_date">
-                                                <span id="tra_end_date_error" class="text-danger"></span>
+                                                <span id="tra_end_date_error" class="text-danger valley"></span>
                                             </div>
                                         </div>   
                                         <div class="col-md-12 mt-3">
                                             <div class="form-group">
                                                 <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Institution</strong></label>
                                                 <input class="form-control" type="text" name="institution"  id="institution1">
-                                                <span id="institution_error_2" class="text-danger"></span>
+                                                <span id="institution_error_2" class="text-danger valley"></span>
                                             </div>
                                         </div>
                                         <div class="col-md-12 mt-3">
@@ -1469,7 +1471,7 @@
                                                     <option value="Ongoing">Ongoing</option>
                                                     <option value="Completed">Completed</option>
                                                 </select>
-                                                <span id="mand_continue_education_error" class="text-danger"></span>
+                                                <span id="mand_continue_education_error" class="text-danger valley"></span>
                                             </div>
                                         </div> 
                                         <div class="d-flex align-items-center justify-content-between mt-3">
@@ -1502,7 +1504,7 @@
                                                     @endforeach
                                                 </ul>
                                                 <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="vaccination_record" name="vaccination_record[]" multiple="multiple"></select>
-                                                <span id="vaccination_error" class="text-danger"></span>
+                                                <span id="vaccination_error" class="text-danger valley"></span>
                                             </div>
                                         </div> 
                                         <div class="col-md-12 mt-3">
@@ -1513,7 +1515,7 @@
                                                     <option value="Up-to-date" @if(!empty($vaccinationData)) @if($vaccinationData->immunization_status == "Up-to-date") selected @endif @endif>Up-to-date</option>
                                                     <option value="Pending" @if(!empty($vaccinationData)) @if($vaccinationData->immunization_status == "Pending") selected @endif @endif>Pending</option>
                                                 </select>
-                                                <span id="immunization_status_error" class="text-danger"></span>
+                                                <span id="immunization_status_error" class="text-danger valley"></span>
                                             </div>
                                         </div>   
                                         
