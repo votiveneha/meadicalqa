@@ -147,6 +147,13 @@ Route::prefix('/admin')->name('admin.')->namespace('App\Http\Controllers\admin')
         Route::post('/delete-vaccination', 'VaccinationController@deleteVaccination')->name('deleteVaccination');  
         Route::post('/get-vaccination', 'VaccinationController@getVaccination')->name('getVaccination');
 
+        //Seo  Managemenent
+        Route::get('/content_pagelist', 'SeoController@SeoList')->name('SeoList');
+        Route::post('/add-page', 'SeoController@addSeo')->name('addSeo');
+        // Route::post('/update-vaccination', 'VaccinationController@updateVaccination')->name('updateVaccination');
+        // Route::post('/delete-vaccination', 'VaccinationController@deleteVaccination')->name('deleteVaccination');  
+        // Route::post('/get-vaccination', 'VaccinationController@getVaccination')->name('getVaccination');
+
          /* contact us list */
          Route::get('/contact-list', 'ContentController@contactList')->name('contact-list');
         });

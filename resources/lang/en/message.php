@@ -12,6 +12,7 @@
         'statusZero' => 'Something went wrong.',
         'statusThree' => ':parameter has been deleted successfully',
         'statusOne' => ':parameter has been created successfully',
+        'UpdateOne' => ':parameter has been updated successfully',
         'notExist' => 'The email is not registered. Please sign up for an account.',
         'forgotPassword' => 'Forget Password',
         'checkEmail' => 'Please Chcek your registered mail id. We have sent you a temporary password.',
