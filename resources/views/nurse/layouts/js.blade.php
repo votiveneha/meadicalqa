@@ -802,6 +802,13 @@ function pad(number) {
       document.getElementById("reqlicensenum").innerHTML = "* Please enter license number";
       isValid = false;
     }
+
+    if ($(".procertdiv").hasClass("d-none") == false) {
+      if ($('[name="acls_data[]"]').val() == '') {
+        document.getElementById("reqaclsvalid").innerHTML = "* Please select ACLS (Advanced Cardiovascular Life Support)";
+        isValid = false;
+      }
+    }
     
     // if ($('[name="training_courses[]"]').val() == '') {
     //   document.getElementById("reqaddtraining").innerHTML = "* Please select training courses";
@@ -811,6 +818,72 @@ function pad(number) {
     //   document.getElementById("reqaddworkshops").innerHTML = "* Please select training workshops";
     //   isValid = false;
     // }
+    var i = 0;
+    $(".acls_license_number").each(function(){
+      
+      if ($(".acls_license_number-"+i).length > 0) {
+        if ($(".acls_license_number-"+i).val() == '') {
+          document.getElementById("reqaclslicencevalid-"+i).innerHTML = "* Please enter the license number";
+          isValid = false;
+        }
+      }
+      i++;
+    });
+    var j = 0;
+    $(".aclsexpiry").each(function(){
+      
+      if ($(".aclsexpiry-"+j).length > 0) {
+        if ($(".aclsexpiry-"+j).val() == '') {
+          document.getElementById("reqaclsexpiryvalid-"+j).innerHTML = "* Please enter the expiry date";
+          isValid = false;
+        }
+      }
+      j++;
+    });
+    // var k = 0;
+    
+    // $(".acls_upload_certification").each(function(){
+      
+    //   console.log("acls_upload_certification",$(".acls_licence_img-"+k).length);
+    //   if($(".acls_licence_img-"+k).length == 0){ 
+    //     if ($(".acls_upload_certification-"+k).length > 0) {
+    //       if ($(".acls_upload_certification-"+k).val() == '') {
+    //         document.getElementById("reqaclsuploadvalid-"+k).innerHTML = "* Please add the license image";
+    //         isValid = false;
+    //       }
+    //     }
+    //   }
+    //   k++;
+    // });
+    if ($(".procertdivone").hasClass("d-none") == false) {
+      if ($('[name="bls_data[]"]').val() == '') {
+        document.getElementById("reqblsvalid").innerHTML = "* Please select BLS (Basic Life Support)";
+        isValid = false;
+      }
+    }
+    var i = 0;
+    $(".bls_license_number").each(function(){
+      
+      if ($(".bls_license_number-"+i).length > 0) {
+        if ($(".bls_license_number-"+i).val() == '') {
+          document.getElementById("reqblslicencevalid-"+i).innerHTML = "* Please enter the license number";
+          isValid = false;
+        }
+      }
+      i++;
+    });
+    var j = 0;
+    $(".blsexpiry").each(function(){
+      
+      if ($(".blsexpiry-"+j).length > 0) {
+        if ($(".blsexpiry-"+j).val() == '') {
+          document.getElementById("reqblsexpiryvalid-"+j).innerHTML = "* Please enter the expiry date";
+          isValid = false;
+        }
+      }
+      j++;
+    });
+
     if($(".declare_information_edu").prop('checked') == false){
       document.getElementById("reqdeclare_information1").innerHTML = "* Please check this checkbox";
       isValid = false;

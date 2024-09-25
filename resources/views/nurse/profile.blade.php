@@ -189,6 +189,7 @@
                 
                 <li><a class="btn btn-border people-icon mb-20" id="educert"  data-bs-toggle="tab" role="tab" aria-controls="tab-saved-jobs" aria-selected="false"><i class="fi fi-rr-graduation-cap"></i> Education and Certifications</a></li>
                 <li><a href="#experience" id="experience_info" class="btn btn-border aboutus-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true"><i class="fi fi-rr-suitcase-alt"></i> Experience</a></li>
+                <li><a href="#reference" id="reference_info" class="btn btn-border aboutus-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true"><i class="fi fi-rr-suitcase-alt"></i> References</a></li>
                 <!-- <li><a href="#experience" id="experience_info" class="btn btn-border aboutus-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true"><i class="fi fi-rr-chart-histogram"></i>  Financial Details</a></li> -->
                 <li><a href="#mand_training" id="mand_training" class="btn btn-border aboutus-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true"><i class="fi fi-rr-chart-user"></i> Mandatory Training</a></li>
                 <li><a href="#vaccinations" id="vaccinations" class="btn btn-border aboutus-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true"><i class="fi fi-rr-chart-user"></i> Vaccinations</a></li>
@@ -1099,6 +1100,7 @@
                             </ul>
                         <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="profess_cert" name="professional_certification[]" multiple="multiple"></select>
                       </div>
+                      <span id="reqcertificate" class="reqError text-danger valley"></span>
                        <?php
                         $education_data = DB::table("user_education_cerification")->where("user_id",Auth::guard('nurse_middle')->user()->id)->first();
                         //echo $education_data->acls_data;
@@ -1120,6 +1122,7 @@
                               </ul>
                           <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="acls_data" name="acls_data[]" multiple="multiple"></select>
                         </div>
+                        <span id="reqaclsvalid" class="reqError text-danger valley"></span>
                         <div class="acls_certification_div">
                           @if(!empty($acls_data1))
                           @foreach($acls_data1 as $a_data)
@@ -1136,17 +1139,20 @@
                               <div class="form-group col-md-6">
                                 <label class="form-label" for="input-1">Certification/Licence Number</label>
                                 <input type="hidden" name="aclsnamearr[]" class="acls_input_{{ $a_data->acls_certification_id }}" value="{{ $a_data->acls_certification_id }}">
-                                <input class="form-control" type="text" name="acls_license_number[]" value="{{ $a_data->acls_license_number }}">
+                                <input class="form-control acls_license_number acls_license_number-{{ $i }}" type="text" name="acls_license_number[]" value="{{ $a_data->acls_license_number }}">
+                                <span id="reqaclslicencevalid-{{ $i }}" class="reqError text-danger valley"></span>
                               </div>
                               <div class="form-group col-md-6">
                                 <label class="form-label" for="input-1">Expiry</label>
-                                <input class="form-control" type="date" name="acls_expiry[]" value="{{ $a_data->acls_expiry }}">
+                                <input class="form-control aclsexpiry aclsexpiry-{{ $i }}" type="date" name="acls_expiry[]" value="{{ $a_data->acls_expiry }}">
+                                <span id="reqaclsexpiryvalid-{{ $i }}" class="reqError text-danger valley"></span>
                               </div>
                               <div class="form-group col-md-6">
                                 <label class="form-label" for="input-1">Upload your certification/Licence</label>
-                                <input class="form-control" type="file" name="acls_upload_certification[]">
+                                <input class="form-control acls_upload_certification acls_upload_certification-{{ $i }}" type="file" name="acls_upload_certification[]">
+                                <span id="reqaclsuploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
                                 @if($a_data->acls_upload_certification)
-                                <img src="{{ url('/public/uploads/certificates') }}/{{ $a_data->acls_upload_certification }}" style="width:100px;">
+                                <img src="{{ url('/public/uploads/certificates') }}/{{ $a_data->acls_upload_certification }}" class="acls_licence_img-{{ $i }}" style="width:100px;">
                                 @endif
                               </div>
                             </div>
@@ -1169,8 +1175,12 @@
                               </ul>
                           <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="bls_data" name="bls_data[]" multiple="multiple"></select>
                         </div>
+                        <span id="reqblsvalid" class="reqError text-danger valley"></span>
                         <div class="bls_certification_div">
                           @if(!empty($bls_data1))
+                          <?php
+                            $i = 0;
+                          ?>
                           @foreach($bls_data1 as $b_data)
                             <?php
                               $bls_first_word = strtok($b_data->bls_certification_id, " ");;
@@ -1185,17 +1195,20 @@
                               <div class="form-group col-md-6">
                                 <label class="form-label" for="input-1">Certification/Licence Number</label>
                                 <input type="hidden" name="blsnamearr[]" class="bls_input_{{ $b_data->bls_certification_id }}" value="{{ $b_data->bls_certification_id }}">
-                                <input class="form-control" type="text" name="bls_license_number[]" value="{{ $b_data->bls_license_number }}">
+                                <input class="form-control bls_license_number bls_license_number-{{ $i }}" type="text" name="bls_license_number[]" value="{{ $b_data->bls_license_number }}">
+                                <span id="reqblslicencevalid-{{ $i }}" class="reqError text-danger valley"></span>
                               </div>
                               <div class="form-group col-md-6">
                                 <label class="form-label" for="input-1">Expiry</label>
-                                <input class="form-control" type="date" name="bls_expiry[]" value="{{ $b_data->bls_expiry }}">
+                                <input class="form-control blsexpiry blsexpiry-{{ $i }}" type="date" name="bls_expiry[]" value="{{ $b_data->bls_expiry }}">
+                                <span id="reqblsexpiryvalid-{{ $i }}" class="reqError text-danger valley"></span>
                               </div>
                               <div class="form-group col-md-6">
                                 <label class="form-label" for="input-1">Upload your certification/Licence</label>
-                                <input class="form-control" type="file" name="bls_upload_certification[]">
+                                <input class="form-control bls_upload_certification bls_upload_certification-{{ $i }}" type="file" name="bls_upload_certification[]">
+                                <span id="reqblsuploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
                                 @if($b_data->bls_upload_certification)
-                                <img src="{{ url('/public/uploads/certificates') }}/{{ $b_data->bls_upload_certification }}" style="width:100px;">
+                                <img src="{{ url('/public/uploads/certificates') }}/{{ $b_data->bls_upload_certification }}" class="bls_licence_img-{{ $i }}" style="width:100px;">
                                 @endif
                               </div>
                             </div>
@@ -1904,7 +1917,7 @@
                       <div class="add_new_certification_div mb-3 mt-3">
                             <a style="cursor: pointer;" onclick="add_listcertfication()">+ Add another certification/Licence</a>
                           </div>
-                      <span id="reqcertificate" class="reqError text-danger valley"></span>
+                      
               <script type="text/javascript">
                             var licence_div_count = $(".license_number_anothercertifications").length;
                             console.log("licence_div_count",licence_div_count);
@@ -2510,6 +2523,112 @@
                   </form>
                 </div>
               </div>
+              <div class="tab-pane fade" id="tab-references" role="tabpanel" aria-labelledby="tab-references" style="display: none"><br>
+                <h3 class="mt-0 color-brand-1 mb-20">References</h3>
+                <form id="reference_form" method="POST" onsubmit="return updateReference()">
+                    @csrf
+                    <input type="hidden" name="user_id" value="{{ Auth::guard('nurse_middle')->user()->id }}">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group level-drp">
+                          <label class="form-label" for="input-1">First name</label>
+                          <input class="form-control" type="text" name="first_name">
+                          <span id="reqempsdate" class="reqError text-danger valley"></span>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group level-drp">
+                          <label class="form-label" for="input-1">Last name</label>
+                          <input class="form-control" type="text" name="last_name">
+                          <span id="reqempsdate" class="reqError text-danger valley"></span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group level-drp">
+                          <label class="form-label" for="input-1">Email</label>
+                          <input class="form-control" type="text" name="email">
+                          <span id="reqempsdate" class="reqError text-danger valley"></span>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group level-drp">
+                          <label class="form-label" for="input-1">Phone number</label>
+                          <input class="form-control" type="text" name="phone_no">
+                          <span id="reqempsdate" class="reqError text-danger valley"></span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group level-drp">
+                          <label class="form-label" for="input-1">Relationship</label>
+                          <select class="form-input" name="reference_relationship">
+                            <option value="" data-select2-id="9">Select Reference Relationship</option>
+                            <option value="Brother">Brother</option>
+                            <option value="Sister">Sister</option>
+                            <option value="Sister">Cousin</option>
+                          </select>
+                          <span id="reqempsdate" class="reqError text-danger valley"></span>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group level-drp">
+                          <label class="form-label" for="input-1">You worked together at:</label>
+                          <input class="form-control" type="text" name="worked_together">
+                          <span id="reqempsdate" class="reqError text-danger valley"></span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      
+                      <div class="col-md-6">
+                        <div class="form-group level-drp">
+                          <label class="form-label" for="input-1">What was your position when you worked with this referee?</label>
+                          <input class="form-control" type="text" name="position_with_referee">
+                          <span id="reqempsdate" class="reqError text-danger valley"></span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      
+                      <div class="col-md-6">
+                        <div class="form-group level-drp">
+                          <label class="form-label" for="input-1">Start Date</label>
+                          <input class="form-control" type="date" name="start_date">
+                          <span id="reqempsdate" class="reqError text-danger valley"></span>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group level-drp">
+                          <label class="form-label" for="input-1">End Date</label>
+                          <input class="form-control" type="date" name="start_date">
+                          <span id="reqempsdate" class="reqError text-danger valley"></span>
+                        </div>
+                        <div class="declaration_box">
+                        <input class="declare_information" type="checkbox" name="present_box" value="1">I'm still working with this referee
+
+                      </div>
+                      </div>
+                    </div>
+                    <div class="add_new_certification_div mb-3 mt-3">
+                        <a style="cursor: pointer;" onclick="add_certfication()">+ Add another Referee</a>
+                      </div>
+                    <div class="box-button mt-15">
+                      <button class="btn btn-apply-big font-md font-bold" type="submit" id="submitReferences">Save Changes</button>
+                    </div>  
+                </form>    
+              </div>
+              <script type="text/javascript">
+                            var licence_div_count = $(".license_number_anothercertifications").length;
+                            console.log("licence_div_count",licence_div_count);
+                            function add_listcertfication(){
+                              licence_div_count++;
+                              $(".another_certifications").append('<div class="license_number_div row license_number_anothercertifications"><div class="form-group col-md-6"><label class="form-label" for="input-1">Certificate '+licence_div_count+'</label><input class="form-control" type="text" name="training_certificate[]"></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control" type="text" name="certificate_license_number[]"></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control" type="date" name="certificate_expiry[]"></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control" type="file" name="certificate_upload_certification[]"></div></div>');
+                              
+                            }
+                          </script>
               <div class="tab-pane fade" id="tab-mandtraining" role="tabpanel" aria-labelledby="tab-educert" style="display: none">
                 <div class="card shadow-sm border-0 p-4 mt-30">
                   <h3 class="mt-0 color-brand-1 mb-20">Mandatory Training</h3>
@@ -4225,6 +4344,7 @@
   $("#tab-professional-membership").insertAfter("#tab-educert");
   $("#tab-vaccination").insertAfter("#tab-educert");
   $("#tab-myclearance-jobs").insertAfter("#tab-educert");
+  $("#tab-references").insertAfter("#tab-educert");
 
   var nurse_array = [];
     // Show corresponding job lists when an option is selected in the first select
@@ -4771,7 +4891,7 @@ $('.js-example-basic-multiple[data-list-id="profess_cert"]').on('change', functi
           if(acls_certification_array.includes(selectedValues[i]) == false){
             
             
-            $(".acls_certification_div").append('<div class="acls_'+res_one+' cert_div_'+selected_text+'"><h6 class="cert_head_'+selected_text+'">'+selectedValues[i]+'</h6><input type="hidden" name="aclsnamearr[]" class="bls_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control" type="text" name="acls_license_number[]"></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control" type="date" name="acls_expiry[]"></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control" type="file" name="acls_upload_certification[]"></div></div></div>');
+            $(".acls_certification_div").append('<div class="acls_'+res_one+' cert_div_'+selected_text+'"><h6 class="cert_head_'+selected_text+'">'+selectedValues[i]+'</h6><input type="hidden" name="aclsnamearr[]" class="bls_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control acls_license_number acls_license_number-'+i+'" type="text" name="acls_license_number[]"><span id="reqaclslicencevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control aclsexpiry aclsexpiry-'+i+'" type="date" name="acls_expiry[]"><span id="reqaclsexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control acls_upload_certification acls_upload_certification-'+i+'" type="file" name="acls_upload_certification[]"><span id="reqaclsuploadvalid-'+i+'" class="reqError text-danger valley"></span></div></div></div>');
 
             
           }
@@ -4803,7 +4923,7 @@ $('.js-example-basic-multiple[data-list-id="profess_cert"]').on('change', functi
           let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
           console.log("res_one",res_one);
           if(bls_certification_array.includes(selectedValues[i]) == false){
-            $(".bls_certification_div").append('<div class="bls_'+res_one+' cert_div_'+selected_text+'"><h6>'+selectedValues[i]+'</h6><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control" type="text" name="bls_license_number[]"></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control" type="date" name="bls_expiry[]"></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control" type="file" name="bls_upload_certification[]"></div></div></div>');
+            $(".bls_certification_div").append('<div class="bls_'+res_one+' cert_div_'+selected_text+'"><h6>'+selectedValues[i]+'</h6><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control bls_license_number bls_license_number-'+i+'" type="text" name="bls_license_number[]"><span id="reqblslicencevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control blsexpiry blsexpiry-'+i+'" type="date" name="bls_expiry[]"><span id="reqblsexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control bls_upload_certification bls_upload_certification-'+i+'" type="file" name="bls_upload_certification[]"><span id="reqblsuploadvalid-'+i+'" class="reqError text-danger valley"></span></div></div></div>');
           }
         }
     });
@@ -5433,6 +5553,23 @@ $('.js-example-basic-multiple[data-list-id="profess_cert"]').on('change', functi
 
     });
 
+    $("#reference_info").click(function(e){
+      e.stopPropagation();
+      window.history.replaceState(null, null, "?page=reference_info");
+
+      var url_string = window.location.href; 
+      var url = new URL(url_string);
+      var c = url.searchParams.get("page");
+      console.log(c);
+
+      if(c == "reference_info"){
+        $(".tab-pane").hide();
+        $("#tab-references").css("opacity","1");
+        $("#tab-references").show();
+      }
+
+    });
+
     $("#work_clearances").click(function(e){
       e.stopPropagation();
       window.history.replaceState(null, null, "?page=work_clearances");
@@ -5601,6 +5738,14 @@ $('.js-example-basic-multiple[data-list-id="profess_cert"]').on('change', functi
         $("#tab-mandtraining").show();
         $(".prof-profile .dropdown").addClass("show");
         $(".prof-profile .dropdown-menu").addClass("show");
+      }
+
+      if(c == "reference_info"){
+        $(".tab-pane").hide();
+        $("#tab-references").css("opacity","1");
+        $("#tab-references").show();
+        $(".profile_tabs").removeClass("active");
+        $("#reference_info").addClass("active");
       }
 
       if(c == "work_clearances"){
