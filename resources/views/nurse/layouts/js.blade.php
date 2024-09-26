@@ -795,7 +795,7 @@ function pad(number) {
       isValid = false;
     }
     if ($('[name="professional_certification[]"]').val() == '') {
-      document.getElementById("reqcertificate").innerHTML = "* Please select professional certicate";
+      document.getElementById("reqcertificate").innerHTML = "* Please select professional certificate";
       isValid = false;
     }
     if ($('[name="license_number"]').val() == '') {
@@ -840,21 +840,23 @@ function pad(number) {
       }
       j++;
     });
-    // var k = 0;
+    var k = 0;
     
-    // $(".acls_upload_certification").each(function(){
+    $(".acls_upload_certification").each(function(){
       
-    //   console.log("acls_upload_certification",$(".acls_licence_img-"+k).length);
-    //   if($(".acls_licence_img-"+k).length == 0){ 
-    //     if ($(".acls_upload_certification-"+k).length > 0) {
-    //       if ($(".acls_upload_certification-"+k).val() == '') {
-    //         document.getElementById("reqaclsuploadvalid-"+k).innerHTML = "* Please add the license image";
-    //         isValid = false;
-    //       }
-    //     }
-    //   }
-    //   k++;
-    // });
+      console.log("acls_upload_certification",$(".acls_licence_img-"+k).length);
+      if($(".acls_licence_img-"+k).length == 0){ 
+        if ($(".acls_upload_certification-"+k).length > 0) {
+          if ($(".acls_upload_certification-"+k).val() == '') {
+            document.getElementById("reqaclsuploadvalid-"+k).innerHTML = "* Please add the license image";
+            isValid = false;
+          }
+        }
+      }
+      k++;
+    });
+   
+
     if ($(".procertdivone").hasClass("d-none") == false) {
       if ($('[name="bls_data[]"]').val() == '') {
         document.getElementById("reqblsvalid").innerHTML = "* Please select BLS (Basic Life Support)";
@@ -878,6 +880,383 @@ function pad(number) {
       if ($(".blsexpiry-"+j).length > 0) {
         if ($(".blsexpiry-"+j).val() == '') {
           document.getElementById("reqblsexpiryvalid-"+j).innerHTML = "* Please enter the expiry date";
+          isValid = false;
+        }
+      }
+      j++;
+    });
+
+     if ($(".procertdivtwo").hasClass("d-none") == false) {
+      if ($('[name="cpr_data[]"]').val() == '') {
+        document.getElementById("reqcprvalid").innerHTML = "* Please select CPR (Cardiopulmonary Resuscitation)";
+        isValid = false;
+      }
+    }
+    var i = 0;
+    $(".cpr_license_number").each(function(){
+      
+      if ($(".cpr_license_number-"+i).length > 0) {
+        if ($(".cpr_license_number-"+i).val() == '') {
+          document.getElementById("reqcprlicencevalid-"+i).innerHTML = "* Please enter the license number";
+          isValid = false;
+        }
+      }
+      i++;
+    });
+    var j = 0;
+    $(".cprexpiry").each(function(){
+      
+      if ($(".cprexpiry-"+j).length > 0) {
+        if ($(".cprexpiry-"+j).val() == '') {
+          document.getElementById("reqcprexpiryvalid-"+j).innerHTML = "* Please enter the expiry date";
+          isValid = false;
+        }
+      }
+      j++;
+    });
+
+    if ($(".procertdivthree").hasClass("d-none") == false) {
+      if ($('[name="nrp_data[]"]').val() == '') {
+        document.getElementById("reqnrpvalid").innerHTML = "* Please select NRP (Neonatal Resuscitation Program)";
+        isValid = false;
+      }
+    }
+    var i = 0;
+    $(".nrp_license_number").each(function(){
+      
+      if ($(".nrp_license_number-"+i).length > 0) {
+        if ($(".nrp_license_number-"+i).val() == '') {
+          document.getElementById("reqnrplicencevalid-"+i).innerHTML = "* Please enter the license number";
+          isValid = false;
+        }
+      }
+      i++;
+    });
+    var j = 0;
+    $(".nrpexpiry").each(function(){
+      
+      if ($(".nrpexpiry-"+j).length > 0) {
+        if ($(".nrpexpiry-"+j).val() == '') {
+          document.getElementById("reqnrpexpiryvalid-"+j).innerHTML = "* Please enter the expiry date";
+          isValid = false;
+        }
+      }
+      j++;
+    });
+
+    if ($(".procertdivfour").hasClass("d-none") == false) {
+      if ($('[name="pls_data[]"]').val() == '') {
+        document.getElementById("reqplsvalid").innerHTML = "* Please select PALS (Pediatric Advanced Life Support)";
+        isValid = false;
+      }
+    }
+    var i = 0;
+    $(".pls_license_number").each(function(){
+      
+      if ($(".pls_license_number-"+i).length > 0) {
+        if ($(".pls_license_number-"+i).val() == '') {
+          document.getElementById("reqplslicencevalid-"+i).innerHTML = "* Please enter the license number";
+          isValid = false;
+        }
+      }
+      i++;
+    });
+    var j = 0;
+    $(".plsexpiry").each(function(){
+      
+      if ($(".plsexpiry-"+j).length > 0) {
+        if ($(".plsexpiry-"+j).val() == '') {
+          document.getElementById("reqplsexpiryvalid-"+j).innerHTML = "* Please enter the expiry date";
+          isValid = false;
+        }
+      }
+      j++;
+    });
+
+    if ($(".procertdivfive").hasClass("d-none") == false) {
+      if ($('[name="rn_data[]"]').val() == '') {
+        document.getElementById("reqrnvalid").innerHTML = "* Please select RN (Registered Nurse)";
+        isValid = false;
+      }
+    }
+    var i = 0;
+    $(".rn_license_number").each(function(){
+      
+      if ($(".rn_license_number-"+i).length > 0) {
+        if ($(".rn_license_number-"+i).val() == '') {
+          document.getElementById("reqrnlicencevalid-"+i).innerHTML = "* Please enter the license number";
+          isValid = false;
+        }
+      }
+      i++;
+    });
+    var j = 0;
+    $(".rnexpiry").each(function(){
+      
+      if ($(".rnexpiry-"+j).length > 0) {
+        if ($(".rnexpiry-"+j).val() == '') {
+          document.getElementById("reqrnexpiryvalid-"+j).innerHTML = "* Please enter the expiry date";
+          isValid = false;
+        }
+      }
+      j++;
+    });
+
+    if ($(".procertdivtwelfth").hasClass("d-none") == false) {
+      if ($('[name="np_data[]"]').val() == '') {
+        document.getElementById("reqnpvalid").innerHTML = "* Please select NP (Nurse Practioner) / (APRN) Advanced Practice Registered Nurse";
+        isValid = false;
+      }
+    }
+    var i = 0;
+    $(".np_license_number").each(function(){
+      
+      if ($(".np_license_number-"+i).length > 0) {
+        if ($(".np_license_number-"+i).val() == '') {
+          document.getElementById("reqnplicencevalid-"+i).innerHTML = "* Please enter the license number";
+          isValid = false;
+        }
+      }
+      i++;
+    });
+    var j = 0;
+    $(".npexpiry").each(function(){
+      
+      if ($(".npexpiry-"+j).length > 0) {
+        if ($(".npexpiry-"+j).val() == '') {
+          document.getElementById("reqnpexpiryvalid-"+j).innerHTML = "* Please enter the expiry date";
+          isValid = false;
+        }
+      }
+      j++;
+    });
+
+    if ($(".procertdivsix").hasClass("d-none") == false) {
+      if ($('[name="cn_data[]"]').val() == '') {
+        document.getElementById("reqcnvalid").innerHTML = "* Please select CNA (Certified Nursing Assistant) / EN (Enrolled Nurse)";
+        isValid = false;
+      }
+    }
+    var i = 0;
+    $(".cn_license_number").each(function(){
+      
+      if ($(".cn_license_number-"+i).length > 0) {
+        if ($(".cn_license_number-"+i).val() == '') {
+          document.getElementById("reqcnlicencevalid-"+i).innerHTML = "* Please enter the license number";
+          isValid = false;
+        }
+      }
+      i++;
+    });
+    var j = 0;
+    $(".cnexpiry").each(function(){
+      
+      if ($(".cnexpiry-"+j).length > 0) {
+        if ($(".cnexpiry-"+j).val() == '') {
+          document.getElementById("reqcnexpiryvalid-"+j).innerHTML = "* Please enter the expiry date";
+          isValid = false;
+        }
+      }
+      j++;
+    });
+
+    if ($(".procertdivseven").hasClass("d-none") == false) {
+      if ($('[name="lpn_data[]"]').val() == '') {
+        document.getElementById("reqlpnvalid").innerHTML = "* Please select CNA (Certified Nursing Assistant) / EN (Enrolled Nurse)";
+        isValid = false;
+      }
+    }
+    var i = 0;
+    $(".lpn_license_number").each(function(){
+      
+      if ($(".lpn_license_number-"+i).length > 0) {
+        if ($(".lpn_license_number-"+i).val() == '') {
+          document.getElementById("reqlpnlicencevalid-"+i).innerHTML = "* Please enter the license number";
+          isValid = false;
+        }
+      }
+      i++;
+    });
+    var j = 0;
+    $(".lpnexpiry").each(function(){
+      
+      if ($(".lpnexpiry-"+j).length > 0) {
+        if ($(".lpnexpiry-"+j).val() == '') {
+          document.getElementById("reqlpnexpiryvalid-"+j).innerHTML = "* Please enter the expiry date";
+          isValid = false;
+        }
+      }
+      j++;
+    });
+
+    if ($(".procertdiveight").hasClass("d-none") == false) {
+      if ($('[name="crn_data[]"]').val() == '') {
+        document.getElementById("reqcrnavalid").innerHTML = "* Please select CRNA (Certified Registered Nurse Anesthetist)";
+        isValid = false;
+      }
+    }
+    var i = 0;
+    $(".crna_license_number").each(function(){
+      
+      if ($(".crna_license_number-"+i).length > 0) {
+        if ($(".crna_license_number-"+i).val() == '') {
+          document.getElementById("reqcrnalicencevalid-"+i).innerHTML = "* Please enter the license number";
+          isValid = false;
+        }
+      }
+      i++;
+    });
+    var j = 0;
+    $(".crnaexpiry").each(function(){
+      
+      if ($(".crnaexpiry-"+j).length > 0) {
+        if ($(".crnaexpiry-"+j).val() == '') {
+          document.getElementById("reqcrnaexpiryvalid-"+j).innerHTML = "* Please enter the expiry date";
+          isValid = false;
+        }
+      }
+      j++;
+    });
+
+    if ($(".procertdivnine").hasClass("d-none") == false) {
+      if ($('[name="cnm_data[]"]').val() == '') {
+        document.getElementById("reqcnmvalid").innerHTML = "* Please select CNM (Certified Nurse Midwife)";
+        isValid = false;
+      }
+    }
+    var i = 0;
+    $(".cnm_license_number").each(function(){
+      
+      if ($(".cnm_license_number-"+i).length > 0) {
+        if ($(".cnm_license_number-"+i).val() == '') {
+          document.getElementById("reqcnmlicencevalid-"+i).innerHTML = "* Please enter the license number";
+          isValid = false;
+        }
+      }
+      i++;
+    });
+    var j = 0;
+    $(".cnmexpiry").each(function(){
+      
+      if ($(".cnmexpiry-"+j).length > 0) {
+        if ($(".cnmexpiry-"+j).val() == '') {
+          document.getElementById("reqcnmexpiryvalid-"+j).innerHTML = "* Please enter the expiry date";
+          isValid = false;
+        }
+      }
+      j++;
+    });
+
+    if ($(".procertdivten").hasClass("d-none") == false) {
+      if ($('[name="ons_data[]"]').val() == '') {
+        document.getElementById("reqonsvalid").innerHTML = "* Please select ONS/ONCC (Oncology Nursing Society/Oncology Nursing Certification Corporation)";
+        isValid = false;
+      }
+    }
+    var i = 0;
+    $(".ons_license_number").each(function(){
+      
+      if ($(".ons_license_number-"+i).length > 0) {
+        if ($(".ons_license_number-"+i).val() == '') {
+          document.getElementById("reqonslicencevalid-"+i).innerHTML = "* Please enter the license number";
+          isValid = false;
+        }
+      }
+      i++;
+    });
+    var j = 0;
+    $(".onsexpiry").each(function(){
+      
+      if ($(".onsexpiry-"+j).length > 0) {
+        if ($(".onsexpiry-"+j).val() == '') {
+          document.getElementById("reqonsexpiryvalid-"+j).innerHTML = "* Please enter the expiry date";
+          isValid = false;
+        }
+      }
+      j++;
+    });
+
+    if ($(".procertdiveleven").hasClass("d-none") == false) {
+      if ($('[name="msw_data[]"]').val() == '') {
+        document.getElementById("reqmswvalid").innerHTML = "* Please select MSW/AiM (Maternity Support Worker/Assistant in Midwifery ) / Midwife Assistant";
+        isValid = false;
+      }
+    }
+    var i = 0;
+    $(".msw_license_number").each(function(){
+      
+      if ($(".msw_license_number-"+i).length > 0) {
+        if ($(".msw_license_number-"+i).val() == '') {
+          document.getElementById("reqmswlicencevalid-"+i).innerHTML = "* Please enter the license number";
+          isValid = false;
+        }
+      }
+      i++;
+    });
+    var j = 0;
+    $(".mswexpiry").each(function(){
+      
+      if ($(".mswexpiry-"+j).length > 0) {
+        if ($(".mswexpiry-"+j).val() == '') {
+          document.getElementById("reqmswexpiryvalid-"+j).innerHTML = "* Please enter the expiry date";
+          isValid = false;
+        }
+      }
+      j++;
+    });
+
+    if ($(".procertdivthirteen").hasClass("d-none") == false) {
+      if ($('[name="ain_data[]"]').val() == '') {
+        document.getElementById("reqainvalid").innerHTML = "* Please select AIN (Assistant in Nursing) / NA (Nurse Associate) / HCA (Healthcare Assistant)";
+        isValid = false;
+      }
+    }
+    var i = 0;
+    $(".ain_license_number").each(function(){
+      
+      if ($(".ain_license_number-"+i).length > 0) {
+        if ($(".ain_license_number-"+i).val() == '') {
+          document.getElementById("reqainlicencevalid-"+i).innerHTML = "* Please enter the license number";
+          isValid = false;
+        }
+      }
+      i++;
+    });
+    var j = 0;
+    $(".ainexpiry").each(function(){
+      
+      if ($(".ainexpiry-"+j).length > 0) {
+        if ($(".ainexpiry-"+j).val() == '') {
+          document.getElementById("reqainexpiryvalid-"+j).innerHTML = "* Please enter the expiry date";
+          isValid = false;
+        }
+      }
+      j++;
+    });
+
+    if ($(".procertdivfourteen").hasClass("d-none") == false) {
+      if ($('[name="rpn_data[]"]').val() == '') {
+        document.getElementById("reqrpnvalid").innerHTML = "* Please select RPN (Registered Practical Nurse) / RGN (Registered General Nurse)";
+        isValid = false;
+      }
+    }
+    var i = 0;
+    $(".rpn_license_number").each(function(){
+      
+      if ($(".rpn_license_number-"+i).length > 0) {
+        if ($(".rpn_license_number-"+i).val() == '') {
+          document.getElementById("reqrpnlicencevalid-"+i).innerHTML = "* Please enter the license number";
+          isValid = false;
+        }
+      }
+      i++;
+    });
+    var j = 0;
+    $(".rpnexpiry").each(function(){
+      
+      if ($(".rpnexpiry-"+j).length > 0) {
+        if ($(".rpnexpiry-"+j).val() == '') {
+          document.getElementById("reqrpnexpiryvalid-"+j).innerHTML = "* Please enter the expiry date";
           isValid = false;
         }
       }
@@ -1078,6 +1457,53 @@ function pad(number) {
         console.log("errorss",errorss);
         for (var err in errorss.responseJSON.errors) {
           $("#submitExperience").find("[name='" + err + "']").after("<div class='text-danger'>" + errorss.responseJSON.errors[err] + "</div>");
+        }
+      }
+    });
+    return false;
+  }
+
+  function updateReference() {
+    $('#reference_form').find('.text-danger').hide();
+    $.ajax({
+      url: "{{ route('nurse.updateReference') }}",
+      type: "POST",
+      cache: false,
+      contentType: false,
+      processData: false,
+      data: new FormData($('#reference_form')[0]),
+      dataType: 'json',
+      beforeSend: function() {
+        $('#submitReferences').prop('disabled', true);
+        $('#submitReferences').text('Process....');
+      },
+      success: function(res) {
+        $('#submitReferences').prop('disabled', false);
+        $('#submitReferences').text('Update Profile');
+
+        if (res.status == '1') {
+          Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: 'Reference Information Updated Successfully',
+          }).then(function() {
+            window.location.href = "{{ route('nurse.my-profile') }}?page=reference_info";
+          });
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: res.message,
+          })
+        }
+        
+      },
+      error: function(errorss) {
+        $('#submitReferences').prop('disabled', false);
+        $('#submitReferences').text('Submit');
+        console.log("errorss",errorss);
+        for (var err in errorss.responseJSON.errors) {
+          $("#submitReferences").find("[name='" + err + "']").after("<div class='text-danger'>" + errorss.responseJSON.errors[err] + "</div>");
         }
       }
     });

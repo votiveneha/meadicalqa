@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Sep 25, 2024 at 10:32 AM
+-- Generation Time: Sep 26, 2024 at 10:29 AM
 -- Server version: 5.7.23-23
 -- PHP Version: 8.1.29
 
@@ -1396,6 +1396,39 @@ INSERT INTO `professional_membership` (`membership_id`, `user_id`, `des_professi
 (7, 151, '[\"ANA\"]', '45454545', 'Active', '2024-09-11 07:44:58', '2024-09-11 07:44:58'),
 (8, 153, '[\"ANA\"]', '45454545', 'Lapsed', '2024-09-14 07:59:50', '2024-09-14 07:59:50'),
 (9, 154, '[\"ANA\"]', '45454545', 'Active', '2024-09-16 08:05:12', '2024-09-16 08:05:12');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `referee`
+--
+
+CREATE TABLE `referee` (
+  `referee_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `first_name` text NOT NULL,
+  `last_name` text NOT NULL,
+  `email` text NOT NULL,
+  `phone_no` text NOT NULL,
+  `relationship` text NOT NULL,
+  `worked_together` text NOT NULL,
+  `position_with_referee` text NOT NULL,
+  `start_date` date NOT NULL,
+  `end_date` date NOT NULL,
+  `still_working` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `referee`
+--
+
+INSERT INTO `referee` (`referee_id`, `user_id`, `first_name`, `last_name`, `email`, `phone_no`, `relationship`, `worked_together`, `position_with_referee`, `start_date`, `end_date`, `still_working`, `created_at`, `updated_at`) VALUES
+(3, 112, 'Neha', 'Mandloi', 'votivephp.neha@gmail.com', '09131403180', 'Brother', 'wewe', 'ewerer', '2024-09-30', '2024-10-08', 1, '2024-09-25 08:00:55', '2024-09-25 08:00:55'),
+(4, 112, 'Neha', 'Mandloi', 'votivephp.neha@gmail.com', '09131403180', 'Sister', 'wewe', 'ewerer', '2024-09-23', '2024-10-09', 1, '2024-09-25 08:00:55', '2024-09-25 08:00:55'),
+(5, 112, 'Neha', 'Mandloi', 'votivephp.neha@gmail.com', '09131403180', 'Sister', 'wewe', 'ewerer', '2024-09-30', '2024-09-30', 1, '2024-09-25 08:07:19', '2024-09-25 08:07:19'),
+(6, 112, 'Neha', 'Mandloi', 'votivephp.neha@gmail.com', '09131403180', 'Sister', 'wewe', 'ewerer', '2024-09-29', '2024-10-07', 1, '2024-09-25 08:07:19', '2024-09-25 08:07:19');
 
 -- --------------------------------------------------------
 
@@ -6971,7 +7004,7 @@ INSERT INTO `users` (`id`, `name`, `lastname`, `email`, `profile_img`, `email_ve
 (133, 'Neha', 'Mandloi', 'votivephp.neha434355@gmail.com', 'nurse/assets/imgs/nurse06.png', NULL, '$2y$10$xZYiBzLwq9va7vU/3CaAxOflPy1o4XXL4P/XnhLBZOzQZzQsU9/gi', NULL, 'eyJpdiI6InhRQjdZSTZLS1R1LzBscEdaTWlJSXc9PSIsInZhbHVlIjoiTHBDZTJWZ3RvdW9vT2p2bC9RY2EwNmJDNHB2YjB5amdoYnYxVWZmVUUwcz0iLCJtYWMiOiIyNWRiZjlhYjQ1MDFmMzIxYTYyNDUyNTYyNjU0NDg3NWEzZTQ4ZGYxYTdhODQ0NzEwOWEwNzVhZjRiNTMzYTJmIiwidGFnIjoiIn0=', 0, '0', '1', '1', '[\"3\"]', '[\"1\"]', 'null', 'null', '1', 'null', 'null', 'null', '[\"2\"]', '452001', NULL, NULL, '2024-08-06 05:45:46', '2024-08-06 02:49:31', '0', '1', 'No', 'No', 'No', 'No', 'No', '61', 'au', '1234567890', 'Neha@1234', 'AU', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'null', '[\"22\"]', 'null', 'null', 'null', 'null', '[\"243\"]', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (135, 'robert', 'test', 'test333@gmail.com', '/tmp/phpGqQJEN', NULL, NULL, NULL, NULL, 0, '0', '1', '1', NULL, '', '', NULL, '', '', NULL, NULL, '', '451666', NULL, NULL, '2024-08-08 07:58:35', '2024-08-08 07:58:35', '0', '1', 'No', 'No', 'No', 'No', 'No', '91', 'in', '54e4545454', NULL, 'IN', 1613, 'indore', NULL, 'test.com', NULL, 'male', '2024-08-10', 'indore', '3434343434', '91', 'in', 'votivephp.harshita@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (157, 'robert', 'na', 'votivephp.harshita@gmail.com', 'nurse/assets/imgs/nurse06.png', NULL, '$2y$10$34nIsdN0vSZ/V9dsAlyjpOnn3MAT6H3ZrjaxvxtUcfM3VamtgX/di', NULL, '', 0, '1', '1', '1', '[\"2\"]', '[\"2\"]', 'null', 'null', '2', 'null', 'null', 'null', '[\"1\"]', '451666', NULL, NULL, '2024-09-18 07:06:20', '2024-09-18 04:38:03', '1', '1', 'No', 'No', 'No', 'No', 'No', '61', 'au', '9406875324', 'Ganesh@15', 'AU', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '[\"253\"]', 'null', 'null', 'null', 'null', '[\"202\"]', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(159, 'carry', 'sim', 'votivetester.preeti@gmail.com', '/nurse/assets/imgs/1727166582.jpg', NULL, '$2y$10$VQUe1BWZAPzLOtY95bY5qu40JiGTK3rvwYqzo0LIFsifEm.eTIIh.', NULL, '', 0, '1', '1', '1', '[\"2\"]', '[\"2\"]', 'null', 'null', '1', 'null', 'null', 'null', '[\"1\",\"10\",\"7\",\"11\",\"2\",\"6\",\"9\",\"4\",\"15\",\"14\",\"13\",\"8\",\"3\",\"5\"]', '452010', NULL, NULL, '2024-09-24 08:30:36', '2024-09-24 08:51:14', '5', '1', 'Yes', 'Yes', 'No', 'Yes', 'No', '61', 'au', '1234567891', '7089@Veer', 'IN', 1618, 'Bhopal', NULL, 'https://votivetech.in/mediq', NULL, 'Male', '1996-12-04', 'Vijay nagar', '1234567891', '61', 'au', 'testgb01@hulas.co', '[\"253\"]', 'null', 'null', 'null', 'null', '[\"203\"]', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, 1, NULL, NULL, 1, NULL, NULL);
+(159, 'carry', 'sim', 'votivetester.preeti@gmail.com', '/nurse/assets/imgs/1727166582.jpg', NULL, '$2y$10$VQUe1BWZAPzLOtY95bY5qu40JiGTK3rvwYqzo0LIFsifEm.eTIIh.', NULL, '', 0, '1', '1', '1', '[\"2\"]', '[\"2\"]', 'null', 'null', '1', 'null', 'null', 'null', '[\"1\",\"10\",\"7\",\"11\",\"2\",\"6\",\"9\",\"4\",\"15\",\"14\",\"13\",\"8\",\"3\",\"5\"]', '452010', NULL, NULL, '2024-09-24 08:30:36', '2024-09-25 01:47:01', '2', '1', 'Yes', 'Yes', 'No', 'Yes', 'No', '61', 'au', '1234567891', '7089@Veer', 'IN', 1618, 'Bhopal', NULL, 'https://votivetech.in/mediq', NULL, 'Male', '1996-12-04', 'Vijay nagar', '1234567891', '61', 'au', 'testgb01@hulas.co', '[\"253\"]', 'null', 'null', 'null', 'null', '[\"203\"]', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, 1, NULL, NULL, 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -7039,10 +7072,10 @@ INSERT INTO `user_education_cerification` (`education_id`, `user_id`, `degrees`,
 (18, 151, NULL, 'trrtrt', 'drer', '2024-09-27', NULL, '2024-09-26', '[\"7\"]', '', NULL, 0, '', '[\"6\"]', NULL, NULL, 1, NULL, 'null', '{\"bls_data\":\"[\\\"19\\\"]\",\"bls_licence_num\":\"2343434343\",\"bls_licence_expiry\":\"2024-09-19\",\"bls_file\":\"download - Copy.jfif\"}', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, '2024-09-11 07:39:48', '2024-09-11 07:39:48'),
 (20, 153, NULL, 'trrtrt', 'drer', '2024-09-20', NULL, '2024-09-17', '[\"7\"]', '', NULL, 0, '', '[\"5\"]', NULL, NULL, 1, NULL, 'null', '{\"bls_data\":\"[\\\"19\\\"]\",\"bls_licence_num\":\"65416465464654\",\"bls_licence_expiry\":\"2024-09-18\",\"bls_file\":\"download - Copy.jfif\"}', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, '2024-09-14 07:57:43', '2024-09-14 07:57:43'),
 (21, 154, NULL, 'trrtrt', 'drer', '2024-09-25', NULL, '2024-09-24', '[\"9\"]', '', NULL, 0, '', '[\"6\"]', NULL, NULL, 1, NULL, 'null', 'null', 'null', '{\"nrp_data\":\"[\\\"36\\\"]\",\"nrp_licence_num\":\"34343434\",\"nrp_licence_expiry\":\"2024-09-26\",\"nrp_file\":\"download - Copy.jfif\"}', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, '2024-09-16 08:03:19', '2024-09-16 08:03:19'),
-(22, 112, NULL, 'rdfd', NULL, '2024-09-26', '17265684381677154911.jpg', NULL, '[\"7\"]', '', NULL, 0, '', '[\"ererer\"]', 'null', '[{\"training_courses\":\"ererer\",\"additional_license_number\":\"r fd fds\",\"additional_expiry\":\"2024-09-30\",\"additional_upload_certification\":\"1726568438inbox.png\"}]', 1, 1, '', '[]', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '[{\"training_certificate\":\"qwq\",\"certificate_license_number\":\"sdww\",\"certificate_expiry\":\"2024-09-26\",\"certificate_upload_certification\":\"17265766721677154995.jpg\"},{\"training_certificate\":\"sdsd\",\"certificate_license_number\":\"qawqw\",\"certificate_expiry\":\"2024-10-07\",\"certificate_upload_certification\":\"1726576672inbox.png\"}]', '2024-09-24 12:51:32', '2024-09-24 07:21:32'),
+(22, 112, NULL, 'rdfd', NULL, '2024-09-26', '17265684381677154911.jpg', NULL, '[\"7\"]', '', NULL, 0, '', '[\"ererer\"]', 'null', '[{\"training_courses\":\"ererer\",\"additional_license_number\":\"r fd fds\",\"additional_expiry\":\"2024-09-30\",\"additional_upload_certification\":\"1726568438inbox.png\"}]', 1, 1, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '[{\"training_certificate\":\"qwq\",\"certificate_license_number\":\"sdww\",\"certificate_expiry\":\"2024-09-26\",\"certificate_upload_certification\":\"17265766721677154995.jpg\"},{\"training_certificate\":\"sdsd\",\"certificate_license_number\":\"qawqw\",\"certificate_expiry\":\"2024-10-07\",\"certificate_upload_certification\":\"1726576672inbox.png\"}]', '2024-09-25 10:10:03', '2024-09-24 07:21:32'),
 (23, 149, NULL, 'ssk university London', NULL, '2020-12-04', '17271562681724652140.jpg', NULL, '[\"6\"]', '', NULL, 0, '', NULL, NULL, '[{\"training_courses\":\"uhyuguyuh\",\"additional_license_number\":\"gyfhvbuygui44495\",\"additional_expiry\":\"1996-12-04\",\"additional_upload_certification\":\"17271562681724652140.jpg\"}]', 1, NULL, '[{\"acls_certification_id\":\"Australia: ALS (Advanced Life Support) - Australian Resuscitation Council (ARC)\",\"acls_license_number\":\"g22562552\",\"acls_expiry\":\"2025-12-04\",\"acls_upload_certification\":\"17271562681724652140.jpg\"}]', '[]', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '[{\"training_certificate\":\"55252525\",\"certificate_license_number\":null,\"certificate_expiry\":\"2030-12-04\",\"certificate_upload_certification\":\"17271562681724652140.jpg\"}]', '2024-09-24 00:07:48', '2024-09-24 00:07:48'),
 (24, 158, NULL, 'ssk university London', NULL, '2020-12-04', '17271571051724652140.jpg', NULL, '[\"6\"]', '', NULL, 0, '', NULL, NULL, '[{\"training_courses\":\"uhyuguyuh\",\"additional_license_number\":\"gyfhvbuygui44495\",\"additional_expiry\":\"2030-12-04\",\"additional_upload_certification\":\"17271571051724652140.jpg\"}]', 1, NULL, '[{\"acls_certification_id\":\"Australia: ALS (Advanced Life Support) - Australian Resuscitation Council (ARC)\",\"acls_license_number\":\"g22562552\",\"acls_expiry\":\"2025-12-04\",\"acls_upload_certification\":\"17271571051724652140.jpg\"}]', '[]', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '[{\"training_certificate\":\"55252525\",\"certificate_license_number\":\"75225252274\",\"certificate_expiry\":\"2030-12-04\",\"certificate_upload_certification\":\"17271571051724652140.jpg\"}]', '2024-09-24 00:21:45', '2024-09-24 00:21:45'),
-(25, 159, NULL, 'ssk university London', NULL, '2020-12-04', '17271584321724652140.jpg', NULL, '[\"6\",\"10\"]', '', NULL, 0, '', '[\"uhyuguyuh\"]', 'null', '[{\"training_courses\":\"uhyuguyuh\",\"additional_license_number\":\"gyfhvbuygui44495\",\"additional_expiry\":\"2030-12-04\",\"additional_upload_certification\":\"17271584321724652140.jpg\"}]', 1, 1, '[{\"acls_certification_id\":\"Canada: ACLS - Heart and Stroke Foundation of Canada (HSFC)\",\"acls_license_number\":\"g22562552\",\"acls_expiry\":null,\"acls_upload_certification\":\"\"}]', '[]', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '[{\"training_certificate\":\"55252525\",\"certificate_license_number\":\"75225252274\",\"certificate_expiry\":\"2030-12-04\",\"certificate_upload_certification\":\"17271584321724652140.jpg\"}]', '2024-09-24 06:57:51', '2024-09-24 01:27:51');
+(25, 159, NULL, 'ssk university London', NULL, '2020-12-04', '17271584321724652140.jpg', NULL, '[\"6\"]', '', NULL, 0, '', '[\"uhyuguyuh\"]', 'null', '[{\"training_courses\":\"uhyuguyuh\",\"additional_license_number\":\"gyfhvbuygui44495\",\"additional_expiry\":\"2030-12-04\",\"additional_upload_certification\":\"17271584321724652140.jpg\"}]', 1, 1, '[{\"acls_certification_id\":\"Australia: ALS (Advanced Life Support) - Australian Resuscitation Council (ARC)\",\"acls_license_number\":\"g22562552\",\"acls_expiry\":\"2020-01-01\",\"acls_upload_certification\":\"17272645421724652140.jpg\"}]', '[]', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '[{\"training_certificate\":\"55252525\",\"certificate_license_number\":\"75225252274\",\"certificate_expiry\":\"2030-12-04\",\"certificate_upload_certification\":\"17271584321724652140.jpg\"}]', '2024-09-25 11:42:22', '2024-09-25 06:12:22');
 
 -- --------------------------------------------------------
 
@@ -7364,6 +7397,12 @@ ALTER TABLE `professional_membership`
   ADD PRIMARY KEY (`membership_id`);
 
 --
+-- Indexes for table `referee`
+--
+ALTER TABLE `referee`
+  ADD PRIMARY KEY (`referee_id`);
+
+--
 -- Indexes for table `seo`
 --
 ALTER TABLE `seo`
@@ -7577,6 +7616,12 @@ ALTER TABLE `professional_certificate_table`
 --
 ALTER TABLE `professional_membership`
   MODIFY `membership_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `referee`
+--
+ALTER TABLE `referee`
+  MODIFY `referee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `seo`

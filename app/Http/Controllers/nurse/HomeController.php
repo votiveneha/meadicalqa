@@ -43,6 +43,7 @@ use App\Models\WorkPreferencesModel;
 use App\Models\VaccinationFrontModel;
 use App\Models\AdditionalInfo;
 use App\Models\ProfessionalAssocialtionModel;
+use App\Models\AddReferee;
 use App\Repository\Eloquent\SpecialityRepository;
 
 class HomeController extends Controller
@@ -1082,7 +1083,13 @@ class HomeController extends Controller
             $bls_data_array[] = array("bls_certification_id"=>$bls_data[$i],"bls_license_number"=>$bls_license_number[$i],"bls_expiry"=>$bls_expiry[$i],"bls_upload_certification"=>$name);
         }
 
-        $bls_data_json = json_encode($bls_data_array);
+        if(!empty($bls_data_array)){
+            $bls_data_json = json_encode($bls_data_array);
+        }else{
+            $bls_data_json = '';
+        }
+
+        
 
         $acls_data = $request->acls_data;
         if($acls_data){
@@ -1754,6 +1761,43 @@ class HomeController extends Controller
         }
         
         echo json_encode($json);
+    }
+
+    public function updateReference(Request $request){
+        $user_id = $request->user_id;
+        $first_name = $request->first_name;
+        
+        $last_name = $request->last_name;
+        $email = $request->email;
+        $phone_no = $request->phone_no;
+        $reference_relationship = $request->reference_relationship;
+        $worked_together = $request->worked_together;
+        $position_with_referee = $request->position_with_referee;
+        $start_date = $request->start_date;
+        $end_date = $request->end_date;
+        $still_working = $request->still_working;
+
+        
+        for($i=0;$i<count($first_name);$i++){
+            $referee = new AddReferee;
+            $referee->user_id = $user_id;
+            $referee->first_name = $first_name[$i];
+            $referee->last_name = $last_name[$i];
+            $referee->email = $email[$i];
+            $referee->phone_no = $phone_no[$i];
+            $referee->relationship = $reference_relationship[$i];
+            $referee->worked_together = $worked_together[$i];
+            $referee->position_with_referee = $position_with_referee[$i];
+            $referee->start_date = $start_date[$i];
+            $referee->end_date = $end_date[$i];
+            $referee->still_working = $still_working[$i];
+            $referee->save();
+        }
+
+        $json['status'] = 1;
+
+        echo json_encode($json);
+
     }
 
     public function vaccinationForm(Request $request){
