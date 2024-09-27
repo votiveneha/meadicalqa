@@ -160,13 +160,6 @@ class NurseController extends Controller
     }
     public function addNursePostForm1(Nurseform1Request $request)
     {        
-        if ($request->hasFile('profile_image')) {
-            $profile_image = time() . '.' . $request->profile_image->extension();
-
-            if ($request->profile_image->move(public_path('/nurse/assets/imgs/'), $profile_image)) {
-               $request->profile_image = '/nurse/assets/imgs/' . $profile_image;
-            }
-        }
         try {
            return $this->nurseServices->addNursePost($request);
         } catch (\Exception $e) {

@@ -82,7 +82,7 @@
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-2" role="tab" aria-selected="false"
+                        <a class="nav-link" data-bs-toggle="tab" href="#navpill-2" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Setting</span>
                         </a>
@@ -391,7 +391,7 @@
                                         <div class="row">
                                             <div class="col-md-12 mt-3">
                                                 <div class="form-group">
-                                                    <input class="form-check-input" type="checkbox" value="1" id="visibleToMedicalFacilities" > 
+                                                    <input class="form-check-input" type="checkbox" value="1" id="visibleToMedicalFacilities" name="medical_facilities" id="medical_facilities"> 
                                                      <label class="form-check-label" for="visibleToMedicalFacilities">
                                                         Visible to Healthcare Facilities
                                                     </label>
@@ -444,7 +444,7 @@
                                             </div>
 
                                             <div class="d-flex align-items-center justify-content-between mt-3">
-                                                <button type="button" class="btn btn-default edit-form-1 align-items-center justify-content-between" data-target="#navpill-2">Save</button>
+                                                <button type="button" class="btn btn-default edit-form-2 align-items-center justify-content-between" data-target="#navpill-2">Save</button>
                                             </div>
                                         </div>                                                          
                                     </div>                    

@@ -1356,6 +1356,10 @@ function pad(number) {
       document.getElementById("reqempsdate").innerHTML = "* Please enter the employement start date";
       isValid = false;
     }
+    if ($('[name="employeement_type"]').val() == '') {
+      document.getElementById("reqemptype").innerHTML = "* Please select the employeement type";
+      isValid = false;
+    }
     if ($.trim($('[name="job_responeblities"]').val()) == '') {
       document.getElementById("reqresposiblities").innerHTML = "* Please enter the job responsiblities";
       isValid = false;
@@ -1464,49 +1468,132 @@ function pad(number) {
   }
 
   function updateReference() {
-    $('#reference_form').find('.text-danger').hide();
-    $.ajax({
-      url: "{{ route('nurse.updateReference') }}",
-      type: "POST",
-      cache: false,
-      contentType: false,
-      processData: false,
-      data: new FormData($('#reference_form')[0]),
-      dataType: 'json',
-      beforeSend: function() {
-        $('#submitReferences').prop('disabled', true);
-        $('#submitReferences').text('Process....');
-      },
-      success: function(res) {
-        $('#submitReferences').prop('disabled', false);
-        $('#submitReferences').text('Update Profile');
-
-        if (res.status == '1') {
-          Swal.fire({
-            icon: 'success',
-            title: 'Success',
-            text: 'Reference Information Updated Successfully',
-          }).then(function() {
-            window.location.href = "{{ route('nurse.my-profile') }}?page=reference_info";
-          });
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: res.message,
-          })
-        }
-        
-      },
-      error: function(errorss) {
-        $('#submitReferences').prop('disabled', false);
-        $('#submitReferences').text('Submit');
-        console.log("errorss",errorss);
-        for (var err in errorss.responseJSON.errors) {
-          $("#submitReferences").find("[name='" + err + "']").after("<div class='text-danger'>" + errorss.responseJSON.errors[err] + "</div>");
+    isValid = true;
+    var i = 1;
+    $(".first_name").each(function(){
+      if($(".first_name-"+i).length > 0) {
+        console.log("first_name-"+i,$(".first_name-"+i).val());
+        if($(".first_name-"+i).val() == ''){
+          document.getElementById("reqfname-"+i).innerHTML = "* Please enter the reference First Name";
+          isValid = false;
         }
       }
+      i++;
+      
     });
+    var j = 1;
+    $(".last_name").each(function(){
+      if($(".last_name-"+j).length > 0) {
+        console.log("last_name-"+j,$(".last_name-"+j).val());
+        if($(".last_name-"+j).val() == ''){
+          document.getElementById("reqlname-"+j).innerHTML = "* Please enter the reference Last Name";
+          isValid = false;
+        }
+      }
+      j++;
+      
+    });
+
+    var k = 1;
+    $(".reference_email").each(function(){
+      if($(".reference_email-"+k).length > 0) {
+        console.log("reference_email-"+k,$(".reference_email-"+k).val());
+        if($(".reference_email-"+k).val() == ''){
+          document.getElementById("reqemail-"+k).innerHTML = "* Please enter the reference email";
+          isValid = false;
+        }
+      }
+      k++;
+      
+    });
+
+    var l = 1;
+    $(".phone_no").each(function(){
+      if($(".phone_no-"+l).length > 0) {
+        console.log("phone_no-"+l,$(".phone_no-"+l).val());
+        if($(".phone_no-"+l).val() == ''){
+          document.getElementById("reqphoneno-"+l).innerHTML = "* Please enter the reference phone no";
+          isValid = false;
+        }
+      }
+      l++;
+      
+    });
+
+    var m = 1;
+    $(".reference_relationship").each(function(){
+      if($(".reference_relationship-"+m).length > 0) {
+        console.log("reference_relationship-"+m,$(".reference_relationship-"+m).val());
+        if($(".reference_relationship-"+m).val() == ''){
+          document.getElementById("reqreferencerel-"+m).innerHTML = "* Please enter the reference relationship";
+          isValid = false;
+        }
+      }
+      m++;
+      
+    });
+
+    var n = 1;
+    $(".worked_together").each(function(){
+      if($(".worked_together-"+n).length > 0) {
+        console.log("worked_together-"+n,$(".worked_together-"+n).val());
+        if($(".worked_together-"+n).val() == ''){
+          document.getElementById("reqworked_together-"+n).innerHTML = "* Please enter the reference relationship";
+          isValid = false;
+        }
+      }
+      n++;
+      
+    });
+    // if ($('[name="position_held[]"]').val() == '') {
+    //   document.getElementById("reqpositionheld").innerHTML = "* Please select the position";
+    //   isValid = false;
+    // }
+    if(isValid == true){
+      $('#reference_form').find('.text-danger').hide();
+      $.ajax({
+        url: "{{ route('nurse.updateReference') }}",
+        type: "POST",
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: new FormData($('#reference_form')[0]),
+        dataType: 'json',
+        beforeSend: function() {
+          $('#submitReferences').prop('disabled', true);
+          $('#submitReferences').text('Process....');
+        },
+        success: function(res) {
+          $('#submitReferences').prop('disabled', false);
+          $('#submitReferences').text('Update Profile');
+
+          if (res.status == '1') {
+            Swal.fire({
+              icon: 'success',
+              title: 'Success',
+              text: 'Reference Information Updated Successfully',
+            }).then(function() {
+              window.location.href = "{{ route('nurse.my-profile') }}?page=reference_info";
+            });
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: res.message,
+            })
+          }
+          
+        },
+        error: function(errorss) {
+          $('#submitReferences').prop('disabled', false);
+          $('#submitReferences').text('Submit');
+          console.log("errorss",errorss);
+          for (var err in errorss.responseJSON.errors) {
+            $("#submitReferences").find("[name='" + err + "']").after("<div class='text-danger'>" + errorss.responseJSON.errors[err] + "</div>");
+          }
+        }
+      });
+    }
     return false;
   }
   function updateInterview() {
@@ -1868,6 +1955,13 @@ function pad(number) {
       });
     }
     return false;
+  }
+  function stillWorking(i){
+    if ($(".still_working-"+i).prop('checked')==true){ 
+      $(".working-"+i).hide();
+    }else{
+      $(".working-"+i).show();
+    }
   }
   </script>
 <!-- =================================

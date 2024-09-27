@@ -884,6 +884,14 @@ class NurseServices
         try {
             if($data['tab'] == 'tab1'){
                 $finduser =  User::where('id',$data['nurse_id'])->first();
+                $emailExists = User::where('email', $data['email'])
+                        ->where('id', '!=', $data['nurse_id'])
+                        ->exists(); 
+                                        
+                if($emailExists){
+                    return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+                }
+
                 
                 if ($data['profile_image'] != 'null') {
 
@@ -1535,16 +1543,15 @@ class NurseServices
                 $param='Additional Information';
 
             }else if($data['tab'] == 'tab14'){               
-                $email=Session::get('nurseemail');       
-                $user_id=User::where('email',$email)->first();
-                // /$allData['medical_facilities'] = isset($data['language_picker_select']) ? 'Yes' : 'No';
+                $allData['medical_facilities'] = isset($data['medical_facilities']) ? 'Yes' : 'No';
                 $allData['agencies'] = isset($data['visibleToAgencies']) ? 'Yes' : 'No';
                 $allData['individuals'] = isset($data['individuals']) ? 'Yes' : 'No';
                 $allData['profile_status1'] = $data['profile_status'];
                 //$update['unavailable_profile_status'] = isset($request->profile_status) ? 'Yes' : 'No';
                 $allData['available_date'] = $data['available_date'];
-                $run = User::where('id',$user_id->id)->update($allData);
-                $param='Additional Informationyy';
+                // $run = User::where('id',$user_id->id)->update($allData);
+                $run=$this->nurseRepository->updateData(['id'=>$data['nurse_id']], $allData);
+                $param='Profile setting';
             }
             
             if ($run) {

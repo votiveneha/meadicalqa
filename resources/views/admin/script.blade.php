@@ -3274,6 +3274,7 @@ $(document).ready(function() {
              var email               =  $('#email').val();  
              // Get the value of the selected radio button
              var selectedGender = $('input[name="gender"]:checked').val();
+             alert($('input[name="gender"]:checked').val());
              var contact        =  $('#contact').val(); 
      
             //  alert(profile_image);
@@ -3310,11 +3311,11 @@ $(document).ready(function() {
                 $("#email_error").html("* Please Enter the Email.");
                 returnValue = false;
              }
-
-             if (selectedGender.trim() === "") {
-                $("#genderErr").html("* Please select gender.");
-                returnValue = false;
-             }
+    
+            if(!selectedGender) { // Check if no gender is selected
+                $("#genderErr").html("* Please select gender."); // Show error message
+                returnValue = false; // Set returnValue to false
+            }
 
              if(contact.trim() === "") {
                 $("#contact_error").html("* Please Enter the phone number.");
@@ -3612,7 +3613,8 @@ $(document).ready(function() {
         });
 
     // second form
-    $('.next-step-2').on('click', function(event){
+    $('.edit-form-2').on('click', function(event){
+alert();
         event.preventDefault(); // Prevent default form submission
 
         var targetTab = $(this).data('target');
@@ -3632,6 +3634,8 @@ $(document).ready(function() {
         var profile_status = $('[name="profile_status"]').val();
 
         var available_date = $('[name="available_date"]').val();
+
+        var medical_facilities = $('[name="medical_facilities"]').val();
         // var stateworkprefer = selectElement3.val();
 
         // Create a new FormData object
@@ -3640,11 +3644,13 @@ $(document).ready(function() {
         formData.append('individuals',individuals);
         formData.append('profile_status',profile_status);
         formData.append('available_date',available_date);
+        formData.append('medical_facilities',medical_facilities);
+        formData.append('nurse_id', $('#nurse_id').val());
 
         formData.append('tab','tab14');
 
         $.ajax({
-            url: "{{ route('admin.add_nurse_post_14') }}",
+            url: "{{ route('admin.edit_nurse_post') }}",
             type: "POST",
             data: formData,
             data: formData,

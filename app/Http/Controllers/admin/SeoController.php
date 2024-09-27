@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use App\Http\Requests\SeoRequest;
+use App\Http\Requests\editSeoRequest;
 use App\Services\Admins\SeoServices;
 use App\Repository\Eloquent\SeoRepository;
 
@@ -40,33 +41,34 @@ class SeoController extends Controller
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
         }
     }
-    // public function deleteSeo(Request $request)
-    // {
-    //     try {
-    //        return $this->SeoServices->deleteSeo($request);
-    //     } catch (\Exception $e) {
-    //         log::error('Error in SeoController/deleteSeo :' . $e->getMessage() . 'in line' . $e->getLine());
-    //         return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
-    //     }
-    // }
-    // public function updateSeo(SeoRequest $request)
-    // {
-    //     try {
-    //        return $this->SeoServices->updateSeo($request);
-    //     } catch (\Exception $e) {
-    //         log::error('Error in SeoController/updateSeo :' . $e->getMessage() . 'in line' . $e->getLine());
-    //         return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
-    //     }
-    // }
-    // public function getSeo(Request $request)
-    // {
-    //     try {
-    //        return $this->SeoRepository->get(['id'=>$request->id]);
-    //     } catch (\Exception $e) {
-    //         log::error('Error in SeoController/getSeo :' . $e->getMessage() . 'in line' . $e->getLine());
-    //         return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
-    //     }
-    // }
+    public function deleteSeo(Request $request)
+    {
+        try {
+           return $this->SeoServices->deleteSeo($request);
+        } catch (\Exception $e) {
+            log::error('Error in SeoController/deleteSeo :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+    public function updateSeo(editSeoRequest $request)
+    {
+        // dd('update-seo');
+        try {
+           return $this->SeoServices->updateSeo($request);
+        } catch (\Exception $e) {
+            log::error('Error in SeoController/updateSeo :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+    public function getSeo(Request $request)
+    {
+        try {
+           return $this->SeoRepository->get(['id'=>$request->id]);
+        } catch (\Exception $e) {
+            log::error('Error in SeoController/getSeo :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
     
 
   

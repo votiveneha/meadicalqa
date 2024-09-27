@@ -1715,6 +1715,7 @@ class HomeController extends Controller
         $present_box = $request->present_box;
         $job_responeblities = $request->job_responeblities;
         $achievements = $request->achievements;
+        $employeement_type = $request->employeement_type;
         $skills_compantancies = json_encode($request->skills_compantancies);
         
         
@@ -1726,7 +1727,7 @@ class HomeController extends Controller
             $post1->assistent_level = $year_experience;
             $post1->save();
             
-            $run = ExperienceModel::where('user_id',$user_id)->update(['employer_name'=>$previous_employer_name,'position_held'=>$positions_held,'employeement_start_date'=>$start_date,'employeement_end_date'=>$end_date,'present_status'=>$present_box,'responsiblities'=>$job_responeblities,'achievements'=>$achievements,'skills_compantancies'=>$skills_compantancies,'complete_status'=>1]);
+            $run = ExperienceModel::where('user_id',$user_id)->update(['employer_name'=>$previous_employer_name,'position_held'=>$positions_held,'employeement_start_date'=>$start_date,'employeement_end_date'=>$end_date,'employeement_type'=>$employeement_type,'present_status'=>$present_box,'responsiblities'=>$job_responeblities,'achievements'=>$achievements,'skills_compantancies'=>$skills_compantancies,'complete_status'=>1]);
         }else{
 
             
@@ -1739,6 +1740,7 @@ class HomeController extends Controller
             $post->position_held = $positions_held;
             $post->employeement_start_date = $start_date;
             $post->employeement_end_date = $end_date;
+            $post->employeement_type = $employeement_type;
             $post->present_status = $present_box;
             $post->responsiblities = $job_responeblities;
             $post->achievements = $achievements;
@@ -1776,23 +1778,50 @@ class HomeController extends Controller
         $start_date = $request->start_date;
         $end_date = $request->end_date;
         $still_working = $request->still_working;
-
+        $reference_no = $request->reference_no;
         
-        for($i=0;$i<count($first_name);$i++){
-            $referee = new AddReferee;
-            $referee->user_id = $user_id;
-            $referee->first_name = $first_name[$i];
-            $referee->last_name = $last_name[$i];
-            $referee->email = $email[$i];
-            $referee->phone_no = $phone_no[$i];
-            $referee->relationship = $reference_relationship[$i];
-            $referee->worked_together = $worked_together[$i];
-            $referee->position_with_referee = $position_with_referee[$i];
-            $referee->start_date = $start_date[$i];
-            $referee->end_date = $end_date[$i];
-            $referee->still_working = $still_working[$i];
-            $referee->save();
+        $getrefereedata = DB::table("referee")->where("user_id",$user_id)->get();
+
+        $referee_no_array = array();
+
+        foreach ($getrefereedata as $r_data) {
+            $referee_no_array[] = $r_data->referee_no;
         }
+        
+
+        for($i=0;$i<count($first_name);$i++){
+            if(in_array($i+1, $referee_no_array)){
+                if (isset($still_working[$i])) {
+                    $working = 1;
+                }else{
+                    $working = 0;
+                }
+                $run = AddReferee::where('user_id',$user_id)->where('referee_no',$i+1)->update(['first_name'=>$first_name[$i],'last_name'=>$last_name[$i],'email'=>$email[$i],'phone_no'=>$phone_no[$i],'relationship'=>$reference_relationship[$i],'worked_together'=>$worked_together[$i],'position_with_referee'=>$position_with_referee[$i],'start_date'=>$start_date[$i],'end_date'=>$end_date[$i],'still_working'=>$working]);
+            }else{
+                if (isset($still_working[$i])) {
+                    $working = 1;
+                }else{
+                    $working = 0;
+                }
+                $referee = new AddReferee;
+                $referee->referee_no = $i+1;
+                $referee->user_id = $user_id;
+                $referee->first_name = $first_name[$i];
+                $referee->last_name = $last_name[$i];
+                $referee->email = $email[$i];
+                $referee->phone_no = $phone_no[$i];
+                $referee->relationship = $reference_relationship[$i];
+                $referee->worked_together = $worked_together[$i];
+                $referee->position_with_referee = $position_with_referee[$i];
+                $referee->start_date = $start_date[$i];
+                $referee->end_date = $end_date[$i];
+                $referee->still_working = $working;
+                $referee->save();
+            }
+        }
+        
+        
+        
 
         $json['status'] = 1;
 
