@@ -943,7 +943,7 @@ class NurseServices
                 $param='Basic detail';
             
             }else if($data['tab'] == 'tab2'){
-                
+                 $finduser =  User::where('id',$data['nurse_id'])->first();
                 $states=isset($data['states']) ? explode(',', $data['states']) : '';
 
                 $allData['nurseType'] =  array_map('strval', $states);
@@ -973,7 +973,7 @@ class NurseServices
                 $allData['professional_info_status'] = $data['declare_information'];
                 $email=Session::get('nurseemail');
                 // dd($allData);
-                $run=$this->nurseRepository->updateData(['email'=>$email], $allData);
+                $run=$this->nurseRepository->updateData(['id'=>$finduser->id], $allData);
                 $param='Professional detail';
 
             // session()->forget('nurseemail');
@@ -1542,12 +1542,11 @@ class NurseServices
                 $run=AdditionalInfo::create($allData);
                 $param='Additional Information';
 
-            }else if($data['tab'] == 'tab14'){               
+            }else if($data['tab'] == 'tab14'){     
                 $allData['medical_facilities'] = isset($data['medical_facilities']) ? 'Yes' : 'No';
                 $allData['agencies'] = isset($data['visibleToAgencies']) ? 'Yes' : 'No';
                 $allData['individuals'] = isset($data['individuals']) ? 'Yes' : 'No';
-                $allData['profile_status1'] = $data['profile_status'];
-                //$update['unavailable_profile_status'] = isset($request->profile_status) ? 'Yes' : 'No';
+                $allData['profile_status1'] = $data['profile_status'];               
                 $allData['available_date'] = $data['available_date'];
                 // $run = User::where('id',$user_id->id)->update($allData);
                 $run=$this->nurseRepository->updateData(['id'=>$data['nurse_id']], $allData);

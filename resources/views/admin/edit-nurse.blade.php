@@ -76,19 +76,19 @@
             <div class="card-body">
                 <ul class="nav nav-pills nav-fill mt-4 tabs-feat" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link active" data-bs-toggle="tab" href="#navpill-1" role="tab"
+                        <a class="nav-link active" data-bs-toggle="tab" href="#tab-1" role="tab"
                             aria-selected="true">
                             <span>Basic Details</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link" data-bs-toggle="tab" href="#navpill-2" role="tab" aria-selected="false"
+                        <a class="nav-link" data-bs-toggle="tab" href="#tab-2" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Setting</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-3" role="tab" aria-selected="false"
+                        <a class="nav-link" data-bs-toggle="tab" href="#tab-3" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Profession</span>
                         </a>
@@ -165,7 +165,7 @@
                 <form method="post" enctype="multipart/form-data" id="AddNurse">
                 <!-- Tab panes -->
                 <div class="tab-content border mt-2">
-                    <div class="tab-pane p-3 active show" id="navpill-1" role="tabpanel">
+                    <div class="tab-pane p-3 active show" id="tab-1" role="tabpanel">
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
@@ -364,7 +364,7 @@
                                             </div>
                                         </div>
                                         <div class="d-flex align-items-center justify-content-between mt-3">
-                                            <button type="button" class="btn btn-default edit-form-1 align-items-center justify-content-between" data-target="#navpill-1">Save</button>
+                                            <button type="button" class="btn btn-default edit-form-1 align-items-center justify-content-between" data-target="#tab-1">Save</button>
                                         </div>
                                     </div>
 
@@ -380,7 +380,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane p-3" id="navpill-2" role="tabpanel">
+                    <div class="tab-pane p-3" id="tab-2" role="tabpanel">
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
@@ -391,7 +391,7 @@
                                         <div class="row">
                                             <div class="col-md-12 mt-3">
                                                 <div class="form-group">
-                                                    <input class="form-check-input" type="checkbox" value="1" id="visibleToMedicalFacilities" name="medical_facilities" id="medical_facilities"> 
+                                                    <input class="form-check-input" type="checkbox" id="visibleToMedicalFacilities" name="medical_facilities" id="medical_facilities" > 
                                                      <label class="form-check-label" for="visibleToMedicalFacilities">
                                                         Visible to Healthcare Facilities
                                                     </label>
@@ -400,7 +400,7 @@
 
                                             <div class="col-md-12 mt-3">
                                                 <div class="form-group">
-                                                    <input class="form-check-input" type="checkbox" value="1"  id="visibleToAgencies" name="agencies" @if($profileData->agencies == 1)  {{ checked }}  @endif>
+                                                    <input class="form-check-input" type="checkbox" id="visibleToAgencies" name="agencies" {{ $profileData->agencies =='Yes'? 'checked' : '' }}>
                                                     <label class="form-check-label" for="visibleToAgencies">
                                                         Visible to Agencies
                                                     </label>
@@ -409,7 +409,7 @@
 
                                             <div class="col-md-6 mt-3">
                                                 <div class="form-group">
-                                                    <input class="form-check-input" type="checkbox" value="1"   id="visibleToIndividuals" name="individuals">
+                                                    <input class="form-check-input" type="checkbox" id="visibleToIndividuals" name="individuals" {{ $profileData->individuals =='Yes'? 'checked' : '' }}>
                                                     <label class="form-check-label" for="visibleToAgencies">
                                                         Visible to Individuals (Nurse care at home)
                                                     </label>
@@ -420,7 +420,7 @@
 
                                             <div class="col-md-6 mt-3">
                                                 <div class="form-group">
-                                                   <input class="form-check-input" type="radio" value="1" id="availableNow" name="profile_status">
+                                                   <input class="form-check-input" type="radio" value="1" id="availableNow" name="profile_status" @if($profileData->profile_status1 == '1') checked @endif >
                                                     <label class="form-check-label" for="availableNow">
                                                         Available Now
                                                     </label>
@@ -429,7 +429,7 @@
 
                                             <div class="col-md-12 mt-3">
                                                 <div class="form-group">
-                                                    <input class="form-check-input" type="radio" value="0" id="unavailableNow" name="profile_status">
+                                                    <input class="form-check-input" type="radio" value="0" id="unavailableNow" name="profile_status" @if($profileData->profile_status1 == '0') checked @endif>
                                                     <label class="form-check-label" for="unavailableNow">
                                                         Unavailable for now
                                                     </label>
@@ -439,12 +439,12 @@
                                             <div class="col-md-12 mt-3 available_date_field d-none">
                                                 <div class="form-group">
                                                     <label for="gender" class="d-flex gap-3 flex-wrap"><strong>When are you able to start?</strong></label>
-                                                    <input type="date" name="available_date" class="form-control">
+                                                    <input type="date" name="available_date" class="form-control" value="{{ $profileData->available_date }}">
                                                 </div>
                                             </div>
 
                                             <div class="d-flex align-items-center justify-content-between mt-3">
-                                                <button type="button" class="btn btn-default edit-form-2 align-items-center justify-content-between" data-target="#navpill-2">Save</button>
+                                                <button type="button" class="btn btn-default edit-form-2 align-items-center justify-content-between" data-target="#tab-2">Save</button>
                                             </div>
                                         </div>                                                          
                                     </div>                    
@@ -453,7 +453,7 @@
                         </div>
                     </div>
                                     
-                    <div class="tab-pane p-3" id="navpill-3" role="tabpanel">
+                    <div class="tab-pane p-3" id="tab-3" role="tabpanel">
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
@@ -465,6 +465,8 @@
                                             <div class="row">
                                                     <div class="col-md-12 mt-3">
                                                         <div class="form-group">
+                                                            <input type="hidden" name="user_id" class="user_id" value="{{ $profileData->id }}">
+                                                             <input type="hidden" name="ntype" class="ntype" value="{{$profileData->nurseType }}">
                                                             <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Type of Nurse</strong></label>
                                                             <ul id="type-of-nurse" style="display:none;">
                                                                 @php $specialty = specialty();$spcl=$specialty[0]->id;@endphp
@@ -479,7 +481,7 @@
                                                                 @endforeach
                                                                 
                                                             </ul>
-                                                            <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="type-of-nurse" name="states[]" multiple="multiple" id="type_nurse"></select>
+                                                            <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="type-of-nurse" name="states[]" multiple="multiple" id="nurse_type"></select>
                                                             <span id="type_nurse_error" class="text-danger valley"></span>
                                                         </div>
                                                     </div>
@@ -491,7 +493,28 @@
                                                         @foreach($specialty as $spl)
                                                         <?php
                                                             $nursing_data = DB::table("practitioner_type")->where('parent', $spl->id)->get();
+                                                            
                                                         ?>
+                                                     <input type="hidden" name="nursing_result_one" class="nursing_result_one" value="{{ $profileData->entry_level_nursing }}">
+                                                    <input type="hidden" name="nursing_result_two" class="nursing_result_two" value="{{ $profileData->registered_nurses }}">
+                                                    <input type="hidden" name="nursing_result_three" class="nursing_result_three" value="{{ $profileData->advanced_practioner }}">
+                                                    <input type="hidden" name="np_result" class="np_result" value="{{ $profileData->nurse_prac }}">
+                                                    <input type="hidden" name="specialties_result" class="specialties_result" value="{{ $profileData->specialties }}">
+                                                    <input type="hidden" name="adults_result" class="adults_result" value="{{ $profileData->adults }}">
+                                                    <input type="hidden" name="maternity_result" class="maternity_result" value="{{ $profileData->maternity }}">
+                                                    <input type="hidden" name="padneonatal_result" class="padneonatal_result" value="{{ $profileData->paediatrics_neonatal }}">
+                                                    <input type="hidden" name="community_result" class="community_result" value="{{ $profileData->community }}">
+                                                    <input type="hidden" name="surgical_preoperative_result" class="surgical_preoperative_result" value="{{ $profileData->surgical_preoperative }}">
+                                                    <input type="hidden" name="operatingroom_result" class="operatingroom_result" value="{{ $profileData->operating_room }}">
+                                                    <input type="hidden" name="operatingscout_result" class="operatingscout_result" value="{{ $profileData->operating_room_scout }}">
+                                                    <input type="hidden" name="operatingscrub_result" class="operatingscrub_result" value="{{ $profileData->operating_room_scrub }}">
+                                                    <input type="hidden" name="surgical_ob_result" class="surgical_ob_result" value="{{ $profileData->surgical_obstrics_gynacology }}">
+                                                    <input type="hidden" name="neonatal_care_result" class="neonatal_care_result" value="{{ $profileData->neonatal_care }}">
+                                                    <input type="hidden" name="paedia_surgical_result" class="paedia_surgical_result" value="{{ $profileData->paedia_surgical_preoperative }}">
+                                                    <input type="hidden" name="pad_op_room_result" class="pad_op_room_result" value="{{ $profileData->pad_op_room }}">
+                                                    <input type="hidden" name="pad_qr_scout_result" class="pad_qr_scout_result" value="{{ $profileData->pad_qr_scout }}">
+                                                    <input type="hidden" name="pad_qr_scrub_result" class="pad_qr_scrub_result" value="{{ $profileData->pad_qr_scrub }}">
+                                                    <input type="hidden" name="nurse_degree" class="nurse_degree" value="{{ $profileData->degree }}">
                                                     <div class="">
                                                     <input type="hidden" name="nursing_result" class="nursing_result-{{ $i }}" value="{{ $spl->id }}">
                                                     <div class="form-group d-none col-md-12 mt-3" id="nursing_level-{{ $i }}">
@@ -697,7 +720,7 @@
                                                         <div class="form-group">
                                                             <label for="skill" class="d-flex gap-3 flex-wrap"><strong>What is your level of experience?</strong></label>
                                                             <select class="form-control mr-10 select-active" name="assistent_level" id="assistent_level">                      
-                                                            @for($i = 1; $i <= 30; $i++) <option value="{{ $i }}"  >{{ $i }}{{ $i == 1 ? 'st' : ($i == 2 ? 'nd' : ($i == 3 ? 'rd' : 'th')) }} Year</option>
+                                                            @for($i = 1; $i <= 30; $i++) <option value="{{ $i }}"  @if($profileData->assistent_level == $i) selected @endif>{{ $i }}{{ $i == 1 ? 'st' : ($i == 2 ? 'nd' : ($i == 3 ? 'rd' : 'th')) }} Year</option>
                                                                 @endfor
                                                             </select>
                                                             <span id="experience_error" class="text-danger valley"></span>
@@ -709,19 +732,20 @@
                                                             <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Current Employment Status</strong></label>
                                                             <select class="form-control mr-10 select-active" name="employee_status" id="employee_status">
                                                             <option value="">Select Employee Status</option>
-                                                            <option value="Permanent Full-Time" >Permanent Full-Time</option>
-                                                            <option value="Permanent Part-Time">Permanent Part-Time</option>
-                                                            <option value="Temporary / Contract">Temporary / Contract</option>
-                                                            <option value="Travel">Travel</option>
-                                                            <option value="Per Diem / Local">Per Diem / Local</option>
-                                                            <option value="On-Call / PRN (Pro Re Nata)">On-Call / PRN (Pro Re Nata)</option>
-                                                            <option value="Casual">Casual</option> 
-                                                            <option value="Agency / Staffing Agency">Agency / Staffing Agency</option>
-                                                            <option value="Seasonal">Seasonal</option>
-                                                            <option value="Intern / Residency">Intern / Residency</option>
-                                                            <option value="Self-Employed / Private Practice" >Self-Employed / Private Practice</option>
-                                                            <option value="Volunteer" >Volunteer</option>
-                                                            <option value="Unemployed" >Unemployed</option>
+                                                            <option value="Permanent Full-Time" @if($profileData->current_employee_status == "Permanent Full-Time") selected @endif>Permanent Full-Time</option>
+                                                            <option value="Permanent Part-Time" @if($profileData->current_employee_status == "Permanent Part-Time") selected @endif>Permanent Part-Time</option>
+                                                            <option value="Temporary / Contract" @if($profileData->current_employee_status == "Temporary / Contract") selected @endif>Temporary / Contract</option>
+                                                            <option value="Travel" @if($profileData->current_employee_status == "Travel") selected @endif>Travel</option>
+                                                            <option value="Per Diem / Local" @if($profileData->current_employee_status == "Per Diem / Local") selected @endif>Per Diem / Local</option>
+                                                            <option value="On-Call / PRN (Pro Re Nata)" @if($profileData->current_employee_status == "On-Call / PRN (Pro Re Nata)") selected @endif>On-Call / PRN (Pro Re Nata)</option>
+                                                            <option value="Casual" @if($profileData->current_employee_status == "Casual") selected @endif>Casual</option>
+                                                            
+                                                            <option value="Agency / Staffing Agency" @if($profileData->current_employee_status == "Agency / Staffing Agency") selected @endif>Agency / Staffing Agency</option>
+                                                            <option value="Seasonal" @if($profileData->current_employee_status == "Seasonal") selected @endif>Seasonal</option>
+                                                            <option value="Intern / Residency" @if($profileData->current_employee_status == "Intern / Residency") selected @endif>Intern / Residency</option>
+                                                            <option value="Self-Employed / Private Practice" @if($profileData->current_employee_status == "Self-Employed / Private Practice") selected @endif>Self-Employed / Private Practice</option>
+                                                            <option value="Volunteer" @if($profileData->current_employee_status == "Volunteer") selected @endif>Volunteer</option>
+                                                            <option value="Unemployed" @if($profileData->current_employee_status == "Unemployed") selected @endif>Unemployed</option>
                                                             </select>
                                                             <span id="status_error" class="text-danger valley"></span>
                                                         </div>
@@ -729,18 +753,18 @@
                                                         <div class="col-md-12 mt-2">
                                                             <div class="form-group">
                                                                 <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Professional Bio</strong></label>
-                                                                <textarea class="form-control" rows="4" name="bio" id="bio"></textarea>
+                                                                <textarea class="form-control" rows="4" name="bio" id="bio">{{ $profileData->bio }}</textarea>
                                                                 <span id="bio_error" class="text-danger valley"></span>
                                                             </div>
                                                         </div>
 
                                                         <div class="declaration_box  mt-3">
-                                                            <input type="checkbox" name="declare_information" class="declare_information" id="declare_information">
+                                                            <input type="checkbox" name="declare_information" class="declare_information" id="declare_information" @if($profileData->declaration_status == 1) checked @endif>
                                                             <label for="declare_information">I declare that the information provided is true and correct</label>
                                                             <span id="diclare_error" class="text-danger valley"></span>
                                                         </div>
                                                         <div class="d-flex align-items-center justify-content-between mt-3">
-                                                            <button type="button" class="btn btn-default next-step-3 align-items-center justify-content-between" data-target="#navpill-4">Next</button>
+                                                            <button type="button" class="btn btn-default edit-form-3 align-items-center justify-content-between" data-target="#navpill-4">Next</button>
                                                         </div>  
                                                     </div>
                                             </div>

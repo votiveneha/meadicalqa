@@ -375,7 +375,125 @@
         // }
     });
 
-});
+
+
+  var nurse_type_list = $('#nurse_type').select2("data");
+
+  for(var x=0;x<nurse_type_list.length;x++){
+    $(".nursing_"+nurse_type_list[x].id).removeClass('d-none');
+  }
+
+ if($(".ntype").val() != ""){
+    var nurse_type = JSON.parse($(".ntype").val());
+    $('#nurse_type').select2().val(nurse_type).trigger('change');
+  }
+
+  if($(".nursing_result_one").val() != ""){
+    var entry_level = JSON.parse($(".nursing_result_one").val());
+    $('.js-example-basic-multiple[data-list-id="nursing_entry-1"]').select2().val(entry_level).trigger('change');
+  }
+
+  if($(".nursing_result_two").val() != ""){
+    var registered_nurses = JSON.parse($(".nursing_result_two").val());
+    $('.js-example-basic-multiple[data-list-id="nursing_entry-2"]').select2().val(registered_nurses).trigger('change');
+  }
+  
+  if($(".nursing_result_three").val() != ""){
+    var advanced_practioner = JSON.parse($(".nursing_result_three").val());
+    $('.js-example-basic-multiple[data-list-id="nursing_entry-3"]').select2().val(advanced_practioner).trigger('change');
+  }
+
+  if($(".np_result").val() != ""){
+    var nurse_prac = JSON.parse($(".np_result").val());
+    $('.js-example-basic-multiple[data-list-id="nurse_practitioner_menu"]').select2().val(nurse_prac).trigger('change');
+  }
+
+  if($(".specialties_result").val() != ""){
+    var specialties = JSON.parse($(".specialties_result").val());
+    $('.js-example-basic-multiple[data-list-id="specialties"]').select2().val(specialties).trigger('change');
+  }
+
+  if($(".adults_result").val() != ""){
+    var adults = JSON.parse($(".adults_result").val());
+    $('.js-example-basic-multiple[data-list-id="speciality_entry-1"]').select2().val(adults).trigger('change');
+  }
+
+  if($(".maternity_result").val() != ""){
+    var maternity = JSON.parse($(".maternity_result").val());
+    $('.js-example-basic-multiple[data-list-id="speciality_entry-2"]').select2().val(maternity).trigger('change');
+  }
+
+  if($(".padneonatal_result").val() != ""){
+    var paediatrics_neonatal = JSON.parse($(".padneonatal_result").val());
+    $('.js-example-basic-multiple[data-list-id="speciality_entry-3"]').select2().val(paediatrics_neonatal).trigger('change');
+  }
+  
+  if($(".community_result").val() != ""){
+    var community = JSON.parse($(".community_result").val());
+    $('.js-example-basic-multiple[data-list-id="speciality_entry-4"]').select2().val(community).trigger('change');
+  }
+  
+  if($(".surgical_preoperative_result").val() != ""){
+    var surgical_preoperative = JSON.parse($(".surgical_preoperative_result").val());
+    $('.js-example-basic-multiple[data-list-id="surgical_row_box"]').select2().val(surgical_preoperative).trigger('change');
+  }
+
+  if($(".operatingroom_result").val() != ""){
+    var operating_room = JSON.parse($(".operatingroom_result").val());
+    $('.js-example-basic-multiple[data-list-id="surgical_operative_care-1"]').select2().val(operating_room).trigger('change');
+  }
+
+  if($(".operatingscout_result").val() != ""){
+    var operating_room_scout = JSON.parse($(".operatingscout_result").val());
+    $('.js-example-basic-multiple[data-list-id="surgical_operative_care-2"]').select2().val(operating_room_scout).trigger('change');
+  }
+
+  if($(".operatingscrub_result").val() != ""){
+    var operating_room_scrub = JSON.parse($(".operatingscrub_result").val());
+    $('.js-example-basic-multiple[data-list-id="surgical_operative_care-3"]').select2().val(operating_room_scrub).trigger('change');
+  }
+
+  if($(".surgical_ob_result").val() != ""){
+    var surgical_obstrics_gynacology = JSON.parse($(".surgical_ob_result").val());
+    $('.js-example-basic-multiple[data-list-id="surgical_obs_care"]').select2().val(surgical_obstrics_gynacology).trigger('change');
+  }
+
+  if($(".neonatal_care_result").val() != ""){
+    var neonatal_care = JSON.parse($(".neonatal_care_result").val());
+    $('.js-example-basic-multiple[data-list-id="neonatal_care"]').select2().val(neonatal_care).trigger('change');
+  }
+
+  if($(".paedia_surgical_result").val() != ""){
+    var paedia_surgical_preoperative = JSON.parse($(".paedia_surgical_result").val());
+    $('.js-example-basic-multiple[data-list-id="surgical_rowpad_box"]').select2().val(paedia_surgical_preoperative).trigger('change');
+  }
+
+  if($(".pad_op_room_result").val() != ""){
+    var pad_op_room = JSON.parse($(".pad_op_room_result").val());
+    $('.js-example-basic-multiple[data-list-id="surgical_operative_carep-1"]').select2().val(pad_op_room).trigger('change');
+  }
+
+  if($(".pad_qr_scout_result").val() != ""){
+    var pad_qr_scout = JSON.parse($(".pad_qr_scout_result").val());
+    $('.js-example-basic-multiple[data-list-id="surgical_operative_carep-2"]').select2().val(pad_qr_scout).trigger('change');
+  }
+
+  if($(".pad_qr_scrub_result").val() != ""){
+    var pad_qr_scrub = JSON.parse($(".pad_qr_scrub_result").val());
+    $('.js-example-basic-multiple[data-list-id="surgical_operative_carep-3"]').select2().val(pad_qr_scrub).trigger('change');
+  }
+  
+  if($(".nurse_degree_one").val() != ""){
+    var nurse_degree = JSON.parse($(".nurse_degree_one").val());
+    $('.js-example-basic-multiple[data-list-id="ndegree"]').select2().val(nurse_degree).trigger('change');
+  }
+
+  if($(".prof_cert_new").val() != ""){
+    var prof_cert_new = JSON.parse($(".prof_cert_new").val());
+    $('.js-example-basic-multiple[data-list-id="profess_cert"]').select2().val(prof_cert_new).trigger('change');
+  }
+
+ });
 </script>
 
 
@@ -3468,13 +3586,10 @@ $(document).ready(function() {
                                 title: 'Success',
                                 text: res.message,
                             }).then(function() {
-                                $('a[href="' + targetTab + '"]').tab('show');
-
-                            // Disable the previous tab
-                            $('a[href="' + targetTab + '"]').parent().prev().find('a').addClass('disabled');
-                            });
-
-                            
+                                var targetTab = 'tab-1'; 
+                                var newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?tab=' + targetTab;
+                                window.location.href = newUrl; 
+                            });                            
                         } else {
                             Swal.fire({
                                 icon: 'error',
@@ -3614,8 +3729,8 @@ $(document).ready(function() {
 
     // second form
     $('.edit-form-2').on('click', function(event){
-alert();
-        event.preventDefault(); // Prevent default form submission
+
+        // /event.preventDefault(); // Prevent default form submission
 
         var targetTab = $(this).data('target');
 
@@ -3628,14 +3743,47 @@ alert();
         $(".valley").html("");
 
         var visibleToAgencies = $('[name="agencies"]').val();
+        
+        var isChecked = $('#visibleToAgencies').is(':checked');
+
+        if (isChecked) {
+            visibleToAgencies = 'Yes';
+        } else {
+             visibleToAgencies = 'No';
+        }
 
         var individuals = $('[name="individuals"]').val();
 
-        var profile_status = $('[name="profile_status"]').val();
+        var isChecked = $('#visibleToIndividuals').is(':checked');
+
+        if (isChecked) {
+            individuals = 'Yes';
+        } else {
+             individuals = 'No';
+        }
+
+        // var profile_status = $('[name="profile_status"]').val();
+
+        var profileStatus = $('input[name="profile_status"]:checked').val();
+    
+        if (profileStatus !== undefined) {
+           var  profile_status = profileStatus;
+        } else {
+           var  profile_status = profileStatus;
+        }
 
         var available_date = $('[name="available_date"]').val();
 
         var medical_facilities = $('[name="medical_facilities"]').val();
+
+        var isChecked = $('#medical_facilities').is(':checked');
+
+        if (isChecked) {
+            medical_facilities = 'Yes';
+        } else {
+             medical_facilities = 'No';
+        }
+        // alert(medical_facilities);
         // var stateworkprefer = selectElement3.val();
 
         // Create a new FormData object
@@ -3669,7 +3817,9 @@ alert();
                         title: 'Success',
                         text: res.message,
                     }).then(function() {
-                        $('a[href="' + targetTab + '"]').tab('show');
+                        var targetTab = 'tab-2'; 
+                        var newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?tab=' + targetTab;
+                        window.location.href = newUrl; 
                     });
                 } else {
                     Swal.fire({
@@ -3688,6 +3838,291 @@ alert();
 
     });
 
+    // thired form        
+    $('.edit-form-3').on('click', function() { 
+            var targetTab = $(this).data('target'); 
+        // Initially deactivate all tabs except the first one
+            // Function to enable the next tab
+            function enableNextTab(targetTab) {
+                // Remove 'active' class
+                // $('a[href="navpill-1"]').removeClass('active');
+                
+                // // Add 'disabled' class
+                // $('a[href="navpill-1"]').addClass('disabled');
+            }
+
+            // Function to enable the next tab
+            function enableNextTab(targetTab) {
+                $('a[href="' + targetTab + '"]').removeClass('disabled').tab('show');
+            }
+        
+        // TYPE OF NURSE
+        var selectElement = $('select[data-list-id="type-of-nurse"]');        
+        // Get the selected value(s) from the Select2 element
+        var type_nurse = selectElement.val();  
+        
+        var selectElement1 = $('select[data-list-id="nursing_entry-1"]');        
+        // Get the selected value(s) from the Select2 element
+        var nursing_entry_first = selectElement1.val();  
+
+        var selectElement2 = $('select[data-list-id="nursing_entry-2"]');       
+        // Get the selected value(s) from the Select2 element
+        var nursing_entry_sec = selectElement2.val(); 
+        
+
+        var selectElement3 = $('select[data-list-id="nursing_entry-3"]');        
+        // Get the selected value(s) from the Select2 element
+        var nursing_entry_thired = selectElement3.val(); 
+
+        var selectElement4 = $('select[data-list-id="nurse_practitioner_menu"]');        
+        // Get the selected value(s) from the Select2 element
+        var nurse_practitioner_menu = selectElement4.val(); 
+
+        // Specialties 
+        var specialtiest_1 = $('select[data-list-id="specialties"]');        
+        // Get the selected value(s) from the Select2 element
+        var specialties = specialtiest_1.val();
+        
+        var specialtiest_2 = $('select[data-list-id="speciality_entry-1"]');        
+        // Get the selected value(s) from the Select2 element
+        var adults = specialtiest_2.val(); 
+
+        var specialtiest_3 = $('select[data-list-id="surgical_row_box"]');        
+        // Get the selected value(s) from the Select2 element
+        var surgical_data = specialtiest_3.val(); 
+
+        var specialtiest_4 = $('select[data-list-id="surgical_operative_care-1"]');        
+        // Get the selected value(s) from the Select2 element
+        var surgical_operative_care_1 = specialtiest_4.val(); 
+
+        var specialtiest_5 = $('select[data-list-id="surgical_operative_care-2"]');        
+        // Get the selected value(s) from the Select2 element
+        var surgical_operative_care_2 = specialtiest_5.val(); 
+        
+        
+        var specialtiest_6 = $('select[data-list-id="surgical_operative_care-3"]');        
+        // Get the selected value(s) from the Select2 element
+        var surgical_operative_care_3 = specialtiest_6.val(); 
+
+        var specialtiest_7 = $('select[data-list-id="speciality_entry-2"]');        
+        // Get the selected value(s) from the Select2 element
+        var speciality_entry_2 = specialtiest_7.val();
+
+        var specialtiest_8 = $('select[data-list-id="surgical_obs_care"]');        
+        // Get the selected value(s) from the Select2 element
+        var surgical_obs_care = specialtiest_8.val();
+        
+        var specialtiest_9 = $('select[data-list-id="speciality_entry-3"]');        
+        // Get the selected value(s) from the Select2 element
+        var speciality_entry_3 = specialtiest_9.val();
+
+        var specialtiest_10 = $('select[data-list-id="neonatal_care"]');        
+        // Get the selected value(s) from the Select2 element
+        var neonatal_care = specialtiest_10.val();
+
+        var specialtiest_11 = $('select[data-list-id="surgical_rowpad_box"]');        
+        // Get the selected value(s) from the Select2 element
+        var surgical_rowpad_box = specialtiest_11.val();
+
+        var specialtiest_12 = $('select[data-list-id="surgical_operative_carep-1"]');        
+        // Get the selected value(s) from the Select2 element
+        var surgical_operative_carep_1 = specialtiest_12.val();
+
+        var specialtiest_13 = $('select[data-list-id="surgical_operative_carep-2"]');        
+        // Get the selected value(s) from the Select2 element
+        var surgical_operative_carep_2 = specialtiest_13.val();
+
+        var specialtiest_14 = $('select[data-list-id="surgical_operative_carep-3"]');        
+        // Get the selected value(s) from the Select2 element
+        var surgical_operative_carep_3 = specialtiest_14.val();
+
+        var specialtiest_15 = $('select[data-list-id="speciality_entry-4"]');        
+        // Get the selected value(s) from the Select2 element
+        var speciality_entry_4 = specialtiest_15.val();
+
+        var employee_status = $('#employee_status').val();
+
+        var bio = $('#bio').val();
+
+        var assistent_level = $('#assistent_level').val();
+
+        var declare_information = $('#declare_information').val();
+
+        var isValid = true;
+
+        if ($('[name="nurseType[]"]').val() == '') {
+        document.getElementById("type_nurse_error").innerHTML = "* Please select one or more Type of nurse";
+        isValid = false;
+        }
+
+        if ($('[name="specialties[]"]').val() == '') {
+        document.getElementById("specialties_error").innerHTML = "* Please select one or more specialties.";
+        isValid = false;
+        }
+
+        // if ($('[name="degree[]"]').val() == '') {
+        //   document.getElementById("reqdegree").innerHTML = "* Please select degree.";
+        //   isValid = false;
+        // }
+
+        if ($('[name="bio"]').val() == '') {
+        document.getElementById("bio_error").innerHTML = "* Please enter the bio.";
+        isValid = false;
+        }
+
+        if ($('[name="employee_status"]').val() == '') {
+        document.getElementById("status_error").innerHTML = "* Please select the employee status.";
+        isValid = false;
+        }
+
+        if($(".declare_information").prop('checked') == false){
+        document.getElementById("diclare_error").innerHTML = "* Please check this checkbox";
+        isValid = false;
+        }
+
+    if(isValid == true){    
+    // Create a new FormData object
+    var formData = new FormData();
+    
+    // if(targetTab ==  '#navpill-2'){
+    
+    formData.append('states',type_nurse);
+    formData.append('entry_level_nursing',nursing_entry_first);
+    formData.append('registered_nurses', nursing_entry_sec);
+    formData.append('advanced_practioner', nursing_entry_thired);
+    formData.append('nurse_prac', nurse_practitioner_menu);
+    formData.append('specialties', specialties);     
+    formData.append('adults', adults);
+    formData.append('surgical_preoperative', surgical_data);
+    formData.append('operating_room', surgical_operative_care_1);
+    formData.append('operating_room_scout', surgical_operative_care_2);
+    formData.append('operating_room_scrub', surgical_operative_care_3);
+    formData.append('maternity', speciality_entry_2);
+    formData.append('surgical_obstrics_gynacology', surgical_obs_care);
+    formData.append('paediatrics_neonatal', speciality_entry_3);
+    formData.append('neonatal_care', neonatal_care);
+    formData.append('paedia_surgical_preoperative',surgical_rowpad_box);
+    formData.append('pad_op_room', surgical_operative_carep_1);
+    formData.append('tab', 'tab2');
+    formData.append('pad_qr_scout',surgical_operative_carep_2);
+    formData.append('pad_qr_scrub', surgical_operative_carep_3);
+    formData.append('community', speciality_entry_4);
+    formData.append('current_employee_status', employee_status);
+    formData.append('bio', bio);
+    formData.append('assistent_level',assistent_level);
+    formData.append('declare_information',declare_information);
+    formData.append('nurse_id', $('#nurse_id').val());
+    
+    $.ajax({
+            url: "{{ route('admin.edit_nurse_post') }}",
+            type: "POST",
+            data: formData,
+            data: formData,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include CSRF token for security
+            },
+            success: function(res) {
+                console.log(res.type);
+
+                    if (res.status == '2') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: res.message,
+                    }).then(function() {
+                        var targetTab = 'tab-3'; 
+                        var newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?tab=' + targetTab;
+                        window.location.href = newUrl;
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: res.message,
+                    });
+                }
+                    // Show the target tab
+            },
+            error: function(error) {
+            // if(targetTab ==  '#navpill-2'){
+                if (error.responseJSON.errors) {
+                    if (error.responseJSON.errors.states) {
+                        $('#type_nurse_error').text(error.responseJSON.errors.states[0]);
+                    } else {
+                        $('#type_nurse_error').text('');
+                    }
+
+                    if (error.responseJSON.errors.specialties) {
+                        $('#specialties_error').text(error.responseJSON.errors.specialties[0]);
+                        
+                    } else {
+                        $('#specialties_error').text('');
+                    }
+
+                    if (error.responseJSON.errors.bio) {
+                        $('#bio_error').text(error.responseJSON.errors.bio[0]);
+                        
+                    } else {
+                        $('#bio_error').text('');
+                    }
+
+                    if (error.responseJSON.errors.declare_information) {
+                        $('#diclare_error').text(error.responseJSON.errors.declare_information[0]);
+                        
+                    } else {
+                        $('#diclare_error').text('');
+                    }
+
+                    
+                // }                        
+                }
+            }
+        });
+
+    }
+
+    // if (!hasErrors) {
+    //     $('a[href="' + targetTab + '"]').tab('show'); // Show the target tab
+    // }
+        
+    });
+
 })
 </script>
+
+<script>
+    $(document).ready(function() {
+        // Get the current query string parameter
+        let urlParams = new URLSearchParams(window.location.search);
+        let tabParam = urlParams.get('tab');
+
+        // If no tab query string is present, default to tab-1
+        if (!tabParam) {
+            // Set the first tab as the default
+            let defaultTab = 'tab-1';
+            // Update the URL to include ?tab=tab-1
+            let newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?tab=' + defaultTab;
+            history.replaceState(null, null, newUrl);
+            // Show the default tab
+            $('.nav-link[href="#' + defaultTab + '"]').tab('show');
+        } else {
+            // If a tab query parameter exists, activate that tab
+            $('.nav-link[href="#' + tabParam + '"]').tab('show');
+        }
+
+        // Update the URL with the tab ID as a query parameter when a tab is shown
+        $('a[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
+            let newTab = $(e.target).attr('href').substring(1); // Get tab ID without the #
+            let newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?tab=' + newTab;
+            history.replaceState(null, null, newUrl);
+        });
+    });
+</script>
+
+
+
+
     
