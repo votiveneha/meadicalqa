@@ -1957,10 +1957,12 @@ function pad(number) {
     return false;
   }
   function stillWorking(i){
+    
     if ($(".still_working-"+i).prop('checked')==true){ 
       $(".working-"+i).hide();
     }else{
       $(".working-"+i).show();
+      $(".end_date-"+i).val("")
     }
   }
   </script>
