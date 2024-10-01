@@ -1717,6 +1717,32 @@ class HomeController extends Controller
         $achievements = $request->achievements;
         $employeement_type = $request->employeement_type;
         $skills_compantancies = json_encode($request->skills_compantancies);
+        $i = 0;    
+        $work_experience_array = array();
+        foreach ($previous_employer_name as $pname) {
+            $previous_employer_name1 = $pname;
+            $positions_held1 = $positions_held[$i];
+            $start_date1 = $start_date[$i];
+            $end_date1 = $end_date[$i];
+            
+            if (isset($present_box[$i])) {
+                    $p_box = 1;
+                }else{
+                    $p_box = 0;
+                }
+            $employeement_type1 = $employeement_type[$i];
+            $job_responeblities1 = $job_responeblities[$i];
+            $achievements1 = $achievements[$i];
+
+            $work_experience_array[] = array("previous_employer_name1"=>$previous_employer_name1,"positions_held1"=>$positions_held1,"start_date1"=>$start_date1,"end_date1"=>$end_date1,"present_box1"=>$p_box,"employeement_type1"=>$employeement_type1,"job_responeblities1"=>$job_responeblities1,"achievements1"=>$achievements1);
+            $i++;
+        }
+
+        if(!empty($work_experience_array)){
+            $work_experience_json = json_encode($work_experience_array);
+        }else{
+            $work_experience_json = '';
+        }
         
         
         $getexperiencedata = DB::table("user_experience")->where("user_id",$user_id)->first();
@@ -1727,7 +1753,7 @@ class HomeController extends Controller
             $post1->assistent_level = $year_experience;
             $post1->save();
             
-            $run = ExperienceModel::where('user_id',$user_id)->update(['employer_name'=>$previous_employer_name,'position_held'=>$positions_held,'employeement_start_date'=>$start_date,'employeement_end_date'=>$end_date,'employeement_type'=>$employeement_type,'present_status'=>$present_box,'responsiblities'=>$job_responeblities,'achievements'=>$achievements,'skills_compantancies'=>$skills_compantancies,'complete_status'=>1]);
+            $run = ExperienceModel::where('user_id',$user_id)->update(['work_experience'=>$work_experience_json,'skills_compantancies'=>$skills_compantancies,'complete_status'=>1]);
         }else{
 
             
@@ -1736,14 +1762,7 @@ class HomeController extends Controller
             $post->user_id = $user_id;
             
             //$post->year_experience = $year_experience;
-            $post->employer_name = $previous_employer_name;
-            $post->position_held = $positions_held;
-            $post->employeement_start_date = $start_date;
-            $post->employeement_end_date = $end_date;
-            $post->employeement_type = $employeement_type;
-            $post->present_status = $present_box;
-            $post->responsiblities = $job_responeblities;
-            $post->achievements = $achievements;
+            $post->work_experience = $work_experience_json;
             $post->skills_compantancies = $skills_compantancies;
             $post->complete_status = 1;
             $run = $post->save();
@@ -1827,6 +1846,17 @@ class HomeController extends Controller
 
         echo json_encode($json);
 
+    }
+
+    public function deleteReferee(Request $request){
+        $user_id = $request->user_id;
+        $referee_id = $request->referee_id;
+
+        $deleteData = DB::table("referee")->where("user_id",$user_id)->where("referee_id",$referee_id)->delete();
+
+        if($deleteData){
+            return 1;
+        }
     }
 
     public function vaccinationForm(Request $request){

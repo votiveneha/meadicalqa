@@ -1908,6 +1908,7 @@
                               </ul>
                           <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="nlc_data" name="nl_data[]" multiple="multiple"></select>
                         </div>
+                        </div>
                         <div class="another_certifications">
                           <h6 class="emergency_text">
                             Another Certifications 
@@ -2426,146 +2427,177 @@
                     </select>
                   </div> -->
                   <span id="reqlevelexpereience" class="reqError text-danger valley"></span>
-                  <h6 class="emergency_text">
-                    Previous Employers 
-                  </h6>
-                  <div class="form-group level-drp">
-                    <label class="form-label" for="input-1">Names</label>
-                    <input class="form-control" type="text" name="previous_employer_name" value="@if(!empty($experienceData)) {{$experienceData->employer_name}}@endif">
-                    <span id="reqnames" class="reqError text-danger valley"></span>
-                  </div>
-                  <div class="form-group level-drp">
-                    <label class="form-label" for="input-1">Position Held</label>
-                    <input type="hidden" name="position_held" class="position_held" value="@if(!empty($experienceData)){{ $experienceData->position_held }}@endif">
+                  
+                  <?php
+                    if(!empty($experienceData)){
+                      $work_experience_data = json_decode($experienceData->work_experience);
+                    }else{
+                      $work_experience_data = "";
+                    }
+
+                  ?>
+
+                  <div class="previous_employeers">
                     <?php
-                        $practitioner_type = DB::table("practitioner_type")->get();
-                      ?>
-                    <ul id="positions_held" style="display:none;">
-                        @foreach($practitioner_type as $cert)
-                        <li data-value="{{ $cert->id }}">{{ $cert->name }}</li>
-                        @endforeach
+                      $i = 1;
+                    ?>
+                    @if(!empty($work_experience_data))
+                      @foreach($work_experience_data as $w_data)
+                        <h6 class="emergency_text previous_employeers_head">
+                      Previous Employers {{ $i }}
+                      </h6>
+                      <div class="form-group level-drp">
+                        <label class="form-label" for="input-1">Organisation Name</label>
+                        <input class="form-control" type="text" name="previous_employer_name[]" value="{{$w_data->previous_employer_name1}}">
+                        <span id="reqnames" class="reqError text-danger valley"></span>
+                      </div>
+                      <div class="form-group level-drp">
+                       
+
                         
-                    </ul>
-                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="positions_held" name="positions_held[]" multiple="multiple"></select>
-                    
-                  </div>
-                  <span id="reqpositionheld" class="reqError text-danger valley"></span>
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="form-group level-drp">
-                        <label class="form-label" for="input-1">Employment Start Date</label>
-                        <input class="form-control employeement_start_date" type="date" name="start_date" value="@if(!empty($experienceData)){{ $experienceData->employeement_start_date }}@endif" onchange="changeEmployeementStartDate(event);">
-                        <span id="reqempsdate" class="reqError text-danger valley"></span>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group level-drp">
-                        <label class="form-label" for="input-1">Employment End Date</label>
-                        <input class="form-control employeement_end_date" type="date" name="end_date" value="@if(!empty($experienceData)){{ $experienceData->employeement_end_date }}@endif" onchange="changeEmployeementEndDate(event)">
-                        <span id="reqemployeementenddate" class="reqError text-danger valley"></span>
-                      </div>
-                      <div class="declaration_box">
-                        <input class="declare_information" type="checkbox" name="present_box" value="1" @if(!empty($experienceData))@if(!empty($experienceData->present_status == 1 )) checked @endif @endif>I am currently in this position at the moment
-                      </div>
-                    </div>
-                    <script type="text/javascript">
-                      function changeEmployeementEndDate(e){
-                        var end_date = e.target.value;
-                        var start_date = $('.employeement_start_date').val();
-                        //alert(end_date);
-                        if(end_date < start_date){
-                          $("#reqemployeementenddate").html("End date should not less than start date");
-                        }else{
-                          if(end_date == start_date){
-                            $("#reqemployeementenddate").html("End date should not equal to start date");
-                          }else{
-                            $("#reqemployeementenddate").html("");
-                          }
+                            <label class="form-label" for="input-1">Position Held</label>
+                            <select class="form-control" name="positions_held[]">
+                              <option value="">Position Held</option>
+                              <option value="Team Member" @if($w_data->positions_held1 == "Team Member") selected @endif>Team Member</option>
+                              <option value="Team Leader" @if($w_data->positions_held1 == "Team Leader") selected @endif>Team Leader</option>
+                              <option value="Educator" @if($w_data->positions_held1 == "Educator") selected @endif>Educator</option>
+                              <option value="Manager" @if($w_data->positions_held1 == "Manager") selected @endif>Manager</option>
+                              <option value="Clinical Specialist" @if($w_data->positions_held1 == "Clinical Specialist") selected @endif>Clinical Specialist</option>
+                            </select>
+                            <span id="reqpositionheld" class="reqError text-danger valley"></span>
                           
-                        }
-                        
-                      }
-
-                      var start_date = $('.employeement_start_date').val();
-                      
-                      var date = new Date(start_date);
-
-                        
-
-                      // Add five days to current date
-                      date.setDate(date.getDate() + 1);
-                      var date1 = new Date(date);
-
-                      
-                      //var str = date1.toLocaleDateString();
-                      var year_val = `${date1.getFullYear()}`;
-                      var month_val = `${date1.getMonth() + 1}`;
-                      var date_val = `${date1.getDate()}`;
-
-                      var month_len = month_val.length;
-                      if(month_len<2){
-                        var show_month = 0+month_val;
-                      }else{
-                        var show_month = month_val
-                      }
-                      const formattedDate1 = year_val+"-"+show_month+"-"+date_val;
-                      console.log("month_val",formattedDate);
-                      
-                      document.getElementsByName("end_date")[0].setAttribute('min', formattedDate1);
-
-                      function changeEmployeementStartDate(e){
-                        var start_date = e.target.value;
-                        //alert(start_date);
-                        var date = new Date(start_date);
-                        // Add five days to current date
-                        date.setDate(date.getDate() + 1);
-                        var date1 = new Date(date);
-
-                        
-                        //var str = date1.toLocaleDateString();
-                        var year_val = `${date1.getFullYear()}`;
-                        var month_val = `${date1.getMonth() + 1}`;
-                        var date_val = `${date1.getDate()}`;
-
-                        var month_len = month_val.length;
-                        if(month_len<2){
-                          var show_month = 0+month_val;
-                        }else{
-                          var show_month = month_val
-                        }
-                        const formattedDate = year_val+"-"+show_month+"-"+date_val;
-                        console.log("month_val",formattedDate);
-                        
-                        document.getElementsByName("end_date")[0].setAttribute('min', formattedDate);
-                      }
-                    </script>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="form-group level-drp">
-                        <label class="form-label" for="input-1">Employment type</label>
-                        <select class="form-control" name="employeement_type">
-                          <option value="">Employment type</option>
-                          <option value="Agency" @if(!empty($experienceData) && $experienceData->employeement_type == "Agency") selected @endif>Agency</option>
-                          <option value="Staffing Agency" @if(!empty($experienceData) && $experienceData->employeement_type == "Staffing Agency") selected @endif>Staffing Agency</option>
-                        </select>
-                        <span id="reqemptype" class="reqError text-danger valley"></span>
                       </div>
+                      <span id="reqpositionheld" class="reqError text-danger valley"></span>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="form-group level-drp">
+                            <label class="form-label" for="input-1">Employment Start Date</label>
+                            <input class="form-control employeement_start_date employeement_start_date-{{ $i }}" type="date" name="start_date[]" value="{{ $w_data->start_date1 }}" onchange="changeEmployeementEndDate('{{ $i }}');" onkeydown="return false">
+                            <span id="reqempsdate" class="reqError text-danger valley"></span>
+                          </div>
+                          <div class="declaration_box">
+                            <input class="declare_information" type="checkbox" name="present_box[]" value="1" @if(!empty($w_data->present_box1 == 1 )) checked @endif>I am currently in this position at the moment
+
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group level-drp">
+                            <label class="form-label" for="input-1">Employment End Date</label>
+                            <input class="form-control employeement_end_date employeement_end_date-{{ $i }}" type="date" name="end_date[]" value="{{ $w_data->end_date1 }}" onkeydown="return false">
+                            <span id="reqemployeementenddate" class="reqError text-danger valley"></span>
+                          </div>
+                          
+                        </div>
+                        
+                      </div>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="form-group level-drp">
+                            <label class="form-label" for="input-1">Employment type</label>
+                            <select class="form-control" name="employeement_type[]">
+                              <option value="">Employment type</option>
+                              <option value="Agency" @if($w_data->employeement_type1 == "Agency") selected @endif>Agency</option>
+                              <option value="Staffing Agency" @if($w_data->employeement_type1 == "Staffing Agency") selected @endif>Staffing Agency</option>
+                            </select>
+                            <span id="reqemptype" class="reqError text-danger valley"></span>
+                          </div>
+                        </div>
+                      </div>
+                      <h6 class="emergency_text">
+                      Detailed Job Descriptions  
+                    </h6>
+                    <div class="form-group level-drp">
+                      <label class="form-label" for="input-1">Responsibilities</label>
+                      <textarea class="form-control" name="job_responeblities[]">{{ $w_data->job_responeblities1 }}</textarea>
+                      <span id="reqresposiblities" class="reqError text-danger valley"></span>
                     </div>
+                    <div class="form-group level-drp">
+                      <label class="form-label" for="input-1">Achievements</label>
+                      <textarea class="form-control" name="achievements[]">{{ $w_data->achievements1 }}</textarea>
+                      <span id="reqachievements" class="reqError text-danger valley"></span>
+                    </div>
+                        <?php
+                          $i++;
+                        ?>
+                      @endforeach
+                    @else
+                    <h6 class="emergency_text">
+                      Previous Employers 
+                    </h6>
+                    <div class="form-group level-drp">
+                      <label class="form-label" for="input-1">Organisation Name</label>
+                      <input class="form-control" type="text" name="previous_employer_name[]">
+                      <span id="reqnames" class="reqError text-danger valley"></span>
+                    </div>
+                    <div class="form-group level-drp">
+                     
+
+                      <div class="form-group level-drp">
+                          <label class="form-label" for="input-1">Position Held</label>
+                          <select class="form-control" name="positions_held[]">
+                            <option value="">Position Held</option>
+                            <option value="Team Member">Team Member</option>
+                            <option value="Team Leader">Team Leader</option>
+                            <option value="Educator">Educator</option>
+                            <option value="Manager">Manager</option>
+                            <option value="Clinical Specialist">Clinical Specialist</option>
+                          </select>
+                          <span id="reqpositionheld" class="reqError text-danger valley"></span>
+                        </div>
+                    </div>
+                    <span id="reqpositionheld" class="reqError text-danger valley"></span>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group level-drp">
+                          <label class="form-label" for="input-1">Employment Start Date</label>
+                          <input class="form-control employeement_start_date employeement_start_date-1" type="date" name="start_date[]" onchange="changeEmployeementEndDate(1)" onkeydown="return false">
+                          <span id="reqempsdate" class="reqError text-danger valley"></span>
+                        </div>
+                        <div class="declaration_box">
+                          <input class="declare_information" type="checkbox" name="present_box[]" value="1">I am currently in this position at the moment
+
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group level-drp">
+                          <label class="form-label" for="input-1">Employment End Date</label>
+                          <input class="form-control employeement_end_date employeement_end_date-1" type="date" name="end_date[]" onkeydown="return false">
+                          <span id="reqemployeementenddate" class="reqError text-danger valley"></span>
+                        </div>
+                        
+                      </div>
+                      
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group level-drp">
+                          <label class="form-label" for="input-1">Employment type</label>
+                          <select class="form-control" name="employeement_type[]">
+                            <option value="">Employment type</option>
+                            <option value="Agency">Agency</option>
+                            <option value="Staffing Agency">Staffing Agency</option>
+                          </select>
+                          <span id="reqemptype" class="reqError text-danger valley"></span>
+                        </div>
+                      </div>
+                      </div>
+                      <h6 class="emergency_text">
+                      Detailed Job Descriptions  
+                    </h6>
+                    <div class="form-group level-drp">
+                      <label class="form-label" for="input-1">Responsibilities</label>
+                      <textarea class="form-control" name="job_responeblities[]"></textarea>
+                      <span id="reqresposiblities" class="reqError text-danger valley"></span>
+                    </div>
+                    <div class="form-group level-drp">
+                      <label class="form-label" for="input-1">Achievements</label>
+                      <textarea class="form-control" name="achievements[]"></textarea>
+                      <span id="reqachievements" class="reqError text-danger valley"></span>
+                    </div>
+
+                    @endif
                   </div>
-                  <h6 class="emergency_text">
-                    Detailed Job Descriptions  
-                  </h6>
-                  <div class="form-group level-drp">
-                    <label class="form-label" for="input-1">Responsibilities</label>
-                    <textarea class="form-control" name="job_responeblities">@if(!empty($experienceData)) {{ $experienceData->responsiblities }}@endif</textarea>
-                    <span id="reqresposiblities" class="reqError text-danger valley"></span>
-                  </div>
-                  <div class="form-group level-drp">
-                    <label class="form-label" for="input-1">Achievements</label>
-                    <textarea class="form-control" name="achievements">@if(!empty($experienceData)){{ $experienceData->achievements }}@endif</textarea>
-                    <span id="reqachievements" class="reqError text-danger valley"></span>
-                  </div>
+                  
                   <h6 class="emergency_text">
                     Areas of Expertise  
                   </h6>
@@ -2584,11 +2616,91 @@
                     <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="skills_compantancies" name="skills_compantancies[]" multiple="multiple"></select>
                   </div>
                   <span id="reqexpertise" class="reqError text-danger valley"></span>
+                  <div class="add_new_certification_div mb-3 mt-3">
+                    <a style="cursor: pointer;" onclick="add_work_experience()">+ Add another work experience</a>
+                  </div>
                   <div class="box-button mt-15">
                     <button class="btn btn-apply-big font-md font-bold" type="submit" id="submitExperience">Save Changes</button>
                   </div>    
                   </form>
                 </div>
+                <script type="text/javascript">
+                            function changeEmployeementEndDate(i){
+                              //alert(i);
+                                var start_date = $(".employeement_start_date-"+i).val();
+                                console.log("start_date",$(".employeement_start_date-"+i).val());
+                                var date = new Date(start_date);
+                                
+                                date.setDate(date.getDate() + 1);
+                                
+
+                                var start_date1 = new Date(date);
+                                var month = start_date1.getMonth() + 1;
+                                if(month.toString().length == 1){
+                                  var month1 = "0"+month;
+                                }else{
+                                  var month1 = month;
+                                }
+                                var day = start_date1.getDate();
+
+                                if(day.toString().length == 1){
+
+                                  var day1 = "0"+day;
+
+                                }else{
+
+                                  var day1 = day;
+
+                                }
+                                var year = start_date1.getFullYear();
+                                var new_date = year+"-"+month1+"-"+day1;
+                                console.log("refree_start_date",new_date);
+                                document.getElementsByClassName("employeement_end_date-"+i)[0].setAttribute('min', new_date);
+                            }
+                            
+                            var i = 1;
+                            $(".employeement_start_date").each(function(){
+                              console.log("employeement_start_date",$(".employeement_start_date-"+i).val());
+                              var start_date = $(".employeement_start_date-"+i).val();
+                                
+                              var date = new Date(start_date);
+                              
+                              date.setDate(date.getDate() + 1);
+                              
+
+                              var start_date1 = new Date(date);
+                              var month = start_date1.getMonth() + 1;
+                              if(month.toString().length == 1){
+                                var month1 = "0"+month;
+                              }else{
+                                var month1 = month;
+                              }
+                              var day = start_date1.getDate();
+
+                              if(day.toString().length == 1){
+
+                                var day1 = "0"+day;
+
+                              }else{
+
+                                var day1 = day;
+
+                              }
+                              var year = start_date1.getFullYear();
+                              var new_date = year+"-"+month1+"-"+day1;
+                              console.log("refree_start_date",new_date);
+                              document.getElementsByClassName("employeement_end_date-"+i)[0].setAttribute('min', new_date);
+                              i++;
+                            });
+                            
+                            var previous_employeers_head = $(".previous_employeers_head").length;
+                            function add_work_experience(){
+                              previous_employeers_head++;
+                              $(".previous_employeers").append('<h6 class="emergency_text">Previous Employers '+previous_employeers_head+'</h6><div class="form-group level-drp"><label class="form-label" for="input-1">Organisation Name</label><input class="form-control" type="text" name="previous_employer_name[]"><span id="reqnames" class="reqError text-danger valley"></span></div><div class="form-group level-drp"><div class="form-group level-drp"><label class="form-label" for="input-1">Position Held</label><select class="form-control" name="positions_held[]"><option value="">Position Held</option><option value="Team Member">Team Member</option><option value="Team Leader">Team Leader</option><option value="Educator">Educator</option><option value="Manager">Manager</option><option value="Clinical Specialist">Clinical Specialist</option></select><span id="reqpositionheld" class="reqError text-danger valley"></span></div></div><span id="reqpositionheld" class="reqError text-danger valley"></span><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Employment Start Date</label><input class="form-control employeement_start_date employeement_start_date-'+previous_employeers_head+'" type="date" name="start_date[]" onchange="changeEmployeementEndDate('+previous_employeers_head+')"><span id="reqempsdate" class="reqError text-danger valley"></span></div></div><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Employment End Date</label><input class="form-control employeement_end_date-'+previous_employeers_head+'" type="date" name="end_date[]"><span id="reqemployeementenddate" class="reqError text-danger valley"></span></div><div class="declaration_box"><input class="declare_information" type="checkbox" name="present_box[]" value="1">I am currently in this position at the moment</div></div><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Employment type</label><select class="form-control" name="employeement_type[]"><option value="">Employment type</option><option value="Agency">Agency</option><option value="Staffing Agency">Staffing Agency</option></select><span id="reqemptype" class="reqError text-danger valley"></span></div></div></div><h6 class="emergency_text">Detailed Job Descriptions</h6><div class="form-group level-drp"><label class="form-label" for="input-1">Responsibilities</label><textarea class="form-control" name="job_responeblities[]"></textarea><span id="reqresposiblities" class="reqError text-danger valley"></span></div><div class="form-group level-drp"><label class="form-label" for="input-1">Achievements</label><textarea class="form-control" name="achievements[]"></textarea><span id="reqachievements" class="reqError text-danger valley"></span></div>');
+                              
+                            }
+                  
+                </script>
               </div>
               <div class="tab-pane fade" id="tab-references" role="tabpanel" aria-labelledby="tab-references" style="display: none"><br>
                 <h3 class="mt-0 color-brand-1 mb-20">References</h3>
@@ -2606,6 +2718,7 @@
                       $i = 1;
                     ?>
                     @foreach($get_reference_data as $referee_data)
+                    <div class="referee_data referee_data-{{ $i }}">
                     <h6 class="mt-0 color-brand-1 mb-20 referee_no">References {{ $i }}</h6>  
                     <div class="row">
                       <div class="col-md-6">
@@ -2696,6 +2809,19 @@
                         
                       
                       </div>
+                      </div>
+                      @if($i != 1)
+                      <?php
+                        $user_id = Auth::guard('nurse_middle')->user()->id;
+                      ?>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="add_new_certification_div mb-3 mt-3">
+                            <a style="cursor: pointer;" onclick="delete_reference('{{ $i }}','{{ $user_id }}','{{ $referee_data->referee_id }}')">- Delete Referee</a>
+                          </div>
+                        </div>
+                      </div>
+                    @endif
                     </div>
                     <?php
                       $i++;
@@ -2874,7 +3000,7 @@
                             console.log("licence_div_count",referee_div_count);
                             function add_another_referee(){
                               referee_div_count++;
-                              $(".reference_form").append('<h6 class="mt-0 color-brand-1 mb-20 referee_no">References '+referee_div_count+'</h6><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">First name</label><input class="form-control first_name first_name-'+referee_div_count+'" type="text" name="first_name[]"><span id="reqfname-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Last name</label><input class="form-control last_name last_name-'+referee_div_count+'" type="text" name="last_name[]"><span id="reqlname-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div></div><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Email</label><input class="form-control reference_email reference_email-'+referee_div_count+'" type="text" name="email[]"><span id="reqemail-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Phone number</label><input class="form-control phone_no phone_no-'+referee_div_count+'" type="text" name="phone_no[]"><span id="reqphoneno-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div></div><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Relationship</label><select class="form-input reference_relationship reference_relationship-'+referee_div_count+'" name="reference_relationship[]"><option value="" data-select2-id="9">Select Reference Relationship</option><option value="Brother">Brother</option><option value="Sister">Sister</option><option value="Sister">Cousin</option></select><span id="reqreferencerel-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">You worked together at:</label><input class="form-control worked_together worked_together-'+referee_div_count+'" type="text" name="worked_together[]"><span id="reqworked_together-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div></div><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">What was your position when you worked with this referee?</label><input class="form-control position_with_referee position_with_referee-'+referee_div_count+'" type="text" name="position_with_referee[]"><span id="reqpositionreferee-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div></div><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Start Date</label><input class="form-control start_date start_date-'+referee_div_count+'" type="date" name="start_date[]" onchange="startDate('+referee_div_count+')" onkeydown="return false"><span id="reqrefereesdate-'+referee_div_count+'" class="reqError text-danger valley"></span><div class="declaration_box"><input class="still_working still_working-'+referee_div_count+'" type="checkbox" name="still_working[]" onclick="stillWorking('+referee_div_count+')">I am still working with this referee<span id="reqstillworking-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div></div><div class="col-md-6"><div class="form-group level-drp working-'+referee_div_count+'"><label class="form-label" for="input-1">End Date</label><input class="form-control end_date end_date-'+referee_div_count+'" type="date" name="end_date[]" onkeydown="return false"><span id="reqrefereeedate-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div>');
+                              $(".reference_form").append('<div class="referee_data referee_data-'+referee_div_count+'"><h6 class="mt-0 color-brand-1 mb-20 referee_no">References '+referee_div_count+'</h6><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">First name</label><input class="form-control first_name first_name-'+referee_div_count+'" type="text" name="first_name[]"><span id="reqfname-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Last name</label><input class="form-control last_name last_name-'+referee_div_count+'" type="text" name="last_name[]"><span id="reqlname-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div></div><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Email</label><input class="form-control reference_email reference_email-'+referee_div_count+'" type="text" name="email[]"><span id="reqemail-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Phone number</label><input class="form-control phone_no phone_no-'+referee_div_count+'" type="text" name="phone_no[]"><span id="reqphoneno-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div></div><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Relationship</label><select class="form-input reference_relationship reference_relationship-'+referee_div_count+'" name="reference_relationship[]"><option value="" data-select2-id="9">Select Reference Relationship</option><option value="Brother">Brother</option><option value="Sister">Sister</option><option value="Sister">Cousin</option></select><span id="reqreferencerel-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">You worked together at:</label><input class="form-control worked_together worked_together-'+referee_div_count+'" type="text" name="worked_together[]"><span id="reqworked_together-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div></div><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">What was your position when you worked with this referee?</label><input class="form-control position_with_referee position_with_referee-'+referee_div_count+'" type="text" name="position_with_referee[]"><span id="reqpositionreferee-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div></div><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Start Date</label><input class="form-control start_date start_date-'+referee_div_count+'" type="date" name="start_date[]" onchange="startDate('+referee_div_count+')" onkeydown="return false"><span id="reqrefereesdate-'+referee_div_count+'" class="reqError text-danger valley"></span><div class="declaration_box"><input class="still_working still_working-'+referee_div_count+'" type="checkbox" name="still_working[]" onclick="stillWorking('+referee_div_count+')">I am still working with this referee<span id="reqstillworking-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div></div><div class="col-md-6"><div class="form-group level-drp working-'+referee_div_count+'"><label class="form-label" for="input-1">End Date</label><input class="form-control end_date end_date-'+referee_div_count+'" type="date" name="end_date[]" onkeydown="return false"><span id="reqrefereeedate-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div><div class="row"><div class="col-md-6"><div class="add_new_certification_div mb-3 mt-3"><a style="cursor: pointer;" onclick="delete_reference1('+referee_div_count+')">- Delete Referee</a></div></div></div></div>');
                               
                             }
                           </script>
@@ -4376,10 +4502,10 @@
   //   $('.js-example-basic-multiple[data-list-id="training_workshop"]').select2().val(training_workshops).trigger('change');
   // }
 
-  if($(".position_held").val() != ""){
-    var position_held = JSON.parse($(".position_held").val());
-    $('.js-example-basic-multiple[data-list-id="positions_held"]').select2().val(position_held).trigger('change');
-  }
+  // if($(".position_held").val() != ""){
+  //   var position_held = JSON.parse($(".position_held").val());
+  //   $('.js-example-basic-multiple[data-list-id="positions_held"]').select2().val(position_held).trigger('change');
+  // }
 
   if($(".skills_comp").val() != ""){
     var skills_comp = JSON.parse($(".skills_comp").val());

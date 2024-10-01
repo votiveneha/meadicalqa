@@ -494,6 +494,7 @@
   }
 
  });
+
 </script>
 
 
@@ -3095,7 +3096,7 @@ $(document).ready(function() {
     
 
     <script>
-    $('.js-example-basic-multiple[data-list-id="profess_cert"]').on('change', function() {
+     $('.js-example-basic-multiple[data-list-id="profess_cert"]').on('change', function() {
         let selectedValues = $(this).val();
         
         console.log("selectedValues",selectedValues);
@@ -3106,6 +3107,8 @@ $(document).ready(function() {
         }else{
             $('.procertdiv').addClass('d-none');
             $('.license_number_acls').addClass('d-none');
+            $('.acls_certification_div').addClass('d-none');
+            $('.js-example-basic-multiple[data-list-id="acls_data"]').select2().val(null).trigger('change');
         }
         if(selectedValues.includes("7")){
             $('.procertdivone').removeClass('d-none');
@@ -3113,6 +3116,8 @@ $(document).ready(function() {
         }else{
             $('.procertdivone').addClass('d-none');
             $('.license_number_bls').addClass('d-none');
+            $('.bls_certification_div').addClass('d-none');
+            $('.js-example-basic-multiple[data-list-id="bls_data"]').select2().val(null).trigger('change');
         }
         if(selectedValues.includes("8")){
             $('.procertdivtwo').removeClass('d-none');
@@ -3120,6 +3125,8 @@ $(document).ready(function() {
         }else{
             $('.procertdivtwo').addClass('d-none');
             $('.license_number_cpr').addClass('d-none');
+            $('.cpr_certification_div').addClass('d-none');
+            $('.js-example-basic-multiple[data-list-id="cpr_data"]').select2().val(null).trigger('change');
         }
         if(selectedValues.includes("9")){
             $('.procertdivthree').removeClass('d-none');
@@ -3128,37 +3135,51 @@ $(document).ready(function() {
         }else{
             $('.procertdivthree').addClass('d-none');
             $('.license_number_nrp').addClass('d-none');
+            $('.nrp_certification_div').addClass('d-none');
+            $('.js-example-basic-multiple[data-list-id="nrp_data"]').select2().val(null).trigger('change');
             
         }
         if(selectedValues.includes("10")){
             $('.procertdivfour').removeClass('d-none');
             $('.license_number_pals').removeClass('d-none');
             
+            
         }else{
             $('.procertdivfour').addClass('d-none');
-            $('.license_number_pals').addClass('d-none');   
+            $('.license_number_pals').addClass('d-none'); 
+            $('.pls_certification_div').addClass('d-none');
+            $('.js-example-basic-multiple[data-list-id="pls_data"]').select2().val(null).trigger('change');  
         }
         if(selectedValues.includes("11")){
             $('.procertdivfive').removeClass('d-none');
             $('.license_number_rn').removeClass('d-none');
+            
         }else{
             $('.procertdivfive').addClass('d-none');
             $('.license_number_rn').addClass('d-none'); 
+            $('.rn_certification_div').addClass('d-none');
+            $('.js-example-basic-multiple[data-list-id="rn_data"]').select2().val(null).trigger('change');
         }
         if(selectedValues.includes("12")){
             $('.procertdivsix').removeClass('d-none');
             $('.license_number_cn').removeClass('d-none');
         }else{
+
             $('.procertdivsix').addClass('d-none');
             $('.license_number_cn').addClass('d-none');
+            $('.cna_certification_div').addClass('d-none');
+            $('.js-example-basic-multiple[data-list-id="cn_data"]').select2().val(null).trigger('change');
         }
 
         if(selectedValues.includes("13")){
             $('.procertdivseven').removeClass('d-none');
             $('.license_number_lpn').removeClass('d-none');
+            
         }else{
             $('.procertdivseven').addClass('d-none');
             $('.license_number_lpn').addClass('d-none');
+            $('.lpn_certification_div').addClass('d-none');
+            $('.js-example-basic-multiple[data-list-id="lpn_data"]').select2().val(null).trigger('change');
         }
         if(selectedValues.includes("14")){
             $('.procertdiveight').removeClass('d-none');
@@ -3166,6 +3187,8 @@ $(document).ready(function() {
         }else{
             $('.procertdiveight').addClass('d-none');
             $('.license_number_crn').addClass('d-none');
+            $('.crn_certification_div').addClass('d-none');
+            $('.js-example-basic-multiple[data-list-id="crn_data"]').select2().val(null).trigger('change');
         }
         if(selectedValues.includes("15")){
             $('.procertdivnine').removeClass('d-none');
@@ -3173,6 +3196,8 @@ $(document).ready(function() {
         }else{
             $('.procertdivnine').addClass('d-none');
             $('.license_number_cnm').addClass('d-none');
+            $('.cnm_certification_div').addClass('d-none');
+            $('.js-example-basic-multiple[data-list-id="cnm_data"]').select2().val(null).trigger('change');
         }
         if(selectedValues.includes("16")){
             $('.procertdivten').removeClass('d-none');
@@ -3180,6 +3205,8 @@ $(document).ready(function() {
         }else{
             $('.procertdivten').addClass('d-none');
             $('.license_number_ons').addClass('d-none');
+            $('.ons_certification_div').addClass('d-none');
+            $('.js-example-basic-multiple[data-list-id="ons_data"]').select2().val(null).trigger('change');
         }
         if(selectedValues.includes("17")){
             $('.procertdiveleven').removeClass('d-none');
@@ -3187,6 +3214,8 @@ $(document).ready(function() {
         }else{
             $('.procertdiveleven').addClass('d-none');
             $('.license_number_msw').addClass('d-none');
+            $('.msw_certification_div').addClass('d-none');
+            $('.js-example-basic-multiple[data-list-id="msw_data"]').select2().val(null).trigger('change');
         }
         if(selectedValues.includes("18")){
             $('.procertdivtwelfth').removeClass('d-none');
@@ -3194,6 +3223,8 @@ $(document).ready(function() {
         }else{
             $('.procertdivtwelfth').addClass('d-none');
             $('.license_number_np').addClass('d-none');
+            $('.np_certification_div').addClass('d-none');
+            $('.js-example-basic-multiple[data-list-id="np_data"]').select2().val(null).trigger('change');
         }
         if(selectedValues.includes("19")){
             $('.procertdivthirteen').removeClass('d-none');
@@ -3201,6 +3232,8 @@ $(document).ready(function() {
         }else{
             $('.procertdivthirteen').addClass('d-none');
             $('.license_number_ain').addClass('d-none');
+            $('.ain_certification_div').addClass('d-none');
+            $('.js-example-basic-multiple[data-list-id="ain_data"]').select2().val(null).trigger('change');
         }
         if(selectedValues.includes("20")){
             $('.procertdivfourteen').removeClass('d-none');
@@ -3208,6 +3241,8 @@ $(document).ready(function() {
         }else{
             $('.procertdivfourteen').addClass('d-none');
             $('.license_number_rpn').addClass('d-none');
+            $('.rpn_certification_div').addClass('d-none');
+            $('.js-example-basic-multiple[data-list-id="rpn_data"]').select2().val(null).trigger('change');
         }
         if(selectedValues.includes("21")){
             $('.procertdivfiveteen').removeClass('d-none');
@@ -3215,7 +3250,547 @@ $(document).ready(function() {
         }else{
             $('.procertdivfiveteen').addClass('d-none');
             $('.license_number_nlc').addClass('d-none');
+            
+            $('.js-example-basic-multiple[data-list-id="nlc_data"]').select2().val(null).trigger('change');
         }          
+    });
+    $('.js-example-basic-multiple[data-list-id="acls_data"]').on('change', function() {
+        let selectedValues = $(this).val();
+        var acls_certification_array = [];
+        $('.acls_certification_div').removeClass('d-none');
+        $(".acls_certification_div h6").each(function(){
+          var text = $(this).text();
+          if(selectedValues.includes(text) == false){
+            let res = text.split(' ')[0];
+            let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
+            console.log("res_one",res_one);
+
+            $(".acls_"+res_one).remove();
+          }
+          acls_certification_array.push(text);
+        });
+        console.log("selectedValues",selectedValues);
+        
+        //$(".bls_certification_div").empty();
+        for(var i = 0;i<selectedValues.length;i++){
+          var selected_text = selectedValues[i].replace(/ .*/,'').replace(/[^\w\s]/gi, '').toLowerCase();
+          let res = selectedValues[i].split(' ')[0];
+          let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
+          console.log("res_one",res_one);
+
+          if(acls_certification_array.includes(selectedValues[i]) == false){
+            
+            
+            $(".acls_certification_div").append('<div class="acls_'+res_one+' cert_div_'+selected_text+'"><h4 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3 cert_head_'+selected_text+'">'+selectedValues[i]+'</h4><input type="hidden" name="aclsnamearr[]" class="bls_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control acls_license_number acls_license_number-'+i+'" type="text" name="acls_license_number[]"><span id="reqaclslicencevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control aclsexpiry aclsexpiry-'+i+'" type="date" name="acls_expiry[]"><span id="reqaclsexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control acls_upload_certification acls_upload_certification-'+i+'" type="file" name="acls_upload_certification[]"><span id="reqaclsuploadvalid-'+i+'" class="reqError text-danger valley"></span></div></div></div>');
+
+            
+          }
+        }
+
+        
+    });
+     $('.js-example-basic-multiple[data-list-id="bls_data"]').on('change', function() {
+        let selectedValues = $(this).val();
+        var bls_certification_array = [];
+        $('.bls_certification_div').removeClass('d-none');
+        $(".bls_certification_div h6").each(function(){
+          var text = $(this).text();
+          if(selectedValues.includes(text) == false){
+            let res = text.split(' ')[0];
+            let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
+            console.log("res_one2",res_one);
+
+            $(".bls_"+res_one).remove();
+          }
+          bls_certification_array.push(text);
+        });
+        console.log("selectedValues",selectedValues);
+        
+        //$(".bls_certification_div").empty();
+        for(var i = 0;i<selectedValues.length;i++){
+          var selected_text = selectedValues[i].replace(/ .*/,'').replace(/[^\w\s]/gi, '').toLowerCase();
+          let res = selectedValues[i].split(' ')[0];
+          let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
+          console.log("res_one",res_one);
+          if(bls_certification_array.includes(selectedValues[i]) == false){
+            $(".bls_certification_div").append('<div class="bls_'+res_one+' cert_div_'+selected_text+'"><h4 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3">'+selectedValues[i]+'</h4><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control bls_license_number bls_license_number-'+i+'" type="text" name="bls_license_number[]"><span id="reqblslicencevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control blsexpiry blsexpiry-'+i+'" type="date" name="bls_expiry[]"><span id="reqblsexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control bls_upload_certification bls_upload_certification-'+i+'" type="file" name="bls_upload_certification[]"><span id="reqblsuploadvalid-'+i+'" class="reqError text-danger valley"></span></div></div></div>');
+          }
+        }
+    });
+      $('.js-example-basic-multiple[data-list-id="cpr_data"]').on('change', function() {
+        let selectedValues = $(this).val();
+        var cpr_certification_array = [];
+        $('.cpr_certification_div').removeClass('d-none');
+        $(".cpr_certification_div h6").each(function(){
+          var text = $(this).text();
+          
+          if(selectedValues.includes(text) == false){
+            let res = text.split(' ')[0];
+            let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
+            console.log("res_one",res_one);
+
+            $(".cpr_"+res_one).remove();
+          }
+
+          cpr_certification_array.push(text);
+        });
+        console.log("selectedValues",selectedValues);
+        
+        //$(".bls_certification_div").empty();
+        for(var i = 0;i<selectedValues.length;i++){
+          var selected_text = selectedValues[i].replace(/ .*/,'').replace(/[^\w\s]/gi, '').toLowerCase();
+          let res = selectedValues[i].split(' ')[0];
+          let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
+          console.log("res_one",res_one);
+          if(cpr_certification_array.includes(selectedValues[i]) == false){
+            
+            
+            $(".cpr_certification_div").append('<div class="cpr_'+res_one+' cert_div_'+selected_text+'"><h6 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3 cert_head_'+selected_text+'">'+selectedValues[i]+'</h6><input type="hidden" name="cprnamearr[]" class="cpr_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control cpr_license_number cpr_license_number-'+i+'" type="text" name="cpr_license_number[]"><span id="reqcprlicencevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control cprexpiry cprexpiry-'+i+'" type="date" name="cpr_expiry[]"><span id="reqcprexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control cpr_upload_certification cpr_upload_certification-'+i+'" type="file" name="cpr_upload_certification[]"><span id="reqcpruploadvalid-'+i+'" class="reqError text-danger valley"></span></div></div></div>');
+
+            
+          }
+        }
+
+        
+    });
+    $('.js-example-basic-multiple[data-list-id="nrp_data"]').on('change', function() {
+        let selectedValues = $(this).val();
+        var nrp_certification_array = [];
+        $('.nrp_certification_div').removeClass('d-none');
+        $(".nrp_certification_div h6").each(function(){
+          var text = $(this).text();
+
+          if(selectedValues.includes(text) == false){
+            let res = text.split(' ')[0];
+            let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
+            console.log("res_one",res_one);
+
+            $(".nrp_"+res_one).remove();
+          }
+          
+          nrp_certification_array.push(text);
+        });
+        console.log("selectedValues",selectedValues);
+        
+        //$(".bls_certification_div").empty();
+        for(var i = 0;i<selectedValues.length;i++){
+          var selected_text = selectedValues[i].replace(/ .*/,'').replace(/[^\w\s]/gi, '').toLowerCase();
+          let res = selectedValues[i].split(' ')[0];
+          let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
+          console.log("res_one",res_one);
+          if(nrp_certification_array.includes(selectedValues[i]) == false){
+            
+            
+            $(".nrp_certification_div").append('<div class="nrp_'+res_one+' cert_div_'+selected_text+'"><h4 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3 cert_head_'+selected_text+'">'+selectedValues[i]+'</h4><input type="hidden" name="nrpnamearr[]" class="cpr_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control nrp_license_number nrp_license_number-'+i+'" type="text" name="nrp_license_number[]"><span id="reqnrplicencevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control nrpexpiry nrpexpiry-'+i+'" type="date" name="nrp_expiry[]"><span id="reqnrpexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control nrp_upload_certification nrp_upload_certification-'+i+'" type="file" name="nrp_upload_certification[]"><span id="reqnrpuploadvalid-'+i+'" class="reqError text-danger valley"></span></div></div></div>');
+
+            
+          }
+        }
+
+        
+    });
+    $('.js-example-basic-multiple[data-list-id="pls_data"]').on('change', function() {
+        let selectedValues = $(this).val();
+        var pls_certification_array = [];
+        $('.pls_certification_div').removeClass('d-none');
+        $(".pls_certification_div h6").each(function(){
+          var text = $(this).text();
+
+          if(selectedValues.includes(text) == false){
+            let res = text.split(' ')[0];
+            let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
+            console.log("res_one",res_one);
+
+            $(".pls_"+res_one).remove();
+          }
+          
+          pls_certification_array.push(text);
+        });
+        console.log("selectedValues",selectedValues);
+        
+        //$(".bls_certification_div").empty();
+        for(var i = 0;i<selectedValues.length;i++){
+          var selected_text = selectedValues[i].replace(/ .*/,'').replace(/[^\w\s]/gi, '').toLowerCase();
+          let res = selectedValues[i].split(' ')[0];
+          let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
+          console.log("res_one",res_one);
+          if(pls_certification_array.includes(selectedValues[i]) == false){
+            
+            
+            $(".pls_certification_div").append('<div class="pls_'+res_one+' cert_div_'+selected_text+'"><h6 class="cert_head_'+selected_text+'">'+selectedValues[i]+'</h6><input type="hidden" name="plsnamearr[]" class="pls_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control pls_license_number pls_license_number-'+i+'" type="text" name="pls_license_number[]"><span id="reqplslicencevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control plsexpiry plsexpiry-'+i+'" type="date" name="pls_expiry[]"><span id="reqplsexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control pls_upload_certification pls_upload_certification-'+i+'" type="file" name="pls_upload_certification[]"><span id="reqplsuploadvalid-'+i+'" class="reqError text-danger valley"></span></div></div></div>');
+
+            
+          }
+        }
+
+        
+    });
+    $('.js-example-basic-multiple[data-list-id="rn_data"]').on('change', function() {
+        let selectedValues = $(this).val();
+        var rn_certification_array = [];
+        $('.rn_certification_div').removeClass('d-none');
+        $(".rn_certification_div h6").each(function(){
+          var text = $(this).text();
+
+          if(selectedValues.includes(text) == false){
+
+            let res = text.split(' ')[0];
+            let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
+            console.log("res_one",".rn_"+res_one);
+
+            $(".rn_"+res_one).remove();
+          }
+          
+          rn_certification_array.push(text);
+        });
+        console.log("selectedValues",selectedValues);
+        
+        //$(".bls_certification_div").empty();
+        for(var i = 0;i<selectedValues.length;i++){
+          var selected_text = selectedValues[i].replace(/ .*/,'').replace(/[^\w\s]/gi, '').toLowerCase();
+          let res = selectedValues[i].split(' ')[0];
+          let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
+          console.log("res_one",res_one);
+
+          if(rn_certification_array.includes(selectedValues[i]) == false){
+            
+            
+            $(".rn_certification_div").append('<div class="rn_'+res_one+' cert_div_'+selected_text+'"><h4 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3 cert_head_'+selected_text+'">'+selectedValues[i]+'</h6><input type="hidden" name="rnnamearr[]" class="rn_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control rn_license_number rn_license_number-'+i+'" type="text" name="rn_license_number[]"><span id="reqrnlicencevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control rnexpiry rnexpiry-'+i+'" type="date" name="rn_expiry[]"><span id="reqrnexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control rn_upload_certification rn_upload_certification-'+i+'" type="file" name="rn_upload_certification[]"><span id="reqrnuploadvalid-'+i+'" class="reqError text-danger valley"></span></div></div></div>');
+
+            
+          }
+        }
+
+        
+    });
+
+    
+    $('.js-example-basic-multiple[data-list-id="np_data"]').on('change', function() {
+        let selectedValues = $(this).val();
+        var np_certification_array = [];
+        $('.np_certification_div').removeClass('d-none');
+        $(".np_certification_div h6").each(function(){
+          var text = $(this).text();
+
+          if(selectedValues.includes(text) == false){
+            let res = text.split(' ')[0];
+            let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
+            console.log("res_one",res_one);
+
+            $(".np_"+res_one).remove();
+          }
+          
+          np_certification_array.push(text);
+        });
+        console.log("selectedValues",selectedValues);
+        
+        //$(".bls_certification_div").empty();
+        for(var i = 0;i<selectedValues.length;i++){
+          var selected_text = selectedValues[i].replace(/ .*/,'').replace(/[^\w\s]/gi, '').toLowerCase();
+          let res = selectedValues[i].split(' ')[0];
+          let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
+          console.log("res_one",res_one);
+          if(np_certification_array.includes(selectedValues[i]) == false){
+            
+            
+            $(".np_certification_div").append('<div class="np_'+res_one+' cert_div_'+selected_text+'"><h4 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3 cert_head_'+selected_text+'">'+selectedValues[i]+'</h4><input type="hidden" name="npnamearr[]" class="np_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control np_license_number np_license_number-'+i+'" type="text" name="np_license_number[]"><span id="reqnplicencevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control npexpiry npexpiry-'+i+'" type="date" name="np_expiry[]"><span id="reqnpexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control np_upload_certification np_upload_certification-'+i+'" type="file" name="np_upload_certification[]"><span id="reqnpuploadvalid-'+i+'" class="reqError text-danger valley"></span></div></div></div>');
+
+            
+          }
+        }
+
+        
+    });
+    $('.js-example-basic-multiple[data-list-id="cn_data"]').on('change', function() {
+        let selectedValues = $(this).val();
+        var cn_certification_array = [];
+        $('.cna_certification_div').removeClass('d-none');
+        $(".cna_certification_div h6").each(function(){
+          var text = $(this).text();
+
+          if(selectedValues.includes(text) == false){
+            let res = text.split(' ')[0];
+            let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
+            console.log("res_one",res_one);
+
+            $(".cna_"+res_one).remove();
+          }
+          
+          cn_certification_array.push(text);
+        });
+        console.log("selectedValues",selectedValues);
+        
+        //$(".bls_certification_div").empty();
+        for(var i = 0;i<selectedValues.length;i++){
+          var selected_text = selectedValues[i].replace(/ .*/,'').replace(/[^\w\s]/gi, '').toLowerCase();
+          let res = selectedValues[i].split(' ')[0];
+          let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
+          console.log("res_one",res_one);
+          if(cn_certification_array.includes(selectedValues[i]) == false){
+            
+            
+            $(".cna_certification_div").append('<div class="cn_'+res_one+' cert_div_'+selected_text+'"><h4 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3 cert_head_'+selected_text+'">'+selectedValues[i]+'</h4><input type="hidden" name="cnnamearr[]" class="cn_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control cn_license_number cn_license_number-'+i+'" type="text" name="cn_license_number[]"><span id="reqcnlicencevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control cnexpiry cnexpiry-'+i+'" type="date" name="cn_expiry[]"><span id="reqcnexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control cn_upload_certification cn_upload_certification-'+i+'" type="file" name="cn_upload_certification[]"><span id="reqcnuploadvalid-'+i+'" class="reqError text-danger valley"></span></div></div></div>');
+
+            
+          }
+        }
+
+        
+    });
+    $('.js-example-basic-multiple[data-list-id="lpn_data"]').on('change', function() {
+        let selectedValues = $(this).val();
+        var lpn_certification_array = [];
+        $('.lpn_certification_div').removeClass('d-none');
+        $(".lpn_certification_div h6").each(function(){
+          var text = $(this).text();
+
+          if(selectedValues.includes(text) == false){
+            let res = text.split(' ')[0];
+            let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
+            console.log("res_one",res_one);
+
+            $(".lpn_"+res_one).remove();
+          }
+          
+          lpn_certification_array.push(text);
+        });
+        console.log("selectedValues",selectedValues);
+        
+        //$(".bls_certification_div").empty();
+        for(var i = 0;i<selectedValues.length;i++){
+          var selected_text = selectedValues[i].replace(/ .*/,'').replace(/[^\w\s]/gi, '').toLowerCase();
+          let res = selectedValues[i].split(' ')[0];
+          let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
+          console.log("res_one",res_one);
+          if(lpn_certification_array.includes(selectedValues[i]) == false){
+            
+            
+            $(".lpn_certification_div").append('<div class="lpn_'+res_one+' cert_div_'+selected_text+'"><h4 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3 cert_head_'+selected_text+'">'+selectedValues[i]+'</h4><input type="hidden" name="lpnnamearr[]" class="lpn_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control lpn_license_number lpn_license_number-'+i+'" type="text" name="lpn_license_number[]"><span id="reqlpnlicencevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control lpnexpiry lpnexpiry-'+i+'" type="date" name="lpn_expiry[]"><span id="reqlpnexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control lpn_upload_certification lpn_upload_certification-'+i+'" type="file" name="lpn_upload_certification[]"><span id="reqlpnuploadvalid-'+i+'" class="reqError text-danger valley"></span></div></div></div>');
+            
+          }
+        }        
+    });
+    $('.js-example-basic-multiple[data-list-id="crn_data"]').on('change', function() {
+        let selectedValues = $(this).val();
+        var crna_certification_array = [];
+        $('.crna_certification_div').removeClass('d-none');
+        $(".crna_certification_div h6").each(function(){
+          var text = $(this).text();
+
+          if(selectedValues.includes(text) == false){
+            let res = text.split(' ')[0];
+            let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
+            console.log("res_one",res_one);
+
+            $(".crna_"+res_one).remove();
+          }
+          
+          crna_certification_array.push(text);
+        });
+        console.log("selectedValues",selectedValues);
+        
+        //$(".bls_certification_div").empty();
+        for(var i = 0;i<selectedValues.length;i++){
+          var selected_text = selectedValues[i].replace(/ .*/,'').replace(/[^\w\s]/gi, '').toLowerCase();
+          let res = selectedValues[i].split(' ')[0];
+          let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
+          console.log("res_one",res_one);
+          if(crna_certification_array.includes(selectedValues[i]) == false){
+            
+            
+            $(".crna_certification_div").append('<div class="crna_'+res_one+' cert_div_'+selected_text+'"><h6 class="cert_head_'+selected_text+'">'+selectedValues[i]+'</h6><input type="hidden" name="crnanamearr[]" class="lpn_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control crna_license_number crna_license_number-'+i+'" type="text" name="crna_license_number[]"><span id="reqcrnalicencevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control crnaexpiry crnaexpiry-'+i+'" type="date" name="crna_expiry[]"><span id="reqcrnaexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control acls_upload_certification acls_upload_certification-'+i+'" type="file" name="crna_upload_certification[]"><span id="reqcrnauploadvalid-'+i+'" class="reqError text-danger valley"></span></div></div></div>');
+
+            
+          }
+        }
+
+        
+    });
+
+    $('.js-example-basic-multiple[data-list-id="cnm_data"]').on('change', function() {
+        let selectedValues = $(this).val();
+        var cnm_certification_array = [];
+        $('.cnm_certification_div').removeClass('d-none');
+        $(".cnm_certification_div h6").each(function(){
+          var text = $(this).text();
+
+          if(selectedValues.includes(text) == false){
+            let res = text.split(' ')[0];
+            let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
+            console.log("res_one",res_one);
+
+            $(".cnm_"+res_one).remove();
+          }
+          
+          cnm_certification_array.push(text);
+        });
+        console.log("selectedValues",selectedValues);
+        
+        //$(".bls_certification_div").empty();
+        for(var i = 0;i<selectedValues.length;i++){
+          var selected_text = selectedValues[i].replace(/ .*/,'').replace(/[^\w\s]/gi, '').toLowerCase();
+          let res = selectedValues[i].split(' ')[0];
+          let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
+          console.log("res_one",res_one);
+          if(cnm_certification_array.includes(selectedValues[i]) == false){
+            
+            
+            $(".cnm_certification_div").append('<div class="cnm_'+res_one+' cert_div_'+selected_text+'"><h6 class="cert_head_'+selected_text+'">'+selectedValues[i]+'</h6><input type="hidden" name="cnmnamearr[]" class="cnm_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control cnm_license_number cnm_license_number-'+i+'" type="text" name="cnm_license_number[]"><span id="reqcnmlicencevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control cnmexpiry cnmexpiry-'+i+'" type="date" name="cnm_expiry[]"><span id="reqcnmexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control" type="file" name="cnm_upload_certification[]"><span id="reqcnmuploadvalid-'+i+'" class="reqError text-danger valley"></span></div></div></div>');
+
+            
+          }
+        }
+
+        
+    });
+
+    $('.js-example-basic-multiple[data-list-id="ons_data"]').on('change', function() {
+        let selectedValues = $(this).val();
+        var ons_certification_array = [];
+        $('.ons_certification_div').removeClass('d-none');
+        $(".ons_certification_div h6").each(function(){
+          var text = $(this).text();
+
+          if(selectedValues.includes(text) == false){
+            let res = text.split(' ')[0];
+            let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
+            console.log("res_one",res_one);
+
+            $(".ons_"+res_one).remove();
+          }
+          
+          ons_certification_array.push(text);
+        });
+        console.log("selectedValues",selectedValues);
+        
+        //$(".bls_certification_div").empty();
+        for(var i = 0;i<selectedValues.length;i++){
+          var selected_text = selectedValues[i].replace(/ .*/,'').replace(/[^\w\s]/gi, '').toLowerCase();
+          let res = selectedValues[i].split(' ')[0];
+          let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
+          console.log("res_one",res_one);
+          if(ons_certification_array.includes(selectedValues[i]) == false){
+            
+            
+            $(".ons_certification_div").append('<div class="ons_'+res_one+' cert_div_'+selected_text+'"><h6 class="cert_head_'+selected_text+'">'+selectedValues[i]+'</h6><input type="hidden" name="onsnamearr[]" class="ons_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control ons_license_number ons_license_number-'+i+'" type="text" name="ons_license_number[]"><span id="reqonslicencevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control onsexpiry onsexpiry-'+i+'" type="date" name="ons_expiry[]"><span id="reqonsexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control" type="file" name="ons_upload_certification[]"><span id="reqonsuploadvalid-'+i+'" class="reqError text-danger valley"></span></div></div></div>');
+
+            
+          }
+        }
+
+        
+    });
+
+    $('.js-example-basic-multiple[data-list-id="msw_data"]').on('change', function() {
+        let selectedValues = $(this).val();
+        var msw_certification_array = [];
+        $('.msw_certification_div').removeClass('d-none');
+        $(".msw_certification_div h6").each(function(){
+          var text = $(this).text();
+
+          if(selectedValues.includes(text) == false){
+            let res = text.split(' ')[0];
+            let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
+            console.log("res_one",res_one);
+
+            $(".msw_"+res_one).remove();
+          }
+          
+          msw_certification_array.push(text);
+        });
+        console.log("selectedValues",selectedValues);
+        
+        //$(".bls_certification_div").empty();
+        for(var i = 0;i<selectedValues.length;i++){
+          var selected_text = selectedValues[i].replace(/ .*/,'').replace(/[^\w\s]/gi, '').toLowerCase();
+          let res = selectedValues[i].split(' ')[0];
+          let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
+          console.log("res_one",res_one);
+
+          if(msw_certification_array.includes(selectedValues[i]) == false){
+            
+            
+            $(".msw_certification_div").append('<div class="msw_'+res_one+' cert_div_'+selected_text+'"><h6 class="cert_head_'+selected_text+'">'+selectedValues[i]+'</h6><input type="hidden" name="mswnamearr[]" class="msw_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control msw_license_number msw_license_number-'+i+'" type="text" name="msw_license_number[]"><span id="reqmswlicencevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control mswexpiry mswexpiry-'+i+'" type="date" name="msw_expiry[]"><span id="reqmswexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control msw_upload_certification msw_upload_certification-'+i+'" type="file" name="msw_upload_certification[]"><span id="reqmswuploadvalid-'+i+'" class="reqError text-danger valley"></span></div></div></div>');
+
+            
+          }
+        }
+
+        
+    });
+
+    $('.js-example-basic-multiple[data-list-id="ain_data"]').on('change', function() {
+        let selectedValues = $(this).val();
+        var ain_certification_array = [];
+        $('.ain_certification_div').removeClass('d-none');
+        $(".ain_certification_div h6").each(function(){
+          var text = $(this).text();
+
+          if(selectedValues.includes(text) == false){
+            let res = text.split(' ')[0];
+            let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
+            console.log("res_one",res_one);
+
+            $(".ain_"+res_one).remove();
+          }
+          
+          ain_certification_array.push(text);
+        });
+        console.log("selectedValues",selectedValues);
+        
+        //$(".bls_certification_div").empty();
+        for(var i = 0;i<selectedValues.length;i++){
+          var selected_text = selectedValues[i].replace(/ .*/,'').replace(/[^\w\s]/gi, '').toLowerCase();
+          let res = selectedValues[i].split(' ')[0];
+          let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
+          console.log("res_one",res_one);
+          if(ain_certification_array.includes(selectedValues[i]) == false){
+            
+            
+            $(".ain_certification_div").append('<div class="ain_'+res_one+' cert_div_'+selected_text+'"><h6 class="cert_head_'+selected_text+'">'+selectedValues[i]+'</h6><input type="hidden" name="ainnamearr[]" class="ain_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control ain_license_number ain_license_number-'+i+'" type="text" name="ain_license_number[]"><span id="reqainlicencevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control ainexpiry ainexpiry-'+i+'" type="date" name="ain_expiry[]"><span id="reqainexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control ain_upload_certification ain_upload_certification-'+i+'" type="file" name="ain_upload_certification[]"><span id="reqainuploadvalid-'+i+'" class="reqError text-danger valley"></span></div></div></div>');
+
+            
+          }
+        }
+
+        
+    });
+
+    $('.js-example-basic-multiple[data-list-id="rpn_data"]').on('change', function() {
+        let selectedValues = $(this).val();
+        var rpn_certification_array = [];
+        $('.rpn_certification_div').removeClass('d-none');
+        $(".rpn_certification_div h6").each(function(){
+          var text = $(this).text();
+
+          if(selectedValues.includes(text) == false){
+            let res = text.split(' ')[0];
+            let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
+            console.log("res_one",res_one);
+
+            $(".rpn_"+res_one).remove();
+          }
+          
+          rpn_certification_array.push(text);
+        });
+        console.log("selectedValues",selectedValues);
+        
+        //$(".bls_certification_div").empty();
+        for(var i = 0;i<selectedValues.length;i++){
+          var selected_text = selectedValues[i].replace(/ .*/,'').replace(/[^\w\s]/gi, '').toLowerCase();
+          let res = selectedValues[i].split(' ')[0];
+          let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
+          console.log("res_one",res_one);
+          if(rpn_certification_array.includes(selectedValues[i]) == false){
+            
+            
+            $(".rpn_certification_div").append('<div class="rpn_'+res_one+' cert_div_'+selected_text+'"><h6 class="cert_head_'+selected_text+'">'+selectedValues[i]+'</h6><input type="hidden" name="rpnnamearr[]" class="rpn_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control rpn_license_number rpn_license_number-'+i+'" type="text" name="rpn_license_number[]"><span id="reqrpnlicencevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control rpnexpiry rpnexpiry-'+i+'" type="date" name="rpn_expiry[]"><span id="reqrpnexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control rpn_upload_certification rpn_upload_certification-'+i+'" type="file" name="rpn_upload_certification[]"><span id="reqrpnuploadvalid-'+i+'" class="reqError text-danger valley"></span></div></div></div>');
+
+            
+          }
+        }
+
+        
     });
     </script>
 
@@ -4120,6 +4695,17 @@ $(document).ready(function() {
             history.replaceState(null, null, newUrl);
         });
     });
+</script>
+
+<script>
+var licence_div_count = $(".license_number_anothercertifications").length;
+console.log("licence_div_count",licence_div_count);
+function add_listcertfication(){
+    licence_div_count++;
+    $(".another_certifications").append('<div class="license_number_div row license_number_anothercertifications mt-3"><div class="form-group col-md-6"><label class="form-label" for="input-1">Certificate '+licence_div_count+'</label><input class="form-control" type="text" name="training_certificate[]"></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control" type="text" name="certificate_license_number[]"></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control" type="date" name="certificate_expiry[]"></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control" type="file" name="certificate_upload_certification[]"></div></div>');
+    
+}
+</script>
 </script>
 
 

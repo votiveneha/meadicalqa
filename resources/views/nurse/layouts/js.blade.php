@@ -1360,7 +1360,7 @@ function pad(number) {
       document.getElementById("reqemptype").innerHTML = "* Please select the employeement type";
       isValid = false;
     }
-    if ($.trim($('[name="job_responeblities"]').val()) == '') {
+    if ($.trim($('[name="job_responeblities[]"]').val()) == '') {
       document.getElementById("reqresposiblities").innerHTML = "* Please enter the job responsiblities";
       isValid = false;
     }
@@ -1964,6 +1964,30 @@ function pad(number) {
       $(".working-"+i).show();
       $(".end_date-"+i).val("")
     }
+  }
+
+  function delete_reference(i,user_id,referee_id){
+    
+    
+      $.ajax({
+        type: "post",
+        url: "{{ route('nurse.deleteReferee') }}",
+        data: {user_id:user_id,referee_id:referee_id,_token:'{{ csrf_token() }}'},
+        cache: false,
+        success: function(data){
+           if(data == 1){
+            $(".referee_data-"+i).remove();
+           }
+           
+        }
+      });
+      
+
+  }
+
+  function delete_reference1(i){
+    $(".referee_data-"+i).remove();
+    
   }
   </script>
 <!-- =================================
