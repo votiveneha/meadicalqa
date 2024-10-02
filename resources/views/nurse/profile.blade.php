@@ -2475,7 +2475,7 @@
                             <input class="form-control employeement_start_date employeement_start_date-{{ $i }}" type="date" name="start_date[]" value="{{ $w_data->start_date1 }}" onchange="changeEmployeementEndDate('{{ $i }}');" onkeydown="return false">
                             <span id="reqempsdate" class="reqError text-danger valley"></span>
                           </div>
-                          <div class="declaration_box">
+                          <div class="declaration_box mb-3">
                             <input class="declare_information" type="checkbox" name="present_box[]" value="1" @if(!empty($w_data->present_box1 == 1 )) checked @endif>I am currently in this position at the moment
 
                           </div>
@@ -2616,7 +2616,7 @@
                     <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="skills_compantancies" name="skills_compantancies[]" multiple="multiple"></select>
                   </div>
                   <span id="reqexpertise" class="reqError text-danger valley"></span>
-                  <div class="add_new_certification_div mb-3 mt-3">
+                  <div class="add_new_certification_div awe mb-3 mt-4">
                     <a style="cursor: pointer;" onclick="add_work_experience()">+ Add another work experience</a>
                   </div>
                   <div class="box-button mt-15">

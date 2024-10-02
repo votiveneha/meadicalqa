@@ -186,27 +186,27 @@
 													</div>
 													</div>
 												</div>
-											<span id="profile_image_error" class="text-danger"></span>
+											<span id="profile_image_error" class="reqError text-danger valley "></span>
 											</div>
                                             <div class="col-md-6 mt-3">
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>First Name</strong></label>
                                                     <input type="text" class="form-control" placeholder="First Name" name="first_name" id="first_name">
-                                                    <span id="first_name_error" class="text-danger"></span>
+                                                    <span id="first_name_error" class="reqError text-danger valley "></span>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 mt-3">
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Last Name</strong></label>
                                                     <input type="text" class="form-control" placeholder="Last Name" name="last_name" id="last_name">
-                                                    <span id="last_name_error" class="text-danger"></span>
+                                                    <span id="last_name_error" class="reqError text-danger valley "></span>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 mt-3">
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Email Address</strong></label>
                                                     <input type="text" class="form-control" placeholder="Email Address" name="email" id="email">
-                                                    <span id="email_error" class="text-danger"></span>
+                                                    <span id="email_error" class="reqError text-danger valley "></span>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 mt-3 phone--drpdwns">
@@ -216,7 +216,7 @@
                                                     <input type="hidden" value="" name="country_name" id="country_name_phone">
                                                     <input type="hidden" value="" name="country_iso" id="country_iso_phone">
                                                     <input class="form-control numbers" type="tel" required="" name="contact" id="contact" placeholder="1234567890" placeholder="1234567890" maxlength="10" pattern="[0-9]{4}" style="width: ">
-                                                    <span id="contact_error" class="text-danger"></span>
+                                                    <span id="contact_error" class="reqError text-danger valley "></span>
                                                 </div>
                                             </div>
 
@@ -224,7 +224,7 @@
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Date of Birth</strong></label>
                                                     <input type="date" class="form-control" placeholder="Date of Birth" name="dob" id="dob">
-                                                    <span id="date_error" class="text-danger"></span>
+                                                    <span id="date_error" class="reqError text-danger valley "></span>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 mt-3">
@@ -244,7 +244,7 @@
                                                             </label>
                                                         </div>
                                                     </div>
-                                                    <span id="genderErr" class="text-danger"></span>
+                                                    <span id="genderErr" class="reqError text-danger valley "></span>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 mt-3">
@@ -263,7 +263,7 @@
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Personal website</strong></label>
                                                     <input class="form-control" type="url" required="" name="per_website" id="per_website" placeholder="Personal website">
-                                                    <span id="per_website_error" class="text-danger"></span>
+                                                    <span id="per_website_error" class="reqError text-danger valley "></span>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 mt-3">
@@ -276,7 +276,7 @@
                                                         <option value="{{$data->iso2}}" <?= isset(Auth::guard('nurse_middle')->user()->country) &&  Auth::guard('nurse_middle')->user()->country == $data->iso2 ? 'selected' : '' ?>> {{$data->name}} </option>
                                                         @endforeach
                                                    </select>
-                                                    <span id="country_error" class="text-danger"></span>
+                                                    <span id="country_error" class="reqError text-danger valley "></span>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 mt-3">
@@ -298,21 +298,21 @@
                                                     @endif
 
                                                     </select>
-                                                    <span id="state_error" class="text-danger"></span>
+                                                    <span id="state_error" class="reqError text-danger valley "></span>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 mt-3">
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>City</strong></label>
                                                     <input class="form-control" type="text" required="" name="city" id="city" placeholder="City">
-                                                    <span id="city_error" class="text-danger"></span>
+                                                    <span id="city_error" class="reqError text-danger valley "></span>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 mt-3">
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Zip code</strong></label>
                                                     <input class="form-control" type="text" required="" name="zip_code" id="zip_code" placeholder="Zip code">
-                                                    <span id="zip_code_error" class="text-danger"></span>
+                                                    <span id="zip_code_error" class="reqError text-danger valley "></span>
                                                 </div>
                                             </div>
                                             
@@ -320,7 +320,7 @@
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Home Address</strong></label>
                                                     <input class="form-control" type="text" required="" name="home_address" id="home_address" placeholder="Home Address">
-                                                    <span id="home_address_error" class="text-danger"></span>
+                                                    <span id="home_address_error" class="reqError text-danger valley "></span>
                                                 </div>
                                             </div>
 
@@ -348,7 +348,7 @@
                                                     <input type="hidden" value="" name="emr_country_name" id="country_name_mobile">
                                                     <input type="hidden" value="" name="emr_country_iso" id="country_iso_mobile">
                                                     <input class="form-control numbers" type="tel" required="" name="emrg_contact" id="emrg_contact" placeholder="1234567890" placeholder="1234567890" maxlength="10" pattern="[0-9]{4}" style="width: ">
-                                                    <span id="emrg_contact_error" class="text-danger"></span>
+                                                    <span id="emrg_contact_error" class="reqError text-danger valley "></span>
                                                 </div>
                                             </div>
                                             
@@ -356,7 +356,7 @@
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Email</strong></label>
                                                    <input type="text" class="form-control" id="emrg_email" name="emrg_email" placeholder="Email" accept="image/*">
-                                                    <span id="emrg_email_error" class="text-danger"></span>
+                                                    <span id="emrg_email_error" class="reqError text-danger valley "></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -477,7 +477,7 @@
                                                                 
                                                             </ul>
                                                             <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="type-of-nurse" name="states[]" multiple="multiple" id="type_nurse"></select>
-                                                            <span id="type_nurse_error" class="text-danger"></span>
+                                                            <span id="type_nurse_error" class="reqError text-danger valley "></span>
                                                         </div>
                                                     </div>
                                                 
@@ -501,7 +501,7 @@
                                                                 <!-- Add more list items as needed -->
                                                             </ul>
                                                             <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="nursing_entry-{{ $i }}" name="states[]" multiple="multiple"></select>
-                                                        <span id="photo_id" class="text-danger"></span>
+                                                        <span id="photo_id" class="reqError text-danger valley "></span>
                                                     </div>
                                                      <?php
                                                         $i++;
@@ -521,7 +521,7 @@
                                                                 
                                                             </ul>
                                                             <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="nurse_practitioner_menu" name="nurse_practitioner_menu[]" multiple="multiple"></select>
-                                                            <span id="photo_id" class="text-danger"></span>
+                                                            <span id="photo_id" class="reqError text-danger valley "></span>
                                                         </div>
                                                     </div>
 
@@ -543,7 +543,7 @@
                                                                 
                                                             </ul>
                                                             <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="specialties" name="specialties[]" multiple="multiple"></select>
-                                                            <span id="specialties_error" class="text-danger"></span>
+                                                            <span id="specialties_error" class="reqError text-danger valley "></span>
                                                         </div>
                                                     </div>
 
@@ -698,7 +698,7 @@
                                                             @for($i = 1; $i <= 30; $i++) <option value="{{ $i }}"  >{{ $i }}{{ $i == 1 ? 'st' : ($i == 2 ? 'nd' : ($i == 3 ? 'rd' : 'th')) }} Year</option>
                                                                 @endfor
                                                             </select>
-                                                            <span id="experience_error" class="text-danger"></span>
+                                                            <span id="experience_error" class="reqError text-danger valley "></span>
                                                         </div>
                                                     </div>
 
@@ -721,21 +721,21 @@
                                                             <option value="Volunteer" >Volunteer</option>
                                                             <option value="Unemployed" >Unemployed</option>
                                                             </select>
-                                                            <span id="status_error" class="text-danger"></span>
+                                                            <span id="status_error" class="reqError text-danger valley "></span>
                                                         </div>
 
                                                         <div class="col-md-12 mt-2">
                                                             <div class="form-group">
                                                                 <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Professional Bio</strong></label>
                                                                 <textarea class="form-control" rows="4" name="bio" id="bio"></textarea>
-                                                                <span id="bio_error" class="text-danger"></span>
+                                                                <span id="bio_error" class="reqError text-danger valley "></span>
                                                             </div>
                                                         </div>
 
                                                         <div class="declaration_box  mt-3">
                                                             <input type="checkbox" name="declare_information" class="declare_information" id="declare_information">
                                                             <label for="declare_information">I declare that the information provided is true and correct</label>
-                                                            <span id="diclare_error" class="text-danger"></span>
+                                                            <span id="diclare_error" class="reqError text-danger valley "></span>
                                                         </div>
                                                         <div class="d-flex align-items-center justify-content-between mt-3">
                                                             <button type="button" class="btn btn-default next-step-3 align-items-center justify-content-between" data-target="#navpill-4">Next</button>
@@ -773,28 +773,28 @@
                                                             @endforeach
                                                     </ul>
                                                      <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="ndegree" name="ndegree[]" multiple="multiple"></select>
-                                                    <span id="ndegree_error" class="text-danger"></span>
+                                                    <span id="ndegree_error" class="reqError text-danger valley "></span>
                                                 </div>
                                             </div>
                                             <div class="col-md-12 mt-3">
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Institutions (Please start with the most relevant)</strong></label>
                                                    <input class="form-control" type="text" name="institution" value="" id="institution">
-                                                    <span id="institution_error" class="text-danger"></span>
+                                                    <span id="institution_error" class="reqError text-danger valley "></span>
                                                 </div>
                                             </div>            
                                             <div class="col-md-12 mt-3">
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Please start with the most relevant</strong></label>
                                                    <input class="form-control" type="text" name="most_relevant" value="" id="most_relevant">
-                                                    <span id="relevant_error" class="text-danger"></span>
+                                                    <span id="relevant_error" class="reqError text-danger valley "></span>
                                                 </div>
                                             </div>    
                                             <div class="col-md-6 mt-3">
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Graduation Date</strong></label>
                                                     <input class="form-control" type="date" name="graduation_start_date" value="" id="graduation_start_date">
-                                                    <span id="gra_start_date_error" class="text-danger"></span>
+                                                    <span id="gra_start_date_error" class="reqError text-danger valley "></span>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 mt-3">
@@ -804,37 +804,38 @@
                                                     <input type="file" name="upload_degree" id="upload_degree" class="" accept="image/*">  --}}
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Upload Degree & Transcript</strong></label>
                                                     <input class="form-control" type="file" name="upload_degree" id="upload_degree">
-                                                    <span id="upload_degree" class="text-danger"></span>
+                                                    <span id="upload_degree" class="reqError text-danger valley "></span>
                                                 </div>
                                             </div>
                                             {{-- <div class="col-md-6 mt-3">
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Graduation End Date</strong></label>
                                                     <input class="form-control" type="date" name="graduation_end_date" value="" id="graduation_end_date">
-                                                    <span id="gra_end_date_error" class="text-danger"></span>
+                                                    <span id="gra_end_date_error" class="reqError text-danger valley "></span>
                                                 </div>
                                             </div> --}}
                                             <h4 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3">General Certifications/Licences:
                                             </h4>
 
                                             <div class="col-md-12 mt-3">
-                                                <div class="form-group">
+                                                <div class="form-group level-drp">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Please select all that apply</strong></label>
-                                                    <?php
-                                                        $certificates = DB::table("professional_certificate")->orderBy("ordering_id","asc")->get();
-                                                        ?>
-                                                        <ul id="profess_cert" style="display:none;">
-                                                            @foreach($certificates as $cert)
-                                                            <li data-value="{{$cert->id}}">{{$cert->name}}</li>
-                                                            @endforeach                        
-                                                        </ul>
+                                                   <?php
+                                                    $certificates = DB::table("professional_certificate")->orderBy("ordering_id","asc")->get();
+                                                    ?>
+                                                    <ul id="profess_cert" style="display:none;">
+                                                        @foreach($certificates as $cert)
+                                                        <li data-value="{{ $cert->id }}">{{ $cert->name }}</li>
+                                                        @endforeach
+                                                        
+                                                    </ul>
                                                       <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="profess_cert" name="professional_certification[]" multiple="multiple"></select>
-                                                    <span id="profess_cert_error" class="text-danger"></span>
+                                                    <span id="profess_cert_error" class="reqError text-danger valley "></span>
                                                 </div>
                                             </div>
 
                                             <div class="professional_certification_div">
-                                                <div class="form-group level-drp d-none procertdiv">                        
+                                                {{-- <div class="form-group level-drp d-none procertdiv">                        
                                                     <label class="form-label" for="input-1">ACLS(Advanced Cardiovascular Life Support)</label>
                                                     <?php
                                                         $acls_data = DB::table("professional_certificate_table")->where("cert_id","6")->get();
@@ -846,10 +847,27 @@
                                                         
                                                     </ul>
                                                     <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="acls_data" name="acls_data[]" multiple="multiple"></select>
-                                                </div> 
+                                                </div> --}}
+                                                
+                                                <div class="form-group level-drp  d-none procertdiv">
+                                                      
+                                                        <label class="form-label" for="input-1">ACLS (Advanced Cardiovascular Life Support)</label>
+                                                        <?php
+                                                            $acls_data = DB::table("professional_certificate_table")->where("cert_id","6")->get();
+                                                        ?>
+                                                        <ul id="acls_data" style="display:none;">
+                                                            @foreach($acls_data as $data)
+                                                            <li data-value="{{ $data->name }}">{{ $data->name }}</li>
+                                                            @endforeach
+                                                            
+                                                        </ul>
+                                                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="acls_data" name="acls_data[]" multiple="multiple"></select>
+                                                    <span id="reqaclsvalid" class="reqError text-danger valley"></span>
+                                                </div>
 
                                                 <div class="acls_certification_div">        
                                                 </div>
+
                                                 <div class="form-group level-drp d-none procertdivone">                            
                                                     <label class="form-label" for="input-1">BLS (Basic Life Support)</label>
                                                     <?php
@@ -861,6 +879,7 @@
                                                         @endforeach                                                        
                                                     </ul>
                                                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="bls_data" name="bls_data[]" multiple="multiple"></select>
+                                                   <span id="reqblsvalid" class="reqError text-danger valley"></span>
                                                 </div>
 
                                                 <div class="bls_certification_div">       
@@ -878,11 +897,11 @@
                                                         
                                                     </ul>
                                                     <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="cpr_data" name="cpr_data[]" multiple="multiple"></select>
+                                                    <span id="reqcprvalid" class="reqError text-danger valley"></span>
                                                 </div>
                                                 <div class="cpr_certification_div"></div>
 
-                                                <div class="form-group level-drp d-none procertdivthree">
-                            
+                                                <div class="form-group level-drp d-none procertdivthree">                                                                                                                                  
                                                     <label class="form-label" for="input-1">NRP (Neonatal Resuscitation Program)</label>
                                                     <?php
                                                         $nrp_data = DB::table("professional_certificate_table")->where("cert_id","9")->get();
@@ -894,6 +913,7 @@
                                                         
                                                     </ul>
                                                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="nrp_data" name="nrp_data[]" multiple="multiple"></select>
+                                                   <span id="reqnrpvalid" class="reqError text-danger valley"></span>
                                                 </div>
                                                 <div class="nrp_certification_div"></div>
 
@@ -909,7 +929,9 @@
                                                         
                                                     </ul>
                                                     <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="pals_data" name="pals_data[]" multiple="multiple"></select>
+                                                    <span id="reqplsvalid" class="reqError text-danger valley"></span>
                                                 </div>
+
                                                 <div class="pls_certification_div"></div>
 
                                                 <div class="form-group level-drp d-none procertdivfive">                        
@@ -924,6 +946,7 @@
                                                         
                                                     </ul>
                                                     <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="rn_data" name="rn_data[]" multiple="multiple"></select>
+                                                    <span id="reqrnvalid" class="reqError text-danger valley"></span>
                                                 </div>
                                                 <div class="rn_certification_div"></div>
 
@@ -940,6 +963,7 @@
                                                         
                                                     </ul>
                                                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="np_data" name="np_data[]" multiple="multiple"></select>
+                                                   <span id="reqnpvalid" class="reqError text-danger valley"></span>
                                                 </div>
                                                 <div class="np_certification_div"></div>
 
@@ -955,6 +979,7 @@
                                                         
                                                     </ul>
                                                     <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="cn_data" name="cn_data[]" multiple="multiple"></select>
+                                                    <span id="reqcnvalid" class="reqError text-danger valley"></span>
                                                 </div>
                                                 <div class="cna_certification_div"></div>
 
@@ -970,6 +995,7 @@
                                                         
                                                     </ul>
                                                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="lpn_data" name="lpn_data[]" multiple="multiple"></select>
+                                                    <span id="reqlpnvalid" class="reqError text-danger valley"></span>
                                                 </div>
                                                  <div class="lpn_certification_div"></div>
 
@@ -985,6 +1011,7 @@
                                                             
                                                         </ul>
                                                     <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="crn_data" name="crn_data[]" multiple="multiple"></select>
+                                                    <span id="reqcrnavalid" class="reqError text-danger valley"></span>
                                                 </div>
                                                 <div class="crna_certification_div"></div>
 
@@ -1000,6 +1027,7 @@
                                                         
                                                     </ul>
                                                     <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="cnm_data" name="cnm_data[]" multiple="multiple"></select>
+                                                    <span id="reqcnmvalid" class="reqError text-danger valley"></span>
                                                 </div>
                                                 <div class="cnm_certification_div"></div>
 
@@ -1047,10 +1075,25 @@
                                                 </div>
                                                 <div class="ain_certification_div"></div>
 
+                                                <div class="form-group level-drp d-none procertdivfourteen">                    
+                                                    <label class="form-label" for="input-1">RPN (Registered Practical Nurse) / RGN (Registered General Nurse)</label>
+                                                    <?php
+                                                        $msw_data = DB::table("professional_certificate_table")->where("cert_id","20")->get();
+                                                    ?>
+                                                    <ul id="rpn_data" style="display:none;">
+                                                        @foreach($msw_data as $data)
+                                                        <li data-value="{{ $data->professionalcert_id }}">{{ $data->name }}</li>
+                                                        @endforeach
+                                                        
+                                                    </ul>
+                                                     <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="rpn_data" name="rpn_data[]" multiple="multiple"></select>
+                                                </div>
+                                                <div class="rpn_certification_div"></div>
+
                                                 
                                             </div>
                                               
-                                               <div class="another_certifications">
+                                               {{-- <div class="another_certifications">
                                                     <h4 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3">
                                                         Another Certifications 
                                                     </h4>
@@ -1071,12 +1114,12 @@
                                                         <label class="form-label" for="input-1">Upload your certification/Licence</label>
                                                         <input class="form-control" type="file" name="certificate_upload_certification[]">                        
                                                         {{-- <img src="{{ url('/public/uploads/certificates') }}/{{ $c_data->certificate_upload_certification }}" style="width:100px;"> --}}                          
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="add_new_certification_div mb-3 mt-3">
+                                                        {{-- </div>
+                                                    </div> --}}
+                                                {{-- </div> --}}
+                                                {{-- <div class="add_new_certification_div mb-3 mt-3">
                                                     <a style="cursor: pointer;" onclick="add_listcertfication()">+ Add another certification/Licence</a>
-                                                </div>
+                                                </div> --}}
 
                                                 <h4 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3">Additional Training</h4>
                                                <div class="col-md-12 mt-3">
@@ -1091,7 +1134,7 @@
                                                                 @endforeach        
                                                             </ul>
                                                         <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="training_courses" name="training_courses[]" multiple="multiple"></select>
-                                                        <span id="training_course_error" class="text-danger"></span>
+                                                        <span id="training_course_error" class="reqError text-danger valley "></span>
                                                     </div>
                                                 </div>
                                                 <div class="d-flex align-items-center justify-content-between mt-3">
@@ -1120,7 +1163,7 @@
                                                     @for($i = 1; $i <= 30; $i++) <option value="{{ $i }}"  >{{ $i }}{{ $i == 1 ? 'st' : ($i == 2 ? 'nd' : ($i == 3 ? 'rd' : 'th')) }} Year</option>
                                                         @endfor
                                                     </select>
-                                                    <span id="experience_error" class="text-danger"></span>
+                                                    <span id="experience_error" class="reqError text-danger valley "></span>
                                                 </div>
                                             </div>
 
@@ -1130,7 +1173,7 @@
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Names</strong></label>
                                                     <input class="form-control" type="text" name="previous_employer_name"  id="previous_employer_name">
-                                                    <span id="previous_employer_name_error" class="text-danger"></span>
+                                                    <span id="previous_employer_name_error" class="reqError text-danger valley "></span>
                                                 </div>
                                             </div>
 
@@ -1147,7 +1190,7 @@
                                                             
                                                         </ul>
                                                         <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="positions_held" name="positions_held[]" multiple="multiple"></select>
-                                                    <span id="positions_held_error" class="text-danger"></span>
+                                                    <span id="positions_held_error" class="reqError text-danger valley "></span>
                                                 </div>
                                             </div>
 
@@ -1155,7 +1198,7 @@
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Employment Start Date</strong></label>
                                                     <input class="form-control" type="date" name="start_date" id="start_date">
-                                                    <span id="start_date_error" class="text-danger"></span>
+                                                    <span id="start_date_error" class="reqError text-danger valley "></span>
                                                 </div>
                                             </div>
 
@@ -1163,14 +1206,14 @@
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Employment End Date</strong></label>
                                                     <input class="form-control" type="date" name="end_date" id="end_date">
-                                                    <span id="end_date_error" class="text-danger"></span>
+                                                    <span id="end_date_error" class="reqError text-danger valley "></span>
                                                 </div>
                                             </div>
 
                                             <div class="present_check mt-3">
                                                 <input type="checkbox" name="present_box" value="1" id="present_box">Present Here
                                             </div>
-                                            <span id="present_box_error" class="text-danger"></span>
+                                            <span id="present_box_error" class="reqError text-danger valley "></span>
 
                                             <h4 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3">Detailed Job Descriptions</h4>
 
@@ -1178,7 +1221,7 @@
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Responsibilities</strong></label>
                                                     <textarea class="form-control" name="job_responeblities" id="job_responeblities"></textarea>
-                                                    <span id="job_responeblities_error" class="text-danger"></span>
+                                                    <span id="job_responeblities_error" class="reqError text-danger valley "></span>
                                                 </div>
                                             </div>
 
@@ -1186,7 +1229,7 @@
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Achievements</strong></label>
                                                     <textarea class="form-control" name="achievements" id="achievements"></textarea>
-                                                    <span id="achievements_error" class="text-danger"></span>
+                                                    <span id="achievements_error" class="reqError text-danger valley "></span>
                                                 </div>
                                             </div>
 
@@ -1205,7 +1248,7 @@
                                                             
                                                         </ul>
                                                         <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="skills_compantancies" name="skills_compantancies[]" multiple="multiple"></select>
-                                                    <span id="skills_compantancies_error" class="text-danger"></span>
+                                                    <span id="skills_compantancies_error" class="reqError text-danger valley "></span>
                                                 </div>
                                             </div>
 
@@ -1232,21 +1275,21 @@
                                             <div class="form-group">
                                                 <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Training Start Date</strong></label>
                                                 <input class="form-control" type="date" name="tra_start_date"  id="tra_start_date">
-                                                <span id="tra_start_date_error" class="text-danger"></span>
+                                                <span id="tra_start_date_error" class="reqError text-danger valley "></span>
                                             </div>
                                         </div> 
                                         <div class="col-md-6 mt-3">
                                             <div class="form-group">
                                                 <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Training End Date</strong></label>
                                                 <input class="form-control" type="date" name="tra_end_date" id="tra_end_date">
-                                                <span id="tra_end_date_error" class="text-danger"></span>
+                                                <span id="tra_end_date_error" class="reqError text-danger valley "></span>
                                             </div>
                                         </div>   
                                         <div class="col-md-12 mt-3">
                                             <div class="form-group">
                                                 <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Institution</strong></label>
                                                 <input class="form-control" type="text" name="institution"  id="institution1">
-                                                <span id="institution_error_2" class="text-danger"></span>
+                                                <span id="institution_error_2" class="reqError text-danger valley "></span>
                                             </div>
                                         </div>
                                         <div class="col-md-12 mt-3">
@@ -1257,7 +1300,7 @@
                                                     <option value="Ongoing">Ongoing</option>
                                                     <option value="Completed">Completed</option>
                                                 </select>
-                                                <span id="mand_continue_education_error" class="text-danger"></span>
+                                                <span id="mand_continue_education_error" class="reqError text-danger valley "></span>
                                             </div>
                                         </div> 
                                         <div class="d-flex align-items-center justify-content-between mt-3">
@@ -1290,7 +1333,7 @@
                                                     @endforeach
                                                 </ul>
                                                 <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="vaccination_record" name="vaccination_record[]" multiple="multiple"></select>
-                                                <span id="vaccination_error" class="text-danger"></span>
+                                                <span id="vaccination_error" class="reqError text-danger valley "></span>
                                             </div>
                                         </div> 
                                         <div class="col-md-12 mt-3">
@@ -1301,7 +1344,7 @@
                                                     <option value="Up-to-date" @if(!empty($vaccinationData)) @if($vaccinationData->immunization_status == "Up-to-date") selected @endif @endif>Up-to-date</option>
                                                     <option value="Pending" @if(!empty($vaccinationData)) @if($vaccinationData->immunization_status == "Pending") selected @endif @endif>Pending</option>
                                                 </select>
-                                                <span id="immunization_status_error" class="text-danger"></span>
+                                                <span id="immunization_status_error" class="reqError text-danger valley "></span>
                                             </div>
                                         </div>   
                                         
