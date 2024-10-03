@@ -162,7 +162,7 @@
                     
                     
                 </ul>
-                <form method="post" enctype="multipart/form-data" id="AddNurse">
+                {{-- <form method="post" enctype="multipart/form-data" id="AddNurse"> --}}
                 <!-- Tab panes -->
                 <div class="tab-content border mt-2">
                     <div class="tab-pane p-3 active show" id="navpill-1" role="tabpanel">
@@ -755,7 +755,11 @@
                                     <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center ">Education and Certification 
                                     </h3>
                                 </div>
+                               
                                 <div class="card-body p-3 px-md-4">
+                                <form id="educert_form" method="POST">
+                                @csrf
+                                <input type="hidden" name='tab' value="tab3">
                                     <div class="col-md-12">
                                         <div class="row">
                                             <h4 class="fw-bolder fs-6 lh-base d-flex align-items-center ">Educational Background
@@ -800,11 +804,10 @@
                                             <div class="col-md-6 mt-3">
                                                 <div class="form-group">
                                                     {{-- <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Upload Degree & Transcript</strong></label>
-
                                                     <input type="file" name="upload_degree" id="upload_degree" class="" accept="image/*">  --}}
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Upload Degree & Transcript</strong></label>
                                                     <input class="form-control" type="file" name="upload_degree" id="upload_degree">
-                                                    <span id="upload_degree" class="reqError text-danger valley "></span>
+                                                    <span id="upload_degree_error" class="reqError text-danger valley "></span>
                                                 </div>
                                             </div>
                                             {{-- <div class="col-md-6 mt-3">
@@ -1138,12 +1141,15 @@
                                                     </div>
                                                 </div>
                                                 <div class="d-flex align-items-center justify-content-between mt-3">
-                                                    <button type="button" class="btn btn-default next-step-4 align-items-center justify-content-between" data-target="#navpill-5">Next</button>
+                                                <button class="btn btn-default next-step-4 align-items-center justify-content-between" type="submit" id="submitEducation" data-target="#navpill-5">Next</button>
+
+                                                    {{-- <button type="button" type="submit" class="">Next</button> --}}
                                                 </div>
                                         </div>                     
                                     </div>
-                    
+                                </form>
                                 </div>
+                               
                             </div>
                         </div>
                     </div>
@@ -1855,7 +1861,7 @@
                         </div>
                     </div>                   
                 </div>
-            </form>
+            {{-- </form> --}}
             </div>
         </div>
 

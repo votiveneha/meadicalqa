@@ -2476,11 +2476,11 @@
                             <span id="reqempsdate" class="reqError text-danger valley"></span>
                           </div>
                           <div class="declaration_box mb-3">
-                            <input class="declare_information" type="checkbox" name="present_box[]" value="1" @if(!empty($w_data->present_box1 == 1 )) checked @endif>I am currently in this position at the moment
+                            <input class="currently_position currently_position-{{ $i }}" type="checkbox" name="present_box[]" onclick="currently_position('{{ $i }}')" value="1" @if(!empty($w_data->present_box1 == 1 )) checked @endif>I am currently in this position at the moment
 
                           </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 empl_end_date-{{ $i }}" @if($w_data->present_box1 == 1) style="display:none;" @endif>
                           <div class="form-group level-drp">
                             <label class="form-label" for="input-1">Employment End Date</label>
                             <input class="form-control employeement_end_date employeement_end_date-{{ $i }}" type="date" name="end_date[]" value="{{ $w_data->end_date1 }}" onkeydown="return false">
@@ -2554,15 +2554,15 @@
                           <span id="reqempsdate" class="reqError text-danger valley"></span>
                         </div>
                         <div class="declaration_box">
-                          <input class="declare_information" type="checkbox" name="present_box[]" value="1">I am currently in this position at the moment
+                          <input class="currently_position currently_position-1" type="checkbox" name="present_box[]" value="1" onclick="currently_position(1)">I am currently in this position at the moment
 
                         </div>
                       </div>
-                      <div class="col-md-6">
+                      <div class="col-md-6 empl_end_date-1">
                         <div class="form-group level-drp">
                           <label class="form-label" for="input-1">Employment End Date</label>
                           <input class="form-control employeement_end_date employeement_end_date-1" type="date" name="end_date[]" onkeydown="return false">
-                          <span id="reqemployeementenddate" class="reqError text-danger valley"></span>
+                          <span id="reqemployeementenddate-1" class="reqError text-danger valley"></span>
                         </div>
                         
                       </div>
@@ -2597,7 +2597,9 @@
 
                     @endif
                   </div>
-                  
+                  <div class="add_new_certification_div awe mb-3 mt-4">
+                    <a style="cursor: pointer;" onclick="add_work_experience()">+ Add another work experience</a>
+                  </div>
                   <h6 class="emergency_text">
                     Areas of Expertise  
                   </h6>
@@ -2616,9 +2618,32 @@
                     <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="skills_compantancies" name="skills_compantancies[]" multiple="multiple"></select>
                   </div>
                   <span id="reqexpertise" class="reqError text-danger valley"></span>
-                  <div class="add_new_certification_div awe mb-3 mt-4">
-                    <a style="cursor: pointer;" onclick="add_work_experience()">+ Add another work experience</a>
+                  <div class="form-group level-drp">
+                    <input type="hidden" name="evidence_type" class="evidence_type" value="@if(!empty($experienceData)) {{ $experienceData->evidence_type }}@endif">
+                    <label class="form-label" for="input-1">Type of evidence</label>
+                      <?php
+                        $skills = DB::table("skills")->get();
+                      ?>
+                      <ul id="type_of_evidence" style="display:none;">
+                          
+                          <li data-value="Statement of Service">Statement of Service</li>
+                          <li data-value="Statutory Declaration">Statutory Declaration</li>
+                          <li data-value="Award">Award</li>
+                          <li data-value="Transcript">Transcript</li>
+                          <li data-value="Certificate">Certificate</li>
+                      </ul>
+                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="type_of_evidence" name="type_of_evidence[]" multiple="multiple"></select>
+                    <span id="reqtype_evidence" class="reqError text-danger valley"></span>
                   </div>
+                  <div class="form-group level-drp">
+                      <label class="form-label" for="input-1">Upload evidence</label>
+                      
+                      <input class="form-control" type="file" name="upload_evidence">
+                      @if(!empty($experienceData) && $experienceData->upload_evidence != NULL)
+                      <img src="{{ url('/public/uploads/evidence') }}/{{ $experienceData->upload_evidence }}" style="width:100px;">
+                      @endif
+                      <!-- <span id="reqachievements" class="reqError text-danger valley"></span> -->
+                    </div>
                   <div class="box-button mt-15">
                     <button class="btn btn-apply-big font-md font-bold" type="submit" id="submitExperience">Save Changes</button>
                   </div>    
@@ -4510,6 +4535,11 @@
   if($(".skills_comp").val() != ""){
     var skills_comp = JSON.parse($(".skills_comp").val());
     $('.js-example-basic-multiple[data-list-id="skills_compantancies"]').select2().val(skills_comp).trigger('change');
+  }
+
+  if($(".evidence_type").val() != ""){
+    var evidence_type = JSON.parse($(".evidence_type").val());
+    $('.js-example-basic-multiple[data-list-id="type_of_evidence"]').select2().val(evidence_type).trigger('change');
   }
 
   if($(".desired_job_roles").val() != ""){

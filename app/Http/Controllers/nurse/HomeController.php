@@ -1717,6 +1717,7 @@ class HomeController extends Controller
         $achievements = $request->achievements;
         $employeement_type = $request->employeement_type;
         $skills_compantancies = json_encode($request->skills_compantancies);
+        $type_of_evidence = json_encode($request->type_of_evidence);
         $i = 0;    
         $work_experience_array = array();
         foreach ($previous_employer_name as $pname) {
@@ -1743,6 +1744,22 @@ class HomeController extends Controller
         }else{
             $work_experience_json = '';
         }
+
+        $file = $request->file('upload_evidence');
+
+        
+        
+        //$post = User::find($request->user_id);
+
+        if(!empty($file)){
+            $destinationPath = public_path() . '/uploads/evidence';
+
+            $file->move($destinationPath,time().$file->getClientOriginalName());
+            $upload_evidence = time().$file->getClientOriginalName();
+            
+        }else{
+            $upload_evidence = $getedudata->upload_evidence;
+        }
         
         
         $getexperiencedata = DB::table("user_experience")->where("user_id",$user_id)->first();
@@ -1753,7 +1770,7 @@ class HomeController extends Controller
             $post1->assistent_level = $year_experience;
             $post1->save();
             
-            $run = ExperienceModel::where('user_id',$user_id)->update(['work_experience'=>$work_experience_json,'skills_compantancies'=>$skills_compantancies,'complete_status'=>1]);
+            $run = ExperienceModel::where('user_id',$user_id)->update(['work_experience'=>$work_experience_json,'upload_evidence'=>$upload_evidence,'evidence_type'=>$type_of_evidence,'skills_compantancies'=>$skills_compantancies,'complete_status'=>1]);
         }else{
 
             
@@ -1764,6 +1781,8 @@ class HomeController extends Controller
             //$post->year_experience = $year_experience;
             $post->work_experience = $work_experience_json;
             $post->skills_compantancies = $skills_compantancies;
+            $post->upload_evidence = $upload_evidence;
+            $post->evidence_type = $type_of_evidence;
             $post->complete_status = 1;
             $run = $post->save();
 

@@ -1962,7 +1962,17 @@ function pad(number) {
       $(".working-"+i).hide();
     }else{
       $(".working-"+i).show();
-      $(".end_date-"+i).val("")
+      $(".end_date-"+i).val("");
+    }
+  }
+
+  function currently_position(i){
+    
+    if ($(".currently_position-"+i).prop('checked')==true){ 
+      $(".empl_end_date-"+i).hide();
+    }else{
+      $(".empl_end_date-"+i).show();
+      $(".employeement_end_date-"+i).val("");
     }
   }
 

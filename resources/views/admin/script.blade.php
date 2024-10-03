@@ -1358,7 +1358,7 @@ $(document).ready(function() {
 
     <script> 
         // thired form        
-        $('.next-step-4').on('click', function(event) { 
+        $('.next-step-41').on('click', function(event) { 
             event.preventDefault(); // Prevent default form submission
 
             var targetTab = $(this).data('target'); 
@@ -1386,183 +1386,233 @@ $(document).ready(function() {
             // }
     
 
-            // var selectElement2 = $('select[data-list-id="acls_data"]');       
-            // var acls_data = selectElement2.val(); 
+            var selectElement2 = $('select[data-list-id="acls_data"]');       
+            var acls_data = selectElement2.val(); 
+            
 
-            // var acls_license_number = $('#acls_license_number').val();
-
-            // var acls_expiry = $('#acls_expiry').val();
-
-            // // Append the file
-            // var acls_upload_certification = $('#acls_upload_certification')[0].files[0];
+            var acls_license_number = $('[name="acls_license_number[]"]').val();
 
 
-            // var selectElement3 = $('select[data-list-id="bls_data"]');        
-            // // Get the selected value(s) from the Select2 element
-            // var bls_data = selectElement3.val(); 
-
-
-            // var bls_license_number = $('#bls_license_number').val();
-
-            // var bls_expiry = $('#bls_expiry').val();
+            var acls_expiry = $('[name="acls_expiry[]"]').val();
 
             // // Append the file
-            // var bls_upload_certification = $('#bls_upload_certification')[0].files[0];
+            var fileInput  = $('[name="acls_upload_certification[]"]');
+            // Check if the input exists and files are selected
+            if (fileInput.length > 0 && fileInput[0].files.length > 0) {
+                // Get the first file
+                var acls_upload_certification = fileInput[0].files[0];
+            }
 
-            // var selectElement4 = $('select[data-list-id="cpr_data"]');        
-            // // Get the selected value(s) from the Select2 element
-            // var cpr_data = selectElement4.val(); 
 
-            // var cpr_license_number = $('#cpr_license_number').val();
 
-            // var cpr_expiry = $('#cpr_expiry').val();
+
+            var selectElement3 = $('select[data-list-id="bls_data"]');        
+            // Get the selected value(s) from the Select2 element
+            var bls_data = selectElement3.val(); 
+
+
+            var bls_license_number = $('[name="bls_license_number[]"]').val();
+
+            var bls_expiry = $('[name="bls_expiry[]"]').val();
 
             // // Append the file
-            // var cpr_upload_certification = $('#cpr1_upload_certification')[0].files[0];
+            var bls_upload_certification = $('[name="bls_upload_certification[]"]');
+            // Check if the input exists and files are selected
+            if (bls_upload_certification.length > 0 && bls_upload_certification[0].files.length > 0) {
+            var bls_upload_certification = bls_upload_certification[0].files[0];
+            }
+
+
+            var selectElement4 = $('select[data-list-id="cpr_data"]');        
+            // Get the selected value(s) from the Select2 element
+            var cpr_data = selectElement4.val(); 
+
+            var cpr_license_number = $('[name="cpr_license_number[]"]').val();
+
+            var cpr_expiry = $('[name="cpr_expiry[]"]').val();
+
+            // Append the file
+            var cpr_upload_certification = $('[name="cpr_upload_certification[]"]');
+            if (cpr_upload_certification.length > 0 && cpr_upload_certification[0].files.length > 0) {
+            var cpr_upload_certification = cpr_upload_certification[0].files[0];
+            }
 
             // // Specialties cpr_upload_certification
-            // var selectElement5 = $('select[data-list-id="nrp_data"]');        
-            // // Get the selected value(s) from the Select2 element
-            // var nrp_data = selectElement5.val();
+            var selectElement5 = $('select[data-list-id="nrp_data"]');        
+            // Get the selected value(s) from the Select2 element
+            var nrp_data = selectElement5.val();
 
-            // var nrp_license_number = $('#nrp_license_number').val();
+            var nrp_license_number = $('[name="nrp_license_number[]"]').val();
 
-            // var nrp_expiry = $('#nrp_expiry').val();
+            var nrp_expiry = $('[name="nrp_expiry[]"]').val();
 
-            // // Append the file
-            // var nrp_upload_certification = $('#nrp_upload_certification')[0].files[0];
-            
-            // var selectElement6 = $('select[data-list-id="pals_data"]');        
-            // // Get the selected value(s) from the Select2 element
-            // var pals_data = selectElement6.val(); 
+            // Append the file
+            var nrp_upload_certification = $('[name="nrp_upload_certification[]"]');
+            if (nrp_upload_certification.length > 0 && nrp_upload_certification[0].files.length > 0) {
+            var nrp_upload_certification = nrp_upload_certification[0].files[0];
+            }
 
-            // var pals_license_number = $('#pals_license_number').val();
+            var selectElement6 = $('select[data-list-id="pals_data"]');        
+            // Get the selected value(s) from the Select2 element
+            var pals_data = selectElement6.val(); 
 
-            // var pals_expiry = $('#pals_expiry').val();
+            var pals_license_number = $('[name="pls_license_number[]"]').val();
 
-            // // Append the file
-            // var pals_upload_certification = $('#pals_upload_certification')[0].files[0];
+            var pals_expiry = $('[name="pls_expiry[]"]').val();
 
-            // var selectElement7 = $('select[data-list-id="rn_data"]');        
-            // // Get the selected value(s) from the Select2 element
-            // var rn_data = selectElement7.val(); 
+            // Append the file
+            var pals_upload_certification = $('[name="pls_upload_certification[]"]');
+            if (pals_upload_certification.length > 0 && pals_upload_certification[0].files.length > 0) {
+            var pals_upload_certification = pals_upload_certification[0].files[0];
+            }
+            var selectElement7 = $('select[data-list-id="rn_data"]');        
+            // Get the selected value(s) from the Select2 element
+            var rn_data = selectElement7.val(); 
 
-            // var rn_license_number = $('#rn_license_number').val();
-            // var rn_expiry = $('#rn_expiry').val();
+            var rn_license_number = $('[name="rn_license_number[]"]').val();
+            var rn_expiry = $('[name="rn_expiry[]"]').val();
 
-            // // Append the file
-            // var rn_upload_certification = $('#rn_upload_certification')[0].files[0];
+            // Append the file
+            var rn_upload_certification = $('[name="rn_upload_certification[]"]');
+            if (rn_upload_certification.length > 0 && rn_upload_certification[0].files.length > 0) {
+            var rn_upload_certification = rn_upload_certification[0].files[0];
+            }
 
-            // var selectElement8 = $('select[data-list-id="np_data"]');        
-            // // Get the selected value(s) from the Select2 element
-            // var np_data = selectElement8.val(); 
+            var selectElement8 = $('select[data-list-id="np_data"]');        
+            // Get the selected value(s) from the Select2 element
+            var np_data = selectElement8.val(); 
 
-            // var np_license_number = $('#np_license_number').val();
+            var np_license_number = $('[name="np_license_number[]"]').val();
 
-            // var np_expiry = $('#np_expiry').val();
+            var np_expiry = $('[name="np_expiry[]"]').val();
 
-            // // Append the file
-            // var np_upload_certification = $('#np_upload_certification')[0].files[0];
+            // Append the file
+            var np_upload_certification = $('[name="np_upload_certification[]"]');
+            if (np_upload_certification.length > 0 && np_upload_certification[0].files.length > 0) {
+            var np_upload_certification = np_upload_certification[0].files[0];
+            }
 
             // var selectElement9= $('select[data-list-id="rn_data"]');        
             // // Get the selected value(s) from the Select2 element
             // var rn_data = selectElement9.val(); 
 
-            // var rn_license_number = $('#rn_license_number').val();
+            // var rn_license_number = $('[name="np_upload_certification[]"]').val();
 
-            // var rn_expiry = $('#rn_expiry').val();
+            // var rn_expiry = $('[name="np_upload_certification[]"]').val();
 
             // // Append the file
-            // var rn_upload_certification = $('#rn_upload_certification')[0].files[0];
+            // var rn_upload_certification = $('[name="np_upload_certification[]"]')[0].files[0];
             
             
-            // var selectElement10 = $('select[data-list-id="cn_data"]');        
-            // // Get the selected value(s) from the Select2 element
-            // var cn_data = selectElement10.val(); 
+            var selectElement10 = $('select[data-list-id="cn_data"]');        
+            // Get the selected value(s) from the Select2 element
+            var cn_data = selectElement10.val(); 
 
-            // var cn_license_number = $('#cn_license_number').val();
+            var cn_license_number = $('[name="cn_license_number[]"]').val();
 
-            // var cn_expiry = $('#cn_expiry').val();
+            var cn_expiry = $('[name="cn_expiry[]"]').val();
 
-            // // Append the file
-            // var cn_upload_certification = $('#cn_upload_certification')[0].files[0];
+            // Append the file
+            var cn_upload_certification = $('[name="cn_upload_certification[]"]');
+            if (cn_upload_certification.length > 0 && cn_upload_certification[0].files.length > 0) {
+            var cn_upload_certification = cn_upload_certification[0].files[0];
+            }
+            var selectElement11 = $('select[data-list-id="lpn_data"]');        
+            // Get the selected value(s) from the Select2 element
+            var lpn_data = selectElement11.val();
 
-            // var selectElement11 = $('select[data-list-id="lpn_data"]');        
-            // // Get the selected value(s) from the Select2 element
-            // var lpn_data = selectElement11.val();
+            var lpn_license_number = $('[name="lpn_license_number[]"]').val();
 
-            // var lpn_license_number = $('#lpn_license_number').val();
+            var lpn_expiry = $('[name="lpn_expiry[]"]').val();
 
-            // var lpn_expiry = $('#lpn_expiry').val();
+            // Append the file
+            var lpn_upload_certification = $('[name="lpn_upload_certification[]"]');
+            if (lpn_upload_certification.length > 0 && lpn_upload_certification[0].files.length > 0) {
+            var lpn_upload_certification = lpn_upload_certification[0].files[0];
+            }
 
-            // // Append the file
-            // var lpn_upload_certification = $('#lpn_upload_certification')[0].files[0];
+            var selectElement12 = $('select[data-list-id="crn_data"]');        
+            // Get the selected value(s) from the Select2 element
+            var crn_data = selectElement12.val();
 
-            // var selectElement12 = $('select[data-list-id="crn_data"]');        
-            // // Get the selected value(s) from the Select2 element
-            // var crn_data = selectElement12.val();
+            var crn_license_number = $('[name="crna_license_number[]"]').val();
 
-            // var crn_license_number = $('#crn_license_number').val();
+            var crn_expiry = $('[name="crna_expiry[]"]').val();
 
-            // var crn_expiry = $('#crn_expiry').val();
+            // Append the file
+            var crn_upload_certification = $('[name="crna_upload_certification[]"]');
+            if (crn_upload_certification.length > 0 && crn_upload_certification[0].files.length > 0) {
+            var crn_upload_certification = crn_upload_certification[0].files[0];
+            }
+            var selectElement13 = $('select[data-list-id="cnm_data"]');        
+            // Get the selected value(s) from the Select2 element
+            var cnm_data = selectElement13.val();
 
-            // // Append the file
-            // var crn_upload_certification = $('#lpn_upload_certification')[0].files[0];
+            var cnm_license_number = $('[name="cnm_license_number[]"]').val();
 
-            // var selectElement13 = $('select[data-list-id="cnm_data"]');        
-            // // Get the selected value(s) from the Select2 element
-            // var cnm_data = selectElement13.val();
+            var cnm_expiry = $('[name="cnm_expiry[]"]').val();
 
-            // var cnm_license_number = $('#cnm_license_number').val();
+            // Append the file
+            var cnm_upload_certification = $('[name="cnm_upload_certification[]"]');
+            if (cnm_upload_certification.length > 0 && cnm_upload_certification[0].files.length > 0) {
+            var cnm_upload_certification = cnm_upload_certification[0].files[0];
+            }
 
-            // var cnm_expiry = $('#cnm_expiry').val();
+            var selectElement14= $('select[data-list-id="ons_data"]');        
+            // Get the selected value(s) from the Select2 element
+            var ons_data = selectElement14.val();
 
-            // // Append the file
-            // var cnm_upload_certification = $('#cnm_upload_certification')[0].files[0];
+            var ons_license_number = $('[name="ons_license_number[]"]').val();
 
-            // var selectElement14= $('select[data-list-id="ons_data"]');        
-            // // Get the selected value(s) from the Select2 element
-            // var ons_data = selectElement14.val();
+            var ons_expiry = $('[name="ons_expiry[]"]').val();
 
-            // var ons_license_number = $('#ons_license_number').val();
+            // Append the file
+            var ons_upload_certification = $('[name="ons_upload_certification[]"]');
+            if (ons_upload_certification.length > 0 && ons_upload_certification[0].files.length > 0) {
+            var ons_upload_certification = ons_upload_certification[0].files[0];
+            }
 
-            // var ons_expiry = $('#ons_expiry').val();
+            var selectElement15 = $('select[data-list-id="msw_data"]');        
+            // Get the selected value(s) from the Select2 element
+            var msw_data = selectElement15.val();
 
-            // // Append the file
-            // var ons_upload_certification = $('#ons_upload_certification')[0].files[0];
+            var msw_license_number = $('[name="msw_license_number[]"]').val();
 
-            // var selectElement15 = $('select[data-list-id="msw_data"]');        
-            // // Get the selected value(s) from the Select2 element
-            // var msw_data = selectElement15.val();
+            var msw_expiry = $('[name="msw_expiry[]"]').val();
 
-            // var msw_license_number = $('#msw_license_number').val();
+            // Append the file
+            var msw_upload_certification = $('[name="msw_upload_certification[]"]');
+            if (msw_upload_certification.length > 0 && msw_upload_certification[0].files.length > 0) {
+            var msw_upload_certification = msw_upload_certification[0].files[0];
+            }
 
-            // var msw_expiry = $('#msw_expiry').val();
+            var selectElement16 = $('select[data-list-id="ain_data"]');        
+            // Get the selected value(s) from the Select2 element
+            var ain_data = selectElement16.val();
 
-            // // Append the file
-            // var msw_upload_certification = $('#msw_upload_certification')[0].files[0];
+            var ain_license_number = $('[name="ain_license_number[]"]').val();
 
-            // var selectElement16 = $('select[data-list-id="ain_data"]');        
-            // // Get the selected value(s) from the Select2 element
-            // var ain_data = selectElement16.val();
+            var ain_expiry = $('[name="ain_expiry[]"]').val();
 
-            // var ain_license_number = $('#ain_license_number').val();
+            // Append the file
+            var ain_upload_certification = $('[name="ain_upload_certification[]"]');
+            if (ain_upload_certification.length > 0 && ain_upload_certification[0].files.length > 0) {
+            var ain_upload_certification = ain_upload_certification[0].files[0];
+            }
 
-            // var ain_expiry = $('#ain_expiry').val();
+            var selectElement17 = $('select[data-list-id="rpn_data"]');        
+            // Get the selected value(s) from the Select2 element
+            var rpn_data = selectElement17.val();
 
-            // // Append the file
-            // var ain_upload_certification = $('#ain_upload_certification')[0].files[0];
+            var rpn_license_number = $('[name="rpn_license_number[]"]').val();
 
-            // var selectElement17 = $('select[data-list-id="rpn_data"]');        
-            // // Get the selected value(s) from the Select2 element
-            // var rpn_data = selectElement17.val();
+            var rpn_expiry = $('[name="rpn_expiry[]"]').val();
 
-            // var rpn_license_number = $('#rpn_license_number').val();
-
-            // var rpn_expiry = $('#rpn_expiry').val();
-
-            // // Append the file
-            // var rpn_upload_certification = $('#rpn_upload_certification')[0].files[0];
+            // Append the file
+            var rpn_upload_certification = $('[name="rpn_upload_certification[]"]');
+            if (rpn_upload_certification.length > 0 && rpn_upload_certification[0].files.length > 0) {
+            var rpn_upload_certification = rpn_upload_certification[0].files[0];
+            }
 
             // var selectElement18 = $('select[data-list-id="nlc_data"]');        
             // // Get the selected value(s) from the Select2 element
@@ -1620,6 +1670,10 @@ $(document).ready(function() {
                     document.getElementById("reqaclsvalid").innerHTML = "* Please select ACLS (Advanced Cardiovascular Life Support)";
                     isValid = false;
                 }
+            }
+            if ($('[name="upload_degree"]').val() == '') {
+            document.getElementById("upload_degree_error").innerHTML = "* Please Upload the file.";
+            isValid = false;
             }
 
             var i = 0;
@@ -2156,12 +2210,12 @@ $(document).ready(function() {
             formData.append('rpn_expiry', rpn_expiry);
             formData.append('rpn_upload_certification', rpn_upload_certification);
 
-            formData.append('nlc_data',JSON.stringify(nlc_data));
-            formData.append('nlc_license_number', nlc_license_number);
-            formData.append('nlc_expiry', nlc_expiry );
-            formData.append('nlc_upload_certification', nlc_upload_certification  );
+            // formData.append('nlc_data',JSON.stringify(nlc_data));
+            // formData.append('nlc_license_number', nlc_license_number);
+            // formData.append('nlc_expiry', nlc_expiry );
+            // formData.append('nlc_upload_certification', nlc_upload_certification  );
 
-            formData.append('training_courses',JSON.stringify(training_courses));
+            // formData.append('training_courses',JSON.stringify(training_courses));
             // formData.append('training_workshop',JSON.stringify(training_workshop));
             
             $.ajax({
@@ -2198,56 +2252,7 @@ $(document).ready(function() {
                     error: function(error) {
                     // if(targetTab ==  '#navpill-2'){
                     if (error.responseJSON.errors) {
-                            if(error.responseJSON.errors.ndegree){
-                                $('#ndegree_error').text(error.responseJSON.errors.ndegree[0]);
-                            } else {
-                                $('#ndegree_error').text('');
-                            }
-
-                            if (error.responseJSON.errors.institution) {
-                                $('#institution_error').text(error.responseJSON.errors.institution[0]);                           
-                            } else {
-                                $('#institution_error').text('');
-                            }
-
-                            if (error.responseJSON.errors.most_relevant) {
-                                $('#relevant_error').text(error.responseJSON.errors.most_relevant[0]);                           
-                            } else {
-                                $('#relevant_error').text('');
-                            }
-
-                            if (error.responseJSON.errors.graduation_start_date) {
-                                $('#gra_start_date_error').text(error.responseJSON.errors.graduation_start_date[0]);                           
-                            } else {
-                                $('#gra_start_date_error').text('');
-                            }
-
-                            if (error.responseJSON.errors.graduation_end_date) {
-                                $('#gra_end_date_error').text(error.responseJSON.errors.graduation_end_date[0]);                           
-                            } else {
-                                $('#gra_end_date_error').text('');
-                            }
-                            
-
-                            if (error.responseJSON.errors.professional_certification) {
-                                $('#profess_cert_error').text(error.responseJSON.errors.professional_certification[0]);                           
-                            } else {
-                                $('#profess_cert_error').text('');
-                            }
-
-                            if (error.responseJSON.errors.training_courses) {
-                                $('#training_course_error').text(error.responseJSON.errors.training_courses[0]);                           
-                            } else {
-                                $('#training_course_error').text('');
-                            }
-
-                            // if (error.responseJSON.errors.training_workshop) {
-                            //     $('#training_workshop_error').text(error.responseJSON.errors.training_workshop[0]);                           
-                            // } else {
-                            //     $('#training_workshop_error').text('');
-                            // }
-
-                        // }                        
+                                                    
                         }
                     }
             }   );
@@ -2257,6 +2262,810 @@ $(document).ready(function() {
         //     $('a[href="' + targetTab + '"]').tab('show'); // Show the target tab
         // }
            
+        });
+       
+
+
+        $(document).ready(function() {
+        $('#educert_form').on('submit', function(event) {
+        event.preventDefault(); 
+
+            var isValid = true;
+          
+            var selectElement = $('select[data-list-id="ndegree"]');        
+            var ndegree = selectElement.val();  
+            
+            var selectElement1 = $('select[data-list-id="profess_cert"]');        
+            var profess_cert = selectElement1.val(); 
+
+            // if(profess_cert == ''){
+            //    $('#profess_cert_error').text('This field is required.')
+            // }else{
+            //   $('#profess_cert_error').text('')
+            // }
+    
+
+            var selectElement2 = $('select[data-list-id="acls_data"]');       
+            var acls_data = selectElement2.val(); 
+            
+
+            var acls_license_number = $('[name="acls_license_number[]"]').val();
+
+
+            var acls_expiry = $('[name="acls_expiry[]"]').val();
+
+            // // Append the file
+            var fileInput  = $('[name="acls_upload_certification[]"]');
+            // Check if the input exists and files are selected
+            if (fileInput.length > 0 && fileInput[0].files.length > 0) {
+                // Get the first file
+                var acls_upload_certification = fileInput[0].files[0];
+            }
+
+
+
+
+            var selectElement3 = $('select[data-list-id="bls_data"]');        
+            // Get the selected value(s) from the Select2 element
+            var bls_data = selectElement3.val(); 
+
+
+            var bls_license_number = $('[name="bls_license_number[]"]').val();
+
+            var bls_expiry = $('[name="bls_expiry[]"]').val();
+
+            // // Append the file
+            var bls_upload_certification = $('[name="bls_upload_certification[]"]');
+            // Check if the input exists and files are selected
+            if (bls_upload_certification.length > 0 && bls_upload_certification[0].files.length > 0) {
+            var bls_upload_certification = bls_upload_certification[0].files[0];
+            }
+
+
+            var selectElement4 = $('select[data-list-id="cpr_data"]');        
+            // Get the selected value(s) from the Select2 element
+            var cpr_data = selectElement4.val(); 
+
+            var cpr_license_number = $('[name="cpr_license_number[]"]').val();
+
+            var cpr_expiry = $('[name="cpr_expiry[]"]').val();
+
+            // Append the file
+            var cpr_upload_certification = $('[name="cpr_upload_certification[]"]');
+            if (cpr_upload_certification.length > 0 && cpr_upload_certification[0].files.length > 0) {
+            var cpr_upload_certification = cpr_upload_certification[0].files[0];
+            }
+
+            // // Specialties cpr_upload_certification
+            var selectElement5 = $('select[data-list-id="nrp_data"]');        
+            // Get the selected value(s) from the Select2 element
+            var nrp_data = selectElement5.val();
+
+            var nrp_license_number = $('[name="nrp_license_number[]"]').val();
+
+            var nrp_expiry = $('[name="nrp_expiry[]"]').val();
+
+            // Append the file
+            var nrp_upload_certification = $('[name="nrp_upload_certification[]"]');
+            if (nrp_upload_certification.length > 0 && nrp_upload_certification[0].files.length > 0) {
+            var nrp_upload_certification = nrp_upload_certification[0].files[0];
+            }
+
+            var selectElement6 = $('select[data-list-id="pals_data"]');        
+            // Get the selected value(s) from the Select2 element
+            var pals_data = selectElement6.val(); 
+
+            var pals_license_number = $('[name="pls_license_number[]"]').val();
+
+            var pals_expiry = $('[name="pls_expiry[]"]').val();
+
+            // Append the file
+            var pals_upload_certification = $('[name="pls_upload_certification[]"]');
+            if (pals_upload_certification.length > 0 && pals_upload_certification[0].files.length > 0) {
+            var pals_upload_certification = pals_upload_certification[0].files[0];
+            }
+            var selectElement7 = $('select[data-list-id="rn_data"]');        
+            // Get the selected value(s) from the Select2 element
+            var rn_data = selectElement7.val(); 
+
+            var rn_license_number = $('[name="rn_license_number[]"]').val();
+            var rn_expiry = $('[name="rn_expiry[]"]').val();
+
+            // Append the file
+            var rn_upload_certification = $('[name="rn_upload_certification[]"]');
+            if (rn_upload_certification.length > 0 && rn_upload_certification[0].files.length > 0) {
+            var rn_upload_certification = rn_upload_certification[0].files[0];
+            }
+
+            var selectElement8 = $('select[data-list-id="np_data"]');        
+            // Get the selected value(s) from the Select2 element
+            var np_data = selectElement8.val(); 
+
+            var np_license_number = $('[name="np_license_number[]"]').val();
+
+            var np_expiry = $('[name="np_expiry[]"]').val();
+
+            // Append the file
+            var np_upload_certification = $('[name="np_upload_certification[]"]');
+            if (np_upload_certification.length > 0 && np_upload_certification[0].files.length > 0) {
+            var np_upload_certification = np_upload_certification[0].files[0];
+            }
+
+            // var selectElement9= $('select[data-list-id="rn_data"]');        
+            // // Get the selected value(s) from the Select2 element
+            // var rn_data = selectElement9.val(); 
+
+            // var rn_license_number = $('[name="np_upload_certification[]"]').val();
+
+            // var rn_expiry = $('[name="np_upload_certification[]"]').val();
+
+            // // Append the file
+            // var rn_upload_certification = $('[name="np_upload_certification[]"]')[0].files[0];
+            
+            
+            var selectElement10 = $('select[data-list-id="cn_data"]');        
+            // Get the selected value(s) from the Select2 element
+            var cn_data = selectElement10.val(); 
+
+            var cn_license_number = $('[name="cn_license_number[]"]').val();
+
+            var cn_expiry = $('[name="cn_expiry[]"]').val();
+
+            // Append the file
+            var cn_upload_certification = $('[name="cn_upload_certification[]"]');
+            if (cn_upload_certification.length > 0 && cn_upload_certification[0].files.length > 0) {
+            var cn_upload_certification = cn_upload_certification[0].files[0];
+            }
+            var selectElement11 = $('select[data-list-id="lpn_data"]');        
+            // Get the selected value(s) from the Select2 element
+            var lpn_data = selectElement11.val();
+
+            var lpn_license_number = $('[name="lpn_license_number[]"]').val();
+
+            var lpn_expiry = $('[name="lpn_expiry[]"]').val();
+
+            // Append the file
+            var lpn_upload_certification = $('[name="lpn_upload_certification[]"]');
+            if (lpn_upload_certification.length > 0 && lpn_upload_certification[0].files.length > 0) {
+            var lpn_upload_certification = lpn_upload_certification[0].files[0];
+            }
+
+            var selectElement12 = $('select[data-list-id="crn_data"]');        
+            // Get the selected value(s) from the Select2 element
+            var crn_data = selectElement12.val();
+
+            var crn_license_number = $('[name="crna_license_number[]"]').val();
+
+            var crn_expiry = $('[name="crna_expiry[]"]').val();
+
+            // Append the file
+            var crn_upload_certification = $('[name="crna_upload_certification[]"]');
+            if (crn_upload_certification.length > 0 && crn_upload_certification[0].files.length > 0) {
+            var crn_upload_certification = crn_upload_certification[0].files[0];
+            }
+            var selectElement13 = $('select[data-list-id="cnm_data"]');        
+            // Get the selected value(s) from the Select2 element
+            var cnm_data = selectElement13.val();
+
+            var cnm_license_number = $('[name="cnm_license_number[]"]').val();
+
+            var cnm_expiry = $('[name="cnm_expiry[]"]').val();
+
+            // Append the file
+            var cnm_upload_certification = $('[name="cnm_upload_certification[]"]');
+            if (cnm_upload_certification.length > 0 && cnm_upload_certification[0].files.length > 0) {
+            var cnm_upload_certification = cnm_upload_certification[0].files[0];
+            }
+
+            var selectElement14= $('select[data-list-id="ons_data"]');        
+            // Get the selected value(s) from the Select2 element
+            var ons_data = selectElement14.val();
+
+            var ons_license_number = $('[name="ons_license_number[]"]').val();
+
+            var ons_expiry = $('[name="ons_expiry[]"]').val();
+
+            // Append the file
+            var ons_upload_certification = $('[name="ons_upload_certification[]"]');
+            if (ons_upload_certification.length > 0 && ons_upload_certification[0].files.length > 0) {
+            var ons_upload_certification = ons_upload_certification[0].files[0];
+            }
+
+            var selectElement15 = $('select[data-list-id="msw_data"]');        
+            // Get the selected value(s) from the Select2 element
+            var msw_data = selectElement15.val();
+
+            var msw_license_number = $('[name="msw_license_number[]"]').val();
+
+            var msw_expiry = $('[name="msw_expiry[]"]').val();
+
+            // Append the file
+            var msw_upload_certification = $('[name="msw_upload_certification[]"]');
+            if (msw_upload_certification.length > 0 && msw_upload_certification[0].files.length > 0) {
+            var msw_upload_certification = msw_upload_certification[0].files[0];
+            }
+
+            var selectElement16 = $('select[data-list-id="ain_data"]');        
+            // Get the selected value(s) from the Select2 element
+            var ain_data = selectElement16.val();
+
+            var ain_license_number = $('[name="ain_license_number[]"]').val();
+
+            var ain_expiry = $('[name="ain_expiry[]"]').val();
+
+            // Append the file
+            var ain_upload_certification = $('[name="ain_upload_certification[]"]');
+            if (ain_upload_certification.length > 0 && ain_upload_certification[0].files.length > 0) {
+            var ain_upload_certification = ain_upload_certification[0].files[0];
+            }
+
+            var selectElement17 = $('select[data-list-id="rpn_data"]');        
+            // Get the selected value(s) from the Select2 element
+            var rpn_data = selectElement17.val();
+
+            var rpn_license_number = $('[name="rpn_license_number[]"]').val();
+
+            var rpn_expiry = $('[name="rpn_expiry[]"]').val();
+
+            // Append the file
+            var rpn_upload_certification = $('[name="rpn_upload_certification[]"]');
+            if (rpn_upload_certification.length > 0 && rpn_upload_certification[0].files.length > 0) {
+            var rpn_upload_certification = rpn_upload_certification[0].files[0];
+            }
+
+            // var selectElement18 = $('select[data-list-id="nlc_data"]');        
+            // // Get the selected value(s) from the Select2 element
+            // var nlc_data = selectElement18.val();
+
+            // var nlc_license_number = $('#nlc_license_number').val();
+
+            // var nlc_expiry = $('#nlc_expiry').val();
+
+            // // Append the file
+            // var nlc_upload_certification = $('#nlc_upload_certification')[0].files[0];
+
+            // var selectElement19 = $('select[data-list-id="training_courses"]');        
+            // // Get the selected value(s) from the Select2 element
+            // var training_courses = selectElement19.val();
+
+            // var selectElement20 = $('select[data-list-id="training_workshop"]');        
+            // // Get the selected value(s) from the Select2 element
+            // var training_workshop = selectElement20.val();
+      
+            var institution = $('#institution').val();
+            var most_relevant = $('#most_relevant').val();
+
+            var graduation_start_date = $('#graduation_start_date').val();
+
+            var graduation_end_date = $('#graduation_end_date').val();
+
+            var upload_degree =  $('#upload_degree')[0].files[0];
+
+
+            var isValid = true;
+
+            if ($('[name="ndegree[]"]').val() == '') {
+            document.getElementById("ndegree_error").innerHTML = "* Please select degree.";
+            isValid = false;
+            }
+
+            if ($('[name="institution"]').val() == '') {
+            document.getElementById("institution_error").innerHTML = "* Please enter the institutions.";
+            isValid = false;
+            }
+
+            if ($('[name="graduation_start_date"]').val() == '') {
+            document.getElementById("gra_start_date_error").innerHTML = "* Please enter the graduation start date.";
+            isValid = false;
+            }
+
+            if ($('[name="professional_certification[]"]').val() == '') {
+            document.getElementById("profess_cert_error").innerHTML = "* Please select professional certificate";
+            isValid = false;
+            }
+
+            if ($(".procertdiv").hasClass("d-none") == false) {
+                if ($('[name="acls_data[]"]').val() == '') {
+                    document.getElementById("reqaclsvalid").innerHTML = "* Please select ACLS (Advanced Cardiovascular Life Support)";
+                    isValid = false;
+                }
+            }
+            if ($('[name="upload_degree"]').val() == '') {
+            document.getElementById("upload_degree_error").innerHTML = "* Please Upload the file.";
+            isValid = false;
+            }
+
+            var i = 0;
+            $(".acls_license_number").each(function(){
+            
+            if ($(".acls_license_number-"+i).length > 0) {
+                if ($(".acls_license_number-"+i).val() == '') {
+                document.getElementById("reqaclslicencevalid-"+i).innerHTML = "* Please enter the license number";
+                isValid = false;
+                }
+            }
+            i++;
+            });
+            var j = 0;
+            $(".aclsexpiry").each(function(){
+            
+            if ($(".aclsexpiry-"+j).length > 0) {
+                if ($(".aclsexpiry-"+j).val() == '') {
+                document.getElementById("reqaclsexpiryvalid-"+j).innerHTML = "* Please enter the expiry date";
+                isValid = false;
+                }
+            }
+            j++;
+            });
+            var k = 0;
+            
+            $(".acls_upload_certification").each(function(){
+            
+            console.log("acls_upload_certification",$(".acls_licence_img-"+k).length);
+            if($(".acls_licence_img-"+k).length == 0){ 
+                if ($(".acls_upload_certification-"+k).length > 0) {
+                if ($(".acls_upload_certification-"+k).val() == '') {
+                    document.getElementById("reqaclsuploadvalid-"+k).innerHTML = "* Please add the license image";
+                    isValid = false;
+                }
+                }
+            }
+            k++;
+            });
+            
+            
+            if ($(".procertdivone").hasClass("d-none") == false) {
+            if ($('[name="bls_data[]"]').val() == '') {
+                document.getElementById("reqblsvalid").innerHTML = "* Please select BLS (Basic Life Support)";
+                isValid = false;
+            }
+            }
+            var i = 0;
+            $(".bls_license_number").each(function(){
+            
+            if ($(".bls_license_number-"+i).length > 0) {
+                if ($(".bls_license_number-"+i).val() == '') {
+                document.getElementById("reqblslicencevalid-"+i).innerHTML = "* Please enter the license number";
+                isValid = false;
+                }
+            }
+            i++;
+            });
+            var j = 0;
+            $(".blsexpiry").each(function(){
+            
+            if ($(".blsexpiry-"+j).length > 0) {
+                if ($(".blsexpiry-"+j).val() == '') {
+                document.getElementById("reqblsexpiryvalid-"+j).innerHTML = "* Please enter the expiry date";
+                isValid = false;
+                }
+            }
+            j++;
+            });
+
+            if ($(".procertdivtwo").hasClass("d-none") == false) {
+            if ($('[name="cpr_data[]"]').val() == '') {
+                document.getElementById("reqcprvalid").innerHTML = "* Please select CPR (Cardiopulmonary Resuscitation)";
+                isValid = false;
+            }
+            }
+            var i = 0;
+            $(".cpr_license_number").each(function(){
+            
+            if ($(".cpr_license_number-"+i).length > 0) {
+                if ($(".cpr_license_number-"+i).val() == '') {
+                document.getElementById("reqcprlicencevalid-"+i).innerHTML = "* Please enter the license number";
+                isValid = false;
+                }
+            }
+            i++;
+            });
+            var j = 0;
+            $(".cprexpiry").each(function(){
+            
+            if ($(".cprexpiry-"+j).length > 0) {
+                if ($(".cprexpiry-"+j).val() == '') {
+                document.getElementById("reqcprexpiryvalid-"+j).innerHTML = "* Please enter the expiry date";
+                isValid = false;
+                }
+            }
+            j++;
+            });
+
+            if ($(".procertdivthree").hasClass("d-none") == false) {
+            if ($('[name="nrp_data[]"]').val() == '') {
+                document.getElementById("reqnrpvalid").innerHTML = "* Please select NRP (Neonatal Resuscitation Program)";
+                isValid = false;
+            }
+            }
+            var i = 0;
+            $(".nrp_license_number").each(function(){
+            
+            if ($(".nrp_license_number-"+i).length > 0) {
+                if ($(".nrp_license_number-"+i).val() == '') {
+                document.getElementById("reqnrplicencevalid-"+i).innerHTML = "* Please enter the license number";
+                isValid = false;
+                }
+            }
+            i++;
+            });
+            var j = 0;
+            $(".nrpexpiry").each(function(){
+            
+            if ($(".nrpexpiry-"+j).length > 0) {
+                if ($(".nrpexpiry-"+j).val() == '') {
+                document.getElementById("reqnrpexpiryvalid-"+j).innerHTML = "* Please enter the expiry date";
+                isValid = false;
+                }
+            }
+            j++;
+            });
+
+            if ($(".procertdivfour").hasClass("d-none") == false) {
+            if ($('[name="pls_data[]"]').val() == '') {
+                document.getElementById("reqplsvalid").innerHTML = "* Please select PALS (Pediatric Advanced Life Support)";
+                isValid = false;
+            }
+            }
+            var i = 0;
+            $(".pls_license_number").each(function(){
+            
+            if ($(".pls_license_number-"+i).length > 0) {
+                if ($(".pls_license_number-"+i).val() == '') {
+                document.getElementById("reqplslicencevalid-"+i).innerHTML = "* Please enter the license number";
+                isValid = false;
+                }
+            }
+            i++;
+            });
+            var j = 0;
+            $(".plsexpiry").each(function(){
+            
+            if ($(".plsexpiry-"+j).length > 0) {
+                if ($(".plsexpiry-"+j).val() == '') {
+                document.getElementById("reqplsexpiryvalid-"+j).innerHTML = "* Please enter the expiry date";
+                isValid = false;
+                }
+            }
+            j++;
+            });
+
+            if ($(".procertdivfive").hasClass("d-none") == false) {
+            if ($('[name="rn_data[]"]').val() == '') {
+                document.getElementById("reqrnvalid").innerHTML = "* Please select RN (Registered Nurse)";
+                isValid = false;
+            }
+            }
+            var i = 0;
+            $(".rn_license_number").each(function(){
+            
+            if ($(".rn_license_number-"+i).length > 0) {
+                if ($(".rn_license_number-"+i).val() == '') {
+                document.getElementById("reqrnlicencevalid-"+i).innerHTML = "* Please enter the license number";
+                isValid = false;
+                }
+            }
+            i++;
+            });
+            var j = 0;
+            $(".rnexpiry").each(function(){
+            
+            if ($(".rnexpiry-"+j).length > 0) {
+                if ($(".rnexpiry-"+j).val() == '') {
+                document.getElementById("reqrnexpiryvalid-"+j).innerHTML = "* Please enter the expiry date";
+                isValid = false;
+                }
+            }
+            j++;
+            });
+
+            if ($(".procertdivtwelfth").hasClass("d-none") == false) {
+            if ($('[name="np_data[]"]').val() == '') {
+                document.getElementById("reqnpvalid").innerHTML = "* Please select NP (Nurse Practioner) / (APRN) Advanced Practice Registered Nurse";
+                isValid = false;
+            }
+            }
+            var i = 0;
+            $(".np_license_number").each(function(){
+            
+            if ($(".np_license_number-"+i).length > 0) {
+                if ($(".np_license_number-"+i).val() == '') {
+                document.getElementById("reqnplicencevalid-"+i).innerHTML = "* Please enter the license number";
+                isValid = false;
+                }
+            }
+            i++;
+            });
+            var j = 0;
+            $(".npexpiry").each(function(){
+            
+            if ($(".npexpiry-"+j).length > 0) {
+                if ($(".npexpiry-"+j).val() == '') {
+                document.getElementById("reqnpexpiryvalid-"+j).innerHTML = "* Please enter the expiry date";
+                isValid = false;
+                }
+            }
+            j++;
+            });
+
+            if ($(".procertdivsix").hasClass("d-none") == false) {
+            if ($('[name="cn_data[]"]').val() == '') {
+                document.getElementById("reqcnvalid").innerHTML = "* Please select CNA (Certified Nursing Assistant) / EN (Enrolled Nurse)";
+                isValid = false;
+            }
+            }
+            var i = 0;
+            $(".cn_license_number").each(function(){
+            
+            if ($(".cn_license_number-"+i).length > 0) {
+                if ($(".cn_license_number-"+i).val() == '') {
+                document.getElementById("reqcnlicencevalid-"+i).innerHTML = "* Please enter the license number";
+                isValid = false;
+                }
+            }
+            i++;
+            });
+            var j = 0;
+            $(".cnexpiry").each(function(){
+            
+            if ($(".cnexpiry-"+j).length > 0) {
+                if ($(".cnexpiry-"+j).val() == '') {
+                document.getElementById("reqcnexpiryvalid-"+j).innerHTML = "* Please enter the expiry date";
+                isValid = false;
+                }
+            }
+            j++;
+            });
+
+            if ($(".procertdivseven").hasClass("d-none") == false) {
+            if ($('[name="lpn_data[]"]').val() == '') {
+                document.getElementById("reqlpnvalid").innerHTML = "* Please select CNA (Certified Nursing Assistant) / EN (Enrolled Nurse)";
+                isValid = false;
+            }
+            }
+            var i = 0;
+            $(".lpn_license_number").each(function(){
+            
+            if ($(".lpn_license_number-"+i).length > 0) {
+                if ($(".lpn_license_number-"+i).val() == '') {
+                document.getElementById("reqlpnlicencevalid-"+i).innerHTML = "* Please enter the license number";
+                isValid = false;
+                }
+            }
+            i++;
+            });
+            var j = 0;
+            $(".lpnexpiry").each(function(){
+            
+            if ($(".lpnexpiry-"+j).length > 0) {
+                if ($(".lpnexpiry-"+j).val() == '') {
+                document.getElementById("reqlpnexpiryvalid-"+j).innerHTML = "* Please enter the expiry date";
+                isValid = false;
+                }
+            }
+            j++;
+            });
+
+            if ($(".procertdiveight").hasClass("d-none") == false) {
+            if ($('[name="crn_data[]"]').val() == '') {
+                document.getElementById("reqcrnavalid").innerHTML = "* Please select CRNA (Certified Registered Nurse Anesthetist)";
+                isValid = false;
+            }
+            }
+            var i = 0;
+            $(".crna_license_number").each(function(){
+            
+            if ($(".crna_license_number-"+i).length > 0) {
+                if ($(".crna_license_number-"+i).val() == '') {
+                document.getElementById("reqcrnalicencevalid-"+i).innerHTML = "* Please enter the license number";
+                isValid = false;
+                }
+            }
+            i++;
+            });
+            var j = 0;
+            $(".crnaexpiry").each(function(){
+            
+            if ($(".crnaexpiry-"+j).length > 0) {
+                if ($(".crnaexpiry-"+j).val() == '') {
+                document.getElementById("reqcrnaexpiryvalid-"+j).innerHTML = "* Please enter the expiry date";
+                isValid = false;
+                }
+            }
+            j++;
+            });
+
+            if ($(".procertdivnine").hasClass("d-none") == false) {
+            if ($('[name="cnm_data[]"]').val() == '') {
+                document.getElementById("reqcnmvalid").innerHTML = "* Please select CNM (Certified Nurse Midwife)";
+                isValid = false;
+            }
+            }
+            var i = 0;
+            $(".cnm_license_number").each(function(){
+            
+            if ($(".cnm_license_number-"+i).length > 0) {
+                if ($(".cnm_license_number-"+i).val() == '') {
+                document.getElementById("reqcnmlicencevalid-"+i).innerHTML = "* Please enter the license number";
+                isValid = false;
+                }
+            }
+            i++;
+            });
+            var j = 0;
+            $(".cnmexpiry").each(function(){
+            
+            if ($(".cnmexpiry-"+j).length > 0) {
+                if ($(".cnmexpiry-"+j).val() == '') {
+                document.getElementById("reqcnmexpiryvalid-"+j).innerHTML = "* Please enter the expiry date";
+                isValid = false;
+                }
+            }
+            j++;
+            });
+
+            if ($(".procertdivten").hasClass("d-none") == false) {
+            if ($('[name="ons_data[]"]').val() == '') {
+                document.getElementById("reqonsvalid").innerHTML = "* Please select ONS/ONCC (Oncology Nursing Society/Oncology Nursing Certification Corporation)";
+                isValid = false;
+            }
+            }
+            var i = 0;
+            $(".ons_license_number").each(function(){
+            
+            if ($(".ons_license_number-"+i).length > 0) {
+                if ($(".ons_license_number-"+i).val() == '') {
+                document.getElementById("reqonslicencevalid-"+i).innerHTML = "* Please enter the license number";
+                isValid = false;
+                }
+            }
+            i++;
+            });
+            var j = 0;
+            $(".onsexpiry").each(function(){
+            
+            if ($(".onsexpiry-"+j).length > 0) {
+                if ($(".onsexpiry-"+j).val() == '') {
+                document.getElementById("reqonsexpiryvalid-"+j).innerHTML = "* Please enter the expiry date";
+                isValid = false;
+                }
+            }
+            j++;
+            });
+
+            if ($(".procertdiveleven").hasClass("d-none") == false) {
+            if ($('[name="msw_data[]"]').val() == '') {
+                document.getElementById("reqmswvalid").innerHTML = "* Please select MSW/AiM (Maternity Support Worker/Assistant in Midwifery ) / Midwife Assistant";
+                isValid = false;
+            }
+            }
+            var i = 0;
+            $(".msw_license_number").each(function(){
+            
+            if ($(".msw_license_number-"+i).length > 0) {
+                if ($(".msw_license_number-"+i).val() == '') {
+                document.getElementById("reqmswlicencevalid-"+i).innerHTML = "* Please enter the license number";
+                isValid = false;
+                }
+            }
+            i++;
+            });
+            var j = 0;
+            $(".mswexpiry").each(function(){
+            
+            if ($(".mswexpiry-"+j).length > 0) {
+                if ($(".mswexpiry-"+j).val() == '') {
+                document.getElementById("reqmswexpiryvalid-"+j).innerHTML = "* Please enter the expiry date";
+                isValid = false;
+                }
+            }
+            j++;
+            });
+
+            if ($(".procertdivthirteen").hasClass("d-none") == false) {
+            if ($('[name="ain_data[]"]').val() == '') {
+                document.getElementById("reqainvalid").innerHTML = "* Please select AIN (Assistant in Nursing) / NA (Nurse Associate) / HCA (Healthcare Assistant)";
+                isValid = false;
+            }
+            }
+            var i = 0;
+            $(".ain_license_number").each(function(){
+            
+            if ($(".ain_license_number-"+i).length > 0) {
+                if ($(".ain_license_number-"+i).val() == '') {
+                document.getElementById("reqainlicencevalid-"+i).innerHTML = "* Please enter the license number";
+                isValid = false;
+                }
+            }
+            i++;
+            });
+            var j = 0;
+            $(".ainexpiry").each(function(){
+            
+            if ($(".ainexpiry-"+j).length > 0) {
+                if ($(".ainexpiry-"+j).val() == '') {
+                document.getElementById("reqainexpiryvalid-"+j).innerHTML = "* Please enter the expiry date";
+                isValid = false;
+                }
+            }
+            j++;
+            });
+
+            if ($(".procertdivfourteen").hasClass("d-none") == false) {
+            if ($('[name="rpn_data[]"]').val() == '') {
+                document.getElementById("reqrpnvalid").innerHTML = "* Please select RPN (Registered Practical Nurse) / RGN (Registered General Nurse)";
+                isValid = false;
+            }
+            }
+            var i = 0;
+            $(".rpn_license_number").each(function(){
+            
+            if ($(".rpn_license_number-"+i).length > 0) {
+                if ($(".rpn_license_number-"+i).val() == '') {
+                document.getElementById("reqrpnlicencevalid-"+i).innerHTML = "* Please enter the license number";
+                isValid = false;
+                }
+            }
+            i++;
+            });
+            var j = 0;
+            $(".rpnexpiry").each(function(){
+            
+            if ($(".rpnexpiry-"+j).length > 0) {
+                if ($(".rpnexpiry-"+j).val() == '') {
+                document.getElementById("reqrpnexpiryvalid-"+j).innerHTML = "* Please enter the expiry date";
+                isValid = false;
+                }
+            }
+            j++;
+            });
+
+            if(isValid == true){
+            var targetTab  = 'navpill-5';  
+
+            $.ajax({
+                    url: "{{ route('admin.add_nurse_post_3') }}",
+                    type: "POST",
+                    data: new FormData($('#educert_form')[0]),
+                    dataType: 'json',
+                    contentType: false,
+                    processData: false,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include CSRF token for security
+                    },
+                    success: function(res) {
+                        console.log(res.type);
+
+                        if (res.status == '2') {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success',
+                                text: res.message,
+                            }).then(function() {
+                                $('a[href="' + targetTab + '"]').tab('show');
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: res.message,
+                            });
+                        }
+                        // Show the target tab
+                    },
+                    error: function(error) {
+                    // if(targetTab ==  '#navpill-2'){
+                    if (error.responseJSON.errors) {
+                                                    
+                        }
+                    }
+               });
+
+            }
+
+         
+ 
+        })
         });
     </script>
 
@@ -4061,11 +4870,8 @@ $(document).ready(function() {
           let res = selectedValues[i].split(' ')[0];
           let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
           console.log("res_one",res_one);
-          if(crna_certification_array.includes(selectedValues[i]) == false){
-            
-            
+          if(crna_certification_array.includes(selectedValues[i]) == false){  
             $(".crna_certification_div").append('<div class="crna_'+res_one+' cert_div_'+selected_text+'"><h4 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3 cert_head_'+selected_text+'">'+selectedValues[i]+'</h4><input type="hidden" name="crnanamearr[]" class="lpn_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control crna_license_number crna_license_number-'+i+'" type="text" name="crna_license_number[]"><span id="reqcrnalicencevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control crnaexpiry crnaexpiry-'+i+'" type="date" name="crna_expiry[]"><span id="reqcrnaexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control acls_upload_certification acls_upload_certification-'+i+'" type="file" name="crna_upload_certification[]"><span id="reqcrnauploadvalid-'+i+'" class="reqError text-danger valley"></span></div></div></div>');
-
             
           }
         }
@@ -5130,34 +5936,7 @@ $(document).ready(function() {
 })
 </script>
 
-<script>
-    $(document).ready(function() {
-        // Get the current query string parameter
-        let urlParams = new URLSearchParams(window.location.search);
-        let tabParam = urlParams.get('tab');
 
-        // If no tab query string is present, default to tab-1
-        if (!tabParam) {
-            // Set the first tab as the default
-            let defaultTab = 'tab-1';
-            // Update the URL to include ?tab=tab-1
-            let newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?tab=' + defaultTab;
-            history.replaceState(null, null, newUrl);
-            // Show the default tab
-            $('.nav-link[href="#' + defaultTab + '"]').tab('show');
-        } else {
-            // If a tab query parameter exists, activate that tab
-            $('.nav-link[href="#' + tabParam + '"]').tab('show');
-        }
-
-        // Update the URL with the tab ID as a query parameter when a tab is shown
-        $('a[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
-            let newTab = $(e.target).attr('href').substring(1); // Get tab ID without the #
-            let newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?tab=' + newTab;
-            history.replaceState(null, null, newUrl);
-        });
-    });
-</script>
 
 <script>
 var licence_div_count = $(".license_number_anothercertifications").length;
