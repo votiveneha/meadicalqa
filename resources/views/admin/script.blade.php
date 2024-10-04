@@ -2543,6 +2543,10 @@ $(document).ready(function() {
 
 
             var isValid = true;
+            if($(".declare_information_edu").prop('checked') == false){
+            document.getElementById("reqdeclare_information1").innerHTML = "* Please check this checkbox";
+            isValid = false;
+            }
 
             if ($('[name="ndegree[]"]').val() == '') {
             document.getElementById("ndegree_error").innerHTML = "* Please select degree.";
@@ -3021,7 +3025,12 @@ $(document).ready(function() {
             });
 
             if(isValid == true){
-            var targetTab  = 'navpill-5';  
+            $('#educert_form').find('.text-danger').hide();
+            var targetTab  = '#navpill-5';  
+
+            function enableNextTab(targetTab) {
+            $('a[href="' + targetTab + '"]').removeClass('disabled').tab('show');
+            }
 
             $.ajax({
                     url: "{{ route('admin.add_nurse_post_3') }}",
@@ -5935,9 +5944,7 @@ $(document).ready(function() {
 
 })
 </script>
-
-
-
+{{-- 
 <script>
 var licence_div_count = $(".license_number_anothercertifications").length;
 console.log("licence_div_count",licence_div_count);
@@ -5946,7 +5953,7 @@ function add_listcertfication(){
     $(".another_certifications").append('<div class="license_number_div row license_number_anothercertifications mt-3"><div class="form-group col-md-6"><label class="form-label" for="input-1">Certificate '+licence_div_count+'</label><input class="form-control" type="text" name="training_certificate[]"></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control" type="text" name="certificate_license_number[]"></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control" type="date" name="certificate_expiry[]"></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control" type="file" name="certificate_upload_certification[]"></div></div>');
     
 }
-</script>
+</script> --}}
 </script>
 
 

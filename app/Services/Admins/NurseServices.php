@@ -294,8 +294,8 @@ class NurseServices
             }else if($data['tab'] == 'tab3'){
 
                 $email=Session::get('nurseemail');
-                // $user_id=User::where('email',$email)->first();
-                $user_id=2;
+                $user_id=User::where('email',$email)->first();
+               
 
                 
                 $bls_data = $data['bls_data'];
@@ -864,11 +864,40 @@ class NurseServices
                 }
 
                 if($data['nl_data']){
-                    $nl_data = json_encode($request->nl_data);
+                    $nl_data = json_encode($data['nl_data']);
                 }else{
                     $nl_data = '';
                 }
-                // $user_id=$user_id->id;
+
+                $file = $data['upload_degree'];
+                if(!empty($file)){
+                    $destinationPath = public_path() . '/uploads/education_degree';
+                    $file->move($destinationPath,time().$file->getClientOriginalName());
+                    $degree_transcript = time().$file->getClientOriginalName();
+                }
+
+                $training_courses = $data['training_courses'];
+                $additional_license_number = $data['additional_license_number'];
+                $additional_expiry = $data['additional_expiry'];
+                $additional_upload_certification = $data['additional_upload_certification'];
+
+                $certificate_array = array();
+                for($i=0;$i<count($training_courses);$i++){
+                    if(!empty($additional_upload_certification[$i])){
+                        $name1=$additional_upload_certification[$i]->getClientOriginalName();
+                        $name= time().$name1;
+                        $destinationPathcert = public_path()."/uploads/certificates"; 
+                        $additional_upload_certification[$i]->move($destinationPathcert,$name);
+                    }else{
+                        $certificate_data = json_decode($getedudata->additional_training_data);
+                        $name = $certificate_data[$i]->additional_upload_certification;
+                    }
+                    
+                    $certificate_array[] = array("training_courses"=>$training_courses[$i],"additional_license_number"=>$additional_license_number[$i],"additional_expiry"=>$additional_expiry[$i],"additional_upload_certification"=>$name);
+                }
+
+                $certificate_json = json_encode($certificate_array);
+                $user_id=$user_id->id;
 
                 $CER=json_encode($data['professional_certification']);            
                 $allData['institution'] = $data['institution'];
@@ -894,7 +923,9 @@ class NurseServices
                 $allData['ain_data']  = $ain_data_json;
                 $allData['rpn_data']  = $rpn_data_json;
                 $allData['nl_data']   = $nl_data;
-                $allData['user_id']  =  2;
+                $allData['degree_transcript'] = $degree_transcript;
+                $allData['additional_training_data'] = $certificate_json;
+                $allData['user_id']  = $user_id;
                 $allData['complete_status'] = 1;
                 $allData['training_courses']  = '';
                
@@ -904,7 +935,7 @@ class NurseServices
                 if($run){               
                     $allData['degree'] = $data['ndegree'];
 
-                    User::where('id', 2)->update([
+                    User::where('id', $user_id)->update([
                         'degree' => $data['ndegree'],
                     ]);
                 }

@@ -94,7 +94,7 @@
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link" data-bs-toggle="tab" href="#navpill-4" role="tab" aria-selected="false"
+                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-4" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Education and Certifications</span>
                         </a>
@@ -102,7 +102,13 @@
                     <li class="nav-item" role="presentation">
                         <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-5" role="tab" aria-selected="false"
                             tabindex="-1">
-                            <span>Experience and References</span>
+                            <span>Experience</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" data-bs-toggle="tab" href="#navpill-5.1" role="tab" aria-selected="false"
+                            tabindex="-1">
+                            <span>References</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
@@ -1123,27 +1129,59 @@
                                                 {{-- <div class="add_new_certification_div mb-3 mt-3">
                                                     <a style="cursor: pointer;" onclick="add_listcertfication()">+ Add another certification/Licence</a>
                                                 </div> --}}
-
+                                                <div class="certification_box">
                                                 <h4 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3">Additional Training</h4>
-                                               <div class="col-md-12 mt-3">
-                                                    <div class="form-group">
-                                                        <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Please add most relevant courses/workshops</strong></label>
-                                                        <?php
-                                                                $courses = DB::table("additional_training")->get();
-                                                            ?>
-                                                            <ul id="training_courses" style="display:none;">
-                                                                @foreach($courses as $c)
-                                                                <li data-value="{{ $c->id }}">{{ $c->name }}</li>
-                                                                @endforeach        
-                                                            </ul>
-                                                        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="training_courses" name="training_courses[]" multiple="multiple"></select>
-                                                        <span id="training_course_error" class="reqError text-danger valley "></span>
+                                                <p>Please add most relevant courses/workshops</p>
+
+                                                <h6 fw-bolder fs-6 lh-base d-flex align-items-center mt-2>Certification/Licence 1</h6>
+                                                <div class="license_number_div row license_number_additional_add">
+                                                    <div class="col-md-6 mt-3">
+                                                        <div class="form-group">
+                                                            <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Courses/workshops</strong></label>
+                                                            <input class="form-control" type="text" name="training_courses[]">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 mt-3">
+                                                        <div class="form-group">
+                                                            <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Certification/Licence Number</strong></label>
+                                                             <input class="form-control" type="text" name="additional_license_number[]">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 mt-3">
+                                                        <div class="form-group">
+                                                            <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Expiry</strong></label>
+                                                            <input class="form-control" type="date" name="additional_expiry[]">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 mt-3">
+                                                        <div class="form-group">
+                                                            <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Upload your certification/Licence</strong></label>
+                                                           <input class="form-control" type="file" name="additional_upload_certification[]">
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="d-flex align-items-center justify-content-between mt-3">
-                                                <button class="btn btn-default next-step-4 align-items-center justify-content-between" type="submit" id="submitEducation" data-target="#navpill-5">Next</button>
+                                                </div>
 
-                                                    {{-- <button type="button" type="submit" class="">Next</button> --}}
+                                                <div class="add_new_certification_div mb-3 mt-3">
+                                                    <a style="cursor: pointer;" onclick="add_certfication()">+ Add another certification/Licence</a>
+                                                </div>
+                                                <script type="text/javascript">
+                                                    var licence_div_count = 1;
+                                                    console.log("licence_div_count",licence_div_count);
+                                                    function add_certfication(){
+                                                    licence_div_count++;
+                                                    $(".certification_box").append('<h6>Certification/Licence '+licence_div_count+'</h6><div class="license_number_div row license_number_additional"><div class="form-group col-md-6"><label class="form-label" for="input-1">Courses/workshops</label><input class="form-control" type="text" name="training_courses[]"></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control" type="text" name="additional_license_number[]"></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control" type="date" name="additional_expiry[]"></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control" type="file" name="additional_upload_certification[]"></div></div>');
+                                                    
+                                                    }
+                                                </script>
+                                                <div class="declaration_box mt-3">
+                                                    <input type="checkbox" name="declare_information_edu" class="declare_information_edu" value="1">
+                                                    <label for="declare_information1">I declare that the information provided is true and correct</label>
+                                                </div>
+                                                <span id="reqdeclare_information1" class="reqError text-danger valley"></span> 
+
+                                                <div class="d-flex align-items-center justify-content-between mt-3">
+                                                     <button class="btn btn-default next-step-4 align-items-center justify-content-between" type="submit" id="submitEducation" data-target="#navpill-5">Next</button>
                                                 </div>
                                         </div>                     
                                     </div>
@@ -1157,7 +1195,7 @@
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
-                                    <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center ">Experience and References</h3>
+                                    <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center ">Experience</h3>
                                 </div>
                                 <div class="card-body p-3 px-md-4">
                                     <div class="col-md-12">
@@ -1263,6 +1301,107 @@
                                             </div>
                                         </div>                                                          
                                     </div>                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane p-3" id="navpill-5.1" role="tabpanel">
+                        <div class="row">
+                            <div class=" w-100  overflow-hidden">
+                                <div class="card-body p-3 px-md-4 pb-0">
+                                    <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center">References</h3>
+                                </div>
+                                <div class="card-body p-3 px-md-4">
+                                 
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                        <div class="reference_form">
+                                        <h6 class="fw-bolder fs-6 lh-base d-flex align-items-center ">References 1</h6>
+                                        <div class="col-md-6 mt-3">
+                                            <div class="form-group">
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>First name</strong></label>
+                                                <input class="form-control first_name" type="text" name="first_name[]">
+                                                <span id="reqfname" class="reqError text-danger valley"></span>
+                                            </div>
+                                        </div> 
+                                        <div class="col-md-6 mt-3">
+                                            <div class="form-group">
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Last name</strong></label>
+                                                <input class="form-control" type="text" name="last_name[]">
+                                                <span id="reqempsdate" class="reqError text-danger valley"></span>
+                                            </div>
+                                        </div>   
+                                        <div class="col-md-12 mt-3">
+                                            <div class="form-group">
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Email</strong></label>
+                                                <input class="form-control" type="text" name="email[]">
+                                                <span id="reqempsdate" class="reqError text-danger valley"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 mt-3">
+                                            <div class="form-group">
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Phone number</strong></label>
+                                                <input class="form-control" type="text" name="phone_no[]">
+                                                <span id="reqempsdate" class="reqError text-danger valley"></span>
+                                            </div>
+                                        </div> 
+                                        <div class="col-md-12 mt-3">
+                                            <div class="form-group">
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Relationship</strong></label>
+                                                <select class="form-control" name="reference_relationship[]">
+                                                    <option value="">Select Reference Relationship</option>
+                                                    <option value="Brother">Brother</option>
+                                                    <option value="Sister">Sister</option>
+                                                    <option value="Cousin">Cousin</option>
+                                                </select>
+                                                <span id="reqempsdate" class="reqError text-danger valley"></span>
+                                            </div>
+                                        </div> 
+                                        <div class="col-md-12 mt-3">
+                                            <div class="form-group">
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>You worked together at:</strong></label>
+                                                <input class="form-control" type="text" name="worked_together[]">
+                                                <span id="reqempsdate" class="reqError text-danger valley"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 mt-3">
+                                            <div class="form-group">
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>What was your position when you worked with this referee?</strong></label>
+                                                <input class="form-control" type="text" name="position_with_referee[]">
+                                                <span id="reqempsdate" class="reqError text-danger valley"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 mt-3">
+                                            <div class="form-group">
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Start Date</strong></label>
+                                                <input class="form-control start_date start_date-1" type="date" name="start_date[]" onkeydown="return false">
+                                                <span id="reqempsdate" class="reqError text-danger valley"></span>
+                                            </div>
+                                        </div>
+                                        <div class="declaration_box">
+                                            <input class="still_working-1" type="checkbox" name="still_working[]" onclick="stillWorking(1)">I'm still working with this referee
+                                            <span id="reqstillworking" class="reqError text-danger valley"></span>
+                                        </div>
+                                        <div class="col-md-12 mt-3">
+                                            <div class="form-group">
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>End Date</strong></label>
+                                               <input class="form-control end_date end_date-1" type="date" name="end_date[]" onkeydown="return false">
+                                                <span id="reqempsdate" class="reqError text-danger valley"></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="add_new_certification_div mb-3 mt-3">
+                                            <a style="cursor: pointer;" onclick="add_another_referee()">+ Add another Referee</a>
+                                        </div>
+
+                                        </div> 
+
+                                        <div class="d-flex align-items-center justify-content-between mt-3">
+                                            <button type="button" class="btn btn-default next-step-6 align-items-center justify-content-between" data-target="#navpill-7">Next</button>
+                                        </div>
+                                    </div> 
+                                    </div>                    
+                                                       
                                 </div>
                             </div>
                         </div>
@@ -1886,7 +2025,15 @@
         src="https://nextjs.webwiders.in/pindrow/public/advertiser/dist/libs/owl.carousel/dist/owl.carousel.min.js">
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
-    
+    <script>
+        var referee_div_count = 1;
+        console.log("licence_div_count",referee_div_count);
+        function add_another_referee(){
+        referee_div_count++;
+        $(".reference_form").append('<div class="referee_data referee_data-'+referee_div_count+'"><h6 class="mt-0 color-brand-1 mb-20 referee_no">References '+referee_div_count+'</h6><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">First name</label><input class="form-control first_name first_name-'+referee_div_count+'" type="text" name="first_name[]"><span id="reqfname-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Last name</label><input class="form-control last_name last_name-'+referee_div_count+'" type="text" name="last_name[]"><span id="reqlname-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div></div><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Email</label><input class="form-control reference_email reference_email-'+referee_div_count+'" type="text" name="email[]"><span id="reqemail-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Phone number</label><input class="form-control phone_no phone_no-'+referee_div_count+'" type="text" name="phone_no[]"><span id="reqphoneno-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div></div><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Relationship</label><select class="form-control reference_relationship reference_relationship-'+referee_div_count+'" name="reference_relationship[]"><option value="" data-select2-id="9">Select Reference Relationship</option><option value="Brother">Brother</option><option value="Sister">Sister</option><option value="Sister">Cousin</option></select><span id="reqreferencerel-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">You worked together at:</label><input class="form-control worked_together worked_together-'+referee_div_count+'" type="text" name="worked_together[]"><span id="reqworked_together-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div></div><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">What was your position when you worked with this referee?</label><input class="form-control position_with_referee position_with_referee-'+referee_div_count+'" type="text" name="position_with_referee[]"><span id="reqpositionreferee-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div></div><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Start Date</label><input class="form-control start_date start_date-'+referee_div_count+'" type="date" name="start_date[]" onchange="startDate('+referee_div_count+')" onkeydown="return false"><span id="reqrefereesdate-'+referee_div_count+'" class="reqError text-danger valley"></span><div class="declaration_box"><input class="still_working still_working-'+referee_div_count+'" type="checkbox" name="still_working[]" onclick="stillWorking('+referee_div_count+')">I am still working with this referee<span id="reqstillworking-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div></div><div class="col-md-6"><div class="form-group level-drp working-'+referee_div_count+'"><label class="form-label" for="input-1">End Date</label><input class="form-control end_date end_date-'+referee_div_count+'" type="date" name="end_date[]" onkeydown="return false"><span id="reqrefereeedate-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div><div class="row"><div class="col-md-6"><div class="add_new_certification_div mb-3 mt-3"><a style="cursor: pointer;" onclick="delete_reference1('+referee_div_count+')">- Delete Referee</a></div></div></div></div>');
+        
+        }
+    </script>    
     
 @include('admin.script');
     
