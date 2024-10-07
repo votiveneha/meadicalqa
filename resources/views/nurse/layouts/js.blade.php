@@ -766,7 +766,7 @@ function pad(number) {
         },
         error: function(errorss) {
           $('#submitProfession').prop('disabled', false);
-          $('#submitProfession').text('Submit');
+          $('#submitProfession').text('Save Changes');
           for (var err in errorss.responseJSON.errors) {
             $("#submitProfession").find("[name='" + err + "']").after("<div class='text-danger'>" + errorss.responseJSON.errors[err] + "</div>");
           }
@@ -1325,7 +1325,7 @@ function pad(number) {
         },
         error: function(errorss) {
           $('#submitEducation').prop('disabled', false);
-          $('#submitEducation').text('Submit');
+          $('#submitEducation').text('Save Changes');
           console.log("errorss",errorss);
           for (var err in errorss.responseJSON.errors) {
             $("#submitEducation").find("[name='" + err + "']").after("<div class='text-danger'>" + errorss.responseJSON.errors[err] + "</div>");
@@ -1410,7 +1410,7 @@ function pad(number) {
         },
         error: function(errorss) {
           $('#submitExperience').prop('disabled', false);
-          $('#submitExperience').text('Submit');
+          $('#submitExperience').text('Save Changes');
           console.log("errorss",errorss);
           for (var err in errorss.responseJSON.errors) {
             $("#submitExperience").find("[name='" + err + "']").after("<div class='text-danger'>" + errorss.responseJSON.errors[err] + "</div>");
@@ -1457,7 +1457,7 @@ function pad(number) {
       },
       error: function(errorss) {
         $('#submitTraining').prop('disabled', false);
-        $('#submitTraining').text('Submit');
+        $('#submitTraining').text('Save Changes');
         console.log("errorss",errorss);
         for (var err in errorss.responseJSON.errors) {
           $("#submitExperience").find("[name='" + err + "']").after("<div class='text-danger'>" + errorss.responseJSON.errors[err] + "</div>");
@@ -1586,7 +1586,7 @@ function pad(number) {
         },
         error: function(errorss) {
           $('#submitReferences').prop('disabled', false);
-          $('#submitReferences').text('Submit');
+          $('#submitReferences').text('Save Changes');
           console.log("errorss",errorss);
           for (var err in errorss.responseJSON.errors) {
             $("#submitReferences").find("[name='" + err + "']").after("<div class='text-danger'>" + errorss.responseJSON.errors[err] + "</div>");
@@ -1661,7 +1661,7 @@ function pad(number) {
         },
         error: function(errorss) {
           $('#submitInterview').prop('disabled', false);
-          $('#submitInterview').text('Submit');
+          $('#submitInterview').text('Save Changes');
           console.log("errorss",errorss);
           for (var err in errorss.responseJSON.errors) {
             $("#submitExperience").find("[name='" + err + "']").after("<div class='text-danger'>" + errorss.responseJSON.errors[err] + "</div>");
@@ -1741,7 +1741,7 @@ function pad(number) {
         },
         error: function(errorss) {
           $('#submitPersonalPreferences').prop('disabled', false);
-          $('#submitPersonalPreferences').text('Submit');
+          $('#submitPersonalPreferences').text('Save Changes');
           console.log("errorss",errorss);
           for (var err in errorss.responseJSON.errors) {
             $("#submitPersonalPreferences").find("[name='" + err + "']").after("<div class='text-danger'>" + errorss.responseJSON.errors[err] + "</div>");
@@ -1806,7 +1806,7 @@ function pad(number) {
         },
         error: function(errorss) {
           $('#submitPersonalPreferences').prop('disabled', false);
-          $('#submitPersonalPreferences').text('Submit');
+          $('#submitPersonalPreferences').text('Save Changes');
           console.log("errorss",errorss);
           for (var err in errorss.responseJSON.errors) {
             $("#submitPersonalPreferences").find("[name='" + err + "']").after("<div class='text-danger'>" + errorss.responseJSON.errors[err] + "</div>");
@@ -1873,7 +1873,7 @@ function pad(number) {
         },
         error: function(errorss) {
           $('#submitPersonalPreferences').prop('disabled', false);
-          $('#submitPersonalPreferences').text('Submit');
+          $('#submitPersonalPreferences').text('Save Changes');
           console.log("errorss",errorss);
           for (var err in errorss.responseJSON.errors) {
             $("#submitPersonalPreferences").find("[name='" + err + "']").after("<div class='text-danger'>" + errorss.responseJSON.errors[err] + "</div>");
@@ -1946,7 +1946,7 @@ function pad(number) {
         },
         error: function(errorss) {
           $('#submitProfessionalMembership').prop('disabled', false);
-          $('#submitProfessionalMembership').text('Submit');
+          $('#submitProfessionalMembership').text('Save Changes');
           console.log("errorss",errorss);
           for (var err in errorss.responseJSON.errors) {
             $("#submitProfessionalMembership").find("[name='" + err + "']").after("<div class='text-danger'>" + errorss.responseJSON.errors[err] + "</div>");

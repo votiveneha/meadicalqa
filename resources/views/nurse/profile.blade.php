@@ -2814,7 +2814,7 @@
                       <div class="col-md-6">
                         <div class="form-group level-drp">
                           <label class="form-label" for="input-1">Start Date</label>
-                          <input class="form-control start_date start_date-{{ $i }}" type="date" name="start_date[]" value="{{ $referee_data->start_date }}" onchange="startDate('{{ $i }}')" onkeydown="return false">
+                          <input class="form-control referee_start_date referee_start_date-{{ $i }}" type="date" name="start_date[]" value="{{ $referee_data->start_date }}" onchange="startDate('{{ $i }}')" onkeydown="return false">
                           <span id="reqrefereesdate-{{ $i }}" class="reqError text-danger valley"></span>
                         </div>
                         <div class="declaration_box ">
@@ -2858,15 +2858,15 @@
                       <div class="col-md-6">
                         <div class="form-group level-drp">
                           <label class="form-label" for="input-1">First name</label>
-                          <input class="form-control first_name" type="text" name="first_name[]">
-                          <span id="reqfname" class="reqError text-danger valley"></span>
+                          <input class="form-control first_name first_name-1" type="text" name="first_name[]">
+                          <span id="reqfname-1" class="reqError text-danger valley"></span>
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="form-group level-drp">
                           <label class="form-label" for="input-1">Last name</label>
-                          <input class="form-control" type="text" name="last_name[]">
-                          <span id="reqempsdate" class="reqError text-danger valley"></span>
+                          <input class="form-control last_name last_name-1" type="text" name="last_name[]">
+                          <span id="reqlname-1" class="reqError text-danger valley"></span>
                         </div>
                       </div>
                     </div>
@@ -2874,15 +2874,15 @@
                       <div class="col-md-6">
                         <div class="form-group level-drp">
                           <label class="form-label" for="input-1">Email</label>
-                          <input class="form-control" type="text" name="email[]">
-                          <span id="reqempsdate" class="reqError text-danger valley"></span>
+                          <input class="form-control reference_email reference_email-1" type="text" name="email[]">
+                          <span id="reqemail-1" class="reqError text-danger valley"></span>
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="form-group level-drp">
                           <label class="form-label" for="input-1">Phone number</label>
-                          <input class="form-control" type="text" name="phone_no[]">
-                          <span id="reqempsdate" class="reqError text-danger valley"></span>
+                          <input class="form-control phone_no phone_no-1" type="text" name="phone_no[]">
+                          <span id="reqphoneno-1" class="reqError text-danger valley"></span>
                         </div>
                       </div>
                     </div>
@@ -2890,20 +2890,20 @@
                       <div class="col-md-6">
                         <div class="form-group level-drp">
                           <label class="form-label" for="input-1">Relationship</label>
-                          <select class="form-control" name="reference_relationship[]">
+                          <select class="form-control reference_relationship reference_relationship-1" name="reference_relationship[]">
                             <option value="">Select Reference Relationship</option>
                             <option value="Brother">Brother</option>
                             <option value="Sister">Sister</option>
                             <option value="Cousin">Cousin</option>
                           </select>
-                          <span id="reqempsdate" class="reqError text-danger valley"></span>
+                          <span id="reqreferencerel-1" class="reqError text-danger valley"></span>
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="form-group level-drp">
                           <label class="form-label" for="input-1">You worked together at:</label>
-                          <input class="form-control" type="text" name="worked_together[]">
-                          <span id="reqempsdate" class="reqError text-danger valley"></span>
+                          <input class="form-control worked_together worked_together-1" type="text" name="worked_together[]">
+                          <span id="reqworked_together-1" class="reqError text-danger valley"></span>
                         </div>
                       </div>
                     </div>
@@ -2912,8 +2912,8 @@
                       <div class="col-md-6">
                         <div class="form-group level-drp">
                           <label class="form-label" for="input-1">What was your position when you worked with this referee?</label>
-                          <input class="form-control" type="text" name="position_with_referee[]">
-                          <span id="reqempsdate" class="reqError text-danger valley"></span>
+                          <input class="form-control position_with_referee position_with_referee-1" type="text" name="position_with_referee[]">
+                          <span id="reqpositionreferee-1" class="reqError text-danger valley"></span>
                         </div>
                       </div>
                     </div>
@@ -2986,9 +2986,9 @@
                             }
                             
                             var i = 1;
-                            $(".start_date").each(function(){
-                              console.log("start_date",$(".start_date-"+i).val());
-                              var start_date = $(".start_date-"+i).val();
+                            $(".referee_start_date").each(function(){
+                              console.log("start_date",$(".referee_start_date-"+i).val());
+                              var start_date = $(".referee_start_date-"+i).val();
                                 
                               var date = new Date(start_date);
                               
@@ -3015,8 +3015,10 @@
                               }
                               var year = start_date1.getFullYear();
                               var new_date = year+"-"+month1+"-"+day1;
-                              console.log("refree_start_date",new_date);
-                              document.getElementsByClassName("end_date-"+i)[0].setAttribute('min', new_date);
+                              console.log("refree_start_date",$('.working-'+i).is(':visible'));
+                              if($('.working-'+i).is(':visible')){
+                                document.getElementsByClassName("end_date-"+i)[0].setAttribute('min', new_date);
+                              }
                               i++;
                             });
                            
