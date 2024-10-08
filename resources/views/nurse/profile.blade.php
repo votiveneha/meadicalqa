@@ -1291,7 +1291,7 @@
                           @if(!empty($nrp_data1))
                           @foreach($nrp_data1 as $n_data)
                             <?php
-                              $nrp_first_word = strtok($n_data->bls_certification_id, " ");;
+                              $nrp_first_word = strtok($n_data->nrp_certification_id, " ");;
 
                               $nrp_first_word_one = strtolower(preg_replace('/[^A-Za-z0-9\-]/', '', $nrp_first_word));
                             ?>
@@ -1315,7 +1315,7 @@
                                 <label class="form-label" for="input-1">Upload your certification/Licence</label>
                                 <input class="form-control nrp_upload_certification nrp_upload_certification-{{ $i }}" type="file" name="nrp_upload_certification[]">
                                 <span id="reqnrpuploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
-                                @if($c_data->cpr_upload_certification)
+                                @if($n_data->nrp_upload_certification)
                                 <img src="{{ url('/public/uploads/certificates') }}/{{ $n_data->nrp_upload_certification }}" style="width:100px;">
                                 @endif
                               </div>

@@ -88,7 +88,7 @@
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-3" role="tab" aria-selected="false"
+                        <a class="nav-link" data-bs-toggle="tab" href="#navpill-3" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Profession</span>
                         </a>
@@ -100,7 +100,7 @@
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-5" role="tab" aria-selected="false"
+                        <a class="nav-link" data-bs-toggle="tab" href="#navpill-5" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Experience</span>
                         </a>
@@ -1097,9 +1097,7 @@
                                                     </ul>
                                                      <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="rpn_data" name="rpn_data[]" multiple="multiple"></select>
                                                 </div>
-                                                <div class="rpn_certification_div"></div>
-
-                                                
+                                                <div class="rpn_certification_div"></div>                                                
                                             </div>
                                               
                                                {{-- <div class="another_certifications">
@@ -1192,6 +1190,9 @@
                         </div>
                     </div>
                     <div class="tab-pane p-3" id="navpill-5" role="tabpanel">
+                    <form id="experience_form" method="POST">
+                    @csrf
+                       <input type="hidden" name="tab" value="tab4">
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
@@ -1200,6 +1201,7 @@
                                 <div class="card-body p-3 px-md-4">
                                     <div class="col-md-12">
                                         <div class="row">
+                                        <div class="previous_employeers">
                                             <div class="col-md-12 mt-3">
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>What is your level of experience?</strong></label>
@@ -1215,66 +1217,84 @@
 
                                             <div class="col-md-12 mt-3">
                                                 <div class="form-group">
-                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Names</strong></label>
-                                                    <input class="form-control" type="text" name="previous_employer_name"  id="previous_employer_name">
-                                                    <span id="previous_employer_name_error" class="reqError text-danger valley "></span>
+                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Organisation Name</strong></label>
+                                                    <input class="form-control" type="text" name="previous_employer_name[]">
+                                                    <span id="reqnames" class="reqError text-danger valley"></span>
                                                 </div>
                                             </div>
 
                                             <div class="col-md-12 mt-3">
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Position Held</strong></label>
-                                                    <?php
-                                                            $practitioner_type = DB::table("practitioner_type")->get();
-                                                        ?>
-                                                        <ul id="positions_held" style="display:none;">
-                                                            @foreach($practitioner_type as $cert)
-                                                            <li data-value="{{ $cert->id }}">{{ $cert->name }}</li>
-                                                            @endforeach
-                                                            
-                                                        </ul>
-                                                        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="positions_held" name="positions_held[]" multiple="multiple"></select>
-                                                    <span id="positions_held_error" class="reqError text-danger valley "></span>
+                                                    <select class="form-control" name="positions_held[]">
+                                                        <option value="">Position Held</option>
+                                                        <option value="Team Member">Team Member</option>
+                                                        <option value="Team Leader">Team Leader</option>
+                                                        <option value="Educator">Educator</option>
+                                                        <option value="Manager">Manager</option>
+                                                        <option value="Clinical Specialist">Clinical Specialist</option>
+                                                    </select>
+                                                    <span id="reqpositionheld" class="reqError text-danger valley"></span>
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-6 mt-3">
+                                            <div class="col-md-12 mt-3">
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Employment Start Date</strong></label>
-                                                    <input class="form-control" type="date" name="start_date" id="start_date">
-                                                    <span id="start_date_error" class="reqError text-danger valley "></span>
+                                                    <input class="form-control employeement_start_date employeement_start_date-1" type="date" name="start_date[]" onchange="changeEmployeementEndDate(1)" onkeydown="return false">
+                                                    <span id="reqempsdate" class="reqError text-danger valley"></span>
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-6 mt-3">
+                                            <div class="col-md-12 mt-3">
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Employment End Date</strong></label>
-                                                    <input class="form-control" type="date" name="end_date" id="end_date">
-                                                    <span id="end_date_error" class="reqError text-danger valley "></span>
+                                                   <input class="form-control employeement_end_date employeement_end_date-1" type="date" name="end_date[]" onkeydown="return false">
+                                                   <span id="reqemployeementenddate-1" class="reqError text-danger valley"></span>
                                                 </div>
                                             </div>
 
                                             <div class="present_check mt-3">
-                                                <input type="checkbox" name="present_box" value="1" id="present_box">Present Here
+                                                <input class="currently_position currently_position-1" type="checkbox" name="present_box[]" value="1" onclick="currently_position(1)">I am currently in this position at the moment
                                             </div>
                                             <span id="present_box_error" class="reqError text-danger valley "></span>
+
+                                            <div class="col-md-12 mt-3">
+                                                <div class="form-group">
+                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Employment type</strong></label>
+                                                   <select class="form-control" name="employeement_type[]">
+                                                        <option value="">Employment type</option>
+                                                        <option value="Agency">Agency</option>
+                                                        <option value="Staffing Agency">Staffing Agency</option>
+                                                    </select>
+                                                    <span id="reqemptype" class="reqError text-danger valley"></span>
+                                                </div>
+                                            </div>
+
+
 
                                             <h4 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3">Detailed Job Descriptions</h4>
 
                                             <div class="col-md-12 mt-3">
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Responsibilities</strong></label>
-                                                    <textarea class="form-control" name="job_responeblities" id="job_responeblities"></textarea>
-                                                    <span id="job_responeblities_error" class="reqError text-danger valley "></span>
+                                                    <textarea class="form-control" name="job_responeblities[]"></textarea>
+                                                    <span id="reqresposiblities" class="reqError text-danger valley"></span>
                                                 </div>
                                             </div>
 
                                             <div class="col-md-12 mt-3">
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Achievements</strong></label>
-                                                    <textarea class="form-control" name="achievements" id="achievements"></textarea>
-                                                    <span id="achievements_error" class="reqError text-danger valley "></span>
+                                                   <textarea class="form-control" name="achievements[]"></textarea>
+                                                   <span id="reqachievements" class="reqError text-danger valley"></span>
                                                 </div>
+                                            </div>
+
+                                        </div>
+
+                                            <div class="add_new_certification_div awe mb-3 mt-4">
+                                                <a style="cursor: pointer;" onclick="add_work_experience()">+ Add another work experience</a>
                                             </div>
 
                                             <h4 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3">Areas of Expertise</h4>
@@ -1296,14 +1316,40 @@
                                                 </div>
                                             </div>
 
+                                            <div class="col-md-12 mt-3">
+                                                <div class="form-group">
+                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Type of evidence</strong></label>
+                                                    <?php
+                                                            $skills = DB::table("skills")->get();
+                                                        ?>
+                                                        <ul id="type_of_evidence" style="display:none;">
+                          
+                                                            <li data-value="Statement of Service">Statement of Service</li>
+                                                            <li data-value="Statutory Declaration">Statutory Declaration</li>
+                                                            <li data-value="Award">Award</li>
+                                                            <li data-value="Transcript">Transcript</li>
+                                                            <li data-value="Certificate">Certificate</li>
+                                                        </ul>
+                                                        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="type_of_evidence" name="type_of_evidence[]" multiple="multiple"></select>
+                                                        <span id="reqtype_evidence" class="reqError text-danger valley"></span>
+                                                    </div>
+                                            </div>
+                                            <div class="col-md-12 mt-3">
+                                                <div class="form-group">
+                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Upload evidence</strong></label>
+                                                    <input class="form-control" type="file" name="upload_evidence">
+                                                </div>
+                                            </div>
+
                                             <div class="d-flex align-items-center justify-content-between mt-3">
-                                                <button type="button" class="btn btn-default next-step-5 align-items-center justify-content-between" data-target="#navpill-6">Next</button>
+                                                <button type="submit" class="btn btn-default next-step-56 align-items-center justify-content-between" data-target="#navpill-6">Next</button>
                                             </div>
                                         </div>                                                          
                                     </div>                    
                                 </div>
                             </div>
                         </div>
+                    </form>
                     </div>
                     <div class="tab-pane p-3" id="navpill-5.1" role="tabpanel">
                         <div class="row">
@@ -1312,63 +1358,65 @@
                                     <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center">References</h3>
                                 </div>
                                 <div class="card-body p-3 px-md-4">
-                                 
+                                <form id="reference_form1" method="POST">
+                                @csrf 
+                                    <input type="hidden" value="tab15" name="tab">
                                     <div class="col-md-12">
                                         <div class="row">
-                                        <div class="reference_form">
+                                        <div class="reference_form">   
                                         <h6 class="fw-bolder fs-6 lh-base d-flex align-items-center ">References 1</h6>
-                                        <div class="col-md-6 mt-3">
+                                        <div class="col-md-12 mt-3">
                                             <div class="form-group">
                                                 <label for="skill" class="d-flex gap-3 flex-wrap"><strong>First name</strong></label>
-                                                <input class="form-control first_name" type="text" name="first_name[]">
-                                                <span id="reqfname" class="reqError text-danger valley"></span>
+                                                <input class="form-control first_name first_name-1" type="text" name="first_name[]">
+                                                <span id="reqfname-1" class="reqError text-danger valley"></span>
                                             </div>
                                         </div> 
-                                        <div class="col-md-6 mt-3">
+                                        <div class="col-md-12 mt-3">
                                             <div class="form-group">
                                                 <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Last name</strong></label>
-                                                <input class="form-control" type="text" name="last_name[]">
-                                                <span id="reqempsdate" class="reqError text-danger valley"></span>
+                                                <input class="form-control last_name last_name-1" type="text" name="last_name[]">
+                                                <span id="reqlname-1" class="reqError text-danger valley"></span>
                                             </div>
                                         </div>   
                                         <div class="col-md-12 mt-3">
                                             <div class="form-group">
                                                 <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Email</strong></label>
-                                                <input class="form-control" type="text" name="email[]">
-                                                <span id="reqempsdate" class="reqError text-danger valley"></span>
+                                                <input class="form-control reference_email reference_email-1" type="text" name="email[]">
+                                                <span id="reqemail-1" class="reqError text-danger valley"></span>
                                             </div>
                                         </div>
                                         <div class="col-md-12 mt-3">
                                             <div class="form-group">
                                                 <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Phone number</strong></label>
-                                                <input class="form-control" type="text" name="phone_no[]">
-                                                <span id="reqempsdate" class="reqError text-danger valley"></span>
+                                                <input class="form-control phone_no phone_no-1" type="text" name="phone_no[]">
+                                                <span id="reqphoneno-1" class="reqError text-danger valley"></span>
                                             </div>
                                         </div> 
                                         <div class="col-md-12 mt-3">
                                             <div class="form-group">
                                                 <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Relationship</strong></label>
-                                                <select class="form-control" name="reference_relationship[]">
+                                                <select class="form-control reference_relationship reference_relationship-1" name="reference_relationship[]">
                                                     <option value="">Select Reference Relationship</option>
                                                     <option value="Brother">Brother</option>
                                                     <option value="Sister">Sister</option>
                                                     <option value="Cousin">Cousin</option>
                                                 </select>
-                                                <span id="reqempsdate" class="reqError text-danger valley"></span>
+                                                <span id="reqreferencerel-1" class="reqError text-danger valley"></span>
                                             </div>
                                         </div> 
                                         <div class="col-md-12 mt-3">
                                             <div class="form-group">
                                                 <label for="skill" class="d-flex gap-3 flex-wrap"><strong>You worked together at:</strong></label>
-                                                <input class="form-control" type="text" name="worked_together[]">
-                                                <span id="reqempsdate" class="reqError text-danger valley"></span>
+                                                <input class="form-control worked_together worked_together-1" type="text" name="worked_together[]">
+                                                <span id="reqworked_together-1" class="reqError text-danger valley"></span>
                                             </div>
                                         </div>
                                         <div class="col-md-12 mt-3">
                                             <div class="form-group">
                                                 <label for="skill" class="d-flex gap-3 flex-wrap"><strong>What was your position when you worked with this referee?</strong></label>
-                                                <input class="form-control" type="text" name="position_with_referee[]">
-                                                <span id="reqempsdate" class="reqError text-danger valley"></span>
+                                                <input class="form-control position_with_referee-1 position_with_referee" type="text" name="position_with_referee[]">
+                                                <span id="reqpositionreferee-1" class="reqError text-danger valley"></span>
                                             </div>
                                         </div>
                                         <div class="col-md-12 mt-3">
@@ -1385,7 +1433,7 @@
                                         <div class="col-md-12 mt-3">
                                             <div class="form-group">
                                                 <label for="skill" class="d-flex gap-3 flex-wrap"><strong>End Date</strong></label>
-                                               <input class="form-control end_date end_date-1" type="date" name="end_date[]" onkeydown="return false">
+                                               <input class="form-control  end_date end_date-1" type="date" name="end_date[]" onkeydown="return false">
                                                 <span id="reqempsdate" class="reqError text-danger valley"></span>
                                             </div>
                                         </div>
@@ -1395,11 +1443,13 @@
                                         </div>
 
                                         </div> 
-
+                                        </div> 
+                                    
                                         <div class="d-flex align-items-center justify-content-between mt-3">
-                                            <button type="button" class="btn btn-default next-step-6 align-items-center justify-content-between" data-target="#navpill-7">Next</button>
+                                            <button class="btn btn-default  align-items-center justify-content-between" type="submit" id="submitReferencesjjj">Save Changes</button>
                                         </div>
-                                    </div> 
+                                    </form>
+                                    
                                     </div>                    
                                                        
                                 </div>
@@ -2026,13 +2076,95 @@
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
     <script>
-        var referee_div_count = 1;
-        console.log("licence_div_count",referee_div_count);
-        function add_another_referee(){
+    var referee_div_count = 1;
+    console.log("licence_div_count",referee_div_count);
+    function add_another_referee(){
         referee_div_count++;
-        $(".reference_form").append('<div class="referee_data referee_data-'+referee_div_count+'"><h6 class="mt-0 color-brand-1 mb-20 referee_no">References '+referee_div_count+'</h6><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">First name</label><input class="form-control first_name first_name-'+referee_div_count+'" type="text" name="first_name[]"><span id="reqfname-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Last name</label><input class="form-control last_name last_name-'+referee_div_count+'" type="text" name="last_name[]"><span id="reqlname-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div></div><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Email</label><input class="form-control reference_email reference_email-'+referee_div_count+'" type="text" name="email[]"><span id="reqemail-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Phone number</label><input class="form-control phone_no phone_no-'+referee_div_count+'" type="text" name="phone_no[]"><span id="reqphoneno-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div></div><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Relationship</label><select class="form-control reference_relationship reference_relationship-'+referee_div_count+'" name="reference_relationship[]"><option value="" data-select2-id="9">Select Reference Relationship</option><option value="Brother">Brother</option><option value="Sister">Sister</option><option value="Sister">Cousin</option></select><span id="reqreferencerel-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">You worked together at:</label><input class="form-control worked_together worked_together-'+referee_div_count+'" type="text" name="worked_together[]"><span id="reqworked_together-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div></div><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">What was your position when you worked with this referee?</label><input class="form-control position_with_referee position_with_referee-'+referee_div_count+'" type="text" name="position_with_referee[]"><span id="reqpositionreferee-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div></div><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Start Date</label><input class="form-control start_date start_date-'+referee_div_count+'" type="date" name="start_date[]" onchange="startDate('+referee_div_count+')" onkeydown="return false"><span id="reqrefereesdate-'+referee_div_count+'" class="reqError text-danger valley"></span><div class="declaration_box"><input class="still_working still_working-'+referee_div_count+'" type="checkbox" name="still_working[]" onclick="stillWorking('+referee_div_count+')">I am still working with this referee<span id="reqstillworking-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div></div><div class="col-md-6"><div class="form-group level-drp working-'+referee_div_count+'"><label class="form-label" for="input-1">End Date</label><input class="form-control end_date end_date-'+referee_div_count+'" type="date" name="end_date[]" onkeydown="return false"><span id="reqrefereeedate-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div><div class="row"><div class="col-md-6"><div class="add_new_certification_div mb-3 mt-3"><a style="cursor: pointer;" onclick="delete_reference1('+referee_div_count+')">- Delete Referee</a></div></div></div></div>');
-        
+        $(".reference_form").append('<div class="referee_data referee_data-'+referee_div_count+'"><h6 class="mt-0 color-brand-1 mb-20 referee_no">References '+referee_div_count+'</h6><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">First name</label><input class="form-control first_name first_name-'+referee_div_count+'" type="text" name="first_name[]"><span id="reqfname-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Last name</label><input class="form-control last_name last_name-'+referee_div_count+'" type="text" name="last_name[]"><span id="reqlname-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div></div><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Email</label><input class="form-control reference_email reference_email-'+referee_div_count+'" type="text" name="email[]"><span id="reqemail-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Phone number</label><input class="form-control phone_no phone_no-'+referee_div_count+'" type="text" name="phone_no[]"><span id="reqphoneno-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div></div><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Relationship</label><select class="form-control reference_relationship reference_relationship-'+referee_div_count+'" name="reference_relationship[]"><option value="" data-select2-id="9">Select Reference Relationship</option><option value="Brother">Brother</option><option value="Sister">Sister</option><option value="Sister">Cousin</option></select><span id="reqreferencerel-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">You worked together at:</label><input class="form-control worked_together worked_together-'+referee_div_count+'" type="text" name="worked_together[]"><span id="reqworked_together-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div></div><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">What was your position when you worked with this referee?</label><input class="form-control position_with_referee position_with_referee-'+referee_div_count+'" type="text" name="position_with_referee[]"><span id="reqpositionreferee-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div></div><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Start Date</label><input class="form-control start_date start_date-'+referee_div_count+'" type="date" name="start_date[]" onchange="startDate('+referee_div_count+')" onkeydown="return false"><span id="reqrefereesdate-'+referee_div_count+'" class="reqError text-danger valley"></span><div class="declaration_box"><input class="still_working still_working-'+referee_div_count+'" type="checkbox" name="still_working[]" onclick="stillWorking('+referee_div_count+')">I am still working with this referee<span id="reqstillworking-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div></div><div class="col-md-6"><div class="form-group level-drp working-'+referee_div_count+'"><label class="form-label" for="input-1">End Date</label><input class="form-control end_date end_date-'+referee_div_count+'" type="date" name="end_date[]" onkeydown="return false"><span id="reqrefereeedate-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div><div class="row"><div class="col-md-6"><div class="add_new_certification_div mb-3 mt-3"><a style="cursor: pointer;" onclick="delete_reference1('+referee_div_count+')">- Delete Referee</a></div></div></div></div>');    
         }
+
+        function delete_reference1(i){
+        $(".referee_data-"+i).remove();    
+    }
+
+
+    var previous_employeers_head = $(".previous_employeers_head").length;
+
+    function add_work_experience(){
+        previous_employeers_head++;
+        // $(".previous_employeers").append('<h6 class="emergency_text mt-3">Previous Employers '+previous_employeers_head+'</h6><div class="form-group level-drp"><label class="d-flex gap-3 flex-wrap" for="input-1"><strong>Organisation Name</strong></label><input class="form-control" type="text" name="previous_employer_name[]"><span id="reqnames" class="reqError text-danger valley"></span></div><div class="form-group level-drp"><div class="form-group level-drp"><label class="d-flex gap-3 flex-wrap" for="input-1"><strong>Position Held</strong></label><select class="form-control" name="positions_held[]"><option value="">Position Held</option><option value="Team Member">Team Member</option><option value="Team Leader">Team Leader</option><option value="Educator">Educator</option><option value="Manager">Manager</option><option value="Clinical Specialist">Clinical Specialist</option></select><span id="reqpositionheld" class="reqError text-danger valley"></span></div></div><span id="reqpositionheld" class="reqError text-danger valley"></span><div class="col-md-12"><div class="form-group level-drp"><label class="d-flex gap-3 flex-wrap" for="input-1"><strong>Employment Start Date</strong></label><input class="form-control employeement_start_date employeement_start_date-'+previous_employeers_head+'" type="date" name="start_date[]" onchange="changeEmployeementEndDate('+previous_employeers_head+')"><span id="reqempsdate" class="reqError text-danger valley"></span></div></div><div class="col-md-12"><div class="form-group level-drp"><label class="d-flex gap-3 flex-wrap" for="input-1"><strong>Employment End Date</strong></label><input class="form-control employeement_end_date-'+previous_employeers_head+'" type="date" name="end_date[]"><span id="reqemployeementenddate" class="reqError text-danger valley"></span></div><div class="declaration_box mt-3"><input class="declare_information" type="checkbox" name="present_box[]" value="1">I am currently in this position at the moment</div><div class="row"><div class="col-md-12"><div class="form-group level-drp"><label class="d-flex gap-3 flex-wrap" for="input-1">Employment type</label><select class="form-control" name="employeement_type[]"><option value="">Employment type</option><option value="Agency">Agency</option><option value="Staffing Agency">Staffing Agency</option></select><span id="reqemptype" class="reqError text-danger valley"></span></div></div></div><h4 class="emergency_text">Detailed Job Descriptions</h4><div class="form-group level-drp"><label class="d-flex gap-3 flex-wrap" for="input-1">Responsibilities</label><textarea class="form-control" name="job_responeblities[]"></textarea><span id="reqresposiblities" class="reqError text-danger valley"></span></div><div class="form-group level-drp"><label class="d-flex gap-3 flex-wrap" for="input-1">Achievements</label><textarea class="form-control" name="achievements[]"></textarea><span id="reqachievements" class="reqError text-danger valley"></span></div>');
+        $(".previous_employeers").append(`
+        <h4 class="emergency_text mt-3">Previous Employers ${previous_employeers_head}</h4>
+        
+        <div class="form-group level-drp mt-3">
+            <label class="d-flex gap-3 flex-wrap" for="input-1"><strong>Organisation Name</strong></label>
+            <input class="form-control" type="text" name="previous_employer_name[]">
+            <span id="reqnames" class="reqError text-danger valley"></span>
+        </div>
+
+        <div class="form-group level-drp  mt-3">
+            <label class="d-flex gap-3 flex-wrap" for="input-1"><strong>Position Held</strong></label>
+            <select class="form-control" name="positions_held[]">
+                <option value="">Position Held</option>
+                <option value="Team Member">Team Member</option>
+                <option value="Team Leader">Team Leader</option>
+                <option value="Educator">Educator</option>
+                <option value="Manager">Manager</option>
+                <option value="Clinical Specialist">Clinical Specialist</option>
+            </select>
+            <span id="reqpositionheld" class="reqError text-danger valley"></span>
+        </div>
+
+        <div class="col-md-12  mt-3">
+            <div class="form-group level-drp">
+                <label class="d-flex gap-3 flex-wrap" for="input-1"><strong>Employment Start Date</strong></label>
+                <input class="form-control employeement_start_date employeement_start_date-${previous_employeers_head}" type="date" name="start_date[]" onchange="changeEmployeementEndDate(${previous_employeers_head})">
+                <span id="reqempsdate" class="reqError text-danger valley"></span>
+            </div>
+        </div>
+
+        <div class="col-md-12  mt-3">
+            <div class="form-group level-drp">
+                <label class="d-flex gap-3 flex-wrap" for="input-1"><strong>Employment End Date</strong></label>
+                <input class="form-control employeement_end_date employeement_end_date-${previous_employeers_head}" type="date" name="end_date[]">
+                <span id="reqemployeementenddate" class="reqError text-danger valley"></span>
+            </div>
+        </div>
+
+        <div class="declaration_box mt-3">
+            <input class="declare_information" type="checkbox" name="present_box[]" value="1">I am currently in this position at the moment
+        </div>
+
+        <div class="row">
+            <div class="col-md-12  mt-3">
+                <div class="form-group level-drp">
+                    <label class="d-flex gap-3 flex-wrap" for="input-1"><strong>Employment type</strong></label>
+                    <select class="form-control" name="employeement_type[]">
+                        <option value="">Employment type</option>
+                        <option value="Agency">Agency</option>
+                        <option value="Staffing Agency">Staffing Agency</option>
+                    </select>
+                    <span id="reqemptype" class="reqError text-danger valley"></span>
+                </div>
+            </div>
+        </div>
+
+        <h4 class="emergency_text mt-3">Detailed Job Descriptions</h4>
+
+        <div class="form-group level-drp  mt-3">
+            <label class="d-flex gap-3 flex-wrap" for="input-1"><strong>Responsibilities</strong></label>
+            <textarea class="form-control" name="job_responeblities[]"></textarea>
+            <span id="reqresposiblities" class="reqError text-danger valley"></span>
+        </div>
+
+        <div class="form-group level-drp mt-3">
+            <label class="d-flex gap-3 flex-wrap" for="input-1"><strong>Achievements</strong></label>
+            <textarea class="form-control" name="achievements[]"></textarea>
+            <span id="reqachievements" class="reqError text-danger valley"></span>
+        </div>
+    `);
+
+    }
     </script>    
     
 @include('admin.script');

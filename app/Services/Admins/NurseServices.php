@@ -20,6 +20,7 @@ use App\Models\PreferencesModel;
 use App\Models\WorkPreferencesModel;
 use App\Models\AdditionalInfo;
 use App\Models\User;
+use App\Models\AddReferee;
 use Illuminate\Support\Facades\Hash;
 
 class NurseServices
@@ -215,6 +216,7 @@ class NurseServices
    public function addNursePost($data)
     {
 
+ 
         try {
 
             if($data['tab'] == 'tab1'){
@@ -946,23 +948,83 @@ class NurseServices
 
                 $email=Session::get('nurseemail');
                 $user_id=User::where('email',$email)->first();
-                $allData['user_id'] = $user_id->id;
-                $allData['employer_name'] = $data['previous_employer_name'];
-                $allData['position_held'] = json_encode($data['positions_held']);
-                $allData['employeement_start_date'] = $data['start_date'];
-                $allData['employeement_end_date'] = $data['end_date'];
-                $allData['present_status'] = $data['end_date'];
-                $allData['responsiblities'] = $data['job_responeblities'];
-                $allData['achievements'] = $data['achievements'];
-                $allData['skills_compantancies'] = json_encode($data['skills_compantancies']);
+                // $allData['user_id'] = $user_id->id;
 
-                $run=ExperienceModel::create($allData);
+                $year_experience = $data['assistent_level'];
+                $user_id = $user_id->id;
+                $previous_employer_name = $data['previous_employer_name'];
+                $positions_held = json_encode( $data['positions_held']);
+                $start_date = $data['start_date'];
+                $end_date = $data['end_date'];
+                $present_box = $data['present_box'];
+                $job_responeblities = $data['job_responeblities'];
+                $achievements = $data['achievements'];
+                $employeement_type = $data['employeement_type'];
+                $skills_compantancies = json_encode($data['skills_compantancies']);
+                $type_of_evidence = json_encode($data['type_of_evidence']);
+                $i = 0; 
+                
+                $work_experience_array = array();
+                foreach ($previous_employer_name as $pname) {
+                    $previous_employer_name1 = $pname;
+                    $positions_held1 = $positions_held[$i];
+                    $start_date1 = $start_date[$i];
+                    $end_date1 = $end_date[$i];
+                    
+                    if (isset($present_box[$i])) {
+                            $p_box = 1;
+                        }else{
+                            $p_box = 0;
+                        }
+                    $employeement_type1 = $employeement_type[$i];
+                    $job_responeblities1 = $job_responeblities[$i];
+                    $achievements1 = $achievements[$i];
+
+                    $work_experience_array[] = array("previous_employer_name1"=>$previous_employer_name1,"positions_held1"=>$positions_held1,"start_date1"=>$start_date1,"end_date1"=>$end_date1,"present_box1"=>$p_box,"employeement_type1"=>$employeement_type1,"job_responeblities1"=>$job_responeblities1,"achievements1"=>$achievements1);
+                    $i++;
+                }
+
+                if(!empty($work_experience_array)){
+                    $work_experience_json = json_encode($work_experience_array);
+                }else{
+                    $work_experience_json = '';
+                }
+  
+                $file = $data['upload_evidence'];
+
+                
+                
+                //$post = User::find($request->user_id);
+
+                if(!empty($file)){
+                    $destinationPath = public_path() . '/uploads/evidence';
+
+                    $file->move($destinationPath,time().$file->getClientOriginalName());
+                    $upload_evidence = time().$file->getClientOriginalName();
+                    
+                }else{
+                    $upload_evidence = $getedudata->upload_evidence;
+                }
+
+   
+                $post = new ExperienceModel();
+                $post->user_id = $user_id; 
+                         
+                //$post->year_experience = $year_experience;
+                $post->work_experience = $work_experience_json;
+                $post->skills_compantancies = $skills_compantancies;
+                $post->upload_evidence = $upload_evidence;
+                $post->evidence_type = $type_of_evidence;
+                $post->complete_status = 1;
+                $run = $post->save();
+
+                // $run=ExperienceModel::create($allData);
 
                 if($run){               
-                    $allData['assistent_level'] = $data['assistent_level'];
+                    $allData['assistent_level'] = $year_experience;
 
                     User::where('id', $user_id)->update([
-                        'assistent_level' => $allData['assistent_level'],
+                        'assistent_level' => $year_experience,
                     ]);
                 }
 
@@ -1130,6 +1192,47 @@ class NurseServices
                 $allData['available_date'] = $data['available_date'];
                 $run = User::where('id',$user_id->id)->update($allData);
                 $param='Additional Informationyy';
+
+            }else if($data['tab'] == 'tab15'){               
+
+                $email=Session::get('nurseemail');       
+                $user_id=User::where('email',$email)->first();
+                $first_name = $data['first_name'];        
+                $last_name = $data['last_name'];
+                $email = $data['email'];
+                $phone_no = $data['phone_no'];
+                $reference_relationship = $data['reference_relationship'];
+                $worked_together = $data['worked_together'];
+                $position_with_referee = $data['position_with_referee'];
+                $start_date = $data['start_date'];
+                $end_date = $data['end_date'];
+                $still_working = $data['still_working'];
+                $reference_no = $data['reference_no'];
+
+                for($i=0;$i<count($first_name);$i++){
+
+                if (isset($still_working[$i])) {
+                    $working = 1;
+                }else{
+                    $working = 0;
+                }
+                $referee = new AddReferee;
+                $referee->referee_no = $i+1;
+                $referee->user_id = $user_id->id;
+                $referee->first_name = $first_name[$i];
+                $referee->last_name = $last_name[$i];
+                $referee->email = $email[$i];
+                $referee->phone_no = $phone_no[$i];
+                $referee->relationship = $reference_relationship[$i];
+                $referee->worked_together = $worked_together[$i];
+                $referee->position_with_referee = $position_with_referee[$i];
+                $referee->start_date = $start_date[$i];
+                $referee->end_date = $end_date[$i];
+                $referee->still_working = $working;
+                $run = $referee->save();
+              }
+
+              $param='References';
             }
             
             if ($run) {
@@ -1142,6 +1245,7 @@ class NurseServices
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
         }
     }
+
 
     public function EditNursePost($data)
     {
