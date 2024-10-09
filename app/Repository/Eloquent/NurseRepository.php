@@ -11,6 +11,7 @@ use App\Models\PreferencesModel;
 use App\Models\WorkPreferencesModel;
 use App\Models\VaccinationFrontModel;
 use App\Models\ProfessionalAssocialtionModel;
+use App\Models\AddReferee;
 use Illuminate\Contracts\Cache\Repository as Cache;
 use Illuminate\Support\Facades\Log;
 
@@ -26,10 +27,11 @@ class NurseRepository extends BaseRepository{
     protected $workpreferences;
     protected $vaccination;
     protected $promembership;
+    protected $addReferee;
     protected $cache;
 
     public function __construct(User $model,UserEducationCertiModel $usereducationcertification,ExperienceModel $experience,MandatoryTrainModel $mandatoryTraing , 
-    Cache $cache,InterviewModel $interviewRef,PreferencesModel $preferences,WorkPreferencesModel $workpreferences,VaccinationFrontModel $vaccination,ProfessionalAssocialtionModel $promembership){
+    Cache $cache,InterviewModel $interviewRef,PreferencesModel $preferences,WorkPreferencesModel $workpreferences,VaccinationFrontModel $vaccination,ProfessionalAssocialtionModel $promembership,AddReferee $addReferee){
         $this->model = $model;
         $this->experience = $experience;
         $this->usereducationcertification = $usereducationcertification;
@@ -39,6 +41,7 @@ class NurseRepository extends BaseRepository{
         $this->workpreferences = $workpreferences;
         $this->vaccination = $vaccination;
         $this->promembership = $promembership;
+        $this->addReferee = $addReferee;
         parent::__construct($model, $cache);
     }
     public function getIncomingNurseList(){
@@ -197,4 +200,12 @@ class NurseRepository extends BaseRepository{
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
         }
     }
+    public function getReferedetails($byWhere){
+        try {
+            return $this->addReferee->where($byWhere)->get();
+        } catch(\Exception $e){
+            Log::error("Error in NurseRepository.getReferedetails(): " . $e->getMessage());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+   }
 }

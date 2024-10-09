@@ -129,6 +129,7 @@ class NurseController extends Controller
             $educationData  = $this->nurseRepository->getEducationCerdetails(['user_id'=>$request->id]);
             $experienceData  = $this->nurseRepository->getExperiencedetails(['user_id'=>$request->id]);
             $mandatorytrainingData  = $this->nurseRepository->getMandatorytrainingdetails(['user_id'=>$request->id]);
+            $RefereData  = $this->nurseRepository->getReferedetails(['user_id'=>$request->id]);
             $interviewrefData  = $this->nurseRepository->getInterviewrefdetails(['user_id'=>$request->id]);
             $personalprefData  = $this->nurseRepository->getPersonalprefdetails(['user_id'=>$request->id]);
             $findworkData  = $this->nurseRepository->getfindworkdetails(['user_id'=>$request->id]);
@@ -138,7 +139,7 @@ class NurseController extends Controller
             $workingChildrenCheckData = $this->verificationRepository->getWorkingChildrenCheckData(['user_id' => $request->id]);
             $proMembershipData = $this->nurseRepository->getProMembershipData(['user_id' => $request->id]);
             return view('admin.profile-view',compact('profileData','experienceData','policeCheckVerificationData','eligibilityToWorkData','workingChildrenCheckData','educationData','mandatorytrainingData',
-            'interviewrefData','personalprefData','findworkData','vaccinationData','proMembershipData'));
+            'interviewrefData','personalprefData','findworkData','vaccinationData','proMembershipData','RefereData'));
         } catch (\Exception $e) {
             log::error('Error in NurseController/viewProfile :' . $e->getMessage() . 'in line' . $e->getLine());
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);

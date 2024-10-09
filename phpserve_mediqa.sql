@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Oct 08, 2024 at 10:33 AM
+-- Generation Time: Oct 09, 2024 at 10:40 AM
 -- Server version: 5.7.23-23
 -- PHP Version: 8.1.29
 
@@ -1138,7 +1138,9 @@ INSERT INTO `practitioner_type` (`id`, `name`, `parent`, `is_featured`, `status`
 (297, 'Midwife Nurse', '295', 0, '1', 0, '2024-08-26 01:06:45', '2024-08-26 01:06:45'),
 (298, 'VEER', '295', 0, '1', 0, '2024-08-26 01:06:52', '2024-08-26 01:08:44'),
 (299, 'Midwife Nurse', '298', 0, '1', 0, '2024-08-26 01:07:04', '2024-08-26 01:07:04'),
-(300, 'VIJJU', '298', 0, '1', 0, '2024-08-26 01:09:22', '2024-08-26 01:09:22');
+(300, 'VIJJU', '298', 0, '1', 0, '2024-08-26 01:09:22', '2024-08-26 01:09:22'),
+(301, 'Nurse Advocate', '1', 0, '1', 0, '2024-10-08 02:25:45', '2024-10-08 02:25:45'),
+(302, 'Nurse Mentor', '1', 0, '1', 0, '2024-10-08 02:30:01', '2024-10-08 02:30:01');
 
 -- --------------------------------------------------------
 
@@ -1435,7 +1437,8 @@ CREATE TABLE `referee` (
 --
 
 INSERT INTO `referee` (`referee_id`, `referee_no`, `user_id`, `first_name`, `last_name`, `email`, `phone_no`, `relationship`, `worked_together`, `position_with_referee`, `start_date`, `end_date`, `still_working`, `created_at`, `updated_at`) VALUES
-(16, 1, 159, 'carry', 'sim', 'veer123@gmail.com', '708998038', 'Sister', 'intomoniyo', 'manager', '2020-12-04', NULL, 1, '2024-09-26 04:18:01', '2024-09-27 05:08:19');
+(16, 1, 159, 'carry', 'sim', 'veer123@gmail.com', '708998038', 'Sister', 'intomoniyo', 'manager', '2020-12-04', NULL, 1, '2024-09-26 04:18:01', '2024-09-27 05:08:19'),
+(18, 1, 163, 'robert', 'na', 'votivephp.harshita@gmail.com', '837008585', 'Brother', 'gfygghgh', 'ghgggh', '2024-10-23', '2024-10-23', 1, '2024-10-08 06:36:09', '2024-10-08 06:36:09');
 
 -- --------------------------------------------------------
 
@@ -7626,7 +7629,7 @@ ALTER TABLE `police_check`
 -- AUTO_INCREMENT for table `practitioner_type`
 --
 ALTER TABLE `practitioner_type`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=301;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=303;
 
 --
 -- AUTO_INCREMENT for table `profession`
@@ -7656,7 +7659,7 @@ ALTER TABLE `professional_membership`
 -- AUTO_INCREMENT for table `referee`
 --
 ALTER TABLE `referee`
-  MODIFY `referee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `referee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `seo`
