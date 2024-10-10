@@ -93,8 +93,8 @@
                             <span>Profession</span>
                         </a>
                     </li>
-                    <li class="nav-item disabled" role="presentation">
-                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-4" role="tab" aria-selected="false"
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" data-bs-toggle="tab" href="#navpill-4" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Education and Certifications</span>
                         </a>
@@ -781,6 +781,196 @@
                                     <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center ">Education and Certification 
                                     </h3>
                                 </div>
+                                <?php 
+                                   if($educationData && $educationData->acls_data){
+                                        $acls_data1 = json_decode($educationData->acls_data);
+                                        $a_data_arr = array();
+                                        foreach ($acls_data1 as $a_data) {
+                                            $a_data_arr[] = $a_data->acls_certification_id;
+                                        }
+                                        $a_data_json = json_encode($a_data_arr);
+                                        }else{
+                                        $acls_data1 = "";
+                                        $a_data_json = "";
+                                        
+                                        }
+
+                                        if($educationData && $educationData->bls_data){
+                                        $bls_data1 = json_decode($educationData->bls_data);
+                                        $b_data_arr = array();
+                                        foreach ($bls_data1 as $b_data) {
+                                            $b_data_arr[] = $b_data->bls_certification_id;
+                                        }
+                                        $b_data_json = json_encode($b_data_arr);
+                                        }else{
+                                        $bls_data1 = "";
+                                        $b_data_json = "";
+                                        
+                                        }
+
+                                        if($educationData && $educationData->cpr_data){
+                                        $cpr_data1 = json_decode($educationData->cpr_data);
+                                        $c_data_arr = array();
+                                        foreach ($cpr_data1 as $c_data) {
+                                            $c_data_arr[] = $c_data->cpr_certification_id;
+                                        }
+                                        $c_data_json = json_encode($c_data_arr);
+                                        }else{
+                                        $cpr_data1 = "";
+                                        $c_data_json = "";
+                                        }
+
+                                        if($educationData && $educationData->nrp_data){
+                                        $nrp_data1 = json_decode($educationData->nrp_data);
+                                        $n_data_arr = array();
+                                        foreach ($nrp_data1 as $n_data) {
+                                            $n_data_arr[] = $n_data->nrp_certification_id;
+                                        }
+                                        $n_data_json = json_encode($n_data_arr);
+                                        }else{
+                                        $nrp_data1 = "";
+                                        $n_data_json = "";
+                                        }
+
+                                        if($educationData && $educationData->pals_data){
+                                        $pls_data1 = json_decode($educationData->pals_data);
+                                        $p_data_arr = array();
+                                        foreach ($pls_data1 as $p_data) {
+                                            $p_data_arr[] = $p_data->pls_certification_id;
+                                        }
+                                        $p_data_json = json_encode($p_data_arr);
+                                        }else{
+                                        $pls_data1 = "";
+                                        $p_data_json = "";
+                                        }
+
+                                        if($educationData && $educationData->rn_data){
+                                        $rn_data1 = json_decode($educationData->rn_data);
+                                        $r_data_arr = array();
+                                        foreach ($rn_data1 as $r_data) {
+                                            $r_data_arr[] = $r_data->rn_certification_id;
+                                        }
+                                        $r_data_json = json_encode($r_data_arr);
+                                        }else{
+                                        $rn_data1 = "";
+                                        $r_data_json = "";
+                                        }
+
+                                        if($educationData && $educationData->np_data){
+                                        $np_data1 = json_decode($educationData->np_data);
+                                        $n_data_arr = array();
+                                        foreach ($np_data1 as $n_data) {
+                                            $n_data_arr[] = $n_data->np_certification_id;
+                                        }
+                                        $np_data_json = json_encode($n_data_arr);
+                                        }else{
+                                        $np_data1 = "";
+                                        $np_data_json = "";
+                                        }
+
+                                        if($educationData && $educationData->cna_data){
+                                        $cna_data1 = json_decode($educationData->cna_data);
+                                        $cn_data_arr = array();
+                                        foreach ($cna_data1 as $cn_data) {
+                                            $cn_data_arr[] = $cn_data->cn_certification_id;
+                                        }
+                                        $cna_data_json = json_encode($cn_data_arr);
+                                        }else{
+                                        $cna_data1 = "";
+                                        $cna_data_json = "";
+                                        }
+
+                                        if($educationData && $educationData->lpn_data){
+                                        $lpn_data1 = json_decode($educationData->lpn_data);
+                                        $lpn_data_arr = array();
+                                        foreach ($lpn_data1 as $lpn_data) {
+                                            $lpn_data_arr[] = $lpn_data->lpn_certification_id;
+                                        }
+                                        $lpn_data_json = json_encode($lpn_data_arr);
+                                        }else{
+                                        $lpn_data1 = "";
+                                        $lpn_data_json = "";
+                                        }
+
+                                        if($educationData && $educationData->crna_data){
+                                        $crna_data1 = json_decode($educationData->crna_data);
+                                        $crna_data_arr = array();
+                                        foreach ($crna_data1 as $crna_data) {
+                                            $crna_data_arr[] = $crna_data->crna_certification_id;
+                                        }
+                                        $crna_data_json = json_encode($crna_data_arr);
+                                        }else{
+                                        $crna_data1 = "";
+                                        $crna_data_json = "";
+                                        }
+
+                                        if($educationData && $educationData->cnm_data){
+                                        $cnm_data1 = json_decode($educationData->cnm_data);
+                                        $cnm_data_arr = array();
+                                        foreach ($cnm_data1 as $cnm_data) {
+                                            $cnm_data_arr[] = $cnm_data->cnm_certification_id;
+                                        }
+                                        $cnm_data_json = json_encode($cnm_data_arr);
+                                        }else{
+                                        $cnm_data1 = "";
+                                        $cnm_data_json = "";
+                                        }
+
+                                        if($educationData && $educationData->ons_data){
+                                        $ons_data1 = json_decode($educationData->ons_data);
+                                        $ons_data_arr = array();
+                                        foreach ($ons_data1 as $ons_data) {
+                                            $ons_data_arr[] = $ons_data->ons_certification_id;
+                                        }
+                                        $ons_data_json = json_encode($ons_data_arr);
+                                        }else{
+                                        $ons_data1 = "";
+                                        $ons_data_json = "";
+                                        }
+
+                                        if($educationData && $educationData->msw_data){
+                                        $msw_data1 = json_decode($educationData->msw_data);
+                                        $msw_data_arr = array();
+                                        foreach ($msw_data1 as $msw_data) {
+                                            $msw_data_arr[] = $msw_data->msw_certification_id;
+                                        }
+                                        $msw_data_json = json_encode($msw_data_arr);
+                                        }else{
+                                        $msw_data1 = "";
+                                        $msw_data_json = "";
+                                        }
+
+                                        if($educationData && $educationData->ain_data){
+                                        $ain_data1 = json_decode($educationData->ain_data);
+                                        $ain_data_arr = array();
+                                        foreach ($ain_data1 as $ain_data) {
+                                            $ain_data_arr[] = $ain_data->ain_certification_id;
+                                        }
+                                        $ain_data_json = json_encode($ain_data_arr);
+                                        }else{
+                                        $ain_data1 = "";
+                                        $ain_data_json = "";
+                                        }
+
+                                        if($educationData && $educationData->rpn_data){
+                                        $rpn_data1 = json_decode($educationData->rpn_data);
+                                        $rpn_data_arr = array();
+                                        foreach ($rpn_data1 as $rpn_data) {
+                                            $rpn_data_arr[] = $rpn_data->rpn_certification_id;
+                                        }
+                                        $rpn_data_json = json_encode($rpn_data_arr);
+                                        }else{
+                                        $rpn_data1 = "";
+                                        $rpn_data_json = "";
+                                        }
+
+                                        if($educationData && $educationData->nl_data){
+                                        $nl_data_new = $educationData->nl_data;
+                                        }else{                      
+                                        $nl_data_new = "";                      
+                                        }  
+                                        
+                                    ?>
                                 <div class="card-body p-3 px-md-4">
                                     <div class="col-md-12">
                                         <div class="row">
@@ -788,15 +978,15 @@
                                             </h4>
                                             <div class="col-md-12 mt-3">
                                                 <div class="form-group">
+                                                    <input type="hidden" name="nurse_degree_one" class="nurse_degree_one" value="{{ $profileData->degree }}">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Nurse & Midwife degree</strong></label>
                                                      <?php
                                                     $nurse_midwife_degree = DB::table("degree")->where('status', '1')->orderBy('name')->get();
                                                     ?>
                                                     <ul id="ndegree" style="display:none;">
                                                         @foreach($nurse_midwife_degree as $ptl)
-                                                            <li data-value="{{ $ptl->id }}">{{ $ptl->name }}</li>
-                                                            
-                                                            @endforeach
+                                                            <li data-value="{{ $ptl->id }}">{{ $ptl->name }}</li>  
+                                                        @endforeach
                                                     </ul>
                                                      <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="ndegree" name="ndegree[]" multiple="multiple"></select>
                                                     <span id="ndegree_error" class="text-danger valley"></span>
@@ -805,37 +995,42 @@
                                             <div class="col-md-12 mt-3">
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Institutions</strong></label>
-                                                   <input class="form-control" type="text" name="institution" value="" id="institution">
+                                                   <input class="form-control" type="text" name="institution" id="institution" value="@if(!empty($educationData)){{ $educationData->institution }}@endif">
                                                     <span id="institution_error" class="text-danger valley"></span>
                                                 </div>
                                             </div>
-                                            <div class="col-md-12 mt-3">
-                                                <div class="form-group">
-                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Please start with the most relevant</strong></label>
-                                                   <input class="form-control" type="text" name="most_relevant" value="" id="most_relevant">
-                                                    <span id="relevant_error" class="text-danger valley"></span>
-                                                </div>
-                                            </div>
+                                            
                                             <div class="col-md-6 mt-3">
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Graduation Start Date</strong></label>
-                                                    <input class="form-control" type="date" name="graduation_start_date" value="" id="graduation_start_date">
+                                                    <input class="form-control" type="date" name="graduation_start_date" id="graduation_start_date" value="@if(!empty($educationData)){{ $educationData->graduate_start_date }}@endif"  onchange="changeDate(event);">
                                                     <span id="gra_start_date_error" class="text-danger valley"></span>
                                                 </div>
                                             </div>
+
                                             <div class="col-md-6 mt-3">
                                                 <div class="form-group">
-                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Graduation End Date</strong></label>
-                                                    <input class="form-control" type="date" name="graduation_end_date" value="" id="graduation_end_date">
-                                                    <span id="gra_end_date_error" class="text-danger valley"></span>
+                                                    {{-- <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Upload Degree & Transcript</strong></label>
+                                                    <input type="file" name="upload_degree" id="upload_degree" class="" accept="image/*">  --}}
+                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Upload Degree & Transcript</strong></label>
+                                                    <input class="form-control" type="file" name="upload_degree" id="upload_degree">
+                                                    <span id="upload_degree_error" class="reqError text-danger valley "></span>
+                                                </div>
+
+                                                <div class="mt-3">
+                                                    @if(!empty($educationData) && $educationData->degree_transcript)
+                                                        <img src="{{ url('/public/uploads/education_degree') }}/{{ $educationData->degree_transcript }}" style="width:100px;">
+                                                    @endif
                                                 </div>
                                             </div>
+
                                             <h4 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3">General Certifications/Licences:
                                             </h4>
 
                                             <div class="col-md-12 mt-3">
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Please select all that apply</strong></label>
+                                                    <input type="hidden" name="prof_cert_new" class="prof_cert_new" value="@if(!empty($educationData)){{ $educationData->professional_certifications }}@endif">
                                                     <?php
                                                         $certificates = DB::table("professional_certificate")->orderBy("ordering_id","asc")->get();
                                                         ?>
@@ -851,42 +1046,69 @@
                                             </div>
 
                                             <div class="professional_certification_div">
-                                                <div class="form-group level-drp d-none procertdiv">
-                                                    
+                                                <div class="form-group level-drp @if($educationData && $educationData->acls_data == NULL) d-none @endif @if(empty($educationData)) d-none @endif procertdiv">                
+                                                   
                                                     <label class="form-label" for="input-1">ACLS (Advanced Cardiovascular Life Support)</label>
+                                                     <input type="hidden" name="pro_cert_acls" class="pro_cert_acls" value="@if(!empty($educationData)){{ $a_data_json }}@endif">
                                                     <?php
                                                         $acls_data = DB::table("professional_certificate_table")->where("cert_id","6")->get();
                                                     ?>
-                                                    <ul id="acls_data" style="display:none;">
-                                                        @foreach($acls_data as $data)
-                                                        <li data-value="{{ $data->professionalcert_id }}">{{ $data->name }}</li>
-                                                        @endforeach
-                                                        
-                                                    </ul>
-                                                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="acls_data" name="acls_data[]" multiple="multiple"></select>
+                                                    
+                            <label class="form-label" for="input-1">ACLS (Advanced Cardiovascular Life Support)</label>
+                              
+                              <ul id="acls_data" style="display:none;">
+                                  @foreach($acls_data as $data)
+                                  <li data-value="{{ $data->name }}">{{ $data->name }}</li>
+                                  @endforeach
+                                  
+                              </ul>
+                          <select class="js-example-basic-multiple addAll_removeAll_btn acls_data" data-list-id="acls_data" name="acls_data[]" multiple="multiple"></select>
                                                 </div>
-                                                <div class="license_number_div row license_number_acls d-none">
-                                                <div class="form-group col-md-6">
-                                                    <label class="form-label" for="input-1">Certification/Licence Number</label>
-                                                    <input class="form-control" type="text" name="acls_license_number" id="acls_license_number">
+
+                                                <div class="acls_certification_div">
+                                                    
+                                                    @foreach($acls_data1 as $a_data)
+                                                        <?php
+                                                        $acls_first_word = strtok($a_data->acls_certification_id, " ");
+                                                        $acls_first_word_one = strtolower(preg_replace('/[^A-Za-z0-9\-]/', '', $acls_first_word));
+                                                        ?>
+
+                                                        <div class="acls_{{ $acls_first_word_one }}">
+                                                        <h6 class="mt-3">{{ $a_data->acls_certification_id }}</h6>
+                                                            <div class="license_number_div row license_number_acls d-none">
+                                                                <div class="form-group col-md-6">
+                                                                    <label class="form-label" for="input-1">Certification/Licence Number</label>
+                                                                    <input type="hidden" name="aclsnamearr[]" class="acls_input_{{ $a_data->acls_certification_id }}" value="{{ $a_data->acls_certification_id }}">
+                                                                    <input class="form-control acls_license_number acls_license_number-{{ $i }}" type="text" name="acls_license_number[]" value="{{ $a_data->acls_license_number }}">
+                                                                    <span id="reqaclslicencevalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                                                </div>
+                                                                <div class="form-group col-md-6">
+                                                                    <label class="form-label" for="input-1">Expiry</label>
+                                                                    <input class="form-control aclsexpiry aclsexpiry-{{ $i }}" type="date" name="acls_expiry[]" value="{{ $a_data->acls_expiry }}">
+                                                                    <span id="reqaclsexpiryvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                                                </div>
+                                                                <div class="form-group col-md-6">
+                                                                    <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                                                                    <input class="form-control acls_upload_certification acls_upload_certification-{{ $i }}" type="file" name="acls_upload_certification[]">
+                                                                    <span id="reqaclsuploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                                                    @if($a_data->acls_upload_certification)
+                                                                    <img src="{{ url('/public/uploads/certificates') }}/{{ $a_data->acls_upload_certification }}" class="acls_licence_img-{{ $i }} mt-3" style="width:100px;">
+                                                                    @endif
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                 
+                                                    @endforeach
                                                 </div>
-                                                <div class="form-group col-md-6">
-                                                    <label class="form-label" for="input-1">Expiry</label>
-                                                    <input class="form-control" type="date" name="acls_expiry" id="acls_expiry">
-                                                </div>
-                                                <div class="form-group col-md-6">
-                                                    <label class="form-label" for="input-1">Upload your certification/Licence</label>
-                                                    <input class="form-control" type="file" name="acls_upload_certification" id="acls_upload_certification" accept="image/*">
-                                                </div>
-                                                </div>
-                                                <div class="form-group level-drp d-none procertdivone">                            
+
+                                                <div class="form-group level-drp d-none procertdivone">     <input type="hidden" name="pro_cert_bls" class="pro_cert_bls" value="@if(!empty($educationData)){{ $b_data_json }}@endif">                       
                                                     <label class="form-label" for="input-1">BLS (Basic Life Support)</label>
                                                     <?php
                                                         $bls_data = DB::table("professional_certificate_table")->where("cert_id","7")->get();
                                                     ?>
                                                     <ul id="bls_data" style="display:none;">
                                                         @foreach($bls_data as $data)
-                                                        <li data-value="{{ $data->professionalcert_id }}">{{ $data->name }}</li>
+                                                        <li data-value="{{ $data->name }}">{{ $data->name }}</li>
                                                         @endforeach                                                        
                                                     </ul>
                                                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="bls_data" name="bls_data[]" multiple="multiple"></select>
@@ -1161,7 +1383,6 @@
                                                         @foreach($cnm_data as $data)
                                                         <li data-value="{{ $data->professionalcert_id }}">{{ $data->name }}</li>
                                                         @endforeach
-                                                        
                                                     </ul>
                                                     <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="cnm_data" name="cnm_data[]" multiple="multiple"></select>
                                                 </div>
@@ -2075,6 +2296,16 @@
         src="https://nextjs.webwiders.in/pindrow/public/advertiser/dist/libs/owl.carousel/dist/owl.carousel.min.js">
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+
+
+<script>
+// if($(".pro_cert_acls").val() != ""){
+// var pro_cert_acls = JSON.parse($(".pro_cert_acls").val());
+// //alert(pro_cert_acls);
+// $('.js-example-basic-multiple[data-list-id="acls_data"]').select2().val(pro_cert_acls).trigger('change');
+// }
+</script>
+
     
     
 @include('admin.script');

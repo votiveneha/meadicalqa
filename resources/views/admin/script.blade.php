@@ -495,6 +495,107 @@
 
  });
 
+ if($(".pro_cert_acls").val() != ""){
+    var pro_cert_acls = JSON.parse($(".pro_cert_acls").val());
+    console.log("pro_cert_acls",pro_cert_acls);
+    $('.acls_data').select2().val(pro_cert_acls).trigger('change');
+  }
+
+  if($(".pro_cert_bls").val() != ""){
+    var pro_cert_bls = JSON.parse($(".pro_cert_bls").val());
+    console.log("pro_cert_bls",pro_cert_bls);
+    $('.js-example-basic-multiple[data-list-id="bls_data"]').select2().val(pro_cert_bls).trigger('change');
+  }
+
+  // if($(".pro_cert_cpr").val() != ""){
+  //   var pro_cert_cpr = JSON.parse($(".pro_cert_cpr").val());
+  //   console.log("pro_cert_bls",pro_cert_cpr);
+  //   $('.js-example-basic-multiple[data-list-id="cpr_data"]').select2().val(pro_cert_cpr).trigger('change');
+  // }
+
+  // if($(".pro_cert_nrp").val() != ""){
+  //   var pro_cert_nrp = JSON.parse($(".pro_cert_nrp").val());
+  //   console.log("pro_cert_bls",pro_cert_nrp);
+  //   $('.js-example-basic-multiple[data-list-id="nrp_data"]').select2().val(pro_cert_nrp).trigger('change');
+  // }
+
+  // if($(".pro_cert_pals").val() != ""){
+  //   var pro_cert_pals = JSON.parse($(".pro_cert_pals").val());
+  //   console.log("pro_cert_bls",pro_cert_pals);
+  //   $('.js-example-basic-multiple[data-list-id="pls_data"]').select2().val(pro_cert_pals).trigger('change');
+  // }
+
+  // if($(".pro_cert_rn").val() != ""){
+  //   var pro_cert_rn = JSON.parse($(".pro_cert_rn").val());
+  //   console.log("pro_cert_bls",pro_cert_rn);
+  //   $('.js-example-basic-multiple[data-list-id="rn_data"]').select2().val(pro_cert_rn).trigger('change');
+  // }
+
+  // if($(".pro_cert_np").val() != ""){
+  //   var pro_cert_np = JSON.parse($(".pro_cert_np").val());
+  //   console.log("pro_cert_bls",pro_cert_np);
+  //   $('.js-example-basic-multiple[data-list-id="np_data"]').select2().val(pro_cert_np).trigger('change');
+  // }
+
+  // if($(".pro_cert_cna").val() != ""){
+  //   var pro_cert_cna = JSON.parse($(".pro_cert_cna").val());
+  //   console.log("pro_cert_bls",pro_cert_cna);
+  //   $('.js-example-basic-multiple[data-list-id="cn_data"]').select2().val(pro_cert_cna).trigger('change');
+  // }
+
+  // if($(".pro_cert_lpn").val() != ""){
+  //   var pro_cert_lpn = JSON.parse($(".pro_cert_lpn").val());
+  //   console.log("pro_cert_bls",pro_cert_lpn);
+  //   $('.js-example-basic-multiple[data-list-id="lpn_data"]').select2().val(pro_cert_lpn).trigger('change');
+  // }
+
+  // if($(".pro_cert_crna").val() != ""){
+  //   var pro_cert_crna = JSON.parse($(".pro_cert_crna").val());
+  //   console.log("pro_cert_bls",pro_cert_crna);
+  //   $('.js-example-basic-multiple[data-list-id="crn_data"]').select2().val(pro_cert_crna).trigger('change');
+  // }
+
+  // if($(".pro_cert_cnm").val() != ""){
+  //   var pro_cert_cnm = JSON.parse($(".pro_cert_cnm").val());
+  //   console.log("pro_cert_bls",pro_cert_cnm);
+  //   $('.js-example-basic-multiple[data-list-id="cnm_data"]').select2().val(pro_cert_cnm).trigger('change');
+  // }
+
+  // if($(".pro_cert_ons").val() != ""){
+  //   var pro_cert_ons = JSON.parse($(".pro_cert_ons").val());
+  //   console.log("pro_cert_bls",pro_cert_ons);
+  //   $('.js-example-basic-multiple[data-list-id="ons_data"]').select2().val(pro_cert_ons).trigger('change');
+  // }
+
+  // if($(".pro_cert_msw").val() != ""){
+  //   var pro_cert_msw = JSON.parse($(".pro_cert_msw").val());
+  //   console.log("pro_cert_bls",pro_cert_msw);
+  //   $('.js-example-basic-multiple[data-list-id="msw_data"]').select2().val(pro_cert_msw).trigger('change');
+  // }
+
+  // if($(".pro_cert_ain").val() != ""){
+  //   var pro_cert_ain = JSON.parse($(".pro_cert_ain").val());
+  //   console.log("pro_cert_bls",pro_cert_ain);
+  //   $('.js-example-basic-multiple[data-list-id="ain_data"]').select2().val(pro_cert_ain).trigger('change');
+  // }
+
+  // if($(".pro_cert_rpn").val() != ""){
+  //   var pro_cert_rpn = JSON.parse($(".pro_cert_rpn").val());
+  //   console.log("pro_cert_bls",pro_cert_rpn);
+  //   $('.js-example-basic-multiple[data-list-id="rpn_data"]').select2().val(pro_cert_rpn).trigger('change');
+  // }
+
+  // if($(".pro_cert_nl").val() != ""){
+  //   var pro_cert_nl = JSON.parse($(".pro_cert_nl").val());
+  //   console.log("pro_cert_bls",pro_cert_nl);
+  //   $('.js-example-basic-multiple[data-list-id="nlc_data"]').select2().val(pro_cert_nl).trigger('change');
+  // }
+
+  // if($(".professional_as").val() != ""){
+  //   var professional_as = JSON.parse($(".professional_as").val());
+  //   console.log("professional_as",professional_as);
+  //   $('.js-example-basic-multiple[data-list-id="des_profession_association"]').select2().val(professional_as).trigger('change');
+  // }
 </script>
 
 
@@ -693,18 +794,7 @@ $(document).ready(function() {
 </script>
 {{-- Image preview --}}
 <script>
-// $(document).ready(function() {
-//     $('#profile_image').change(function(e) {
-//         const file = e.target.files[0];
-//         if (file) {
-//             const reader = new FileReader();
-//             reader.onload = function(e) {
-//                 $('.image-profile img').attr('src', e.target.result);
-//             };
-//             reader.readAsDataURL(file);
-//         }
-//     });
-// });
+
 </script>
 
 {{-- for add Nurse script --}}
@@ -951,8 +1041,8 @@ $(document).ready(function() {
         // Append the file
         var profile_image = $('#profile_image')[0].files[0];
         
-        if (profile_image) {
-            formData.append('profile_image', profile_image);
+        if(profile_image) {
+         formData.append('profile_image', profile_image);
         }
         
         formData.append('dob', $('#dob').val());
@@ -990,8 +1080,7 @@ $(document).ready(function() {
                             title: 'Success',
                             text: res.message,
                         }).then(function() {
-                            $('a[href="' + targetTab + '"]').tab('show');
-
+                           $('a[href="' + targetTab + '"]').tab('show');
                            // Disable the previous tab
                            $('a[href="' + targetTab + '"]').parent().prev().find('a').addClass('disabled');
                         });
@@ -1101,7 +1190,6 @@ $(document).ready(function() {
 
                         if(error.responseJSON.errors.emrg_email) {
                             $('#emrg_email_error').text(error.responseJSON.errors.emrg_email[0]);
-                           
                         }else{
                             $('#emrg_email_error').text('');
                         }
@@ -1109,7 +1197,6 @@ $(document).ready(function() {
 
                         if(error.responseJSON.errors.home_address) {
                             $('#home_address_error').text(error.responseJSON.errors.zip_code[0]);
-                           
                         }else{
                             $('#home_address_error').text('');
                         }
@@ -1120,8 +1207,7 @@ $(document).ready(function() {
                         }else{
                             $('#profile_image_error').text('');
                         }
-                    // }
-                        
+                       
                     }
                 }
             });

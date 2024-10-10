@@ -1911,7 +1911,7 @@
                         </div>
                         <div class="another_certifications">
                           <h6 class="emergency_text">
-                            Another Certifications 
+                            Other certifications 
                           </h6>
                           <?php
                             if(!empty($educationData)){
@@ -4561,6 +4561,7 @@
 
   if($(".pro_cert_acls").val() != ""){
     var pro_cert_acls = JSON.parse($(".pro_cert_acls").val());
+    console.log("pro_cert_acls",pro_cert_acls);
     $('.js-example-basic-multiple[data-list-id="acls_data"]').select2().val(pro_cert_acls).trigger('change');
   }
 
@@ -5532,7 +5533,7 @@ $('.js-example-basic-multiple[data-list-id="profess_cert"]').on('change', functi
             let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
             console.log("res_one",res_one);
 
-            $(".cna_"+res_one).remove();
+            $(".cn_"+res_one).remove();
           }
           
           cn_certification_array.push(text);
