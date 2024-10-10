@@ -1021,7 +1021,11 @@ class HomeController extends Controller
                 $additional_upload_certification[$i]->move($destinationPathcert,$name);
             }else{
                 $certificate_data = json_decode($getedudata->additional_training_data);
-                $name = $certificate_data[$i]->additional_upload_certification;
+                if(!empty($certificate_data) && !empty($certificate_data[$i])){
+                    $name = $certificate_data[$i]->additional_upload_certification;
+                }else{
+                    $name = "";
+                }
             }
             
             $certificate_array[] = array("training_courses"=>$training_courses[$i],"additional_license_number"=>$additional_license_number[$i],"additional_expiry"=>$additional_expiry[$i],"additional_upload_certification"=>$name);
@@ -1044,7 +1048,11 @@ class HomeController extends Controller
             }else{
                 $certificate_data = json_decode($getedudata->additional_certification);
                 //print_r($certificate_data);die;
-                $name = $certificate_data[$i]->certificate_upload_certification;
+                if(!empty($certificate_data) && !empty($certificate_data[$i])){
+                    $name = $certificate_data[$i]->certificate_upload_certification;
+                }else{
+                    $name = "";
+                }
             }
             
             $new_certificate_array[] = array("training_certificate"=>$training_certificate[$i],"certificate_license_number"=>$certificate_license_number[$i],"certificate_expiry"=>$certificate_expiry[$i],"certificate_upload_certification"=>$name);
