@@ -97,5 +97,6 @@ Route::prefix('nurse')->name('nurse.')->namespace('App\Http\Controllers\nurse')-
     Route::post('/updateReference', 'HomeController@updateReference')->name('updateReference');
     Route::post('/updateProfessionalMembership', 'HomeController@updateProfessionalMembership')->name('updateProfessionalMembership');
     Route::post('/deleteReferee', 'HomeController@deleteReferee')->name('deleteReferee');
+    Route::post('/deleteCertification', 'HomeController@deleteCertification')->name('deleteCertification');
   });
 });

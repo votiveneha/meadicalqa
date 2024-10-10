@@ -1263,6 +1263,55 @@ function pad(number) {
       j++;
     });
 
+    var u = 1;
+    $(".additional_certificate_field").each(function(){
+      
+      if ($(".additional_certificate_field-"+u).length > 0) {
+        if ($(".additional_certificate_field-"+u).val() == '') {
+          
+          document.getElementById("reqcertname-"+u).innerHTML = "* Please enter the certificate name";
+          isValid = false;
+        }
+      }
+      u++;
+    });
+
+    var v = 1;
+    $(".cert_licence_num").each(function(){
+      
+      if ($(".cert_licence_num-"+v).length > 0) {
+        if ($(".cert_licence_num-"+v).val() == '') {
+          document.getElementById("reqcertlicense-"+v).innerHTML = "* Please enter the license number";
+          isValid = false;
+        }
+      }
+      v++;
+    });
+
+    var w = 1;
+    $(".cert_expiry").each(function(){
+      
+      if ($(".cert_expiry-"+w).length > 0) {
+        if ($(".cert_expiry-"+w).val() == '') {
+          document.getElementById("reqcertexpiry-"+w).innerHTML = "* Please enter the Expiry Date";
+          isValid = false;
+        }
+      }
+      w++;
+    });
+
+    var x = 1;
+    $(".additional_regulating_body").each(function(){
+      
+      if ($(".additional_regulating_body-"+x).length > 0) {
+        if ($(".additional_regulating_body-"+x).val() == '') {
+          document.getElementById("reqcertregulating_body-"+x).innerHTML = "* Please enter the Regulating Body";
+          isValid = false;
+        }
+      }
+      x++;
+    });
+
     if($(".declare_information_edu").prop('checked') == false){
       document.getElementById("reqdeclare_information1").innerHTML = "* Please check this checkbox";
       isValid = false;
@@ -1998,6 +2047,31 @@ function pad(number) {
   function delete_reference1(i){
     $(".referee_data-"+i).remove();
     
+  }
+
+  function delete_certification1(i){
+    
+    $(".license_number_div_"+i).remove();
+    
+  }
+
+  function delete_certification(i,user_id,certificate_id){
+      
+      
+      $.ajax({
+        type: "post",
+        url: "{{ route('nurse.deleteCertification') }}",
+        data: {user_id:user_id,certificate_id:certificate_id,_token:'{{ csrf_token() }}'},
+        cache: false,
+        success: function(data){
+           if(data == 1){
+            $(".license_number_div_"+i).remove();
+           }
+           
+        }
+      });
+      
+
   }
   </script>
 <!-- =================================

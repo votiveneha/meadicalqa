@@ -1046,23 +1046,19 @@
                                             </div>
 
                                             <div class="professional_certification_div">
-                                                <div class="form-group level-drp @if($educationData && $educationData->acls_data == NULL) d-none @endif @if(empty($educationData)) d-none @endif procertdiv">                
-                                                   
-                                                    <label class="form-label" for="input-1">ACLS (Advanced Cardiovascular Life Support)</label>
+                                                <div class="form-group level-drp @if($educationData && $educationData->acls_data == NULL) d-none @endif @if(empty($educationData)) d-none @endif procertdiv">                               
+                                                    <label class="d-flex gap-3 flex-wrap" for="input-1"><strong>ACLS (Advanced Cardiovascular Life Support)</strong></label>
                                                      <input type="hidden" name="pro_cert_acls" class="pro_cert_acls" value="@if(!empty($educationData)){{ $a_data_json }}@endif">
-                                                    <?php
-                                                        $acls_data = DB::table("professional_certificate_table")->where("cert_id","6")->get();
-                                                    ?>
-                                                    
-                            <label class="form-label" for="input-1">ACLS (Advanced Cardiovascular Life Support)</label>
-                              
-                              <ul id="acls_data" style="display:none;">
-                                  @foreach($acls_data as $data)
-                                  <li data-value="{{ $data->name }}">{{ $data->name }}</li>
-                                  @endforeach
-                                  
-                              </ul>
-                          <select class="js-example-basic-multiple addAll_removeAll_btn acls_data" data-list-id="acls_data" name="acls_data[]" multiple="multiple"></select>
+                                                        <?php
+                                                            $acls_data = DB::table("professional_certificate_table")->where("cert_id","6")->get();
+                                                        ?>                            
+                                                        {{-- <label class="form-label" for="input-1">ACLS (Advanced Cardiovascular Life Support)</label>                 --}}
+                                                        <ul id="acls_data" style="display:none;">
+                                                            @foreach($acls_data as $data)
+                                                             <li data-value="{{ $data->name }}">{{ $data->name }}</li>
+                                                            @endforeach         
+                                                        </ul>
+                                                    <select class="js-example-basic-multiple addAll_removeAll_btn acls_data" data-list-id="acls_data" name="acls_data[]" multiple="multiple"></select>
                                                 </div>
 
                                                 <div class="acls_certification_div">
@@ -1074,7 +1070,7 @@
                                                         ?>
 
                                                         <div class="acls_{{ $acls_first_word_one }}">
-                                                        <h6 class="mt-3">{{ $a_data->acls_certification_id }}</h6>
+                                                        <h4 class="mt-3">{{ $a_data->acls_certification_id }}</h4>
                                                             <div class="license_number_div row license_number_acls d-none">
                                                                 <div class="form-group col-md-6">
                                                                     <label class="form-label" for="input-1">Certification/Licence Number</label>
@@ -1101,7 +1097,8 @@
                                                     @endforeach
                                                 </div>
 
-                                                <div class="form-group level-drp d-none procertdivone">     <input type="hidden" name="pro_cert_bls" class="pro_cert_bls" value="@if(!empty($educationData)){{ $b_data_json }}@endif">                       
+                                                <div class="form-group level-drp @if($educationData && $educationData->bls_data == NULL) d-none @endif @if(empty($educationData)) d-none @endif procertdivone mt-3">     
+                                                    <input type="hidden" name="pro_cert_bls" class="pro_cert_bls" value="@if(!empty($educationData)){{ $b_data_json }}@endif">                       
                                                     <label class="form-label" for="input-1">BLS (Basic Life Support)</label>
                                                     <?php
                                                         $bls_data = DB::table("professional_certificate_table")->where("cert_id","7")->get();
@@ -1113,187 +1110,290 @@
                                                     </ul>
                                                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="bls_data" name="bls_data[]" multiple="multiple"></select>
                                                 </div>
-                                                <div class="license_number_div row license_number_bls d-none">
-                                                    <div class="form-group col-md-6">
-                                                        <label class="form-label" for="input-1">Certification/Licence Number</label>
-                                                        <input class="form-control" type="text" name="bls_license_number" id="bls_license_number">
+
+                                                <div class="bls_certification_div">
+                                                @if(!empty($bls_data1))
+                                                    <?php
+                                                        $i = 0;
+                                                    ?>
+                                                    @foreach($bls_data1 as $b_data)
+                                                        <?php
+                                                        $bls_first_word = strtok($b_data->bls_certification_id, " ");;
+
+                                                        $bls_first_word_one = strtolower(preg_replace('/[^A-Za-z0-9\-]/', '', $bls_first_word));
+                                                        ?>
+
+                                                    <div class="bls_{{ $bls_first_word_one }}">
+                                                        <h4>{{ $b_data->bls_certification_id }}</h4>
+                                                        <div class="license_number_div row license_number_bls d-none">
+                                                            <div class="form-group col-md-6">
+                                                                <label class="form-label" for="input-1">Certification/Licence Number</label>
+                                                                <input type="hidden" name="blsnamearr[]" class="bls_input_{{ $b_data->bls_certification_id }}" value="{{ $b_data->bls_certification_id }}">
+                                                                <input class="form-control bls_license_number bls_license_number-{{ $i }}" type="text" name="bls_license_number" id="bls_license_number"  value="{{ $b_data->bls_license_number }}">
+                                                                <span id="reqblslicencevalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                                            </div>
+                                                            <div class="form-group col-md-6">
+                                                                <label class="form-label" for="input-1">Expiry</label>
+                                                                <input class="form-control blsexpiry blsexpiry-{{ $i }}" type="date" name="bls_expiry" id="bls_expiry" value="{{ $b_data->bls_expiry }}">
+                                                                <span id="reqblsexpiryvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                                            </div>
+                                                            <div class="form-group col-md-6">
+                                                                <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                                                                <input class="form-control bls_upload_certification bls_upload_certification-{{ $i }}" type="file" name="bls_upload_certification" id="bls_upload_certification">
+                                                                <span id="reqblsuploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
+
+                                                                @if($b_data->bls_upload_certification)
+                                                                    <img src="{{ url('/public/uploads/certificates') }}/{{ $b_data->bls_upload_certification }}" class="bls_licence_img-{{ $i }} mt-3" style="width:100px;">
+                                                                @endif
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <div class="form-group col-md-6">
-                                                        <label class="form-label" for="input-1">Expiry</label>
-                                                        <input class="form-control" type="date" name="bls_expiry" id="bls_expiry">
-                                                    </div>
-                                                    <div class="form-group col-md-6">
-                                                        <label class="form-label" for="input-1">Upload your certification/Licence</label>
-                                                        <input class="form-control" type="file" name="bls_upload_certification" id="bls_upload_certification">
-                                                    </div>
+                                                    @endforeach
+                                                @endif
+                
                                                 </div>
-                                                <div class="form-group level-drp d-none procertdivtwo">
-                            
+                                                <div class="form-group level-drp @if($educationData && $educationData->cpr_data == NULL) d-none @endif @if(empty($educationData)) d-none @endif procertdivtwo">
+                                                    <input type="hidden" name="pro_cert_cpr" class="pro_cert_cpr" value="@if(!empty($educationData)){{ $c_data_json }}@endif">
                                                     <label class="form-label" for="input-1">CPR (Cardiopulmonary Resuscitation)</label>
                                                     <?php
                                                         $cpr_data = DB::table("professional_certificate_table")->where("cert_id","8")->get();
                                                     ?>
                                                     <ul id="cpr_data" style="display:none;">
                                                         @foreach($cpr_data as $data)
-                                                        <li data-value="{{ $data->professionalcert_id }}">{{ $data->name }}</li>
+                                                        <li data-value="{{ $data->name }}">{{ $data->name }}</li>
                                                         @endforeach
                                                         
                                                     </ul>
                                                     <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="cpr_data" name="cpr_data[]" multiple="multiple"></select>
                                                 </div>
-                                                <div class="license_number_div row license_number_cpr d-none">
-                                                    <div class="form-group col-md-6">
-                                                        <label class="form-label" for="input-1">Certification/Licence Number</label>
-                                                        <input class="form-control" type="text" name="cpr_license_number" id="cpr_license_number">
-                                                    </div>
-                                                    <div class="form-group col-md-6">
-                                                        <label class="form-label" for="input-1">Expiry</label>
-                                                        <input class="form-control" type="date" name="cpr_expiry" id="cpr_expiry">
-                                                    </div>
-                                                    <div class="form-group col-md-6">
-                                                        <label class="form-label" for="input-1">Upload your certification/Licence</label>
-                                                        <input class="form-control" type="file" name="cpr_upload_certification" id="cpr1_upload_certification">
-                                                    </div>
+
+                                                <div class="cpr_certification_div">
+                                                @if(!empty($cpr_data1))
+                                                    @foreach($cpr_data1 as $c_data)
+                                                        <?php
+                                                        $cpr_first_word = strtok($c_data->cpr_certification_id, " ");;
+
+                                                        $cpr_first_word_one = strtolower(preg_replace('/[^A-Za-z0-9\-]/', '', $cpr_first_word));
+                                                        ?>
+                                                        <div class="cpr_{{ $cpr_first_word_one }}">
+                                                            <h6>{{ $c_data->cpr_certification_id }}</h6>
+                                                            <div class="license_number_div row license_number_cpr d-none">
+                                                                <div class="form-group col-md-6">
+                                                                    <input type="hidden" name="cprnamearr[]" class="cpr_input_{{ $c_data->cpr_certification_id }}" value="{{ $c_data->cpr_certification_id }}">
+                                                                    <label class="form-label" for="input-1">Certification/Licence Number</label>
+                                                                    <input class="form-control cpr_license_number cpr_license_number-{{ $i }}" type="text" name="cpr_license_number" id="cpr_license_number" value="{{ $c_data->cpr_license_number }}">
+                                                                    <span id="reqcprlicencevalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                                                </div>
+                                                                <div class="form-group col-md-6">
+                                                                    <label class="form-label" for="input-1">Expiry</label>
+                                                                    <input class="form-control cprexpiry cprexpiry-{{ $i }}" type="date" name="cpr_expiry" id="cpr_expiry" value="{{ $c_data->cpr_expiry }}">
+                                                                    <span id="reqcprexpiryvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                                                </div>
+                                                                <div class="form-group col-md-6">
+                                                                    <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                                                                    <input class="form-control cpr_upload_certification cpr_upload_certification-{{ $i }}" type="file" name="cpr_upload_certification" id="cpr1_upload_certification">
+                                                                    @if($c_data->cpr_upload_certification)
+                                                                        <img src="{{ url('/public/uploads/certificates') }}/{{ $c_data->cpr_upload_certification }}" style="width:100px;" class="mt-3">
+                                                                     @endif
+                                                                </div>
+                                                            </div>
+                                                        </div>                        
+                                                    @endforeach
+                                                    @endif
                                                 </div>
-                                                <div class="form-group level-drp d-none procertdivthree">
-                            
+                                                <div class="form-group level-drp @if($educationData && $educationData->nrp_data == NULL) d-none @endif @if(empty($educationData)) d-none @endif procertdivthree">
+                                                     <input type="hidden" name="pro_cert_nrp" class="pro_cert_nrp" value="@if(!empty($educationData)){{ $n_data_json }}@endif">
                                                     <label class="form-label" for="input-1">NRP (Neonatal Resuscitation Program)</label>
                                                     <?php
                                                         $nrp_data = DB::table("professional_certificate_table")->where("cert_id","9")->get();
                                                     ?>
                                                     <ul id="nrp_data" style="display:none;">
                                                         @foreach($nrp_data as $data)
-                                                        <li data-value="{{ $data->professionalcert_id }}">{{ $data->name }}</li>
+                                                        <li data-value="{{ $data->name }}">{{ $data->name }}</li>
                                                         @endforeach
                                                         
                                                     </ul>
                                                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="nrp_data" name="nrp_data[]" multiple="multiple"></select>
                                                 </div>
-                                                <div class="license_number_div row license_number_nrp d-none">
-                                                    <div class="form-group col-md-6">
-                                                        <label class="form-label" for="input-1">Certification/Licence Number</label>
-                                                        <input class="form-control" type="text" name="nrp_license_number" id="nrp_license_number">
-                                                    </div>
-                                                    <div class="form-group col-md-6">
-                                                        <label class="form-label" for="input-1">Expiry</label>
-                                                        <input class="form-control" type="date" name="nrp_expiry" id="nrp_expiry">
-                                                    </div>
-                                                    <div class="form-group col-md-6">
-                                                        <label class="form-label" for="input-1">Upload your certification/Licence</label>
-                                                        <input class="form-control" type="file" name="nrp_upload_certification" id="nrp_upload_certification">
-                                                    </div>
+                                                <div class="nrp_certification_div">
+                                                    @if(!empty($nrp_data1))
+                                                        @foreach($nrp_data1 as $n_data)
+                                                            <?php
+                                                            $nrp_first_word = strtok($n_data->nrp_certification_id, " ");;
+
+                                                            $nrp_first_word_one = strtolower(preg_replace('/[^A-Za-z0-9\-]/', '', $nrp_first_word));
+                                                            ?>
+                                                        <div class="nrp_{{ $nrp_first_word_one }}">
+                                                            <h6>{{ $n_data->nrp_certification_id }}</h6>    
+                                                            <div class="license_number_div row license_number_nrp d-none">
+                                                                <div class="form-group col-md-6">
+                                                                    <input type="hidden" name="nrpnamearr[]" class="nrp_input_{{ $n_data->nrp_certification_id }}" value="{{ $n_data->nrp_certification_id }}">
+                                                                    <label class="form-label" for="input-1">Certification/Licence Number</label>
+                                                                    <input class="form-control nrp_license_number nrp_license_number-{{ $i }}" type="text" name="nrp_license_number" id="nrp_license_number" value="{{ $n_data->nrp_license_number }}">
+                                                                    <span id="reqnrplicencevalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                                                </div>
+                                                                <div class="form-group col-md-6">
+                                                                    <label class="form-label" for="input-1">Expiry</label>
+                                                                    <input class="form-control nrpexpiry nrpexpiry-{{ $i }}" type="date" name="nrp_expiry" id="nrp_expiry" value="{{ $n_data->nrp_expiry }}">
+                                                                </div>
+                                                                <div class="form-group col-md-6">
+                                                                    <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                                                                    <input class="form-control nrp_upload_certification nrp_upload_certification-{{ $i }}" type="file" name="nrp_upload_certification" id="nrp_upload_certification">
+                                                                     @if($n_data->nrp_upload_certification)
+                                                                       <img src="{{ url('/public/uploads/certificates') }}/{{ $n_data->nrp_upload_certification }}" style="width:100px;" class="mt-3">
+                                                                    @endif
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                      @endif
                                                 </div>
-                                                <div class="form-group level-drp d-none procertdivfour">                            
+                                                {{-- <div class="form-group level-drp @if($educationData && $educationData->pals_data == NULL) d-none @endif @if(empty($educationData)) d-none @endif procertdivfour">
+                                                    <input type="hidden" name="pro_cert_pals" class="pro_cert_pals" value="@if(!empty($educationData)){{ $p_data_json }}@endif">                            
                                                     <label class="form-label" for="input-1">PALS (Pediatric Advanced Life Support)</label>
                                                     <?php
                                                         $pls_data = DB::table("professional_certificate_table")->where("cert_id","10")->get();
                                                     ?>
                                                     <ul id="pls_data" style="display:none;">
                                                         @foreach($pls_data as $data)
-                                                        <li data-value="{{ $data->professionalcert_id }}">{{ $data->name }}</li>
+                                                        <li data-value="{{  $data->name }}">{{ $data->name }}</li>
                                                         @endforeach
                                                         
                                                     </ul>
                                                     <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="pals_data" name="pals_data[]" multiple="multiple"></select>
                                                 </div>
-                                                <div class="license_number_div row license_number_pals d-none">
-                                                    <div class="form-group col-md-6">
-                                                        <label class="form-label" for="input-1">Certification/Licence Number</label>
-                                                        <input class="form-control" type="text" name="pals_license_number" id="pals_license_number">
-                                                    </div>
-                                                    <div class="form-group col-md-6">
-                                                        <label class="form-label" for="input-1">Expiry</label>
-                                                        <input class="form-control" type="date" name="pals_expiry" id="pals_expiry">
-                                                    </div>
-                                                    <div class="form-group col-md-6">
-                                                        <label class="form-label" for="input-1">Upload your certification/Licence</label>
-                                                        <input class="form-control" type="file" name="pals_upload_certification" id="pals_upload_certification">
-                                                    </div>
+                                                <div class="pls_certification_div">
+                                                    @if(!empty($pls_data1))
+                                                        @foreach($pls_data1 as $p_data)
+                                                            <?php
+                                                            $pls_first_word = strtok($p_data->pls_certification_id, " ");;
+
+                                                            $pls_first_word_one = strtolower(preg_replace('/[^A-Za-z0-9\-]/', '', $pls_first_word));
+                                                            ?>
+
+                                                        <div class="pls_{{ $pls_first_word_one }}">
+                                                          <h6>{{ $p_data->pls_certification_id }}</h6>
+                                                            <div class="license_number_div row license_number_pals d-none">
+                                                                <div class="form-group col-md-6">
+                                                                    <input type="hidden" name="plsnamearr[]" class="pls_input_{{ $p_data->pls_certification_id }}" value="{{ $p_data->pls_certification_id }}">
+                                                                    <label class="form-label" for="input-1">Certification/Licence Number</label>
+                                                                    <input class="form-control" type="text" name="pals_license_number" id="pals_license_number" value="{{ $p_data->pls_license_number }}">
+                                                                </div>
+                                                                <div class="form-group col-md-6">
+                                                                    <label class="form-label" for="input-1">Expiry</label>
+                                                                    <input class="form-control plsexpiry plsexpiry-{{ $i }}" type="date" name="pals_expiry" id="pals_expiry" value="{{ $p_data->pls_expiry }}">
+                                                                </div>
+                                                                <div class="form-group col-md-6">
+                                                                    <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                                                                    <input class="form-control pls_upload_certification pls_upload_certification-{{ $i }}" type="file" name="pals_upload_certification" id="pals_upload_certification">
+                                                                    @if($p_data->pls_upload_certification)
+                                                                      <img src="{{ url('/public/uploads/certificates') }}/{{ $p_data->pls_upload_certification }}" style="width:100px;" class="mt-3">
+                                                                    @endif
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                     @endforeach
+                                                    @endif
                                                 </div>
-                                                <div class="form-group level-drp d-none procertdivfive">                        
+                                                <div class="form-group level-drp @if($educationData && $educationData->rn_data == NULL) d-none @endif @if(empty($educationData)) d-none @endif procertdivfive">
+                                                <input type="hidden" name="pro_cert_rn" class="pro_cert_rn" value="@if(!empty($educationData)){{ $r_data_json }}@endif">                        
                                                     <label class="form-label" for="input-1">RN (Registered Nurse)</label>
                                                     <?php
                                                         $rn_data = DB::table("professional_certificate_table")->where("cert_id","11")->get();
                                                     ?>
                                                     <ul id="rn_data" style="display:none;">
                                                         @foreach($rn_data as $data)
-                                                        <li data-value="{{ $data->professionalcert_id }}">{{ $data->name }}</li>
+                                                        <li data-value="{{ $data->name }}">{{ $data->name }}</li>
                                                         @endforeach
                                                         
                                                     </ul>
                                                     <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="rn_data" name="rn_data[]" multiple="multiple"></select>
                                                 </div>
-                                                <div class="license_number_div row license_number_rn d-none">
-                                                    <div class="form-group col-md-6">
-                                                        <label class="form-label" for="input-1">Certification/Licence Number</label>
-                                                        <input class="form-control" type="text" name="rn_license_number" id="rn_license_number">
-                                                    </div>
-                                                    <div class="form-group col-md-6">
-                                                        <label class="form-label" for="input-1">Expiry</label>
-                                                        <input class="form-control" type="date" name="rn_expiry" id="rn_expiry">
-                                                    </div>
-                                                    <div class="form-group col-md-6">
-                                                        <label class="form-label" for="input-1">Upload your certification/Licence</label>
-                                                        <input class="form-control" type="file" name="rn_upload_certification" id="rn_upload_certification">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group level-drp d-none procertdivtwelfth">
-                            
+                                                <div class="rn_certification_div">
+                                                    @if(!empty($rn_data1))
+                                                        @foreach($rn_data1 as $r_data)
+                                                            <?php
+                                                            $rn_first_word = strtok($r_data->rn_certification_id, " ");;
+
+                                                            $rn_first_word_one = strtolower(preg_replace('/[^A-Za-z0-9\-]/', '', $rn_first_word));
+                                                            ?>
+                                                        <div class="rn_{{ $rn_first_word_one }}">
+                                                            <h6>{{ $r_data->rn_certification_id }}</h6>
+                                                            <div class="license_number_div row license_number_rn d-none">
+                                                                <div class="form-group col-md-6">
+                                                                    <label class="form-label" for="input-1">Certification/Licence Number</label>
+                                                                    <input type="hidden" name="rnnamearr[]" class="rn_input_{{ $r_data->rn_certification_id }}" value="{{ $r_data->rn_certification_id }}">
+                                                                    <input class="form-control" type="text" name="rn_license_number" id="rn_license_number" value="{{ $r_data->rn_license_number }}">
+                                                                     <span id="reqrnlicencevalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                                                </div>
+                                                                <div class="form-group col-md-6">
+                                                                    <label class="form-label" for="input-1">Expiry</label>
+                                                                    <input class="form-control rnexpiry rnexpiry-{{ $i }}" type="date" name="rn_expiry" id="rn_expiry" value="{{ $r_data->rn_expiry }}">
+                                                                </div>
+                                                                <div class="form-group col-md-6">
+                                                                    <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                                                                    <input class="form-control rn_upload_certification rn_upload_certification-{{ $i }}" type="file" name="rn_upload_certification" id="rn_upload_certification">
+                                                                     <span id="reqrnuploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                                                        @if($r_data->rn_upload_certification)
+                                                                          <img src="{{ url('/public/uploads/certificates') }}/{{ $r_data->rn_upload_certification }}" style="width:100px;" class="mt-3">
+                                                                        @endif
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                </div> --}}
+                                                {{-- <div class="form-group level-drp @if($educationData && $educationData->np_data == NULL) d-none @endif @if(empty($educationData)) d-none @endif procertdivtwelfth">
                                                     <label class="form-label" for="input-1">NP (Nurse Practioner) / (APRN) Advanced Practice Registered Nurse</label>
+                                                    <input type="hidden" name="pro_cert_np" class="pro_cert_np" value="@if(!empty($educationData)){{ $np_data_json }}@endif">
                                                     <?php
                                                         $rn_data = DB::table("professional_certificate_table")->where("cert_id","18")->get();
                                                     ?>
                                                     <ul id="np_data" style="display:none;">
                                                         @foreach($rn_data as $data)
-                                                        <li data-value="{{ $data->professionalcert_id }}">{{ $data->name }}</li>
+                                                        <li data-value="{{ $data->name }}">{{ $data->name }}</li>
                                                         @endforeach
                                                         
                                                     </ul>
                                                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="np_data" name="np_data[]" multiple="multiple"></select>
                                                 </div>
-                                                <div class="license_number_div row license_number_np d-none">
-                                                    <div class="form-group col-md-6">
-                                                        <label class="form-label" for="input-1">Certification/Licence Number</label>
-                                                        <input class="form-control" type="text" name="np_license_number" id="np_license_number">
-                                                    </div>
-                                                    <div class="form-group col-md-6">
-                                                        <label class="form-label" for="input-1">Expiry</label>
-                                                        <input class="form-control" type="date" name="np_expiry" id="np_expiry">
-                                                    </div>
-                                                    <div class="form-group col-md-6">
-                                                        <label class="form-label" for="input-1">Upload your certification/Licence</label>
-                                                        <input class="form-control" type="file" name="np_upload_certification" id="np_upload_certification">
-                                                    </div>
+                                                <div class="np_certification_div">
+                                                    @if(!empty($np_data1))
+                                                        @foreach($np_data1 as $n_data)
+                                                            <?php
+                                                            $np_first_word = strtok($n_data->np_certification_id, " ");;
+
+                                                            $np_first_word_one = strtolower(preg_replace('/[^A-Za-z0-9\-]/', '', $np_first_word));
+                                                            ?>
+
+                                                        <div class="np_{{ $np_first_word_one }}">
+                                                        <h6>{{ $n_data->np_certification_id }}</h6>                                                         
+                                                            
+                                                            <div class="license_number_div row license_number_np d-none">
+                                                                <div class="form-group col-md-6">
+                                                                    <label class="form-label" for="input-1">Certification/Licence Number</label>
+                                                                    <input type="hidden" name="npnamearr[]" class="np_input_{{ $n_data->np_certification_id }}" value="{{ $n_data->np_certification_id }}">
+                                                                    <input class="form-control np_license_number np_license_number-{{ $i }}" type="text" name="np_license_number" id="np_license_number"  value="{{ $n_data->np_license_number }}">
+                                                                    <span id="reqnplicencevalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                                                </div>
+                                                                <div class="form-group col-md-6">
+                                                                    <label class="form-label" for="input-1">Expiry</label>
+                                                                    <input class="form-control npexpiry npexpiry-{{ $i }}" type="date" name="np_expiry" id="np_expiry" value="{{ $n_data->np_expiry }}">
+                                                                </div>
+                                                                <div class="form-group col-md-6">
+                                                                    <label class="form-label np_upload_certification np_upload_certification-{{ $i }}" for="input-1">Upload your certification/Licence</label>
+                                                                    <input class="form-control" type="file" name="np_upload_certification" id="np_upload_certification">
+                                                                    <span id="reqnpuploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                                                    @if($n_data->np_upload_certification)
+                                                                     <img src="{{ url('/public/uploads/certificates') }}/{{ $n_data->np_upload_certification }}" style="width:100px;">
+                                                                    @endif
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                         @endforeach
+                                                         @endif
                                                 </div>
-                                                <div class="form-group level-drp d-none procertdivfive">
-                            
-                                                    <label class="form-label" for="input-1">NP (Nurse Practioner) / (APRN) Advanced Practice Registered Nurse</label>
-                                                    <?php
-                                                        $rn_data = DB::table("professional_certificate_table")->where("cert_id","11")->get();
-                                                    ?>
-                                                    <ul id="rn_data" style="display:none;">
-                                                        @foreach($rn_data as $data)
-                                                        <li data-value="{{ $data->professionalcert_id }}">{{ $data->name }}</li>
-                                                        @endforeach
-                                                        
-                                                    </ul>
-                                                   <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="rn_data" name="rn_data[]" multiple="multiple"></select>
-                                                </div>
-                                                <div class="license_number_div row license_number_rn d-none">
-                                                    <div class="form-group col-md-6">
-                                                        <label class="form-label" for="input-1">Certification/Licence Number</label>
-                                                        <input class="form-control" type="text" name="rn_license_number" id="rn_license_number">
-                                                    </div>
-                                                    <div class="form-group col-md-6">
-                                                        <label class="form-label" for="input-1">Expiry</label>
-                                                        <input class="form-control" type="date" name="rn_expiry" id="rn_expiry">
-                                                    </div>
-                                                    <div class="form-group col-md-6">
-                                                        <label class="form-label" for="input-1">Upload your certification/Licence</label>
-                                                        <input class="form-control" type="file" name="rn_upload_certification" id="rn_upload_certification">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group level-drp d-none procertdivsix">                            
+                                                <div class="form-group level-drp @if($educationData && $educationData->cna_data == NULL) d-none @endif @if(empty($educationData)) d-none @endif procertdivsix">   
+                                                    <input type="hidden" name="pro_cert_cna" class="pro_cert_cna" value="@if(!empty($educationData)){{ $cna_data_json }}@endif">                         
                                                     <label class="form-label" for="input-1">CNA (Certified Nursing Assistant) / EN (Enrolled Nurse)</label>
                                                     <?php
                                                         $cn_data = DB::table("professional_certificate_table")->where("cert_id","12")->get();
@@ -1306,127 +1406,230 @@
                                                     </ul>
                                                     <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="cn_data" name="cn_data[]" multiple="multiple"></select>
                                                 </div>
-                                                <div class="license_number_div row license_number_cn d-none">
-                                                    <div class="form-group col-md-6">
-                                                        <label class="form-label" for="input-1">Certification/Licence Number</label>
-                                                        <input class="form-control" type="text" name="cn_license_number" id="cn_license_number">
+                                                <div class="cna_certification_div">
+                                                    @if(!empty($cna_data1))
+                                                    @foreach($cna_data1 as $cn_data)
+                                                    <?php
+                                                    $cna_first_word = strtok($cn_data->cna_certification_id, " ");;
+
+                                                    $cna_first_word_one = strtolower(preg_replace('/[^A-Za-z0-9\-]/', '', $cna_first_word));
+                                                    ?>
+                                                    <div class="license_number_div row license_number_cn d-none">
+                                                        <div class="form-group col-md-6">
+                                                            <input type="hidden" name="cnnamearr[]" class="cn_input_{{ $cn_data->cn_certification_id }}" value="{{ $cn_data->cn_certification_id }}">
+                                                            <label class="form-label" for="input-1">Certification/Licence Number</label>
+                                                            <input class="form-control cn_license_number cn_license_number-{{ $i }}" type="text" name="cn_license_number" id="cn_license_number" value="{{ $cn_data->cn_license_number }}">
+                                                        </div>
+                                                        <div class="form-group col-md-6">
+                                                            <label class="form-label" for="input-1">Expiry</label>
+                                                            <input class="form-control cnexpiry cnexpiry-{{ $i }}" type="date" name="cn_expiry" id="cn_expiry" value="{{ $cn_data->cn_expiry }}">
+                                                             <span id="reqcnexpiryvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                                        </div>
+                                                        <div class="form-group col-md-6">
+                                                            <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                                                            <input class="form-control cn_upload_certification cn_upload_certification-{{ $i }}" type="file" name="cn_upload_certification" id="cn_upload_certification">
+                                                            <span id="reqcnuploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                                            @if($cn_data->cn_upload_certification)
+                                                             <img src="{{ url('/public/uploads/certificates') }}/{{ $cn_data->cn_upload_certification }}" style="width:100px;" class="mt-3">
+                                                            @endif
+                                                        </div>
                                                     </div>
-                                                    <div class="form-group col-md-6">
-                                                        <label class="form-label" for="input-1">Expiry</label>
-                                                        <input class="form-control" type="date" name="cn_expiry" id="cn_expiry">
-                                                    </div>
-                                                    <div class="form-group col-md-6">
-                                                        <label class="form-label" for="input-1">Upload your certification/Licence</label>
-                                                        <input class="form-control" type="file" name="cn_upload_certification" id="cn_upload_certification">
-                                                    </div>
+                                                    @endforeach
+                                                    @endif
                                                 </div>
-                                                <div class="form-group level-drp d-none procertdivseven">                        
+                                                <div class="form-group level-drp  @if($educationData && $educationData->lpn_data == NULL) d-none @endif @if(empty($educationData)) d-none @endif procertdivseven">   
+                                                    <input type="hidden" name="pro_cert_lpn" class="pro_cert_lpn" value="@if(!empty($educationData)){{ $lpn_data_json }}@endif">                     
                                                     <label class="form-label" for="input-1">LPN (Licensed Practical Nurse) / LVN (Licensed Vocational Nurse)</label>
                                                     <?php
                                                         $lpn_data = DB::table("professional_certificate_table")->where("cert_id","13")->get();
                                                     ?>
                                                     <ul id="rn_data" style="display:none;">
                                                         @foreach($lpn_data as $data)
-                                                        <li data-value="{{ $data->professionalcert_id }}">{{ $data->name }}</li>
-                                                        @endforeach
-                                                        
+                                                        <li data-value="{{ $data->name }}">{{ $data->name }}</li>
+                                                        @endforeach   
                                                     </ul>
                                                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="lpn_data" name="lpn_data[]" multiple="multiple"></select>
                                                 </div>
-                                                <div class="license_number_div row license_number_lpn d-none">
-                                                    <div class="form-group col-md-6">
-                                                        <label class="form-label" for="input-1">Certification/Licence Number</label>
-                                                        <input class="form-control" type="text" name="lpn_license_number" id="lpn_license_number">
+                                                <div class="lpn_certification_div">
+                                                    @if(!empty($lpn_data1))
+                                                        @foreach($lpn_data1 as $l_data)
+                                                        <?php
+                                                        $lpn_first_word = strtok($l_data->lpn_certification_id, " ");;
+
+                                                        $lpn_first_word_one = strtolower(preg_replace('/[^A-Za-z0-9\-]/', '', $lpn_first_word));
+                                                        ?>
+                                                    
+                                                    <div class="lpn_{{ $lpn_first_word_one }}">
+                                                        <h6>{{ $l_data->lpn_certification_id }}</h6>
+                                                        <div class="license_number_div row license_number_lpn d-none">
+                                                            <div class="form-group col-md-6">
+                                                                <label class="form-label" for="input-1">Certification/Licence Number</label>
+                                                                 <input type="hidden" name="lpnnamearr[]" class="lpn_input_{{ $l_data->lpn_certification_id }}" value="{{ $l_data->lpn_certification_id }}">
+                                                                <input class="form-control lpn_license_number lpn_license_number-{{ $i }}" type="text" name="lpn_license_number" id="lpn_license_number" value="{{ $l_data->lpn_license_number }}">
+                                                            </div>
+                                                            <div class="form-group col-md-6">
+                                                                <label class="form-label" for="input-1">Expiry</label>
+                                                                <input class="form-control lpnexpiry lpnexpiry-{{ $i }}" type="date" name="lpn_expiry" id="lpn_expiry" value="{{ $l_data->lpn_expiry }}">
+                                                                <span id="reqlpnexpiryvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                                            </div>
+                                                            <div class="form-group col-md-6">
+                                                                <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                                                                <input class="form-control lpn_upload_certification lpn_upload_certification-{{ $i }}" type="file" name="lpn_upload_certification" id="lpn_upload_certification">
+                                                                <span id="reqlpnuploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                                                @if($l_data->lpn_upload_certification)
+                                                                <img src="{{ url('/public/uploads/certificates') }}/{{ $l_data->lpn_upload_certification }}" style="width:100px;" class="mt-3">
+                                                                @endif
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <div class="form-group col-md-6">
-                                                        <label class="form-label" for="input-1">Expiry</label>
-                                                        <input class="form-control" type="date" name="lpn_expiry" id="lpn_expiry">
-                                                    </div>
-                                                    <div class="form-group col-md-6">
-                                                        <label class="form-label" for="input-1">Upload your certification/Licence</label>
-                                                        <input class="form-control" type="file" name="lpn_upload_certification" id="lpn_upload_certification">
-                                                    </div>
+                                                     @endforeach
+                                                     @endif
                                                 </div>
-                                                <div class="form-group level-drp d-none procertdiveight">                            
+                                                <div class="form-group level-drp @if($educationData && $educationData->crna_data == NULL) d-none @endif @if(empty($educationData)) d-none @endif procertdiveight">  
+                                                      <input type="hidden" name="pro_cert_crna" class="pro_cert_crna" value="@if(!empty($educationData)){{ $crna_data_json }}@endif">                          
                                                         <label class="form-label" for="input-1">CRNA (Certified Registered Nurse Anesthetist)</label>
                                                         <?php
                                                             $crn_data = DB::table("professional_certificate_table")->where("cert_id","14")->get();
                                                         ?>
                                                         <ul id="rn_data" style="display:none;">
                                                             @foreach($crn_data as $data)
-                                                            <li data-value="{{ $data->professionalcert_id }}">{{ $data->name }}</li>
+                                                            <li data-value="{{ $data->name }}">{{ $data->name }}</li>
                                                             @endforeach
                                                             
                                                         </ul>
                                                     <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="crn_data" name="crn_data[]" multiple="multiple"></select>
                                                 </div>
-                                                <div class="license_number_div row license_number_crn d-none">
-                                                    <div class="form-group col-md-6">
-                                                        <label class="form-label" for="input-1">Certification/Licence Number</label>
-                                                        <input class="form-control" type="text" name="crn_license_number" id="crn_license_number">
-                                                    </div>
-                                                    <div class="form-group col-md-6">
-                                                        <label class="form-label" for="input-1">Expiry</label>
-                                                        <input class="form-control" type="date" name="crn_expiry" id="crn_expiry">
-                                                    </div>
-                                                    <div class="form-group col-md-6">
-                                                        <label class="form-label" for="input-1">Upload your certification/Licence</label>
-                                                        <input class="form-control" type="file" name="crn_upload_certification" id="crn_upload_certification">
-                                                    </div>
+                                                <div class="crna_{{ $crna_first_word_one }}">
+                                                    @if(!empty($crna_data1))
+                                                      @foreach($crna_data1 as $crna_data)
+                                                        <?php
+                                                        $crna_first_word = strtok($crna_data->crna_certification_id, " ");;
+
+                                                        $crna_first_word_one = strtolower(preg_replace('/[^A-Za-z0-9\-]/', '', $crna_first_word));
+                                                        ?>
+                                                        <div class="crna_{{ $crna_first_word_one }}">
+                                                          <h6>{{ $crna_data->crna_certification_id }}</h6>
+                                                            <div class="license_number_div row license_number_crn d-none">
+                                                                <div class="form-group col-md-6">
+                                                                    <label class="form-label" for="input-1">Certification/Licence Number</label>
+                                                                     <input type="hidden" name="crnanamearr[]" class="crna_input_{{ $crna_data->crna_certification_id }}" value="{{ $crna_data->crna_certification_id }}">
+                                                                    <input class="form-control crna_license_number crna_license_number-{{ $i }}" type="text" name="crn_license_number" id="crn_license_number" value="{{ $crna_data->crna_license_number }}">
+                                                                </div>
+                                                                <div class="form-group col-md-6">
+                                                                    <label class="form-label" for="input-1">Expiry</label>
+                                                                     <input class="form-control crnaexpiry crnaexpiry-{{ $i }}" type="date" name="crna_expiry[]" value="{{ $crna_data->crna_expiry }}">
+                                                                      <span id="reqcrnaexpiryvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                                                </div>
+                                                                <div class="form-group col-md-6">
+                                                                    <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                                                                    <input class="form-control crna_upload_certification crna_upload_certification-{{ $i }}" type="file" name="crn_upload_certification" id="crn_upload_certification">
+                                                                    <span id="reqcrnauploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                                                        @if($crna_data->crna_upload_certification)
+                                                                        <img src="{{ url('/public/uploads/certificates') }}/{{ $crna_data->crna_upload_certification }}" style="width:100px;">
+                                                                        @endif
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                    @endif
                                                 </div>
-                                                <div class="form-group level-drp d-none procertdivnine">                    
+                                                <div class="form-group level-drp @if($educationData && $educationData->cnm_data == NULL) d-none @endif @if(empty($educationData)) d-none @endif procertdivnine">  
+                                                    <input type="hidden" name="pro_cert_cnm" class="pro_cert_cnm" value="@if(!empty($educationData)){{ $cnm_data_json }}@endif">                  
                                                     <label class="form-label" for="input-1">CNM (Certified Nurse Midwife)</label>
                                                     <?php
                                                         $cnm_data = DB::table("professional_certificate_table")->where("cert_id","15")->get();
                                                     ?>
                                                     <ul id="cnm_data" style="display:none;">
                                                         @foreach($cnm_data as $data)
-                                                        <li data-value="{{ $data->professionalcert_id }}">{{ $data->name }}</li>
+                                                        <li data-value="{{ $data->name }}">{{ $data->name }}</li>
                                                         @endforeach
                                                     </ul>
                                                     <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="cnm_data" name="cnm_data[]" multiple="multiple"></select>
                                                 </div>
-                                                <div class="license_number_div row license_number_cnm d-none">
-                                                    <div class="form-group col-md-6">
-                                                        <label class="form-label" for="input-1">Certification/Licence Number</label>
-                                                        <input class="form-control" type="text" name="cnm_license_number" id="cnm_license_number">
-                                                    </div>
-                                                    <div class="form-group col-md-6">
-                                                        <label class="form-label" for="input-1">Expiry</label>
-                                                        <input class="form-control" type="date" name="cnm_expiry" id="cnm_expiry">
-                                                    </div>
-                                                    <div class="form-group col-md-6">
-                                                        <label class="form-label" for="input-1">Upload your certification/Licence</label>
-                                                        <input class="form-control" type="file" name="cnm_upload_certification" id="cnm_upload_certification">
-                                                    </div>
+                                                <div class="cnm_certification_div">
+                                                    @if(!empty($cnm_data1))
+                                                        @foreach($cnm_data1 as $cnm_data)
+                                                            <?php
+                                                            $cnm_first_word = strtok($cnm_data->cnm_certification_id, " ");;
+
+                                                            $cnm_first_word_one = strtolower(preg_replace('/[^A-Za-z0-9\-]/', '', $cnm_first_word));
+                                                            ?>
+                                                            <div class="cnm_{{ $cnm_first_word_one }}"></div>
+                                                               <h6>{{ $cnm_data->cnm_certification_id }}</h6>
+                                                                <div class="license_number_div row license_number_cnm d-none">
+                                                                    <div class="form-group col-md-6">
+                                                                        <label class="form-label" for="input-1">Certification/Licence Number</label>
+                                                                        <input type="hidden" name="cnmnamearr[]" class="cnm_input_{{ $cnm_data->cnm_certification_id }}" value="{{ $cnm_data->cnm_certification_id }}">
+                                                                        <input class="form-control cnm_license_number cnm_license_number-{{ $i }}" type="text" name="cnm_license_number[]" value="{{ $cnm_data->cnm_license_number }}">
+                                                                        <span id="reqcnmlicencevalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                                                    </div>
+                                                                    <div class="form-group col-md-6">
+                                                                        <label class="form-label" for="input-1">Expiry</label>
+                                                                        <input class="form-control cnmexpiry cnmexpiry-{{ $i }}" type="date" name="cnm_expiry[]" value="{{ $cnm_data->cnm_expiry }}">
+                                                                        <span id="reqcnmexpiryvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                                                    </div>
+                                                                    <div class="form-group col-md-6">
+                                                                        <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                                                                        <input class="form-control cnm_upload_certification cnm_upload_certification-{{ $i }}" type="file" name="cnm_upload_certification[]">
+                                                                        <span id="reqcnmuploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                                                        @if($cnm_data->cnm_upload_certification)
+                                                                        <img src="{{ url('/public/uploads/certificates') }}/{{ $cnm_data->cnm_upload_certification }}" style="width:100px;" class="mt-3">
+                                                                        @endif
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                     @endforeach
+                                                    @endif
                                                 </div>
-                                                <div class="form-group level-drp d-none procertdivten">                        
+                                                <div class="form-group level-drp @if($educationData && $educationData->ons_data == NULL) d-none @endif @if(empty($educationData)) d-none @endif procertdivten">                        
                                                     <label class="form-label" for="input-1">ONS/ONCC (Oncology Nursing Society/Oncology Nursing Certification Corporation)</label>
                                                     <?php
                                                         $ons_data = DB::table("professional_certificate_table")->where("cert_id","16")->get();
                                                     ?>
                                                     <ul id="ons_data" style="display:none;">
                                                         @foreach($ons_data as $data)
-                                                        <li data-value="{{ $data->professionalcert_id }}">{{ $data->name }}</li>
+                                                        <li data-value="{{ $data->name }}">{{ $data->name }}</li>
                                                         @endforeach                                                    
                                                     </ul>
                                                     <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="ons_data" name="ons_data[]" multiple="multiple"></select>
                                                 </div>
-                                                <div class="license_number_div row license_number_ons d-none">
-                                                    <div class="form-group col-md-6">
-                                                        <label class="form-label" for="input-1">Certification/Licence Number</label>
-                                                        <input class="form-control" type="text" name="ons_license_number" id="ons_license_number">
-                                                    </div>
-                                                    <div class="form-group col-md-6">
-                                                        <label class="form-label" for="input-1">Expiry</label>
-                                                        <input class="form-control" type="date" name="ons_expiry" id="ons_expiry">
-                                                    </div>
-                                                    <div class="form-group col-md-6">
-                                                        <label class="form-label" for="input-1">Upload your certification/Licence</label>
-                                                        <input class="form-control" type="file" name="ons_upload_certification" id="ons_upload_certification">
-                                                    </div>
+                                                <div class="ons_certification_div">
+                                                    @if(!empty($ons_data1))
+                                                        @foreach($ons_data1 as $ons_data)
+                                                            <?php
+                                                            $ons_first_word = strtok($ons_data->ons_certification_id, " ");;
+
+                                                            $ons_first_word_one = strtolower(preg_replace('/[^A-Za-z0-9\-]/', '', $ons_first_word));
+                                                            ?>
+                                                            <div class="ons_{{ $ons_first_word_one }}">
+                                                                <h6>{{ $ons_data->ons_certification_id }}</h6>
+                                                                <div class="license_number_div row license_number_ons d-none">
+                                                                    <div class="form-group col-md-6">
+                                                                        <label class="form-label" for="input-1">Certification/Licence Number</label>
+                                                                        <input type="hidden" name="onsnamearr[]" class="ons_input_{{ $ons_data->ons_certification_id }}" value="{{ $ons_data->ons_certification_id }}">
+                                                                        <input class="form-control ons_license_number ons_license_number-{{ $i }}" type="text" name="ons_license_number[]" value="{{ $ons_data->ons_license_number }}">
+                                                                        <span id="reqonslicencevalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                                                    </div>
+                                                                    <div class="form-group col-md-6">
+                                                                        <label class="form-label" for="input-1">Expiry</label>
+                                                                        <input class="form-control onsexpiry onsexpiry-{{ $i }}" type="date" name="ons_expiry[]" value="{{ $ons_data->ons_expiry }}">
+                                                                        <span id="reqonsexpiryvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                                                    </div>
+                                                                    <div class="form-group col-md-6">
+                                                                        <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                                                                       <input class="form-control ons_upload_certification ons_upload_certification-{{ $i }}" type="file" name="ons_upload_certification[]">
+                                                                        <span id="reqonsuploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                                                        @if($ons_data->ons_upload_certification)
+                                                                        <img src="{{ url('/public/uploads/certificates') }}/{{ $ons_data->ons_upload_certification }}" style="width:100px;" class="mt-3">
+                                                                        @endif
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                    @endforeach
+                                                    @endif
                                                 </div>
-                                                <div class="form-group level-drp d-none procertdiveleven">                            
+                                                <div class="form-group level-drp @if($educationData && $educationData->msw_data == NULL) d-none @endif @if(empty($educationData)) d-none @endif procertdiveleven">  
+                                                    <input type="hidden" name="pro_cert_msw" class="pro_cert_msw" value="@if(!empty($educationData)){{ $msw_data_json }}@endif">                          
                                                     <label class="form-label" for="input-1">MSW/AiM (Maternity Support Worker/Assistant in Midwifery ) / Midwife Assistant</label>
                                                     <?php
                                                         $msw_data = DB::table("professional_certificate_table")->where("cert_id","17")->get();
@@ -1439,49 +1642,73 @@
                                                     </ul>
                                                      <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="msw_data" name="msw_data[]" multiple="multiple"></select>
                                                 </div>
-                                                <div class="license_number_div row license_number_ons d-none">
-                                                    <div class="form-group col-md-6">
-                                                        <label class="form-label" for="input-1">Certification/Licence Number</label>
-                                                        <input class="form-control" type="text" name="msw_license_number" id="msw_license_number">
-                                                    </div>
-                                                    <div class="form-group col-md-6">
-                                                        <label class="form-label" for="input-1">Expiry</label>
-                                                        <input class="form-control" type="date" name="msw_expiry" id="msw_expiry">
-                                                    </div>
-                                                    <div class="form-group col-md-6">
-                                                        <label class="form-label" for="input-1">Upload your certification/Licence</label>
-                                                        <input class="form-control" type="file" name="msw_upload_certification" id="msw_upload_certification">
+                                                <div class="msw_certification_div">
+                                                    <div class="license_number_div row license_number_ons d-none">
+                                                        <div class="form-group col-md-6">
+                                                            <label class="form-label" for="input-1">Certification/Licence Number</label>
+                                                            <input type="hidden" name="mswnamearr[]" class="msw_input_{{ $msw_data->msw_certification_id }}" value="{{ $msw_data->msw_certification_id }}">
+                                                            <input class="form-control msw_license_number msw_license_number-{{ $i }}" type="text" name="msw_license_number[]" value="{{ $msw_data->msw_license_number }}">
+                                                            <span id="reqmswlicencevalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                                        </div>
+                                                        <div class="form-group col-md-6">
+                                                            <label class="form-label" for="input-1">Expiry</label>
+                                                            <input class="form-control mswexpiry mswexpiry-{{ $i }}" type="date" name="msw_expiry[]" value="{{ $msw_data->msw_expiry }}">
+                                                            <span id="reqmswexpiryvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                                        </div>
+                                                        <div class="form-group col-md-6">
+                                                            <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                                                            <input class="form-control msw_upload_certification msw_upload_certification-{{ $i }}" type="file" name="msw_upload_certification[]">
+                                                            <span id="reqmswuploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                                            @if($msw_data->msw_upload_certification)
+                                                            <img src="{{ url('/public/uploads/certificates') }}/{{ $msw_data->msw_upload_certification }}" style="width:100px;">
+                                                            @endif
+                                                        </div>
                                                     </div>
                                                 </div>
+                                                @endforeach
+                                                @endif
                                             </div>
-                                                <div class="form-group level-drp d-none procertdivthirteen">                    
+                                                <div class="form-group level-drp  @if($educationData && $educationData->ain_data == NULL) d-none @endif @if(empty($educationData)) d-none @endif procertdivthirteen">                    
                                                     <label class="form-label" for="input-1">AIN (Assistant in Nursing) / NA (Nurse Associate) / HCA (Healthcare Assistant)</label>
+                                                    <input type="hidden" name="pro_cert_ain" class="pro_cert_ain" value="@if(!empty($educationData)){{ $ain_data_json }}@endif">
                                                     <?php
                                                         $msw_data = DB::table("professional_certificate_table")->where("cert_id","19")->get();
                                                     ?>
                                                     <ul id="ain_data" style="display:none;">
                                                         @foreach($msw_data as $data)
-                                                        <li data-value="{{ $data->professionalcert_id }}">{{ $data->name }}</li>
+                                                        <li data-value="{{ $data->name }}">{{ $data->name }}</li>
                                                         @endforeach
                                                         
                                                     </ul>
                                                     <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="ain_data" name="ain_data[]" multiple="multiple"></select>
                                                 </div>
-                                                <div class="license_number_div row license_number_ain d-none">
-                                                    <div class="form-group col-md-6">
-                                                        <label class="form-label" for="input-1">Certification/Licence Number</label>
-                                                        <input class="form-control" type="text" name="ain_license_number" id="ain_license_number">
-                                                    </div>
-                                                    <div class="form-group col-md-6">
-                                                        <label class="form-label" for="input-1">Expiry</label>
-                                                        <input class="form-control" type="date" name="ain_expiry" id="ain_expiry">
-                                                    </div>
-                                                    <div class="form-group col-md-6">
-                                                        <label class="form-label" for="input-1">Upload your certification/Licence</label>
-                                                        <input class="form-control" type="file" name="ain_upload_certification" id="ain_upload_certification">
+                                                <div class="ain_certification_div">
+                                                    @if(!empty($ain_data1))
+                            
+                                                    <div class="ain_{{ $ain_first_word_one }}">
+                                                    <h6>{{ $ain_data->ain_certification_id }}</h6>
+                                                    <div class="license_number_div row license_number_ain d-none">
+                                                        <div class="form-group col-md-6">
+                                                            <label class="form-label" for="input-1">Certification/Licence Number</label>
+                                                            <input type="hidden" name="ainnamearr[]" class="ain_input_{{ $ain_data->ain_certification_id }}" value="{{ $ain_data->ain_certification_id }}">
+                                                            <input class="form-control ain_license_number ain_license_number-{{ $i }}" type="text" name="ain_license_number[]" value="{{ $ain_data->ain_license_number }}">
+                                                            <span id="reqainlicencevalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                                        </div>
+                                                        <div class="form-group col-md-6">
+                                                            <label class="form-label" for="input-1">Expiry</label>
+                                                            <input class="form-control ainexpiry ainexpiry-{{ $i }}" type="date" name="ain_expiry[]" value="{{ $ain_data->ain_expiry }}">
+                                                            <span id="reqainexpiryvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                                        </div>
+                                                        <div class="form-group col-md-6">
+                                                            <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                                                            <span id="reqainuploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                                            @if($ain_data->ain_upload_certification)
+                                                            <img src="{{ url('/public/uploads/certificates') }}/{{ $ain_data->ain_upload_certification }}" style="width:100px;">
+                                                            @endif
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="form-group level-drp d-none procertdivfourteen">                    
+                                                <div class="form-group level-drp @if($educationData && $educationData->rpn_data == NULL) d-none @endif @if(empty($educationData)) d-none @endif procertdivfourteen">                    
                                                     <label class="form-label" for="input-1">RPN (Registered Practical Nurse) / RGN (Registered General Nurse)</label>
                                                     <?php
                                                         $msw_data = DB::table("professional_certificate_table")->where("cert_id","20")->get();
@@ -1494,21 +1721,39 @@
                                                     </ul>
                                                      <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="rpn_data" name="rpn_data[]" multiple="multiple"></select>
                                                 </div>
-                                                <div class="license_number_div row license_number_rpn d-none">
-                                                    <div class="form-group col-md-6">
-                                                        <label class="form-label" for="input-1">Certification/Licence Number</label>
-                                                        <input class="form-control" type="text" name="rpn_license_number" id="rpn_license_number">
+                                                <div class="rpn_certification_div">
+                                                    @if(!empty($rpn_data1))
+                                                    @foreach($rpn_data1 as $rpn_data)
+                                                        <?php
+                                                        $rpn_first_word = strtok($rpn_data->rpn_certification_id, " ");;
+
+                                                        $rpn_first_word_one = strtolower(preg_replace('/[^A-Za-z0-9\-]/', '', $rpn_first_word));
+                                                        ?>
+                                                    <div class="license_number_div row license_number_rpn d-none">
+                                                        <div class="form-group col-md-6">
+                                                            <label class="form-label" for="input-1">Certification/Licence Number</label>
+                                                            <input type="hidden" name="rpnnamearr[]" class="rpn_input_{{ $rpn_data->rpn_certification_id }}" value="{{ $rpn_data->rpn_certification_id }}">
+                                                            <input class="form-control rpn_license_number rpn_license_number-{{ $i }}" type="text" name="rpn_license_number[]" value="{{ $rpn_data->rpn_license_number }}">
+                                                            <span id="reqrpnlicencevalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                                        </div>
+                                                        <div class="form-group col-md-6">
+                                                            <label class="form-label" for="input-1">Expiry</label>
+                                                            <input class="form-control rpnexpiry rpnexpiry-{{ $i }}" type="date" name="rpn_expiry[]" value="{{ $rpn_data->rpn_expiry }}">
+                                                            <span id="reqrpnexpiryvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                                        </div>
+                                                        <div class="form-group col-md-6">
+                                                            <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                                                           <input class="form-control rpn_upload_certification rpn_upload_certification-{{ $i }}" type="file" name="rpn_upload_certification[]">
+                                                            <span id="reqrpnuploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                                            @if($rpn_data->rpn_upload_certification)
+                                                            <img src="{{ url('/public/uploads/certificates') }}/{{ $rpn_data->rpn_upload_certification }}" style="width:100px;">
+                                                            @endif
+                                                        </div>
                                                     </div>
-                                                    <div class="form-group col-md-6">
-                                                        <label class="form-label" for="input-1">Expiry</label>
-                                                        <input class="form-control" type="date" name="rpn_expiry" id="rpn_expiry">
-                                                    </div>
-                                                    <div class="form-group col-md-6">
-                                                        <label class="form-label" for="input-1">Upload your certification/Licence</label>
-                                                        <input class="form-control" type="file" name="rpn_upload_certification" id="rpn_upload_certification">
-                                                    </div>
+                                                    @endforeach
+                                                    @endif
                                                 </div>
-                                                <div class="form-group level-drp d-none procertdivfiveteen">
+                                                <div class="form-group level-drp @if($educationData && $educationData->nl_data == NULL) d-none @endif @if(empty($educationData)) d-none @endif procertdivfiveteen">
                             
                                                     <label class="form-label" for="input-1">No License/Certification</label>
                                                     <?php
@@ -1521,8 +1766,8 @@
                                                         
                                                     </ul>
                                                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="nlc_data" name="nlc_data[]" multiple="multiple"></select>
-                                                </div>
-                                                <div class="license_number_div row license_number_nlc d-none">
+                                                </div> --}}
+                                                {{-- <div class="license_number_div row license_number_nlc d-none">
                                                     <div class="form-group col-md-6">
                                                         <label class="form-label" for="input-1">Certification/Licence Number</label>
                                                         <input class="form-control" type="text" name="nlc_license_number" id="nlc_license_number">
@@ -1535,25 +1780,50 @@
                                                         <label class="form-label" for="input-1">Upload your certification/Licence</label>
                                                         <input class="form-control" type="file" name="nlc_upload_certification" id="nlc_upload_certification">
                                                     </div>
-                                                </div>
-                                               <h4 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3">Additional Training</h4>
-                                               <div class="col-md-12 mt-3">
-                                                    <div class="form-group">
-                                                        <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Please add most relevant courses/workshops</strong></label>
+                                                </div> --}}
+                                               {{-- <h4 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3">Additional Training</h4>
+                                               <?php
+                                                    if(!empty($educationData)){
+                                                    $certificate_data = json_decode($educationData->additional_training_data);
+                                                    }else{
+                                                    $certificate_data = "";
+                                                    }
+                                                ?>
+                                                <div class="certification_box">
+                                                    <?php
+                                                    $i = 1;
+                                                    ?>
+                                                    @if(!empty($certificate_data))
+                                                     <p class="mt-3">Please add most relevant courses/workshops</p>
+                                                      @foreach($certificate_data as $c_data)
+                                                          <div class="license_number_div row license_number_additional">
+                                                            <div class="form-group col-md-6">
+                                                            <label class="form-label" for="input-1">Courses/workshops</label>
+                                                            <input class="form-control" type="text" name="training_courses[]" value="{{ $c_data->training_courses }}">
+                                                            </div>
+                                                            <div class="form-group col-md-6">
+                                                            <label class="form-label" for="input-1">Certification/Licence Number</label>
+                                                            <input class="form-control" type="text" name="additional_license_number[]" value="{{ $c_data->additional_license_number }}">
+                                                            </div>
+                                                            <div class="form-group col-md-6">
+                                                            <label class="form-label" for="input-1">Expiry</label>
+                                                            <input class="form-control" type="date" name="additional_expiry[]" value="{{ $c_data->additional_expiry }}">
+                                                            </div>
+                                                            <div class="form-group col-md-6">
+                                                            <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                                                            <input class="form-control" type="file" name="additional_upload_certification[]">
+                                                            @if($c_data->additional_upload_certification)
+                                                            <img src="{{ url('/public/uploads/certificates') }}/{{ $c_data->additional_upload_certification }}" style="width:100px;height: 70px; object-fit: cover;">
+                                                            @endif
+                                                            </div>
+                                                        </div>
                                                         <?php
-                                                                $courses = DB::table("additional_training")->get();
-                                                            ?>
-                                                            <ul id="training_courses" style="display:none;">
-                                                                @foreach($courses as $c)
-                                                                <li data-value="{{ $c->id }}">{{ $c->name }}</li>
-                                                                @endforeach
-                                                                
-                                                            </ul>
-                                                        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="training_courses" name="training_courses[]" multiple="multiple"></select>
-                                                        <span id="training_course_error" class="text-danger valley"></span>
-                                                    </div>
+                                                            $i++;
+                                                        ?>
+                                                     @endforeach
+                                                    @endif
                                                 </div>
-                                                <div class="d-flex align-items-center justify-content-between mt-3">
+                                                <div class="d-flex align-items-center justify-content-between mt-3"> --}}
                                                     <button type="button" class="btn btn-default next-step-4 align-items-center justify-content-between" data-target="#navpill-5">Next</button>
                                                 </div>
                                         </div>                     
@@ -2299,15 +2569,9 @@
 
 
 <script>
-// if($(".pro_cert_acls").val() != ""){
-// var pro_cert_acls = JSON.parse($(".pro_cert_acls").val());
-// //alert(pro_cert_acls);
-// $('.js-example-basic-multiple[data-list-id="acls_data"]').select2().val(pro_cert_acls).trigger('change');
-// }
-</script>
 
-    
-    
+</script>
+  
 @include('admin.script');
     
 @endsection

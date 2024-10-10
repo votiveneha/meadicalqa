@@ -188,10 +188,11 @@
                <li><a href="#tab-my-jobs" id="my_profession" class="btn btn-border recruitment-icon mb-20 profile_tabs" data-bs-toggle="tab" role="tab" aria-controls="tab-my-jobs" aria-selected="false"><i class="fi fi-rr-employee-man"></i> Profession</a></li>
                 
                 <li><a class="btn btn-border people-icon mb-20" id="educert"  data-bs-toggle="tab" role="tab" aria-controls="tab-saved-jobs" aria-selected="false"><i class="fi fi-rr-graduation-cap"></i> Education and Certifications</a></li>
+                <li><a href="#mand_training" id="mand_training" class="btn btn-border aboutus-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true"><i class="fi fi-rr-chart-user"></i> Mandatory Training and Education</a></li>
                 <li><a href="#experience" id="experience_info" class="btn btn-border aboutus-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true"><i class="fi fi-rr-suitcase-alt"></i> Experience</a></li>
                 <li><a href="#reference" id="reference_info" class="btn btn-border aboutus-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true"><i class="fi fi-rr-suitcase-alt"></i> References</a></li>
                 <!-- <li><a href="#experience" id="experience_info" class="btn btn-border aboutus-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true"><i class="fi fi-rr-chart-histogram"></i>  Financial Details</a></li> -->
-                <li><a href="#mand_training" id="mand_training" class="btn btn-border aboutus-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true"><i class="fi fi-rr-chart-user"></i> Mandatory Training</a></li>
+                
                 <li><a href="#vaccinations" id="vaccinations" class="btn btn-border aboutus-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true"><i class="fi fi-rr-chart-user"></i> Vaccinations</a></li>
                 <li><a href="#work_clearances" id="work_clearances" class="btn btn-border recruitment-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-myclearance-jobs" aria-selected="false"><i class="fi fi-rr-briefcase-arrow-right"></i> Work Clearances</a></li>
                 <li><a href="#professional_membership" id="professional_membership" class="btn btn-border recruitment-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-myclearance-jobs" aria-selected="false"><i class="fi fi-rr-membership-vip"></i> Professional Memberships</a></li>
@@ -1924,48 +1925,44 @@
 
                         @if(!empty($additional_certificate))
                          @foreach($additional_certificate as $c_data)
-                          <div class="license_number_div row license_number_anothercertifications">
+                          <div class="license_number_div license_number_div_{{ $i }} row license_number_anothercertifications">
                         <div class="form-group col-md-6">
-                          <label class="form-label" for="input-1">Certificate 1</label>
-                          <input class="form-control" type="text" name="training_certificate[]" value="@if(!empty($educationData)){{ $c_data->training_certificate }}@endif">
+                          <label class="form-label" for="input-1">Certificate {{ $i }}</label>
+                          <input class="form-control additional_certificate_field additional_certificate_field-{{ $i }}" type="text" name="training_certificate[]" value="@if(!empty($educationData)){{ $c_data->training_certificate }}@endif">
+                          <span id="reqcertname-{{ $i }}" class="reqError text-danger valley"></span>
                         </div>
                         <div class="form-group col-md-6">
                           <label class="form-label" for="input-1">Certification/Licence Number</label>
-                          <input class="form-control" type="text" name="certificate_license_number[]" value="@if(!empty($educationData)){{ $c_data->certificate_license_number }}@endif">
+                          <input class="form-control cert_licence_num cert_licence_num-{{ $i }}" type="text" name="certificate_license_number[]" value="@if(!empty($educationData)){{ $c_data->certificate_license_number }}@endif">
+                          <span id="reqcertlicense-{{ $i }}" class="reqError text-danger valley"></span>
                         </div>
                         <div class="form-group col-md-6">
                           <label class="form-label" for="input-1">Expiry</label>
-                          <input class="form-control" type="date" name="certificate_expiry[]" value="@if(!empty($educationData)){{ $c_data->certificate_expiry }}@endif">
+                          <input class="form-control cert_expiry cert_expiry-{{ $i }}" type="date" name="certificate_expiry[]" value="@if(!empty($educationData)){{ $c_data->certificate_expiry }}@endif">
+                          <span id="reqcertexpiry-{{ $i }}" class="reqError text-danger valley"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label class="form-label" for="input-1">Regulating Body</label>
+                          <input class="form-control additional_regulating_body additional_regulating_body-{{ $i }}" type="text" name="regulating_body[]" value="@if(!empty($educationData)){{ $c_data->regulating_body }}@endif">
+                          <span id="reqcertregulating_body-{{ $i }}" class="reqError text-danger valley"></span>
                         </div>
                         <div class="form-group col-md-6">
                           <label class="form-label" for="input-1">Upload your certification/Licence</label>
                           <input class="form-control" type="file" name="certificate_upload_certification[]">
-                          @if($additional_certificate[0]->certificate_upload_certification)
+                          @if($c_data->certificate_upload_certification)
                           <img src="{{ url('/public/uploads/certificates') }}/{{ $c_data->certificate_upload_certification }}" style="width:100px;">
                           @endif
                         </div>
+                        <?php
+                          $user_id = Auth::guard('nurse_middle')->user()->id;
+                        ?>
+                        <div class="col-md-12"><div class="add_new_certification_div mb-3 mt-3"><a style="cursor: pointer;" onclick="delete_certification('{{ $i }}','{{ $user_id }}','{{ $c_data->certificate_id }}')">- Delete certification/Licence</a></div></div>
                       </div>
+                      <?php
+                        $i++;
+                      ?>
                       @endforeach
-                      @else
-                      <div class="license_number_div row license_number_anothercertifications">
-                        <div class="form-group col-md-6">
-                          <label class="form-label" for="input-1">Certificate 1</label>
-                          <input class="form-control" type="text" name="training_certificate[]">
-                        </div>
-                        <div class="form-group col-md-6">
-                          <label class="form-label" for="input-1">Certification/Licence Number</label>
-                          <input class="form-control" type="text" name="certificate_license_number[]">
-                        </div>
-                        <div class="form-group col-md-6">
-                          <label class="form-label" for="input-1">Expiry</label>
-                          <input class="form-control" type="date" name="certificate_expiry[]">
-                        </div>
-                        <div class="form-group col-md-6">
-                          <label class="form-label" for="input-1">Upload your certification/Licence</label>
-                          <input class="form-control" type="file" name="certificate_upload_certification[]">
-                          
-                        </div>
-                      </div>
+                      
                       @endif
                         </div>
                       <div class="add_new_certification_div mb-3 mt-3">
@@ -1977,14 +1974,14 @@
                             console.log("licence_div_count",licence_div_count);
                             function add_listcertfication(){
                               licence_div_count++;
-                              $(".another_certifications").append('<div class="license_number_div row license_number_anothercertifications"><div class="form-group col-md-6"><label class="form-label" for="input-1">Certificate '+licence_div_count+'</label><input class="form-control" type="text" name="training_certificate[]"></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control" type="text" name="certificate_license_number[]"></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control" type="date" name="certificate_expiry[]"></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control" type="file" name="certificate_upload_certification[]"></div></div>');
+                              $(".another_certifications").append('<div class="license_number_div license_number_div_'+licence_div_count+' row license_number_anothercertifications"><div class="form-group col-md-6"><label class="form-label" for="input-1">Certificate '+licence_div_count+'</label><input class="form-control additional_certificate_field additional_certificate_field-'+licence_div_count+'" type="text" name="training_certificate[]"><span id="reqcertname-'+licence_div_count+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control cert_licence_num cert_licence_num-'+licence_div_count+'" type="text" name="certificate_license_number[]"><span id="reqcertlicense-'+licence_div_count+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control cert_expiry cert_expiry-'+licence_div_count+'" type="date" name="certificate_expiry[]"><span id="reqcertexpiry-{{ $i }}" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Regulating Body</label><input class="form-control additional_regulating_body additional_regulating_body-'+licence_div_count+'" type="text" name="regulating_body[]"><span id="reqcertregulating_body-'+licence_div_count+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control" type="file" name="certificate_upload_certification[]"></div><div class="col-md-12"><div class="add_new_certification_div mb-3 mt-3"><a style="cursor: pointer;" onclick="delete_certification1('+licence_div_count+')">- Delete certification/Licence</a></div></div></div>');
                               
                             }
                           </script>
                       
                       <span id="reqcertificate" class="reqError text-danger valley"></span>
             
-            <h6 class="emergency_text">
+            <!-- <h6 class="emergency_text">
                           Additional Training 
                         </h6>
             <div class="row">
@@ -2068,24 +2065,8 @@
                               
                             }
                           </script>
-                          <!-- <div class="col-md-6">
-                            <div class="form-group level-drp">
-                                <input type="hidden" name="training_workshops" class="training_workshops" value="@if(!empty($educationData)){{ $educationData->training_workshops }}@endif">
-                                <label class="form-label" for="input-1">Select Workshops</label>
-                                  <?php
-                                    $workshop = DB::table("additional_training")->where("type","workshop")->get();
-                                  ?>
-                                  <ul id="training_workshop" style="display:none;">
-                                      @foreach($workshop as $c)
-                                      <li data-value="{{ $c->id }}">{{ $c->name }}</li>
-                                      @endforeach
-                                      
-                                  </ul>
-                              <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="training_workshop" name="training_workshop[]" multiple="multiple"></select>
-                            </div>
-                            <span id="reqaddworkshops" class="reqError text-danger valley"></span>
-                          </div> -->
-                        </div>
+                         
+                        </div> -->
                         {{-- CORRECT BY HARSHITA --}}
                       {{-- </div> --}}
                       <span id="reqcertificate" class="reqError text-danger valley"></span>
@@ -2446,11 +2427,7 @@
                         <h6 class="emergency_text previous_employeers_head">
                       Previous Employers {{ $i }}
                       </h6>
-                      <div class="form-group level-drp">
-                        <label class="form-label" for="input-1">Organisation Name</label>
-                        <input class="form-control" type="text" name="previous_employer_name[]" value="{{$w_data->previous_employer_name1}}">
-                        <span id="reqnames" class="reqError text-danger valley"></span>
-                      </div>
+                      
                       <div class="form-group level-drp">
                        
 
@@ -2524,23 +2501,26 @@
                     <h6 class="emergency_text">
                       Previous Employers 
                     </h6>
-                    <div class="form-group level-drp">
-                      <label class="form-label" for="input-1">Organisation Name</label>
-                      <input class="form-control" type="text" name="previous_employer_name[]">
-                      <span id="reqnames" class="reqError text-danger valley"></span>
-                    </div>
+                    
                     <div class="form-group level-drp">
                      
 
                       <div class="form-group level-drp">
                           <label class="form-label" for="input-1">Position Held</label>
                           <select class="form-control" name="positions_held[]">
-                            <option value="">Position Held</option>
+                            <option value="">select</option>
                             <option value="Team Member">Team Member</option>
                             <option value="Team Leader">Team Leader</option>
                             <option value="Educator">Educator</option>
                             <option value="Manager">Manager</option>
                             <option value="Clinical Specialist">Clinical Specialist</option>
+                            <option value="Charge Nurse">Charge Nurse</option>
+                            <option value="Nurse Supervisor">Nurse Supervisor</option>
+                            <option value="Nursing Director">Nursing Director</option>
+                            <option value="Assistant Director of Nursing">Assistant Director of Nursing</option>
+                            <option value="Head Nurse">Head Nurse</option>
+                            <option value="Nurse Coordinator">Nurse Coordinator</option>
+                            <option value="Staff Nurse">Staff Nurse</option>
                           </select>
                           <span id="reqpositionheld" class="reqError text-danger valley"></span>
                         </div>
@@ -2573,9 +2553,20 @@
                         <div class="form-group level-drp">
                           <label class="form-label" for="input-1">Employment type</label>
                           <select class="form-control" name="employeement_type[]">
-                            <option value="">Employment type</option>
-                            <option value="Agency">Agency</option>
-                            <option value="Staffing Agency">Staffing Agency</option>
+                            <option value="">select</option>
+                            <option value="Full-time">Full-time</option>
+                            <option value="Part-time">Part-time</option>
+                            <option value="Contract">Contract</option>
+                            <option value="Casual">Casual</option>
+                            <option value="Volunteer">Volunteer</option>
+                            <option value="Temporary">Temporary</option>
+                            <option value="Freelance">Freelance</option>
+                            <option value="Per diem">Per diem</option>
+                            <option value="Internship">Internship</option>
+                            <option value="Locum tenens (temporary substitute)">Locum tenens (temporary substitute)</option>
+                            <option value="Apprenticeship">Apprenticeship</option>
+                            <option value="Agency staff">Agency staff</option>
+                            <option value="Seasonal">Seasonal</option>
                           </select>
                           <span id="reqemptype" class="reqError text-danger valley"></span>
                         </div>
@@ -2729,7 +2720,11 @@
               </div>
               <div class="tab-pane fade" id="tab-references" role="tabpanel" aria-labelledby="tab-references" style="display: none"><br>
                 <h3 class="mt-0 color-brand-1 mb-20">References</h3>
+                <h6 class="emergency_text">
+                          Please Add your professional References:
 
+
+                        </h6>
                 
                 <form id="reference_form" method="POST" onsubmit="return updateReference()">
                     @csrf
@@ -2744,7 +2739,7 @@
                     ?>
                     @foreach($get_reference_data as $referee_data)
                     <div class="referee_data referee_data-{{ $i }}">
-                    <h6 class="mt-0 color-brand-1 mb-20 referee_no">References {{ $i }}</h6>  
+                    <h6 class="mt-0 color-brand-1 mb-20 referee_no">REFEREE {{ $i }}</h6>  
                     <div class="row">
                       <div class="col-md-6">
                         <div class="form-group level-drp">
@@ -2781,12 +2776,34 @@
                     <div class="row">
                       <div class="col-md-6">
                         <div class="form-group level-drp">
-                          <label class="form-label" for="input-1">Relationship</label>
+                          <label class="form-label" for="input-1">Referee relationship to you</label>
                           <select class="form-input reference_relationship reference_relationship-{{ $i }}" name="reference_relationship[]">
-                            <option value="" data-select2-id="9">Select Reference Relationship</option>
-                            <option value="Brother" @if($referee_data->relationship == "Brother") selected @endif>Brother</option>
-                            <option value="Sister" @if($referee_data->relationship == "Sister") selected @endif>Sister</option>
-                            <option value="Cousin" @if($referee_data->relationship == "Cousin") selected @endif>Cousin</option>
+                            <option value="" data-select2-id="9">select</option>
+                            <option value="Worked in Same Group" @if($referee_data->relationship == "Worked in Same Group") selected @endif>Worked in Same Group</option>
+                            <option value="Referee Managed Me" @if($referee_data->relationship == "Referee Managed Me") selected @endif>Referee Managed Me</option>
+                            <option value="I Managed Referee" @if($referee_data->relationship == "I Managed Referee") selected @endif>I Managed Referee</option>
+                            <option value="Worked Together on a Project" @if($referee_data->relationship == "Worked Together on a Project") selected @endif>Worked Together on a Project</option>
+                            <option value="Worked Together in Different Departments" @if($referee_data->relationship == "Worked Together in Different Departments") selected @endif>Worked Together in Different Departments</option>
+                            <option value="Colleague" @if($referee_data->relationship == "Colleague") selected @endif>Colleague</option>
+                            <option value="Peer Mentor" @if($referee_data->relationship == "Peer Mentor") selected @endif>Peer Mentor</option>
+                            <option value="Clinical Supervisor" @if($referee_data->relationship == "Clinical Supervisor") selected @endif>Clinical Supervisor</option>
+                            <option value="Educational Supervisor" @if($referee_data->relationship == "Educational Supervisor") selected @endif>Educational Supervisor</option>
+                            <option value="Preceptor" @if($referee_data->relationship == "Preceptor") selected @endif>Preceptor</option>
+                            <option value="Instructor or Teacher" @if($referee_data->relationship == "Instructor or Teacher") selected @endif>Instructor or Teacher</option>
+                            <option value="Collaborated on Research" @if($referee_data->relationship == "Collaborated on Research") selected @endif>Collaborated on Research</option>
+                            <option value="Clinical Educator" @if($referee_data->relationship == "Clinical Educator") selected @endif>Clinical Educator</option>
+                            <option value="Patient Advocate" @if($referee_data->relationship == "Patient Advocate") selected @endif>Patient Advocate</option>
+                            <option value="Coordinated Care Together" @if($referee_data->relationship == "Coordinated Care Together") selected @endif>Coordinated Care Together</option>
+                            <option value="Advisory Role" @if($referee_data->relationship == "Advisory Role") selected @endif>Advisory Role</option>
+                            <option value="Worked Together on Committees" @if($referee_data->relationship == "Worked Together on Committees") selected @endif>Worked Together on Committees</option>
+                            <option value="Consultant Relationship" @if($referee_data->relationship == "Consultant Relationship") selected @endif>Consultant Relationship</option>
+                            <option value="Professional Mentor" @if($referee_data->relationship == "Professional Mentor") selected @endif>Professional Mentor</option>
+                            <option value="Team Leader" @if($referee_data->relationship == "Team Leader") selected @endif>Team Leader</option>
+                            <option value="Subordinate in a Leadership Role" @if($referee_data->relationship == "Subordinate in a Leadership Role") selected @endif>Subordinate in a Leadership Role</option>
+                            <option value="Provided Professional Development Support" @if($referee_data->relationship == "Provided Professional Development Support") selected @endif>Provided Professional Development Support</option>
+                            <option value="Oversaw my Certification Process" @if($referee_data->relationship == "Oversaw my Certification Process") selected @endif>Oversaw my Certification Process</option>
+                            <option value="External Collaborator" @if($referee_data->relationship == "External Collaborator") selected @endif>External Collaborator</option>
+                            <option value="Other" @if($referee_data->relationship == "Other") selected @endif>Other</option>
                           </select>
                           <span id="reqreferencerel-{{ $i }}" class="reqError text-danger valley"></span>
                         </div>
@@ -2853,7 +2870,7 @@
                     ?>
                     @endforeach
                     @else
-                    <h6 class="mt-0 color-brand-1 mb-20 referee_no">References 1</h6>  
+                    <h6 class="mt-0 color-brand-1 mb-20 referee_no">REFEREE 1</h6>  
                     <div class="row">
                       <div class="col-md-6">
                         <div class="form-group level-drp">
@@ -2889,12 +2906,34 @@
                     <div class="row">
                       <div class="col-md-6">
                         <div class="form-group level-drp">
-                          <label class="form-label" for="input-1">Relationship</label>
+                          <label class="form-label" for="input-1">Referee relationship to you</label>
                           <select class="form-control reference_relationship reference_relationship-1" name="reference_relationship[]">
-                            <option value="">Select Reference Relationship</option>
-                            <option value="Brother">Brother</option>
-                            <option value="Sister">Sister</option>
-                            <option value="Cousin">Cousin</option>
+                            <option value="" data-select2-id="9">select</option>
+                            <option value="Worked in Same Group">Worked in Same Group</option>
+                            <option value="Referee Managed Me">Referee Managed Me</option>
+                            <option value="I Managed Referee">I Managed Referee</option>
+                            <option value="Worked Together on a Project">Worked Together on a Project</option>
+                            <option value="Worked Together in Different Departments">Worked Together in Different Departments</option>
+                            <option value="Colleague">Colleague</option>
+                            <option value="Peer Mentor">Peer Mentor</option>
+                            <option value="Clinical Supervisor">Clinical Supervisor</option>
+                            <option value="Educational Supervisor">Educational Supervisor</option>
+                            <option value="Preceptor">Preceptor</option>
+                            <option value="Instructor or Teacher">Instructor or Teacher</option>
+                            <option value="Collaborated on Research">Collaborated on Research</option>
+                            <option value="Clinical Educator">Clinical Educator</option>
+                            <option value="Patient Advocate">Patient Advocate</option>
+                            <option value="Coordinated Care Together">Coordinated Care Together</option>
+                            <option value="Advisory Role">Advisory Role</option>
+                            <option value="Worked Together on Committees">Worked Together on Committees</option>
+                            <option value="Consultant Relationship">Consultant Relationship</option>
+                            <option value="Professional Mentor">Professional Mentor</option>
+                            <option value="Team Leader">Team Leader</option>
+                            <option value="Subordinate in a Leadership Role">Subordinate in a Leadership Role</option>
+                            <option value="Provided Professional Development Support">Provided Professional Development Support</option>
+                            <option value="Oversaw my Certification Process">Oversaw my Certification Process</option>
+                            <option value="External Collaborator">External Collaborator</option>
+                            <option value="Other">Other</option>
                           </select>
                           <span id="reqreferencerel-1" class="reqError text-danger valley"></span>
                         </div>
@@ -3027,15 +3066,16 @@
                             console.log("licence_div_count",referee_div_count);
                             function add_another_referee(){
                               referee_div_count++;
-                              $(".reference_form").append('<div class="referee_data referee_data-'+referee_div_count+'"><h6 class="mt-0 color-brand-1 mb-20 referee_no">References '+referee_div_count+'</h6><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">First name</label><input class="form-control first_name first_name-'+referee_div_count+'" type="text" name="first_name[]"><span id="reqfname-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Last name</label><input class="form-control last_name last_name-'+referee_div_count+'" type="text" name="last_name[]"><span id="reqlname-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div></div><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Email</label><input class="form-control reference_email reference_email-'+referee_div_count+'" type="text" name="email[]"><span id="reqemail-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Phone number</label><input class="form-control phone_no phone_no-'+referee_div_count+'" type="text" name="phone_no[]"><span id="reqphoneno-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div></div><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Relationship</label><select class="form-input reference_relationship reference_relationship-'+referee_div_count+'" name="reference_relationship[]"><option value="" data-select2-id="9">Select Reference Relationship</option><option value="Brother">Brother</option><option value="Sister">Sister</option><option value="Sister">Cousin</option></select><span id="reqreferencerel-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">You worked together at:</label><input class="form-control worked_together worked_together-'+referee_div_count+'" type="text" name="worked_together[]"><span id="reqworked_together-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div></div><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">What was your position when you worked with this referee?</label><input class="form-control position_with_referee position_with_referee-'+referee_div_count+'" type="text" name="position_with_referee[]"><span id="reqpositionreferee-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div></div><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Start Date</label><input class="form-control start_date start_date-'+referee_div_count+'" type="date" name="start_date[]" onchange="startDate('+referee_div_count+')" onkeydown="return false"><span id="reqrefereesdate-'+referee_div_count+'" class="reqError text-danger valley"></span><div class="declaration_box"><input class="still_working still_working-'+referee_div_count+'" type="checkbox" name="still_working[]" onclick="stillWorking('+referee_div_count+')">I am still working with this referee<span id="reqstillworking-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div></div><div class="col-md-6"><div class="form-group level-drp working-'+referee_div_count+'"><label class="form-label" for="input-1">End Date</label><input class="form-control end_date end_date-'+referee_div_count+'" type="date" name="end_date[]" onkeydown="return false"><span id="reqrefereeedate-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div><div class="row"><div class="col-md-6"><div class="add_new_certification_div mb-3 mt-3"><a style="cursor: pointer;" onclick="delete_reference1('+referee_div_count+')">- Delete Referee</a></div></div></div></div>');
+                              $(".reference_form").append('<div class="referee_data referee_data-'+referee_div_count+'"><h6 class="mt-0 color-brand-1 mb-20 referee_no">REFEREE '+referee_div_count+'</h6><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">First name</label><input class="form-control first_name first_name-'+referee_div_count+'" type="text" name="first_name[]"><span id="reqfname-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Last name</label><input class="form-control last_name last_name-'+referee_div_count+'" type="text" name="last_name[]"><span id="reqlname-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div></div><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Email</label><input class="form-control reference_email reference_email-'+referee_div_count+'" type="text" name="email[]"><span id="reqemail-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Phone number</label><input class="form-control phone_no phone_no-'+referee_div_count+'" type="text" name="phone_no[]"><span id="reqphoneno-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div></div><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Referee relationship to you</label><select class="form-input reference_relationship reference_relationship-'+referee_div_count+'" name="reference_relationship[]"><option value="" data-select2-id="9">select</option><option value="Worked in Same Group">Worked in Same Group</option><option value="Referee Managed Me">Referee Managed Me</option><option value="I Managed Referee">I Managed Referee</option><option value="Worked Together on a Project">Worked Together on a Project</option><option value="Worked Together in Different Departments">Worked Together in Different Departments</option><option value="Colleague">Colleague</option><option value="Peer Mentor">Peer Mentor</option><option value="Clinical Supervisor">Clinical Supervisor</option><option value="Educational Supervisor">Educational Supervisor</option><option value="Preceptor">Preceptor</option><option value="Instructor or Teacher">Instructor or Teacher</option><option value="Collaborated on Research">Collaborated on Research</option><option value="Clinical Educator">Clinical Educator</option><option value="Patient Advocate">Patient Advocate</option><option value="Coordinated Care Together">Coordinated Care Together</option><option value="Advisory Role">Advisory Role</option><option value="Worked Together on Committees">Worked Together on Committees</option><option value="Consultant Relationship">Consultant Relationship</option><option value="Professional Mentor">Professional Mentor</option><option value="Team Leader">Team Leader</option><option value="Subordinate in a Leadership Role">Subordinate in a Leadership Role</option><option value="Provided Professional Development Support">Provided Professional Development Support</option><option value="Oversaw my Certification Process">Oversaw my Certification Process</option><option value="External Collaborator">External Collaborator</option><option value="Other">Other</option></select><span id="reqreferencerel-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">You worked together at:</label><input class="form-control worked_together worked_together-'+referee_div_count+'" type="text" name="worked_together[]"><span id="reqworked_together-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div></div><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">What was your position when you worked with this referee?</label><input class="form-control position_with_referee position_with_referee-'+referee_div_count+'" type="text" name="position_with_referee[]"><span id="reqpositionreferee-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div></div><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Start Date</label><input class="form-control start_date start_date-'+referee_div_count+'" type="date" name="start_date[]" onchange="startDate('+referee_div_count+')" onkeydown="return false"><span id="reqrefereesdate-'+referee_div_count+'" class="reqError text-danger valley"></span><div class="declaration_box"><input class="still_working still_working-'+referee_div_count+'" type="checkbox" name="still_working[]" onclick="stillWorking('+referee_div_count+')">I am still working with this referee<span id="reqstillworking-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div></div><div class="col-md-6"><div class="form-group level-drp working-'+referee_div_count+'"><label class="form-label" for="input-1">End Date</label><input class="form-control end_date end_date-'+referee_div_count+'" type="date" name="end_date[]" onkeydown="return false"><span id="reqrefereeedate-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div><div class="row"><div class="col-md-6"><div class="add_new_certification_div mb-3 mt-3"><a style="cursor: pointer;" onclick="delete_reference1('+referee_div_count+')">- Delete Referee</a></div></div></div></div>');
                               
                             }
                           </script>
               <div class="tab-pane fade" id="tab-mandtraining" role="tabpanel" aria-labelledby="tab-educert" style="display: none">
                 <div class="card shadow-sm border-0 p-4 mt-30">
-                  <h3 class="mt-0 color-brand-1 mb-20">Mandatory Training</h3>
+                  <h3 class="mt-0 color-brand-1 mb-20">Mandatory Training and Education</h3>
+                  <p>Mandatory Training and Continuing Education are vital for many nursing and midwifery roles. Keeping them up to date is crucial to maintaining your eligibility for employment opportunities</p>
                   <h6 class="emergency_text">
-                    Completed training programs
+                    Completed Mandatory Training
                   </h6>
                   <?php
                     $trainingData = DB::table("mandatory_training")->where("user_id",Auth::guard('nurse_middle')->user()->id)->first();

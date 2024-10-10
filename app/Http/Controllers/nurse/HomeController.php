@@ -1012,53 +1012,58 @@ class HomeController extends Controller
         //echo count($additional_license_number);die;
         $getedudata = DB::table("user_education_cerification")->where("user_id",$user_id)->first();
 
-        $certificate_array = array();
-        for($i=0;$i<count($training_courses);$i++){
-            if(!empty($additional_upload_certification[$i])){
-                $name1=$additional_upload_certification[$i]->getClientOriginalName();
-                $name= time().$name1;
-                $destinationPathcert = public_path()."/uploads/certificates"; 
-                $additional_upload_certification[$i]->move($destinationPathcert,$name);
-            }else{
-                $certificate_data = json_decode($getedudata->additional_training_data);
-                if(!empty($certificate_data) && !empty($certificate_data[$i])){
-                    $name = $certificate_data[$i]->additional_upload_certification;
-                }else{
-                    $name = "";
-                }
-            }
+        //$certificate_array = array();
+        // for($i=0;$i<count($training_courses);$i++){
+        //     if(!empty($additional_upload_certification[$i])){
+        //         $name1=$additional_upload_certification[$i]->getClientOriginalName();
+        //         $name= time().$name1;
+        //         $destinationPathcert = public_path()."/uploads/certificates"; 
+        //         $additional_upload_certification[$i]->move($destinationPathcert,$name);
+        //     }else{
+        //         $certificate_data = json_decode($getedudata->additional_training_data);
+        //         if(!empty($certificate_data) && !empty($certificate_data[$i])){
+        //             $name = $certificate_data[$i]->additional_upload_certification;
+        //         }else{
+        //             $name = "";
+        //         }
+        //     }
             
-            $certificate_array[] = array("training_courses"=>$training_courses[$i],"additional_license_number"=>$additional_license_number[$i],"additional_expiry"=>$additional_expiry[$i],"additional_upload_certification"=>$name);
-        }
+        //     $certificate_array[] = array("training_courses"=>$training_courses[$i],"additional_license_number"=>$additional_license_number[$i],"additional_expiry"=>$additional_expiry[$i],"additional_upload_certification"=>$name);
+        // }
 
-        $certificate_json = json_encode($certificate_array);
+        // $certificate_json = json_encode($certificate_array);
 
         $training_certificate = $request->training_certificate;
         $certificate_license_number = $request->certificate_license_number;
         $certificate_expiry = $request->certificate_expiry;
+        $regulating_body = $request->regulating_body;
         $certificate_upload_certification = $request->file('certificate_upload_certification');
 
         $new_certificate_array = array();
-        for($i=0;$i<count($training_certificate);$i++){
-            if(!empty($certificate_upload_certification[$i])){
-                $name1=$certificate_upload_certification[$i]->getClientOriginalName();
-                $name= time().$name1;
-                $destinationPathcert = public_path()."/uploads/certificates"; 
-                $certificate_upload_certification[$i]->move($destinationPathcert,$name);
-            }else{
-                $certificate_data = json_decode($getedudata->additional_certification);
-                //print_r($certificate_data);die;
-                if(!empty($certificate_data) && !empty($certificate_data[$i])){
-                    $name = $certificate_data[$i]->certificate_upload_certification;
+        if(!empty($training_certificate)){
+            for($i=0;$i<count($training_certificate);$i++){
+                if(!empty($certificate_upload_certification[$i])){
+                    $name1=$certificate_upload_certification[$i]->getClientOriginalName();
+                    $name= time().$name1;
+                    $destinationPathcert = public_path()."/uploads/certificates"; 
+                    $certificate_upload_certification[$i]->move($destinationPathcert,$name);
                 }else{
-                    $name = "";
+                    $certificate_data = json_decode($getedudata->additional_certification);
+                    //print_r($certificate_data);die;
+                    if(!empty($certificate_data) && !empty($certificate_data[$i])){
+                        $name = $certificate_data[$i]->certificate_upload_certification;
+                    }else{
+                        $name = "";
+                    }
                 }
+                
+                $new_certificate_array[] = array("certificate_id"=>$i+1,"training_certificate"=>$training_certificate[$i],"certificate_license_number"=>$certificate_license_number[$i],"certificate_expiry"=>$certificate_expiry[$i],"regulating_body"=>$regulating_body[$i],"certificate_upload_certification"=>$name);
             }
-            
-            $new_certificate_array[] = array("training_certificate"=>$training_certificate[$i],"certificate_license_number"=>$certificate_license_number[$i],"certificate_expiry"=>$certificate_expiry[$i],"certificate_upload_certification"=>$name);
-        }
 
-        $new_certificate_json = json_encode($new_certificate_array);
+            $new_certificate_json = json_encode($new_certificate_array);
+        }else{
+            $new_certificate_json = '';
+        }
 
         $bls_data = $request->bls_data;
         if($bls_data){
@@ -1655,7 +1660,7 @@ class HomeController extends Controller
             
             
             
-            $run = EducationModel::where('user_id',$user_id)->update(['institution'=>$institution,'graduate_start_date'=>$graduation_start_date,'degree_transcript'=>$degree_transcript,'professional_certifications'=>$professional_certification,'licence_number'=>$license_number,'country'=>$country,'state'=>$state,'expiration_date'=>$expiration_date,'training_courses'=>$training_courses,'training_workshops'=>$training_workshop,'additional_training_data'=>$certificate_json,'complete_status'=>1,'declaration_status'=>$declare_information,'acls_data'=>$acls_data_json,'bls_data'=>$bls_data_json,'cpr_data'=>$cpr_data_json,'nrp_data'=>$nrp_data_json,'pals_data'=>$pls_data_json,'rn_data'=>$rn_data_json,'np_data'=>$np_data_json,'cna_data'=>$cn_data_json,'lpn_data'=>$lpn_data_json,'crna_data'=>$crna_data_json,'cnm_data'=>$cnm_data_json,'ons_data'=>$ons_data_json,'msw_data'=>$msw_data_json,'ain_data'=>$ain_data_json,'rpn_data'=>$rpn_data_json,'nl_data'=>$nl_data,'additional_certification'=>$new_certificate_json]);
+            $run = EducationModel::where('user_id',$user_id)->update(['institution'=>$institution,'graduate_start_date'=>$graduation_start_date,'degree_transcript'=>$degree_transcript,'professional_certifications'=>$professional_certification,'licence_number'=>$license_number,'country'=>$country,'state'=>$state,'expiration_date'=>$expiration_date,'training_courses'=>$training_courses,'training_workshops'=>$training_workshop,'complete_status'=>1,'declaration_status'=>$declare_information,'acls_data'=>$acls_data_json,'bls_data'=>$bls_data_json,'cpr_data'=>$cpr_data_json,'nrp_data'=>$nrp_data_json,'pals_data'=>$pls_data_json,'rn_data'=>$rn_data_json,'np_data'=>$np_data_json,'cna_data'=>$cn_data_json,'lpn_data'=>$lpn_data_json,'crna_data'=>$crna_data_json,'cnm_data'=>$cnm_data_json,'ons_data'=>$ons_data_json,'msw_data'=>$msw_data_json,'ain_data'=>$ain_data_json,'rpn_data'=>$rpn_data_json,'nl_data'=>$nl_data,'additional_certification'=>$new_certificate_json]);
         }else{
 
             
@@ -1689,7 +1694,7 @@ class HomeController extends Controller
             // $post->expiration_date = $expiration_date;
             // $post->training_courses = $training_courses;
             // $post->training_workshops = $training_workshop;
-            $post->additional_training_data = $certificate_json;
+            
             $post->additional_certification = $new_certificate_json;
             $post->complete_status = 1;
             $run = $post->save();
@@ -1880,6 +1885,41 @@ class HomeController extends Controller
         $referee_id = $request->referee_id;
 
         $deleteData = DB::table("referee")->where("user_id",$user_id)->where("referee_id",$referee_id)->delete();
+
+        if($deleteData){
+            return 1;
+        }
+    }
+
+    public function deleteCertification(Request $request){
+        $user_id = $request->user_id;
+        $certificate_id = $request->certificate_id;
+
+        $getEducationData = DB::table("user_education_cerification")->where("user_id",$user_id)->first();
+
+        //print_r($getEducationData);
+        $getCertificateData = json_decode($getEducationData->additional_certification);
+
+        $certificate_id_array = array();
+
+        foreach ($getCertificateData as $c_id) {
+            $certificate_id_array[] = $c_id->certificate_id;
+        }
+
+        $certificate_index = array_search($certificate_id, $certificate_id_array);
+
+        array_splice($getCertificateData, $certificate_index, 1);    
+
+        //unset($getCertificateData[$certificate_index]);
+        
+
+        if(!empty($getCertificateData)){
+            $CertificateData = json_encode($getCertificateData);
+        }else{
+            $CertificateData = '';
+        }
+
+        $deleteData = EducationModel::where('user_id',$user_id)->update(['additional_certification'=>$CertificateData]);
 
         if($deleteData){
             return 1;
