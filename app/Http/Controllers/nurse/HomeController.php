@@ -31,6 +31,7 @@ use Validator;
 use DB;
 use URL;
 use Session;
+use File;
 use App\Services\Admins\SpecialityServices;
 
 use App\Models\SpecialityModel;
@@ -1639,15 +1640,32 @@ class HomeController extends Controller
 
         $file = $request->file('degree_transcript');
         
-        
-        //$post = User::find($request->user_id);
-
+        //print_r($file);die;
+        $dtranaimg = json_decode($getedudata->degree_transcript);
+        $dtran = array();
         if(!empty($file)){
-            $destinationPath = public_path() . '/uploads/education_degree';
-            $file->move($destinationPath,time().$file->getClientOriginalName());
-            $degree_transcript = time().$file->getClientOriginalName();
+            
+            foreach ($file as $dtrans) {
+                $destinationPath = public_path() . '/uploads/education_degree';
+                $dtrans->move($destinationPath,$dtrans->getClientOriginalName());
+                $degree_transcript = $dtrans->getClientOriginalName();
+
+                $dtran[] = $degree_transcript;
+
+                
+            }
+        }
+
+        if(!empty($dtran)){
+            if(!empty($dtranaimg)){
+                $new_tran_array = array_merge($dtranaimg,$dtran);
+            }else{
+                $new_tran_array = $dtran;
+            }
+            
+            $dtranimgs = json_encode($new_tran_array);
         }else{
-            $degree_transcript = $getedudata->degree_transcript;
+            $dtranimgs = $getedudata->degree_transcript;
         }
         
         if(!empty($getedudata)>0){
@@ -1660,7 +1678,7 @@ class HomeController extends Controller
             
             
             
-            $run = EducationModel::where('user_id',$user_id)->update(['institution'=>$institution,'graduate_start_date'=>$graduation_start_date,'degree_transcript'=>$degree_transcript,'professional_certifications'=>$professional_certification,'licence_number'=>$license_number,'country'=>$country,'state'=>$state,'expiration_date'=>$expiration_date,'training_courses'=>$training_courses,'training_workshops'=>$training_workshop,'complete_status'=>1,'declaration_status'=>$declare_information,'acls_data'=>$acls_data_json,'bls_data'=>$bls_data_json,'cpr_data'=>$cpr_data_json,'nrp_data'=>$nrp_data_json,'pals_data'=>$pls_data_json,'rn_data'=>$rn_data_json,'np_data'=>$np_data_json,'cna_data'=>$cn_data_json,'lpn_data'=>$lpn_data_json,'crna_data'=>$crna_data_json,'cnm_data'=>$cnm_data_json,'ons_data'=>$ons_data_json,'msw_data'=>$msw_data_json,'ain_data'=>$ain_data_json,'rpn_data'=>$rpn_data_json,'nl_data'=>$nl_data,'additional_certification'=>$new_certificate_json]);
+            $run = EducationModel::where('user_id',$user_id)->update(['institution'=>$institution,'graduate_start_date'=>$graduation_start_date,'degree_transcript'=>$dtranimgs,'professional_certifications'=>$professional_certification,'licence_number'=>$license_number,'country'=>$country,'state'=>$state,'expiration_date'=>$expiration_date,'training_courses'=>$training_courses,'training_workshops'=>$training_workshop,'complete_status'=>1,'declaration_status'=>$declare_information,'acls_data'=>$acls_data_json,'bls_data'=>$bls_data_json,'cpr_data'=>$cpr_data_json,'nrp_data'=>$nrp_data_json,'pals_data'=>$pls_data_json,'rn_data'=>$rn_data_json,'np_data'=>$np_data_json,'cna_data'=>$cn_data_json,'lpn_data'=>$lpn_data_json,'crna_data'=>$crna_data_json,'cnm_data'=>$cnm_data_json,'ons_data'=>$ons_data_json,'msw_data'=>$msw_data_json,'ain_data'=>$ain_data_json,'rpn_data'=>$rpn_data_json,'nl_data'=>$nl_data,'additional_certification'=>$new_certificate_json]);
         }else{
 
             
@@ -1670,7 +1688,7 @@ class HomeController extends Controller
             
             $post->institution = $institution;
             $post->graduate_start_date = $graduation_start_date;
-            $post->degree_transcript = $degree_transcript;
+            $post->degree_transcript = $dtranimgs;
             $post->professional_certifications = $professional_certification;
             $post->acls_data = $acls_data_json;
             $post->bls_data = $bls_data_json;
@@ -1924,6 +1942,44 @@ class HomeController extends Controller
         if($deleteData){
             return 1;
         }
+    }
+
+    public function deleteImg(Request $request){
+        $user_id = $request->user_id;
+        $img = $request->img;
+
+        $getEducationData = DB::table("user_education_cerification")->where("user_id",$user_id)->first();
+
+        $gettransimg = json_decode($getEducationData->degree_transcript);
+
+        
+
+        $img_index = array_search($img, $gettransimg);
+        
+        array_splice($gettransimg, $img_index, 1);
+
+        if(!empty($gettransimg)){
+            $tranimgData = json_encode($gettransimg);
+        }else{
+            $tranimgData = '';
+        }
+
+
+
+        $deleteData = EducationModel::where('user_id',$user_id)->update(['degree_transcript'=>$tranimgData]);
+
+        $destinationPath = public_path() . '/uploads/education_degree/'.$img;
+        
+        if(File::exists($destinationPath)) {
+            File::delete($destinationPath);
+        }
+
+        if($deleteData){
+            return 1;
+        }
+
+        //print_r($gettransimg);
+        
     }
 
     public function vaccinationForm(Request $request){

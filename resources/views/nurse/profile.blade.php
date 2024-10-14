@@ -1075,9 +1075,23 @@
                     <div class="col-md-6">
                       <div class="form-group level-drp">
                         <label class="form-label" for="input-1">Upload Degree & Transcript</label>
-                        <input class="form-control degree_transcript" type="file" name="degree_transcript">
-                        @if(!empty($educationData) && $educationData->degree_transcript)
-                        <img src="{{ url('/public/uploads/education_degree') }}/{{ $educationData->degree_transcript }}" style="width:100px;">
+                        <input class="form-control degree_transcript" type="file" name="degree_transcript[]" multiple="">
+                         @if(!empty($educationData) && $educationData->degree_transcript)
+                        <?php
+                          $dtran_img = json_decode($educationData->degree_transcript);
+                          //print_r($dtran_img);
+                          $i = 1;
+                          $user_id = Auth::guard('nurse_middle')->user()->id;
+                        ?>
+                        @foreach($dtran_img as $tranimg)
+                        <div class="trans_img trans_img-{{ $i }}">
+                          <a href="{{ url('/public/uploads/education_degree') }}/{{ $tranimg }}"><i class="fa fa-file"></i>{{ $tranimg }}</a>
+                          <div class="close_btn close_btn-{{ $i }}" onclick="deleteImg('{{ $i }}','{{ $user_id }}','{{ $tranimg }}')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
+                        </div>
+                        <?php
+                          $i++;
+                        ?>
+                        @endforeach
                         @endif
                         <span id="reqdegreetranscript" class="reqError text-danger valley"></span>
                       </div>

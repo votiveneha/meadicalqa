@@ -2073,6 +2073,23 @@ function pad(number) {
       
 
   }
+
+  function deleteImg(i,user_id,img){
+    //alert(img);
+    
+    $.ajax({
+      type: "post",
+      url: "{{ route('nurse.deleteImg') }}",
+      data: {user_id:user_id,img:img,_token:'{{ csrf_token() }}'},
+      cache: false,
+      success: function(data){
+         if(data == 1){
+          $(".trans_img-"+i).remove();
+         }
+         
+      }
+    });
+  }
   </script>
 <!-- =================================
 
