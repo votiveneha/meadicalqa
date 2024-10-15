@@ -26,6 +26,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Crypt;
 
 use Illuminate\Support\Str;
+use Helpers;
 use Mail;
 use Validator;
 use DB;
@@ -1117,23 +1118,19 @@ class HomeController extends Controller
         $acls_upload_certification = $request->file('acls_upload_certification');
 
         $acls_data_array = array();
+        $certificate_data = json_decode($getedudata->acls_data);
 
         for($i=0;$i<$acls_count;$i++){
+            $aclsimg = json_decode($certificate_data[$i]->acls_upload_certification);
+            //print_r(json_decode($certificate_data[$i]->acls_upload_certification));
             if(!empty($acls_upload_certification[$i])){
-                $name1=$acls_upload_certification[$i]->getClientOriginalName();
-                $name= time().$name1;
-                $destinationPathcert = public_path()."/uploads/certificates"; 
-                $acls_upload_certification[$i]->move($destinationPathcert,$name);
+                $acls_img = Helpers::multipleFileUpload($acls_upload_certification[$i],$aclsimg);
             }else{
-                $certificate_data = json_decode($getedudata->acls_data);
-                if(!empty($certificate_data)){
-                    $name = $certificate_data[$i]->acls_upload_certification;
-                }else{
-                    $name = "";
-                }
+                $acls_img = Helpers::multipleFileUpload('',$aclsimg);
             }
+            //echo $acls_img;
             
-            $acls_data_array[] = array("acls_certification_id"=>$aclsnamearr[$i],"acls_license_number"=>$acls_license_number[$i],"acls_expiry"=>$acls_expiry[$i],"acls_upload_certification"=>$name);
+            $acls_data_array[] = array("acls_certification_id"=>$aclsnamearr[$i],"acls_license_number"=>$acls_license_number[$i],"acls_expiry"=>$acls_expiry[$i],"acls_upload_certification"=>$acls_img);
         }
 
         if(!empty($acls_data_array)){
@@ -1639,34 +1636,11 @@ class HomeController extends Controller
         }
 
         $file = $request->file('degree_transcript');
-        
-        //print_r($file);die;
         $dtranaimg = json_decode($getedudata->degree_transcript);
-        $dtran = array();
-        if(!empty($file)){
-            
-            foreach ($file as $dtrans) {
-                $destinationPath = public_path() . '/uploads/education_degree';
-                $dtrans->move($destinationPath,$dtrans->getClientOriginalName());
-                $degree_transcript = $dtrans->getClientOriginalName();
 
-                $dtran[] = $degree_transcript;
-
-                
-            }
-        }
-
-        if(!empty($dtran)){
-            if(!empty($dtranaimg)){
-                $new_tran_array = array_merge($dtranaimg,$dtran);
-            }else{
-                $new_tran_array = $dtran;
-            }
-            
-            $dtranimgs = json_encode($new_tran_array);
-        }else{
-            $dtranimgs = $getedudata->degree_transcript;
-        }
+        $dtranimgs = Helpers::multipleFileUpload($file,$dtranaimg);
+        
+        
         
         if(!empty($getedudata)>0){
 

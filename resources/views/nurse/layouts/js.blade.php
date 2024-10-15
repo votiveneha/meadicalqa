@@ -842,19 +842,19 @@ function pad(number) {
     });
     var k = 0;
     
-    $(".acls_upload_certification").each(function(){
+    // $(".acls_upload_certification").each(function(){
       
-      console.log("acls_upload_certification",$(".acls_licence_img-"+k).length);
-      if($(".acls_licence_img-"+k).length == 0){ 
-        if ($(".acls_upload_certification-"+k).length > 0) {
-          if ($(".acls_upload_certification-"+k).val() == '') {
-            document.getElementById("reqaclsuploadvalid-"+k).innerHTML = "* Please add the license image";
-            isValid = false;
-          }
-        }
-      }
-      k++;
-    });
+    //   console.log("acls_upload_certification",$(".acls_licence_img-"+k).length);
+    //   if($(".acls_licence_img-"+k).length == 0){ 
+    //     if ($(".acls_upload_certification-"+k).length > 0) {
+    //       if ($(".acls_upload_certification-"+k).val() == '') {
+    //         document.getElementById("reqaclsuploadvalid-"+k).innerHTML = "* Please add the license image";
+    //         isValid = false;
+    //       }
+    //     }
+    //   }
+    //   k++;
+    // });
    
 
     if ($(".procertdivone").hasClass("d-none") == false) {
@@ -2085,6 +2085,22 @@ function pad(number) {
       success: function(data){
          if(data == 1){
           $(".trans_img-"+i).remove();
+         }
+         
+      }
+    });
+  }
+  function deleteImgCert(i,user_id,img){
+    alert(img);
+    
+    $.ajax({
+      type: "post",
+      url: "{{ route('nurse.deleteImgCert') }}",
+      data: {user_id:user_id,img:img,_token:'{{ csrf_token() }}'},
+      cache: false,
+      success: function(data){
+         if(data == 1){
+          $(".acls_img-"+i).remove();
          }
          
       }

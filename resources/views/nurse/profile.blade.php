@@ -1140,6 +1140,9 @@
                         </div>
                         
                         <div class="acls_certification_div">
+                          <?php
+                            $i = 0;
+                          ?>
                           @if(!empty($acls_data1))
                           @foreach($acls_data1 as $a_data)
                             <?php
@@ -1165,14 +1168,32 @@
                               </div>
                               <div class="form-group col-md-6">
                                 <label class="form-label" for="input-1">Upload your certification/Licence</label>
-                                <input class="form-control acls_upload_certification acls_upload_certification-{{ $i }}" type="file" name="acls_upload_certification[]">
+                                <input class="form-control acls_upload_certification acls_upload_certification-{{ $i }}" type="file" name="acls_upload_certification[{{ $i }}][]" multiple="">
                                 <span id="reqaclsuploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
-                                @if($a_data->acls_upload_certification)
-                                <img src="{{ url('/public/uploads/certificates') }}/{{ $a_data->acls_upload_certification }}" class="acls_licence_img-{{ $i }}" style="width:100px;">
+                                <?php
+                                  $acls_data_imgs = json_decode($a_data->acls_upload_certification);
+                                  
+                                  //print_r($dtran_img);
+                                  $l = 1;
+                                  $user_id = Auth::guard('nurse_middle')->user()->id;
+                                ?>
+                                @if(!empty($acls_data_imgs))
+                                @foreach($acls_data_imgs as $tranimg)
+                                <div class="trans_img trans_img-{{ $i }}">
+                                  <a href="{{ url('/public/uploads/education_degree') }}/{{ $tranimg }}"><i class="fa fa-file"></i>{{ $tranimg }}</a>
+                                  <div class="close_btn close_btn-{{ $i }}" onclick="deleteImg('{{ $i }}','{{ $user_id }}','{{ $tranimg }}')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
+                                </div>
+                                <?php
+                                  $l++;
+                                ?>
+                                @endforeach
                                 @endif
                               </div>
                             </div>
                           </div>
+                          <?php
+                            $i++;
+                          ?>
                           @endforeach
                           @endif
                         </div>
