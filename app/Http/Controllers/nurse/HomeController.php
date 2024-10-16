@@ -1079,23 +1079,23 @@ class HomeController extends Controller
 
         $bls_data_array = array();
 
+        $certificate_data = json_decode($getedudata->bls_data);
+
         for($i=0;$i<$bls_count;$i++){
-            if(!empty($bls_upload_certification[$i])){
-                $name1=$bls_upload_certification[$i]->getClientOriginalName();
-                $name= time().$name1;
-                $destinationPathcert = public_path()."/uploads/certificates"; 
-                $bls_upload_certification[$i]->move($destinationPathcert,$name);
+            if(!empty($certificate_data) && array_key_exists($i,$certificate_data)){
+                $blsimg = json_decode($certificate_data[$i]->bls_upload_certification);
             }else{
-                $certificate_data = json_decode($getedudata->bls_data);
-                $name = $certificate_data[$i]->bls_upload_certification;
-                if(!empty($certificate_data)){
-                    $name = $certificate_data[$i]->bls_upload_certification;
-                }else{
-                    $name = "";
-                }
+                $blsimg = '';
             }
             
-            $bls_data_array[] = array("bls_certification_id"=>$bls_data[$i],"bls_license_number"=>$bls_license_number[$i],"bls_expiry"=>$bls_expiry[$i],"bls_upload_certification"=>$name);
+            //print_r(json_decode($certificate_data[$i]->acls_upload_certification));
+            if(!empty($bls_upload_certification[$i])){
+                $bls_img = Helpers::multipleFileUpload($bls_upload_certification[$i],$blsimg);
+            }else{
+                $bls_img = Helpers::multipleFileUpload('',$blsimg);
+            }
+            
+            $bls_data_array[] = array("bls_certification_id"=>$bls_data[$i],"bls_license_number"=>$bls_license_number[$i],"bls_expiry"=>$bls_expiry[$i],"bls_upload_certification"=>$bls_img);
         }
 
         if(!empty($bls_data_array)){
@@ -1152,23 +1152,23 @@ class HomeController extends Controller
         $cpr_upload_certification = $request->file('cpr_upload_certification');
 
         $cpr_data_array = array();
+        $certificate_data = json_decode($getedudata->cpr_data);
 
         for($i=0;$i<$cpr_count;$i++){
-            if(!empty($cpr_upload_certification[$i])){
-                $name1=$cpr_upload_certification[$i]->getClientOriginalName();
-                $name= time().$name1;
-                $destinationPathcert = public_path()."/uploads/certificates"; 
-                $cpr_upload_certification[$i]->move($destinationPathcert,$name);
+            if(!empty($certificate_data) && array_key_exists($i,$certificate_data)){
+                $cprimg = json_decode($certificate_data[$i]->cpr_upload_certification);
             }else{
-                $certificate_data = json_decode($getedudata->cpr_data);
-                if(!empty($certificate_data)){
-                    $name = $certificate_data[$i]->cpr_upload_certification;
-                }else{
-                    $name = "";
-                }
+                $cprimg = '';
             }
             
-            $cpr_data_array[] = array("cpr_certification_id"=>$cprnamearr[$i],"cpr_license_number"=>$cpr_license_number[$i],"cpr_expiry"=>$cpr_expiry[$i],"cpr_upload_certification"=>$name);
+            //print_r(json_decode($certificate_data[$i]->acls_upload_certification));
+            if(!empty($cpr_upload_certification[$i])){
+                $cpr_img = Helpers::multipleFileUpload($cpr_upload_certification[$i],$cprimg);
+            }else{
+                $cpr_img = Helpers::multipleFileUpload('',$cprimg);
+            }
+            
+            $cpr_data_array[] = array("cpr_certification_id"=>$cprnamearr[$i],"cpr_license_number"=>$cpr_license_number[$i],"cpr_expiry"=>$cpr_expiry[$i],"cpr_upload_certification"=>$cpr_img);
         }
 
         if(!empty($cpr_data_array)){
@@ -1190,23 +1190,23 @@ class HomeController extends Controller
         $nrp_upload_certification = $request->file('nrp_upload_certification');
 
         $nrp_data_array = array();
+        $certificate_data = json_decode($getedudata->nrp_data);
 
         for($i=0;$i<$nrp_count;$i++){
-            if(!empty($nrp_upload_certification[$i])){
-                $name1=$nrp_upload_certification[$i]->getClientOriginalName();
-                $name= time().$name1;
-                $destinationPathcert = public_path()."/uploads/certificates"; 
-                $nrp_upload_certification[$i]->move($destinationPathcert,$name);
+            if(!empty($certificate_data) && array_key_exists($i,$certificate_data)){
+                $nrpimg = json_decode($certificate_data[$i]->nrp_upload_certification);
             }else{
-                $certificate_data = json_decode($getedudata->nrp_data);
-                if(!empty($certificate_data)){
-                    $name = $certificate_data[$i]->nrp_upload_certification;
-                }else{
-                    $name = "";
-                }
+                $nrpimg = '';
             }
             
-            $nrp_data_array[] = array("nrp_certification_id"=>$nrpnamearr[$i],"nrp_license_number"=>$nrp_license_number[$i],"nrp_expiry"=>$nrp_expiry[$i],"nrp_upload_certification"=>$name);
+            //print_r(json_decode($certificate_data[$i]->acls_upload_certification));
+            if(!empty($nrp_upload_certification[$i])){
+                $nrp_img = Helpers::multipleFileUpload($nrp_upload_certification[$i],$nrpimg);
+            }else{
+                $nrp_img = Helpers::multipleFileUpload('',$nrpimg);
+            }
+            
+            $nrp_data_array[] = array("nrp_certification_id"=>$nrpnamearr[$i],"nrp_license_number"=>$nrp_license_number[$i],"nrp_expiry"=>$nrp_expiry[$i],"nrp_upload_certification"=>$nrp_img);
         }
 
         if(!empty($nrp_data_array)){
@@ -1227,23 +1227,23 @@ class HomeController extends Controller
         $pls_upload_certification = $request->file('pls_upload_certification');
 
         $pls_data_array = array();
+        $certificate_data = json_decode($getedudata->pals_data);
 
         for($i=0;$i<$pls_count;$i++){
-            if(!empty($pls_upload_certification[$i])){
-                $name1=$pls_upload_certification[$i]->getClientOriginalName();
-                $name= time().$name1;
-                $destinationPathcert = public_path()."/uploads/certificates"; 
-                $pls_upload_certification[$i]->move($destinationPathcert,$name);
+            if(!empty($certificate_data) && array_key_exists($i,$certificate_data)){
+                $plsimg = json_decode($certificate_data[$i]->pls_upload_certification);
             }else{
-                $certificate_data = json_decode($getedudata->pals_data);
-                if(!empty($certificate_data)){
-                    $name = $certificate_data[$i]->pals_upload_certification;
-                }else{
-                    $name = "";
-                }
+                $plsimg = '';
             }
             
-            $pls_data_array[] = array("pls_certification_id"=>$plsnamearr[$i],"pls_license_number"=>$pls_license_number[$i],"pls_expiry"=>$pls_expiry[$i],"pls_upload_certification"=>$name);
+            //print_r(json_decode($certificate_data[$i]->acls_upload_certification));
+            if(!empty($pls_upload_certification[$i])){
+                $pls_img = Helpers::multipleFileUpload($pls_upload_certification[$i],$plsimg);
+            }else{
+                $pls_img = Helpers::multipleFileUpload('',$plsimg);
+            }
+            
+            $pls_data_array[] = array("pls_certification_id"=>$plsnamearr[$i],"pls_license_number"=>$pls_license_number[$i],"pls_expiry"=>$pls_expiry[$i],"pls_upload_certification"=>$pls_img);
         }
 
         if(!empty($pls_data_array)){
@@ -1264,23 +1264,23 @@ class HomeController extends Controller
         $rn_upload_certification = $request->file('rn_upload_certification');
 
         $rn_data_array = array();
+        $certificate_data = json_decode($getedudata->rn_data);
 
         for($i=0;$i<$rn_count;$i++){
-            if(!empty($rn_upload_certification[$i])){
-                $name1=$rn_upload_certification[$i]->getClientOriginalName();
-                $name= time().$name1;
-                $destinationPathcert = public_path()."/uploads/certificates"; 
-                $rn_upload_certification[$i]->move($destinationPathcert,$name);
+            if(!empty($certificate_data) && array_key_exists($i,$certificate_data)){
+                $rnimg = json_decode($certificate_data[$i]->rn_upload_certification);
             }else{
-                $certificate_data = json_decode($getedudata->rn_data);
-                if(!empty($certificate_data)){
-                    $name = $certificate_data[$i]->rn_upload_certification;
-                }else{
-                    $name = "";
-                }
+                $rnimg = '';
             }
             
-            $rn_data_array[] = array("rn_certification_id"=>$rnnamearr[$i],"rn_license_number"=>$rn_license_number[$i],"rn_expiry"=>$rn_expiry[$i],"rn_upload_certification"=>$name);
+            //print_r(json_decode($certificate_data[$i]->acls_upload_certification));
+            if(!empty($rn_upload_certification[$i])){
+                $rn_img = Helpers::multipleFileUpload($rn_upload_certification[$i],$rnimg);
+            }else{
+                $rn_img = Helpers::multipleFileUpload('',$rnimg);
+            }
+            
+            $rn_data_array[] = array("rn_certification_id"=>$rnnamearr[$i],"rn_license_number"=>$rn_license_number[$i],"rn_expiry"=>$rn_expiry[$i],"rn_upload_certification"=>$rn_img);
         }
 
         if(!empty($rn_data_array)){
@@ -1301,23 +1301,23 @@ class HomeController extends Controller
         $np_upload_certification = $request->file('np_upload_certification');
 
         $np_data_array = array();
+        $certificate_data = json_decode($getedudata->np_data);
 
         for($i=0;$i<$np_count;$i++){
-            if(!empty($np_upload_certification[$i])){
-                $name1=$np_upload_certification[$i]->getClientOriginalName();
-                $name= time().$name1;
-                $destinationPathcert = public_path()."/uploads/certificates"; 
-                $np_upload_certification[$i]->move($destinationPathcert,$name);
+            if(!empty($certificate_data) && array_key_exists($i,$certificate_data)){
+                $npimg = json_decode($certificate_data[$i]->np_upload_certification);
             }else{
-                $certificate_data = json_decode($getedudata->np_data);
-                if(!empty($certificate_data)){
-                    $name = $certificate_data[$i]->np_upload_certification;
-                }else{
-                    $name = "";
-                }
+                $npimg = '';
             }
             
-            $np_data_array[] = array("np_certification_id"=>$npnamearr[$i],"np_license_number"=>$np_license_number[$i],"np_expiry"=>$np_expiry[$i],"np_upload_certification"=>$name);
+            //print_r(json_decode($certificate_data[$i]->acls_upload_certification));
+            if(!empty($np_upload_certification[$i])){
+                $np_img = Helpers::multipleFileUpload($np_upload_certification[$i],$npimg);
+            }else{
+                $np_img = Helpers::multipleFileUpload('',$npimg);
+            }
+            
+            $np_data_array[] = array("np_certification_id"=>$npnamearr[$i],"np_license_number"=>$np_license_number[$i],"np_expiry"=>$np_expiry[$i],"np_upload_certification"=>$np_img);
         }
 
         if(!empty($np_data_array)){
@@ -1336,25 +1336,26 @@ class HomeController extends Controller
         $cn_license_number = $request->cn_license_number;
         $cn_expiry = $request->cn_expiry;
         $cn_upload_certification = $request->file('cn_upload_certification');
-
+        //print_r($cn_upload_certification);die;
         $cn_data_array = array();
+        $certificate_data = json_decode($getedudata->cna_data);
 
         for($i=0;$i<$cn_count;$i++){
-            if(!empty($cn_upload_certification[$i])){
-                $name1=$cn_upload_certification[$i]->getClientOriginalName();
-                $name= time().$name1;
-                $destinationPathcert = public_path()."/uploads/certificates"; 
-                $cn_upload_certification[$i]->move($destinationPathcert,$name);
+            if(!empty($certificate_data) && array_key_exists($i,$certificate_data)){
+                $cnimg = json_decode($certificate_data[$i]->cn_upload_certification);
             }else{
-                $certificate_data = json_decode($getedudata->cna_data);
-                if(!empty($certificate_data)){
-                    $name = $certificate_data[$i]->cna_upload_certification;
-                }else{
-                    $name = "";
-                }
+                $cnimg = '';
             }
             
-            $cn_data_array[] = array("cn_certification_id"=>$cnnamearr[$i],"cn_license_number"=>$cn_license_number[$i],"cn_expiry"=>$cn_expiry[$i],"cn_upload_certification"=>$name);
+            //print_r(json_decode($certificate_data[$i]->acls_upload_certification));
+            if(!empty($cn_upload_certification[$i])){
+
+                $cn_img = Helpers::multipleFileUpload($cn_upload_certification[$i],$cnimg);
+            }else{
+                $cn_img = Helpers::multipleFileUpload('',$cnimg);
+            }
+            
+            $cn_data_array[] = array("cn_certification_id"=>$cnnamearr[$i],"cn_license_number"=>$cn_license_number[$i],"cn_expiry"=>$cn_expiry[$i],"cn_upload_certification"=>$cn_img);
         }
         
 
@@ -1376,23 +1377,24 @@ class HomeController extends Controller
         $lpn_upload_certification = $request->file('lpn_upload_certification');
 
         $lpn_data_array = array();
+        $certificate_data = json_decode($getedudata->lpn_data);
 
         for($i=0;$i<$lpn_count;$i++){
-            if(!empty($lpn_upload_certification[$i])){
-                $name1=$lpn_upload_certification[$i]->getClientOriginalName();
-                $name= time().$name1;
-                $destinationPathcert = public_path()."/uploads/certificates"; 
-                $lpn_upload_certification[$i]->move($destinationPathcert,$name);
+            if(!empty($certificate_data) && array_key_exists($i,$certificate_data)){
+                $lpnimg = json_decode($certificate_data[$i]->lpn_upload_certification);
             }else{
-                $certificate_data = json_decode($getedudata->lpn_data);
-                if(!empty($certificate_data)){
-                    $name = $certificate_data[$i]->lpn_upload_certification;
-                }else{
-                    $name = "";
-                }
+                $lpnimg = '';
             }
             
-            $lpn_data_array[] = array("lpn_certification_id"=>$lpnnamearr[$i],"lpn_license_number"=>$lpn_license_number[$i],"lpn_expiry"=>$lpn_expiry[$i],"lpn_upload_certification"=>$name);
+            //print_r(json_decode($certificate_data[$i]->acls_upload_certification));
+            if(!empty($lpn_upload_certification[$i])){
+
+                $lpn_img = Helpers::multipleFileUpload($lpn_upload_certification[$i],$lpnimg);
+            }else{
+                $lpn_img = Helpers::multipleFileUpload('',$lpnimg);
+            }
+            
+            $lpn_data_array[] = array("lpn_certification_id"=>$lpnnamearr[$i],"lpn_license_number"=>$lpn_license_number[$i],"lpn_expiry"=>$lpn_expiry[$i],"lpn_upload_certification"=>$lpn_img);
         }
 
         if(!empty($lpn_data_array)){
@@ -1414,23 +1416,24 @@ class HomeController extends Controller
         $crna_upload_certification = $request->file('crna_upload_certification');
 
         $crna_data_array = array();
+        $certificate_data = json_decode($getedudata->crna_data);
 
         for($i=0;$i<$crna_count;$i++){
-            if(!empty($crna_upload_certification[$i])){
-                $name1=$crna_upload_certification[$i]->getClientOriginalName();
-                $name= time().$name1;
-                $destinationPathcert = public_path()."/uploads/certificates"; 
-                $crna_upload_certification[$i]->move($destinationPathcert,$name);
+            if(!empty($certificate_data) && array_key_exists($i,$certificate_data)){
+                $crnaimg = json_decode($certificate_data[$i]->crna_upload_certification);
             }else{
-                $certificate_data = json_decode($getedudata->crna_data);
-                if(!empty($certificate_data)){
-                    $name = $certificate_data[$i]->crna_upload_certification;
-                }else{
-                    $name = "";
-                }
+                $crnaimg = '';
             }
             
-            $crna_data_array[] = array("crna_certification_id"=>$crnanamearr[$i],"crna_license_number"=>$crna_license_number[$i],"crna_expiry"=>$crna_expiry[$i],"crna_upload_certification"=>$name);
+            //print_r(json_decode($certificate_data[$i]->acls_upload_certification));
+            if(!empty($crna_upload_certification[$i])){
+
+                $crna_img = Helpers::multipleFileUpload($crna_upload_certification[$i],$crnaimg);
+            }else{
+                $crna_img = Helpers::multipleFileUpload('',$crnaimg);
+            }
+            
+            $crna_data_array[] = array("crna_certification_id"=>$crnanamearr[$i],"crna_license_number"=>$crna_license_number[$i],"crna_expiry"=>$crna_expiry[$i],"crna_upload_certification"=>$crna_img);
         }
         
         if(!empty($crna_data_array)){
@@ -1452,23 +1455,24 @@ class HomeController extends Controller
         $cnm_upload_certification = $request->file('cnm_upload_certification');
 
         $cnm_data_array = array();
+        $certificate_data = json_decode($getedudata->cnm_data);
 
         for($i=0;$i<$cnm_count;$i++){
-            if(!empty($cnm_upload_certification[$i])){
-                $name1=$cnm_upload_certification[$i]->getClientOriginalName();
-                $name= time().$name1;
-                $destinationPathcert = public_path()."/uploads/certificates"; 
-                $cnm_upload_certification[$i]->move($destinationPathcert,$name);
+            if(!empty($certificate_data) && array_key_exists($i,$certificate_data)){
+                $cnmimg = json_decode($certificate_data[$i]->cnm_upload_certification);
             }else{
-                $certificate_data = json_decode($getedudata->cnm_data);
-                if(!empty($certificate_data)){
-                    $name = $certificate_data[$i]->cnm_upload_certification;
-                }else{
-                    $name = "";
-                }
+                $cnmimg = '';
             }
             
-            $cnm_data_array[] = array("cnm_certification_id"=>$cnmnamearr[$i],"cnm_license_number"=>$cnm_license_number[$i],"cnm_expiry"=>$cnm_expiry[$i],"cnm_upload_certification"=>$name);
+            //print_r(json_decode($certificate_data[$i]->acls_upload_certification));
+            if(!empty($cnm_upload_certification[$i])){
+
+                $cnm_img = Helpers::multipleFileUpload($cnm_upload_certification[$i],$cnmimg);
+            }else{
+                $cnm_img = Helpers::multipleFileUpload('',$cnmimg);
+            }
+            
+            $cnm_data_array[] = array("cnm_certification_id"=>$cnmnamearr[$i],"cnm_license_number"=>$cnm_license_number[$i],"cnm_expiry"=>$cnm_expiry[$i],"cnm_upload_certification"=>$cnm_img);
         }
         
         if(!empty($cnm_data_array)){
@@ -1490,23 +1494,24 @@ class HomeController extends Controller
         $ons_upload_certification = $request->file('ons_upload_certification');
 
         $ons_data_array = array();
+        $certificate_data = json_decode($getedudata->ons_data);
 
         for($i=0;$i<$ons_count;$i++){
-            if(!empty($ons_upload_certification[$i])){
-                $name1=$ons_upload_certification[$i]->getClientOriginalName();
-                $name= time().$name1;
-                $destinationPathcert = public_path()."/uploads/certificates"; 
-                $ons_upload_certification[$i]->move($destinationPathcert,$name);
+            if(!empty($certificate_data) && array_key_exists($i,$certificate_data)){
+                $onsimg = json_decode($certificate_data[$i]->ons_upload_certification);
             }else{
-                $certificate_data = json_decode($getedudata->ons_data);
-                if(!empty($certificate_data)){
-                    $name = $certificate_data[$i]->ons_upload_certification;
-                }else{
-                    $name = "";
-                }
+                $onsimg = '';
             }
             
-            $ons_data_array[] = array("ons_certification_id"=>$onsnamearr[$i],"ons_license_number"=>$ons_license_number[$i],"ons_expiry"=>$ons_expiry[$i],"ons_upload_certification"=>$name);
+            //print_r(json_decode($certificate_data[$i]->acls_upload_certification));
+            if(!empty($ons_upload_certification[$i])){
+
+                $ons_img = Helpers::multipleFileUpload($ons_upload_certification[$i],$onsimg);
+            }else{
+                $ons_img = Helpers::multipleFileUpload('',$onsimg);
+            }
+            
+            $ons_data_array[] = array("ons_certification_id"=>$onsnamearr[$i],"ons_license_number"=>$ons_license_number[$i],"ons_expiry"=>$ons_expiry[$i],"ons_upload_certification"=>$ons_img);
         }
         
         if(!empty($ons_data_array)){

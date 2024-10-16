@@ -1,5 +1,6 @@
 @extends('admin.layouts.layout')
 @section('content')
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <style>
 
   span.select2.select2-container {
@@ -94,7 +95,7 @@
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link" data-bs-toggle="tab" href="#navpill-4" role="tab" aria-selected="false"
+                        <a class="nav-link" data-bs-toggle="tab" href="#tab-4" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Education and Certifications</span>
                         </a>
@@ -162,7 +163,7 @@
                     
                     
                 </ul>
-                <form method="post" enctype="multipart/form-data" id="AddNurse">
+                {{-- <form method="post" enctype="multipart/form-data" id="AddNurse"> --}}
                 <!-- Tab panes -->
                 <div class="tab-content border mt-2">
                     <div class="tab-pane p-3 active show" id="tab-1" role="tabpanel">
@@ -774,7 +775,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane p-3" id="navpill-4" role="tabpanel">
+                    <div class="tab-pane p-3" id="tab-4" role="tabpanel">
+                        <form method="POST" id="edit_education_form">
+                        @csrf
+                        <input type="hidden" value="tab3" name="tab">
+                        <input type="hidden" value="{{ $educationData->user_id }}" name="user_id">
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
@@ -973,6 +978,7 @@
                                     ?>
                                 <div class="card-body p-3 px-md-4">
                                     <div class="col-md-12">
+                                       
                                         <div class="row">
                                             <h4 class="fw-bolder fs-6 lh-base d-flex align-items-center ">Educational Background
                                             </h4>
@@ -1897,34 +1903,32 @@
 
                                                 <script type="text/javascript">
                                                     var licence_div_count = $(".license_number_anothercertifications").length;
-
-                                                    // If no elements with the class exist, set licence_div_count to 1
-                                                    if (licence_div_count === NaN) {
-                                                        licence_div_count = 1;
-                                                    }
                                                    
                                                     console.log("licence_div_count",licence_div_count);
                                                     function add_listcertfication(){
                                                     licence_div_count++;
+                                                    
                                                     $(".another_certifications").append('<div class="license_number_div license_number_div_'+licence_div_count+' row license_number_anothercertifications"><div class="form-group col-md-6"><label class="form-label" for="input-1">Certificate '+licence_div_count+'</label><input class="form-control additional_certificate_field additional_certificate_field-'+licence_div_count+'" type="text" name="training_certificate[]"><span id="reqcertname-'+licence_div_count+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control cert_licence_num cert_licence_num-'+licence_div_count+'" type="text" name="certificate_license_number[]"><span id="reqcertlicense-'+licence_div_count+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control cert_expiry cert_expiry-'+licence_div_count+'" type="date" name="certificate_expiry[]"><span id="reqcertexpiry-{{ $i }}" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Regulating Body</label><input class="form-control additional_regulating_body additional_regulating_body-'+licence_div_count+'" type="text" name="regulating_body[]"><span id="reqcertregulating_body-'+licence_div_count+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control" type="file" name="certificate_upload_certification[]"></div><div class="col-md-12"><div class="add_new_certification_div mb-3 mt-3"><a style="cursor: pointer;" onclick="delete_certification1('+licence_div_count+')">- Delete certification/Licence</a></div></div></div>');
                                                     
                                                     }
                                                 </script>
-
-
-                                                
-
                                                 
                                             </div>
+                                            <div class="declaration_box">
+                                                <input type="checkbox" name="declare_information_edu" class="declare_information_edu" value="1" @if(!empty($educationData)) @if($educationData->declaration_status == 1) checked @endif @endif>
+                                                <label for="declare_information1">I declare that the information provided is true and correct</label>
+                                            </div>
+                                            <span id="reqdeclare_information1" class="reqError text-danger valley"></span> 
                                               
                                             <div class="d-flex align-items-center justify-content-between mt-3">
-                                                <button type="button" class="btn btn-default next-step-4 align-items-center justify-content-between" data-target="#navpill-5">Next</button>
+                                                <button type="submit" class="btn btn-default next-step-44 align-items-center justify-content-between" data-target="#navpill-5">Next</button>
                                             </div>
                                         </div>                     
                                     </div>
                     
                                 </div>
                             </div>
+                        </form>
                         </div>
                     </div>
                     <div class="tab-pane p-3" id="navpill-5" role="tabpanel">
@@ -2635,7 +2639,7 @@
                         </div>
                     </div>                   
                 </div>
-            </form>
+            {{-- </form> --}}
             </div>
         </div>
 
@@ -2656,6 +2660,7 @@
 </div>
 @endsection
 @section('js')
+
     <script type="text/javascript"
         src="https://nextjs.webwiders.in/pindrow/public/advertiser/dist/libs/owl.carousel/dist/owl.carousel.min.js">
     </script>
