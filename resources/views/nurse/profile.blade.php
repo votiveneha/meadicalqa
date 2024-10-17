@@ -1075,7 +1075,10 @@
                     <div class="col-md-6">
                       <div class="form-group level-drp">
                         <label class="form-label" for="input-1">Upload Degree & Transcript</label>
-                        <input class="form-control degree_transcript" type="file" name="degree_transcript[]" multiple="">
+                        <?php
+                          $user_id = Auth::guard('nurse_middle')->user()->id;
+                        ?>
+                        <input class="form-control degree_transcript" type="file" name="degree_transcript[]"  onchange="changeImg('{{ $user_id }}')" multiple="">
                          @if(!empty($educationData) && $educationData->degree_transcript)
                         <?php
                           $dtran_img = json_decode($educationData->degree_transcript);
@@ -1083,6 +1086,7 @@
                           $i = 1;
                           $user_id = Auth::guard('nurse_middle')->user()->id;
                         ?>
+                        <div class="degree_transcript_imgs">
                         @if(!empty($dtran_img))
                         @foreach($dtran_img as $tranimg)
                         <div class="trans_img trans_img-{{ $i }}">
@@ -1094,6 +1098,7 @@
                         ?>
                         @endforeach
                         @endif
+                        </div>
                         @endif
                         <span id="reqdegreetranscript" class="reqError text-danger valley"></span>
                       </div>
@@ -1404,6 +1409,7 @@
                                   $l = 1;
                                   $user_id = Auth::guard('nurse_middle')->user()->id;
                                 ?>
+                                @if(!empty($nrp_data_imgs))
                                 @foreach($nrp_data_imgs as $tranimg)
                                 <div class="trans_img trans_img-{{ $i }}">
                                   <a href="{{ url('/public/uploads/education_degree') }}/{{ $tranimg }}"><i class="fa fa-file"></i>{{ $tranimg }}</a>
@@ -1413,6 +1419,7 @@
                                   $l++;
                                 ?>
                                 @endforeach
+                                @endif
                               </div>
                             </div>
                           </div>
@@ -1473,6 +1480,7 @@
                                   $l = 1;
                                   $user_id = Auth::guard('nurse_middle')->user()->id;
                                 ?>
+                                @if(!empty($pls_data_imgs))
                                 @foreach($pls_data_imgs as $tranimg)
                                 <div class="trans_img trans_img-{{ $i }}">
                                   <a href="{{ url('/public/uploads/education_degree') }}/{{ $tranimg }}"><i class="fa fa-file"></i>{{ $tranimg }}</a>
@@ -1482,6 +1490,7 @@
                                   $l++;
                                 ?>
                                 @endforeach
+                                @endif
                               </div>
                             </div>
                           </div>
@@ -1544,6 +1553,7 @@
                                   $l = 1;
                                   $user_id = Auth::guard('nurse_middle')->user()->id;
                                 ?>
+                                @if(!empty($rn_data_imgs))
                                 @foreach($rn_data_imgs as $tranimg)
                                 <div class="trans_img trans_img-{{ $i }}">
                                   <a href="{{ url('/public/uploads/education_degree') }}/{{ $tranimg }}"><i class="fa fa-file"></i>{{ $tranimg }}</a>
@@ -1553,6 +1563,7 @@
                                   $l++;
                                 ?>
                                 @endforeach
+                                @endif
                               </div>
                             </div>
                           </div>
@@ -1609,6 +1620,7 @@
                                   $l = 1;
                                   $user_id = Auth::guard('nurse_middle')->user()->id;
                                 ?>
+                                @if(!empty($np_data_imgs))
                                 @foreach($np_data_imgs as $tranimg)
                                 <div class="trans_img trans_img-{{ $i }}">
                                   <a href="{{ url('/public/uploads/education_degree') }}/{{ $tranimg }}"><i class="fa fa-file"></i>{{ $tranimg }}</a>
@@ -1618,6 +1630,7 @@
                                   $l++;
                                 ?>
                                 @endforeach
+                                @endif
                               </div>
                             </div>
                           </div>
@@ -2008,6 +2021,9 @@
                         </div>
                         <div class="msw_certification_div">
                           @if(!empty($msw_data1))
+                          <?php
+                            $i = 0;
+                          ?>
                           @foreach($msw_data1 as $msw_data)
                             <?php
                               $msw_first_word = strtok($msw_data->msw_certification_id, " ");;
@@ -2032,15 +2048,33 @@
                               </div>
                               <div class="form-group col-md-6">
                                 <label class="form-label" for="input-1">Upload your certification/Licence</label>
-                                <input class="form-control msw_upload_certification msw_upload_certification-{{ $i }}" type="file" name="msw_upload_certification[]">
+                                <input class="form-control msw_upload_certification msw_upload_certification-{{ $i }}" type="file" name="msw_upload_certification[{{ $i }}][]" multiple>
                                 <span id="reqmswuploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
-                                @if($msw_data->msw_upload_certification)
-                                <img src="{{ url('/public/uploads/certificates') }}/{{ $msw_data->msw_upload_certification }}" style="width:100px;">
+                                <?php
+                                  $msw_data_imgs = json_decode($msw_data->msw_upload_certification);
+                                  
+                                  //print_r($dtran_img);
+                                  $l = 1;
+                                  $user_id = Auth::guard('nurse_middle')->user()->id;
+                                ?>
+                                @if(!empty($msw_data_imgs))
+                                @foreach($msw_data_imgs as $tranimg)
+                                <div class="trans_img trans_img-{{ $i }}">
+                                  <a href="{{ url('/public/uploads/education_degree') }}/{{ $tranimg }}"><i class="fa fa-file"></i>{{ $tranimg }}</a>
+                                  <div class="close_btn close_btn-{{ $i }}" onclick="deleteImgCert('{{ $l }}','{{ $user_id }}','{{ $tranimg }}')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
+                                </div>
+                                <?php
+                                  $l++;
+                                ?>
+                                @endforeach
                                 @endif
                               </div>
                             </div>
                           </div>
                           @endforeach
+                          <?php
+                            $i++;
+                          ?>
                           @endif
                         </div>
                       <div class="form-group level-drp @if($education_data && $education_data->ain_data == NULL) d-none @endif @if(empty($educationData)) d-none @endif procertdivthirteen">
@@ -2060,6 +2094,9 @@
                         </div>
                         <div class="ain_certification_div">
                           @if(!empty($ain_data1))
+                          <?php
+                            $i = 0;
+                          ?>
                           @foreach($ain_data1 as $ain_data)
                             <?php
                               $ain_first_word = strtok($ain_data->ain_certification_id, " ");;
@@ -2084,14 +2121,32 @@
                               </div>
                               <div class="form-group col-md-6">
                                 <label class="form-label" for="input-1">Upload your certification/Licence</label>
-                                <input class="form-control ain_upload_certification ain_upload_certification-{{ $i }}" type="file" name="ain_upload_certification[]">
+                                <input class="form-control ain_upload_certification ain_upload_certification-{{ $i }}" type="file" name="ain_upload_certification[{{ $i }}][]" multiple="">
                                 <span id="reqainuploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
-                                @if($ain_data->ain_upload_certification)
-                                <img src="{{ url('/public/uploads/certificates') }}/{{ $ain_data->ain_upload_certification }}" style="width:100px;">
+                                <?php
+                                  $ain_data_imgs = json_decode($ain_data->ain_upload_certification);
+                                  
+                                  //print_r($dtran_img);
+                                  $l = 1;
+                                  $user_id = Auth::guard('nurse_middle')->user()->id;
+                                ?>
+                                @if(!empty($ain_data_imgs))
+                                @foreach($ain_data_imgs as $tranimg)
+                                <div class="trans_img trans_img-{{ $i }}">
+                                  <a href="{{ url('/public/uploads/education_degree') }}/{{ $tranimg }}"><i class="fa fa-file"></i>{{ $tranimg }}</a>
+                                  <div class="close_btn close_btn-{{ $i }}" onclick="deleteImgCert('{{ $l }}','{{ $user_id }}','{{ $tranimg }}')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
+                                </div>
+                                <?php
+                                  $l++;
+                                ?>
+                                @endforeach
                                 @endif
                               </div>
                             </div>
                           </div>
+                          <?php
+                            $i++;
+                          ?>
                           @endforeach
                           @endif
                         </div>
@@ -2112,6 +2167,9 @@
                         </div>
                         <div class="rpn_certification_div">
                           @if(!empty($rpn_data1))
+                          <?php
+                            $i = 0;
+                          ?>
                           @foreach($rpn_data1 as $rpn_data)
                             <?php
                               $rpn_first_word = strtok($rpn_data->rpn_certification_id, " ");;
@@ -2136,14 +2194,32 @@
                               </div>
                               <div class="form-group col-md-6">
                                 <label class="form-label" for="input-1">Upload your certification/Licence</label>
-                                <input class="form-control rpn_upload_certification rpn_upload_certification-{{ $i }}" type="file" name="rpn_upload_certification[]">
+                                <input class="form-control rpn_upload_certification rpn_upload_certification-{{ $i }}" type="file" name="rpn_upload_certification[{{ $i }}][]" multiple="">
                                 <span id="reqrpnuploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
-                                @if($rpn_data->rpn_upload_certification)
-                                <img src="{{ url('/public/uploads/certificates') }}/{{ $rpn_data->rpn_upload_certification }}" style="width:100px;">
+                                <?php
+                                  $rpn_data_imgs = json_decode($rpn_data->rpn_upload_certification);
+                                  
+                                  //print_r($dtran_img);
+                                  $l = 1;
+                                  $user_id = Auth::guard('nurse_middle')->user()->id;
+                                ?>
+                                @if(!empty($rpn_data_imgs))
+                                @foreach($rpn_data_imgs as $tranimg)
+                                <div class="trans_img trans_img-{{ $i }}">
+                                  <a href="{{ url('/public/uploads/education_degree') }}/{{ $tranimg }}"><i class="fa fa-file"></i>{{ $tranimg }}</a>
+                                  <div class="close_btn close_btn-{{ $i }}" onclick="deleteImgCert('{{ $l }}','{{ $user_id }}','{{ $tranimg }}')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
+                                </div>
+                                <?php
+                                  $l++;
+                                ?>
+                                @endforeach
                                 @endif
                               </div>
                             </div>
                           </div>
+                          <?php
+                            $i++;
+                          ?>
                           @endforeach
                           @endif
                         </div>
@@ -5594,7 +5670,7 @@ $('.js-example-basic-multiple[data-list-id="profess_cert"]').on('change', functi
           if(acls_certification_array.includes(selectedValues[i]) == false){
             
             
-            $(".acls_certification_div").append('<div class="acls_'+res_one+' cert_div_'+selected_text+'"><h6 class="cert_head_'+selected_text+'">'+selectedValues[i]+'</h6><input type="hidden" name="aclsnamearr[]" class="bls_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control acls_license_number acls_license_number-'+i+'" type="text" name="acls_license_number[]"><span id="reqaclslicencevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control aclsexpiry aclsexpiry-'+i+'" type="date" name="acls_expiry[]"><span id="reqaclsexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control acls_upload_certification acls_upload_certification-'+i+'" type="file" name="acls_upload_certification[]"><span id="reqaclsuploadvalid-'+i+'" class="reqError text-danger valley"></span></div></div></div>');
+            $(".acls_certification_div").append('<div class="acls_'+res_one+' cert_div_'+selected_text+'"><h6 class="cert_head_'+selected_text+'">'+selectedValues[i]+'</h6><input type="hidden" name="aclsnamearr[]" class="bls_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control acls_license_number acls_license_number-'+i+'" type="text" name="acls_license_number[]"><span id="reqaclslicencevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control aclsexpiry aclsexpiry-'+i+'" type="date" name="acls_expiry[]"><span id="reqaclsexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control acls_upload_certification acls_upload_certification-'+i+'" type="file" name="acls_upload_certification['+i+'][]" multiple><span id="reqaclsuploadvalid-'+i+'" class="reqError text-danger valley"></span></div></div></div>');
 
             
           }
@@ -6025,7 +6101,7 @@ $('.js-example-basic-multiple[data-list-id="profess_cert"]').on('change', functi
           if(msw_certification_array.includes(selectedValues[i]) == false){
             
             
-            $(".msw_certification_div").append('<div class="msw_'+res_one+' cert_div_'+selected_text+'"><h6 class="cert_head_'+selected_text+'">'+selectedValues[i]+'</h6><input type="hidden" name="mswnamearr[]" class="msw_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control msw_license_number msw_license_number-'+i+'" type="text" name="msw_license_number[]"><span id="reqmswlicencevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control mswexpiry mswexpiry-'+i+'" type="date" name="msw_expiry[]"><span id="reqmswexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control msw_upload_certification msw_upload_certification-'+i+'" type="file" name="msw_upload_certification[]"><span id="reqmswuploadvalid-'+i+'" class="reqError text-danger valley"></span></div></div></div>');
+            $(".msw_certification_div").append('<div class="msw_'+res_one+' cert_div_'+selected_text+'"><h6 class="cert_head_'+selected_text+'">'+selectedValues[i]+'</h6><input type="hidden" name="mswnamearr[]" class="msw_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control msw_license_number msw_license_number-'+i+'" type="text" name="msw_license_number[]"><span id="reqmswlicencevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control mswexpiry mswexpiry-'+i+'" type="date" name="msw_expiry[]"><span id="reqmswexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control msw_upload_certification msw_upload_certification-'+i+'" type="file" name="msw_upload_certification['+i+'][]" multiple><span id="reqmswuploadvalid-'+i+'" class="reqError text-danger valley"></span></div></div></div>');
 
             
           }
@@ -6062,7 +6138,7 @@ $('.js-example-basic-multiple[data-list-id="profess_cert"]').on('change', functi
           if(ain_certification_array.includes(selectedValues[i]) == false){
             
             
-            $(".ain_certification_div").append('<div class="ain_'+res_one+' cert_div_'+selected_text+'"><h6 class="cert_head_'+selected_text+'">'+selectedValues[i]+'</h6><input type="hidden" name="ainnamearr[]" class="ain_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control ain_license_number ain_license_number-'+i+'" type="text" name="ain_license_number[]"><span id="reqainlicencevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control ainexpiry ainexpiry-'+i+'" type="date" name="ain_expiry[]"><span id="reqainexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control ain_upload_certification ain_upload_certification-'+i+'" type="file" name="ain_upload_certification[]"><span id="reqainuploadvalid-'+i+'" class="reqError text-danger valley"></span></div></div></div>');
+            $(".ain_certification_div").append('<div class="ain_'+res_one+' cert_div_'+selected_text+'"><h6 class="cert_head_'+selected_text+'">'+selectedValues[i]+'</h6><input type="hidden" name="ainnamearr[]" class="ain_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control ain_license_number ain_license_number-'+i+'" type="text" name="ain_license_number[]"><span id="reqainlicencevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control ainexpiry ainexpiry-'+i+'" type="date" name="ain_expiry[]"><span id="reqainexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control ain_upload_certification ain_upload_certification-'+i+'" type="file" name="ain_upload_certification['+i+'][]" multiple><span id="reqainuploadvalid-'+i+'" class="reqError text-danger valley"></span></div></div></div>');
 
             
           }
@@ -6099,7 +6175,7 @@ $('.js-example-basic-multiple[data-list-id="profess_cert"]').on('change', functi
           if(rpn_certification_array.includes(selectedValues[i]) == false){
             
             
-            $(".rpn_certification_div").append('<div class="rpn_'+res_one+' cert_div_'+selected_text+'"><h6 class="cert_head_'+selected_text+'">'+selectedValues[i]+'</h6><input type="hidden" name="rpnnamearr[]" class="rpn_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control rpn_license_number rpn_license_number-'+i+'" type="text" name="rpn_license_number[]"><span id="reqrpnlicencevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control rpnexpiry rpnexpiry-'+i+'" type="date" name="rpn_expiry[]"><span id="reqrpnexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control rpn_upload_certification rpn_upload_certification-'+i+'" type="file" name="rpn_upload_certification[]"><span id="reqrpnuploadvalid-'+i+'" class="reqError text-danger valley"></span></div></div></div>');
+            $(".rpn_certification_div").append('<div class="rpn_'+res_one+' cert_div_'+selected_text+'"><h6 class="cert_head_'+selected_text+'">'+selectedValues[i]+'</h6><input type="hidden" name="rpnnamearr[]" class="rpn_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control rpn_license_number rpn_license_number-'+i+'" type="text" name="rpn_license_number[]"><span id="reqrpnlicencevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control rpnexpiry rpnexpiry-'+i+'" type="date" name="rpn_expiry[]"><span id="reqrpnexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control rpn_upload_certification rpn_upload_certification-'+i+'" type="file" name="rpn_upload_certification['+i+'][]" multiple><span id="reqrpnuploadvalid-'+i+'" class="reqError text-danger valley"></span></div></div></div>');
 
             
           }

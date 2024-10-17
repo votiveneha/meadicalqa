@@ -2106,6 +2106,47 @@ function pad(number) {
       }
     });
   }
+
+  function changeImg(user_id){
+    var files =$('.degree_transcript')[0].files;
+    console.log("files",files.length);
+    
+    var form_data =  "";
+    
+    form_data = new FormData();
+
+    for(var i=0;i<files.length;i++){
+        form_data.append("upload_images[]", files[i], files[i]['name']);
+
+    }
+
+    form_data.append("user_id", user_id);
+    form_data.append("_token", '{{ csrf_token() }}');
+    
+    $.ajax({
+      type: "post",
+      url: "{{ route('nurse.uploadImgs') }}",
+      cache: false,
+      contentType: false,
+      processData: false,
+      async: true,
+      data: form_data,
+      
+      success: function(data){
+         var image_array = JSON.parse(data);
+         var htmlData = '';
+         for(var i=0;i<image_array.length;i++){
+            console.log("degree_transcript",image_array[i]);
+            var img_name = image_array[i];
+            htmlData += '<div class="trans_img trans_img-'+(i+1)+'"><a href="http://localhost/meadical2/public/uploads/education_degree/'+image_array[i]+'"><i class="fa fa-file" aria-hidden="true"></i>'+image_array[i]+'</a><div class="close_btn close_btn-1" onclick=deleteImg('+i+','+user_id+',"'+img_name+'") style="cursor: pointer;"><i class="fa fa-close" aria-hidden="true"></i></div></div>';
+         }
+         $(".degree_transcript_imgs").html(htmlData);
+         
+         
+      }
+    });
+
+  }
   </script>
 <!-- =================================
 

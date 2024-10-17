@@ -15,6 +15,9 @@ use App\Http\Requests\Nurseform3Request;
 use App\Http\Requests\Nurseform4Request;
 use App\Http\Requests\Nurseform5Request;
 use App\Http\Requests\Nurseform6Request;
+use App\Models\EducationModel;
+use File;
+use DB;
 
 
 class NurseController extends Controller
@@ -302,8 +305,9 @@ class NurseController extends Controller
             $eligibilityToWorkData = $this->verificationRepository->getEligibilityToWorkData(['user_id' => $request->id]);
             $workingChildrenCheckData = $this->verificationRepository->getWorkingChildrenCheckData(['user_id' => $request->id]);
             $proMembershipData = $this->nurseRepository->getProMembershipData(['user_id' => $request->id]);
+            $RefereData  = $this->nurseRepository->getReferedetails(['user_id'=>$request->id]);
             return view('admin.edit-nurse',compact('profileData','experienceData','policeCheckVerificationData','eligibilityToWorkData','workingChildrenCheckData','educationData','mandatorytrainingData',
-            'interviewrefData','personalprefData','findworkData','vaccinationData','proMembershipData'));
+            'interviewrefData','personalprefData','findworkData','vaccinationData','proMembershipData','RefereData'));
         } catch (\Exception $e) {
             log::error('Error in NurseController/EditNurse :' . $e->getMessage() . 'in line' . $e->getLine());
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
@@ -348,6 +352,41 @@ class NurseController extends Controller
             log::error('Error in NurseController/changeStatusBlockUnblock :' . $e->getMessage() . 'in line' . $e->getLine());
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
         }
+    }
+    public function deleteCertificateImg(Request $request){
+        $user_id = $request->user_id;
+        $img = $request->img;
+
+        $getEducationData = DB::table("user_education_cerification")->where("user_id",$user_id)->first();
+
+        $gettransimg = json_decode($getEducationData->degree_transcript);
+
+        
+
+        $img_index = array_search($img, $gettransimg);
+        
+        array_splice($gettransimg, $img_index, 1);
+
+        if(!empty($gettransimg)){
+            $tranimgData = json_encode($gettransimg);
+        }else{
+            $tranimgData = '';
+        }
+
+        $deleteData = EducationModel::where('user_id',$user_id)->update(['degree_transcript'=>$tranimgData]);
+
+        $destinationPath = public_path() . '/uploads/education_degree/'.$img;
+        
+        if(File::exists($destinationPath)) {
+            File::delete($destinationPath);
+        }
+
+        if($deleteData){
+            return 1;
+        }
+
+        //print_r($gettransimg);
+        
     }
    
 

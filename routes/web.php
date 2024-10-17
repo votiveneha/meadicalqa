@@ -96,6 +96,7 @@ Route::prefix('/admin')->name('admin.')->namespace('App\Http\Controllers\admin')
 
         Route::get('/edit-nurse/{id}', 'NurseController@EditNurse')->name('edit_nurse');
         Route::post('/edit-nurse-post', 'NurseController@EditNursePost')->name('edit_nurse_post');
+        Route::post('/delete-cer-img', 'NurseController@deleteCertificateImg')->name('delete_cer_img');
 
         Route::get('/customer-list', 'NurseController@customerList')->name('customer-list'); 
              

@@ -47,6 +47,22 @@
     font-weight: 700;
   line-height: 20px; */
   /* }     */
+  .trans_img {
+    margin-bottom: 5px;
+    display: flex;
+}
+.trans_img i.fa {
+    position: relative;
+    left: 0px;
+    font-size: 14px;
+    line-height: 25px;
+    margin-right: 5px;
+	color: #000000;
+}
+.trans_img .close_btn i {
+    margin-left: 10px;
+    line-height: 22px;
+}
 
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
@@ -103,11 +119,17 @@
                     <li class="nav-item" role="presentation">
                         <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-5" role="tab" aria-selected="false"
                             tabindex="-1">
-                            <span>Experience and References</span>
+                            <span>Experience</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-6" role="tab" aria-selected="false"
+                        <a class="nav-link" data-bs-toggle="tab" href="#tab-6" role="tab" aria-selected="false"
+                            tabindex="-1">
+                            <span>References</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-61" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Mandatory Training</span>
                         </a>
@@ -783,7 +805,7 @@
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
-                                    <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center ">Education and Certification 
+                                    <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center">Education and Certification 
                                     </h3>
                                 </div>
                                 <?php 
@@ -1081,6 +1103,7 @@
                                                 <div class="acls_certification_div">
                                                 
                                                     @if(!empty($acls_data1))
+                                                    <?php $i = 0;?>
                                                     @foreach($acls_data1 as $a_data)
                                                         <?php
                                                         $acls_first_word = strtok($a_data->acls_certification_id, " ");
@@ -1103,14 +1126,32 @@
                                                                 </div>
                                                                 <div class="form-group col-md-6">
                                                                     <label class="form-label" for="input-1">Upload your certification/Licence</label>
-                                                                    <input class="form-control acls_upload_certification acls_upload_certification-{{ $i }}" type="file" name="acls_upload_certification[]">
+                                                                    <input class="form-control acls_upload_certification acls_upload_certification-{{ $i }}" type="file" name="acls_upload_certification[{{ $i }}][]" multiple="">
                                                                     <span id="reqaclsuploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
-                                                                    @if($a_data->acls_upload_certification)
-                                                                    <img src="{{ url('/public/uploads/certificates') }}/{{ $a_data->acls_upload_certification }}" class="acls_licence_img-{{ $i }} mt-3" style="width:100px;">
+                                                                   <?php
+                                                                    $acls_data_imgs = json_decode($a_data->acls_upload_certification);
+                                                                    
+                                                                    //print_r($dtran_img);
+                                                                    $l = 1;
+                                                                    $user_id = $educationData->user_id;
+                                                                    ?>
+                                                                    @if(!empty($acls_data_imgs))
+                                                                    @foreach($acls_data_imgs as $tranimg)
+                                                                    <div class="trans_img trans_img-{{ $i }}">
+                                                                    <a href="{{ url('/public/uploads/education_degree') }}/{{ $tranimg }}"><i class="fa fa-file"></i>{{ $tranimg }}</a>
+                                                                    <div class="close_btn close_btn-{{ $i }}" onclick="deleteImgCert('{{ $i }}','{{ $user_id }}','{{ $tranimg }}')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
+                                                                    </div>
+                                                                    <?php
+                                                                    $l++;
+                                                                    ?>
+                                                                    @endforeach
                                                                     @endif
                                                                 </div>
                                                             </div>
-                                                        </div>                                                 
+                                                        </div> 
+                                                        <?php
+                                                        $i++;
+                                                        ?>                                                
                                                     @endforeach
                                                     @endif
                                                 </div>
@@ -1157,15 +1198,34 @@
                                                             </div>
                                                             <div class="form-group col-md-6">
                                                                 <label class="form-label" for="input-1">Upload your certification/Licence</label>
-                                                                <input class="form-control bls_upload_certification bls_upload_certification-{{ $i }}" type="file" name="bls_upload_certification" id="bls_upload_certification">
+                                                                <input class="form-control bls_upload_certification bls_upload_certification-{{ $i }}" type="file" name="bls_upload_certification" id="bls_upload_certification" multiple="">
                                                                 <span id="reqblsuploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
 
-                                                                @if($b_data->bls_upload_certification)
-                                                                    <img src="{{ url('/public/uploads/certificates') }}/{{ $b_data->bls_upload_certification }}" class="bls_licence_img-{{ $i }} mt-3" style="width:100px;">
-                                                                @endif
+                                                                 <?php
+                                                                    $bls_data_imgs = json_decode($b_data->bls_upload_certification);
+                                                                    
+                                                                    //print_r($dtran_img);
+                                                                    $l = 1;
+                                                                    $user_id =$educationData->user_id;
+                                                                    ?>
+                                                                    @if(!empty($bls_data_imgs))
+                                                                    @foreach($bls_data_imgs as $tranimg)
+                                                                    <div class="trans_img trans_img-{{ $i }}">
+                                                                    <a href="{{ url('/public/uploads/education_degree') }}/{{ $tranimg }}"><i class="fa fa-file"></i>{{ $tranimg }}</a>
+                                                                    <div class="close_btn close_btn-{{ $i }}" onclick="deleteImgCert('{{ $l }}','{{ $user_id }}','{{ $tranimg }}')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
+                                                                    </div>
+
+                                                                    <?php
+                                                                    $l++;
+                                                                    ?>
+                                                                    @endforeach
+                                                                    @endif
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    <?php
+                                                    $i++;
+                                                    ?>
                                                     @endforeach
                                                 @endif
                 
@@ -1187,6 +1247,7 @@
 
                                                 <div class="cpr_certification_div">
                                                 @if(!empty($cpr_data1))
+                                                <?php $i = 0 ;?>
                                                     @foreach($cpr_data1 as $c_data)
                                                         <?php
                                                         $cpr_first_word = strtok($c_data->cpr_certification_id, " ");;
@@ -1209,13 +1270,32 @@
                                                                 </div>
                                                                 <div class="form-group col-md-6">
                                                                     <label class="form-label" for="input-1">Upload your certification/Licence</label>
-                                                                    <input class="form-control cpr_upload_certification cpr_upload_certification-{{ $i }}" type="file" name="cpr_upload_certification" id="cpr1_upload_certification">
-                                                                    @if($c_data->cpr_upload_certification)
-                                                                        <img src="{{ url('/public/uploads/certificates') }}/{{ $c_data->cpr_upload_certification }}" style="width:100px;" class="mt-3">
-                                                                     @endif
+                                                                    <input class="form-control cpr_upload_certification cpr_upload_certification-{{ $i }}" type="file" name="cpr_upload_certification" id="cpr1_upload_certification" multiple>
+                                                                     <?php
+                                                                    $cpr_data_imgs = json_decode($c_data->cpr_upload_certification);
+                                                                    
+                                                                    //print_r($dtran_img);
+                                                                    $l = 1;
+                                                                    $user_id = $educationData->user_id;
+                                                                    ?>
+                                                                    @if(!empty($cpr_data_imgs))
+                                                                    @foreach($cpr_data_imgs as $tranimg)
+                                                                    <div class="trans_img trans_img-{{ $i }}">
+                                                                    <a href="{{ url('/public/uploads/education_degree') }}/{{ $tranimg }}"><i class="fa fa-file"></i>{{ $tranimg }}</a>
+                                                                    <div class="close_btn close_btn-{{ $i }}" onclick="deleteImgCert('{{ $l }}','{{ $user_id }}','{{ $tranimg }}')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
+                                                                    </div>
+
+                                                                    <?php
+                                                                    $l++;
+                                                                    ?>
+                                                                    @endforeach
+                                                                    @endif
                                                                 </div>
                                                             </div>
-                                                        </div>                        
+                                                        </div> 
+                                                        <?php
+                                                        $i++;
+                                                        ?>                       
                                                     @endforeach
                                                     @endif
                                                 </div>
@@ -1935,7 +2015,7 @@
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
-                                    <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center ">Experience and References</h3>
+                                    <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center ">Experience</h3>
                                 </div>
                                 <div class="card-body p-3 px-md-4">
                                     <div class="col-md-12">
@@ -2045,7 +2125,113 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane p-3" id="navpill-6" role="tabpanel">
+                    <div class="tab-pane p-3" id="tab-6" role="tabpanel">
+                        <div class="row">
+                            <div class=" w-100  overflow-hidden">
+                                <div class="card-body p-3 px-md-4 pb-0">
+                                    <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center ">References</h3>
+                                </div>
+                                <form>
+                                <div class="card-body p-3 px-md-4">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                        <div class="reference_form">  
+                                            @if(count($RefereData)>0)
+                                            <?php
+                                            $i = 1;
+                                            ?>
+                                        @foreach($RefereData as $referee_data)
+                                        <h6 class="fw-bolder fs-6 lh-base d-flex align-items-center ">References 1</h6>
+                                        <div class="col-md-12 mt-3">
+                                            <div class="form-group">
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>First name</strong></label>
+                                                <input class="form-control first_name first_name-1" type="text" name="first_name[]">
+                                                <span id="reqfname-1" class="reqError text-danger valley"></span>
+                                            </div>
+                                        </div>  
+                                        <div class="col-md-12 mt-3">
+                                            <div class="form-group">
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Last name</strong></label>
+                                                <input class="form-control last_name last_name-1" type="text" name="last_name[]">
+                                                <span id="reqlname-1" class="reqError text-danger valley"></span>
+                                            </div>
+                                        </div>   
+                                        <div class="col-md-12 mt-3">
+                                            <div class="form-group">
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Email</strong></label>
+                                                <input class="form-control reference_email reference_email-1" type="text" name="email[]">
+                                                <span id="reqemail-1" class="reqError text-danger valley"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 mt-3">
+                                            <div class="form-group">
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Phone number</strong></label>
+                                                <input class="form-control phone_no phone_no-1" type="text" name="phone_no[]">
+                                                <span id="reqphoneno-1" class="reqError text-danger valley"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 mt-3">
+                                            <div class="form-group">
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Relationship</strong></label>
+                                                <select class="form-control reference_relationship reference_relationship-1" name="reference_relationship[]">
+                                                    <option value="">Select Reference Relationship</option>
+                                                    <option value="Brother">Brother</option>
+                                                    <option value="Sister">Sister</option>
+                                                    <option value="Cousin">Cousin</option>
+                                                </select>
+                                                <span id="reqreferencerel-1" class="reqError text-danger valley"></span>
+                                            </div>
+                                        </div> 
+                                        <div class="col-md-12 mt-3">
+                                            <div class="form-group">
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>You worked together at:</strong></label>
+                                                <input class="form-control worked_together worked_together-1" type="text" name="worked_together[]">
+                                                <span id="reqworked_together-1" class="reqError text-danger valley"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 mt-3">
+                                            <div class="form-group">
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>What was your position when you worked with this referee?</strong></label>
+                                                <input class="form-control position_with_referee-1 position_with_referee" type="text" name="position_with_referee[]">
+                                                <span id="reqpositionreferee-1" class="reqError text-danger valley"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 mt-3">
+                                            <div class="form-group">
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Start Date</strong></label>
+                                                <input class="form-control start_date start_date-1" type="date" name="start_date[]" onkeydown="return false">
+                                                <span id="reqempsdate" class="reqError text-danger valley"></span>
+                                            </div>
+                                        </div>   
+                                        <div class="col-md-12 mt-3">
+                                            <div class="form-group">
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>End Date</strong></label>
+                                               <input class="form-control  end_date end_date-1" type="date" name="end_date[]" onkeydown="return false">
+                                                <span id="reqempsdate" class="reqError text-danger valley"></span>
+                                            </div>
+                                        </div>
+                                        <div class="declaration_box">
+                                            <input class="still_working-1" type="checkbox" name="still_working[]" onclick="stillWorking(1)">I'm still working with this referee
+                                            <span id="reqstillworking" class="reqError text-danger valley"></span>
+                                        </div>
+                                        <div class="add_new_certification_div mb-3 mt-3">
+                                            <a style="cursor: pointer;" onclick="add_another_referee()">+ Add another Referee</a>
+                                        </div>
+                                    @endforeach
+                                    @endif    
+                                    </div> 
+                                    <div class="d-flex align-items-center justify-content-between mt-3">
+                                            <button type="button" class="btn btn-default next-step-6 align-items-center justify-content-between" data-target="#navpill-7">Next</button>
+                                        </div> 
+                                    </div> 
+                                        
+                                    </div>                    
+                                </div>
+                            </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane p-3" id="navpill-61" role="tabpanel">
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
@@ -2087,11 +2273,14 @@
                                                 <span id="mand_continue_education_error" class="text-danger valley"></span>
                                             </div>
                                         </div> 
-                                        <div class="d-flex align-items-center justify-content-between mt-3">
-                                            <button type="button" class="btn btn-default next-step-6 align-items-center justify-content-between" data-target="#navpill-7">Next</button>
-                                        </div>
+                                        {{-- <div class="add_new_certification_div mb-3 mt-3">
+                                            <a style="cursor: pointer;" onclick="add_another_referee()">+ Add another Referee</a>
+                                        </div> --}}
                                     </div>                     
-                                    </div>                    
+                                    </div> 
+                                    <div class="d-flex align-items-center justify-content-between mt-3">
+                                            <button type="button" class="btn btn-default next-step-6 align-items-center justify-content-between" data-target="#navpill-7">Next</button>
+                                        </div>                   
                                 </div>
                             </div>
                         </div>
@@ -2691,6 +2880,71 @@
             let newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?tab=' + newTab;
             history.replaceState(null, null, newUrl);
         });
+    });
+
+
+    function deleteImg(i,user_id,img){
+    //alert(img);    
+    $.ajax({
+      type: "post",
+      url: "{{ route('admin.delete_cer_img') }}",
+      data: {user_id:user_id,img:img,_token:'{{ csrf_token() }}'},
+      cache: false,
+      success: function(data){
+         if(data == 1){
+          $(".trans_img-"+i).remove();
+         }         
+      }
+    });
+   }
+
+   var referee_div_count = $(".referee_no").length;
+    console.log("licence_div_count",referee_div_count);
+    function add_another_referee(){
+        referee_div_count++;
+        // $(".reference_form").append('<div class="referee_data referee_data-'+referee_div_count+'"><h6 class="mt-0 color-brand-1 mb-20 referee_no">References '+referee_div_count+'</h6><div class="row"><div class="col-md-12"><div class="form-group level-drp"><label class="form-label" for="input-1">First name</label><input class="form-control first_name first_name-'+referee_div_count+'" type="text" name="first_name[]"><span id="reqfname-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Last name</label><input class="form-control last_name last_name-'+referee_div_count+'" type="text" name="last_name[]"><span id="reqlname-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div></div><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Email</label><input class="form-control reference_email reference_email-'+referee_div_count+'" type="text" name="email[]"><span id="reqemail-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Phone number</label><input class="form-control phone_no phone_no-'+referee_div_count+'" type="text" name="phone_no[]"><span id="reqphoneno-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div></div><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Relationship</label><select class="form-control reference_relationship reference_relationship-'+referee_div_count+'" name="reference_relationship[]"><option value="" data-select2-id="9">Select Reference Relationship</option><option value="Brother">Brother</option><option value="Sister">Sister</option><option value="Sister">Cousin</option></select><span id="reqreferencerel-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">You worked together at:</label><input class="form-control worked_together worked_together-'+referee_div_count+'" type="text" name="worked_together[]"><span id="reqworked_together-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div></div><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">What was your position when you worked with this referee?</label><input class="form-control position_with_referee position_with_referee-'+referee_div_count+'" type="text" name="position_with_referee[]"><span id="reqpositionreferee-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div></div><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Start Date</label><input class="form-control start_date start_date-'+referee_div_count+'" type="date" name="start_date[]" onchange="startDate('+referee_div_count+')" onkeydown="return false"><span id="reqrefereesdate-'+referee_div_count+'" class="reqError text-danger valley"></span><div class="declaration_box"><input class="still_working still_working-'+referee_div_count+'" type="checkbox" name="still_working[]" onclick="stillWorking('+referee_div_count+')">I am still working with this referee<span id="reqstillworking-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div></div><div class="col-md-6"><div class="form-group level-drp working-'+referee_div_count+'"><label class="form-label" for="input-1">End Date</label><input class="form-control end_date end_date-'+referee_div_count+'" type="date" name="end_date[]" onkeydown="return false"><span id="reqrefereeedate-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div><div class="row"><div class="col-md-6"><div class="add_new_certification_div mb-3 mt-3"><a style="cursor: pointer;" onclick="delete_reference1('+referee_div_count+')">- Delete Referee</a></div></div></div></div>');   
+         $(".reference_form").append('<div class="referee_data referee_data-'+referee_div_count+'"><h6 class="mt-0 color-brand-1 mb-20 referee_no">References '+referee_div_count+'</h6><div><div class="col-md-12 mt-3"><div class="form-group level-drp"><label class="d-flex gap-3 flex-wrap" for="input-1"><strong>First name</strong></label><input class="form-control first_name first_name-'+referee_div_count+'" type="text" name="first_name[]"><span id="reqfname-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div><div class="col-md-12 mt-3"><div class="form-group level-drp"><label class="d-flex gap-3 flex-wrap" for="input-1"><strong>Last name</strong></label><input class="form-control last_name last_name-'+referee_div_count+'" type="text" name="last_name[]"><span id="reqlname-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div></div><div><div class="col-md-12"><div class="form-group level-drp"><label class="d-flex gap-3 flex-wrap" for="input-1"><strong>Email</strong></label><input class="form-control reference_email reference_email-'+referee_div_count+'" type="text" name="email[]"><span id="reqemail-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div><div class="col-md-12"><div class="form-group level-drp"><label class="d-flex gap-3 flex-wrap" for="input-1"><strong>Phone number</strong></label><input class="form-control phone_no phone_no-'+referee_div_count+'" type="text" name="phone_no[]"><span id="reqphoneno-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div></div><div><div class="col-md-12 mt-3"><div class="form-group level-drp"><label class="d-flex gap-3 flex-wrap" for="input-1"><strong>Relationship</strong></label><select class="form-control reference_relationship reference_relationship-'+referee_div_count+'" name="reference_relationship[]"><option value="" data-select2-id="9">Select Reference Relationship</option><option value="Brother">Brother</option><option value="Sister">Sister</option><option value="Sister">Cousin</option></select><span id="reqreferencerel-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div><div class="col-md-12 mt-3"><div class="form-group level-drp"><label class="d-flex gap-3 flex-wrap" for="input-1"><strong>You worked together at:</strong></label><input class="form-control worked_together worked_together-'+referee_div_count+'" type="text" name="worked_together[]"><span id="reqworked_together-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div></div><div><div class="col-md-12 mt-3"><div class="form-group level-drp"><label class="d-flex gap-3 flex-wrap" for="input-1"><strong>What was your position when you worked with this referee?</strong></label><input class="form-control position_with_referee position_with_referee-'+referee_div_count+'" type="text" name="position_with_referee[]"><span id="reqpositionreferee-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div></div><div><div class="col-md-12 mt-3"><div class="form-group level-drp"><label class="d-flex gap-3 flex-wrap" for="input-1"><strong>Start Date</strong></label><input class="form-control start_date start_date-'+referee_div_count+'" type="date" name="start_date[]" onchange="startDate('+referee_div_count+')" onkeydown="return false"><span id="reqrefereesdate-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div><div class="col-md-12 mt-3"><div class="form-group level-drp working-'+referee_div_count+'"><label class="d-flex gap-3 flex-wrap" for="input-1"><strong>End Date</strong></label><input class="form-control end_date end_date-'+referee_div_count+'" type="date" name="end_date[]" onkeydown="return false"><span id="reqrefereeedate-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div><div><div class="declaration_box"><input class="still_working still_working-'+referee_div_count+'" type="checkbox" name="still_working[]" onclick="stillWorking('+referee_div_count+')">I am still working with this referee<span id="reqstillworking-'+referee_div_count+'" class="reqError text-danger valley"></span></div><div class="col-md-12 mt-3"><div class="add_new_certification_div mb-3"><a style="cursor: pointer;" onclick="delete_reference1('+referee_div_count+')">- Delete Referee</a></div></div></div></div>');
+        }
+
+        function delete_reference1(i){
+        $(".referee_data-"+i).remove();    
+    }
+
+    var i = 1;
+    $(".referee_start_date").each(function(){
+    console.log("start_date",$(".referee_start_date-"+i).val());
+    var start_date = $(".referee_start_date-"+i).val();
+        
+    var date = new Date(start_date);
+    
+    date.setDate(date.getDate() + 1);
+    
+
+    var start_date1 = new Date(date);
+    var month = start_date1.getMonth() + 1;
+    if(month.toString().length == 1){
+        var month1 = "0"+month;
+    }else{
+        var month1 = month;
+    }
+    var day = start_date1.getDate();
+
+    if(day.toString().length == 1){
+
+        var day1 = "0"+day;
+
+    }else{
+
+        var day1 = day;
+
+    }
+    var year = start_date1.getFullYear();
+    var new_date = year+"-"+month1+"-"+day1;
+    console.log("refree_start_date",$('.working-'+i).is(':visible'));
+    if($('.working-'+i).is(':visible')){
+        document.getElementsByClassName("end_date-"+i)[0].setAttribute('min', new_date);
+    }
+    i++;
     });
 </script>
   

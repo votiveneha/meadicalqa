@@ -1121,7 +1121,11 @@ class HomeController extends Controller
         $certificate_data = json_decode($getedudata->acls_data);
 
         for($i=0;$i<$acls_count;$i++){
-            $aclsimg = json_decode($certificate_data[$i]->acls_upload_certification);
+            if(!empty($certificate_data) && array_key_exists($i,$certificate_data)){
+                $aclsimg = json_decode($certificate_data[$i]->acls_upload_certification);
+            }else{
+                $aclsimg = '';
+            }
             //print_r(json_decode($certificate_data[$i]->acls_upload_certification));
             if(!empty($acls_upload_certification[$i])){
                 $acls_img = Helpers::multipleFileUpload($acls_upload_certification[$i],$aclsimg);
@@ -1533,23 +1537,24 @@ class HomeController extends Controller
         $msw_upload_certification = $request->file('msw_upload_certification');
 
         $msw_data_array = array();
+        $certificate_data = json_decode($getedudata->msw_data);
 
         for($i=0;$i<$msw_count;$i++){
-            if(!empty($msw_upload_certification[$i])){
-                $name1=$msw_upload_certification[$i]->getClientOriginalName();
-                $name= time().$name1;
-                $destinationPathcert = public_path()."/uploads/certificates"; 
-                $msw_upload_certification[$i]->move($destinationPathcert,$name);
+            if(!empty($certificate_data) && array_key_exists($i,$certificate_data)){
+                $mswimg = json_decode($certificate_data[$i]->msw_upload_certification);
             }else{
-                $certificate_data = json_decode($getedudata->msw_data);
-                if(!empty($certificate_data)){
-                    $name = $certificate_data[$i]->msw_upload_certification;
-                }else{
-                    $name = "";
-                }
+                $mswimg = '';
             }
             
-            $msw_data_array[] = array("msw_certification_id"=>$mswnamearr[$i],"msw_license_number"=>$msw_license_number[$i],"msw_expiry"=>$msw_expiry[$i],"msw_upload_certification"=>$name);
+            //print_r(json_decode($certificate_data[$i]->acls_upload_certification));
+            if(!empty($msw_upload_certification[$i])){
+
+                $msw_img = Helpers::multipleFileUpload($msw_upload_certification[$i],$mswimg);
+            }else{
+                $msw_img = Helpers::multipleFileUpload('',$mswimg);
+            }
+            
+            $msw_data_array[] = array("msw_certification_id"=>$mswnamearr[$i],"msw_license_number"=>$msw_license_number[$i],"msw_expiry"=>$msw_expiry[$i],"msw_upload_certification"=>$msw_img);
         }
         //print_r(count($msw_data_array));die;
         if(!empty($msw_data_array)){
@@ -1571,23 +1576,24 @@ class HomeController extends Controller
         $ain_upload_certification = $request->file('ain_upload_certification');
 
         $ain_data_array = array();
+        $certificate_data = json_decode($getedudata->ain_data);
 
         for($i=0;$i<$ain_count;$i++){
-            if(!empty($ain_upload_certification[$i])){
-                $name1=$ain_upload_certification[$i]->getClientOriginalName();
-                $name= time().$name1;
-                $destinationPathcert = public_path()."/uploads/certificates"; 
-                $ain_upload_certification[$i]->move($destinationPathcert,$name);
+            if(!empty($certificate_data) && array_key_exists($i,$certificate_data)){
+                $ainimg = json_decode($certificate_data[$i]->ain_upload_certification);
             }else{
-                $certificate_data = json_decode($getedudata->ain_data);
-                if(!empty($certificate_data)){
-                    $name = $certificate_data[$i]->ain_upload_certification;
-                }else{
-                    $name = "";
-                }
+                $ainimg = '';
             }
             
-            $ain_data_array[] = array("ain_certification_id"=>$ainnamearr[$i],"ain_license_number"=>$ain_license_number[$i],"ain_expiry"=>$ain_expiry[$i],"ain_upload_certification"=>$name);
+            //print_r(json_decode($certificate_data[$i]->acls_upload_certification));
+            if(!empty($ain_upload_certification[$i])){
+
+                $ain_img = Helpers::multipleFileUpload($ain_upload_certification[$i],$ainimg);
+            }else{
+                $ain_img = Helpers::multipleFileUpload('',$ainimg);
+            }
+            
+            $ain_data_array[] = array("ain_certification_id"=>$ainnamearr[$i],"ain_license_number"=>$ain_license_number[$i],"ain_expiry"=>$ain_expiry[$i],"ain_upload_certification"=>$ain_img);
         }
         
         if(!empty($ain_data_array)){
@@ -1607,25 +1613,26 @@ class HomeController extends Controller
         $rpn_license_number = $request->rpn_license_number;
         $rpn_expiry = $request->rpn_expiry;
         $rpn_upload_certification = $request->file('rpn_upload_certification');
+        $certificate_data = json_decode($getedudata->rpn_data);
 
         $rpn_data_array = array();
 
         for($i=0;$i<$rpn_count;$i++){
-            if(!empty($rpn_upload_certification[$i])){
-                $name1=$rpn_upload_certification[$i]->getClientOriginalName();
-                $name= time().$name1;
-                $destinationPathcert = public_path()."/uploads/certificates"; 
-                $rpn_upload_certification[$i]->move($destinationPathcert,$name);
+            if(!empty($certificate_data) && array_key_exists($i,$certificate_data)){
+                $rpnimg = json_decode($certificate_data[$i]->rpn_upload_certification);
             }else{
-                $certificate_data = json_decode($getedudata->rpn_data);
-                if(!empty($certificate_data)){
-                    $name = $certificate_data[$i]->rpn_upload_certification;
-                }else{
-                    $name = "";
-                }
+                $rpnimg = '';
             }
             
-            $rpn_data_array[] = array("rpn_certification_id"=>$rpnnamearr[$i],"rpn_license_number"=>$rpn_license_number[$i],"rpn_expiry"=>$rpn_expiry[$i],"rpn_upload_certification"=>$name);
+            //print_r(json_decode($certificate_data[$i]->acls_upload_certification));
+            if(!empty($rpn_upload_certification[$i])){
+
+                $rpn_img = Helpers::multipleFileUpload($rpn_upload_certification[$i],$rpnimg);
+            }else{
+                $rpn_img = Helpers::multipleFileUpload('',$rpnimg);
+            }
+            
+            $rpn_data_array[] = array("rpn_certification_id"=>$rpnnamearr[$i],"rpn_license_number"=>$rpn_license_number[$i],"rpn_expiry"=>$rpn_expiry[$i],"rpn_upload_certification"=>$rpn_img);
         }
         
         if(!empty($rpn_data_array)){
@@ -2292,6 +2299,22 @@ class HomeController extends Controller
         }
         
         echo json_encode($json);
+    }
+
+    public function uploadImgs(Request $request){
+        $files = $request->file('upload_images');
+        $user_id = $request->user_id;
+
+        $getedudata = DB::table("user_education_cerification")->where("user_id",$user_id)->first();
+
+        $dtranaimg = json_decode($getedudata->degree_transcript);
+
+        $dtranimgs = Helpers::multipleFileUpload($files,$dtranaimg);
+
+        $run = EducationModel::where('user_id',$user_id)->update(['degree_transcript'=>$dtranimgs]);
+
+        //print_r($files);
+        return $dtranimgs;
     }
     
      public function update_profession_ahpra_numberI(Request $request)

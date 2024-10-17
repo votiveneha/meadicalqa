@@ -5591,11 +5591,28 @@ $(document).ready(function() {
 
 })
 </script>
+
 <script>
+// delete certificate div
 function delete_certification1(i){    
     $(".license_number_div_"+i).remove();
     window.location.reload();    
-  }
+}
+
+function deleteImg(i,user_id,img){
+    //alert(img);    
+    $.ajax({
+      type: "post",
+      url: "{{ route('admin.delete_cer_img') }}",
+      data: {user_id:user_id,img:img,_token:'{{ csrf_token() }}'},
+      cache: false,
+      success: function(data){
+         if(data == 1){
+          $(".trans_img-"+i).remove();
+         }         
+      }
+    });
+}
 </script>
 
 

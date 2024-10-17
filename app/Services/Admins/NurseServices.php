@@ -1248,7 +1248,6 @@ class NurseServices
         }
     }
 
-
     public function EditNursePost($data)
     {      
         try {
@@ -1371,23 +1370,23 @@ class NurseServices
 
                 $bls_data_array = array();
 
+                $certificate_data = json_decode($getedudata->bls_data);
+
                 for($i=0;$i<$bls_count;$i++){
-                    if(!empty($bls_upload_certification[$i])){
-                        $name1=$bls_upload_certification[$i]->getClientOriginalName();
-                        $name= time().$name1;
-                        $destinationPathcert = public_path()."/uploads/certificates"; 
-                        $bls_upload_certification[$i]->move($destinationPathcert,$name);
+                    if(!empty($certificate_data) && array_key_exists($i,$certificate_data)){
+                        $blsimg = json_decode($certificate_data[$i]->bls_upload_certification);
                     }else{
-                        $certificate_data = json_decode($getedudata->bls_data);
-                        $name = $certificate_data[$i]->bls_upload_certification;
-                        if(!empty($certificate_data)){
-                            $name = $certificate_data[$i]->bls_upload_certification;
-                        }else{
-                            $name = "";
-                        }
+                        $blsimg = '';
                     }
                     
-                    $bls_data_array[] = array("bls_certification_id"=>$bls_data[$i],"bls_license_number"=>$bls_license_number[$i],"bls_expiry"=>$bls_expiry[$i],"bls_upload_certification"=>$name);
+                    //print_r(json_decode($certificate_data[$i]->acls_upload_certification));
+                    if(!empty($bls_upload_certification[$i])){
+                        $bls_img = Helpers::multipleFileUpload($bls_upload_certification[$i],$blsimg);
+                    }else{
+                        $bls_img = Helpers::multipleFileUpload('',$blsimg);
+                    }
+                    
+                    $bls_data_array[] = array("bls_certification_id"=>$bls_data[$i],"bls_license_number"=>$bls_license_number[$i],"bls_expiry"=>$bls_expiry[$i],"bls_upload_certification"=>$bls_img);
                 }
 
                 if(!empty($bls_data_array)){
@@ -1408,25 +1407,27 @@ class NurseServices
                 $acls_license_number =$data['acls_license_number'];
                 $acls_expiry = $data['acls_expiry'];
                 $acls_upload_certification = $data['acls_upload_certification'];
+                // print_r($acls_upload_certification);
 
                 $acls_data_array = array();
 
+                $certificate_data = json_decode($getedudata->acls_data);
+
                 for($i=0;$i<$acls_count;$i++){
-                    if(!empty($acls_upload_certification[$i])){
-                        $name1=$acls_upload_certification[$i]->getClientOriginalName();
-                        $name= time().$name1;
-                        $destinationPathcert = public_path()."/uploads/certificates"; 
-                        $acls_upload_certification[$i]->move($destinationPathcert,$name);
+                    if(!empty($certificate_data) && array_key_exists($i,$certificate_data)){
+                        $aclsimg = json_decode($certificate_data[$i]->acls_upload_certification);
                     }else{
-                        $certificate_data = json_decode($getedudata->acls_data);
-                        if(!empty($certificate_data)){
-                            $name = $certificate_data[$i]->acls_upload_certification;
-                        }else{
-                            $name = "";
-                        }
+                        $aclsimg = '';
                     }
-                    
-                    $acls_data_array[] = array("acls_certification_id"=>$aclsnamearr[$i],"acls_license_number"=>$acls_license_number[$i],"acls_expiry"=>$acls_expiry[$i],"acls_upload_certification"=>$name);
+                    //print_r(json_decode($certificate_data[$i]->acls_upload_certification));
+                    if(!empty($acls_upload_certification[$i])){
+                        // echo "test";die;
+                        $acls_img = Helpers::multipleFileUpload($acls_upload_certification[$i],$aclsimg);
+                    }else{
+                        $acls_img = Helpers::multipleFileUpload('',$aclsimg);
+                    }
+                 
+                    $acls_data_array[] = array("acls_certification_id"=>$aclsnamearr[$i],"acls_license_number"=>$acls_license_number[$i],"acls_expiry"=>$acls_expiry[$i],"acls_upload_certification"=>$acls_img);
                 }
 
                 if(!empty($acls_data_array)){
@@ -1449,22 +1450,23 @@ class NurseServices
 
                 $cpr_data_array = array();
 
+                $certificate_data = json_decode($getedudata->cpr_data);
+
                 for($i=0;$i<$cpr_count;$i++){
-                    if(!empty($cpr_upload_certification[$i])){
-                        $name1=$cpr_upload_certification[$i]->getClientOriginalName();
-                        $name= time().$name1;
-                        $destinationPathcert = public_path()."/uploads/certificates"; 
-                        $cpr_upload_certification[$i]->move($destinationPathcert,$name);
+                    if(!empty($certificate_data) && array_key_exists($i,$certificate_data)){
+                        $cprimg = json_decode($certificate_data[$i]->cpr_upload_certification);
                     }else{
-                        $certificate_data = json_decode($getedudata->cpr_data);
-                        if(!empty($certificate_data)){
-                            $name = $certificate_data[$i]->cpr_upload_certification;
-                        }else{
-                            $name = "";
-                        }
+                        $cprimg = '';
                     }
                     
-                    $cpr_data_array[] = array("cpr_certification_id"=>$cprnamearr[$i],"cpr_license_number"=>$cpr_license_number[$i],"cpr_expiry"=>$cpr_expiry[$i],"cpr_upload_certification"=>$name);
+                    //print_r(json_decode($certificate_data[$i]->acls_upload_certification));
+                    if(!empty($cpr_upload_certification[$i])){
+                        $cpr_img = Helpers::multipleFileUpload($cpr_upload_certification[$i],$cprimg);
+                    }else{
+                        $cpr_img = Helpers::multipleFileUpload('',$cprimg);
+                    }
+                    
+                    $cpr_data_array[] = array("cpr_certification_id"=>$cprnamearr[$i],"cpr_license_number"=>$cpr_license_number[$i],"cpr_expiry"=>$cpr_expiry[$i],"cpr_upload_certification"=>$cpr_img);
                 }
 
                 if(!empty($cpr_data_array)){
