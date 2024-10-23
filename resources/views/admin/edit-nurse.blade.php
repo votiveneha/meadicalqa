@@ -129,13 +129,13 @@
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-61" role="tab" aria-selected="false"
+                        <a class="nav-link" data-bs-toggle="tab" href="#tab-7" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Mandatory Training</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-7" role="tab" aria-selected="false"
+                        <a class="nav-link" data-bs-toggle="tab" href="#tab-8" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Vaccinations</span>
                         </a>
@@ -2131,7 +2131,9 @@
                                 <div class="card-body p-3 px-md-4 pb-0">
                                     <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center ">References</h3>
                                 </div>
-                                <form>
+                                <form method="post" id="edit_reference_form">
+                                <input type="hidden" name="tab" value="tab15">
+                                <input type="hidden" value="{{isset($profileData->id)? $profileData->id : ''}}" id="user_id" name="user_id">
                                 <div class="card-body p-3 px-md-4">
                                     <div class="col-md-12">
                                         <div class="row">
@@ -2141,7 +2143,125 @@
                                             $i = 1;
                                             ?>
                                         @foreach($RefereData as $referee_data)
-                                        <h6 class="fw-bolder fs-6 lh-base d-flex align-items-center ">References 1</h6>
+                                        <div class="referee_data referee_data-{{ $i }}">
+                                        <h6 class="fw-bolder fs-6 lh-base d-flex align-items-center referee_no">REFEREE {{ $i }}</h6>
+                                        <div class="col-md-12 mt-3">
+                                            <div class="form-group">
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>First name</strong></label>
+                                                <input type="hidden" name="reference_no[]" value="{{ $i }}">
+                                                <input class="form-control first_name first_name-{{ $i }}" type="text" name="first_name[]" value="{{ $referee_data->first_name }}">
+                                                <span id="reqfname-{{ $i }}" class="reqError text-danger valley"></span>
+                                            </div>
+                                        </div>  
+                                        <div class="col-md-12 mt-3">
+                                            <div class="form-group">
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Last name</strong></label>
+                                                <input class="form-control last_name last_name-{{ $i }}" type="text" name="last_name[]" value="{{ $referee_data->last_name }}">
+                                                <span id="reqlname-{{ $i }}" class="reqError text-danger valley"></span>
+                                            </div>
+                                        </div>   
+                                        <div class="col-md-12 mt-3">
+                                            <div class="form-group">
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Email</strong></label>
+                                                <input class="form-control reference_email reference_email-{{ $i }}" type="text" name="email[]" value="{{ $referee_data->email }}">
+                                                <span id="reqemail-{{ $i }}" class="reqError text-danger valley"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 mt-3">
+                                            <div class="form-group">
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Phone number</strong></label>
+                                                <input class="form-control  phone_no phone_no-{{ $i }}" type="text" name="phone_no[]" value="{{ $referee_data->phone_no }}">
+                                                <span id="reqphoneno-1" class="reqError text-danger valley"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 mt-3">
+                                            <div class="form-group">
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Referee relationship to you</strong></label>
+                                                <select class="form-control reference_relationship reference_relationship-{{ $i }}" name="reference_relationship[]">
+                                                    <option value="">Select</option>
+                                                    <option value="Worked in Same Group" @if($referee_data->relationship == "Worked in Same Group") selected @endif>Worked in Same Group</option>
+                                                    <option value="Referee Managed Me" @if($referee_data->relationship == "Referee Managed Me") selected @endif>Referee Managed Me</option>
+                                                    <option value="I Managed Referee" @if($referee_data->relationship == "I Managed Referee") selected @endif>I Managed Referee</option>
+                                                    <option value="Worked Together on a Project" @if($referee_data->relationship == "Worked Together on a Project") selected @endif>Worked Together on a Project</option>
+                                                    <option value="Worked Together in Different Departments" @if($referee_data->relationship == "Worked Together in Different Departments") selected @endif>Worked Together in Different Departments</option>
+                                                    <option value="Colleague" @if($referee_data->relationship == "Colleague") selected @endif>Colleague</option>
+                                                    <option value="Peer Mentor" @if($referee_data->relationship == "Peer Mentor") selected @endif>Peer Mentor</option>
+                                                    <option value="Clinical Supervisor" @if($referee_data->relationship == "Clinical Supervisor") selected @endif>Clinical Supervisor</option>
+                                                    <option value="Educational Supervisor" @if($referee_data->relationship == "Educational Supervisor") selected @endif>Educational Supervisor</option>
+                                                    <option value="Preceptor" @if($referee_data->relationship == "Preceptor") selected @endif>Preceptor</option>
+                                                    <option value="Instructor or Teacher" @if($referee_data->relationship == "Instructor or Teacher") selected @endif>Instructor or Teacher</option>
+                                                    <option value="Collaborated on Research" @if($referee_data->relationship == "Collaborated on Research") selected @endif>Collaborated on Research</option>
+                                                    <option value="Clinical Educator" @if($referee_data->relationship == "Clinical Educator") selected @endif>Clinical Educator</option>
+                                                    <option value="Patient Advocate" @if($referee_data->relationship == "Patient Advocate") selected @endif>Patient Advocate</option>
+                                                    <option value="Coordinated Care Together" @if($referee_data->relationship == "Coordinated Care Together") selected @endif>Coordinated Care Together</option>
+                                                    <option value="Advisory Role" @if($referee_data->relationship == "Advisory Role") selected @endif>Advisory Role</option>
+                                                    <option value="Worked Together on Committees" @if($referee_data->relationship == "Worked Together on Committees") selected @endif>Worked Together on Committees</option>
+                                                    <option value="Consultant Relationship" @if($referee_data->relationship == "Consultant Relationship") selected @endif>Consultant Relationship</option>
+                                                    <option value="Professional Mentor" @if($referee_data->relationship == "Professional Mentor") selected @endif>Professional Mentor</option>
+                                                    <option value="Team Leader" @if($referee_data->relationship == "Team Leader") selected @endif>Team Leader</option>
+                                                    <option value="Subordinate in a Leadership Role" @if($referee_data->relationship == "Subordinate in a Leadership Role") selected @endif>Subordinate in a Leadership Role</option>
+                                                    <option value="Provided Professional Development Support" @if($referee_data->relationship == "Provided Professional Development Support") selected @endif>Provided Professional Development Support</option>
+                                                    <option value="Oversaw my Certification Process" @if($referee_data->relationship == "Oversaw my Certification Process") selected @endif>Oversaw my Certification Process</option>
+                                                    <option value="External Collaborator" @if($referee_data->relationship == "External Collaborator") selected @endif>External Collaborator</option>
+                                                    <option value="Other" @if($referee_data->relationship == "Other") selected @endif>Other</option>
+                                                </select>
+                                               <span id="reqreferencerel-{{ $i }}" class="reqError text-danger valley"></span>
+                                            </div>
+                                        </div> 
+                                        <div class="col-md-12 mt-3">
+                                            <div class="form-group">
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>You worked together at:</strong></label>
+                                                <input class="form-control worked_together worked_together-{{ $i }}" type="text" name="worked_together[]"  value="{{ $referee_data->worked_together }}">
+                                                <span id="reqworked_together-{{ $i }}" class="reqError text-danger valley"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 mt-3">
+                                            <div class="form-group">
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>What was your position when you worked with this referee?</strong></label>
+                                                <input class="form-control  position_with_referee position_with_referee-{{ $i }}" type="text" name="position_with_referee[]" value="{{ $referee_data->position_with_referee }}">
+                                                <span id="reqpositionreferee-{{ $i }}" class="reqError text-danger valley"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 mt-3">
+                                            <div class="form-group">
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Start Date</strong></label>
+                                                <input class="form-control referee_start_date referee_start_date-{{ $i }}" type="date" name="start_date[]" value="{{ $referee_data->start_date }}" onchange="startDate('{{ $i }}')" onkeydown="return false">
+                                                <span id="reqempsdate" class="reqError text-danger valley"></span>
+                                            </div>
+                                        </div>   
+                                        <div class="col-md-12 mt-3">
+                                            <div class="form-group level-drp working-{{ $i }}">
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>End Date</strong></label>
+                                                <input class="form-control end_date end_date-{{ $i }}" type="date" name="end_date[]" value="{{ $referee_data->end_date }}" onkeydown="return false">
+                                                <span id="reqrefereeedate-{{ $i }}" class="reqError text-danger valley"></span>
+                                            </div>
+                                        </div>
+                                        <div class="declaration_box">
+                                           <input class="still_working still_working-{{ $i }}" type="checkbox" name="still_working[]" @if($referee_data->still_working == 1) checked @endif onclick="stillWorking({{ $i }})">I'm still working with this referee
+                                           <span id="reqstillworking-{{ $i }}" class="reqError text-danger valley"></span>
+                                        </div>
+                                        @if($i != 1)
+                                        <?php
+                                            $user_id = $referee_data->user_id;
+                                        ?>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                            <div class="add_new_certification_div mb-3 mt-3">
+                                                <a style="cursor: pointer;" onclick="delete_reference('{{ $i }}','{{ $user_id }}','{{ $referee_data->referee_id }}')">- Delete Referee</a>
+                                            </div>
+                                            </div>
+                                        </div>
+                                        @endif
+                                        </div>
+                                        {{-- <div class="add_new_certification_div mb-3 mt-3">
+                                            <a style="cursor: pointer;" onclick="add_another_referee()">+ Add another Referee</a>
+                                        </div> --}}
+                                        <?php
+                                        $i++;
+                                        ?>
+                                    @endforeach
+                                    @else
+                                    <h6 class="fw-bolder fs-6 lh-base d-flex align-items-center referee_no">REFEREE 1</h6>
                                         <div class="col-md-12 mt-3">
                                             <div class="form-group">
                                                 <label for="skill" class="d-flex gap-3 flex-wrap"><strong>First name</strong></label>
@@ -2166,20 +2286,42 @@
                                         <div class="col-md-12 mt-3">
                                             <div class="form-group">
                                                 <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Phone number</strong></label>
-                                                <input class="form-control phone_no phone_no-1" type="text" name="phone_no[]">
+                                                <input class="form-control  phone_no phone_no-1" type="text" name="phone_no[]">
                                                 <span id="reqphoneno-1" class="reqError text-danger valley"></span>
                                             </div>
                                         </div>
                                         <div class="col-md-12 mt-3">
                                             <div class="form-group">
-                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Relationship</strong></label>
-                                                <select class="form-control reference_relationship reference_relationship-1" name="reference_relationship[]">
-                                                    <option value="">Select Reference Relationship</option>
-                                                    <option value="Brother">Brother</option>
-                                                    <option value="Sister">Sister</option>
-                                                    <option value="Cousin">Cousin</option>
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Referee relationship to you</strong></label>
+                                                <select class="form-control reference_relationship reference_relationship-{{ $i }}" name="reference_relationship[]">
+                                                    <option value="">Select</option>
+                                                    <option value="Worked in Same Group">Worked in Same Group</option>
+                                                    <option value="Referee Managed Me">Referee Managed Me</option>
+                                                    <option value="I Managed Referee">I Managed Referee</option>
+                                                    <option value="Worked Together on a Project">Worked Together on a Project</option>
+                                                    <option value="Worked Together in Different Departments">Worked Together in Different Departments</option>
+                                                    <option value="Colleague">Colleague</option>
+                                                    <option value="Peer Mentor">Peer Mentor</option>
+                                                    <option value="Clinical Supervisor">Clinical Supervisor</option>
+                                                    <option value="Educational Supervisor">Educational Supervisor</option>
+                                                    <option value="Preceptor">Preceptor</option>
+                                                    <option value="Instructor or Teacher">Instructor or Teacher</option>
+                                                    <option value="Collaborated on Research">Collaborated on Research</option>
+                                                    <option value="Clinical Educator">Clinical Educator</option>
+                                                    <option value="Patient Advocate">Patient Advocate</option>
+                                                    <option value="Coordinated Care Together">Coordinated Care Together</option>
+                                                    <option value="Advisory Role">Advisory Role</option>
+                                                    <option value="Worked Together on Committees">Worked Together on Committees</option>
+                                                    <option value="Consultant Relationship">Consultant Relationship</option>
+                                                    <option value="Professional Mentor">Professional Mentor</option>
+                                                    <option value="Team Leader">Team Leader</option>
+                                                    <option value="Subordinate in a Leadership Role">Subordinate in a Leadership Role</option>
+                                                    <option value="Provided Professional Development Support">Provided Professional Development Support</option>
+                                                    <option value="Oversaw my Certification Process">Oversaw my Certification Process</option>
+                                                    <option value="External Collaborator">External Collaborator</option>
+                                                    <option value="Other">Other</option>
                                                 </select>
-                                                <span id="reqreferencerel-1" class="reqError text-danger valley"></span>
+                                               <span id="reqreferencerel-1" class="reqError text-danger valley"></span>
                                             </div>
                                         </div> 
                                         <div class="col-md-12 mt-3">
@@ -2192,36 +2334,35 @@
                                         <div class="col-md-12 mt-3">
                                             <div class="form-group">
                                                 <label for="skill" class="d-flex gap-3 flex-wrap"><strong>What was your position when you worked with this referee?</strong></label>
-                                                <input class="form-control position_with_referee-1 position_with_referee" type="text" name="position_with_referee[]">
+                                                <input class="form-control  position_with_referee position_with_referee-1" type="text" name="position_with_referee[]">
                                                 <span id="reqpositionreferee-1" class="reqError text-danger valley"></span>
                                             </div>
                                         </div>
                                         <div class="col-md-12 mt-3">
                                             <div class="form-group">
                                                 <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Start Date</strong></label>
-                                                <input class="form-control start_date start_date-1" type="date" name="start_date[]" onkeydown="return false">
+                                                <input class="form-control referee_start_date referee_start_date-1" type="date" name="start_date[]" onchange="startDate('1')" onkeydown="return false">
                                                 <span id="reqempsdate" class="reqError text-danger valley"></span>
                                             </div>
                                         </div>   
                                         <div class="col-md-12 mt-3">
-                                            <div class="form-group">
+                                            <div class="form-group level-drp working-1">
                                                 <label for="skill" class="d-flex gap-3 flex-wrap"><strong>End Date</strong></label>
-                                               <input class="form-control  end_date end_date-1" type="date" name="end_date[]" onkeydown="return false">
-                                                <span id="reqempsdate" class="reqError text-danger valley"></span>
+                                                <input class="form-control end_date end_date-1" type="date" name="end_date[]" onkeydown="return false">
+                                                <span id="reqrefereeedate-1" class="reqError text-danger valley"></span>
                                             </div>
                                         </div>
                                         <div class="declaration_box">
-                                            <input class="still_working-1" type="checkbox" name="still_working[]" onclick="stillWorking(1)">I'm still working with this referee
-                                            <span id="reqstillworking" class="reqError text-danger valley"></span>
+                                           <input class="still_working still_working-1" type="checkbox" name="still_working[]"  onclick="stillWorking(1)">I'm still working with this referee
+                                           <span id="reqstillworking-1" class="reqError text-danger valley"></span>
                                         </div>
-                                        <div class="add_new_certification_div mb-3 mt-3">
-                                            <a style="cursor: pointer;" onclick="add_another_referee()">+ Add another Referee</a>
-                                        </div>
-                                    @endforeach
                                     @endif    
                                     </div> 
+                                    <div class="add_new_certification_div mb-3 mt-3">
+                                            <a style="cursor: pointer;" onclick="add_another_referee()">+ Add another Referee</a>
+                                        </div>
                                     <div class="d-flex align-items-center justify-content-between mt-3">
-                                            <button type="button" class="btn btn-default next-step-6 align-items-center justify-content-between" data-target="#navpill-7">Next</button>
+                                            <button type="submit" class="btn btn-default  align-items-center justify-content-between">Next</button>
                                         </div> 
                                     </div> 
                                         
@@ -2231,12 +2372,19 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane p-3" id="navpill-61" role="tabpanel">
+                    <div class="tab-pane p-3" id="tab-7" role="tabpanel">
+                       <?php $trainingdata =  $mandatorytrainingData; 
+                       ?>
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
                                     <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center ">Mandatory Training</h3>
                                 </div>
+                                <form  method="POST" id="edit_man_tra_form">
+                                <input type="hidden" value="tab5" name="tab">
+                                <input type="hidden" value="{{ $profileData->id }}" name="user_id">
+                                <?php $trainingData = $mandatorytrainingData; ?>
+                               
                                 <div class="card-body p-3 px-md-4">
                                     <div class="col-md-12">
                                         <div class="row">
@@ -2244,31 +2392,31 @@
                                         <div class="col-md-6 mt-3">
                                             <div class="form-group">
                                                 <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Training Start Date</strong></label>
-                                                <input class="form-control" type="date" name="tra_start_date"  id="tra_start_date">
-                                                <span id="tra_start_date_error" class="text-danger valley"></span>
+                                                <input class="form-control training_start_date" type="date" name="start_date" value="@if(!empty($trainingData)){{ $trainingData->start_date }}@endif" onchange="trainingStartDate(event);">
+                                                <span id="reqempsdate" class="reqError text-danger valley"></span>
                                             </div>
                                         </div> 
                                         <div class="col-md-6 mt-3">
                                             <div class="form-group">
                                                 <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Training End Date</strong></label>
-                                                <input class="form-control" type="date" name="tra_end_date" id="tra_end_date">
-                                                <span id="tra_end_date_error" class="text-danger valley"></span>
+                                                <input class="form-control training_end_date" type="date" name="end_date" value="@if(!empty($trainingData)){{ $trainingData->end_date }}@endif" onchange="trainingEndDate(event);">
+                                                <span id="reqtrainingenddate" class="reqError text-danger valley"></span>
                                             </div>
                                         </div>   
                                         <div class="col-md-12 mt-3">
                                             <div class="form-group">
                                                 <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Institution</strong></label>
-                                                <input class="form-control" type="text" name="institution"  id="institution1">
+                                                <input class="form-control" type="text" name="institution" value="@if(!empty($trainingData)){{ $trainingData->institutions }}@endif">
                                                 <span id="institution_error_2" class="text-danger valley"></span>
                                             </div>
                                         </div>
                                         <div class="col-md-12 mt-3">
                                             <div class="form-group">
                                                 <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Mandatory Continuing Education</strong></label>
-                                                <select class="form-control form-select ps-5" name="mand_continue_education" id="mand_continue_education">
+                                                 <select class="form-control form-select ps-5" name="mand_continue_education" id="mand_continue_education">
                                                     <option value="">Select mandatory continuing education</option>                                                    
-                                                    <option value="Ongoing">Ongoing</option>
-                                                    <option value="Completed">Completed</option>
+                                                    <option value="Ongoing" @if(!empty($trainingData)) @if(!empty($trainingData->continuing_education == "Ongoing")) selected @endif @endif>Ongoing</option>
+                                                    <option value="Completed" @if(!empty($trainingData)) @if(!empty($trainingData->continuing_education == "Completed")) selected @endif @endif>Completed</option>
                                                 </select>
                                                 <span id="mand_continue_education_error" class="text-danger valley"></span>
                                             </div>
@@ -2279,22 +2427,27 @@
                                     </div>                     
                                     </div> 
                                     <div class="d-flex align-items-center justify-content-between mt-3">
-                                            <button type="button" class="btn btn-default next-step-6 align-items-center justify-content-between" data-target="#navpill-7">Next</button>
-                                        </div>                   
+                                        <button type="submit" class="btn btn-default next-step-61 align-items-center justify-content-between" data-target="#navpill-7">Next</button>
+                                    </div>                   
                                 </div>
                             </div>
+                        </form>
                         </div>
                     </div>
-                    <div class="tab-pane p-3" id="navpill-7" role="tabpanel">
+                    <div class="tab-pane p-3" id="tab-8" role="tabpanel">
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
                                     <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center">Vaccinations</h3>
                                 </div>
+                                <form method="POST" id="edit_vacc_form">
+                                <input type="hidden" value="tab6" name="tab">
+                                <input type="hidden" value="{{ $profileData->id }}" name="user_id">                        
                                 <div class="card-body p-3 px-md-4">
                                     <div class="col-md-12">
                                         <div class="row">
                                         <div class="col-md-12 mt-3">
+                                            <input type="hidden" name="vaccination_r" class="vaccination_r" value="@if(!empty($vaccinationData)){{ $vaccinationData->vaccination_records }}@endif">
                                             <div class="form-group">
                                                 <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Vaccination Records</strong></label>
                                                  <?php
@@ -2320,14 +2473,14 @@
                                                 <span id="immunization_status_error" class="text-danger valley"></span>
                                             </div>
                                         </div>   
-                                        
-                            
+                                                                    
                                         <div class="d-flex align-items-center justify-content-between mt-3">
-                                            <button type="button" class="btn btn-default next-step-7 align-items-center justify-content-between" data-target="#navpill-8">Next</button>
+                                            <button type="submit" class="btn btn-default  align-items-center justify-content-between" data-target="#navpill-8">Next</button>
                                         </div>
                                     </div>                     
                                     </div>                    
                                 </div>
+                            </form>
                             </div>
                         </div>
                     </div>
@@ -2899,7 +3052,7 @@
    }
 
    var referee_div_count = $(".referee_no").length;
-    console.log("licence_div_count",referee_div_count);
+
     function add_another_referee(){
         referee_div_count++;
         // $(".reference_form").append('<div class="referee_data referee_data-'+referee_div_count+'"><h6 class="mt-0 color-brand-1 mb-20 referee_no">References '+referee_div_count+'</h6><div class="row"><div class="col-md-12"><div class="form-group level-drp"><label class="form-label" for="input-1">First name</label><input class="form-control first_name first_name-'+referee_div_count+'" type="text" name="first_name[]"><span id="reqfname-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Last name</label><input class="form-control last_name last_name-'+referee_div_count+'" type="text" name="last_name[]"><span id="reqlname-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div></div><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Email</label><input class="form-control reference_email reference_email-'+referee_div_count+'" type="text" name="email[]"><span id="reqemail-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Phone number</label><input class="form-control phone_no phone_no-'+referee_div_count+'" type="text" name="phone_no[]"><span id="reqphoneno-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div></div><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Relationship</label><select class="form-control reference_relationship reference_relationship-'+referee_div_count+'" name="reference_relationship[]"><option value="" data-select2-id="9">Select Reference Relationship</option><option value="Brother">Brother</option><option value="Sister">Sister</option><option value="Sister">Cousin</option></select><span id="reqreferencerel-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">You worked together at:</label><input class="form-control worked_together worked_together-'+referee_div_count+'" type="text" name="worked_together[]"><span id="reqworked_together-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div></div><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">What was your position when you worked with this referee?</label><input class="form-control position_with_referee position_with_referee-'+referee_div_count+'" type="text" name="position_with_referee[]"><span id="reqpositionreferee-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div></div><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Start Date</label><input class="form-control start_date start_date-'+referee_div_count+'" type="date" name="start_date[]" onchange="startDate('+referee_div_count+')" onkeydown="return false"><span id="reqrefereesdate-'+referee_div_count+'" class="reqError text-danger valley"></span><div class="declaration_box"><input class="still_working still_working-'+referee_div_count+'" type="checkbox" name="still_working[]" onclick="stillWorking('+referee_div_count+')">I am still working with this referee<span id="reqstillworking-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div></div><div class="col-md-6"><div class="form-group level-drp working-'+referee_div_count+'"><label class="form-label" for="input-1">End Date</label><input class="form-control end_date end_date-'+referee_div_count+'" type="date" name="end_date[]" onkeydown="return false"><span id="reqrefereeedate-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div><div class="row"><div class="col-md-6"><div class="add_new_certification_div mb-3 mt-3"><a style="cursor: pointer;" onclick="delete_reference1('+referee_div_count+')">- Delete Referee</a></div></div></div></div>');   
@@ -2946,6 +3099,120 @@
     }
     i++;
     });
+
+    function stillWorking(i){
+        if ($(".still_working-"+i).prop('checked')==true){ 
+        $(".working-"+i).hide();
+        }else{
+        $(".working-"+i).show();
+        $(".end_date-"+i).val("");
+        }
+    }
+
+    function startDate(i){
+        //alert(i);
+        var start_date = $(".start_date-"+i).val();
+        console.log("start_date",$(".start_date-"+i).val());
+        var date = new Date(start_date);
+        
+        date.setDate(date.getDate() + 1);
+        
+
+        var start_date1 = new Date(date);
+        var month = start_date1.getMonth() + 1;
+        if(month.toString().length == 1){
+            var month1 = "0"+month;
+        }else{
+            var month1 = month;
+        }
+        var day = start_date1.getDate();
+
+        if(day.toString().length == 1){
+
+            var day1 = "0"+day;
+
+        }else{
+
+            var day1 = day;
+
+        }
+        var year = start_date1.getFullYear();
+        var new_date = year+"-"+month1+"-"+day1;
+        console.log("refree_start_date",new_date);
+        document.getElementsByClassName("end_date-"+i)[0].setAttribute('min', new_date);
+    }
+</script>
+<script type="text/javascript">
+function trainingEndDate(e){
+    var end_date = e.target.value;
+    var start_date = $('.training_start_date').val();
+
+    if(end_date < start_date){
+    $("#reqtrainingenddate").html("End date should not less than start date");
+    }else{
+    if(end_date == start_date){
+        $("#reqtrainingenddate").html("End date should not equal to start date");
+    }else{
+        $("#reqtrainingenddate").html("");
+    }
+    
+    }
+    
+}
+var start_date = $('.training_start_date').val();
+
+var date = new Date(start_date);
+
+    
+
+// Add five days to current date
+date.setDate(date.getDate() + 1);
+var date1 = new Date(date);
+
+
+//var str = date1.toLocaleDateString();
+var year_val = `${date1.getFullYear()}`;
+var month_val = `${date1.getMonth() + 1}`;
+var date_val = `${date1.getDate()}`;
+
+var month_len = month_val.length;
+if(month_len<2){
+    var show_month = 0+month_val;
+}else{
+    var show_month = month_val;
+}
+const formattedDate2 = year_val+"-"+show_month+"-"+date_val;
+console.log("month_val",formattedDate);
+
+document.getElementsClassByName("training_end_date")[0].setAttribute('min', formattedDate2);
+function trainingStartDate(e){
+    var start_date = e.target.value;
+    var date = new Date(start_date);
+    // Add five days to current date
+    date.setDate(date.getDate() + 1);
+    var date1 = new Date(date);
+
+    
+    //var str = date1.toLocaleDateString();
+    var year_val = `${date1.getFullYear()}`;
+    var month_val = `${date1.getMonth() + 1}`;
+    var date_val = `${date1.getDate()}`;
+
+    var month_len = month_val.length;
+    if(month_len<2){
+    var show_month = 0+month_val;
+    }else{
+    var show_month = month_val
+    }
+    const formattedDate = year_val+"-"+show_month+"-"+date_val;
+    console.log("month_val",formattedDate);
+    
+    document.getElementsByClassName("training_end_date")[0].setAttribute('min', formattedDate);
+}
+
+
+
+
 </script>
   
 @include('admin.edit_script');

@@ -2075,7 +2075,8 @@ function pad(number) {
   }
 
   function deleteImg(i,user_id,img){
-    //alert(img);
+    // alert(img);
+    
     
     $.ajax({
       type: "post",
@@ -2091,7 +2092,7 @@ function pad(number) {
     });
   }
   function deleteImgCert(i,user_id,img){
-    alert(img);
+    
     
     $.ajax({
       type: "post",
@@ -2106,6 +2107,12 @@ function pad(number) {
       }
     });
   }
+
+  var input = document.getElementsByClassName('degree_transcript')[0];
+
+input.onclick = function () {
+  this.value = null;
+};
 
   function changeImg(user_id){
     var files =$('.degree_transcript')[0].files;
@@ -2138,7 +2145,8 @@ function pad(number) {
          for(var i=0;i<image_array.length;i++){
             console.log("degree_transcript",image_array[i]);
             var img_name = image_array[i];
-            htmlData += '<div class="trans_img trans_img-'+(i+1)+'"><a href="http://localhost/meadical2/public/uploads/education_degree/'+image_array[i]+'"><i class="fa fa-file" aria-hidden="true"></i>'+image_array[i]+'</a><div class="close_btn close_btn-1" onclick=deleteImg('+i+','+user_id+',"'+img_name+'") style="cursor: pointer;"><i class="fa fa-close" aria-hidden="true"></i></div></div>';
+            console.log("img_name",'deleteImg('+(i+1)+','+user_id+',"'+img_name+'")');
+            htmlData += '<div class="trans_img trans_img-'+(i+1)+'"><a href="{{ url("/public") }}/uploads/education_degree/'+img_name+'" target="_blank"><i class="fa fa-file" aria-hidden="true"></i>'+image_array[i]+'</a><div class="close_btn close_btn-'+i+'" onclick="deleteImg('+(i+1)+','+user_id+',\''+img_name+'\')" style="cursor: pointer;"><i class="fa fa-close" aria-hidden="true"></i></div></div>';
          }
          $(".degree_transcript_imgs").html(htmlData);
          

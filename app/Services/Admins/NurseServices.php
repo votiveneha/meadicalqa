@@ -1249,7 +1249,7 @@ class NurseServices
     }
 
     public function EditNursePost($data)
-    {      
+    {  
         try {
             if($data['tab'] == 'tab1'){
                 $finduser =  User::where('id',$data['nurse_id'])->first();
@@ -2048,27 +2048,63 @@ class NurseServices
            
             }else if($data['tab'] == 'tab5'){
 
-                $email=Session::get('nurseemail');
-                $user_id=User::where('email',$email)->first();
-                $allData['user_id'] = $user_id->id;
-                $allData['start_date'] = $data['tra_start_date'];
-                $allData['end_date'] = $data['tra_end_date'];
-                $allData['institutions'] = $data['institution1'];
-                $allData['continuing_education'] = $data['mand_continue_education'];
+                $user_id = $data['user_id'];
+                $start_date = $data['start_date'];
+                $end_date = $data['end_date'];
+                $institution = $data['institution'];
+                $mand_continue_education = $data['mand_continue_education'];
+                
+                
+                
+                $gettrainingdata = DB::table("mandatory_training")->where("user_id",$user_id)->first();
+                //$post = User::find($request->user_id);
+                
+                if(!empty($gettrainingdata)>0){
+                 
+                    
+                    $run = MandatoryTrainModel::where('user_id',$user_id)->update(['start_date'=>$start_date,'end_date'=>$end_date,'institutions'=>$institution,'continuing_education'=>$mand_continue_education]);
+                }else{
 
-                $run=MandatoryTrainModel::create($allData);
+                    $post = new MandatoryTrainModel();
+                    $post->user_id = $user_id;
+                    
+                    //$post->year_experience = $year_experience;
+                    $post->start_date = $start_date;
+                    $post->end_date = $end_date;
+                    $post->institutions = $institution;
+                    $post->continuing_education = $mand_continue_education;
+                    
+                    
+                    $run = $post->save();
+
+                }
+
 
                 $param='Mandatory Training';
            
             }else if($data['tab'] == 'tab6'){
-                $email=Session::get('nurseemail');
-                $user_id=User::where('email',$email)->first();
-                $allData['user_id'] = $user_id->id;
-                $allData['vaccination_records'] = json_encode($data['vaccination_record']);
-                $allData['immunization_status'] = $data['immunization_status'];
-                $allData['complete_status'] = 1;
+                $vaccination_record = json_encode($data['vaccination_record']);
+                $user_id = $data['user_id'];
+                $immunization_status = $data['immunization_status'];
+                                
+                $getvaccinationdata = DB::table("vaccination_front")->where("user_id",$user_id)->first();
+                //$post = User::find($request->user_id);
+                
+                if(!empty($getvaccinationdata)>0){                    
+                    $run = VaccinationFrontModel::where('user_id',$user_id)->update(['vaccination_records'=>$vaccination_record,'immunization_status'=>$immunization_status,'complete_status'=>1]);
+                }else{
 
-                $run=VaccinationFrontModel::create($allData);
+                    $post = new VaccinationFrontModel();
+                    $post->user_id = $user_id;
+                    
+                    //$post->year_experience = $year_experience;
+                    $post->vaccination_records = $vaccination_record;
+                    $post->immunization_status = $immunization_status;
+                    
+                    $post->complete_status = 1;
+                    $run = $post->save();
+
+                }
 
                 $param='Vaccination Records';
            
@@ -2206,6 +2242,64 @@ class NurseServices
                 // $run = User::where('id',$user_id->id)->update($allData);
                 $run=$this->nurseRepository->updateData(['id'=>$data['nurse_id']], $allData);
                 $param='Profile setting';
+
+            }else if($data['tab'] == 'tab15'){               
+
+     
+                $user_id=$data['user_id'];
+                $first_name = $data['first_name'];        
+                $last_name = $data['last_name'];
+                $email = $data['email'];
+                $phone_no = $data['phone_no'];
+                $reference_relationship = $data['reference_relationship'];
+                $worked_together = $data['worked_together'];
+                $position_with_referee = $data['position_with_referee'];
+                $start_date = $data['start_date'];
+                $end_date = $data['end_date'];
+                $still_working = $data['still_working'];
+                $reference_no = $data['reference_no'];
+
+                $getrefereedata = DB::table("referee")->where("user_id",$user_id)->get();
+
+                $referee_no_array = array();
+
+                foreach ($getrefereedata as $r_data) {
+                    $referee_no_array[] = $r_data->referee_no;
+                }
+
+                for($i=0;$i<count($first_name);$i++){
+
+                if(in_array($i+1, $referee_no_array)){
+                if (isset($still_working[$i])) {
+                    $working = 1;
+                }else{
+                    $working = 0;
+                }
+                $run = AddReferee::where('user_id',$user_id)->where('referee_no',$i+1)->update(['first_name'=>$first_name[$i],'last_name'=>$last_name[$i],'email'=>$email[$i],'phone_no'=>$phone_no[$i],'relationship'=>$reference_relationship[$i],'worked_together'=>$worked_together[$i],'position_with_referee'=>$position_with_referee[$i],'start_date'=>$start_date[$i],'end_date'=>$end_date[$i],'still_working'=>$working]);
+               }else{
+                    if (isset($still_working[$i])) {
+                        $working = 1;
+                    }else{
+                        $working = 0;
+                    }
+                    $referee = new AddReferee;
+                    $referee->referee_no = $i+1;
+                    $referee->user_id = $user_id;
+                    $referee->first_name = $first_name[$i];
+                    $referee->last_name = $last_name[$i];
+                    $referee->email = $email[$i];
+                    $referee->phone_no = $phone_no[$i];
+                    $referee->relationship = $reference_relationship[$i];
+                    $referee->worked_together = $worked_together[$i];
+                    $referee->position_with_referee = $position_with_referee[$i];
+                    $referee->start_date = $start_date[$i];
+                    $referee->end_date = $end_date[$i];
+                    $referee->still_working = $working;
+                    $run = $referee->save();
+                }
+              }
+
+              $param='References';
             }
             
             if ($run) {

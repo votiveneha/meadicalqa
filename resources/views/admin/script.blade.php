@@ -3638,7 +3638,7 @@ $(document).ready(function() {
     });
     </script>
 
-    <script>
+        <script>
     // THIRTEEN  form
     $('.next-step-2').on('click', function(event){
         event.preventDefault(); // Prevent default form submission
@@ -3716,7 +3716,6 @@ $(document).ready(function() {
     $(document).ready(function() {
         $('#reference_form1').on('submit', function(event) {
           event.preventDefault(); 
-          alert('test');
             isValid = true;
             var i = 1;
             $(".first_name").each(function(){

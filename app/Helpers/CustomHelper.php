@@ -20,9 +20,9 @@ class CustomHelper{
 
         if(!empty($dtran)){
             if(!empty($dtranaimg)){
-                $new_tran_array = array_merge($dtranaimg,$dtran);
+                $new_tran_array = array_unique(array_merge($dtranaimg,$dtran));
             }else{
-                $new_tran_array = $dtran;
+                $new_tran_array = array_unique($dtran);
             }
             
             $dtranimgs = json_encode($new_tran_array);

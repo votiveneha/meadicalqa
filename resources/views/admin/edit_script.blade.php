@@ -595,6 +595,11 @@
 //     $('.js-example-basic-multiple[data-list-id="des_profession_association"]').select2().val(professional_as).trigger('change');
 //   }
 
+if($(".vaccination_r").val() != ""){
+var vaccination_record = JSON.parse($(".vaccination_r").val());
+$('.js-example-basic-multiple[data-list-id="vaccination_record"]').select2().val(vaccination_record).trigger('change');
+}
+
 
 
  });
@@ -5586,6 +5591,224 @@ $(document).ready(function() {
    
 
     });
+
+
+    // sixth form
+     $('#edit_reference_form').on('submit', function(event) {
+        event.preventDefault(); 
+         isValid = true;
+            var i = 1;
+            $(".first_name").each(function(){
+            if($(".first_name-"+i).length > 0) {
+                console.log("first_name-"+i,$(".first_name-"+i).val());
+                if($(".first_name-"+i).val() == ''){
+                document.getElementById("reqfname-"+i).innerHTML = "* Please enter the reference First Name";
+                isValid = false;
+                }
+            }
+            i++;
+            
+            });
+
+
+            var j = 1;
+            $(".last_name").each(function(){
+            if($(".last_name-"+j).length > 0) {
+                console.log("last_name-"+j,$(".last_name-"+j).val());
+                if($(".last_name-"+j).val() == ''){
+                document.getElementById("reqlname-"+j).innerHTML = "* Please enter the reference Last Name";
+                isValid = false;
+                }
+            }
+            j++;
+            
+            });
+
+
+            var k = 1;
+            $(".reference_email").each(function(){
+            if($(".reference_email-"+k).length > 0) {
+                console.log("reference_email-"+k,$(".reference_email-"+k).val());
+                if($(".reference_email-"+k).val() == ''){
+                document.getElementById("reqemail-"+k).innerHTML = "* Please enter the reference email";
+                isValid = false;
+                }
+            }
+            k++;
+            });
+
+            var l = 1;
+            $(".phone_no").each(function(){
+            if($(".phone_no-"+l).length > 0) {
+                console.log("phone_no-"+l,$(".phone_no-"+l).val());
+                if($(".phone_no-"+l).val() == ''){
+                document.getElementById("reqphoneno-"+l).innerHTML = "* Please enter the reference phone no";
+                isValid = false;
+                }
+            }
+            l++;
+            
+            });
+
+            var m = 1;
+            $(".reference_relationship").each(function(){
+            if($(".reference_relationship-"+m).length > 0) {
+                console.log("reference_relationship-"+m,$(".reference_relationship-"+m).val());
+                if($(".reference_relationship-"+m).val() == ''){
+                document.getElementById("reqreferencerel-"+m).innerHTML = "* Please enter the reference relationship";
+                isValid = false;
+                }
+            }
+            m++;
+            
+            });
+
+            var n = 1;
+            $(".worked_together").each(function(){
+            if($(".worked_together-"+n).length > 0) {
+                console.log("worked_together-"+n,$(".worked_together-"+n).val());
+                if($(".worked_together-"+n).val() == ''){
+                document.getElementById("reqworked_together-"+n).innerHTML = "* Please enter the reference relationship";
+                isValid = false;
+                }
+            }
+            n++;
+      
+        });
+
+       if(isValid == true){
+        $('#reference_form').find('.text-danger').hide();
+
+
+        $.ajax({
+            url: "{{ route('admin.edit_nurse_post') }}",
+            type: "POST",
+            data: new FormData($('#edit_reference_form')[0]),
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include CSRF token for security
+            },
+            success: function(res) {
+                console.log(res.type);
+                if (res.status == '2') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: res.message,
+                    }).then(function() {
+                        var targetTab = 'tab-6'; 
+                        var newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?tab=' + targetTab;
+                        window.location.href = newUrl;
+                    });
+                } else {
+                    Swal.fire({
+                        icon:  'error',
+                        title: 'Error',
+                        text: res.message,
+                    });
+                }
+                // Show the target tab
+            },
+            error: function(error){
+            }
+        });
+       }
+     });
+
+    //  seven form
+     $('#edit_man_tra_form').on('submit', function(event) {
+        event.preventDefault(); 
+        $.ajax({
+        url: "{{ route('admin.edit_nurse_post') }}",
+        type: "POST",
+        data: new FormData($('#edit_man_tra_form')[0]),
+        dataType: 'json',
+        contentType: false,
+        processData: false,
+        dataType: 'json',
+        contentType: false,
+        processData: false,
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include CSRF token for security
+        },
+        success: function(res) {
+            console.log(res.type);
+            if (res.status == '2') {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: res.message,
+                }).then(function() {
+                    var targetTab = 'tab-7'; 
+                    var newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?tab=' + targetTab;
+                    window.location.href = newUrl;
+                });
+            } else {
+                Swal.fire({
+                    icon:  'error',
+                    title: 'Error',
+                    text: res.message,
+                });
+            }
+            // Show the target tab
+        },
+        error: function(error){
+        }
+        });
+        
+     });
+
+
+     // Eight form
+     $('#edit_vacc_form').on('submit', function(event) {
+        event.preventDefault(); 
+
+        $.ajax({
+        url: "{{ route('admin.edit_nurse_post') }}",
+        type: "POST",
+        data: new FormData($('#edit_vacc_form')[0]),
+        dataType: 'json',
+        contentType: false,
+        processData: false,
+        dataType: 'json',
+        contentType: false,
+        processData: false,
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include CSRF token for security
+        },
+        success: function(res) {
+            console.log(res.type);
+            if (res.status == '2') {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: res.message,
+                }).then(function() {
+                    var targetTab = 'tab-8'; 
+                    var newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?tab=' + targetTab;
+                    window.location.href = newUrl;
+                });
+            } else {
+                Swal.fire({
+                    icon:  'error',
+                    title: 'Error',
+                    text: res.message,
+                });
+            }
+            // Show the target tab
+        },
+        error: function(error){
+        }
+        });
+        
+     });
+       
+ 
 
     
 
