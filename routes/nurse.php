@@ -93,5 +93,15 @@ Route::prefix('nurse')->name('nurse.')->namespace('App\Http\Controllers\nurse')-
     Route::post('/updatePreferences', 'HomeController@updatePreferences')->name('updatePreferences');
     Route::post('/updateWorkPreference', 'HomeController@updateWorkPreference')->name('updateWorkPreference');
     Route::post('/vaccinationForm', 'HomeController@vaccinationForm')->name('vaccinationForm');
+    Route::post('/updateAdditionalInfo', 'HomeController@updateAdditionalInfo')->name('updateAdditionalInfo');
+    Route::post('/updateReference', 'HomeController@updateReference')->name('updateReference');
+    Route::post('/updateProfessionalMembership', 'HomeController@updateProfessionalMembership')->name('updateProfessionalMembership');
+    Route::post('/deleteReferee', 'HomeController@deleteReferee')->name('deleteReferee');
+    Route::post('/deleteCertification', 'HomeController@deleteCertification')->name('deleteCertification');
+    Route::post('/deleteImg', 'HomeController@deleteImg')->name('deleteImg');
+    Route::post('/deleteImg1', 'HomeController@deleteImg1')->name('deleteImg1');
+    Route::post('/deleteImgCert', 'HomeController@deleteImgCert')->name('deleteImgCert');
+    Route::post('/uploadImgs', 'HomeController@uploadImgs')->name('uploadImgs');
+    Route::post('/uploadImgs1', 'HomeController@uploadImgs1')->name('uploadImgs1');
   });
 });

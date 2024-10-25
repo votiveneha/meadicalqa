@@ -11,6 +11,13 @@ use App\Repository\Eloquent\VerificationRepository;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\Nurseform2Request;
 use App\Http\Requests\Nurseform1Request;
+use App\Http\Requests\Nurseform3Request;
+use App\Http\Requests\Nurseform4Request;
+use App\Http\Requests\Nurseform5Request;
+use App\Http\Requests\Nurseform6Request;
+use App\Models\EducationModel;
+use File;
+use DB;
 
 
 class NurseController extends Controller
@@ -125,6 +132,7 @@ class NurseController extends Controller
             $educationData  = $this->nurseRepository->getEducationCerdetails(['user_id'=>$request->id]);
             $experienceData  = $this->nurseRepository->getExperiencedetails(['user_id'=>$request->id]);
             $mandatorytrainingData  = $this->nurseRepository->getMandatorytrainingdetails(['user_id'=>$request->id]);
+            $RefereData  = $this->nurseRepository->getReferedetails(['user_id'=>$request->id]);
             $interviewrefData  = $this->nurseRepository->getInterviewrefdetails(['user_id'=>$request->id]);
             $personalprefData  = $this->nurseRepository->getPersonalprefdetails(['user_id'=>$request->id]);
             $findworkData  = $this->nurseRepository->getfindworkdetails(['user_id'=>$request->id]);
@@ -132,8 +140,9 @@ class NurseController extends Controller
             $policeCheckVerificationData = $this->verificationRepository->getPoliceCheckVerificationData(['user_id' => $request->id]);
             $eligibilityToWorkData = $this->verificationRepository->getEligibilityToWorkData(['user_id' => $request->id]);
             $workingChildrenCheckData = $this->verificationRepository->getWorkingChildrenCheckData(['user_id' => $request->id]);
+            $proMembershipData = $this->nurseRepository->getProMembershipData(['user_id' => $request->id]);
             return view('admin.profile-view',compact('profileData','experienceData','policeCheckVerificationData','eligibilityToWorkData','workingChildrenCheckData','educationData','mandatorytrainingData',
-            'interviewrefData','personalprefData','findworkData','vaccinationData'));
+            'interviewrefData','personalprefData','findworkData','vaccinationData','proMembershipData','RefereData'));
         } catch (\Exception $e) {
             log::error('Error in NurseController/viewProfile :' . $e->getMessage() . 'in line' . $e->getLine());
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
@@ -155,13 +164,6 @@ class NurseController extends Controller
     }
     public function addNursePostForm1(Nurseform1Request $request)
     {        
-        if ($request->hasFile('profile_image')) {
-            $profile_image = time() . '.' . $request->profile_image->extension();
-
-            if ($request->profile_image->move(public_path('/nurse/assets/imgs/'), $profile_image)) {
-               $request->profile_image = '/nurse/assets/imgs/' . $profile_image;
-            }
-        }
         try {
            return $this->nurseServices->addNursePost($request);
         } catch (\Exception $e) {
@@ -178,6 +180,152 @@ class NurseController extends Controller
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
         }
     }
+    public function addNursePostForm3(Request $request)
+    {      
+        try {
+           return $this->nurseServices->addNursePost($request);
+        } catch (\Exception $e) {
+            log::error('Error in NurseController/addNursePost :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+    public function addNursePostForm4(Request $request)
+    {      
+        try {      
+           return $this->nurseServices->addNursePost($request);
+        } catch (\Exception $e) {
+            log::error('Error in NurseController/addNursePost :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+    public function addNursePostForm5(Nurseform5Request $request)
+    {      
+        try {      
+           return $this->nurseServices->addNursePost($request);
+        } catch (\Exception $e) {
+            log::error('Error in NurseController/addNursePost :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+    public function addNursePostForm6(Nurseform6Request $request)
+    {      
+        try {      
+           return $this->nurseServices->addNursePost($request);
+        } catch (\Exception $e) {
+            log::error('Error in NurseController/addNursePost :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+    public function addNursePostForm7(Request $request)
+    {      
+        try {      
+           return $this->nurseServices->addNursePost($request);
+        } catch (\Exception $e) {
+            log::error('Error in NurseController/addNursePost :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+    public function addNursePostForm8(Request $request)
+    {      
+        try {      
+           return $this->nurseServices->addNursePost($request);
+        } catch (\Exception $e) {
+            log::error('Error in NurseController/addNursePost :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+    public function addNursePostForm9(Request $request)
+    {      
+        try {      
+           return $this->nurseServices->addNursePost($request);
+        } catch (\Exception $e) {
+            log::error('Error in NurseController/addNursePost :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+    public function addNursePostForm10(Request $request)
+    {      
+        try {      
+           return $this->nurseServices->addNursePost($request);
+        } catch (\Exception $e) {
+            log::error('Error in NurseController/addNursePost :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+     public function addNursePostForm11(Request $request)
+    {      
+        try {      
+           return $this->nurseServices->addNursePost($request);
+        } catch (\Exception $e) {
+            log::error('Error in NurseController/addNursePost :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+    public function addNursePostForm13(Request $request)
+    {      
+        try {      
+           return $this->nurseServices->addNursePost($request);
+        } catch (\Exception $e) {
+            log::error('Error in NurseController/addNursePost :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+    public function addNursePostForm14(Request $request)
+    {      
+        try {      
+           return $this->nurseServices->addNursePost($request);
+        } catch (\Exception $e) {
+            log::error('Error in NurseController/addNursePost :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+    public function addNursePostForm15(Request $request)
+    {      
+        try {      
+           return $this->nurseServices->addNursePost($request);
+        } catch (\Exception $e) {
+            log::error('Error in NurseController/addNursePost :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+
+    public function EditNurse(Request $request)
+    {
+        try {
+            $professionVerificationData = $this->verificationRepository->get(['user_id' => $request->id]);
+            $profileData  = $this->nurseRepository->getOneUser(['id'=>$request->id]);
+            $educationData  = $this->nurseRepository->getEducationCerdetails(['user_id'=>$request->id]);
+            $experienceData  = $this->nurseRepository->getExperiencedetails(['user_id'=>$request->id]);
+            $mandatorytrainingData  = $this->nurseRepository->getMandatorytrainingdetails(['user_id'=>$request->id]);
+            $interviewrefData  = $this->nurseRepository->getInterviewrefdetails(['user_id'=>$request->id]);
+            $personalprefData  = $this->nurseRepository->getPersonalprefdetails(['user_id'=>$request->id]);
+            $findworkData  = $this->nurseRepository->getfindworkdetails(['user_id'=>$request->id]);
+            $vaccinationData  = $this->nurseRepository->getvaccinationdetails(['user_id'=>$request->id]);
+            $policeCheckVerificationData = $this->verificationRepository->getPoliceCheckVerificationData(['user_id' => $request->id]);
+            $eligibilityToWorkData = $this->verificationRepository->getEligibilityToWorkData(['user_id' => $request->id]);
+            $workingChildrenCheckData = $this->verificationRepository->getWorkingChildrenCheckData(['user_id' => $request->id]);
+            $proMembershipData = $this->nurseRepository->getProMembershipData(['user_id' => $request->id]);
+            $RefereData  = $this->nurseRepository->getReferedetails(['user_id'=>$request->id]);
+            return view('admin.edit-nurse',compact('profileData','experienceData','policeCheckVerificationData','eligibilityToWorkData','workingChildrenCheckData','educationData','mandatorytrainingData',
+            'interviewrefData','personalprefData','findworkData','vaccinationData','proMembershipData','RefereData'));
+        } catch (\Exception $e) {
+            log::error('Error in NurseController/EditNurse :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+
+    public function EditNursePost(Request $request)
+    {      
+        try {      
+           return $this->nurseServices->EditNursePost($request);
+        } catch (\Exception $e) {
+            log::error('Error in NurseController/EditNursePost :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+    
+    
+  
     public function changeStatus(Request $request)
     {
         try {
@@ -204,6 +352,41 @@ class NurseController extends Controller
             log::error('Error in NurseController/changeStatusBlockUnblock :' . $e->getMessage() . 'in line' . $e->getLine());
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
         }
+    }
+    public function deleteCertificateImg(Request $request){
+        $user_id = $request->user_id;
+        $img = $request->img;
+
+        $getEducationData = DB::table("user_education_cerification")->where("user_id",$user_id)->first();
+
+        $gettransimg = json_decode($getEducationData->degree_transcript);
+
+        
+
+        $img_index = array_search($img, $gettransimg);
+        
+        array_splice($gettransimg, $img_index, 1);
+
+        if(!empty($gettransimg)){
+            $tranimgData = json_encode($gettransimg);
+        }else{
+            $tranimgData = '';
+        }
+
+        $deleteData = EducationModel::where('user_id',$user_id)->update(['degree_transcript'=>$tranimgData]);
+
+        $destinationPath = public_path() . '/uploads/education_degree/'.$img;
+        
+        if(File::exists($destinationPath)) {
+            File::delete($destinationPath);
+        }
+
+        if($deleteData){
+            return 1;
+        }
+
+        //print_r($gettransimg);
+        
     }
    
 

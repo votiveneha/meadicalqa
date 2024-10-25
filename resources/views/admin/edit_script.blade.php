@@ -589,11 +589,16 @@
     $('.js-example-basic-multiple[data-list-id="nlc_data"]').select2().val(pro_cert_nl).trigger('change');
   }
 
-  if($(".professional_as").val() != ""){
-    var professional_as = JSON.parse($(".professional_as").val());
-    console.log("professional_as",professional_as);
-    $('.js-example-basic-multiple[data-list-id="des_profession_association"]').select2().val(professional_as).trigger('change');
-  }
+//   if($(".professional_as").val() != ""){
+//     var professional_as = JSON.parse($(".professional_as").val());
+//     console.log("professional_as",professional_as);
+//     $('.js-example-basic-multiple[data-list-id="des_profession_association"]').select2().val(professional_as).trigger('change');
+//   }
+
+if($(".vaccination_r").val() != ""){
+var vaccination_record = JSON.parse($(".vaccination_r").val());
+$('.js-example-basic-multiple[data-list-id="vaccination_record"]').select2().val(vaccination_record).trigger('change');
+}
 
 
 
@@ -3638,7 +3643,7 @@ $(document).ready(function() {
     });
     </script>
 
-        <script>
+    <script>
     // THIRTEEN  form
     $('.next-step-2').on('click', function(event){
         event.preventDefault(); // Prevent default form submission
@@ -3716,6 +3721,7 @@ $(document).ready(function() {
     $(document).ready(function() {
         $('#reference_form1').on('submit', function(event) {
           event.preventDefault(); 
+          alert('test');
             isValid = true;
             var i = 1;
             $(".first_name").each(function(){
@@ -4051,78 +4057,8 @@ $(document).ready(function() {
           }
         }
     });
-      $('.js-example-basic-multiple[data-list-id="cpr_data"]').on('change', function() {
-        let selectedValues = $(this).val();
-        var cpr_certification_array = [];
-        $('.cpr_certification_div').removeClass('d-none');
-        $(".cpr_certification_div h4").each(function(){
-          var text = $(this).text();
-          
-          if(selectedValues.includes(text) == false){
-            let res = text.split(' ')[0];
-            let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-            console.log("res_one",res_one);
 
-            $(".cpr_"+res_one).remove();
-          }
 
-          cpr_certification_array.push(text);
-        });
-        console.log("selectedValues",selectedValues);
-        
-        //$(".bls_certification_div").empty();
-        for(var i = 0;i<selectedValues.length;i++){
-          var selected_text = selectedValues[i].replace(/ .*/,'').replace(/[^\w\s]/gi, '').toLowerCase();
-          let res = selectedValues[i].split(' ')[0];
-          let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-          console.log("res_one",res_one);
-          if(cpr_certification_array.includes(selectedValues[i]) == false){
-            
-            
-            $(".cpr_certification_div").append('<div class="cpr_'+res_one+' cert_div_'+selected_text+'"><h4 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3 cert_head_'+selected_text+'">'+selectedValues[i]+'</h4><input type="hidden" name="cprnamearr[]" class="cpr_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control cpr_license_number cpr_license_number-'+i+'" type="text" name="cpr_license_number[]"><span id="reqcprlicencevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control cprexpiry cprexpiry-'+i+'" type="date" name="cpr_expiry[]"><span id="reqcprexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control cpr_upload_certification cpr_upload_certification-'+i+'" type="file" name="cpr_upload_certification[]"><span id="reqcpruploadvalid-'+i+'" class="reqError text-danger valley"></span></div></div></div>');
-
-            
-          }
-        }
-
-        
-    });
-    $('.js-example-basic-multiple[data-list-id="nrp_data"]').on('change', function() {
-        let selectedValues = $(this).val();
-        var nrp_certification_array = [];
-        $('.nrp_certification_div').removeClass('d-none');
-        $(".nrp_certification_div h4").each(function(){
-          var text = $(this).text();
-
-          if(selectedValues.includes(text) == false){
-            let res = text.split(' ')[0];
-            let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-            console.log("res_one",res_one);
-
-            $(".nrp_"+res_one).remove();
-          }
-          
-          nrp_certification_array.push(text);
-        });
-        console.log("selectedValues",selectedValues);
-        
-        //$(".bls_certification_div").empty();
-        for(var i = 0;i<selectedValues.length;i++){
-          var selected_text = selectedValues[i].replace(/ .*/,'').replace(/[^\w\s]/gi, '').toLowerCase();
-          let res = selectedValues[i].split(' ')[0];
-          let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-          console.log("res_one",res_one);
-          if(nrp_certification_array.includes(selectedValues[i]) == false){
-            
-            
-            $(".nrp_certification_div").append('<div class="nrp_'+res_one+' cert_div_'+selected_text+'"><h4 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3 cert_head_'+selected_text+'">'+selectedValues[i]+'</h4><input type="hidden" name="nrpnamearr[]" class="cpr_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control nrp_license_number nrp_license_number-'+i+'" type="text" name="nrp_license_number[]"><span id="reqnrplicencevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control nrpexpiry nrpexpiry-'+i+'" type="date" name="nrp_expiry[]"><span id="reqnrpexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control nrp_upload_certification nrp_upload_certification-'+i+'" type="file" name="nrp_upload_certification[]"><span id="reqnrpuploadvalid-'+i+'" class="reqError text-danger valley"></span></div></div></div>');
-
-            
-          }
-        }
-
-        
-    });
     $('.js-example-basic-multiple[data-list-id="pls_data"]').on('change', function() {
         let selectedValues = $(this).val();
         var pls_certification_array = [];
@@ -4159,366 +4095,7 @@ $(document).ready(function() {
 
         
     });
-    $('.js-example-basic-multiple[data-list-id="rn_data"]').on('change', function() {
-        let selectedValues = $(this).val();
-        var rn_certification_array = [];
-        $('.rn_certification_div').removeClass('d-none');
-        $(".rn_certification_div h4").each(function(){
-          var text = $(this).text();
-
-          if(selectedValues.includes(text) == false){
-
-            let res = text.split(' ')[0];
-            let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-            console.log("res_one",".rn_"+res_one);
-
-            $(".rn_"+res_one).remove();
-          }
-          
-          rn_certification_array.push(text);
-        });
-        console.log("selectedValues",selectedValues);
-        
-        //$(".bls_certification_div").empty();
-        for(var i = 0;i<selectedValues.length;i++){
-          var selected_text = selectedValues[i].replace(/ .*/,'').replace(/[^\w\s]/gi, '').toLowerCase();
-          let res = selectedValues[i].split(' ')[0];
-          let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-          console.log("res_one",res_one);
-
-          if(rn_certification_array.includes(selectedValues[i]) == false){
-            
-            
-            $(".rn_certification_div").append('<div class="rn_'+res_one+' cert_div_'+selected_text+'"><h4 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3 cert_head_'+selected_text+'">'+selectedValues[i]+'</h6><input type="hidden" name="rnnamearr[]" class="rn_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control rn_license_number rn_license_number-'+i+'" type="text" name="rn_license_number[]"><span id="reqrnlicencevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control rnexpiry rnexpiry-'+i+'" type="date" name="rn_expiry[]"><span id="reqrnexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control rn_upload_certification rn_upload_certification-'+i+'" type="file" name="rn_upload_certification[]"><span id="reqrnuploadvalid-'+i+'" class="reqError text-danger valley"></span></div></div></div>');
-
-            
-          }
-        }
-
-        
-    });
-
-    
-    $('.js-example-basic-multiple[data-list-id="np_data"]').on('change', function() {
-        let selectedValues = $(this).val();
-        var np_certification_array = [];
-        $('.np_certification_div').removeClass('d-none');
-        $(".np_certification_div h4").each(function(){
-          var text = $(this).text();
-
-          if(selectedValues.includes(text) == false){
-            let res = text.split(' ')[0];
-            let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-            console.log("res_one",res_one);
-
-            $(".np_"+res_one).remove();
-          }
-          
-          np_certification_array.push(text);
-        });
-        console.log("selectedValues",selectedValues);
-        
-        //$(".bls_certification_div").empty();
-        for(var i = 0;i<selectedValues.length;i++){
-          var selected_text = selectedValues[i].replace(/ .*/,'').replace(/[^\w\s]/gi, '').toLowerCase();
-          let res = selectedValues[i].split(' ')[0];
-          let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-          console.log("res_one",res_one);
-          if(np_certification_array.includes(selectedValues[i]) == false){
-            
-            
-            $(".np_certification_div").append('<div class="np_'+res_one+' cert_div_'+selected_text+'"><h4 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3 cert_head_'+selected_text+'">'+selectedValues[i]+'</h4><input type="hidden" name="npnamearr[]" class="np_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control np_license_number np_license_number-'+i+'" type="text" name="np_license_number[]"><span id="reqnplicencevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control npexpiry npexpiry-'+i+'" type="date" name="np_expiry[]"><span id="reqnpexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control np_upload_certification np_upload_certification-'+i+'" type="file" name="np_upload_certification[]"><span id="reqnpuploadvalid-'+i+'" class="reqError text-danger valley"></span></div></div></div>');
-
-            
-          }
-        }
-
-        
-    });
-    $('.js-example-basic-multiple[data-list-id="cn_data"]').on('change', function() {
-        let selectedValues = $(this).val();
-        var cn_certification_array = [];
-        $('.cna_certification_div').removeClass('d-none');
-        $(".cna_certification_div h4").each(function(){
-          var text = $(this).text();
-
-          if(selectedValues.includes(text) == false){
-            let res = text.split(' ')[0];
-            let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-            console.log("res_one",res_one);
-
-            $(".cna_"+res_one).remove();
-          }
-          
-          cn_certification_array.push(text);
-        });
-        console.log("selectedValues",selectedValues);
-        
-        //$(".bls_certification_div").empty();
-        for(var i = 0;i<selectedValues.length;i++){
-          var selected_text = selectedValues[i].replace(/ .*/,'').replace(/[^\w\s]/gi, '').toLowerCase();
-          let res = selectedValues[i].split(' ')[0];
-          let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-          console.log("res_one",res_one);
-          if(cn_certification_array.includes(selectedValues[i]) == false){
-            
-            
-            $(".cna_certification_div").append('<div class="cn_'+res_one+' cert_div_'+selected_text+'"><h4 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3 cert_head_'+selected_text+'">'+selectedValues[i]+'</h4><input type="hidden" name="cnnamearr[]" class="cn_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control cn_license_number cn_license_number-'+i+'" type="text" name="cn_license_number[]"><span id="reqcnlicencevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control cnexpiry cnexpiry-'+i+'" type="date" name="cn_expiry[]"><span id="reqcnexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control cn_upload_certification cn_upload_certification-'+i+'" type="file" name="cn_upload_certification[]"><span id="reqcnuploadvalid-'+i+'" class="reqError text-danger valley"></span></div></div></div>');
-
-            
-          }
-        }
-
-        
-    });
-    $('.js-example-basic-multiple[data-list-id="lpn_data"]').on('change', function() {
-        let selectedValues = $(this).val();
-        var lpn_certification_array = [];
-        $('.lpn_certification_div').removeClass('d-none');
-        $(".lpn_certification_div h4").each(function(){
-          var text = $(this).text();
-
-          if(selectedValues.includes(text) == false){
-            let res = text.split(' ')[0];
-            let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-            console.log("res_one",res_one);
-
-            $(".lpn_"+res_one).remove();
-          }
-          
-          lpn_certification_array.push(text);
-        });
-        console.log("selectedValues",selectedValues);
-        
-        //$(".bls_certification_div").empty();
-        for(var i = 0;i<selectedValues.length;i++){
-          var selected_text = selectedValues[i].replace(/ .*/,'').replace(/[^\w\s]/gi, '').toLowerCase();
-          let res = selectedValues[i].split(' ')[0];
-          let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-          console.log("res_one",res_one);
-          if(lpn_certification_array.includes(selectedValues[i]) == false){
-            
-            
-            $(".lpn_certification_div").append('<div class="lpn_'+res_one+' cert_div_'+selected_text+'"><h4 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3 cert_head_'+selected_text+'">'+selectedValues[i]+'</h4><input type="hidden" name="lpnnamearr[]" class="lpn_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control lpn_license_number lpn_license_number-'+i+'" type="text" name="lpn_license_number[]"><span id="reqlpnlicencevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control lpnexpiry lpnexpiry-'+i+'" type="date" name="lpn_expiry[]"><span id="reqlpnexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control lpn_upload_certification lpn_upload_certification-'+i+'" type="file" name="lpn_upload_certification[]"><span id="reqlpnuploadvalid-'+i+'" class="reqError text-danger valley"></span></div></div></div>');
-            
-          }
-        }        
-    });
-    $('.js-example-basic-multiple[data-list-id="crn_data"]').on('change', function() {
-        let selectedValues = $(this).val();
-        var crna_certification_array = [];
-        $('.crna_certification_div').removeClass('d-none');
-        $(".crna_certification_div h4").each(function(){
-          var text = $(this).text();
-
-          if(selectedValues.includes(text) == false){
-            let res = text.split(' ')[0];
-            let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-            console.log("res_one",res_one);
-
-            $(".crna_"+res_one).remove();
-          }
-          
-          crna_certification_array.push(text);
-        });
-        console.log("selectedValues",selectedValues);
-        
-        //$(".bls_certification_div").empty();
-        for(var i = 0;i<selectedValues.length;i++){
-          var selected_text = selectedValues[i].replace(/ .*/,'').replace(/[^\w\s]/gi, '').toLowerCase();
-          let res = selectedValues[i].split(' ')[0];
-          let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-          console.log("res_one",res_one);
-          if(crna_certification_array.includes(selectedValues[i]) == false){  
-            $(".crna_certification_div").append('<div class="crna_'+res_one+' cert_div_'+selected_text+'"><h4 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3 cert_head_'+selected_text+'">'+selectedValues[i]+'</h4><input type="hidden" name="crnanamearr[]" class="lpn_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control crna_license_number crna_license_number-'+i+'" type="text" name="crna_license_number[]"><span id="reqcrnalicencevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control crnaexpiry crnaexpiry-'+i+'" type="date" name="crna_expiry[]"><span id="reqcrnaexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control acls_upload_certification acls_upload_certification-'+i+'" type="file" name="crna_upload_certification[]"><span id="reqcrnauploadvalid-'+i+'" class="reqError text-danger valley"></span></div></div></div>');
-            
-          }
-        }
-
-        
-    });
-
-    $('.js-example-basic-multiple[data-list-id="cnm_data"]').on('change', function() {
-        let selectedValues = $(this).val();
-        var cnm_certification_array = [];
-        $('.cnm_certification_div').removeClass('d-none');
-        $(".cnm_certification_div h4").each(function(){
-          var text = $(this).text();
-
-          if(selectedValues.includes(text) == false){
-            let res = text.split(' ')[0];
-            let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-            console.log("res_one",res_one);
-
-            $(".cnm_"+res_one).remove();
-          }
-          
-          cnm_certification_array.push(text);
-        });
-        console.log("selectedValues",selectedValues);
-        
-        //$(".bls_certification_div").empty();
-        for(var i = 0;i<selectedValues.length;i++){
-          var selected_text = selectedValues[i].replace(/ .*/,'').replace(/[^\w\s]/gi, '').toLowerCase();
-          let res = selectedValues[i].split(' ')[0];
-          let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-          console.log("res_one",res_one);
-          if(cnm_certification_array.includes(selectedValues[i]) == false){
-            
-            
-            $(".cnm_certification_div").append('<div class="cnm_'+res_one+' cert_div_'+selected_text+'"><h4 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3 cert_head_'+selected_text+'">'+selectedValues[i]+'</h4><input type="hidden" name="cnmnamearr[]" class="cnm_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control cnm_license_number cnm_license_number-'+i+'" type="text" name="cnm_license_number[]"><span id="reqcnmlicencevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control cnmexpiry cnmexpiry-'+i+'" type="date" name="cnm_expiry[]"><span id="reqcnmexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control" type="file" name="cnm_upload_certification[]"><span id="reqcnmuploadvalid-'+i+'" class="reqError text-danger valley"></span></div></div></div>');
-
-            
-          }
-        }
-
-        
-    });
-
-    $('.js-example-basic-multiple[data-list-id="ons_data"]').on('change', function() {
-        let selectedValues = $(this).val();
-        var ons_certification_array = [];
-        $('.ons_certification_div').removeClass('d-none');
-        $(".ons_certification_div h4").each(function(){
-          var text = $(this).text();
-
-          if(selectedValues.includes(text) == false){
-            let res = text.split(' ')[0];
-            let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-            console.log("res_one",res_one);
-
-            $(".ons_"+res_one).remove();
-          }
-          
-          ons_certification_array.push(text);
-        });
-        console.log("selectedValues",selectedValues);
-        
-        //$(".bls_certification_div").empty();
-        for(var i = 0;i<selectedValues.length;i++){
-          var selected_text = selectedValues[i].replace(/ .*/,'').replace(/[^\w\s]/gi, '').toLowerCase();
-          let res = selectedValues[i].split(' ')[0];
-          let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-          console.log("res_one",res_one);
-          if(ons_certification_array.includes(selectedValues[i]) == false){
-            
-            
-            $(".ons_certification_div").append('<div class="ons_'+res_one+' cert_div_'+selected_text+'"><h4 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3 cert_head_'+selected_text+'">'+selectedValues[i]+'</h4><input type="hidden" name="onsnamearr[]" class="ons_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control ons_license_number ons_license_number-'+i+'" type="text" name="ons_license_number[]"><span id="reqonslicencevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control onsexpiry onsexpiry-'+i+'" type="date" name="ons_expiry[]"><span id="reqonsexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control" type="file" name="ons_upload_certification[]"><span id="reqonsuploadvalid-'+i+'" class="reqError text-danger valley"></span></div></div></div>');
-
-            
-          }
-        }
-
-        
-    });
-
-    $('.js-example-basic-multiple[data-list-id="msw_data"]').on('change', function() {
-        let selectedValues = $(this).val();
-        var msw_certification_array = [];
-        $('.msw_certification_div').removeClass('d-none');
-        $(".msw_certification_div h4").each(function(){
-          var text = $(this).text();
-
-          if(selectedValues.includes(text) == false){
-            let res = text.split(' ')[0];
-            let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-            console.log("res_one",res_one);
-
-            $(".msw_"+res_one).remove();
-          }
-          
-          msw_certification_array.push(text);
-        });
-        console.log("selectedValues",selectedValues);
-        
-        //$(".bls_certification_div").empty();
-        for(var i = 0;i<selectedValues.length;i++){
-          var selected_text = selectedValues[i].replace(/ .*/,'').replace(/[^\w\s]/gi, '').toLowerCase();
-          let res = selectedValues[i].split(' ')[0];
-          let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-          console.log("res_one",res_one);
-
-          if(msw_certification_array.includes(selectedValues[i]) == false){
-            
-            
-            $(".msw_certification_div").append('<div class="msw_'+res_one+' cert_div_'+selected_text+'"><h4 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3 cert_head_'+selected_text+'">'+selectedValues[i]+'</h4><input type="hidden" name="mswnamearr[]" class="msw_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control msw_license_number msw_license_number-'+i+'" type="text" name="msw_license_number[]"><span id="reqmswlicencevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control mswexpiry mswexpiry-'+i+'" type="date" name="msw_expiry[]"><span id="reqmswexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control msw_upload_certification msw_upload_certification-'+i+'" type="file" name="msw_upload_certification[]"><span id="reqmswuploadvalid-'+i+'" class="reqError text-danger valley"></span></div></div></div>');
-
-            
-          }
-        }
-
-        
-    });
-
-    $('.js-example-basic-multiple[data-list-id="ain_data"]').on('change', function() {
-        let selectedValues = $(this).val();
-        var ain_certification_array = [];
-        $('.ain_certification_div').removeClass('d-none');
-        $(".ain_certification_div h4").each(function(){
-          var text = $(this).text();
-
-          if(selectedValues.includes(text) == false){
-            let res = text.split(' ')[0];
-            let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-            console.log("res_one",res_one);
-
-            $(".ain_"+res_one).remove();
-          }
-          
-          ain_certification_array.push(text);
-        });
-        console.log("selectedValues",selectedValues);
-        
-        //$(".bls_certification_div").empty();
-        for(var i = 0;i<selectedValues.length;i++){
-          var selected_text = selectedValues[i].replace(/ .*/,'').replace(/[^\w\s]/gi, '').toLowerCase();
-          let res = selectedValues[i].split(' ')[0];
-          let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-          console.log("res_one",res_one);
-          if(ain_certification_array.includes(selectedValues[i]) == false){            
-            $(".ain_certification_div").append('<div class="ain_'+res_one+' cert_div_'+selected_text+'"><h4 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3 cert_head_'+selected_text+'">'+selectedValues[i]+'</h4><input type="hidden" name="ainnamearr[]" class="ain_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control ain_license_number ain_license_number-'+i+'" type="text" name="ain_license_number[]"><span id="reqainlicencevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control ainexpiry ainexpiry-'+i+'" type="date" name="ain_expiry[]"><span id="reqainexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control ain_upload_certification ain_upload_certification-'+i+'" type="file" name="ain_upload_certification[]"><span id="reqainuploadvalid-'+i+'" class="reqError text-danger valley"></span></div></div></div>');            
-          }
-        }
-
-        
-    });
-
-    $('.js-example-basic-multiple[data-list-id="rpn_data"]').on('change', function() {
-        let selectedValues = $(this).val();
-        var rpn_certification_array = [];
-        $('.rpn_certification_div').removeClass('d-none');
-        $(".rpn_certification_div h4").each(function(){
-          var text = $(this).text();
-
-          if(selectedValues.includes(text) == false){
-            let res = text.split(' ')[0];
-            let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-            console.log("res_one",res_one);
-
-            $(".rpn_"+res_one).remove();
-          }
-          
-          rpn_certification_array.push(text);
-        });
-        console.log("selectedValues",selectedValues);
-        
-        //$(".bls_certification_div").empty();
-        for(var i = 0;i<selectedValues.length;i++){
-          var selected_text = selectedValues[i].replace(/ .*/,'').replace(/[^\w\s]/gi, '').toLowerCase();
-          let res = selectedValues[i].split(' ')[0];
-          let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-          console.log("res_one",res_one);
-          if(rpn_certification_array.includes(selectedValues[i]) == false){
-            
-            
-            $(".rpn_certification_div").append('<div class="rpn_'+res_one+' cert_div_'+selected_text+'"><h4 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3 cert_head_'+selected_text+'">'+selectedValues[i]+'</h4><input type="hidden" name="rpnnamearr[]" class="rpn_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control rpn_license_number rpn_license_number-'+i+'" type="text" name="rpn_license_number[]"><span id="reqrpnlicencevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control rpnexpiry rpnexpiry-'+i+'" type="date" name="rpn_expiry[]"><span id="reqrpnexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control rpn_upload_certification rpn_upload_certification-'+i+'" type="file" name="rpn_upload_certification[]"><span id="reqrpnuploadvalid-'+i+'" class="reqError text-danger valley"></span></div></div></div>');
-
-            
-          }
-        }
-
-        
-    });
+  
     </script>
 
     <script>
@@ -5394,18 +4971,871 @@ $(document).ready(function() {
         
     });
 
+    // fourth edit form    
+    $('#edit_education_form').on('submit', function(event) {
+        event.preventDefault();
+         var isValid = true;
+        if ($('[name="ndegree[]"]').val() == '') {
+        document.getElementById("ndegree_error").innerHTML = "* Please select degree.";
+        isValid = false;
+        }
+        
+        if ($('[name="institution"]').val() == '') {
+
+        document.getElementById("institution_error").innerHTML = "* Please enter the institutions.";
+        isValid = false;
+        }
+        if ($('[name="graduation_start_date"]').val() == '') {
+        document.getElementById("gra_start_date_error").innerHTML = "* Please enter the graduation start date.";
+        isValid = false;
+        }
+        if ($('[name="graduation_end_date"]').val() == '') {
+        document.getElementById("reqenddate").innerHTML = "* Please enter the graduation end date.";
+        isValid = false;
+        }
+        if ($('[name="professional_certification[]"]').val() == '') {
+        document.getElementById("profess_cert_error").innerHTML = "* Please select professional certificate";
+        isValid = false;
+        }
+        if ($('[name="license_number"]').val() == '') {
+        document.getElementById("reqlicensenum").innerHTML = "* Please enter license number";
+        isValid = false;
+        }
+
+        if ($(".procertdiv").hasClass("d-none") == false) {
+        if ($('[name="acls_data[]"]').val() == '') {
+            document.getElementById("reqaclsvalid").innerHTML = "* Please select ACLS (Advanced Cardiovascular Life Support)";
+            isValid = false;
+        }
+        }
+        
+        // if ($('[name="training_courses[]"]').val() == '') {
+        //   document.getElementById("reqaddtraining").innerHTML = "* Please select training courses";
+        //   isValid = false;
+        // }
+        // if ($('[name="training_workshop[]"]').val() == '') {
+        //   document.getElementById("reqaddworkshops").innerHTML = "* Please select training workshops";
+        //   isValid = false;
+        // }
+        var i = 0;
+        $(".acls_license_number").each(function(){
+        
+        if ($(".acls_license_number-"+i).length > 0) {
+            if ($(".acls_license_number-"+i).val() == '') {
+            document.getElementById("reqaclslicencevalid-"+i).innerHTML = "* Please enter the license number";
+            isValid = false;
+            }
+        }
+        i++;
+        });
+        var j = 0;
+        $(".aclsexpiry").each(function(){
+        
+        if ($(".aclsexpiry-"+j).length > 0) {
+            if ($(".aclsexpiry-"+j).val() == '') {
+            document.getElementById("reqaclsexpiryvalid-"+j).innerHTML = "* Please enter the expiry date";
+            isValid = false;
+            }
+        }
+        j++;
+        });
+        var k = 0;
+        
+        // $(".acls_upload_certification").each(function(){
+        
+        //   console.log("acls_upload_certification",$(".acls_licence_img-"+k).length);
+        //   if($(".acls_licence_img-"+k).length == 0){ 
+        //     if ($(".acls_upload_certification-"+k).length > 0) {
+        //       if ($(".acls_upload_certification-"+k).val() == '') {
+        //         document.getElementById("reqaclsuploadvalid-"+k).innerHTML = "* Please add the license image";
+        //         isValid = false;
+        //       }
+        //     }
+        //   }
+        //   k++;
+        // });
+    
+
+        if ($(".procertdivone").hasClass("d-none") == false) {
+        if ($('[name="bls_data[]"]').val() == '') {
+            document.getElementById("reqblsvalid").innerHTML = "* Please select BLS (Basic Life Support)";
+            isValid = false;
+        }
+        }
+        var i = 0;
+        $(".bls_license_number").each(function(){
+        
+        if ($(".bls_license_number-"+i).length > 0) {
+            if ($(".bls_license_number-"+i).val() == '') {
+            document.getElementById("reqblslicencevalid-"+i).innerHTML = "* Please enter the license number";
+            isValid = false;
+            }
+        }
+        i++;
+        });
+        var j = 0;
+        $(".blsexpiry").each(function(){
+        
+        if ($(".blsexpiry-"+j).length > 0) {
+            if ($(".blsexpiry-"+j).val() == '') {
+            document.getElementById("reqblsexpiryvalid-"+j).innerHTML = "* Please enter the expiry date";
+            isValid = false;
+            }
+        }
+        j++;
+        });
+
+        if ($(".procertdivtwo").hasClass("d-none") == false) {
+        if ($('[name="cpr_data[]"]').val() == '') {
+            document.getElementById("reqcprvalid").innerHTML = "* Please select CPR (Cardiopulmonary Resuscitation)";
+            isValid = false;
+        }
+        }
+        var i = 0;
+        $(".cpr_license_number").each(function(){
+        
+        if ($(".cpr_license_number-"+i).length > 0) {
+            if ($(".cpr_license_number-"+i).val() == '') {
+            document.getElementById("reqcprlicencevalid-"+i).innerHTML = "* Please enter the license number";
+            isValid = false;
+            }
+        }
+        i++;
+        });
+        var j = 0;
+        $(".cprexpiry").each(function(){
+        
+        if ($(".cprexpiry-"+j).length > 0) {
+            if ($(".cprexpiry-"+j).val() == '') {
+            document.getElementById("reqcprexpiryvalid-"+j).innerHTML = "* Please enter the expiry date";
+            isValid = false;
+            }
+        }
+        j++;
+        });
+
+        if ($(".procertdivthree").hasClass("d-none") == false) {
+        if ($('[name="nrp_data[]"]').val() == '') {
+            document.getElementById("reqnrpvalid").innerHTML = "* Please select NRP (Neonatal Resuscitation Program)";
+            isValid = false;
+        }
+        }
+        var i = 0;
+        $(".nrp_license_number").each(function(){
+        
+        if ($(".nrp_license_number-"+i).length > 0) {
+            if ($(".nrp_license_number-"+i).val() == '') {
+            document.getElementById("reqnrplicencevalid-"+i).innerHTML = "* Please enter the license number";
+            isValid = false;
+            }
+        }
+        i++;
+        });
+        var j = 0;
+        $(".nrpexpiry").each(function(){
+        
+        if ($(".nrpexpiry-"+j).length > 0) {
+            if ($(".nrpexpiry-"+j).val() == '') {
+            document.getElementById("reqnrpexpiryvalid-"+j).innerHTML = "* Please enter the expiry date";
+            isValid = false;
+            }
+        }
+        j++;
+        });
+
+        if ($(".procertdivfour").hasClass("d-none") == false) {
+        if ($('[name="pls_data[]"]').val() == '') {
+            document.getElementById("reqplsvalid").innerHTML = "* Please select PALS (Pediatric Advanced Life Support)";
+            isValid = false;
+        }
+        }
+        var i = 0;
+        $(".pls_license_number").each(function(){
+        
+        if ($(".pls_license_number-"+i).length > 0) {
+            if ($(".pls_license_number-"+i).val() == '') {
+            document.getElementById("reqplslicencevalid-"+i).innerHTML = "* Please enter the license number";
+            isValid = false;
+            }
+        }
+        i++;
+        });
+        var j = 0;
+        $(".plsexpiry").each(function(){
+        
+        if ($(".plsexpiry-"+j).length > 0) {
+            if ($(".plsexpiry-"+j).val() == '') {
+            document.getElementById("reqplsexpiryvalid-"+j).innerHTML = "* Please enter the expiry date";
+            isValid = false;
+            }
+        }
+        j++;
+        });
+
+        if ($(".procertdivfive").hasClass("d-none") == false) {
+        if ($('[name="rn_data[]"]').val() == '') {
+            document.getElementById("reqrnvalid").innerHTML = "* Please select RN (Registered Nurse)";
+            isValid = false;
+        }
+        }
+        var i = 0;
+        $(".rn_license_number").each(function(){
+        
+        if ($(".rn_license_number-"+i).length > 0) {
+            if ($(".rn_license_number-"+i).val() == '') {
+            document.getElementById("reqrnlicencevalid-"+i).innerHTML = "* Please enter the license number";
+            isValid = false;
+            }
+        }
+        i++;
+        });
+        var j = 0;
+        $(".rnexpiry").each(function(){
+        
+        if ($(".rnexpiry-"+j).length > 0) {
+            if ($(".rnexpiry-"+j).val() == '') {
+            document.getElementById("reqrnexpiryvalid-"+j).innerHTML = "* Please enter the expiry date";
+            isValid = false;
+            }
+        }
+        j++;
+        });
+
+        if ($(".procertdivtwelfth").hasClass("d-none") == false) {
+        if ($('[name="np_data[]"]').val() == '') {
+            document.getElementById("reqnpvalid").innerHTML = "* Please select NP (Nurse Practioner) / (APRN) Advanced Practice Registered Nurse";
+            isValid = false;
+        }
+        }
+        var i = 0;
+        $(".np_license_number").each(function(){
+        
+        if ($(".np_license_number-"+i).length > 0) {
+            if ($(".np_license_number-"+i).val() == '') {
+            document.getElementById("reqnplicencevalid-"+i).innerHTML = "* Please enter the license number";
+            isValid = false;
+            }
+        }
+        i++;
+        });
+        var j = 0;
+        $(".npexpiry").each(function(){
+        
+        if ($(".npexpiry-"+j).length > 0) {
+            if ($(".npexpiry-"+j).val() == '') {
+            document.getElementById("reqnpexpiryvalid-"+j).innerHTML = "* Please enter the expiry date";
+            isValid = false;
+            }
+        }
+        j++;
+        });
+
+        if ($(".procertdivsix").hasClass("d-none") == false) {
+        if ($('[name="cn_data[]"]').val() == '') {
+            document.getElementById("reqcnvalid").innerHTML = "* Please select CNA (Certified Nursing Assistant) / EN (Enrolled Nurse)";
+            isValid = false;
+        }
+        }
+        var i = 0;
+        $(".cn_license_number").each(function(){
+        
+        if ($(".cn_license_number-"+i).length > 0) {
+            if ($(".cn_license_number-"+i).val() == '') {
+            document.getElementById("reqcnlicencevalid-"+i).innerHTML = "* Please enter the license number";
+            isValid = false;
+            }
+        }
+        i++;
+        });
+        var j = 0;
+        $(".cnexpiry").each(function(){
+        
+        if ($(".cnexpiry-"+j).length > 0) {
+            if ($(".cnexpiry-"+j).val() == '') {
+            document.getElementById("reqcnexpiryvalid-"+j).innerHTML = "* Please enter the expiry date";
+            isValid = false;
+            }
+        }
+        j++;
+        });
+
+        if ($(".procertdivseven").hasClass("d-none") == false) {
+        if ($('[name="lpn_data[]"]').val() == '') {
+            document.getElementById("reqlpnvalid").innerHTML = "* Please select CNA (Certified Nursing Assistant) / EN (Enrolled Nurse)";
+            isValid = false;
+        }
+        }
+        var i = 0;
+        $(".lpn_license_number").each(function(){
+        
+        if ($(".lpn_license_number-"+i).length > 0) {
+            if ($(".lpn_license_number-"+i).val() == '') {
+            document.getElementById("reqlpnlicencevalid-"+i).innerHTML = "* Please enter the license number";
+            isValid = false;
+            }
+        }
+        i++;
+        });
+        var j = 0;
+        $(".lpnexpiry").each(function(){
+        
+        if ($(".lpnexpiry-"+j).length > 0) {
+            if ($(".lpnexpiry-"+j).val() == '') {
+            document.getElementById("reqlpnexpiryvalid-"+j).innerHTML = "* Please enter the expiry date";
+            isValid = false;
+            }
+        }
+        j++;
+        });
+
+        if ($(".procertdiveight").hasClass("d-none") == false) {
+        if ($('[name="crn_data[]"]').val() == '') {
+            document.getElementById("reqcrnavalid").innerHTML = "* Please select CRNA (Certified Registered Nurse Anesthetist)";
+            isValid = false;
+        }
+        }
+        var i = 0;
+        $(".crna_license_number").each(function(){
+        
+        if ($(".crna_license_number-"+i).length > 0) {
+            if ($(".crna_license_number-"+i).val() == '') {
+            document.getElementById("reqcrnalicencevalid-"+i).innerHTML = "* Please enter the license number";
+            isValid = false;
+            }
+        }
+        i++;
+        });
+        var j = 0;
+        $(".crnaexpiry").each(function(){
+        
+        if ($(".crnaexpiry-"+j).length > 0) {
+            if ($(".crnaexpiry-"+j).val() == '') {
+            document.getElementById("reqcrnaexpiryvalid-"+j).innerHTML = "* Please enter the expiry date";
+            isValid = false;
+            }
+        }
+        j++;
+        });
+
+        if ($(".procertdivnine").hasClass("d-none") == false) {
+        if ($('[name="cnm_data[]"]').val() == '') {
+            document.getElementById("reqcnmvalid").innerHTML = "* Please select CNM (Certified Nurse Midwife)";
+            isValid = false;
+        }
+        }
+        var i = 0;
+        $(".cnm_license_number").each(function(){
+        
+        if ($(".cnm_license_number-"+i).length > 0) {
+            if ($(".cnm_license_number-"+i).val() == '') {
+            document.getElementById("reqcnmlicencevalid-"+i).innerHTML = "* Please enter the license number";
+            isValid = false;
+            }
+        }
+        i++;
+        });
+        var j = 0;
+        $(".cnmexpiry").each(function(){
+        
+        if ($(".cnmexpiry-"+j).length > 0) {
+            if ($(".cnmexpiry-"+j).val() == '') {
+            document.getElementById("reqcnmexpiryvalid-"+j).innerHTML = "* Please enter the expiry date";
+            isValid = false;
+            }
+        }
+        j++;
+        });
+
+        if ($(".procertdivten").hasClass("d-none") == false) {
+        if ($('[name="ons_data[]"]').val() == '') {
+            document.getElementById("reqonsvalid").innerHTML = "* Please select ONS/ONCC (Oncology Nursing Society/Oncology Nursing Certification Corporation)";
+            isValid = false;
+        }
+        }
+        var i = 0;
+        $(".ons_license_number").each(function(){
+        
+        if ($(".ons_license_number-"+i).length > 0) {
+            if ($(".ons_license_number-"+i).val() == '') {
+            document.getElementById("reqonslicencevalid-"+i).innerHTML = "* Please enter the license number";
+            isValid = false;
+            }
+        }
+        i++;
+        });
+        var j = 0;
+        $(".onsexpiry").each(function(){
+        
+        if ($(".onsexpiry-"+j).length > 0) {
+            if ($(".onsexpiry-"+j).val() == '') {
+            document.getElementById("reqonsexpiryvalid-"+j).innerHTML = "* Please enter the expiry date";
+            isValid = false;
+            }
+        }
+        j++;
+        });
+
+        if ($(".procertdiveleven").hasClass("d-none") == false) {
+        if ($('[name="msw_data[]"]').val() == '') {
+            document.getElementById("reqmswvalid").innerHTML = "* Please select MSW/AiM (Maternity Support Worker/Assistant in Midwifery ) / Midwife Assistant";
+            isValid = false;
+        }
+        }
+        var i = 0;
+        $(".msw_license_number").each(function(){
+        
+        if ($(".msw_license_number-"+i).length > 0) {
+            if ($(".msw_license_number-"+i).val() == '') {
+            document.getElementById("reqmswlicencevalid-"+i).innerHTML = "* Please enter the license number";
+            isValid = false;
+            }
+        }
+        i++;
+        });
+        var j = 0;
+        $(".mswexpiry").each(function(){
+        
+        if ($(".mswexpiry-"+j).length > 0) {
+            if ($(".mswexpiry-"+j).val() == '') {
+            document.getElementById("reqmswexpiryvalid-"+j).innerHTML = "* Please enter the expiry date";
+            isValid = false;
+            }
+        }
+        j++;
+        });
+
+        if ($(".procertdivthirteen").hasClass("d-none") == false) {
+        if ($('[name="ain_data[]"]').val() == '') {
+            document.getElementById("reqainvalid").innerHTML = "* Please select AIN (Assistant in Nursing) / NA (Nurse Associate) / HCA (Healthcare Assistant)";
+            isValid = false;
+        }
+        }
+        var i = 0;
+        $(".ain_license_number").each(function(){
+        
+        if ($(".ain_license_number-"+i).length > 0) {
+            if ($(".ain_license_number-"+i).val() == '') {
+            document.getElementById("reqainlicencevalid-"+i).innerHTML = "* Please enter the license number";
+            isValid = false;
+            }
+        }
+        i++;
+        });
+        var j = 0;
+        $(".ainexpiry").each(function(){
+        
+        if ($(".ainexpiry-"+j).length > 0) {
+            if ($(".ainexpiry-"+j).val() == '') {
+            document.getElementById("reqainexpiryvalid-"+j).innerHTML = "* Please enter the expiry date";
+            isValid = false;
+            }
+        }
+        j++;
+        });
+
+        if ($(".procertdivfourteen").hasClass("d-none") == false) {
+        if ($('[name="rpn_data[]"]').val() == '') {
+            document.getElementById("reqrpnvalid").innerHTML = "* Please select RPN (Registered Practical Nurse) / RGN (Registered General Nurse)";
+            isValid = false;
+        }
+        }
+        var i = 0;
+        $(".rpn_license_number").each(function(){
+        
+        if ($(".rpn_license_number-"+i).length > 0) {
+            if ($(".rpn_license_number-"+i).val() == '') {
+            document.getElementById("reqrpnlicencevalid-"+i).innerHTML = "* Please enter the license number";
+            isValid = false;
+            }
+        }
+        i++;
+        });
+        var j = 0;
+        $(".rpnexpiry").each(function(){
+        
+        if ($(".rpnexpiry-"+j).length > 0) {
+            if ($(".rpnexpiry-"+j).val() == '') {
+            document.getElementById("reqrpnexpiryvalid-"+j).innerHTML = "* Please enter the expiry date";
+            isValid = false;
+            }
+        }
+        j++;
+        });
+
+        var u = 1;
+        $(".additional_certificate_field").each(function(){
+        
+        if ($(".additional_certificate_field-"+u).length > 0) {
+            if ($(".additional_certificate_field-"+u).val() == '') {
+            
+            document.getElementById("reqcertname-"+u).innerHTML = "* Please enter the certificate name";
+            isValid = false;
+            }
+        }
+        u++;
+        });
+
+        var v = 1;
+        $(".cert_licence_num").each(function(){
+        
+        if ($(".cert_licence_num-"+v).length > 0) {
+            if ($(".cert_licence_num-"+v).val() == '') {
+            document.getElementById("reqcertlicense-"+v).innerHTML = "* Please enter the license number";
+            isValid = false;
+            }
+        }
+        v++;
+        });
+
+        var w = 1;
+        $(".cert_expiry").each(function(){
+        
+        if ($(".cert_expiry-"+w).length > 0) {
+            if ($(".cert_expiry-"+w).val() == '') {
+            document.getElementById("reqcertexpiry-"+w).innerHTML = "* Please enter the Expiry Date";
+            isValid = false;
+            }
+        }
+        w++;
+        });
+
+        var x = 1;
+        $(".additional_regulating_body").each(function(){
+        
+        if ($(".additional_regulating_body-"+x).length > 0) {
+            if ($(".additional_regulating_body-"+x).val() == '') {
+            document.getElementById("reqcertregulating_body-"+x).innerHTML = "* Please enter the Regulating Body";
+            isValid = false;
+            }
+        }
+        x++;
+        });
+
+        if($(".declare_information_edu").prop('checked') == false){
+        document.getElementById("reqdeclare_information1").innerHTML = "* Please check this checkbox";
+        isValid = false;
+        }
+
+        var end_date = $('.graduation_end_date').val();
+        var start_date = $('.graduation_start_date').val();
+
+
+        // if(end_date < start_date){
+        
+        
+        // document.getElementById("reqenddate").innerHTML = "* End date should not less than start date";
+        // isValid = false;
+
+        // }
+
+        // if(end_date == start_date){
+        
+        
+        // document.getElementById("reqenddate").innerHTML = "* End date should not equal to start date";
+        // isValid = false;
+        
+        // }
+
+
+        if(isValid == true){
+            $('#edit_education_form').find('.text-danger').hide();
+            // var targetTab  = '#navpill-4';  
+
+            // function enableNextTab(targetTab) {
+            // $('a[href="' + targetTab + '"]').removeClass('disabled').tab('show');
+            // }
+
+            $.ajax({
+                    url: "{{ route('admin.edit_nurse_post') }}",
+                    type: "POST",
+                    data: new FormData($('#edit_education_form')[0]),
+                    dataType: 'json',
+                    contentType: false,
+                    processData: false,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include CSRF token for security
+                    },
+                    success: function(res) {
+                        console.log(res.type);
+
+                        if (res.status == '2') {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success',
+                                text: res.message,
+                            }).then(function() {
+                                var targetTab = 'tab-4'; 
+                                var newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?tab=' + targetTab;
+                                window.location.href = newUrl;
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: res.message,
+                            });
+                        }
+                        // Show the target tab
+                    },
+                    error: function(error) {
+                    // if(targetTab ==  '#navpill-2'){
+                    if (error.responseJSON.errors) {
+                                                    
+                        }
+                    }
+               });
+
+
+        }
+
+   
+
+    });
+
+
+    // sixth form
+     $('#edit_reference_form').on('submit', function(event) {
+        event.preventDefault(); 
+         isValid = true;
+            var i = 1;
+            $(".first_name").each(function(){
+            if($(".first_name-"+i).length > 0) {
+                console.log("first_name-"+i,$(".first_name-"+i).val());
+                if($(".first_name-"+i).val() == ''){
+                document.getElementById("reqfname-"+i).innerHTML = "* Please enter the reference First Name";
+                isValid = false;
+                }
+            }
+            i++;
+            
+            });
+
+
+            var j = 1;
+            $(".last_name").each(function(){
+            if($(".last_name-"+j).length > 0) {
+                console.log("last_name-"+j,$(".last_name-"+j).val());
+                if($(".last_name-"+j).val() == ''){
+                document.getElementById("reqlname-"+j).innerHTML = "* Please enter the reference Last Name";
+                isValid = false;
+                }
+            }
+            j++;
+            
+            });
+
+
+            var k = 1;
+            $(".reference_email").each(function(){
+            if($(".reference_email-"+k).length > 0) {
+                console.log("reference_email-"+k,$(".reference_email-"+k).val());
+                if($(".reference_email-"+k).val() == ''){
+                document.getElementById("reqemail-"+k).innerHTML = "* Please enter the reference email";
+                isValid = false;
+                }
+            }
+            k++;
+            });
+
+            var l = 1;
+            $(".phone_no").each(function(){
+            if($(".phone_no-"+l).length > 0) {
+                console.log("phone_no-"+l,$(".phone_no-"+l).val());
+                if($(".phone_no-"+l).val() == ''){
+                document.getElementById("reqphoneno-"+l).innerHTML = "* Please enter the reference phone no";
+                isValid = false;
+                }
+            }
+            l++;
+            
+            });
+
+            var m = 1;
+            $(".reference_relationship").each(function(){
+            if($(".reference_relationship-"+m).length > 0) {
+                console.log("reference_relationship-"+m,$(".reference_relationship-"+m).val());
+                if($(".reference_relationship-"+m).val() == ''){
+                document.getElementById("reqreferencerel-"+m).innerHTML = "* Please enter the reference relationship";
+                isValid = false;
+                }
+            }
+            m++;
+            
+            });
+
+            var n = 1;
+            $(".worked_together").each(function(){
+            if($(".worked_together-"+n).length > 0) {
+                console.log("worked_together-"+n,$(".worked_together-"+n).val());
+                if($(".worked_together-"+n).val() == ''){
+                document.getElementById("reqworked_together-"+n).innerHTML = "* Please enter the reference relationship";
+                isValid = false;
+                }
+            }
+            n++;
+      
+        });
+
+       if(isValid == true){
+        $('#reference_form').find('.text-danger').hide();
+
+
+        $.ajax({
+            url: "{{ route('admin.edit_nurse_post') }}",
+            type: "POST",
+            data: new FormData($('#edit_reference_form')[0]),
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include CSRF token for security
+            },
+            success: function(res) {
+                console.log(res.type);
+                if (res.status == '2') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: res.message,
+                    }).then(function() {
+                        var targetTab = 'tab-6'; 
+                        var newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?tab=' + targetTab;
+                        window.location.href = newUrl;
+                    });
+                } else {
+                    Swal.fire({
+                        icon:  'error',
+                        title: 'Error',
+                        text: res.message,
+                    });
+                }
+                // Show the target tab
+            },
+            error: function(error){
+            }
+        });
+       }
+     });
+
+    //  seven form
+     $('#edit_man_tra_form').on('submit', function(event) {
+        event.preventDefault(); 
+        $.ajax({
+        url: "{{ route('admin.edit_nurse_post') }}",
+        type: "POST",
+        data: new FormData($('#edit_man_tra_form')[0]),
+        dataType: 'json',
+        contentType: false,
+        processData: false,
+        dataType: 'json',
+        contentType: false,
+        processData: false,
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include CSRF token for security
+        },
+        success: function(res) {
+            console.log(res.type);
+            if (res.status == '2') {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: res.message,
+                }).then(function() {
+                    var targetTab = 'tab-7'; 
+                    var newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?tab=' + targetTab;
+                    window.location.href = newUrl;
+                });
+            } else {
+                Swal.fire({
+                    icon:  'error',
+                    title: 'Error',
+                    text: res.message,
+                });
+            }
+            // Show the target tab
+        },
+        error: function(error){
+        }
+        });
+        
+     });
+
+
+     // Eight form
+     $('#edit_vacc_form').on('submit', function(event) {
+        event.preventDefault(); 
+
+        $.ajax({
+        url: "{{ route('admin.edit_nurse_post') }}",
+        type: "POST",
+        data: new FormData($('#edit_vacc_form')[0]),
+        dataType: 'json',
+        contentType: false,
+        processData: false,
+        dataType: 'json',
+        contentType: false,
+        processData: false,
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include CSRF token for security
+        },
+        success: function(res) {
+            console.log(res.type);
+            if (res.status == '2') {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: res.message,
+                }).then(function() {
+                    var targetTab = 'tab-8'; 
+                    var newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?tab=' + targetTab;
+                    window.location.href = newUrl;
+                });
+            } else {
+                Swal.fire({
+                    icon:  'error',
+                    title: 'Error',
+                    text: res.message,
+                });
+            }
+            // Show the target tab
+        },
+        error: function(error){
+        }
+        });
+        
+     });
+       
+ 
+
+    
+
 })
 </script>
-{{-- 
+
 <script>
-var licence_div_count = $(".license_number_anothercertifications").length;
-console.log("licence_div_count",licence_div_count);
-function add_listcertfication(){
-    licence_div_count++;
-    $(".another_certifications").append('<div class="license_number_div row license_number_anothercertifications mt-3"><div class="form-group col-md-6"><label class="form-label" for="input-1">Certificate '+licence_div_count+'</label><input class="form-control" type="text" name="training_certificate[]"></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control" type="text" name="certificate_license_number[]"></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control" type="date" name="certificate_expiry[]"></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control" type="file" name="certificate_upload_certification[]"></div></div>');
-    
+// delete certificate div
+function delete_certification1(i){    
+    $(".license_number_div_"+i).remove();
+    window.location.reload();    
 }
-</script> --}}
+
+function deleteImg(i,user_id,img){
+    //alert(img);    
+    $.ajax({
+      type: "post",
+      url: "{{ route('admin.delete_cer_img') }}",
+      data: {user_id:user_id,img:img,_token:'{{ csrf_token() }}'},
+      cache: false,
+      success: function(data){
+         if(data == 1){
+          $(".trans_img-"+i).remove();
+         }         
+      }
+    });
+}
 </script>
 
 

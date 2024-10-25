@@ -53,7 +53,7 @@
             
                 <div class="form-group">
                   <label class="form-label" for="input-1">Username or Email address *</label>
-                  <input class="form-control" type="text" required=""   name="email"  id="email" value="{{ old('email') }}"placeholder="Enter Email Address">
+                  <input class="form-control" type="text" required=""   name="email"  id="email" @if(isset($_COOKIE['email'])) value="{{ $_COOKIE['email'] }}" @endif placeholder="Enter Email Address">
                  @if ($errors->has('email'))
 
                                                 <li style="color: red;">{{ $errors->first('email') }}</li>
@@ -65,7 +65,7 @@
                 
                 <div class="form-group">
                   <label class="form-label" for="input-4">Password *</label>
-                  <input class="form-control" id="input-4" type="password" required="" name="password" id="password" placeholder="Enter Password">
+                  <input class="form-control" id="input-4" type="password" required="" name="password" id="password" placeholder="Enter Password" @if(isset($_COOKIE['password'])) value="{{ $_COOKIE['password'] }}" @endif>
                   
                 @if ($errors->has('password'))
 
@@ -77,7 +77,7 @@
                                                 <!--<div class="d-flex justify-content-end"><a href="{{ route('nurse.forgot-password')}}">Forget password?</a></div>-->
                 <div class="login_footer form-group d-flex justify-content-between">
                   <label class="cb-container">
-                    <input type="checkbox"><span class="text-small"> Remember me</span><span class="checkmark" style="border-color: #000000 !important"></span>
+                    <input type="checkbox" name="remember_me" value="1" @if(isset($_COOKIE['email'])) checked @endif><span class="text-small"> Remember me</span><span class="checkmark" style="border-color: #000000 !important"></span>
                   </label><a class='text-muted' href="{{ route('nurse.forgot-password')}}">Forgot Password?</a>
                   
                   

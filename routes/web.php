@@ -79,8 +79,25 @@ Route::prefix('/admin')->name('admin.')->namespace('App\Http\Controllers\admin')
 
         Route::get('/view-certicate/{id}', 'NurseController@view_certificate')->name('view-certicate');
         Route::get('/add-nurse', 'NurseController@addNurse')->name('add_nurse');
-         Route::post('/add-nurse-post-1', 'NurseController@addNursePostForm1')->name('add_nurse_post_1');
+        Route::post('/add-nurse-post-1', 'NurseController@addNursePostForm1')->name('add_nurse_post_1');
         Route::post('/add-nurse-post-2', 'NurseController@addNursePostForm2')->name('add_nurse_post_2');
+        Route::post('/add-nurse-post-3', 'NurseController@addNursePostForm3')->name('add_nurse_post_3');
+        Route::post('/add-nurse-post-4', 'NurseController@addNursePostForm4')->name('add_nurse_post_4');
+        Route::post('/add-nurse-post-5', 'NurseController@addNursePostForm5')->name('add_nurse_post_5');
+        Route::post('/add-nurse-post-6', 'NurseController@addNursePostForm6')->name('add_nurse_post_6');
+        Route::post('/add-nurse-post-7', 'NurseController@addNursePostForm7')->name('add_nurse_post_7');
+        Route::post('/add-nurse-post-8', 'NurseController@addNursePostForm8')->name('add_nurse_post_8');
+        Route::post('/add-nurse-post-9', 'NurseController@addNursePostForm9')->name('add_nurse_post_9');
+        Route::post('/add-nurse-post-10', 'NurseController@addNursePostForm10')->name('add_nurse_post_10');
+        Route::post('/add-nurse-post-11', 'NurseController@addNursePostForm11')->name('add_nurse_post_11');
+        Route::post('/add-nurse-post-13','NurseController@addNursePostForm13')->name('add_nurse_post_13');
+        Route::post('/add-nurse-post-14','NurseController@addNursePostForm14')->name('add_nurse_post_14');
+        Route::post('/add-nurse-post-15','NurseController@addNursePostForm15')->name('add_nurse_post_15');
+
+        Route::get('/edit-nurse/{id}', 'NurseController@EditNurse')->name('edit_nurse');
+        Route::post('/edit-nurse-post', 'NurseController@EditNursePost')->name('edit_nurse_post');
+        Route::post('/delete-cer-img', 'NurseController@deleteCertificateImg')->name('delete_cer_img');
+
         Route::get('/customer-list', 'NurseController@customerList')->name('customer-list'); 
              
 
@@ -131,6 +148,13 @@ Route::prefix('/admin')->name('admin.')->namespace('App\Http\Controllers\admin')
         Route::post('/update-vaccination', 'VaccinationController@updateVaccination')->name('updateVaccination');
         Route::post('/delete-vaccination', 'VaccinationController@deleteVaccination')->name('deleteVaccination');  
         Route::post('/get-vaccination', 'VaccinationController@getVaccination')->name('getVaccination');
+
+        //Seo  Managemenent
+        Route::get('/content_pagelist', 'SeoController@SeoList')->name('SeoList');
+        Route::post('/add-page', 'SeoController@addSeo')->name('addSeo');
+        Route::post('/update-seo', 'SeoController@updateSeo')->name('updateSeo');
+        Route::post('/delete-seo', 'SeoController@deleteSeo')->name('deleteSeo');  
+        Route::post('/get-seo', 'SeoController@getSeo')->name('getSeo');
 
          /* contact us list */
          Route::get('/contact-list', 'ContentController@contactList')->name('contact-list');

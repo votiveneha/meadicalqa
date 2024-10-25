@@ -9,7 +9,7 @@
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a class="text-muted " href="{{route('admin.dashboard')}}">Dashboard</a></li>
-                                <li class="breadcrumb-item" aria-current="page">Active Nurse List</li>
+                                <li class="breadcrumb-item" aria-current="page">Approved Nurse List</li>
                             </ol>
                         </nav>
                     </div>
@@ -124,8 +124,8 @@
                                         onclick="changeStatusBlockUnblock({{ $item->id }},'1')">Unblock</button>
                                         @else
                                         <button type="button" class="btn btn-danger "
-                                                onclick="changeStatusBlockUnblock({{ $item->id }},'2')">Block
-                                            </button>
+                                            onclick="changeStatusBlockUnblock({{ $item->id }},'2')">Block
+                                        </button>
                                         @endif
                                         <button type="button" class="btn btn-danger "
                                                 onclick="changeStatus({{ $item->id }},'0')">Delete

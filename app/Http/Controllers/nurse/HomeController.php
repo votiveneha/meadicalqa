@@ -26,11 +26,13 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Crypt;
 
 use Illuminate\Support\Str;
+use Helpers;
 use Mail;
 use Validator;
 use DB;
 use URL;
 use Session;
+use File;
 use App\Services\Admins\SpecialityServices;
 
 use App\Models\SpecialityModel;
@@ -41,6 +43,9 @@ use App\Models\InterviewModel;
 use App\Models\PreferencesModel;
 use App\Models\WorkPreferencesModel;
 use App\Models\VaccinationFrontModel;
+use App\Models\AdditionalInfo;
+use App\Models\ProfessionalAssocialtionModel;
+use App\Models\AddReferee;
 use App\Repository\Eloquent\SpecialityRepository;
 
 class HomeController extends Controller
@@ -570,7 +575,13 @@ class HomeController extends Controller
         } elseif (User::where("email", $request->email)->where('status', '0')->exists()) {
             return back()->with('error', 'No user found with this email. None of the accounts are associated with this detail.');
         } elseif (Auth::guard('nurse_middle')->attempt(['email' => $request->email, 'password' => $request->password])) {
-
+            if(isset($request->remember_me) && !empty($request->remember_me)){
+                setcookie("email",$request->email,time()+3600);
+                setcookie("password",$request->password,time()+3600);
+            }else{
+                setcookie("email","");
+                setcookie("password","");
+            }
             return redirect('/nurse/my-profile?page=my_profile')->with('success', 'You are Logged in sucessfully.');
         } else {
             return back()->with('error', 'Invalid login details.');
@@ -680,7 +691,7 @@ class HomeController extends Controller
 
             return response()->json([
                 'status' => 1,
-                'message' => 'Please check your registered email address. We have sent you a password reset link. !'
+                'message' => 'Please check your email for the password reset link.'
             ], 200);
         }
     }
@@ -882,6 +893,7 @@ class HomeController extends Controller
         $surgical_operative_carep_3 = json_encode($request->surgical_operative_carep_3);
         
         $assistent_level = $request->assistent_level;
+        $declare_information = $request->declare_information;
         $bio = $request->bio;
         $degree = json_encode($request->degree);
         $employee_status = $request->employee_status;
@@ -909,6 +921,7 @@ class HomeController extends Controller
         $post->pad_qr_scrub = $surgical_operative_carep_3;
         
         $post->assistent_level = $assistent_level;
+        $post->declaration_status = $declare_information;
         $post->bio = $bio;
         $post->degree = $degree;
         $post->current_employee_status = $employee_status;
@@ -981,20 +994,665 @@ class HomeController extends Controller
         $degree = json_encode($request->ndegree);
 
         $institution = $request->institution;
-        $most_relevant = $request->most_relevant;
+        
         $user_id = $request->user_id;
         $graduation_start_date = $request->graduation_start_date;
-        $graduation_end_date = $request->graduation_end_date;
+        
         $professional_certification = json_encode($request->professional_certification);
         $license_number = $request->license_number;
         $country = $request->country;
         $state = $request->state;
         $expiration_date = $request->expiration_date;
-        $training_courses = json_encode($request->training_courses);
+        $training_courses = $request->training_courses;
         $training_workshop = json_encode($request->training_workshop);
-        
+        $declare_information = $request->declare_information_edu;
+
+        $training_courses = $request->training_courses;
+        $additional_license_number = $request->additional_license_number;
+        $additional_expiry = $request->additional_expiry;
+        $additional_upload_certification = $request->file('additional_upload_certification');
+        //echo count($additional_license_number);die;
         $getedudata = DB::table("user_education_cerification")->where("user_id",$user_id)->first();
-        //$post = User::find($request->user_id);
+
+        //$certificate_array = array();
+        // for($i=0;$i<count($training_courses);$i++){
+        //     if(!empty($additional_upload_certification[$i])){
+        //         $name1=$additional_upload_certification[$i]->getClientOriginalName();
+        //         $name= time().$name1;
+        //         $destinationPathcert = public_path()."/uploads/certificates"; 
+        //         $additional_upload_certification[$i]->move($destinationPathcert,$name);
+        //     }else{
+        //         $certificate_data = json_decode($getedudata->additional_training_data);
+        //         if(!empty($certificate_data) && !empty($certificate_data[$i])){
+        //             $name = $certificate_data[$i]->additional_upload_certification;
+        //         }else{
+        //             $name = "";
+        //         }
+        //     }
+            
+        //     $certificate_array[] = array("training_courses"=>$training_courses[$i],"additional_license_number"=>$additional_license_number[$i],"additional_expiry"=>$additional_expiry[$i],"additional_upload_certification"=>$name);
+        // }
+
+        // $certificate_json = json_encode($certificate_array);
+
+        $training_certificate = $request->training_certificate;
+        $certificate_license_number = $request->certificate_license_number;
+        $certificate_expiry = $request->certificate_expiry;
+        $regulating_body = $request->regulating_body;
+        $certificate_upload_certification = $request->file('certificate_upload_certification');
+
+        $new_certificate_array = array();
+        if(!empty($training_certificate)){
+            for($i=0;$i<count($training_certificate);$i++){
+                if(!empty($certificate_upload_certification[$i])){
+                    $name1=$certificate_upload_certification[$i]->getClientOriginalName();
+                    $name= time().$name1;
+                    $destinationPathcert = public_path()."/uploads/certificates"; 
+                    $certificate_upload_certification[$i]->move($destinationPathcert,$name);
+                }else{
+                    $certificate_data = json_decode($getedudata->additional_certification);
+                    //print_r($certificate_data);die;
+                    if(!empty($certificate_data) && !empty($certificate_data[$i])){
+                        $name = $certificate_data[$i]->certificate_upload_certification;
+                    }else{
+                        $name = "";
+                    }
+                }
+                
+                $new_certificate_array[] = array("certificate_id"=>$i+1,"training_certificate"=>$training_certificate[$i],"certificate_license_number"=>$certificate_license_number[$i],"certificate_expiry"=>$certificate_expiry[$i],"regulating_body"=>$regulating_body[$i],"certificate_upload_certification"=>$name);
+            }
+
+            $new_certificate_json = json_encode($new_certificate_array);
+        }else{
+            $new_certificate_json = '';
+        }
+
+        $bls_data = $request->bls_data;
+        if($bls_data){
+            $bls_count = count($bls_data);
+        }else{
+            $bls_count = 0;
+        }
+        $bls_license_number = $request->bls_license_number;
+        $bls_expiry = $request->bls_expiry;
+        $bls_upload_certification = $request->file('bls_upload_certification');
+
+        $bls_data_array = array();
+
+        $certificate_data = json_decode($getedudata->bls_data);
+
+        for($i=0;$i<$bls_count;$i++){
+            if(!empty($certificate_data) && array_key_exists($i,$certificate_data)){
+                $blsimg = json_decode($certificate_data[$i]->bls_upload_certification);
+            }else{
+                $blsimg = '';
+            }
+            
+            //print_r(json_decode($certificate_data[$i]->acls_upload_certification));
+            if(!empty($bls_upload_certification[$i])){
+                $bls_img = Helpers::multipleFileUpload($bls_upload_certification[$i],$blsimg);
+            }else{
+                $bls_img = Helpers::multipleFileUpload('',$blsimg);
+            }
+            
+            $bls_data_array[] = array("bls_certification_id"=>$bls_data[$i],"bls_license_number"=>$bls_license_number[$i],"bls_expiry"=>$bls_expiry[$i],"bls_upload_certification"=>$bls_img);
+        }
+
+        if(!empty($bls_data_array)){
+            $bls_data_json = json_encode($bls_data_array);
+        }else{
+            $bls_data_json = '';
+        }
+
+        
+
+        $acls_data = $request->acls_data;
+        if($acls_data){
+            $acls_count = count($acls_data);
+        }else{
+            $acls_count = 0;
+        }
+        $aclsnamearr = $request->aclsnamearr;
+        $acls_license_number = $request->acls_license_number;
+        $acls_expiry = $request->acls_expiry;
+        $acls_upload_certification = $request->file('acls_upload_certification');
+
+        $acls_data_array = array();
+        $certificate_data = json_decode($getedudata->acls_data);
+
+        for($i=0;$i<$acls_count;$i++){
+            if(!empty($certificate_data) && array_key_exists($i,$certificate_data)){
+                $aclsimg = json_decode($certificate_data[$i]->acls_upload_certification);
+            }else{
+                $aclsimg = '';
+            }
+            //print_r(json_decode($certificate_data[$i]->acls_upload_certification));
+            if(!empty($acls_upload_certification[$i])){
+                $acls_img = Helpers::multipleFileUpload($acls_upload_certification[$i],$aclsimg);
+            }else{
+                $acls_img = Helpers::multipleFileUpload('',$aclsimg);
+            }
+            //echo $acls_img;
+            
+            $acls_data_array[] = array("acls_certification_id"=>$aclsnamearr[$i],"acls_license_number"=>$acls_license_number[$i],"acls_expiry"=>$acls_expiry[$i],"acls_upload_certification"=>$acls_img);
+        }
+
+        if(!empty($acls_data_array)){
+            $acls_data_json = json_encode($acls_data_array);
+        }else{
+            $acls_data_json = '';
+        }
+
+        $cpr_data = $request->cpr_data;
+        if($cpr_data){
+            $cpr_count = count($cpr_data);
+        }else{
+            $cpr_count = 0;
+        }
+        $cprnamearr = $request->cprnamearr;
+
+        $cpr_license_number = $request->cpr_license_number;
+        $cpr_expiry = $request->cpr_expiry;
+        $cpr_upload_certification = $request->file('cpr_upload_certification');
+
+        $cpr_data_array = array();
+        $certificate_data = json_decode($getedudata->cpr_data);
+
+        for($i=0;$i<$cpr_count;$i++){
+            if(!empty($certificate_data) && array_key_exists($i,$certificate_data)){
+                $cprimg = json_decode($certificate_data[$i]->cpr_upload_certification);
+            }else{
+                $cprimg = '';
+            }
+            
+            //print_r(json_decode($certificate_data[$i]->acls_upload_certification));
+            if(!empty($cpr_upload_certification[$i])){
+                $cpr_img = Helpers::multipleFileUpload($cpr_upload_certification[$i],$cprimg);
+            }else{
+                $cpr_img = Helpers::multipleFileUpload('',$cprimg);
+            }
+            
+            $cpr_data_array[] = array("cpr_certification_id"=>$cprnamearr[$i],"cpr_license_number"=>$cpr_license_number[$i],"cpr_expiry"=>$cpr_expiry[$i],"cpr_upload_certification"=>$cpr_img);
+        }
+
+        if(!empty($cpr_data_array)){
+            $cpr_data_json = json_encode($cpr_data_array);
+            
+        }else{
+            $cpr_data_json = '';
+        }
+
+        $nrp_data = $request->nrp_data;
+        if($nrp_data){
+            $nrp_count = count($nrp_data);
+        }else{
+            $nrp_count = 0;
+        }
+        $nrpnamearr = $request->nrpnamearr;
+        $nrp_license_number = $request->nrp_license_number;
+        $nrp_expiry = $request->nrp_expiry;
+        $nrp_upload_certification = $request->file('nrp_upload_certification');
+
+        $nrp_data_array = array();
+        $certificate_data = json_decode($getedudata->nrp_data);
+
+        for($i=0;$i<$nrp_count;$i++){
+            if(!empty($certificate_data) && array_key_exists($i,$certificate_data)){
+                $nrpimg = json_decode($certificate_data[$i]->nrp_upload_certification);
+            }else{
+                $nrpimg = '';
+            }
+            
+            //print_r(json_decode($certificate_data[$i]->acls_upload_certification));
+            if(!empty($nrp_upload_certification[$i])){
+                $nrp_img = Helpers::multipleFileUpload($nrp_upload_certification[$i],$nrpimg);
+            }else{
+                $nrp_img = Helpers::multipleFileUpload('',$nrpimg);
+            }
+            
+            $nrp_data_array[] = array("nrp_certification_id"=>$nrpnamearr[$i],"nrp_license_number"=>$nrp_license_number[$i],"nrp_expiry"=>$nrp_expiry[$i],"nrp_upload_certification"=>$nrp_img);
+        }
+
+        if(!empty($nrp_data_array)){
+            $nrp_data_json = json_encode($nrp_data_array);
+        }else{
+            $nrp_data_json = '';
+        }
+
+        $pls_data = $request->pls_data;
+        if($pls_data){
+            $pls_count = count($pls_data);
+        }else{
+            $pls_count = 0;
+        }
+        $plsnamearr = $request->plsnamearr;
+        $pls_license_number = $request->pls_license_number;
+        $pls_expiry = $request->pls_expiry;
+        $pls_upload_certification = $request->file('pls_upload_certification');
+
+        $pls_data_array = array();
+        $certificate_data = json_decode($getedudata->pals_data);
+
+        for($i=0;$i<$pls_count;$i++){
+            if(!empty($certificate_data) && array_key_exists($i,$certificate_data)){
+                $plsimg = json_decode($certificate_data[$i]->pls_upload_certification);
+            }else{
+                $plsimg = '';
+            }
+            
+            //print_r(json_decode($certificate_data[$i]->acls_upload_certification));
+            if(!empty($pls_upload_certification[$i])){
+                $pls_img = Helpers::multipleFileUpload($pls_upload_certification[$i],$plsimg);
+            }else{
+                $pls_img = Helpers::multipleFileUpload('',$plsimg);
+            }
+            
+            $pls_data_array[] = array("pls_certification_id"=>$plsnamearr[$i],"pls_license_number"=>$pls_license_number[$i],"pls_expiry"=>$pls_expiry[$i],"pls_upload_certification"=>$pls_img);
+        }
+
+        if(!empty($pls_data_array)){
+            $pls_data_json = json_encode($pls_data_array);
+        }else{
+            $pls_data_json = '';
+        }
+
+        $rn_data = $request->rn_data;
+        if($rn_data){
+            $rn_count = count($rn_data);
+        }else{
+            $rn_count = 0;
+        }
+        $rnnamearr = $request->rnnamearr;
+        $rn_license_number = $request->rn_license_number;
+        $rn_expiry = $request->rn_expiry;
+        $rn_upload_certification = $request->file('rn_upload_certification');
+
+        $rn_data_array = array();
+        $certificate_data = json_decode($getedudata->rn_data);
+
+        for($i=0;$i<$rn_count;$i++){
+            if(!empty($certificate_data) && array_key_exists($i,$certificate_data)){
+                $rnimg = json_decode($certificate_data[$i]->rn_upload_certification);
+            }else{
+                $rnimg = '';
+            }
+            
+            //print_r(json_decode($certificate_data[$i]->acls_upload_certification));
+            if(!empty($rn_upload_certification[$i])){
+                $rn_img = Helpers::multipleFileUpload($rn_upload_certification[$i],$rnimg);
+            }else{
+                $rn_img = Helpers::multipleFileUpload('',$rnimg);
+            }
+            
+            $rn_data_array[] = array("rn_certification_id"=>$rnnamearr[$i],"rn_license_number"=>$rn_license_number[$i],"rn_expiry"=>$rn_expiry[$i],"rn_upload_certification"=>$rn_img);
+        }
+
+        if(!empty($rn_data_array)){
+            $rn_data_json = json_encode($rn_data_array);
+        }else{
+            $rn_data_json = '';
+        }
+
+        $np_data = $request->np_data;
+        if($np_data){
+            $np_count = count($np_data);
+        }else{
+            $np_count = 0;
+        }
+        $npnamearr = $request->npnamearr;
+        $np_license_number = $request->np_license_number;
+        $np_expiry = $request->np_expiry;
+        $np_upload_certification = $request->file('np_upload_certification');
+
+        $np_data_array = array();
+        $certificate_data = json_decode($getedudata->np_data);
+
+        for($i=0;$i<$np_count;$i++){
+            if(!empty($certificate_data) && array_key_exists($i,$certificate_data)){
+                $npimg = json_decode($certificate_data[$i]->np_upload_certification);
+            }else{
+                $npimg = '';
+            }
+            
+            //print_r(json_decode($certificate_data[$i]->acls_upload_certification));
+            if(!empty($np_upload_certification[$i])){
+                $np_img = Helpers::multipleFileUpload($np_upload_certification[$i],$npimg);
+            }else{
+                $np_img = Helpers::multipleFileUpload('',$npimg);
+            }
+            
+            $np_data_array[] = array("np_certification_id"=>$npnamearr[$i],"np_license_number"=>$np_license_number[$i],"np_expiry"=>$np_expiry[$i],"np_upload_certification"=>$np_img);
+        }
+
+        if(!empty($np_data_array)){
+            $np_data_json = json_encode($np_data_array);
+        }else{
+            $np_data_json = '';
+        }
+
+        $cn_data = $request->cn_data;
+        if($cn_data){
+            $cn_count = count($cn_data);
+        }else{
+            $cn_count = 0;
+        }
+        $cnnamearr = $request->cnnamearr;
+        $cn_license_number = $request->cn_license_number;
+        $cn_expiry = $request->cn_expiry;
+        $cn_upload_certification = $request->file('cn_upload_certification');
+        //print_r($cn_upload_certification);die;
+        $cn_data_array = array();
+        $certificate_data = json_decode($getedudata->cna_data);
+
+        for($i=0;$i<$cn_count;$i++){
+            if(!empty($certificate_data) && array_key_exists($i,$certificate_data)){
+                $cnimg = json_decode($certificate_data[$i]->cn_upload_certification);
+            }else{
+                $cnimg = '';
+            }
+            
+            //print_r(json_decode($certificate_data[$i]->acls_upload_certification));
+            if(!empty($cn_upload_certification[$i])){
+
+                $cn_img = Helpers::multipleFileUpload($cn_upload_certification[$i],$cnimg);
+            }else{
+                $cn_img = Helpers::multipleFileUpload('',$cnimg);
+            }
+            
+            $cn_data_array[] = array("cn_certification_id"=>$cnnamearr[$i],"cn_license_number"=>$cn_license_number[$i],"cn_expiry"=>$cn_expiry[$i],"cn_upload_certification"=>$cn_img);
+        }
+        
+
+        if(!empty($cn_data_array)){
+            $cn_data_json = json_encode($cn_data_array);
+        }else{
+            $cn_data_json = '';
+        }
+
+        $lpn_data = $request->lpn_data;
+        if($lpn_data){
+            $lpn_count = count($lpn_data);
+        }else{
+            $lpn_count = 0;
+        }
+        $lpnnamearr = $request->lpnnamearr;
+        $lpn_license_number = $request->lpn_license_number;
+        $lpn_expiry = $request->lpn_expiry;
+        $lpn_upload_certification = $request->file('lpn_upload_certification');
+
+        $lpn_data_array = array();
+        $certificate_data = json_decode($getedudata->lpn_data);
+
+        for($i=0;$i<$lpn_count;$i++){
+            if(!empty($certificate_data) && array_key_exists($i,$certificate_data)){
+                $lpnimg = json_decode($certificate_data[$i]->lpn_upload_certification);
+            }else{
+                $lpnimg = '';
+            }
+            
+            //print_r(json_decode($certificate_data[$i]->acls_upload_certification));
+            if(!empty($lpn_upload_certification[$i])){
+
+                $lpn_img = Helpers::multipleFileUpload($lpn_upload_certification[$i],$lpnimg);
+            }else{
+                $lpn_img = Helpers::multipleFileUpload('',$lpnimg);
+            }
+            
+            $lpn_data_array[] = array("lpn_certification_id"=>$lpnnamearr[$i],"lpn_license_number"=>$lpn_license_number[$i],"lpn_expiry"=>$lpn_expiry[$i],"lpn_upload_certification"=>$lpn_img);
+        }
+
+        if(!empty($lpn_data_array)){
+            $lpn_data_json = json_encode($lpn_data_array);
+        }else{
+            $lpn_data_json = '';
+        }
+
+        $crna_data = $request->crn_data;
+        if($crna_data){
+            $crna_count = count($crna_data);
+        }else{
+            $crna_count = 0;
+        }
+        $crnanamearr = $request->crnanamearr;
+        //print_r($crna_count);die;
+        $crna_license_number = $request->crna_license_number;
+        $crna_expiry = $request->crna_expiry;
+        $crna_upload_certification = $request->file('crna_upload_certification');
+
+        $crna_data_array = array();
+        $certificate_data = json_decode($getedudata->crna_data);
+
+        for($i=0;$i<$crna_count;$i++){
+            if(!empty($certificate_data) && array_key_exists($i,$certificate_data)){
+                $crnaimg = json_decode($certificate_data[$i]->crna_upload_certification);
+            }else{
+                $crnaimg = '';
+            }
+            
+            //print_r(json_decode($certificate_data[$i]->acls_upload_certification));
+            if(!empty($crna_upload_certification[$i])){
+
+                $crna_img = Helpers::multipleFileUpload($crna_upload_certification[$i],$crnaimg);
+            }else{
+                $crna_img = Helpers::multipleFileUpload('',$crnaimg);
+            }
+            
+            $crna_data_array[] = array("crna_certification_id"=>$crnanamearr[$i],"crna_license_number"=>$crna_license_number[$i],"crna_expiry"=>$crna_expiry[$i],"crna_upload_certification"=>$crna_img);
+        }
+        
+        if(!empty($crna_data_array)){
+            $crna_data_json = json_encode($crna_data_array);
+        }else{
+            $crna_data_json = '';
+        }
+
+        $cnm_data = $request->cnm_data;
+        if($cnm_data){
+            $cnm_count = count($cnm_data);
+        }else{
+            $cnm_count = 0;
+        }
+        $cnmnamearr = $request->cnmnamearr;
+        //print_r($crna_count);die;
+        $cnm_license_number = $request->cnm_license_number;
+        $cnm_expiry = $request->cnm_expiry;
+        $cnm_upload_certification = $request->file('cnm_upload_certification');
+
+        $cnm_data_array = array();
+        $certificate_data = json_decode($getedudata->cnm_data);
+
+        for($i=0;$i<$cnm_count;$i++){
+            if(!empty($certificate_data) && array_key_exists($i,$certificate_data)){
+                $cnmimg = json_decode($certificate_data[$i]->cnm_upload_certification);
+            }else{
+                $cnmimg = '';
+            }
+            
+            //print_r(json_decode($certificate_data[$i]->acls_upload_certification));
+            if(!empty($cnm_upload_certification[$i])){
+
+                $cnm_img = Helpers::multipleFileUpload($cnm_upload_certification[$i],$cnmimg);
+            }else{
+                $cnm_img = Helpers::multipleFileUpload('',$cnmimg);
+            }
+            
+            $cnm_data_array[] = array("cnm_certification_id"=>$cnmnamearr[$i],"cnm_license_number"=>$cnm_license_number[$i],"cnm_expiry"=>$cnm_expiry[$i],"cnm_upload_certification"=>$cnm_img);
+        }
+        
+        if(!empty($cnm_data_array)){
+            $cnm_data_json = json_encode($cnm_data_array);
+        }else{
+            $cnm_data_json = '';
+        }
+
+        $ons_data = $request->ons_data;
+        if($ons_data){
+            $ons_count = count($ons_data);
+        }else{
+            $ons_count = 0;
+        }
+        $onsnamearr = $request->onsnamearr;
+        //print_r($crna_count);die;
+        $ons_license_number = $request->ons_license_number;
+        $ons_expiry = $request->ons_expiry;
+        $ons_upload_certification = $request->file('ons_upload_certification');
+
+        $ons_data_array = array();
+        $certificate_data = json_decode($getedudata->ons_data);
+
+        for($i=0;$i<$ons_count;$i++){
+            if(!empty($certificate_data) && array_key_exists($i,$certificate_data)){
+                $onsimg = json_decode($certificate_data[$i]->ons_upload_certification);
+            }else{
+                $onsimg = '';
+            }
+            
+            //print_r(json_decode($certificate_data[$i]->acls_upload_certification));
+            if(!empty($ons_upload_certification[$i])){
+
+                $ons_img = Helpers::multipleFileUpload($ons_upload_certification[$i],$onsimg);
+            }else{
+                $ons_img = Helpers::multipleFileUpload('',$onsimg);
+            }
+            
+            $ons_data_array[] = array("ons_certification_id"=>$onsnamearr[$i],"ons_license_number"=>$ons_license_number[$i],"ons_expiry"=>$ons_expiry[$i],"ons_upload_certification"=>$ons_img);
+        }
+        
+        if(!empty($ons_data_array)){
+            $ons_data_json = json_encode($ons_data_array);
+        }else{
+            $ons_data_json = '';
+        }
+
+        $msw_data = $request->msw_data;
+        if($msw_data){
+            $msw_count = count($msw_data);
+        }else{
+            $msw_count = 0;
+        }
+        $mswnamearr = $request->mswnamearr;
+        
+        $msw_license_number = $request->msw_license_number;
+        $msw_expiry = $request->msw_expiry;
+        $msw_upload_certification = $request->file('msw_upload_certification');
+
+        $msw_data_array = array();
+        $certificate_data = json_decode($getedudata->msw_data);
+
+        for($i=0;$i<$msw_count;$i++){
+            if(!empty($certificate_data) && array_key_exists($i,$certificate_data)){
+                $mswimg = json_decode($certificate_data[$i]->msw_upload_certification);
+            }else{
+                $mswimg = '';
+            }
+            
+            //print_r(json_decode($certificate_data[$i]->acls_upload_certification));
+            if(!empty($msw_upload_certification[$i])){
+
+                $msw_img = Helpers::multipleFileUpload($msw_upload_certification[$i],$mswimg);
+            }else{
+                $msw_img = Helpers::multipleFileUpload('',$mswimg);
+            }
+            
+            $msw_data_array[] = array("msw_certification_id"=>$mswnamearr[$i],"msw_license_number"=>$msw_license_number[$i],"msw_expiry"=>$msw_expiry[$i],"msw_upload_certification"=>$msw_img);
+        }
+        //print_r(count($msw_data_array));die;
+        if(!empty($msw_data_array)){
+            $msw_data_json = json_encode($msw_data_array);
+        }else{
+            $msw_data_json = '';
+        }
+
+        $ain_data = $request->ain_data;
+        if($ain_data){
+            $ain_count = count($ain_data);
+        }else{
+            $ain_count = 0;
+        }
+        $ainnamearr = $request->ainnamearr;
+        //print_r($crna_count);die;
+        $ain_license_number = $request->ain_license_number;
+        $ain_expiry = $request->ain_expiry;
+        $ain_upload_certification = $request->file('ain_upload_certification');
+
+        $ain_data_array = array();
+        $certificate_data = json_decode($getedudata->ain_data);
+
+        for($i=0;$i<$ain_count;$i++){
+            if(!empty($certificate_data) && array_key_exists($i,$certificate_data)){
+                $ainimg = json_decode($certificate_data[$i]->ain_upload_certification);
+            }else{
+                $ainimg = '';
+            }
+            
+            //print_r(json_decode($certificate_data[$i]->acls_upload_certification));
+            if(!empty($ain_upload_certification[$i])){
+
+                $ain_img = Helpers::multipleFileUpload($ain_upload_certification[$i],$ainimg);
+            }else{
+                $ain_img = Helpers::multipleFileUpload('',$ainimg);
+            }
+            
+            $ain_data_array[] = array("ain_certification_id"=>$ainnamearr[$i],"ain_license_number"=>$ain_license_number[$i],"ain_expiry"=>$ain_expiry[$i],"ain_upload_certification"=>$ain_img);
+        }
+        
+        if(!empty($ain_data_array)){
+            $ain_data_json = json_encode($ain_data_array);
+        }else{
+            $ain_data_json = '';
+        }
+
+        $rpn_data = $request->rpn_data;
+        if($rpn_data){
+            $rpn_count = count($rpn_data);
+        }else{
+            $rpn_count = 0;
+        }
+        $rpnnamearr = $request->rpnnamearr;
+        //print_r($crna_count);die;
+        $rpn_license_number = $request->rpn_license_number;
+        $rpn_expiry = $request->rpn_expiry;
+        $rpn_upload_certification = $request->file('rpn_upload_certification');
+        $certificate_data = json_decode($getedudata->rpn_data);
+
+        $rpn_data_array = array();
+
+        for($i=0;$i<$rpn_count;$i++){
+            if(!empty($certificate_data) && array_key_exists($i,$certificate_data)){
+                $rpnimg = json_decode($certificate_data[$i]->rpn_upload_certification);
+            }else{
+                $rpnimg = '';
+            }
+            
+            //print_r(json_decode($certificate_data[$i]->acls_upload_certification));
+            if(!empty($rpn_upload_certification[$i])){
+
+                $rpn_img = Helpers::multipleFileUpload($rpn_upload_certification[$i],$rpnimg);
+            }else{
+                $rpn_img = Helpers::multipleFileUpload('',$rpnimg);
+            }
+            
+            $rpn_data_array[] = array("rpn_certification_id"=>$rpnnamearr[$i],"rpn_license_number"=>$rpn_license_number[$i],"rpn_expiry"=>$rpn_expiry[$i],"rpn_upload_certification"=>$rpn_img);
+        }
+        
+        if(!empty($rpn_data_array)){
+            $rpn_data_json = json_encode($rpn_data_array);
+        }else{
+            $rpn_data_json = '';
+        }
+
+        if($request->nl_data){
+            $nl_data = json_encode($request->nl_data);
+        }else{
+            $nl_data = '';
+        }
+
+        // $file = $request->file('degree_transcript');
+        // $dtranaimg = json_decode($getedudata->degree_transcript);
+
+        // $dtranimgs = Helpers::multipleFileUpload($file,$dtranaimg);
+        
+        
         
         if(!empty($getedudata)>0){
 
@@ -1003,502 +1661,10 @@ class HomeController extends Controller
             $post1->save();
 
             
-            if($request->acls_data){
-                $acls_data = json_encode($request->acls_data);
-                //print_r($acls_data);
-                $acls_licence_num = $request->acls_license_number;
-                $acls_licence_expiry = $request->acls_expiry;
-
-                $acls_file = $request->file('acls_upload_certification');
-
-                if($acls_file){
-                    $destinationPath = public_path().'/uploads';
-                    $acls_file_name = $acls_file->getClientOriginalName();
-                    $acls_file->move($destinationPath,$acls_file->getClientOriginalName());
-                }else{
-                    $acls_data_one = json_decode($getedudata->acls_data);
-
-                    if($acls_data_one != NULL){
-                        $acls_file_name = $acls_data_one->acls_file;
-                    }else{
-                        $acls_file_name = "";
-                    }
-                    
-                    
-                }
             
-
-                $acls_array = array();
-                $acls_array = array("acls_data"=>$acls_data,"acls_licence_num"=>$acls_licence_num,"acls_licence_expiry"=>$acls_licence_expiry,"acls_file"=>$acls_file_name);
-            }else{
-                $acls_array = "";
-            }
-
-            if($request->bls_data){
-                $bls_data = json_encode($request->bls_data);
-                //print_r($acls_data);
-                $bls_licence_num = $request->bls_license_number;
-                $bls_licence_expiry = $request->bls_expiry;
-
-                $bls_file = $request->file('bls_upload_certification');
-
-                if($bls_file){
-                    $destinationPath = public_path().'/uploads';
-                    $bls_file_name = $bls_file->getClientOriginalName();
-                    $bls_file->move($destinationPath,$bls_file->getClientOriginalName());
-                }else{
-                    $bls_data_one = json_decode($getedudata->bls_data);
-
-                    if($bls_data_one != NULL){
-                       $bls_file_name = $bls_data_one->bls_file;
-                    }else{
-                        $bls_file_name = "";
-                    }
-                    
-                    
-                }
-                
-
-                $bls_array = array();
-                $bls_array = array("bls_data"=>$bls_data,"bls_licence_num"=>$bls_licence_num,"bls_licence_expiry"=>$bls_licence_expiry,"bls_file"=>$bls_file_name);
-            }else{
-                $bls_array = "";
-            }
-
-            if($request->cpr_data){
-                $cpr_data = json_encode($request->cpr_data);
-                //print_r($acls_data);
-                $cpr_licence_num = $request->cpr_license_number;
-                $cpr_licence_expiry = $request->cpr_expiry;
-
-                $cpr_file = $request->file('cpr_upload_certification');
-
-                if($cpr_file){
-                    $destinationPath = public_path().'/uploads';
-                    $cpr_file_name = $cpr_file->getClientOriginalName();
-                    $cpr_file->move($destinationPath,$cpr_file->getClientOriginalName());
-                }else{
-                    $cpr_data_one = json_decode($getedudata->cpr_data);
-
-                    if($cpr_data_one != NULL){
-                        $cpr_file_name = $cpr_data_one->cpr_file;
-                    }else{
-                        $cpr_file_name = "";
-                    }
-                    
-                    
-                }
-                
-
-                $cpr_array = array();
-                $cpr_array = array("cpr_data"=>$cpr_data,"cpr_licence_num"=>$cpr_licence_num,"cpr_licence_expiry"=>$cpr_licence_expiry,"cpr_file"=>$cpr_file_name);
-            }else{
-                $cpr_array = "";
-            }    
-
-
-            if($request->nrp_data){
-                $nrp_data = json_encode($request->nrp_data);
-
-                //print_r($acls_data);
-                $nrp_licence_num = $request->nrp_license_number;
-                $nrp_licence_expiry = $request->nrp_expiry;
-
-                $nrp_file = $request->file('nrp_upload_certification');
-
-                if($nrp_file){
-                    $destinationPath = public_path().'/uploads';
-                    $nrp_file_name = $nrp_file->getClientOriginalName();
-                    $nrp_file->move($destinationPath,$nrp_file->getClientOriginalName());
-                }else{
-                    $nrp_data_one = json_decode($getedudata->nrp_data);
-                    
-                    if($nrp_data_one != NULL){
-                        $nrp_file_name = $nrp_data_one->nrp_file;
-                    }else{
-                        $nrp_file_name = "";
-                    }
-                    
-                }
-                
-
-                $nrp_array = array();
-                $nrp_array = array("nrp_data"=>$nrp_data,"nrp_licence_num"=>$nrp_licence_num,"nrp_licence_expiry"=>$nrp_licence_expiry,"nrp_file"=>$nrp_file_name);
-            }else{
-                $nrp_array = "";
-            } 
-
-            if($request->pals_data){
-                $pals_data = json_encode($request->pals_data);
-                //print_r($acls_data);
-                $pals_licence_num = $request->pals_license_number;
-                $pals_licence_expiry = $request->pals_expiry;
-
-                $pals_file = $request->file('pals_upload_certification');
-
-                if($pals_file){
-                    $destinationPath = public_path().'/uploads';
-                    $pals_file_name = $pals_file->getClientOriginalName();
-                    $pals_file->move($destinationPath,$pals_file->getClientOriginalName());
-                }else{
-                    $pals_data_one = json_decode($getedudata->pals_data);
-                    
-                    
-                    if($pals_data_one != NULL){
-                        $pals_file_name = $pals_data_one->pals_file;
-                    }else{
-                        $pals_file_name = "";
-                    }
-                }
-                
-
-                $pals_array = array();
-                $pals_array = array("pals_data"=>$pals_data,"pals_licence_num"=>$pals_licence_num,"pals_licence_expiry"=>$pals_licence_expiry,"pals_file"=>$pals_file_name);
-            }else{
-                $pals_array = "";
-            } 
-
-            if($request->rn_data){
-            $rn_data = json_encode($request->rn_data);
-            //print_r($acls_data);
-            $rn_licence_num = $request->rn_license_number;
-            $rn_licence_expiry = $request->rn_expiry;
-
-            $rn_file = $request->file('rn_upload_certification');
-
-            if($rn_file){
-                $destinationPath = public_path().'/uploads';
-                $rn_file_name = $rn_file->getClientOriginalName();
-                $rn_file->move($destinationPath,$rn_file->getClientOriginalName());
-            }else{
-                $rn_data_one = json_decode($getedudata->rn_data);
-
-                if($rn_data_one != NULL){
-                    $rn_file_name = $rn_data_one->rn_file;
-                }else{
-                    $rn_file_name = "";
-                }
-                
-                
-            }
             
-
-            $rn_array = array();
-            $rn_array = array("rn_data"=>$rn_data,"rn_licence_num"=>$rn_licence_num,"rn_licence_expiry"=>$rn_licence_expiry,"rn_file"=>$rn_file_name);
-
-        }else{
-                $rn_array = "";
-            } 
-        if($request->np_data){
-            $np_data = json_encode($request->np_data);
-            //print_r($acls_data);
-            $np_licence_num = $request->np_license_number;
-            $np_licence_expiry = $request->np_expiry;
-
-            $np_file = $request->file('np_upload_certification');
-
-            if($np_file){
-                $destinationPath = public_path().'/uploads';
-                $np_file_name = $np_file->getClientOriginalName();
-                $np_file->move($destinationPath,$np_file->getClientOriginalName());
-            }else{
-                $np_data_one = json_decode($getedudata->np_data);
-
-                if($np_data_one != NULL){
-                    $np_file_name = $np_data_one->np_file;
-                }else{
-                    $np_file_name = "";
-                }
-                
-                
-            }
             
-
-            $np_array = array();
-            $np_array = array("np_data"=>$np_data,"np_licence_num"=>$np_licence_num,"np_licence_expiry"=>$np_licence_expiry,"np_file"=>$np_file_name);
-        }else{
-                $np_array = "";
-            }
-        if($request->cna_data){
-            $cna_data = json_encode($request->cna_data);
-            //print_r($acls_data);
-            $cna_licence_num = $request->cna_license_number;
-            $cna_licence_expiry = $request->cna_expiry;
-
-            $cna_file = $request->file('cna_upload_certification');
-
-            if($cna_file){
-                $destinationPath = public_path().'/uploads';
-                $cna_file_name = $cna_file->getClientOriginalName();
-                $cna_file->move($destinationPath,$cna_file->getClientOriginalName());
-            }else{
-                $cna_data_one = json_decode($getedudata->cna_data);
-
-                if($cna_data_one != NULL){
-                    $cna_file_name = $cna_data_one->cna_file;
-                }else{
-                    $cna_file_name = "";
-                }
-                
-                
-            }
-            
-
-            $cna_array = array();
-            $cna_array = array("cna_data"=>$cna_data,"cna_licence_num"=>$cna_licence_num,"cna_licence_expiry"=>$cna_licence_expiry,"cna_file"=>$cna_file_name);
-          }else{
-                $cna_array = "";
-            }
-          if($request->lpn_data){
-            $lpn_data = json_encode($request->lpn_data);
-            //print_r($acls_data);
-            $lpn_licence_num = $request->lpn_license_number;
-            $lpn_licence_expiry = $request->lpn_expiry;
-
-            $lpn_file = $request->file('lpn_upload_certification');
-
-            if($lpn_file){
-                $destinationPath = public_path().'/uploads';
-                $lpn_file_name = $lpn_file->getClientOriginalName();
-                $lpn_file->move($destinationPath,$lpn_file->getClientOriginalName());
-            }else{
-                $lpn_data_one = json_decode($getedudata->lpn_data);
-
-                if($lpn_data_one != NULL){
-                    $lpn_file_name = $lpn_data_one->lpn_file;
-                }else{
-                    $lpn_file_name = "";
-                }
-                
-                
-            }
-            
-
-            $lpn_array = array();
-            $lpn_array = array("lpn_data"=>$lpn_data,"lpn_licence_num"=>$lpn_licence_num,"lpn_licence_expiry"=>$lpn_licence_expiry,"lpn_file"=>$lpn_file_name);
-        }else{
-                $lpn_array = "";
-            }
-
-            if($request->crna_data){
-            $crna_data = json_encode($request->crna_data);
-            //print_r($acls_data);
-            $crna_licence_num = $request->crna_license_number;
-            $crna_licence_expiry = $request->crna_expiry;
-
-            $crna_file = $request->file('crna_upload_certification');
-
-            if($crna_file){
-                $destinationPath = public_path().'/uploads';
-                $crna_file_name = $crna_file->getClientOriginalName();
-                $crna_file->move($destinationPath,$crna_file->getClientOriginalName());
-            }else{
-                $crna_data_one = json_decode($getedudata->crna_data);
-
-                if($crna_data_one != NULL){
-                    $crna_file_name = $crna_data_one->crna_file;
-                }else{
-                    $crna_file_name = "";
-                }
-                
-                
-            }
-            
-
-            $crna_array = array();
-            $crna_array = array("crna_data"=>$crna_data,"crna_licence_num"=>$crna_licence_num,"crna_licence_expiry"=>$crna_licence_expiry,"crna_file"=>$crna_file_name);
-        }else{
-                $crna_array = "";
-            }
-
-        if($request->cnm_data){
-
-            $cnm_data = json_encode($request->cnm_data);
-            //print_r($acls_data);
-            $cnm_licence_num = $request->cnm_license_number;
-            $cnm_licence_expiry = $request->cnm_expiry;
-
-            $cnm_file = $request->file('cnm_upload_certification');
-
-            if($cnm_file){
-                $destinationPath = public_path().'/uploads';
-                $cnm_file_name = $cnm_file->getClientOriginalName();
-                $cnm_file->move($destinationPath,$cnm_file->getClientOriginalName());
-            }else{
-                $cnm_data_one = json_decode($getedudata->cnm_data);
-
-                if($cnm_data_one != NULL){
-                    $cnm_file_name = $cnm_data_one->cnm_file;
-                }else{
-                    $cnm_file_name = "";
-                }
-                
-                
-            }
-            
-
-            $cnm_array = array();
-            $cnm_array = array("cnm_data"=>$cnm_data,"cnm_licence_num"=>$cnm_licence_num,"cnm_licence_expiry"=>$cnm_licence_expiry,"cnm_file"=>$cnm_file_name);
-      }else{
-                $cnm_array = "";
-            }
-
-      if($request->ons_data){
-            $ons_data = json_encode($request->ons_data);
-            //print_r($acls_data);
-            $ons_licence_num = $request->ons_license_number;
-            $ons_licence_expiry = $request->ons_expiry;
-
-            $ons_file = $request->file('ons_upload_certification');
-
-            if($ons_file){
-                $destinationPath = public_path().'/uploads';
-                $ons_file_name = $ons_file->getClientOriginalName();
-                $ons_file->move($destinationPath,$ons_file->getClientOriginalName());
-            }else{
-                $ons_data_one = json_decode($getedudata->ons_data);
-
-                if($ons_data_one != NULL){
-                    $ons_file_name = $ons_data_one->ons_file;
-                }else{
-                    $ons_file_name = "";
-                }
-                
-                
-            }
-            
-
-            $ons_array = array();
-            $ons_array = array("ons_data"=>$ons_data,"ons_licence_num"=>$ons_licence_num,"ons_licence_expiry"=>$ons_licence_expiry,"ons_file"=>$ons_file_name);
-        }else{
-                $ons_array = "";
-            }
-
-        if($request->msw_data){
-
-            $msw_data = json_encode($request->msw_data);
-            //print_r($acls_data);
-            $msw_licence_num = $request->msw_license_number;
-            $msw_licence_expiry = $request->msw_expiry;
-
-            $msw_file = $request->file('msw_upload_certification');
-
-            if($msw_file){
-                $destinationPath = public_path().'/uploads';
-                $msw_file_name = $msw_file->getClientOriginalName();
-                $msw_file->move($destinationPath,$msw_file->getClientOriginalName());
-            }else{
-                $msw_data_one = json_decode($getedudata->msw_data);
-
-                if($msw_data_one != NULL){
-                    $msw_file_name = $msw_data_one->msw_file;
-                }else{
-                    $msw_file_name = "";
-                }
-                
-                
-            }
-            
-
-            $msw_array = array();
-            $msw_array = array("msw_data"=>$msw_data,"msw_licence_num"=>$msw_licence_num,"msw_licence_expiry"=>$msw_licence_expiry,"msw_file"=>$msw_file_name);
-        }else{
-                $msw_array = "";
-            }
-        if($request->ain_data){
-            $ain_data = json_encode($request->ain_data);
-            //print_r($acls_data);
-            $ain_licence_num = $request->ain_license_number;
-            $ain_licence_expiry = $request->ain_expiry;
-
-            $ain_file = $request->file('ain_upload_certification');
-
-            if($ain_file){
-                $destinationPath = public_path().'/uploads';
-                $ain_file_name = $ain_file->getClientOriginalName();
-                $ain_file->move($destinationPath,$ain_file->getClientOriginalName());
-            }else{
-                $ain_data_one = json_decode($getedudata->ain_data);
-
-                if($ain_data_one != NULL){
-                    $ain_file_name = $ain_data_one->ain_file;
-                }else{
-                    $ain_file_name = "";
-                }
-                
-                
-            }
-            
-
-            $ain_array = array();
-            $ain_array = array("ain_data"=>$ain_data,"ain_licence_num"=>$ain_licence_num,"ain_licence_expiry"=>$ain_licence_expiry,"ain_file"=>$ain_file_name);
-        }else{
-                $ain_array = "";
-            }
-        if($request->rpn_data){
-            $rpn_data = json_encode($request->rpn_data);
-            //print_r($acls_data);
-            $rpn_licence_num = $request->rpn_license_number;
-            $rpn_licence_expiry = $request->rpn_expiry;
-
-            $rpn_file = $request->file('rpn_upload_certification');
-
-            if($rpn_file){
-                $destinationPath = public_path().'/uploads';
-                $rpn_file_name = $rpn_file->getClientOriginalName();
-                $rpn_file->move($destinationPath,$rpn_file->getClientOriginalName());
-            }else{
-                $rpn_data_one = json_decode($getedudata->rpn_data);
-
-                if($rpn_data_one != NULL){
-                    $rpn_file_name = $rpn_data_one->rpn_file;
-                }else{
-                    $rpn_file_name = "";
-                }
-                
-                
-            }
-            
-
-            $rpn_array = array();
-            $rpn_array = array("rpn_data"=>$rpn_data,"rpn_licence_num"=>$rpn_licence_num,"rpn_licence_expiry"=>$rpn_licence_expiry,"rpn_file"=>$rpn_file_name);
-        }else{
-                $rpn_array = "";
-            }
-
-        if($request->nl_data){
-            $nl_data = json_encode($request->nl_data);
-            //print_r($acls_data);
-            $nl_licence_num = $request->nl_license_number;
-            $nl_licence_expiry = $request->nl_expiry;
-
-            $nl_file = $request->file('nl_upload_certification');
-
-            if($nl_file){
-                $destinationPath = public_path().'/uploads';
-                $nl_file_name = $nl_file->getClientOriginalName();
-                $nl_file->move($destinationPath,$nl_file->getClientOriginalName());
-            }else{
-                $nl_data_one = json_decode($getedudata->nl_data);
-
-                if($nl_data_one != NULL){
-                    $nl_file_name = $nl_data_one->nl_file;
-                }else{
-                    $nl_file_name = "";
-                }
-                
-                
-            }
-            
-
-            $nl_array = array();
-            $nl_array = array("nl_data"=>$nl_data,"nl_licence_num"=>$nl_licence_num,"nl_licence_expiry"=>$nl_licence_expiry,"nl_file"=>$nl_file_name);
-            
-}else{
-                $nl_array = "";
-            }
-            
-            $run = EducationModel::where('user_id',$user_id)->update(['institution'=>$institution,'most_relevant'=>$most_relevant,'graduate_start_date'=>$graduation_start_date,'graduate_end_date'=>$graduation_end_date,'professional_certifications'=>$professional_certification,'licence_number'=>$license_number,'country'=>$country,'state'=>$state,'expiration_date'=>$expiration_date,'training_courses'=>$training_courses,'training_workshops'=>$training_workshop,'complete_status'=>1,'acls_data'=>$acls_array,'bls_data'=>$bls_array,'cpr_data'=>$cpr_array,'nrp_data'=>$nrp_array,'pals_data'=>$pals_array,'rn_data'=>$rn_array,'np_data'=>$np_array,'cna_data'=>$cna_array,'lpn_data'=>$lpn_array,'crna_data'=>$crna_array,'cnm_data'=>$cnm_array,'ons_data'=>$ons_array,'msw_data'=>$msw_array,'ain_data'=>$ain_array,'rpn_data'=>$rpn_array,'nl_data'=>$nl_array]);
+            $run = EducationModel::where('user_id',$user_id)->update(['institution'=>$institution,'graduate_start_date'=>$graduation_start_date,'professional_certifications'=>$professional_certification,'licence_number'=>$license_number,'country'=>$country,'state'=>$state,'expiration_date'=>$expiration_date,'training_courses'=>$training_courses,'training_workshops'=>$training_workshop,'complete_status'=>1,'declaration_status'=>$declare_information,'acls_data'=>$acls_data_json,'bls_data'=>$bls_data_json,'cpr_data'=>$cpr_data_json,'nrp_data'=>$nrp_data_json,'pals_data'=>$pls_data_json,'rn_data'=>$rn_data_json,'np_data'=>$np_data_json,'cna_data'=>$cn_data_json,'lpn_data'=>$lpn_data_json,'crna_data'=>$crna_data_json,'cnm_data'=>$cnm_data_json,'ons_data'=>$ons_data_json,'msw_data'=>$msw_data_json,'ain_data'=>$ain_data_json,'rpn_data'=>$rpn_data_json,'nl_data'=>$nl_data,'additional_certification'=>$new_certificate_json]);
         }else{
 
             
@@ -1508,14 +1674,32 @@ class HomeController extends Controller
             
             $post->institution = $institution;
             $post->graduate_start_date = $graduation_start_date;
-            $post->graduate_end_date = $graduation_end_date;
+            $post->degree_transcript = $dtranimgs;
             $post->professional_certifications = $professional_certification;
-            $post->licence_number = $license_number;
-            $post->country = $country;
-            $post->state = $state;
-            $post->expiration_date = $expiration_date;
-            $post->training_courses = $training_courses;
-            $post->training_workshops = $training_workshop;
+            $post->acls_data = $acls_data_json;
+            $post->bls_data = $bls_data_json;
+            $post->cpr_data = $cpr_data_json;
+            $post->nrp_data = $nrp_data_json;
+            $post->pals_data = $pls_data_json;
+            $post->rn_data = $rn_data_json;
+            $post->np_data = $np_data_json;
+            $post->cna_data = $cn_data_json;
+            $post->lpn_data = $lpn_data_json;
+            $post->crna_data = $crna_data_json;
+            $post->cnm_data = $cnm_data_json;
+            $post->ons_data = $ons_data_json;
+            $post->msw_data = $msw_data_json;
+            $post->ain_data = $ain_data_json;
+            $post->rpn_data = $rpn_data_json;
+            $post->nl_data = $nl_data;
+            // $post->licence_number = $license_number;
+            // $post->country = $country;
+            // $post->state = $state;
+            // $post->expiration_date = $expiration_date;
+            // $post->training_courses = $training_courses;
+            // $post->training_workshops = $training_workshop;
+            
+            $post->additional_certification = $new_certificate_json;
             $post->complete_status = 1;
             $run = $post->save();
 
@@ -1548,7 +1732,51 @@ class HomeController extends Controller
         $present_box = $request->present_box;
         $job_responeblities = $request->job_responeblities;
         $achievements = $request->achievements;
+        $employeement_type = $request->employeement_type;
         $skills_compantancies = json_encode($request->skills_compantancies);
+        $type_of_evidence = json_encode($request->type_of_evidence);
+        $i = 0;    
+        $work_experience_array = array();
+        foreach ($previous_employer_name as $pname) {
+            $previous_employer_name1 = $pname;
+            $positions_held1 = $positions_held[$i];
+            $start_date1 = $start_date[$i];
+            $end_date1 = $end_date[$i];
+            
+            if (isset($present_box[$i])) {
+                    $p_box = 1;
+                }else{
+                    $p_box = 0;
+                }
+            $employeement_type1 = $employeement_type[$i];
+            $job_responeblities1 = $job_responeblities[$i];
+            $achievements1 = $achievements[$i];
+
+            $work_experience_array[] = array("previous_employer_name1"=>$previous_employer_name1,"positions_held1"=>$positions_held1,"start_date1"=>$start_date1,"end_date1"=>$end_date1,"present_box1"=>$p_box,"employeement_type1"=>$employeement_type1,"job_responeblities1"=>$job_responeblities1,"achievements1"=>$achievements1);
+            $i++;
+        }
+
+        if(!empty($work_experience_array)){
+            $work_experience_json = json_encode($work_experience_array);
+        }else{
+            $work_experience_json = '';
+        }
+
+        $file = $request->file('upload_evidence');
+
+        
+        
+        //$post = User::find($request->user_id);
+
+        if(!empty($file)){
+            $destinationPath = public_path() . '/uploads/evidence';
+
+            $file->move($destinationPath,time().$file->getClientOriginalName());
+            $upload_evidence = time().$file->getClientOriginalName();
+            
+        }else{
+            $upload_evidence = $getedudata->upload_evidence;
+        }
         
         
         $getexperiencedata = DB::table("user_experience")->where("user_id",$user_id)->first();
@@ -1559,7 +1787,7 @@ class HomeController extends Controller
             $post1->assistent_level = $year_experience;
             $post1->save();
             
-            $run = ExperienceModel::where('user_id',$user_id)->update(['employer_name'=>$previous_employer_name,'position_held'=>$positions_held,'employeement_start_date'=>$start_date,'employeement_end_date'=>$end_date,'present_status'=>$present_box,'responsiblities'=>$job_responeblities,'achievements'=>$achievements,'skills_compantancies'=>$skills_compantancies,'complete_status'=>1]);
+            $run = ExperienceModel::where('user_id',$user_id)->update(['work_experience'=>$work_experience_json,'upload_evidence'=>$upload_evidence,'evidence_type'=>$type_of_evidence,'skills_compantancies'=>$skills_compantancies,'complete_status'=>1]);
         }else{
 
             
@@ -1568,14 +1796,10 @@ class HomeController extends Controller
             $post->user_id = $user_id;
             
             //$post->year_experience = $year_experience;
-            $post->employer_name = $previous_employer_name;
-            $post->position_held = $positions_held;
-            $post->employeement_start_date = $start_date;
-            $post->employeement_end_date = $end_date;
-            $post->present_status = $present_box;
-            $post->responsiblities = $job_responeblities;
-            $post->achievements = $achievements;
+            $post->work_experience = $work_experience_json;
             $post->skills_compantancies = $skills_compantancies;
+            $post->upload_evidence = $upload_evidence;
+            $post->evidence_type = $type_of_evidence;
             $post->complete_status = 1;
             $run = $post->save();
 
@@ -1594,6 +1818,202 @@ class HomeController extends Controller
         }
         
         echo json_encode($json);
+    }
+
+    public function updateReference(Request $request){
+        $user_id = $request->user_id;
+        $first_name = $request->first_name;
+        
+        $last_name = $request->last_name;
+        $email = $request->email;
+        $phone_no = $request->phone_no;
+        $reference_relationship = $request->reference_relationship;
+        $worked_together = $request->worked_together;
+        $position_with_referee = $request->position_with_referee;
+        $start_date = $request->start_date;
+        $end_date = $request->end_date;
+        $still_working = $request->still_working;
+        $reference_no = $request->reference_no;
+        
+        $getrefereedata = DB::table("referee")->where("user_id",$user_id)->get();
+
+        $referee_no_array = array();
+
+        foreach ($getrefereedata as $r_data) {
+            $referee_no_array[] = $r_data->referee_no;
+        }
+        
+
+        for($i=0;$i<count($first_name);$i++){
+            if(in_array($i+1, $referee_no_array)){
+                if (isset($still_working[$i])) {
+                    $working = 1;
+                }else{
+                    $working = 0;
+                }
+                $run = AddReferee::where('user_id',$user_id)->where('referee_no',$i+1)->update(['first_name'=>$first_name[$i],'last_name'=>$last_name[$i],'email'=>$email[$i],'phone_no'=>$phone_no[$i],'relationship'=>$reference_relationship[$i],'worked_together'=>$worked_together[$i],'position_with_referee'=>$position_with_referee[$i],'start_date'=>$start_date[$i],'end_date'=>$end_date[$i],'still_working'=>$working]);
+            }else{
+                if (isset($still_working[$i])) {
+                    $working = 1;
+                }else{
+                    $working = 0;
+                }
+                $referee = new AddReferee;
+                $referee->referee_no = $i+1;
+                $referee->user_id = $user_id;
+                $referee->first_name = $first_name[$i];
+                $referee->last_name = $last_name[$i];
+                $referee->email = $email[$i];
+                $referee->phone_no = $phone_no[$i];
+                $referee->relationship = $reference_relationship[$i];
+                $referee->worked_together = $worked_together[$i];
+                $referee->position_with_referee = $position_with_referee[$i];
+                $referee->start_date = $start_date[$i];
+                $referee->end_date = $end_date[$i];
+                $referee->still_working = $working;
+                $referee->save();
+            }
+        }
+        
+        
+        
+
+        $json['status'] = 1;
+
+        echo json_encode($json);
+
+    }
+
+    public function deleteReferee(Request $request){
+        $user_id = $request->user_id;
+        $referee_id = $request->referee_id;
+
+        $deleteData = DB::table("referee")->where("user_id",$user_id)->where("referee_id",$referee_id)->delete();
+
+        if($deleteData){
+            return 1;
+        }
+    }
+
+    public function deleteCertification(Request $request){
+        $user_id = $request->user_id;
+        $certificate_id = $request->certificate_id;
+
+        $getEducationData = DB::table("user_education_cerification")->where("user_id",$user_id)->first();
+
+        //print_r($getEducationData);
+        $getCertificateData = json_decode($getEducationData->additional_certification);
+
+        $certificate_id_array = array();
+
+        foreach ($getCertificateData as $c_id) {
+            $certificate_id_array[] = $c_id->certificate_id;
+        }
+
+        $certificate_index = array_search($certificate_id, $certificate_id_array);
+
+        array_splice($getCertificateData, $certificate_index, 1);    
+
+        //unset($getCertificateData[$certificate_index]);
+        
+
+        if(!empty($getCertificateData)){
+            $CertificateData = json_encode($getCertificateData);
+        }else{
+            $CertificateData = '';
+        }
+
+        $deleteData = EducationModel::where('user_id',$user_id)->update(['additional_certification'=>$CertificateData]);
+
+        if($deleteData){
+            return 1;
+        }
+    }
+
+    public function deleteImg(Request $request){
+        $user_id = $request->user_id;
+        $img = $request->img;
+
+        $getEducationData = DB::table("user_education_cerification")->where("user_id",$user_id)->first();
+
+        $gettransimg = json_decode($getEducationData->degree_transcript);
+
+        
+
+        $img_index = array_search($img, $gettransimg);
+        
+        array_splice($gettransimg, $img_index, 1);
+
+        if(!empty($gettransimg)){
+            $tranimgData = json_encode($gettransimg);
+        }else{
+            $tranimgData = '';
+        }
+
+
+
+        $deleteData = EducationModel::where('user_id',$user_id)->update(['degree_transcript'=>$tranimgData]);
+
+        $destinationPath = public_path() . '/uploads/education_degree/'.$img;
+        
+        if(File::exists($destinationPath)) {
+            File::delete($destinationPath);
+        }
+
+        if($deleteData){
+            return 1;
+        }
+
+        //print_r($gettransimg);
+        
+    }
+
+    public function deleteImg1(Request $request){
+        $user_id = $request->user_id;
+        $img = $request->img;
+        $country_name = $request->country_name;
+        $img_text = $request->img_text;
+
+        $getEducationData = DB::table("edu_fields")->where("user_id",$user_id)->first();
+        $getEducationData1 = (array)$getEducationData;
+        $gettransimg = (array)json_decode($getEducationData1[$img_text]);
+        $gettransimg1 = json_decode($gettransimg[$country_name]);
+        
+
+        $img_index = array_search($img, $gettransimg1);
+        
+        array_splice($gettransimg1, $img_index, 1);
+
+        if(!empty($gettransimg1)){
+            $tranimgData = json_encode($gettransimg1);
+        }else{
+            $tranimgData = '';
+        }
+        
+        $gettransimg[$country_name] = $tranimgData;
+
+        if(!empty($gettransimg)){
+            $tranimgData1 = json_encode($gettransimg);
+        }else{
+            $tranimgData1 = '';
+        }
+
+        //print_r($gettransimg);die;
+
+        $deleteData = DB::table("edu_fields")->where('user_id',$user_id)->update([$img_text=>$tranimgData1]);
+
+        $destinationPath = public_path() . '/uploads/education_degree/'.$img;
+        
+        if(File::exists($destinationPath)) {
+            File::delete($destinationPath);
+        }
+
+        if($deleteData){
+            return 1;
+        }
+
+        //print_r($gettransimg);
+        
     }
 
     public function vaccinationForm(Request $request){
@@ -1759,7 +2179,7 @@ class HomeController extends Controller
         if(!empty($getpreferencesdata)>0){
             
             
-            $run = WorkPreferencesModel::where('user_id',$user_id)->update(['desired_job_role'=>$des_job_role,'salary_expectations'=>$salary_expectations,'benefits_preferences'=>$benefit_prefer]);
+            $run = WorkPreferencesModel::where('user_id',$user_id)->update(['desired_job_role'=>$des_job_role,'salary_expectations'=>$salary_expectation,'benefits_preferences'=>$benefit_prefer]);
         }else{
 
             
@@ -1790,6 +2210,99 @@ class HomeController extends Controller
         
         echo json_encode($json);
     }
+
+    public function updateAdditionalInfo(Request $request){
+        $user_id = $request->user_id;
+        $additional_info_language = $request->additional_info_language;
+        $volunteer_experience = $request->volunteer_experience;
+        $hobbies_interests = $request->hobbies_interests;
+        
+        
+        
+        $getinfodata = DB::table("additional_information")->where("user_id",$user_id)->first();
+        //$post = User::find($request->user_id);
+        
+        if(!empty($getinfodata)>0){
+            
+            
+            $run = AdditionalInfo::where('user_id',$user_id)->update(['additional_info_language'=>$additional_info_language,'volunteer_experience'=>$volunteer_experience,'hobbies_interests'=>$hobbies_interests]);
+        }else{
+
+            
+
+            $post = new AdditionalInfo();
+            $post->user_id = $user_id;
+            
+            //$post->year_experience = $year_experience;
+            $post->additional_info_language = $additional_info_language;
+            $post->volunteer_experience = $volunteer_experience;
+           
+            $post->hobbies_interests = $hobbies_interests;
+           
+            
+            
+            $run = $post->save();
+
+        }
+
+        if ($run) {
+            $json['status'] = 1;
+            $json['url'] = url('nurse/my-profile');
+            $json['message'] = 'Education Information Updated Successfully';
+         } else {
+            $json['status'] = 0;
+            $json['message'] = 'Please Try Again';
+        }
+        
+        echo json_encode($json);
+    }
+
+    public function updateProfessionalMembership(Request $request){
+        $user_id = $request->user_id;
+        $des_profession_association = json_encode($request->des_profession_association);
+        $membership_numbers = $request->prof_membership_numbers;
+        $membership_status = $request->prof_membership_status;
+        
+        
+        
+        $getassodata = DB::table("professional_membership")->where("user_id",$user_id)->first();
+        //$post = User::find($request->user_id);
+        
+        if(!empty($getassodata)>0){
+            
+            
+            $run = ProfessionalAssocialtionModel::where('user_id',$user_id)->update(['des_profession_association'=>$des_profession_association,'membership_numbers'=>$membership_numbers,'membership_status'=>$membership_status]);
+        }else{
+
+            
+
+            $post = new ProfessionalAssocialtionModel();
+            $post->user_id = $user_id;
+            
+            //$post->year_experience = $year_experience;
+            $post->des_profession_association = $des_profession_association;
+            $post->membership_numbers = $membership_numbers;
+           
+            $post->membership_status = $membership_status;
+           
+            
+            
+            $run = $post->save();
+
+        }
+
+        if ($run) {
+            $json['status'] = 1;
+            $json['url'] = url('nurse/my-profile');
+            $json['message'] = 'Education Information Updated Successfully';
+         } else {
+            $json['status'] = 0;
+            $json['message'] = 'Please Try Again';
+        }
+        
+        echo json_encode($json);
+    }
+
     public function updateTraining(Request $request){
         $user_id = $request->user_id;
         $start_date = $request->start_date;
@@ -1834,6 +2347,63 @@ class HomeController extends Controller
         }
         
         echo json_encode($json);
+    }
+
+    public function uploadImgs(Request $request){
+        $files = $request->file('upload_images');
+        $user_id = $request->user_id;
+
+        $getedudata = DB::table("user_education_cerification")->where("user_id",$user_id)->first();
+
+        $dtranaimg = json_decode($getedudata->degree_transcript);
+
+        $dtranimgs = Helpers::multipleFileUpload($files,$dtranaimg);
+
+        $run = EducationModel::where('user_id',$user_id)->update(['degree_transcript'=>$dtranimgs]);
+
+        //print_r($files);
+        return $dtranimgs;
+    }
+
+    public function uploadImgs1(Request $request){
+        $files = $request->file('upload_images');
+        $user_id = $request->user_id;
+        $country_name = $request->country_name;
+        $field_name = $request->field_name;
+        //print_r($files);die;
+
+        $getedufieldsdata = DB::table("edu_fields")->where("user_id",$user_id)->first();
+        //print_r($getedufieldsdata);die;
+        if(empty($getedufieldsdata)){
+
+            
+            $acls_img = Helpers::multipleFileUpload($files,'');
+            $acls_data = array($country_name => $acls_img);
+            $getImg_array = $acls_data;
+            DB::table("edu_fields")->insert(["user_id"=>$user_id,$field_name=>json_encode($acls_data)]);
+        }else{
+            $getEdufieldsData1 = (array)$getedufieldsdata;
+            $getImgfield = $getEdufieldsData1[$field_name];
+            $getImg_array = (array)json_decode($getImgfield);
+            
+            if(array_key_exists($country_name,$getImg_array)){
+                $available_imgs = (array)json_decode($getImg_array[$country_name]);
+                $acls_img = Helpers::multipleFileUpload($files,$available_imgs);
+                $getImg_array[$country_name] = $acls_img;
+                DB::table("edu_fields")->where("user_id",$user_id)->update([$field_name=>json_encode($getImg_array)]);
+            }else{
+                $acls_img = Helpers::multipleFileUpload($files,'');
+                $getImg_array[$country_name] = $acls_img;
+                
+                
+                DB::table("edu_fields")->where("user_id",$user_id)->update([$field_name=>json_encode($getImg_array)]);
+            }
+            
+
+        }
+
+        return $acls_img;
+
     }
     
      public function update_profession_ahpra_numberI(Request $request)

@@ -241,6 +241,14 @@
             <span class="hide-menu">Contact Us</span>
           </a>
         </li>
+        <li class="sidebar-item">
+          <a class="sidebar-link" href="{{route('admin.SeoList')}}" aria-expanded="false">
+            <span>
+              <i class="ti ti-seo-edit"></i>
+            </span>
+            <span class="hide-menu">Seo Management</span>
+          </a>
+        </li>
       </ul>
 
     </nav>

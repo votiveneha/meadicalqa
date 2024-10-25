@@ -96,6 +96,12 @@ function state_name($state_id)
         $lastRecord = StateModel::where('id', $state_id)->first();
         return $lastRecord->name;
 }
+function state_list()
+{
+        $lastRecord = StateModel::all();
+        
+        return $lastRecord;
+}
 function country_name($country_id)
 {
 

@@ -123,7 +123,7 @@
                     <div class="modal-footer pt-0">
                         <button type="submit" class="btn btn-primary font-medium waves-effect" id="edit_signup_btn_btn"
                            >
-                            Edit 
+                            Add 
                         </button>
                     </div>
                 </form>
