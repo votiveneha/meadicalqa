@@ -234,6 +234,14 @@
           </ul>
         </li>
         <li class="sidebar-item">
+          <a class="sidebar-link" href="{{route('admin.traeductionList')}}" aria-expanded="false">
+            <span>
+              <i class="ti ti-seo-edit"></i>
+            </span>
+            <span class="hide-menu">Mandatory Training</span>
+          </a>
+        </li>
+        <li class="sidebar-item">
           <a class="sidebar-link" href="{{route('admin.contact-list')}}" aria-expanded="false">
             <span>
               <i class="ti ti-aperture"></i>

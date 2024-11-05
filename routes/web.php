@@ -156,6 +156,18 @@ Route::prefix('/admin')->name('admin.')->namespace('App\Http\Controllers\admin')
         Route::post('/delete-seo', 'SeoController@deleteSeo')->name('deleteSeo');  
         Route::post('/get-seo', 'SeoController@getSeo')->name('getSeo');
 
+        //Mandatory Training  and Education 
+        Route::get('/training-education-list', 'MantrainingController@mantrainingList')->name('traeductionList');
+        Route::post('/add-man-training', 'MantrainingController@addManTraining')->name('addManTraining');
+        Route::post('/update-man-training', 'MantrainingController@updateManTraining')->name('updateManTraining');
+        Route::post('/delete-man-training', 'MantrainingController@deleteManTraining')->name('deleteManTraining');  
+        Route::post('/get-man-training', 'MantrainingController@getManTraining')->name('getManTraining');
+        Route::get('/sub-training-education-list/{id}', 'MantrainingController@subManTrainingList')->name('subManTrainingList');
+        Route::post('/add-sub-man-training', 'MantrainingController@addSubMantraining')->name('addSubMantraining');
+         Route::post('/delete-sub-man-training', 'MantrainingController@deleteSubMantraining')->name('deleteSubMantraining'); 
+         Route::post('/get-sub-man-training', 'MantrainingController@getSubMantraining')->name('getSubMantraining'); 
+        Route::post('/update-sub-man-training', 'MantrainingController@updateSubMantraining')->name('updateSubMantraining');
+
          /* contact us list */
          Route::get('/contact-list', 'ContentController@contactList')->name('contact-list');
         });

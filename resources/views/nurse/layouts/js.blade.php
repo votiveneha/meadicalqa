@@ -2091,6 +2091,24 @@ function pad(number) {
       }
     });
   }
+
+  function deleteImg1(i,user_id,img,country_name,img_text){
+    //alert(".trans_img"+img_text+country_name+i);
+    
+    
+    $.ajax({
+      type: "post",
+      url: "{{ route('nurse.deleteImg1') }}",
+      data: {user_id:user_id,img:img,country_name:country_name,img_text:img_text,_token:'{{ csrf_token() }}'},
+      cache: false,
+      success: function(data){
+         if(data == 1){
+          $(".trans_img"+img_text+country_name+i).remove();
+         }
+         
+      }
+    });
+  }
   function deleteImgCert(i,user_id,img){
     
     
@@ -2149,6 +2167,52 @@ input.onclick = function () {
             htmlData += '<div class="trans_img trans_img-'+(i+1)+'"><a href="{{ url("/public") }}/uploads/education_degree/'+img_name+'" target="_blank"><i class="fa fa-file" aria-hidden="true"></i>'+image_array[i]+'</a><div class="close_btn close_btn-'+i+'" onclick="deleteImg('+(i+1)+','+user_id+',\''+img_name+'\')" style="cursor: pointer;"><i class="fa fa-close" aria-hidden="true"></i></div></div>';
          }
          $(".degree_transcript_imgs").html(htmlData);
+         
+         
+      }
+    });
+
+  }
+  function changeImg1(user_id,i,field_name,country_name){
+    var files =$('.'+field_name+'_'+country_name)[0].files;
+    console.log("files",'.'+field_name+'_'+country_name);
+    
+    var form_data =  "";
+    
+    form_data = new FormData();
+
+    for(var i=0;i<files.length;i++){
+        form_data.append("upload_images[]", files[i], files[i]['name']);
+
+    }
+
+    form_data.append("user_id", user_id);
+    form_data.append("country_name", country_name);
+    form_data.append("field_name", field_name);
+    form_data.append("_token", '{{ csrf_token() }}');
+    
+    $.ajax({
+      type: "post",
+      url: "{{ route('nurse.uploadImgs1') }}",
+      cache: false,
+      contentType: false,
+      processData: false,
+      async: true,
+      data: form_data,
+      
+      success: function(data){
+        
+         var image_array = JSON.parse(data);
+         var htmlData = '';
+         console.log("data",image_array);
+         for(var i=0;i<image_array.length;i++){
+            console.log("degree_transcript",image_array[i]);
+            var img_name = image_array[i];
+            var img_text = field_name;
+            console.log("img_name",'deleteImg('+(i+1)+','+user_id+',"'+img_name+'")');
+            htmlData += '<div class="trans_img trans_img-'+(i+1)+' trans_img'+field_name+country_name+i+'"><a href="{{ url("/public") }}/uploads/education_degree/'+img_name+'" target="_blank"><i class="fa fa-file" aria-hidden="true"></i>'+image_array[i]+'</a><div class="close_btn close_btn-'+i+'" onclick="deleteImg1('+i+','+user_id+',\''+image_array[i]+'\',\''+country_name+'\',\''+img_text+'\')" style="cursor: pointer;"><i class="fa fa-close" aria-hidden="true"></i></div></div>';
+         }
+         $("."+field_name+country_name).html(htmlData);
          
          
       }
