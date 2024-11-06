@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 05, 2024 at 11:11 AM
+-- Generation Time: Nov 06, 2024 at 10:54 AM
 -- Server version: 5.7.23-23
 -- PHP Version: 8.1.30
 
@@ -774,8 +774,73 @@ CREATE TABLE `man_training_category` (
 
 INSERT INTO `man_training_category` (`id`, `name`, `parent`, `is_featured`, `status`, `type`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (413, 'ewwwewqe', 410, 1, '1', 'Education', '2024-11-04 13:05:48', '2024-11-04 13:05:48', NULL),
-(414, 'test', 0, 0, '1', NULL, '2024-11-04 13:37:41', '2024-11-04 13:37:41', NULL),
-(416, 'test2', 414, 1, '1', 'Education', '2024-11-04 13:38:08', '2024-11-04 13:38:08', NULL);
+(414, 'Clinical Skills and Core Competencies:', 0, 0, '1', NULL, '2024-11-04 13:37:41', '2024-11-05 12:03:42', NULL),
+(416, 'Aggressive Behaviour Management', 414, 1, '1', 'Training', '2024-11-04 13:38:08', '2024-11-05 12:10:50', NULL),
+(417, 'Midwifery-Specific Training:', 0, 0, '1', NULL, '2024-11-05 12:04:00', '2024-11-05 12:04:00', NULL),
+(418, 'Leadership and Professional Development:', 0, 0, '1', NULL, '2024-11-05 12:04:18', '2024-11-05 12:04:18', NULL),
+(419, 'Technology and Innovation in Healthcare:', 0, 0, '1', NULL, '2024-11-05 12:04:38', '2024-11-05 12:04:38', NULL),
+(420, 'Wellness and Self-Care:', 0, 0, '1', NULL, '2024-11-05 12:04:54', '2024-11-05 12:04:54', NULL),
+(421, 'Aseptic Technique', 414, 0, '1', 'Training', '2024-11-05 12:10:39', '2024-11-05 12:10:39', NULL),
+(422, 'Blood Transfusion Protocols', 414, 0, '1', 'Training', '2024-11-05 12:11:07', '2024-11-05 12:11:07', NULL),
+(423, 'BloodSafe eLearning', 414, 0, '1', 'Training', '2024-11-05 12:11:38', '2024-11-05 12:11:38', NULL),
+(424, 'Breastfeeding Promotion', 414, 0, '1', 'Training', '2024-11-05 12:11:59', '2024-11-05 12:11:59', NULL),
+(425, 'Breastfeeding Support and Lactation Management', 414, 0, '1', 'Training', '2024-11-05 12:12:25', '2024-11-05 12:12:25', NULL),
+(426, 'Certificate III Health Services Assistance (Nursing Acute Care assistance)', 414, 0, '1', 'Training', '2024-11-05 12:12:45', '2024-11-05 12:12:45', NULL),
+(427, 'Certificate III in Aged Care', 414, 0, '1', 'Training', '2024-11-05 12:13:10', '2024-11-05 12:13:10', NULL),
+(428, 'Chemotherapy Competency', 414, 0, '1', 'Training', '2024-11-05 12:13:30', '2024-11-05 12:13:30', NULL),
+(429, 'Emergency and Trauma Care', 414, 0, '1', 'Training', '2024-11-05 12:13:48', '2024-11-05 12:13:48', NULL),
+(430, 'Infection Prevention and Control', 414, 0, '1', 'Training', '2024-11-05 12:14:12', '2024-11-05 12:14:12', NULL),
+(431, 'Medication Administration', 414, 0, '1', 'Training', '2024-11-05 12:14:29', '2024-11-05 12:14:29', NULL),
+(432, 'Pain Management', 414, 0, '1', 'Training', '2024-11-05 12:14:54', '2024-11-05 12:14:54', NULL),
+(433, 'Patient Assessment Skills', 414, 0, '1', 'Training', '2024-11-05 12:15:10', '2024-11-05 12:15:10', NULL),
+(434, 'Perioperative Nursing Skills', 414, 0, '1', 'Training', '2024-11-05 12:15:29', '2024-11-05 12:15:29', NULL),
+(435, 'Postpartum Hemorrhage Management', 414, 0, '1', 'Training', '2024-11-05 12:15:48', '2024-11-05 12:15:48', NULL),
+(436, 'Venipuncture and IV Cannulation', 414, 0, '1', 'Training', '2024-11-05 12:16:02', '2024-11-05 12:16:02', NULL),
+(437, 'Vital Signs Monitoring', 414, 0, '1', 'Training', '2024-11-05 12:16:18', '2024-11-05 12:16:18', NULL),
+(438, 'Wound Care Management', 414, 0, '1', 'Training', '2024-11-05 12:16:42', '2024-11-05 12:16:42', NULL),
+(439, 'Caesarean Section Assistance', 417, 0, '1', 'Training', '2024-11-05 12:18:06', '2024-11-05 12:18:06', NULL),
+(440, 'Family Planning and Contraceptive Counseling', 417, 0, '1', 'Training', '2024-11-05 12:18:23', '2024-11-05 12:18:23', NULL),
+(441, 'Fetal Monitoring', 417, 0, '1', 'Training', '2024-11-05 12:18:40', '2024-11-05 12:18:40', NULL),
+(442, 'Gestational Diabetes Management', 417, 0, '1', 'Training', '2024-11-05 12:19:01', '2024-11-05 12:19:01', NULL),
+(443, 'Labor and Delivery Management', 417, 0, '1', 'Training', '2024-11-05 12:19:18', '2024-11-05 12:19:18', NULL),
+(444, 'Management of Obstetric Emergencies', 417, 0, '1', 'Training', '2024-11-05 12:19:37', '2024-11-05 12:19:37', NULL),
+(445, 'Management of Preeclampsia and Eclampsia', 417, 0, '1', 'Training', '2024-11-05 12:19:54', '2024-11-05 12:19:54', NULL),
+(446, 'Maternal and Child Health', 417, 0, '1', 'Training', '2024-11-05 12:20:21', '2024-11-05 12:20:21', NULL),
+(447, 'Newborn Care and Resuscitation', 417, 0, '1', 'Training', '2024-11-05 12:20:43', '2024-11-05 12:20:43', NULL),
+(448, 'Normal Birth and Vaginal Delivery', 417, 0, '1', 'Training', '2024-11-05 12:21:02', '2024-11-05 12:21:02', NULL),
+(449, 'Perineal Suturing', 417, 0, '1', 'Training', '2024-11-05 12:21:23', '2024-11-05 12:21:23', NULL),
+(450, 'Postnatal Care', 417, 0, '1', 'Training', '2024-11-05 12:22:21', '2024-11-05 12:22:21', NULL),
+(451, 'Water Birth Facilitation', 417, 0, '1', 'Training', '2024-11-05 12:22:38', '2024-11-05 12:22:38', NULL),
+(452, 'Clinical Auditing', 418, 0, '1', 'Training', '2024-11-05 12:23:36', '2024-11-05 12:23:36', NULL),
+(453, 'Clinical Supervision and Mentorship', 418, 0, '1', 'Training', '2024-11-05 12:23:52', '2024-11-05 12:23:52', NULL),
+(454, 'Conflict Resolution and Mediation', 418, 0, '1', 'Training', '2024-11-05 12:24:10', '2024-11-05 12:24:10', NULL),
+(455, 'Cultural Competency and Diversity in Care', 418, 0, '1', 'Training', '2024-11-05 12:24:26', '2024-11-05 12:24:26', NULL),
+(456, 'Ethical Decision Making in Nursing', 418, 0, '1', 'Training', '2024-11-05 12:24:42', '2024-11-05 12:24:42', NULL),
+(457, 'Health Informatics and EHR (Electronic Health Records)', 418, 0, '1', 'Training', '2024-11-05 12:25:06', '2024-11-05 12:25:06', NULL),
+(458, 'Legal Issues in Healthcare', 418, 0, '1', 'Training', '2024-11-05 12:25:26', '2024-11-05 12:25:26', NULL),
+(459, 'Nurse Leadership and Management', 418, 0, '1', 'Training', '2024-11-05 12:25:45', '2024-11-05 12:25:45', NULL),
+(460, 'Nursing Policy and Advocacy', 418, 0, '1', 'Training', '2024-11-05 12:26:01', '2024-11-05 12:26:01', NULL),
+(461, 'Professional Writing and Documentation Skills', 418, 0, '1', 'Training', '2024-11-05 12:26:16', '2024-11-05 12:26:16', NULL),
+(462, 'Quality Improvement and Patient Safety', 418, 0, '1', 'Training', '2024-11-05 12:26:33', '2024-11-05 12:26:33', NULL),
+(463, 'Research and Evidence-Based Practice', 418, 0, '1', 'Training', '2024-11-05 12:26:54', '2024-11-05 12:26:54', NULL),
+(464, 'Teaching and Preceptorship Skills', 418, 0, '1', 'Training', '2024-11-05 12:27:08', '2024-11-05 12:27:08', NULL),
+(465, 'Team Communication and Collaboration', 418, 0, '1', 'Training', '2024-11-05 12:27:25', '2024-11-05 12:27:25', NULL),
+(466, 'Time Management and Delegation', 418, 0, '1', 'Training', '2024-11-05 12:27:42', '2024-11-05 12:27:42', NULL),
+(467, 'Advanced Wound Care Technologies', 419, 0, '1', 'Training', '2024-11-05 12:28:19', '2024-11-05 12:28:19', NULL),
+(468, 'Data Analytics in Nursing Care', 419, 0, '1', 'Training', '2024-11-05 12:28:37', '2024-11-05 12:28:37', NULL),
+(469, 'Electronic Fetal Monitoring', 419, 0, '1', 'Training', '2024-11-05 12:28:55', '2024-11-05 12:28:55', NULL),
+(470, 'Mobile Health Apps for Nursing Care', 419, 0, '1', 'Training', '2024-11-05 12:29:10', '2024-11-05 12:29:10', NULL),
+(471, 'Point-of-Care Ultrasound (POCUS)', 419, 0, '1', 'Training', '2024-11-05 12:29:28', '2024-11-05 12:29:28', NULL),
+(472, 'Robotic-Assisted Surgery Nursing', 419, 0, '1', 'Training', '2024-11-05 12:29:45', '2024-11-05 12:29:45', NULL),
+(473, 'Simulation-Based Clinical Training', 419, 0, '1', 'Training', '2024-11-05 12:30:02', '2024-11-05 12:30:02', NULL),
+(474, 'Telehealth and Virtual Care Delivery', 419, 0, '1', 'Training', '2024-11-05 12:30:24', '2024-11-05 12:30:24', NULL),
+(475, 'Use of Wearable Health Technology', 419, 0, '1', 'Training', '2024-11-05 12:30:44', '2024-11-05 12:30:44', NULL),
+(477, 'Compassion Fatigue and Burnout Prevention', 420, 0, '1', 'Training', '2024-11-05 12:32:23', '2024-11-05 12:32:23', NULL),
+(478, 'Emotional Intelligence and Resilience Training', 420, 0, '1', 'Training', '2024-11-05 12:32:41', '2024-11-05 12:32:41', NULL),
+(479, 'Ergonomics and Safe Patient Handling', 420, 0, '1', 'Training', '2024-11-05 12:32:59', '2024-11-05 12:32:59', NULL),
+(480, 'Healthy Lifestyle Promotion for Nurses', 420, 0, '1', 'Training', '2024-11-05 12:33:16', '2024-11-05 12:33:16', NULL),
+(481, 'Mindfulness and Mental Health', 420, 0, '1', 'Training', '2024-11-05 12:33:36', '2024-11-05 12:33:36', NULL),
+(482, 'Workplace Stress Management', 420, 0, '1', 'Training', '2024-11-05 12:33:53', '2024-11-05 12:33:53', NULL);
 
 -- --------------------------------------------------------
 
@@ -7136,7 +7201,7 @@ INSERT INTO `users` (`id`, `name`, `lastname`, `email`, `profile_img`, `email_ve
 (135, 'robert', 'test', 'test333@gmail.com', '/tmp/phpGqQJEN', NULL, NULL, NULL, NULL, 0, '0', '1', '1', NULL, '', '', NULL, '', '', NULL, NULL, '', '451666', NULL, NULL, '2024-08-08 07:58:35', '2024-08-08 07:58:35', '0', '1', 'No', 'No', 'No', 'No', 'No', '91', 'in', '54e4545454', NULL, 'IN', 1613, 'indore', NULL, 'test.com', NULL, 'male', '2024-08-10', 'indore', '3434343434', '91', 'in', 'votivephp.harshita@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (161, 'carry', 'sim', 'deepaksahuphp@gmail.com', 'nurse/assets/imgs/nurse06.png', NULL, '$2y$10$0OascM9xu2dSNeEBu74ly.GXfRuVQkqiqXg27D8Pr2W9/7qlyiQUq', NULL, 'eyJpdiI6ImhWWXFOaytoOXg5YzVURW9CejVNckE9PSIsInZhbHVlIjoiSUg2M2JWQVlhTEYrS2cwTkx0Y0xkNTk2eVJlUmIrcGIzNjNtaDUzNGdUTT0iLCJtYWMiOiIzNzVjNGU0ZjY5MmIyZjJkYWY0ZWUwYTEwNDJlNWYxZDM3MTQ5YjM4YWRjNGNiYzM1ZmNiMmI3ZDU4ZmU2NzNiIiwidGFnIjoiIn0=', 0, '0', '1', '1', '[\"1\"]', '[\"2\"]', 'null', 'null', '1', 'null', 'null', 'null', '[\"7\"]', '452010', NULL, NULL, '2024-09-26 10:46:54', NULL, '0', '1', 'No', 'No', 'No', 'No', 'No', '61', 'au', '1234567892', '7089@Veer', 'AU', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '[\"253\"]', 'null', 'null', 'null', '[\"7\"]', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (162, 'carry', 'sim', 'votivedeepak.php@gmail.com', 'nurse/assets/imgs/nurse06.png', NULL, '$2y$10$l8F3BBotSBZnxRHPTSFyDeUCXtKsZFJUFDJMC6rFDhrzgU4.0/Z/.', NULL, '', 0, '1', '1', '1', '[\"1\"]', '[\"2\"]', 'null', 'null', '1', 'null', 'null', 'null', '[\"7\"]', '462001', NULL, NULL, '2024-09-26 12:03:41', '2024-09-27 02:54:47', '2', '1', 'No', 'No', 'No', 'No', 'No', '61', 'au', '1234567898', '7089@Veer', 'AT', 203, 'Bhopal', NULL, 'https://votivetech.in/mediqa/nurse/my-profile?page=my_profile', NULL, 'Male', '1996-12-04', 'indore', '1236146541', '61', 'au', 'kebuhjbf@gmial.com', '[\"253\"]', 'null', 'null', 'null', '[\"9\"]', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, NULL, NULL, 1, NULL, '74', NULL, NULL, NULL),
-(167, 'Vijendra parmar', '04/12/1996', 'votivetester.preeti@gmail.com', 'nurse/assets/imgs/Unknown.jpeg', NULL, '$2y$10$vNvAC8P.6rFWEhWsPieZvOWDbBAS9IlLI0d91rayXILcNpXFMH/U.', NULL, NULL, 0, '1', '1', '1', '[\"4\"]', '[\"2\"]', '', NULL, '1', '', NULL, NULL, '[\"10\"]', '452001', NULL, NULL, '2024-10-22 13:35:00', '2024-11-03 23:49:33', '1', '1', 'No', 'Yes', 'No', 'Yes', 'No', '61', 'au', '1234567895', '7089@Veer', 'IN', 1618, 'indore', NULL, 'https://votivetech.in/mediqa/admin/add-nurse', NULL, 'Male', '1996-12-04', 'g2 ratanshree', '1234567895', '61', 'au', 'Damo2332@gmail.com', '[\"6\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"386\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', 'Temporary / Contract', NULL, NULL, 1, 0, '101', 1, NULL, NULL);
+(167, 'VijendraVeer7089980388IndianM.PIndore', 'parmarparmar04/12/1996https://votivetech.in/mediqa/nurse/my-profile?page=educertIndore1234567895', 'votivetester.preeti@gmail.com', 'nurse/assets/imgs/Unknown.jpeg', NULL, '$2y$10$vNvAC8P.6rFWEhWsPieZvOWDbBAS9IlLI0d91rayXILcNpXFMH/U.', NULL, NULL, 0, '1', '1', '1', '[\"4\"]', '[\"2\"]', '', NULL, '1', '', NULL, NULL, '[\"10\"]', '452001', NULL, NULL, '2024-11-05 10:53:56', '2024-11-05 05:23:56', '5', '1', 'No', 'Yes', 'No', 'Yes', 'No', '61', 'au', '1234567895', '7089@Veer', 'IN', 1618, 'indore', NULL, 'https://votivetech.in/mediqa/admin/add-nurse', NULL, 'Male', '1996-12-04', 'g2 ratanshree', '1234567895', '61', 'au', 'Damo2332@gmail.com', '[\"6\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"386\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"\"]', 'Temporary / Contract', NULL, NULL, 1, 0, '101', 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -7750,7 +7815,7 @@ ALTER TABLE `mandatory_training`
 -- AUTO_INCREMENT for table `man_training_category`
 --
 ALTER TABLE `man_training_category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=417;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=483;
 
 --
 -- AUTO_INCREMENT for table `migrations`

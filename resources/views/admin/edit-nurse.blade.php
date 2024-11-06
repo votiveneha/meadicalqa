@@ -63,6 +63,23 @@
     margin-left: 10px;
     line-height: 22px;
 }
+.badge {
+    display: inline-block;
+    padding: .35em .65em;
+    font-size: .75em;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25rem;
+}
+.btn-warning {
+    color: #000;
+    background-color: #ffc107;
+    border-color: #ffc107;
+}
 
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
@@ -141,15 +158,15 @@
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-8" role="tab" aria-selected="false"
+                        <a class="nav-link" data-bs-toggle="tab" href="#tab-9" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Work Clearances</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-9" role="tab" aria-selected="false"
+                        <a class="nav-link" data-bs-toggle="tab" href="#navpill-9" role="tab" aria-selected="false"
                             tabindex="-1">
-                            <span>Professional</span>
+                            <span>Professional Memberships</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
@@ -2484,45 +2501,59 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane p-3" id="navpill-8" role="tabpanel">
+                    <div class="tab-pane p-3" id="tab-9" role="tabpanel">
                         <div class="row">
+                            <form method="POST" id="work_clearances">
                             <div class="w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
                                     <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center">Work Clearances</h3>
                                 </div>
+                                <input type="hidden" value="tab7" name="tab">
+                                <input type="hidden" value="eligibility_work" name="type">
+                                <input type="hidden" value="{{ $profileData->id }}" name="user_id">
                                 <div class="card-body p-3 px-md-4">
                                     <div class="col-md-12">
                                         <div class="row">
                                             <h6 class="mt-2 color-brand-1 mb-2">Eligibility To Work</h6>
                                              <a class="font-md color-text-paragraph-2" href="#">{{ env('APP_NAME') }} does not yet connect talent to sponsorship opportunities</a>
-
+                                             @php
+                                            //  dd($eligibilityToWorkData);
+                                                // $eligibilityToWorkData =clearances_data();
+                                            @endphp
+                                            <?php $valesidency = '';
+                                            if (!empty($eligibilityToWorkData)) $valesidency = $eligibilityToWorkData->residency; 
+                                            ?>
                                             <div class="col-md-12 mt-3">
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Residency</strong></label>
                                                     <select class="form-control" name="residency" id="residencyId">
                                                         <option value="">Select</option>
-                                                        <option value="Citizen">Citizen</option>
-                                                        <option value="Permanent Resident">Permanent Resident</option>
-                                                        <option value="Visa Holder">Visa Holder</option>
+                                                        <option value="Citizen" {{ $valesidency == "Citizen" ? 'selected' : '' }}>Citizen</option>
+                                                        <option value="Permanent Resident" {{ $valesidency == "Permanent Resident" ? 'selected' : '' }}>Permanent Resident</option>
+                                                        <option value="Visa Holder" {{ $valesidency == "Visa Holder" ? 'selected' : '' }}>Visa Holder</option>
                                                     </select>
                                                     <span id="residency_error" class="text-danger reqError valley"></span>
                                                 </div>
                                             </div>
                                              
 
-                                            <div id="passport_detail" style="display: none">
+                                            <div id="passport_detail" @if($valesidency != '' && $valesidency == 'Citizen' ) style="display:none;" @else style="display:none;" @endif>
                                                 <div class="col-md-12 mt-3">
+                                                    <?php $valvisa_subclass_numbery = '';
+                                                    if ($eligibilityToWorkData != 'null') $valvisa_subclass_numbery = $eligibilityToWorkData->visa_subclass_number; ?>
                                                     <div class="form-group">
                                                         <label class="d-flex gap-3 flex-wrap"><strong>Visa Subclass Number *</strong></label>
-                                                        <input class="form-control" type="text" name="visa_subclass_number" id="visa_subclass_numberI" placeholder="" value="">
+                                                        <input class="form-control" type="text" name="visa_subclass_number" id="visa_subclass_numberI" placeholder="" value="{{$valvisa_subclass_numbery }}">
                                                     </div>
                                                     <span id="visa_subclass_error" class="text-danger  reqError valley"></span>
                                                 </div>
 
                                                 <div class="col-md-12 mt-3">
+                                                    <?php $passport_number = '';
+                                                    if ($eligibilityToWorkData != 'null') $passport_number = $eligibilityToWorkData->passport_number; ?>
                                                     <div class="form-group ">
                                                         <label class="d-flex gap-3 flex-wrap"><strong>Passport Number *</strong></label>
-                                                        <input class="form-control" type="text" name="passport_number" id="passport_numberI" placeholder="" value="">
+                                                        <input class="form-control" type="text" name="passport_number" id="passport_numberI" placeholder="" value="{{ $passport_number }}">
                                                     </div>
                                                     <span id="passport_number_error" class="text-danger reqError valley"></span>
                                                 </div>
@@ -2530,11 +2561,13 @@
                                                 <div class="col-md-12 mt-3">
                                                     <div class="form-group position-relative">
                                                         <!-- <textarea type="text" class="form-control ps-5" placeholder="Address"></textarea> -->
+                                                        <?php $countryumber = $profileData->country;
+                                                        if ($eligibilityToWorkData != 'null') $countryumber = $eligibilityToWorkData->passport_country_of_Issue; ?>
                                                         <select class="form-control form-select ps-5" name="passport_country_of_Issue" id="passportcountryI">
                                                         <option value="">Select Country</option>
                                                         @php $country_data=country_name_from_db();@endphp
                                                         @foreach ($country_data as $data)
-                                                        <option value="{{$data->id}}" > {{$data->name}} </option>
+                                                        <option value="{{$data->id}}" <?= $countryumber == $data->id ? 'selected' : '' ?> > {{$data->name}} </option>
                                                         @endforeach
                                                         </select>
                                                         <span id="passport_country_error" class="reqError text-danger valley"></span>
@@ -2542,45 +2575,90 @@
                                                 </div>
 
                                                 <div class="col-md-12 mt-3">
+                                                    <?php $visa_grant_number = '';
+                                                    if ($eligibilityToWorkData != 'null') $visa_grant_number = $eligibilityToWorkData->visa_grant_number; ?>
                                                     <div class="form-group ">
                                                         <label class="d-flex gap-3 flex-wrap"><strong>Visa Grant Number*</strong></label>
-                                                        <input class="form-control" type="text" name="visa_grant_number" id="visa_grant_numberI" placeholder="" value="">
+                                                        <input class="form-control" type="text" name="visa_grant_number" id="visa_grant_numberI" placeholder="" value="{{ $visa_grant_number }}">
                                                     </div>
                                                     <span id="visa_grant_error" class="reqError text-danger valley"></span>
                                                 </div>
                                             </div>
 
-                                            <div id="passport_detail_date" style="display:none;">
+                                            <div id="passport_detail_date" @if($valesidency != 'Visa Holder') style="display:none;" @else style="display:none;" @endif>
                                                 <div class="col-md-12 mt-3">
+                                                     <?php $expiry_data = '';
+                                                     if ($eligibilityToWorkData != 'null') $expiry_data = $eligibilityToWorkData->expiry_date; ?>
                                                     <div class="form-group ">
                                                         <label class="d-flex gap-3 flex-wrap"><strong>Expiry Date*</strong></label>
-                                                        <input class="form-control" type="date" name="expiry_date" id="expiry_dataI" value="" min="{{ date('Y-m-d') }}">
+                                                        <input class="form-control" type="date" name="expiry_date" id="expiry_dataI" value="{{ $expiry_data }}" min="{{ date('Y-m-d') }}">
                                                     </div>
                                                 <span id="expiry_date_error" class="reqError text-danger valley"></span>
                                                 </div>
                                             </div>
 
                                             <div class="col-md-12 mt-3">
+                                                <?php
+                                                    if ($eligibilityToWorkData != 'null') {
+                                                    $valspecialimage = $eligibilityToWorkData->support_document;
+                                                    if ($valspecialimage != 'null' && $valspecialimage != '') {
+                                                    ?>                        
+                                                    <a href="{{ asset($valspecialimage) }}" target="_blank">
+
+                                                    <span class="btn-primary badge badge-primary">Show</span>
+                                                    </a>
+
+                                                    <?php
+                                                    }
+                                                    }else{
+                                                    $valspecialimage = '/nurse/assets/imgs/evidence_of_year_level1712557746.png';
+                                                    }
+                                                ?>
                                                 <div class="form-group ">
                                                     <label class="d-flex gap-3 flex-wrap"><strong>Support Document*</strong></label>
                                                     <input type="file" name="image_support_document" id="image_support_documentI" class="form-control h-100" accept="image/*">
                                                 </div>
+                                                <input type="hidden" value="{{ $valspecialimage}}" id="old_supp_doc">
                                               <span id="image_support_error" class="reqError text-danger valley"></span>
                                             </div> 
+                                            <?php
+                                            if ($eligibilityToWorkData != 'null') {
+                                            $valspecialimage = $eligibilityToWorkData->support_document;
+                                            if ($valspecialimage != 'null' && $valspecialimage != '') {
+                                            ?>
+
+                                                    <a href="{{ asset($valspecialimage) }}" target="_blank" class="mt-3">
+                                                    <img src="{{ asset($valspecialimage) }}" width="50px;" height="50px" />
+
+                                                    </a>
+
+                                            <?php
+                                            }
+                                            } else {
+                                            $valspecialimage = '/nurse/assets/imgs/evidence_of_year_level1712557746.png';
+                                            }
+                                            ?>
 
                                             <div class="d-flex align-items-center justify-content-between mt-3">
-                                              <button type="button" class="btn btn-default eligibility_work align-items-center justify-content-between" data-target="#navpill-8">Save</button>
+                                              <button type="submit" class="btn btn-default eligibility_workttt align-items-center justify-content-between">Save</button>
                                             </div> 
                                         </div> 
-
+                                        </form>
+                                         
+                                        <form method="post" id="work_with_children">
+                                            <input type="hidden" value="tab7" name="tab">
+                                            <input type="hidden" value="children_check" name="type">
+                                            <input type="hidden" value="{{ $profileData->id }}" name="user_id">
                                         <div class="row mt-3">
                                             <h6 class="mt-2 color-brand-1 mb-2">Working With Children Check</h6>
                                             <a class="font-md color-text-paragraph-2" href="#">Add your state specific working with children clearance/s as required. Refer to your profile checklist</a>
                                             <span class="btn-dark badge badge-dark">Optional</span>
                                             <div class="col-md-12 mt-3">
+                                                <?php $clearance_number = '';
+                                                if ($workingChildrenCheckData != 'null') $clearance_number = $workingChildrenCheckData->clearance_number; ?>
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Clearance Number</strong></label>
-                                                    <input class="form-control" type="text" name="clearance_number" id="clearance_numberI" placeholder="" value="">
+                                                    <input class="form-control" type="text" name="clearance_number" id="clearance_numberI" placeholder="" value="{{ $clearance_number }}">
                                                     <span id="reqTxtclearance_numberI" class="text-danger reqError valley"></span>
                                                 </div>
                                             </div>
@@ -2589,6 +2667,7 @@
                                             <div id="passport_detail">
                                                 <div class="col-md-12 mt-3">
                                                     <div class="form-group">
+
                                                         <label class="d-flex gap-3 flex-wrap"><strong>State *</strong></label>
                                                         <select class="form-control form-select" name="clearance_state" id="clearancestateI" id="stateI">
                                                             @php
@@ -2597,10 +2676,11 @@
                                                             
                                                             @endphp
                                                             <?php 
+                                                            $state_data_child = $profileData->state;
                                                             ?>
                                                             @if(isset($state_data) && !empty($state_data))
                                                             @foreach ($state_data as $data_state)
-                                                            <option value="{{$data_state->id}}"> {{$data_state->name}} </option>
+                                                            <option value="{{$data_state->id}}" <?= $state_data_child  == $data_state->id ? 'selected' : '' ?>> {{$data_state->name}} </option>
                                                             @endforeach
                                                             @endif
 
@@ -2610,9 +2690,11 @@
                                                 </div>
 
                                                 <div class="col-md-12 mt-3">
+                                                     <?php $workingexpiry_data = '';
+                                                    if ($workingChildrenCheckData != 'null') $workingexpiry_data = $workingChildrenCheckData->expiry_date; ?>
                                                     <div class="form-group ">
                                                         <label class="d-flex gap-3 flex-wrap"><strong>Expiry Date*</strong></label>
-                                                       <input class="form-control" type="date" name="clearance_expiry_date" id="clearance_expiry_dataI" value="" min="{{ date('Y-m-d') }}">
+                                                       <input class="form-control" type="date" name="clearance_expiry_date" id="clearance_expiry_dataI" value="{{ $workingexpiry_data }}"  min="{{ date('Y-m-d') }}">
                                                     </div>
                                                     <span id="reqTxtclearance_expiry_dataI" class="text-danger reqError valley"></span>
                                                 </div>
@@ -2620,10 +2702,16 @@
                                             </div>
 
                                             <div class="d-flex align-items-center justify-content-between mt-3">
-                                              <button type="button" class="btn btn-default children_check align-items-center justify-content-between" data-target="#navpill-8">Save</button>
+                                              <button type="submit" class="btn btn-default children_check11 align-items-center justify-content-between" data-target="#navpill-8">Save</button>
                                             </div> 
                                         </div>
-                                        
+                                    </form>
+
+
+                                    <form method="POST" id="police_check"> 
+                                        <input type="hidden" value="tab7" name="tab">
+                                            <input type="hidden" value="police_check" name="type">
+                                            <input type="hidden" value="{{ $profileData->id }}" name="user_id">   
                                         <div class="row mt-3">
                                             <h4 class="fw-bolder fs-6 lh-base d-flex align-items-center">Police check</h4>
                                              <a class="font-md color-text-paragraph-2" href="#">Add your national police check certificate, if you have one already. The recency of the check required, will depend on the role you want. Find work you want, to learn what’s required. The check must be for employment purposes. Volunteer checks will not be accepted</a>
@@ -2636,9 +2724,15 @@
                                             </div>
 
                                             <div class="col-md-12 mt-3">
+                                                <?php $date_acquired = '';
+
+                                               if ($policeCheckVerificationData !== null) { 
+                                                    $date_acquired = $policeCheckVerificationData->date; 
+                                                }
+                                                ?>
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Date Acquired*</strong></label>
-                                                     <input class="form-control" type="date" name="date_acquired" id="date_acquiredI" value="" max="{{ date('Y-m-d') }}">
+                                                     <input class="form-control" type="date" name="date_acquired" id="date_acquiredI"  max="{{ date('Y-m-d') }}">
                                                     <span id="reqTxtdate_acquiredI" class="text-danger reqError valley"></span>
                                                 </div>
                                             </div>
@@ -2651,21 +2745,106 @@
                                                 </div>
                                               <span id="reqTxtimage_support_documentI" class="reqError text-danger valley"></span>
                                             </div> 
-                                             
-                                            <div class="col-md-12 mt-3">
+                                            <?php
+                                            if ($policeCheckVerificationData !== null) {
+                                            $check_image = $policeCheckVerificationData->image;
+                                            if ($check_image != 'null' && $check_image != '') {
+                                            ?>
+
+                                                <a href="{{ asset($check_image) }}" target="_blank" class="mt-3">
+                                                <img src="{{ asset($check_image) }}" width="50px;" height="50px" />
+
+                                                </a>
+
+                                            <?php
+                                            }
+                                            } else {
+                                            $check_image = '/nurse/assets/imgs/evidence_of_year_level1712557746.png';
+                                            }
+                                            ?>
+                                             <?php
+                                            if ($policeCheckVerificationData !== null) {
+                                                $status = $policeCheckVerificationData->status;
+                                                if ($status == '2') {
+
+                                                echo  '<br> <div>Status:  <span class="btn-danger badge badge-danger">Rejected</span></div>';
+                                            ?>
+                                            <input type="hidden" name="action" value="1">
+                                            <div class="alert alert-danger mt-2" role="alert">Reason : Your Detail has been rejectd due
+                                                <b> {{ $police_check_data->reason }} </b> . Please Resubmit the details.
+                                            </div>
+                                            <div class="col-lg-12 col-md-12">
+                                                <label class="">
+                                                <input class="float-start mr-5 mt-6" type="checkbox" id="confirmationCheckboxPoliceCheck"> Since I obtained this National Police Check, I confirm that there have been no changes to my criminal history, and that I have not been charged with an offence punishable by 12 months imprisonment or more, or convicted, pleaded guilty to, or found guilty of an offence punishable by imprisonment in Australia and/or overseas.
+                                                </label>
+                                                <span id="reqTxtconfirmationCheckboxPoliceCheckI" class="reqError text-danger valley"></span>
+                                                <div class="d-flex align-items-center justify-content-between">
+                                                <button  class="btn btn-default px-5 py-8  rounded-2 mb-0 submit-btn-120" type="submit"><span class="resetpassword">Re-Submit</span>
+                                                    <div class="spinner-border submit-btn-1" role="status" style="display:none;">
+                                                    <span class="sr-only">Loading...</span>
+                                                    </div>
+                                                </button>
+
+                                                </div>
+                                            </div>
+                                            <?php    } elseif ($status == '0') {
+                                                    echo  '<div> Status: <span class="btn-warning badge badge-warning">Pending</span> </div>';
+                                                    echo ' <div class="alert alert-warning mt-2 " role="alert">
+                                                                Your request has been successfully submitted.Its in pending state, We will back to you as soon as possible.
+                                                        </div>';
+                                                    } elseif ($status == '1') {
+                                                    echo  '<div>Status: <span class="btn-success badge badge-success">Approved</span> </div>';
+                                                    } else {
+                                                    ?>
+
+
+                                                    <div class="d-flex align-items-center justify-content-between">
+                                                        <button  @if(!email_verified())  disabled  @endif  class="btn btn-default px-5 py-8  rounded-2 mb-0 submit-btn-120" type="submit"><span class="resetpassword">Save</span>
+                                                        <div class="spinner-border submit-btn-1" role="status" style="display:none;">
+                                                            <span class="sr-only">Loading...</span>
+                                                        </div>
+                                                        </button>
+                                                    </div><?php
+                                                        }
+                                                        } else {
+                                                            ?>
+                                                    <div class="col-lg-12 col-md-12 declaration_box mb-3">      
+                                                        <input type="checkbox" id="confirmationCheckboxPoliceCheck">
+                                        <label class="">Since I obtained this National Police Check, I confirm that there have been no changes to my criminal history, and that I have not been charged with an offence punishable by 12 months imprisonment or more, or convicted, pleaded guilty to, or found guilty of an offence punishable by imprisonment in Australia and/or overseas.
+                                                    </label>
+                                                    <span id="reqTxtconfirmationCheckboxPoliceCheckI" class="reqError text-danger valley"></span>  
+                                                    </div>
+                                        <div class="col-lg-12 col-md-12">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                                        <button @if(!email_verified())  disabled  @endif class="btn btn-default px-5 py-8  rounded-2 mb-0 submit-btn-120" type="submit"><span class="resetpassword">Save</span>
+                                                        <div class="spinner-border submit-btn-1" role="status" style="display:none;">
+                                                            <span class="sr-only">Loading...</span>
+                                                        </div>
+                                                        </button>
+
+                                                    </div>
+                                        </div>
+                                                <?php
+
+                                                        }
+                                                ?>
+                                            
+                                            {{-- <div class="col-md-12 mt-3">
                                             <label class="ml-20">
                                             <input class="float-start mr-5 mt-6" type="checkbox" id="confirmationCheckboxPoliceCheck"> Since I obtained this National Police Check, I confirm that there have been no changes to my criminal history, and that I have not been charged with an offence punishable by 12 months imprisonment or more, or convicted, pleaded guilty to, or found guilty of an offence punishable by imprisonment in Australia and/or overseas.
                                             </label>
                                               <span id="reqTxtconfirmationCheckboxPoliceCheckI" class="reqError text-danger valley"></span>
-                                            </div>
+                                            </div> --}}
 
-                                            <div class="d-flex align-items-center justify-content-between mt-3">
+                                            {{-- <div class="d-flex align-items-center justify-content-between mt-3">
                                               <button type="button" class="btn btn-default police_check align-items-center justify-content-between" data-target="#navpill-9">Save</button>
-                                            </div> 
-                                        </div> 
+                                            </div>  --}}
+                                        </div>
+                                    </form> 
                                     </div>                    
                                 </div>
                             </div>
+                        
                         </div>
                     </div>
                     <div class="tab-pane p-3" id="navpill-9" role="tabpanel">
@@ -3182,9 +3361,10 @@ if(month_len<2){
     var show_month = month_val;
 }
 const formattedDate2 = year_val+"-"+show_month+"-"+date_val;
-console.log("month_val",formattedDate);
+// console.log("month_val",formattedDate);
 
-document.getElementsClassByName("training_end_date")[0].setAttribute('min', formattedDate2);
+// jQuery equivalent
+$(".training_end_date").eq(0).attr("min", formattedDate2);
 function trainingStartDate(e){
     var start_date = e.target.value;
     var date = new Date(start_date);
@@ -3205,7 +3385,7 @@ function trainingStartDate(e){
     var show_month = month_val
     }
     const formattedDate = year_val+"-"+show_month+"-"+date_val;
-    console.log("month_val",formattedDate);
+    // console.log("month_val",formattedDate);
     
     document.getElementsByClassName("training_end_date")[0].setAttribute('min', formattedDate);
 }

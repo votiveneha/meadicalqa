@@ -165,8 +165,8 @@ $nameSpeciality = str_replace("'", "", $mantraining->name);
         
                         <div class="form-group mt-3">
                             <label for="category">Training or Education Sub Type</label>
-                            <input type="text" class="form-control" placeholder="Write raining or Education Sub Type" name="subtrainingeducation"
-                                id="submantraining">
+                            <input type="text" class="form-control" placeholder="Write training or Education Sub Type" name="subtrainingeducation"
+                                id="edit_sub_man_tra">
                             <input type="hidden" name="id" value="" id="edit_id" />
                             <span id="tra_edu_Err" class="text-danger"></span>
                         </div>
