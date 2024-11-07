@@ -164,13 +164,13 @@
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link" data-bs-toggle="tab" href="#navpill-9" role="tab" aria-selected="false"
+                        <a class="nav-link" data-bs-toggle="tab" href="#tab-10" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Professional Memberships</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-10" role="tab" aria-selected="false"
+                        <a class="nav-link" data-bs-toggle="tab" href="#tab-11" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Interview</span>
                         </a>
@@ -2826,8 +2826,8 @@
                                         </div>
                                                 <?php
 
-                                                        }
-                                                ?>
+                                        }
+                                        ?>
                                             
                                             {{-- <div class="col-md-12 mt-3">
                                             <label class="ml-20">
@@ -2847,7 +2847,10 @@
                         
                         </div>
                     </div>
-                    <div class="tab-pane p-3" id="navpill-9" role="tabpanel">
+                    <div class="tab-pane p-3" id="tab-10" role="tabpanel">
+                        <form method="POST" id="profess_membership"> 
+                            <input type="hidden" value="tab8" name="tab">
+                            <input type="hidden" value="{{ $profileData->id }}" name="user_id">   
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
@@ -2858,12 +2861,11 @@
                                         <div class="row">
                                         <div class="col-md-12 mt-3">
                                             <div class="form-group">
+                                                <input type="hidden" name="professional_as" class="professional_as" value="@if(!empty($proMembershipData)){{ $proMembershipData->des_profession_association }}@endif">
                                                 <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Professional Associations</strong></label>
                                                 <ul id="des_profession_association" style="display:none;">
-
                                                     <li data-value="ANA">ANA</li>
                                                     <li data-value="ENA">ENA</li>
-
                                                 </ul>
                                                 <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="des_profession_association" name="des_profession_association[]" multiple="multiple"></select>
                                                 <span id="des_profession_error" class="text-danger valley"></span>
@@ -2872,7 +2874,7 @@
                                         <div class="col-md-12 mt-3">
                                             <div class="form-group">
                                                 <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Membership Numbers</strong></label>
-                                                <input type="text" name="membership_numbers" class="form-control" id="membership_numbers">
+                                                <input type="text" name="membership_numbers" class="form-control" id="membership_numbers" value="@if(!empty($proMembershipData)){{ $proMembershipData->membership_numbers }}@endif">
                                                 <span id="membership_numbers_error" class="reqError text-danger valley"></span>
                                             </div>
                                         </div>
@@ -2880,22 +2882,26 @@
                                             <div class="form-group">
                                                 <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Status</strong></label>
                                                 <select class="form-control" name="membership_status" id="membership_status">
-                                                    <option value="Active">Active</option>
-                                                    <option value="Lapsed">Lapsed</option>                                                
+                                                    <option value="Active" @if(!empty($proMembershipData) && $proMembershipData->membership_status == "Active") selected @endif>Active</option>
+                                                    <option value="Lapsed" @if(!empty($proMembershipData) && $proMembershipData->membership_status == "Lapsed") selected @endif>Lapsed</option>                                                
                                                 </select>
                                                  <span id="membership_status_error" class="reqError text-danger valley"></span>
                                             </div>
                                         </div> 
                                         <div class="d-flex align-items-center justify-content-between mt-3">
-                                            <button type="button" class="btn btn-default next-step-9 align-items-center justify-content-between" data-target="#navpill-10">Next</button>
+                                            <button type="submit" class="btn btn-default next-step-91 align-items-center justify-content-between" data-target="#navpill-10">Next</button>
                                         </div>
                                     </div>                     
                                     </div>                    
                                 </div>
                             </div>
                         </div>
+                    </form>
                     </div>
-                    <div class="tab-pane p-3" id="navpill-10" role="tabpanel">
+                    <div class="tab-pane p-3" id="tab-11" role="tabpanel">
+                    <form method="POST" id="interview_form">
+                        <input type="hidden" value="tab9" name="tab">
+                        <input type="hidden" value="{{ $profileData->id }}" name="user_id">
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
@@ -2907,7 +2913,7 @@
                                         <div class="col-md-12 mt-3">
                                             <div class="form-group">
                                                 <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Interview Availability</strong></label>
-                                                 <input type="datetime-local" name="interview_availablity" class="form-control" value="" id="interview_availablity">
+                                                 <input type="datetime-local" name="interview_availablity" class="form-control" value="@if(!empty($interviewrefData)){{ $interviewrefData->interview_availablity }}@endif" id="interview_availablity">
                                                   <span id="reqinterviewdate" class="reqError text-danger valley"></span>
                                             </div>
                                         </div> 
@@ -2917,14 +2923,14 @@
                                         <div class="col-md-12 mt-3">
                                             <div class="form-group">
                                                 <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Names</strong></label>
-                                                <input type="text" name="reference_name" class="form-control" value="" id="reference_name">
+                                                <input type="text" name="reference_name" class="form-control" value="@if(!empty($interviewrefData)){{ $interviewrefData->reference_name }}@endif" id="reference_name">
                                                  <span id="reqprofessionalnames" class="reqError text-danger valley"></span>
                                             </div>
                                         </div>
                                         <div class="col-md-12 mt-3">
                                             <div class="form-group">
                                                 <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Email</strong></label>
-                                                <input type="text" name="reference_email" class="form-control" value="" id="reference_email">
+                                                <input type="text" name="reference_email" class="form-control" id="reference_email" value="@if(!empty($interviewrefData)){{ $interviewrefData->reference_email }}@endif">
                                                   <span id="reqprofessionalemail" class="reqError text-danger valley"></span>
                                             </div>
                                         </div> 
@@ -2934,7 +2940,7 @@
                                                 <div class="mob-adj">
                                                 <input type="hidden" name="reference_countryCode" id="reference_countryCode">
                                                 <input type="hidden" name="reference_countryiso" id="reference_countryiso" value="">
-                                                <input class="form-control numbers" type="tel" name="reference_contact" id="reference_contactI" value=""  maxlength="10" style="padding-right: 20rem">
+                                                <input class="form-control numbers" type="tel" name="reference_contact" id="reference_contactI" value="@if(!empty($interviewrefData)){{ $interviewrefData->reference_contact }}@endif"  maxlength="10" style="padding-right: 20rem">
                                                 <span id="reqTxtreferencecontactI" class="reqError text-danger valley"></span>
                                                 </div>
                                             </div>
@@ -2944,25 +2950,26 @@
                                                 <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Relationship</strong></label>
                                                 <select class="form-control form-select ps-5" name="reference_relationship" id="reference_relationship">
                                                     <option value="">Select Relationship</option>
-                                                    <option value="Mother">Mother</option>
-                                                    <option value="Father">Father</option>
-                                                    <option value="Brother">Brother</option>
-                                                    <option value="Sister">Sister</option>
-                                                    <option value="Cousin">Cousin</option>
-                                                    <option value="Uncle">Uncle</option>
-                                                    <option value="Aunt">Aunt</option>
+                                                    <option value="Mother" @if(!empty($interviewrefData)) @if(!empty($interviewrefData->reference_relationship == "Mother")) selected @endif @endif>Mother</option>
+                                                    <option value="Father" @if(!empty($interviewrefData)) @if(!empty($interviewrefData->reference_relationship == "Father")) selected @endif @endif>Father</option>
+                                                    <option value="Brother" @if(!empty($interviewrefData)) @if(!empty($interviewrefData->reference_relationship == "Brother")) selected @endif @endif>Brother</option>
+                                                    <option value="Sister" @if(!empty($interviewrefData)) @if(!empty($interviewrefData->reference_relationship == "Sister")) selected @endif @endif>Sister</option>
+                                                    <option value="Cousin" @if(!empty($interviewrefData)) @if(!empty($interviewrefData->reference_relationship == "Cousin")) selected @endif @endif>Cousin</option>
+                                                    <option value="Uncle" @if(!empty($interviewrefData)) @if(!empty($interviewrefData->reference_relationship == "Uncle")) selected @endif @endif>Uncle</option>
+                                                    <option value="Aunt" @if(!empty($interviewrefData)) @if(!empty($interviewrefData->reference_relationship == "Aunt")) selected @endif @endif>Aunt</option>
                                                 </select>
                                                 <span id="reqprofessionalrelationship" class="reqError text-danger valley"></span>
                                             </div>
                                         </div> 
                                         <div class="d-flex align-items-center justify-content-between mt-3">
-                                            <button type="button" class="btn btn-default next-step-10 align-items-center justify-content-between" data-target="#navpill-11">Next</button>
+                                            <button type="submit" class="btn btn-default next-step-1044 align-items-center justify-content-between" data-target="#navpill-11">Next</button>
                                         </div>
                                     </div>                     
                                     </div>                    
                                 </div>
                             </div>
                         </div>
+                    </form>
                     </div> 
                     <div class="tab-pane p-3" id="navpill-11" role="tabpanel">
                         <div class="row">

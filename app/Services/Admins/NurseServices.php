@@ -2217,30 +2217,62 @@ class NurseServices
                 $param='Police check';
                }
             }else if($data['tab'] == 'tab8'){
-               
-                $email=Session::get('nurseemail');
-                $user_id=User::where('email',$email)->first();
-                $allData['user_id'] = $user_id->id;
+
+                $user_id=$data['user_id'];
+ 
+                $lastRecord =ProfessionalAssocialtionModel::where('user_id',$user_id)->first();
+
+                if(!empty($lastRecord)>0){
+                 $run = ProfessionalAssocialtionModel::where('user_id',$user_id)->update([
+                    'user_id'=> $user_id,
+                    'des_profession_association'=> json_encode($data['des_profession_association']),
+                    'membership_numbers'=>  $data['membership_numbers'],
+                    'membership_status'=> $data['membership_status']
+                    ]);
+
+                }else{
+                $allData['user_id'] = $user_id;
                 $allData['des_profession_association'] = $data['des_profession_association'];
                 $allData['membership_numbers'] = $data['membership_numbers'];
                 $allData['membership_status'] = $data['membership_status'];
-                $run=ProfessionalAssocialtionModel::create($allData);
+                $run=ProfessionalAssocialtionModel::Insert($allData);
+                                    
+                }
 
                 $param='Professional Memberships';
 
             }else if($data['tab'] == 'tab9'){
                
-                $email=Session::get('nurseemail');
-                $user_id=User::where('email',$email)->first();
-                $allData['user_id'] = $user_id->id;
-                $allData['interview_availablity'] = $data['interview_availablity'];
-                $allData['reference_name'] = $data['reference_name'];
-                $allData['reference_email'] = $data['reference_email'];
-                $allData['contact_country_code'] = $data['reference_countryCode'];
-                $allData['contact_country_iso'] = $data['reference_countryiso'];
-                $allData['reference_contact'] = $data['reference_contactI'];
-                $allData['reference_relationship'] = $data['reference_relationship'];
-                $run=InterviewModel::create($allData);
+                $user_id=$data['user_id'];
+ 
+                $lastRecord =InterviewModel::where('user_id',$user_id)->first();
+
+                if(!empty($lastRecord)>0){
+                 $run = InterviewModel::where('user_id',$user_id)->update([
+                    'user_id'=> $user_id,
+                    'interview_availablity'=> $data['interview_availablity'],
+                    'reference_name'=>  $data['reference_name'],
+                    'reference_email'=> $data['reference_email'],
+                    'contact_country_code'=> $data['reference_countryCode'],
+                    'contact_country_iso'=> $data['reference_countryiso'],
+                    'reference_contact'=> $data['reference_contact'],
+                    'reference_relationship'=> $data['reference_relationship'],
+                    ]);
+
+                }else{
+                    $allData['user_id'] = $user_id;
+                    $allData['interview_availablity'] = $data['interview_availablity'];
+                    $allData['reference_name'] = $data['reference_name'];
+                    $allData['reference_email'] = $data['reference_email'];
+                    $allData['contact_country_code'] = $data['reference_countryCode'];
+                    $allData['contact_country_iso'] = $data['reference_countryiso'];
+                    $allData['reference_contact'] = $data['reference_contact'];
+                    $allData['reference_relationship'] = $data['reference_relationship'];
+                    $run=InterviewModel::create($allData);
+
+                }
+                
+                
 
                 $param='Interview';
 

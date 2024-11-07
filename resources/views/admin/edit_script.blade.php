@@ -589,11 +589,11 @@
     $('.js-example-basic-multiple[data-list-id="nlc_data"]').select2().val(pro_cert_nl).trigger('change');
   }
 
-//   if($(".professional_as").val() != ""){
-//     var professional_as = JSON.parse($(".professional_as").val());
-//     console.log("professional_as",professional_as);
-//     $('.js-example-basic-multiple[data-list-id="des_profession_association"]').select2().val(professional_as).trigger('change');
-//   }
+  if($(".professional_as").val() != ""){
+    var professional_as = JSON.parse($(".professional_as").val());
+    console.log("professional_as",professional_as);
+    $('.js-example-basic-multiple[data-list-id="des_profession_association"]').select2().val(professional_as).trigger('change');
+  }
 
 if($(".vaccination_r").val() != ""){
 var vaccination_record = JSON.parse($(".vaccination_r").val());
@@ -5764,7 +5764,7 @@ $(document).ready(function() {
      });
 
 
-     // Eight form
+     // Eight formprofess_membership
      $('#edit_vacc_form').on('submit', function(event) {
         event.preventDefault(); 
 
@@ -5807,6 +5807,588 @@ $(document).ready(function() {
         });
         
      });
+
+     // Nine form
+    
+    $('#work_clearances').on('submit', function(event) {
+     event.preventDefault(); 
+
+        var targetTab = $(this).data('target');
+
+        var returnValue = true;
+        $(".valley").html("");
+
+        var residencyId = $("#residencyId").val();
+        var image_support_documentI = $("#image_support_documentI").val();
+        var visa_subclass_numberI = $("#visa_subclass_numberI").val();
+        var passport_numberI = $("#passport_numberI").val();
+        var passportcountryI = $("#passportcountryI").val();
+        var visa_grant_numberI = $("#visa_grant_numberI").val();
+        var expiry_dataI = $("#expiry_dataI").val();
+        var old_supp_doc = $("#old_supp_doc").val();
+
+        if (residencyId.trim() === "") {
+            $("#residency_error").html("* Please Select the Residency.");
+            returnValue = false;
+        }
+
+        if (residencyId.trim() !== 'Citizen') {
+            if (visa_subclass_numberI.trim() === "") {
+                $("#visa_subclass_error").html("* Please Enter the Subclass Number.");
+                returnValue = false;
+            }
+            if (passport_numberI.trim() === "") {
+                $("#passport_number_error").html("* Please Enter the Passport Number.");
+                returnValue = false;
+            }
+            if (passportcountryI.trim() === "") {
+                $("#passport_country_error").html("* Please Select the Passport Country.");
+                returnValue = false;
+            }
+            if (visa_grant_numberI.trim() === "") {
+                $("#visa_grant_error").html("* Please Enter the Passport Number.");
+                returnValue = false;
+            }
+            if (residencyId.trim() === 'Visa Holder') {
+                if (expiry_dataI.trim() === "") {
+                    $("#expiry_date_error").html("* Please Select the Expiry Date.");
+                    returnValue = false;
+                }
+            }
+        }
+
+        if (image_support_documentI.trim() === ""  &&  old_supp_doc === "" ) {
+            $("#image_support_error").html("* Please Upload the Support Document.");
+            returnValue = false;
+        }
+
+        if (!returnValue) {
+            // $('.submit-btn-120').prop('disabled', false);
+            // $('.submit-btn-1').hide();
+            // $('.resetpassword').show();
+            return false;
+        }
+
+        if (returnValue) {
+
+         $.ajax({
+            url: "{{ route('admin.edit_nurse_post') }}",
+            type: "POST",
+            data: new FormData($('#work_clearances')[0]),
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include CSRF token for security
+            },
+            success: function(res) {
+                console.log(res.type);
+
+                if (res.status == '2') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: res.message,
+                    }).then(function() {
+                       var targetTab = 'tab-9'; 
+                        var newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?tab=' + targetTab;
+                        window.location.href = newUrl;
+                    });
+                } else {
+                    Swal.fire({
+                        icon:  'error',
+                        title: 'Error',
+                        text: res.message,
+                    });
+                }
+                // Show the target tab
+            },
+            error: function(error) {
+
+            }
+        });
+
+        }
+    
+    });
+
+   
+    $('#work_with_children').on('submit', function(event) {
+     event.preventDefault();
+
+     var returnValue = true;
+        $(".valley").html("");
+
+        var clearance_numberI = $("#clearance_numberI").val();
+        var clearancestateI = $("#clearancestateI").val();
+        var clearance_expiry_dataI = $("#clearance_expiry_dataI").val();
+        if (clearance_numberI.trim() == "") {
+
+        document.getElementById("reqTxtclearance_numberI").innerHTML = "* Please Enter the Clearance Number.";
+
+        returnValue = false;
+
+        }
+
+        if (clearancestateI.trim() == "") {
+
+        document.getElementById("reqTxtclearancestateI").innerHTML = "* Please Select  the state.";
+
+        returnValue = false;
+
+        }
+        if (clearance_expiry_dataI.trim() == "") {
+
+        document.getElementById("reqTxtclearance_expiry_dataI").innerHTML = "* Please Select the Expiry Date.";
+
+        returnValue = false;
+
+
+        }
+
+
+        if (!returnValue) {
+            return false;
+        }
+
+        if (returnValue) {
+
+         $.ajax({
+            url: "{{ route('admin.edit_nurse_post') }}",
+            type: "POST",
+            data: new FormData($('#work_with_children')[0]),
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include CSRF token for security
+            },
+            success: function(res) {
+                console.log(res.type);
+
+                if (res.status == '2') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: res.message,
+                    }).then(function() {
+                       var targetTab = 'tab-9'; 
+                        var newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?tab=' + targetTab;
+                        window.location.href = newUrl;
+                    });
+                } else {
+                    Swal.fire({
+                        icon:  'error',
+                        title: 'Error',
+                        text: res.message,
+                    });
+                }
+                // Show the target tab
+            },
+            error: function(error) {
+
+            }
+        });
+
+        }
+   
+    });
+
+    $('#police_check').on('submit', function(event) {
+     event.preventDefault();
+
+       var returnValue = true;
+
+        $(".valley").html("");
+
+        var date_acquiredI = $("#date_acquiredI").val();
+        var image_support_document_policeI = $("#image_support_document_policeI").val();
+        var checkbox = $("#confirmationCheckboxPoliceCheck");
+
+
+        if (date_acquiredI.trim() == "") {
+
+        document.getElementById("reqTxtdate_acquiredI").innerHTML = "* Please Select  the date of  Acquired.";
+
+        returnValue = false;
+
+        }
+
+        if (image_support_document_policeI.trim() == "") {
+
+        document.getElementById("reqTxtimage_support_documentI").innerHTML = "* Please Upload the Police Check File.";
+
+        returnValue = false;
+
+        }
+        if (!checkbox.is(':checked')) {
+            alert('Please confirm your action.');
+            document.getElementById("reqTxtconfirmationCheckboxPoliceCheckI").innerHTML = "Required field: Confirmation required.";
+            returnValue = false;
+        }
+
+
+        if (!returnValue) {
+            // $('.submit-btn-120').prop('disabled', false);
+            // $('.submit-btn-1').hide();
+            // $('.resetpassword').show();
+            return false;
+        }
+
+        if (returnValue) {
+         $.ajax({
+            url: "{{ route('admin.edit_nurse_post') }}",
+            type: "POST",
+            data: new FormData($('#police_check')[0]),
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')// Include CSRF token for security
+            },
+            success: function(res) {
+                console.log(res.type);
+
+                if (res.status == '2') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: res.message,
+                    }).then(function() {
+                        var targetTab = 'tab-9'; 
+                        var newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?tab=' + targetTab;
+                        window.location.href = newUrl;
+                    });
+                } else {
+                    Swal.fire({
+                        icon:  'error',
+                        title: 'Error',
+                        text: res.message,
+                    });
+                }
+                // Show the target tab
+            },
+            error: function(error) {
+
+            }
+        });
+
+
+        }
+
+
+
+    });
+
+
+       
+    //Ten form
+    $('#profess_membership').on('submit', function(event) {
+    event.preventDefault(); 
+
+     var returnValue = true;
+
+        $(".valley").html("");
+
+        var selectElement1 = $('select[data-list-id="des_profession_association"]');
+        var des_profession_association = selectElement1.val();
+        var membership_numbers= $("#membership_numbers").val();
+        var membership_status = $("#membership_status").val();
+
+
+        if ($('[name="des_profession_association[]"]').val() == "") {
+
+        document.getElementById("des_profession_error").innerHTML = "* Please select professional association.";
+
+        returnValue = false;
+
+        }
+
+        if (membership_numbers.trim() == "") {
+
+        document.getElementById("membership_numbers_error").innerHTML = "* Please enter memebership numbers.";
+
+        returnValue = false;
+
+        }
+        if (membership_status.trim() == "") {
+
+        document.getElementById("membership_status_error").innerHTML = "* Please select membership status.";
+
+        returnValue = false;
+
+        }
+
+
+        if (!returnValue) {
+            // $('.submit-btn-120').prop('disabled', false);
+            // $('.submit-btn-1').hide();
+            // $('.resetpassword').show();
+            return false;
+        }
+
+        if (returnValue) {
+         $.ajax({
+            url: "{{ route('admin.edit_nurse_post') }}",
+            type: "POST",
+            data: new FormData($('#profess_membership')[0]),
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include CSRF token for security
+            },
+            success: function(res) {
+                console.log(res.type);
+                if (res.status == '2') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: res.message,
+                    }).then(function() {
+                        var targetTab = 'tab-10'; 
+                        var newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?tab=' + targetTab;
+                        window.location.href = newUrl;
+                    });
+                } else {
+                    Swal.fire({
+                        icon:  'error',
+                        title: 'Error',
+                        text: res.message,
+                    });
+                }
+                // Show the target tab
+            },
+            error: function(error) {
+
+            }
+        });
+         
+        }
+
+
+    });
+
+    $('#interview_form').on('submit', function(event) {
+    event.preventDefault(); 
+     
+       var returnValue = true;
+
+        $(".valley").html("");
+
+        var selectElement1 = $('select[id="reference_relationship"]');
+        var reference_relationship = selectElement1.val();
+        var interview_availablity= $("#interview_availablity").val();
+        var reference_name = $("#reference_name").val();
+        var reference_email = $("#reference_email").val();
+        var reference_contactI = $("#reference_contactI").val();
+
+
+        if ( reference_relationship == "") {
+
+       document.getElementById("reqprofessionalrelationship").innerHTML = "* Please select the reference relationship";
+
+        returnValue = false;
+
+        }
+
+        if (interview_availablity.trim() == "") {
+
+        document.getElementById("reqinterviewdate").innerHTML = "* Please enter the interview availability";
+
+        returnValue = false;
+
+        }
+        if (reference_name.trim() == "") {
+
+        document.getElementById("reqprofessionalnames").innerHTML = "* Please enter the references name";
+
+        returnValue = false;
+
+        }
+        if (reference_contactI.trim() == "") {
+
+        document.getElementById("reqTxtreferencecontactI").innerHTML = "* Please enter the reference contact";
+
+        returnValue = false;
+
+        }
+        if (reference_email.trim() == "") {
+
+         document.getElementById("reqprofessionalemail").innerHTML = "* Please enter the references email";
+
+        returnValue = false;
+
+        }
+
+
+        if (!returnValue) {
+            // $('.submit-btn-120').prop('disabled', false);
+            // $('.submit-btn-1').hide();
+            // $('.resetpassword').show();
+            return false;
+        }
+
+        if (returnValue) {
+           $.ajax({
+            url: "{{ route('admin.edit_nurse_post') }}",
+            type: "POST",
+           data: new FormData($('#interview_form')[0]),
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include CSRF token for security
+            },
+            success: function(res) {
+                console.log(res.type);
+
+                if (res.status == '2') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: res.message,
+                    }).then(function() {
+                        var targetTab = 'tab-11'; 
+                        var newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?tab=' + targetTab;
+                        window.location.href = newUrl;
+                    });
+                } else {
+                    Swal.fire({
+                        icon:  'error',
+                        title: 'Error',
+                        text: res.message,
+                    });
+                }
+                // Show the target tab
+            },
+            error: function(error) {
+
+            }
+        });
+
+        }
+    });
+
+
+        $('.next-step-10').on('click', function(event){
+        event.preventDefault(); // Prevent default form submission
+
+        var targetTab = $(this).data('target');
+
+        // // Function to enable the next tab
+        // function enableNextTab(targetTab) {
+        //     $('a[href="' + targetTab + '"]').removeClass('disabled').tab('show');
+        // }
+        var returnValue = true;
+
+        $(".valley").html("");
+
+        var selectElement1 = $('select[id="reference_relationship"]');
+        var reference_relationship = selectElement1.val();
+        var interview_availablity= $("#interview_availablity").val();
+        var reference_name = $("#reference_name").val();
+        var reference_email = $("#reference_email").val();
+        var reference_contactI = $("#reference_contactI").val();
+
+
+        if ( reference_relationship == "") {
+
+       document.getElementById("reqprofessionalrelationship").innerHTML = "* Please select the reference relationship";
+
+        returnValue = false;
+
+        }
+
+        if (interview_availablity.trim() == "") {
+
+        document.getElementById("reqinterviewdate").innerHTML = "* Please enter the interview availability";
+
+        returnValue = false;
+
+        }
+        if (reference_name.trim() == "") {
+
+        document.getElementById("reqprofessionalnames").innerHTML = "* Please enter the references name";
+
+        returnValue = false;
+
+        }
+        if (reference_contactI.trim() == "") {
+
+        document.getElementById("reqTxtreferencecontactI").innerHTML = "* Please enter the reference contact";
+
+        returnValue = false;
+
+        }
+        if (reference_email.trim() == "") {
+
+         document.getElementById("reqprofessionalemail").innerHTML = "* Please enter the references email";
+
+        returnValue = false;
+
+        }
+
+
+        if (!returnValue) {
+            // $('.submit-btn-120').prop('disabled', false);
+            // $('.submit-btn-1').hide();
+            // $('.resetpassword').show();
+            return false;
+        }
+
+        if (returnValue) {
+
+        // Create a new FormData object
+        var formData = new FormData();
+        formData.append('reference_relationship',reference_relationship);
+        formData.append('interview_availablity', interview_availablity);
+        formData.append('reference_name', reference_name);
+        formData.append('reference_email', reference_email);
+        formData.append('reference_contactI', reference_contactI);
+        formData.append('reference_countryiso', $("#reference_countryiso").val());
+        formData.append('reference_countryCode', $("#reference_countryCode").val());
+
+        formData.append('tab','tab9');
+
+        $.ajax({
+            url: "{{ route('admin.add_nurse_post_9') }}",
+            type: "POST",
+            data: formData,
+            data: formData,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include CSRF token for security
+            },
+            success: function(res) {
+                console.log(res.type);
+
+                if (res.status == '2') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: res.message,
+                    }).then(function() {
+                        $('a[href="' + targetTab + '"]').tab('show');
+                    });
+                } else {
+                    Swal.fire({
+                        icon:  'error',
+                        title: 'Error',
+                        text: res.message,
+                    });
+                }
+                // Show the target tab
+            },
+            error: function(error) {
+
+            }
+        });
+
+    }
+    });
        
  
 
