@@ -153,12 +153,6 @@
                             <span>Experience</span>
                         </a>
                     </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" data-bs-toggle="tab" href="#navpill-4.1" role="tab" aria-selected="false"
-                            tabindex="-1">
-                            <span>References</span>
-                        </a>
-                    </li>
                     {{-- <li class="nav-item" role="presentation">
                         <a class="nav-link" data-bs-toggle="tab" href="#navpill-5" role="tab" aria-selected="false"
                             tabindex="-1">
@@ -908,18 +902,14 @@
 
                                                 @if($educationData->acls_data && $educationData->acls_data != 'null')
                                                     @php 
-                                                        if($educationData && $educationData->acls_data){
-                                                        $acls_data1 = json_decode($educationData->acls_data);
-                                                        $a_data_arr = array();
-                                                        foreach ($acls_data1 as $a_data) {
-                                                            $a_data_arr[] = $a_data->acls_certification_id;
-                                                        }
-                                                        $a_data_json = json_encode($a_data_arr);
-                                                        }else{
-                                                        $acls_data1 = "";
-                                                        $a_data_json = "";
-                                                        
-                                                        }
+                                                        $acls_cert_ids = json_decode($educationData->acls_data, true); // Decode the acls_data field into an array
+                                                        // Decode the 'acls_data' string into an array
+                                                        $aclsData = json_decode($acls_cert_ids['acls_data'], true);
+                                                        //   dd($acls_cert_ids['acls_licence_expiry']);
+                                                        $acls_licence_num = $acls_cert_ids['acls_licence_num'];
+                                                        $acls_licence_expiry = $acls_cert_ids['acls_licence_expiry'];
+                                                      
+                                                        $acls_file = $acls_cert_ids['acls_file'];
                                                     @endphp
                                                     
                                                      <div class="col-md-12 mt-3">
@@ -932,7 +922,7 @@
                                                             ?>
                                                             <ul class="dropdown-list">
                                                                 @forelse($acls_datas as $acls_data)
-                                                                    @if($a_data->acls_certification_id ==  $acls_data->name)
+                                                                    @if(is_array($acls_cert_ids) && in_array($acls_data->professionalcert_id,$aclsData))
                                                                         <li><span class="dropdown-item-custom">{{ $acls_data->name }} , </span></li>
                                                                     @endif
                                                                 @empty
@@ -945,22 +935,22 @@
                                                     <div class="col-md-6 mt-3">
                                                         <div class="d-flex gap-3 flex-wrap">
                                                             <strong>Certification/Licence Number :</strong>
-                                                             <span class="">{{ $a_data->acls_license_number  }}</span>                                                  
+                                                             <span class="">{{ $acls_licence_num }}</span>                                                  
                                                         </div>
                                                     </div>
 
                                                     <div class="col-md-6 mt-3">
                                                         <div class="d-flex gap-3 flex-wrap">
                                                             <strong>Expiry :</strong>
-                                                             <span class="">{{ $a_data->acls_expiry  }}</span>                                                  
+                                                             <span class="">{{ $acls_licence_expiry }}</span>                                                  
                                                         </div>
                                                     </div>
 
                                                     <div class="col-md-6 mt-3">
                                                         <div class="d-flex gap-3 flex-wrap">
                                                             <strong>Certification/Licence Image :</strong>
-                                                             @if($a_data->acls_upload_certification )
-                                                            <a href="{{ asset('uploads/certificates/'.$a_data->acls_upload_certification ) }}" target="_blank">
+                                                             @if($acls_file)
+                                                            <a href="{{ asset('uploads/'.$acls_file) }}" target="_blank">
                                                                 <span class="text-success">View Image</span>
                                                             </a> 
                                                             @else   
@@ -972,18 +962,14 @@
 
                                                 @if($educationData->bls_data && $educationData->bls_data != 'null')
                                                     @php 
-                                                        if($educationData && $educationData->bls_data){
-                                                        $bls_data1 = json_decode($educationData->bls_data);
-                                                        $b_data_arr = array();
-                                                        foreach ($bls_data1 as $b_data) {
-                                                            $b_data_arr[] = $b_data->bls_certification_id;
-                                                        }
-                                                        $b_data_json = json_encode($b_data_arr);
-                                                        }else{
-                                                        $bls_data1 = "";
-                                                        $b_data_json = "";
-                                                        
-                                                        }
+                                                        $bls_data_ids = json_decode($educationData->bls_data, true); // Decode the acls_data field into an array
+                                                        // Decode the 'acls_data' string into an array
+                                                        $blsData = json_decode($bls_data_ids['bls_data'], true);
+                                                        //   dd($acls_cert_ids['acls_licence_expiry']);
+                                                        $bls_licence_num = $bls_data_ids['bls_licence_num'];
+                                                        $bls_licence_expiry = $bls_data_ids['bls_licence_expiry'];
+                                                      
+                                                        $bls_file = $bls_data_ids['bls_file'];
                                                     @endphp
                                                     
                                                      <div class="col-md-12 mt-3">
@@ -996,7 +982,7 @@
                                                             ?>
                                                             <ul class="dropdown-list">
                                                                 @forelse($bls_datas as $bls_data)
-                                                                    @if($b_data->bls_certification_id == $bls_data->name)
+                                                                    @if(is_array($bls_data_ids) && in_array($bls_data->professionalcert_id,$blsData))
                                                                         <li><span class="dropdown-item-custom">{{ $bls_data->name }} , </span></li>
                                                                     @endif
                                                                 @empty
@@ -1009,22 +995,22 @@
                                                     <div class="col-md-6 mt-3">
                                                         <div class="d-flex gap-3 flex-wrap">
                                                             <strong>Certification/Licence Number :</strong>
-                                                             <span class="">{{ $b_data->bls_license_number }}</span>                                                  
+                                                             <span class="">{{ $bls_licence_num }}</span>                                                  
                                                         </div>
                                                     </div>
 
                                                     <div class="col-md-6 mt-3">
                                                         <div class="d-flex gap-3 flex-wrap">
                                                             <strong>Expiry :</strong>
-                                                             <span class="">{{ $b_data->bls_expiry }}</span>                                                  
+                                                             <span class="">{{ $bls_licence_expiry }}</span>                                                  
                                                         </div>
                                                     </div>
 
                                                     <div class="col-md-6 mt-3">
                                                         <div class="d-flex gap-3 flex-wrap">
                                                             <strong>Certification/Licence Image :</strong>
-                                                            @if($b_data->bls_upload_certification)
-                                                            <a href="{{ asset('uploads/certificates/'.$b_data->bls_upload_certification) }}" target="_blank">
+                                                            @if($bls_file)
+                                                            <a href="{{ asset('uploads/'.$bls_file) }}" target="_blank">
                                                                 <span class="text-success">View Image</span>
                                                             </a> 
                                                             @else
@@ -1037,17 +1023,14 @@
 
                                                 @if($educationData->cpr_data && $educationData->cpr_data != 'null')
                                                     @php 
-                                                        if($educationData && $educationData->cpr_data){
-                                                            $cpr_data1 = json_decode($educationData->cpr_data);
-                                                            $c_data_arr = array();
-                                                            foreach ($cpr_data1 as $c_data) {
-                                                                $c_data_arr[] = $c_data->cpr_certification_id;
-                                                            }
-                                                            $c_data_json = json_encode($c_data_arr);
-                                                            }else{
-                                                            $cpr_data1 = "";
-                                                            $c_data_json = "";
-                                                            }
+                                                        $cpr_data_ids = json_decode($educationData->cpr_data, true); // Decode the acls_data field into an array
+                                                        // Decode the 'acls_data' string into an array
+                                                        $cprData = json_decode($cpr_data_ids['cpr_data'], true);
+                                                        //   dd($acls_cert_ids['acls_licence_expiry']);
+                                                        $cpr_licence_num = $cpr_data_ids['cpr_licence_num'];
+                                                        $cpr_licence_expiry = $cpr_data_ids['cpr_licence_expiry'];
+                                                      
+                                                        $cpr_file = $cpr_data_ids['cpr_file'];
                                                     @endphp
                                                     
                                                      <div class="col-md-12 mt-3">
@@ -1060,7 +1043,7 @@
                                                             ?>
                                                             <ul class="dropdown-list">
                                                                 @forelse($cpr_datas as $cpr_data)
-                                                                    @if($c_data->cpr_certification_id == $cpr_data->name)
+                                                                    @if(is_array($cpr_data_ids) && in_array($cpr_data->professionalcert_id,$cprData))
                                                                         <li><span class="dropdown-item-custom">{{ $cpr_data->name }} , </span></li>
                                                                     @endif
                                                                 @empty
@@ -1073,22 +1056,22 @@
                                                     <div class="col-md-6 mt-3">
                                                         <div class="d-flex gap-3 flex-wrap">
                                                             <strong>Certification/Licence Number :</strong>
-                                                             <span class="">{{ $c_data->cpr_license_number }}</span>                                                  
+                                                             <span class="">{{ $cpr_licence_num }}</span>                                                  
                                                         </div>
                                                     </div>
 
                                                     <div class="col-md-6 mt-3">
                                                         <div class="d-flex gap-3 flex-wrap">
                                                             <strong>Expiry :</strong>
-                                                             <span class="">{{ $c_data->cpr_expiry }}</span>                                                  
+                                                             <span class="">{{ $cpr_licence_expiry }}</span>                                                  
                                                         </div>
                                                     </div>
 
                                                     <div class="col-md-6 mt-3">
                                                         <div class="d-flex gap-3 flex-wrap">
                                                             <strong>Certification/Licence Image :</strong>
-                                                            @if($c_data->cpr_upload_certification)
-                                                            <a href="{{ asset('uploads/certificates/'.$c_data->cpr_upload_certification) }}" target="_blank">
+                                                            @if($cpr_file)
+                                                            <a href="{{ asset('uploads/'.$cpr_file) }}" target="_blank">
                                                                 <span class="text-success">View Image</span>
                                                             </a>  
                                                             @else  
@@ -1100,17 +1083,13 @@
 
                                                 @if($educationData->nrp_data && $educationData->nrp_data != 'null')
                                                     @php 
-                                                        if($educationData && $educationData->nrp_data){
-                                                        $nrp_data1 = json_decode($educationData->nrp_data);
-                                                        $n_data_arr = array();
-                                                        foreach ($nrp_data1 as $n_data) {
-                                                            $n_data_arr[] = $n_data->nrp_certification_id;
-                                                        }
-                                                        $n_data_json = json_encode($n_data_arr);
-                                                        }else{
-                                                        $nrp_data1 = "";
-                                                        $n_data_json = "";
-                                                        }
+                                                        $nrp_data_ids = json_decode($educationData->nrp_data, true); // Decode the acls_data field into an array
+                                                        // Decode the 'acls_data' string into an array
+                                                        $nrpData = json_decode($nrp_data_ids['nrp_data'], true);
+                                                        //   dd($acls_cert_ids['acls_licence_expiry']);
+                                                        $nrp_licence_num = $nrp_data_ids['nrp_licence_num'];
+                                                        $nrp_licence_expiry = $nrp_data_ids['nrp_licence_expiry'];                                      
+                                                        $nrp_file = $nrp_data_ids['nrp_file'];
                                                     @endphp
                                                     
                                                      <div class="col-md-12 mt-3">
@@ -1123,7 +1102,7 @@
                                                             ?>
                                                             <ul class="dropdown-list">
                                                                 @forelse($nrp_datas as $nrp_data)
-                                                                    @if($n_data->nrp_certification_id == $nrp_data->name )
+                                                                    @if(is_array($nrp_data_ids) && in_array($nrp_data->professionalcert_id,$nrpData))
                                                                         <li><span class="dropdown-item-custom">{{ $nrp_data->name }} , </span></li>
                                                                     @endif
                                                                 @empty
@@ -1136,22 +1115,22 @@
                                                     <div class="col-md-6 mt-3">
                                                         <div class="d-flex gap-3 flex-wrap">
                                                             <strong>Certification/Licence Number :</strong>
-                                                             <span class="">{{ $n_data->nrp_license_number }}</span>                                                  
+                                                             <span class="">{{ $nrp_licence_num }}</span>                                                  
                                                         </div>
                                                     </div>
 
                                                     <div class="col-md-6 mt-3">
                                                         <div class="d-flex gap-3 flex-wrap">
                                                             <strong>Expiry :</strong>
-                                                             <span class="">{{$n_data->nrp_expiry }}</span>                                                  
+                                                             <span class="">{{ $nrp_licence_expiry }}</span>                                                  
                                                         </div>
                                                     </div>
 
                                                     <div class="col-md-6 mt-3">
                                                         <div class="d-flex gap-3 flex-wrap">
                                                             <strong>Certification/Licence Image :</strong>
-                                                            @if($n_data->nrp_upload_certification)
-                                                            <a href="{{ asset('uploads/certificates/'.$n_data->nrp_upload_certification) }}" target="_blank">
+                                                            @if($nrp_file)
+                                                            <a href="{{ asset('uploads/'.$nrp_file) }}" target="_blank">
                                                                 <span class="text-success">View Image</span>
                                                             </a>  
                                                             @else  
@@ -1163,17 +1142,11 @@
 
                                                 @if($educationData->pals_data && $educationData->pals_data != 'null')
                                                     @php 
-                                                        if($educationData && $educationData->pals_data){
-                                                        $pls_data1 = json_decode($educationData->pals_data);
-                                                        $p_data_arr = array();
-                                                        foreach ($pls_data1 as $p_data) {
-                                                            $p_data_arr[] = $p_data->pls_certification_id;
-                                                        }
-                                                        $p_data_json = json_encode($p_data_arr);
-                                                        }else{
-                                                        $pls_data1 = "";
-                                                        $p_data_json = "";
-                                                        }
+                                                        $pals_data_ids = json_decode($educationData->pals_data, true); // Decode the acls_data field into an array
+                                                        $palsData = json_decode($pals_data_ids['pals_data'], true);
+                                                        $pals_licence_num = $pals_data_ids['pals_licence_num'];
+                                                        $pals_licence_expiry = $pals_data_ids['pals_licence_expiry'];                                      
+                                                        $pals_file = $pals_data_ids['pals_file'];
                                                     @endphp
                                                     
                                                      <div class="col-md-12 mt-3">
@@ -1187,7 +1160,7 @@
                                                             ?>
                                                             <ul class="dropdown-list">
                                                                 @forelse($pals_datas as $pals_data)
-                                                                    @if($p_data->pls_certification_id == $pals_data->name)
+                                                                    @if(is_array($pals_data_ids) && in_array($pals_data->professionalcert_id,$palsData))
                                                                         <li><span class="dropdown-item-custom">{{ $pals_data->name }} , </span></li>
                                                                     @endif
                                                                 @empty
@@ -1207,22 +1180,22 @@
                                                     <div class="col-md-6 mt-3">
                                                         <div class="d-flex gap-3 flex-wrap">
                                                             <strong>Certification/Licence Number :</strong>
-                                                             <span class="">{{ $p_data->pls_license_number }}</span>                                                  
+                                                             <span class="">{{ $pals_licence_num }}</span>                                                  
                                                         </div>
                                                     </div>
 
                                                     <div class="col-md-6 mt-3">
                                                         <div class="d-flex gap-3 flex-wrap">
                                                             <strong>Expiry :</strong>
-                                                             <span class="">{{ $p_data->pls_expiry }}</span>                                                  
+                                                             <span class="">{{ $pals_licence_expiry }}</span>                                                  
                                                         </div>
                                                     </div>
 
                                                     <div class="col-md-6 mt-3">
                                                         <div class="d-flex gap-3 flex-wrap">
                                                             <strong>Certification/Licence Image :</strong>
-                                                            @if($p_data->pls_upload_certification)
-                                                            <a href="{{ asset('uploads/certificates/'.$p_data->pls_upload_certification) }}" target="_blank">
+                                                            @if($nrp_file)
+                                                            <a href="{{ asset('uploads/'.$pals_file) }}" target="_blank">
                                                                 <span class="text-success">View Image</span>
                                                             </a>  
                                                             @else  
@@ -1234,17 +1207,11 @@
 
                                                 @if($educationData->rn_data && $educationData->rn_data != 'null')
                                                     @php 
-                                                        if($educationData && $educationData->rn_data){
-                                                        $rn_data1 = json_decode($educationData->rn_data);
-                                                        $r_data_arr = array();
-                                                        foreach ($rn_data1 as $r_data) {
-                                                            $r_data_arr[] = $r_data->rn_certification_id;
-                                                        }
-                                                        $r_data_json = json_encode($r_data_arr);
-                                                        }else{
-                                                        $rn_data1 = "";
-                                                        $r_data_json = "";
-                                                        }
+                                                        $rn_data_ids = json_decode($educationData->rn_data, true); // Decode the acls_data field into an array
+                                                        $rnData = json_decode($rn_data_ids['rn_data'], true);
+                                                        $rn_licence_num = $rn_data_ids['rn_licence_num'];
+                                                        $rn_licence_expiry = $rn_data_ids['rn_licence_expiry'];                                      
+                                                        $rn_file = $rn_data_ids['rn_file'];
                                                     @endphp
                                                     
                                                      <div class="col-md-12 mt-3">
@@ -1258,7 +1225,7 @@
                                                             ?>
                                                             <ul class="dropdown-list">
                                                                 @forelse($rn_datas as $rn_data)
-                                                                    @if($r_data->rn_certification_id == $rn_data->name )
+                                                                    @if(is_array($rn_data_ids) && in_array($rn_data->professionalcert_id,$rnData))
                                                                         <li><span class="dropdown-item-custom">{{ $rn_data->name }} , </span></li>
                                                                     @endif
                                                                 @empty
@@ -1271,22 +1238,22 @@
                                                     <div class="col-md-6 mt-3">
                                                         <div class="d-flex gap-3 flex-wrap">
                                                             <strong>Certification/Licence Number :</strong>
-                                                             <span class="">{{ $r_data->rn_license_number  }}</span>                                                  
+                                                             <span class="">{{ $rn_licence_num }}</span>                                                  
                                                         </div>
                                                     </div>
 
                                                     <div class="col-md-6 mt-3">
                                                         <div class="d-flex gap-3 flex-wrap">
                                                             <strong>Expiry :</strong>
-                                                             <span class="">{{ $r_data->rn_expiry  }}</span>                                                  
+                                                             <span class="">{{ $rn_licence_expiry }}</span>                                                  
                                                         </div>
                                                     </div>
 
                                                     <div class="col-md-6 mt-3">
                                                         <div class="d-flex gap-3 flex-wrap">
                                                             <strong>Certification/Licence Image :</strong>
-                                                            @if($r_data->rn_certification_id )
-                                                            <a href="{{ asset('uploads/certificates/'.$r_data->rn_upload_certification ) }}" target="_blank">
+                                                            @if($rn_file)
+                                                            <a href="{{ asset('uploads/'.$rn_file) }}" target="_blank">
                                                                 <span class="text-success">View Image</span>
                                                             </a>  
                                                             @else  
@@ -1298,17 +1265,11 @@
 
                                                 @if($educationData->np_data && $educationData->np_data != 'null')
                                                     @php 
-                                                        if($educationData && $educationData->np_data){
-                                                        $np_data1 = json_decode($educationData->np_data);
-                                                        $n_data_arr = array();
-                                                        foreach ($np_data1 as $n_data) {
-                                                            $n_data_arr[] = $n_data->np_certification_id;
-                                                        }
-                                                        $np_data_json = json_encode($n_data_arr);
-                                                        }else{
-                                                        $np_data1 = "";
-                                                        $np_data_json = "";
-                                                        }
+                                                        $np_data_ids = json_decode($educationData->np_data, true); // Decode the acls_data field into an array
+                                                        $npData = json_decode($np_data_ids['np_data'], true);
+                                                        $np_licence_num = $np_data_ids['np_licence_num'];
+                                                        $np_licence_expiry = $np_data_ids['np_licence_expiry'];                                      
+                                                        $np_file = $np_data_ids['np_file'];
                                                     @endphp
                                                     
                                                      <div class="col-md-12 mt-3">
@@ -1322,7 +1283,7 @@
                                                             ?>
                                                             <ul class="dropdown-list">
                                                                 @forelse($np_datas as $np_data)
-                                                                    @if($n_data->np_certification_id == $np_data->name)
+                                                                    @if(is_array($np_data_ids) && in_array($np_data->professionalcert_id,$npData))
                                                                         <li><span class="dropdown-item-custom">{{ $np_data->name }} , </span></li>
                                                                     @endif
                                                                 @empty
@@ -1335,14 +1296,14 @@
                                                     <div class="col-md-6 mt-3">
                                                         <div class="d-flex gap-3 flex-wrap">
                                                             <strong>Certification/Licence Number :</strong>
-                                                             <span class="">{{ $n_data->np_license_number  }}</span>                                                  
+                                                             <span class="">{{ $np_licence_num }}</span>                                                  
                                                         </div>
                                                     </div>
 
                                                     <div class="col-md-6 mt-3">
                                                         <div class="d-flex gap-3 flex-wrap">
                                                             <strong>Expiry :</strong>
-                                                             <span class="">{{ $n_data->np_expiry }}</span>                                                  
+                                                             <span class="">{{ $np_licence_expiry }}</span>                                                  
                                                         </div>
                                                     </div>
 
@@ -1350,7 +1311,7 @@
                                                         <div class="d-flex gap-3 flex-wrap">
                                                             <strong>Certification/Licence Image :</strong>
                                                             @if($rn_file)
-                                                            <a href="{{ asset('uploads/certificates/'.$n_data->np_upload_certification) }}" target="_blank">
+                                                            <a href="{{ asset('uploads/'.$np_file) }}" target="_blank">
                                                                 <span class="text-success">View Image</span>
                                                             </a>  
                                                             @else  
@@ -1361,18 +1322,12 @@
                                                 @endif
 
                                                 @if($educationData->cna_data && $educationData->cna_data != 'null')
-                                                    @php
-                                                        if($educationData && $educationData->cna_data){
-                                                            $cna_data1 = json_decode($educationData->cna_data);
-                                                            $cn_data_arr = array();
-                                                            foreach ($cna_data1 as $cn_data) {
-                                                                $cn_data_arr[] = $cn_data->cn_certification_id;
-                                                            }
-                                                            $cna_data_json = json_encode($cn_data_arr);
-                                                            }else{
-                                                            $cna_data1 = "";
-                                                            $cna_data_json = "";
-                                                        }
+                                                    @php 
+                                                        $cna_data_ids = json_decode($educationData->cna_data, true); // Decode the acls_data field into an array
+                                                        $cnaData = json_decode($cna_data_ids['cna_data'], true);
+                                                        $cna_licence_num = $cna_data_ids['cna_licence_num'];
+                                                        $cna_licence_expiry = $cna_data_ids['cna_licence_expiry'];                                      
+                                                        $cna_file = $cna_data_ids['cna_file'];
                                                     @endphp
                                                     
                                                      <div class="col-md-12 mt-3">
@@ -1386,8 +1341,8 @@
                                                             ?>
                                                             <ul class="dropdown-list">
                                                                 @forelse($cna_datas as $cna_data)
-                                                                    @if($cn_data->cn_certification_id == $cna_data->name)
-                                                                        <li><span class="dropdown-item-custom">{{ $cna_data->name }} ,</span></li>
+                                                                    @if(is_array($cna_data_ids) && in_array($cna_data->professionalcert_id,$cnaData))
+                                                                        <li><span class="dropdown-item-custom">{{ $cna_data->name }} , </span></li>
                                                                     @endif
                                                                 @empty
                                                                     <li><a href="#" class="dropdown-item-custom">No Data found</a></li>
@@ -1399,14 +1354,14 @@
                                                     <div class="col-md-6 mt-3">
                                                         <div class="d-flex gap-3 flex-wrap">
                                                             <strong>Certification/Licence Number :</strong>
-                                                             <span class="">{{ $cn_data->np_license_number }}</span>                                                  
+                                                             <span class="">{{ $cna_licence_num }}</span>                                                  
                                                         </div>
                                                     </div>
 
                                                     <div class="col-md-6 mt-3">
                                                         <div class="d-flex gap-3 flex-wrap">
                                                             <strong>Expiry :</strong>
-                                                             <span class="">{{ $cn_data->np_expiry }}</span>                                                  
+                                                             <span class="">{{ $cna_licence_expiry }}</span>                                                  
                                                         </div>
                                                     </div>
 
@@ -1414,7 +1369,7 @@
                                                         <div class="d-flex gap-3 flex-wrap">
                                                             <strong>Certification/Licence Image :</strong>
                                                             @if($cna_file)
-                                                            <a href="{{ asset('uploads/certificates/'.$cn_data->np_upload_certification) }}" target="_blank">
+                                                            <a href="{{ asset('uploads/'.$cna_file) }}" target="_blank">
                                                                 <span class="text-success">View Image</span>
                                                             </a>  
                                                             @else  
@@ -1426,17 +1381,11 @@
 
                                                 @if($educationData->lpn_data && $educationData->lpn_data != 'null')
                                                     @php 
-                                                        if($educationData && $educationData->lpn_data){
-                                                        $lpn_data1 = json_decode($educationData->lpn_data);
-                                                        $lpn_data_arr = array();
-                                                        foreach ($lpn_data1 as $lpn_data) {
-                                                            $lpn_data_arr[] = $lpn_data->lpn_certification_id;
-                                                        }
-                                                        $lpn_data_json = json_encode($lpn_data_arr);
-                                                        }else{
-                                                        $lpn_data1 = "";
-                                                        $lpn_data_json = "";
-                                                        }
+                                                        $lpn_data_ids = json_decode($educationData->lpn_data, true); // Decode the acls_data field into an array
+                                                        $lpnData = json_decode($lpn_data_ids['lpn_data'], true);
+                                                        $lpn_licence_num = $lpn_data_ids['lpn_licence_num'];
+                                                        $lpn_licence_expiry = $lpn_data_ids['lpn_licence_expiry'];                                      
+                                                        $lpn_file = $lpn_data_ids['cna_file'];
                                                     @endphp
                                                     
                                                      <div class="col-md-12 mt-3">
@@ -1450,8 +1399,8 @@
                                                             ?>
                                                             <ul class="dropdown-list">
                                                                 @forelse($lpn_datas as $lpn_data)
-                                                                    @if($lpn_data->lpn_certification_id == $lpn_data->name)
-                                                                        <li><span class="dropdown-item-custom">{{ $lpn_data->name }},</span></li>
+                                                                    @if(is_array($lpn_data_ids) && in_array($lpn_data->professionalcert_id,$lpnData))
+                                                                        <li><span class="dropdown-item-custom">{{ $lpn_data->name }} , </span></li>
                                                                     @endif
                                                                 @empty
                                                                     <li><a href="#" class="dropdown-item-custom">No Data found</a></li>
@@ -1463,22 +1412,22 @@
                                                     <div class="col-md-6 mt-3">
                                                         <div class="d-flex gap-3 flex-wrap">
                                                             <strong>Certification/Licence Number :</strong>
-                                                             <span class="">{{ $lpn_data->lpn_license_number }}</span>                                                  
+                                                             <span class="">{{ $lpn_licence_num }}</span>                                                  
                                                         </div>
                                                     </div>
 
                                                     <div class="col-md-6 mt-3">
                                                         <div class="d-flex gap-3 flex-wrap">
                                                             <strong>Expiry :</strong>
-                                                             <span class="">{{ $lpn_data->lpn_expiry }}</span>                                                  
+                                                             <span class="">{{ $lpn_licence_expiry }}</span>                                                  
                                                         </div>
                                                     </div>
 
                                                     <div class="col-md-6 mt-3">
                                                         <div class="d-flex gap-3 flex-wrap">
                                                             <strong>Certification/Licence Image :</strong>
-                                                            @if($lpn_data->lpn_upload_certification)
-                                                            <a href="{{ asset('uploads/certificates/'.$lpn_data->lpn_upload_certification) }}" target="_blank">
+                                                            @if($lpn_file)
+                                                            <a href="{{ asset('uploads/'.$lpn_file) }}" target="_blank">
                                                                 <span class="text-success">View Image</span>
                                                             </a>  
                                                             @else  
@@ -1490,17 +1439,11 @@
 
                                                 @if($educationData->crna_data && $educationData->crna_data != 'null')
                                                     @php 
-                                                        if($educationData && $educationData->crna_data){
-                                                        $crna_data1 = json_decode($educationData->crna_data);
-                                                        $crna_data_arr = array();
-                                                        foreach ($crna_data1 as $crna_data) {
-                                                            $crna_data_arr[] = $crna_data->crna_certification_id;
-                                                        }
-                                                        $crna_data_json = json_encode($crna_data_arr);
-                                                        }else{
-                                                        $crna_data1 = "";
-                                                        $crna_data_json = "";
-                                                        }
+                                                        $crna_data_ids = json_decode($educationData->crna_data, true); // Decode the acls_data field into an array
+                                                        $crnaData = json_decode($crna_data_ids['crna_data'], true);
+                                                        $crna_licence_num = $crna_data_ids['lpn_licence_num'];
+                                                        $crna_licence_expiry = $crna_data_ids['lpn_licence_expiry'];                                      
+                                                        $crna_file = $crna_data_ids['cna_file'];
                                                     @endphp
                                                     
                                                      <div class="col-md-12 mt-3">
@@ -1514,7 +1457,7 @@
                                                             ?>
                                                             <ul class="dropdown-list">
                                                                 @forelse($crna_datas as $crna_data)
-                                                                    @if($crna_data->crna_certification_id == $crna_data->name)
+                                                                    @if(is_array($crna_data_ids) && in_array($crna_data->professionalcert_id,$crnaData))
                                                                         <li><span class="dropdown-item-custom">{{ $crna_data->name }} , </span></li>
                                                                     @endif
                                                                 @empty
@@ -1527,14 +1470,14 @@
                                                     <div class="col-md-6 mt-3">
                                                         <div class="d-flex gap-3 flex-wrap">
                                                             <strong>Certification/Licence Number :</strong>
-                                                             <span class="">{{ $crna_data->crna_license_number }}</span>                                                  
+                                                             <span class="">{{ $crna_licence_num }}</span>                                                  
                                                         </div>
                                                     </div>
 
                                                     <div class="col-md-6 mt-3">
                                                         <div class="d-flex gap-3 flex-wrap">
                                                             <strong>Expiry :</strong>
-                                                             <span class="">{{ $crna_data->crna_expiry }}</span>                                                  
+                                                             <span class="">{{ $crna_licence_expiry }}</span>                                                  
                                                         </div>
                                                     </div>
 
@@ -1542,7 +1485,7 @@
                                                         <div class="d-flex gap-3 flex-wrap">
                                                             <strong>Certification/Licence Image :</strong>
                                                             @if($crna_file)
-                                                            <a href="{{ asset('uploads/certificates/'.$crna_data->crna_upload_certification) }}" target="_blank">
+                                                            <a href="{{ asset('uploads/'.$crna_file) }}" target="_blank">
                                                                 <span class="text-success">View Image</span>
                                                             </a>  
                                                             @else  
@@ -1554,17 +1497,11 @@
 
                                                 @if($educationData->cnm_data && $educationData->cnm_data != 'null')
                                                     @php 
-                                                        if($educationData && $educationData->cnm_data){
-                                                        $cnm_data1 = json_decode($educationData->cnm_data);
-                                                        $cnm_data_arr = array();
-                                                        foreach ($cnm_data1 as $cnm_data) {
-                                                            $cnm_data_arr[] = $cnm_data->cnm_certification_id;
-                                                        }
-                                                        $cnm_data_json = json_encode($cnm_data_arr);
-                                                        }else{
-                                                        $cnm_data1 = "";
-                                                        $cnm_data_json = "";
-                                                        }
+                                                        $cnm_data_ids = json_decode($educationData->cnm_data, true); // Decode the acls_data field into an array
+                                                        $cnmData = json_decode($cnm_data_ids['cnm_data'], true);
+                                                        $cnm_licence_num = $cnm_data_ids['cnm_licence_num'];
+                                                        $cnm_licence_expiry = $cnm_data_ids['cnm_licence_expiry'];                                      
+                                                        $cnm_file = $cnm_data_ids['cnm_file'];
                                                     @endphp
                                                     
                                                      <div class="col-md-12 mt-3">
@@ -1578,7 +1515,7 @@
                                                             ?>
                                                             <ul class="dropdown-list">
                                                                 @forelse($cnm_datas as $cnm_data)
-                                                                    @if($cnm_data->cnm_certification_id == $cnm_data->name)
+                                                                    @if(is_array($cnm_data_ids) && in_array($cnm_data->professionalcert_id,$cnmData))
                                                                         <li><span class="dropdown-item-custom">{{ $cnm_data->name }} , </span></li>
                                                                     @endif
                                                                 @empty
@@ -1591,22 +1528,22 @@
                                                     <div class="col-md-6 mt-3">
                                                         <div class="d-flex gap-3 flex-wrap">
                                                             <strong>Certification/Licence Number :</strong>
-                                                             <span class="">{{ $cnm_data->cnm_license_number }}</span>                                                  
+                                                             <span class="">{{ $cnm_licence_num }}</span>                                                  
                                                         </div>
                                                     </div>
 
                                                     <div class="col-md-6 mt-3">
                                                         <div class="d-flex gap-3 flex-wrap">
                                                             <strong>Expiry :</strong>
-                                                             <span class="">{{ $cnm_data->cnm_expiry }}</span>                                                  
+                                                             <span class="">{{ $cnm_licence_expiry }}</span>                                                  
                                                         </div>
                                                     </div>
 
                                                     <div class="col-md-6 mt-3">
                                                         <div class="d-flex gap-3 flex-wrap">
                                                             <strong>Certification/Licence Image :</strong>
-                                                            @if($cnm_data->cnm_upload_certification)
-                                                            <a href="{{ asset('uploads/certificates/'.$cnm_data->cnm_upload_certification) }}" target="_blank">
+                                                            @if($cnm_file)
+                                                            <a href="{{ asset('uploads/'.$cnm_file) }}" target="_blank">
                                                                 <span class="text-success">View Image</span>
                                                             </a>  
                                                             @else  
@@ -1618,17 +1555,11 @@
 
                                                 @if($educationData->ons_data && $educationData->ons_data != 'null')
                                                     @php 
-                                                        if($educationData && $educationData->ons_data){
-                                                        $ons_data1 = json_decode($educationData->ons_data);
-                                                        $ons_data_arr = array();
-                                                        foreach ($ons_data1 as $ons_data) {
-                                                            $ons_data_arr[] = $ons_data->ons_certification_id;
-                                                        }
-                                                        $ons_data_json = json_encode($ons_data_arr);
-                                                        }else{
-                                                        $ons_data1 = "";
-                                                        $ons_data_json = "";
-                                                        }
+                                                        $ons_data_ids = json_decode($educationData->ons_data, true); // Decode the acls_data field into an array
+                                                        $onsData = json_decode($ons_data_ids['ons_data'], true);
+                                                        $ons_licence_num = $ons_data_ids['ons_licence_num'];
+                                                        $ons_licence_expiry = $ons_data_ids['ons_licence_expiry'];                                      
+                                                        $ons_file = $ons_data_ids['ons_file'];
                                                     @endphp
                                                     
                                                      <div class="col-md-12 mt-3">
@@ -1642,7 +1573,7 @@
                                                             ?>
                                                             <ul class="dropdown-list">
                                                                 @forelse($ons_datas as $ons_data)
-                                                                    @if($ons_data->ons_certification_id == $ons_data->name )
+                                                                    @if(is_array($ons_data_ids) && in_array($ons_data->professionalcert_id,$onsData))
                                                                         <li><span class="dropdown-item-custom">{{ $ons_data->name }} , </span></li>
                                                                     @endif
                                                                 @empty
@@ -1655,14 +1586,14 @@
                                                     <div class="col-md-6 mt-3">
                                                         <div class="d-flex gap-3 flex-wrap">
                                                             <strong>Certification/Licence Number :</strong>
-                                                             <span class="">{{ $ons_data->ons_license_number }}</span>                                                  
+                                                             <span class="">{{ $ons_licence_num }}</span>                                                  
                                                         </div>
                                                     </div>
 
                                                     <div class="col-md-6 mt-3">
                                                         <div class="d-flex gap-3 flex-wrap">
                                                             <strong>Expiry :</strong>
-                                                             <span class="">{{ $ons_data->ons_expiry }}</span>                                                  
+                                                             <span class="">{{ $ons_licence_expiry }}</span>                                                  
                                                         </div>
                                                     </div>
 
@@ -1670,7 +1601,7 @@
                                                         <div class="d-flex gap-3 flex-wrap">
                                                             <strong>Certification/Licence Image :</strong>
                                                             @if($cnm_file)
-                                                            <a href="{{ asset('uploads/certificates/'.$ons_data->ons_upload_certification) }}" target="_blank">
+                                                            <a href="{{ asset('uploads/'.$ons_file) }}" target="_blank">
                                                                 <span class="text-success">View Image</span>
                                                             </a>  
                                                             @else  
@@ -1682,17 +1613,11 @@
 
                                                 @if($educationData->msw_data && $educationData->msw_data != 'null')
                                                     @php 
-                                                        if($educationData && $educationData->msw_data){
-                                                        $msw_data1 = json_decode($educationData->msw_data);
-                                                        $msw_data_arr = array();
-                                                        foreach ($msw_data1 as $msw_data) {
-                                                            $msw_data_arr[] = $msw_data->msw_certification_id;
-                                                        }
-                                                        $msw_data_json = json_encode($msw_data_arr);
-                                                        }else{
-                                                        $msw_data1 = "";
-                                                        $msw_data_json = "";
-                                                        }
+                                                        $msw_data_ids = json_decode($educationData->msw_data, true); // Decode the acls_data field into an array
+                                                        $mswData = json_decode($msw_data_ids['msw_data'], true);
+                                                        $msw_licence_num = $msw_data_ids['msw_licence_num'];
+                                                        $msw_licence_expiry = $msw_data_ids['msw_licence_expiry'];                                      
+                                                        $msw_file = $msw_data_ids['msw_file'];
                                                     @endphp
                                                     
                                                      <div class="col-md-12 mt-3">
@@ -1706,7 +1631,7 @@
                                                             ?>
                                                             <ul class="dropdown-list">
                                                                 @forelse($msw_datas as $msw_data)
-                                                                    @if($msw_data->msw_certification_id == $msw_data->name)
+                                                                    @if(is_array($msw_data_ids) && in_array($msw_data->professionalcert_id,$mswData))
                                                                         <li><span class="dropdown-item-custom">{{ $msw_data->name }} , </span></li>
                                                                     @endif
                                                                 @empty
@@ -1719,22 +1644,22 @@
                                                     <div class="col-md-6 mt-3">
                                                         <div class="d-flex gap-3 flex-wrap">
                                                             <strong>Certification/Licence Number :</strong>
-                                                             <span class="">{{ $msw_data->msw_license_number }}</span>                                                  
+                                                             <span class="">{{ $msw_licence_num }}</span>                                                  
                                                         </div>
                                                     </div>
 
                                                     <div class="col-md-6 mt-3">
                                                         <div class="d-flex gap-3 flex-wrap">
                                                             <strong>Expiry :</strong>
-                                                             <span class="">{{ $msw_data->msw_expiry }}</span>                                                  
+                                                             <span class="">{{ $msw_licence_expiry }}</span>                                                  
                                                         </div>
                                                     </div>
 
                                                     <div class="col-md-6 mt-3">
                                                         <div class="d-flex gap-3 flex-wrap">
                                                             <strong>Certification/Licence Image :</strong>
-                                                            @if($msw_data->msw_certification_id)
-                                                            <a href="{{ asset('uploads/certificates/'.$msw_data->msw_upload_certification) }}" target="_blank">
+                                                            @if($msw_file)
+                                                            <a href="{{ asset('uploads/'.$msw_file) }}" target="_blank">
                                                                 <span class="text-success">View Image</span>
                                                             </a>  
                                                             @else  
@@ -1746,17 +1671,11 @@
 
                                                 @if($educationData->ain_data && $educationData->ain_data != 'null')
                                                     @php 
-                                                        if($educationData && $educationData->ain_data){
-                                                        $ain_data1 = json_decode($educationData->ain_data);
-                                                        $ain_data_arr = array();
-                                                        foreach ($ain_data1 as $ain_data) {
-                                                            $ain_data_arr[] = $ain_data->ain_certification_id;
-                                                        }
-                                                        $ain_data_json = json_encode($ain_data_arr);
-                                                        }else{
-                                                        $ain_data1 = "";
-                                                        $ain_data_json = "";
-                                                        }
+                                                        $ain_data_ids = json_decode($educationData->ain_data, true); // Decode the acls_data field into an array
+                                                        $ainData = json_decode($ain_data_ids['ain_data'], true);
+                                                        $ain_licence_num = $ain_data_ids['ain_licence_num'];
+                                                        $ain_licence_expiry = $ain_data_ids['ain_licence_expiry'];                                      
+                                                        $ain_file = $ain_data_ids['ain_file'];
                                                     @endphp
                                                     
                                                      <div class="col-md-12 mt-3">
@@ -1770,7 +1689,7 @@
                                                             ?>
                                                             <ul class="dropdown-list">
                                                                 @forelse($ain_datas as $ain_data)
-                                                                    @if($ain_data->ain_certification_id == $ain_data->name)
+                                                                    @if(is_array($ain_data_ids) && in_array($ain_data->professionalcert_id,$ainData))
                                                                         <li><span class="dropdown-item-custom">{{ $ain_data->name }} , </span></li>
                                                                     @endif
                                                                 @empty
@@ -1783,14 +1702,14 @@
                                                     <div class="col-md-6 mt-3">
                                                         <div class="d-flex gap-3 flex-wrap">
                                                             <strong>Certification/Licence Number :</strong>
-                                                             <span class="">{{ $ain_data->ain_license_number }}</span>                                                  
+                                                             <span class="">{{ $ain_licence_num }}</span>                                                  
                                                         </div>
                                                     </div>
 
                                                     <div class="col-md-6 mt-3">
                                                         <div class="d-flex gap-3 flex-wrap">
                                                             <strong>Expiry :</strong>
-                                                             <span class="">{{ $ain_data->ain_expiry }}</span>                                                  
+                                                             <span class="">{{ $ain_licence_expiry }}</span>                                                  
                                                         </div>
                                                     </div>
 
@@ -1798,7 +1717,7 @@
                                                         <div class="d-flex gap-3 flex-wrap">
                                                             <strong>Certification/Licence Image :</strong>
                                                             @if($ain_file)
-                                                            <a href="{{ asset('uploads/certificates/'.$ain_data->ain_upload_certification) }}" target="_blank">
+                                                            <a href="{{ asset('uploads/'.$ain_file) }}" target="_blank">
                                                                 <span class="text-success">View Image</span>
                                                             </a>  
                                                             @else  
@@ -1810,17 +1729,11 @@
 
                                                 @if($educationData->rpn_data && $educationData->rpn_data != 'null')
                                                     @php 
-                                                        if($educationData && $educationData->rpn_data){
-                                                        $rpn_data1 = json_decode($educationData->rpn_data);
-                                                        $rpn_data_arr = array();
-                                                        foreach ($rpn_data1 as $rpn_data) {
-                                                            $rpn_data_arr[] = $rpn_data->rpn_certification_id;
-                                                        }
-                                                        $rpn_data_json = json_encode($rpn_data_arr);
-                                                        }else{
-                                                        $rpn_data1 = "";
-                                                        $rpn_data_json = "";
-                                                        }
+                                                        $rpn_data_ids = json_decode($educationData->rpn_data, true); // Decode the acls_data field into an array
+                                                        $rpnData = json_decode($rpn_data_ids['rpn_data'], true);
+                                                        $rpn_licence_num = $rpn_data_ids['rpn_licence_num'];
+                                                        $rpn_licence_expiry = $rpn_data_ids['rpn_licence_expiry'];                                      
+                                                        $rpn_file = $rpn_data_ids['rpn_file'];
                                                     @endphp
                                                     
                                                      <div class="col-md-12 mt-3">
@@ -1834,7 +1747,7 @@
                                                             ?>
                                                             <ul class="dropdown-list">
                                                                 @forelse($rpn_datas as $rpn_data)
-                                                                    @if($rpn_data->rpn_certification_id == $rpn_data->name)
+                                                                    @if(is_array($rpn_data_ids) && in_array($rpn_data->professionalcert_id,$rpnData))
                                                                         <li><span class="dropdown-item-custom">{{ $rpn_data->name }} , </span></li>
                                                                     @endif
                                                                 @empty
@@ -1847,22 +1760,22 @@
                                                     <div class="col-md-6 mt-3">
                                                         <div class="d-flex gap-3 flex-wrap">
                                                             <strong>Certification/Licence Number :</strong>
-                                                             <span class="">{{ $rpn_data->rpn_license_number }}</span>                                                  
+                                                             <span class="">{{ $rpn_licence_num }}</span>                                                  
                                                         </div>
                                                     </div>
 
                                                     <div class="col-md-6 mt-3">
                                                         <div class="d-flex gap-3 flex-wrap">
                                                             <strong>Expiry :</strong>
-                                                             <span class="">{{ $rpn_data->rpn_expiry }}</span>                                                  
+                                                             <span class="">{{ $rpn_licence_expiry }}</span>                                                  
                                                         </div>
                                                     </div>
 
                                                     <div class="col-md-6 mt-3">
                                                         <div class="d-flex gap-3 flex-wrap">
                                                             <strong>Certification/Licence Image :</strong>
-                                                            @if($rpn_data->rpn_upload_certification)
-                                                            <a href="{{ asset('uploads/certificates/'.$rpn_data->rpn_upload_certification) }}" target="_blank">
+                                                            @if($rpn_file)
+                                                            <a href="{{ asset('uploads/'.$rpn_file) }}" target="_blank">
                                                                 <span class="text-success">View Image</span>
                                                             </a>  
                                                             @else  
@@ -1964,63 +1877,26 @@
                                                     </div>
                                                 </div>
                                                 @endif
-                                                  
+                                                  @if($educationData->training_courses != null )
                                                 @php 
                                                     // $training_workshops = json_decode($educationData->training_workshops);
                                                 @endphp
-                                               <?php
-                                                    if(!empty($educationData)){
-                                                    $certificate_data = json_decode($educationData->additional_training_data);
-                                                    }else{
-                                                    $certificate_data = "";
-                                                    }
-
-                                                ?>
-                                                <?php
-                                                $i = 1;
-                                                ?>
-                                                @if(!empty($certificate_data))
-                                                @foreach($certificate_data as $c_data)
+                                               
                                                 <h4  class="mt-4 fw-bolder fs-6 lh-base d-flex align-items-center">Additional Training :</h4>
-
-                                                <h6>Certification/Licence {{ $i }}</h6>
-                                                <div class="col-md-6 mt-3">
+                                                {{-- <div class="col-md-6 mt-3">
                                                     <div class="d-flex gap-3 flex-wrap">
-                                                        <strong>Courses/workshops : </strong>
-                                                        <span class="">{{ $c_data->training_courses }}</span> 
+                                                        <strong>Courses : </strong>
+                                                         <ul class="dropdown-list">
+                                                            @forelse($training_courses as $key => $value)
+                                                                <li><span class="dropdown-item-custom">{{ training_name_by_id($value) }} , </span></li>
+                                                            @empty
+                                                                <li><a href="#" class="dropdown-item-custom"></a></li>
+                                                            @endforelse
+                                                        </ul>  
                                                     </div>
-                                                </div>
-
-                                                <div class="col-md-6 mt-3">
-                                                    <div class="d-flex gap-3 flex-wrap">
-                                                        <strong>Certification/Licence Number : </strong>
-                                                        <span class="">{{ $c_data->additional_license_number }}</span> 
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-6 mt-3">
-                                                    <div class="d-flex gap-3 flex-wrap">
-                                                        <strong>Expiry : </strong>
-                                                        <span class="">{{ $c_data->additional_expiry }}</span> 
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-6 mt-3">
-                                                    <div class="d-flex gap-3 flex-wrap">
-                                                        <strong>Upload your certification/Licence : </strong>
-                                                        @if($c_data->additional_upload_certification)
-                                                            <a href="{{ asset('uploads/certificates/'.$c_data->additional_upload_certification) }}" target="_blank">
-                                                                <span class="text-success">View Image</span>
-                                                            </a>  
-                                                            @else  
-                                                            <span class="">No Image</span> 
-                                                            @endif 
-                                                    </div>
-                                                </div>
-                                                @endforeach
+                                                </div> --}}
+                                                
                                                 @endif
-                                                
-                                                
 
                                             </div>
                                             @else
@@ -2177,114 +2053,6 @@
                                                 
                                                 @endif
                                             
-                    
-                                    </div>
-                    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tab-pane p-3" id="navpill-4.1" role="tabpanel">
-                        <div class="row">
-                            <div class=" w-100  overflow-hidden">
-                                <div class="card-body p-3 px-md-4 pb-0">
-                                    <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center ">References</h3>
-                                </div>
-                                <div class="card-body p-3 px-md-4">
-                                    <div class="col-md-12">
-                                         @if(!empty($RefereData))
-                                         <?php
-                                            $i = 1;
-                                            ?>
-                                         @foreach($RefereData as $data)
-                                        <div class="row">
-                                            <h4>References {{ $i}}</h4>
-                                            @if(isset($data->first_name) && $data->first_name)
-                                            <div class="col-md-6 mt-3">
-                                                <div class="d-flex gap-3 flex-wrap">
-                                                    <strong>First name: </strong>
-                                                    <span>{{$data->first_name}}</span>
-                                                </div>
-                                            </div>
-                                            @endif
-                                            @if(isset($data->last_name) && $data->last_name)
-                                            <div class="col-md-6 mt-3">
-                                                <div class="d-flex gap-3 flex-wrap">
-                                                    <strong>Last name: </strong>
-                                                    <span>{{$data->last_name}}</span>
-                                                </div>
-                                            </div>
-                                            @endif
-                                            @if(isset($data->email) && $data->email)
-                                            <div class="col-md-6 mt-3">
-                                                <div class="d-flex gap-3 flex-wrap">
-                                                    <strong>Email: </strong>
-                                                    <span>{{$data->email}}</span>
-                                                </div>
-                                            </div>
-                                            @endif
-
-                                            @if(isset($data->phone_no) && $data->phone_no)
-                                            <div class="col-md-6 mt-3">
-                                                <div class="d-flex gap-3 flex-wrap">
-                                                    <strong>Last name: </strong>
-                                                    <span>{{$data->phone_no}}</span>
-                                                </div>
-                                            </div>
-                                            @endif
-
-                                            @if(isset($data->relationship) && $data->relationship)
-                                            <div class="col-md-6 mt-3">
-                                                <div class="d-flex gap-3 flex-wrap">
-                                                    <strong>Relationship: </strong>
-                                                    <span>{{$data->relationship}}</span>
-                                                </div>
-                                            </div>
-                                            @endif
-
-                                            @if(isset($data->worked_together) && $data->worked_together)
-                                            <div class="col-md-6 mt-3">
-                                                <div class="d-flex gap-3 flex-wrap">
-                                                    <strong>You worked together at: </strong>
-                                                    <span>{{$data->worked_together}}</span>
-                                                </div>
-                                            </div>
-                                            @endif
-
-                                            
-                                            @if(isset($data->start_date) && $data->start_date)
-                                            <div class="col-md-6 mt-3">
-                                                <div class="d-flex gap-3 flex-wrap">
-                                                    <strong>Start Date : </strong><span>{{ \Carbon\Carbon::parse($data->start_date)->format('d/m/Y') }}</span>
-                                                </div>
-                                            </div>
-                                            @endif
-                                            @if(isset($data->end_date) && $data->end_date)
-                                            <div class="col-md-6 mt-3">
-                                                <div class="d-flex gap-3 flex-wrap">
-                                                    <strong> End Date : </strong><span>{{ \Carbon\Carbon::parse($data->end_date)->format('d/m/Y') }}</span>
-                                                </div>
-                                            </div>
-                                            @endif
-                                            @if(isset($data->position_with_referee) && $data->position_with_referee)
-                                            <div class="col-md-12 mt-3">
-                                                <div class="d-flex gap-3 flex-wrap">
-                                                    <strong>What was your position when you worked with this referee?: </strong>
-                                                    <span>{{$data->position_with_referee}}</span>
-                                                </div>
-                                            </div>
-                                            @endif   
-                                        </div>
-                                        <?php
-                                        $i++;
-                                        ?>
-                                        @endforeach
-                                    @else
-                                    <div class="col-md-12">
-                                        <div class="text-center text-danger fs-5">No data found</div>
-                                    </div>
-                                    
-                                    @endif
                     
                                     </div>
                     
@@ -2640,7 +2408,7 @@
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
-                                    <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center">Interview</h3>
+                                    <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center">Interview and References</h3>
                                 </div>
                                 <div class="card-body p-3 px-md-4">
                                     <div class="col-md-12">

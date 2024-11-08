@@ -3709,11 +3709,11 @@
                       <p>Please add required courses or certifications completed for compliance or safety</p>
                       <label class="form-label" for="input-1">Please select all that apply</label>
                         <?php
-                          $mandatory_courses = DB::table("mandatory_courses")->get();
+                          $mandatory_courses = DB::table('man_training_category')->where('type', 'Training')->where('parent', 0)->get();
                         ?>
                         <ul id="mandatory_courses" style="display:none;">
                             @foreach($mandatory_courses as $m_courses)
-                            <li data-value="{{ $m_courses->courses_id }}">{{ $m_courses->courses_certifications }}</li>
+                            <li data-value="{{ $m_courses->id }}">{{ $m_courses->name }}</li>
                             @endforeach
                             
                         </ul>
@@ -3722,19 +3722,22 @@
                     <div class="mandatory_sub_courses">
                       @foreach($mandatory_courses as $m_courses)
                         <?php
-                          $mandatory_sub_courses = DB::table("mandatory_sub_courses")->where("mandatory_courses_id",$m_courses->courses_id)->get();
+                           $mandatory_sub_courses = DB::table('man_training_category')
+                                                        ->where('parent', $m_courses->id)
+                                                        ->where('type', 'Training')
+                                                        ->get();
                         ?>
-                        <div class="form-group level-drp mandatory_courses_div mandatory_courses_div_{{ $m_courses->courses_id }}" style="display: none;">
-                          <input type="hidden" name="mandatory_training_value" class="mandatory_training_value mandatory_training_value-{{ $m_courses->courses_id }}" value="{{ $m_courses->courses_id }}">
-                          <label class="form-label" for="input-1"></label>
+                        <div class="form-group level-drp mandatory_courses_div mandatory_courses_div_{{ $m_courses->id }}" style="display: none;">
+                          <input type="hidden" name="mandatory_training_value" class="mandatory_training_value mandatory_training_value-{{ $m_courses->id }}" value="{{ $m_courses->id }}">
+                          <label class="form-label" for="input-1">{{ $m_courses->name }}</label>
                            
-                            <ul id="mandatorysub_courses-{{ $m_courses->courses_id }}" style="display:none;">
+                            <ul id="mandatorysub_courses-{{ $m_courses->id }}" style="display:none;">
                                 @foreach($mandatory_sub_courses as $ms_courses)
-                                <li data-value="{{ $ms_courses->subcourses_id }}">{{ $ms_courses->subcourses }}</li>
+                                <li data-value="{{ $ms_courses->id }}">{{ $ms_courses->name }}</li>
                                 @endforeach
                                 
                             </ul>
-                          <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="mandatorysub_courses-{{ $m_courses->courses_id }}" name="mandatorysub_courses[]" multiple="multiple"></select>
+                          <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="mandatorysub_courses-{{ $m_courses->id }}" name="mandatorysub_courses[]" multiple="multiple"></select>
                         </div>
                       @endforeach
                     </div>

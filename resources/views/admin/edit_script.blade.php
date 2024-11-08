@@ -3463,7 +3463,7 @@ $(document).ready(function() {
 
         if (des_job_role == "") {
 
-       document.getElementById("reqjobroles").innerHTML = "* Please select desired job role";
+        document.getElementById("reqjobroles").innerHTML = "* Please select desired job role";
 
         returnValue = false;
 
@@ -6169,6 +6169,8 @@ $(document).ready(function() {
 
     });
 
+
+    // Eleven form
     $('#interview_form').on('submit', function(event) {
     event.preventDefault(); 
      
@@ -6271,7 +6273,229 @@ $(document).ready(function() {
     });
 
 
-        $('.next-step-10').on('click', function(event){
+    // Twelve form 
+    $('#personal_pre_form').on('submit', function(event) {
+    event.preventDefault();
+
+     var returnValue = true;
+
+        $(".valley").html("");
+
+        var selectElement1 = $('select[id="preferred_work_schedule"]');
+        var preferred_work_schedule = selectElement1.val();
+
+        var selectElement2 = $('select[id="countryworkprefer"]');
+        var countryworkprefer = selectElement2.val();
+
+        var stateworkprefer = $('[name="state"]').val();
+        // var stateworkprefer = selectElement3.val();
+
+        var specific_facilities= $("#specific_facilities").val();
+       
+        var selectElement4 = $('select[id="work_environment"]');
+        var work_environment = selectElement4.val();
+
+        var selectElement5 = $('select[id="shift_preferences"]');
+        var shift_preferences = selectElement5.val();
+
+
+        if (preferred_work_schedule == "") {
+
+        document.getElementById("reqpreferecschedule").innerHTML = "* Please select prefered work schedule";
+
+        returnValue = false;
+
+        }
+
+        if (countryworkprefer == "") {
+
+        document.getElementById("reqprecountry").innerHTML = "* Please select the country";
+
+        returnValue = false;
+
+        }
+
+        if (stateworkprefer == "") {
+
+        document.getElementById("reqprestateI").innerHTML = "* Please select the state";
+
+        returnValue = false;
+
+        }
+
+        if (specific_facilities.trim() == "") {
+
+        document.getElementById("reqspecificfacilities").innerHTML = "* Please enter the specific facilities";
+
+        returnValue = false;
+
+        }
+        if (work_environment == "") {
+
+         document.getElementById("reqworkenvironement").innerHTML = "* Please select the work environment";
+
+        returnValue = false;
+
+        }
+        if (shift_preferences == "") {
+
+        document.getElementById("reqshiftpreferences").innerHTML = "* Please select the shift preferences";
+
+        returnValue = false;
+
+        }
+        
+
+
+        if (!returnValue) {
+            // $('.submit-btn-120').prop('disabled', false);
+            // $('.submit-btn-1').hide();
+            // $('.resetpassword').show();
+            return false;
+        }
+
+        if (returnValue) {
+           $.ajax({
+            url: "{{ route('admin.edit_nurse_post') }}",
+            type: "POST",
+            data: new FormData($('#personal_pre_form')[0]),
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include CSRF token for security
+            },
+            success: function(res) {
+                console.log(res.type);
+
+                if (res.status == '2') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: res.message,
+                    }).then(function() {
+                        var targetTab = 'tab-12'; 
+                        var newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?tab=' + targetTab;
+                        window.location.href = newUrl;
+                    });
+                } else {
+                    Swal.fire({
+                        icon:  'error',
+                        title: 'Error',
+                        text: res.message,
+                    });
+                }
+                // Show the target tab
+            },
+            error: function(error) {
+
+            }
+        });
+
+
+        }
+
+    
+    });
+
+
+    //Thirteen form
+     $('#job_serach_form').on('submit', function(event){
+      event.preventDefault();
+
+      var returnValue = true;
+
+        $(".valley").html("");
+
+        var selectElement1 = $('select[data-list-id="des_job_role"]');
+        var des_job_role = selectElement1.val();
+
+        var selectElement2 = $('select[data-list-id="benefit_prefer"]');
+        var benefit_prefer = selectElement2.val();
+
+        var salary_expectation = $('[name="salary_expectation"]').val();
+        // var stateworkprefer = selectElement3.val();
+
+        if (des_job_role == "") {
+
+        document.getElementById("reqjobroles").innerHTML = "* Please select desired job role";
+
+        returnValue = false;
+
+        }
+
+    
+
+        if (benefit_prefer == "") {
+
+        document.getElementById("reqbenefitsprefer").innerHTML = "* Please select benefits preferences ";
+
+        returnValue = false;
+
+        }
+
+        if($('[name="salary_expectation"]').val() == '') {
+        document.getElementById("reqsalaryexp").innerHTML = "* Please enter salary expectation";
+        returnValue = false;
+        }
+        
+        
+
+
+        if (!returnValue) {
+            // $('.submit-btn-120').prop('disabled', false);
+            // $('.submit-btn-1').hide();
+            // $('.resetpassword').show();
+            return false;
+        }
+
+        if (returnValue){
+            $.ajax({
+            url: "{{ route('admin.edit_nurse_post') }}",
+            type: "POST",
+            data: new FormData($('#job_serach_form')[0]),
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include CSRF token for security
+            },
+            success: function(res) {
+                console.log(res.type);
+
+                if (res.status == '2') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: res.message,
+                    }).then(function() {
+                        var targetTab = 'tab-13'; 
+                        var newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?tab=' + targetTab;
+                        window.location.href = newUrl;
+                    });
+                } else {
+                    Swal.fire({
+                        icon:  'error',
+                        title: 'Error',
+                        text: res.message,
+                    });
+                }
+                // Show the target tab
+            },
+            error: function(error) {
+
+            }
+        });
+
+
+        }
+
+     });
+
+
+
+
+     $('.next-step-12').on('click', function(event){
         event.preventDefault(); // Prevent default form submission
 
         var targetTab = $(this).data('target');
@@ -6284,50 +6508,39 @@ $(document).ready(function() {
 
         $(".valley").html("");
 
-        var selectElement1 = $('select[id="reference_relationship"]');
-        var reference_relationship = selectElement1.val();
-        var interview_availablity= $("#interview_availablity").val();
-        var reference_name = $("#reference_name").val();
-        var reference_email = $("#reference_email").val();
-        var reference_contactI = $("#reference_contactI").val();
+        var selectElement1 = $('select[data-list-id="des_job_role"]');
+        var des_job_role = selectElement1.val();
 
+        var selectElement2 = $('select[data-list-id="benefit_prefer"]');
+        var benefit_prefer = selectElement2.val();
 
-        if ( reference_relationship == "") {
+        var salary_expectation = $('[name="salary_expectation"]').val();
+        // var stateworkprefer = selectElement3.val();
 
-       document.getElementById("reqprofessionalrelationship").innerHTML = "* Please select the reference relationship";
+        if (des_job_role == "") {
+
+        document.getElementById("reqjobroles").innerHTML = "* Please select desired job role";
+
+        returnValue = false;
+
+        }
+
+    
+
+        if (benefit_prefer == "") {
+
+        document.getElementById("reqbenefitsprefer").innerHTML = "* Please select benefits preferences ";
 
         returnValue = false;
 
         }
 
-        if (interview_availablity.trim() == "") {
-
-        document.getElementById("reqinterviewdate").innerHTML = "* Please enter the interview availability";
-
+        if($('[name="salary_expectation"]').val() == '') {
+        document.getElementById("reqsalaryexp").innerHTML = "* Please enter salary expectation";
         returnValue = false;
-
         }
-        if (reference_name.trim() == "") {
-
-        document.getElementById("reqprofessionalnames").innerHTML = "* Please enter the references name";
-
-        returnValue = false;
-
-        }
-        if (reference_contactI.trim() == "") {
-
-        document.getElementById("reqTxtreferencecontactI").innerHTML = "* Please enter the reference contact";
-
-        returnValue = false;
-
-        }
-        if (reference_email.trim() == "") {
-
-         document.getElementById("reqprofessionalemail").innerHTML = "* Please enter the references email";
-
-        returnValue = false;
-
-        }
+        
+        
 
 
         if (!returnValue) {
@@ -6341,18 +6554,14 @@ $(document).ready(function() {
 
         // Create a new FormData object
         var formData = new FormData();
-        formData.append('reference_relationship',reference_relationship);
-        formData.append('interview_availablity', interview_availablity);
-        formData.append('reference_name', reference_name);
-        formData.append('reference_email', reference_email);
-        formData.append('reference_contactI', reference_contactI);
-        formData.append('reference_countryiso', $("#reference_countryiso").val());
-        formData.append('reference_countryCode', $("#reference_countryCode").val());
+        formData.append('salary_expectation',salary_expectation);
+        formData.append('benefit_prefer', JSON.stringify(benefit_prefer));
+        formData.append('des_job_role', JSON.stringify(des_job_role));
 
-        formData.append('tab','tab9');
+        formData.append('tab','tab11');
 
         $.ajax({
-            url: "{{ route('admin.add_nurse_post_9') }}",
+            url: "{{ route('admin.add_nurse_post_11') }}",
             type: "POST",
             data: formData,
             data: formData,
@@ -6389,6 +6598,21 @@ $(document).ready(function() {
 
     }
     });
+
+   if($(".desired_job_roles").val() != ""){
+    var desired_job_roles = JSON.parse($(".desired_job_roles").val());
+    $('.js-example-basic-multiple[data-list-id="des_job_role"]').select2().val(desired_job_roles).trigger('change');
+    }
+
+    if($(".benefit_preferences").val() != ""){
+    var benefit_preferences = JSON.parse($(".benefit_preferences").val());
+    $('.js-example-basic-multiple[data-list-id="benefit_prefer"]').select2().val(benefit_preferences).trigger('change');
+    }
+
+    
+
+
+       
        
  
 
@@ -6398,6 +6622,8 @@ $(document).ready(function() {
 </script>
 
 <script>
+
+
 // delete certificate div
 function delete_certification1(i){    
     $(".license_number_div_"+i).remove();

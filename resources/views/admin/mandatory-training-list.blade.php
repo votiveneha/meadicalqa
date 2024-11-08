@@ -90,8 +90,18 @@
                                 id="speciality">
                             <span id="man_training_Err" class="text-danger"></span>
                         </div>
+                        <div class="form-group mt-3">
+                            <label for="category">Type</label>
+                            <select class="form-control" name="type" id="type">
+                                <option value="">Select type</option>
+                                <option value="Training">Training</option>
+                                <option value="Education">Education</option>
+                                <!-- Add more options as needed -->
+                            </select>
+                            <span id="TypeErr" class="text-danger"></span>
+                        </div>
                          <!-- Trending Checkbox -->
-                     <div class="form-check mt-3">
+                        <div class="form-check mt-3">
                             <input class="form-check-input" type="checkbox" value="1" id="trendingCheckbox" name="trending">
                             <label class="form-check-label" for="trendingCheckbox">
                                Is Trending
@@ -124,20 +134,31 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="category">Training Or Education </label>
-                            <input type="hidden" name="id" value="" id="edit_id" />
+                            <input type="hidden" name="id" value="" id="edit_id"/>
                             <input type="text" class="form-control" placeholder="Write Training Or Education" name="man_training"
                                 id="edit_man_training">
                             <span id="man_training_Err" class="text-danger"></span>
                         </div>
 
-                     <!-- Trending Checkbox -->
-                     <div class="form-check mt-3">
-                     <div class="form-group">
-                            <label class="form-group" for="trendingCheckbox">
-                                Trending
-                            </label>
-                            <input class="form-check-input " type="checkbox" value="1" id="edit_trendingCheckbox" name="trending">
+                        <div class="form-group mt-3">
+                            <label for="category">Type</label>
+                            <select class="form-control" name="type" id="typevalue">
+                                <option value="">Select type</option>
+                                <option value="Training">Training</option>
+                                <option value="Education">Education</option>
+                                <!-- Add more options as needed -->
+                            </select>
+                            <span id="Type_edit_Err" class="text-danger"></span>
                         </div>
+
+                        <!-- Trending Checkbox -->
+                        <div class="form-check mt-3">
+                        <div class="form-group">
+                                <label class="form-group" for="trendingCheckbox">
+                                    Trending
+                                </label>
+                                <input class="form-check-input " type="checkbox" value="1" id="edit_trendingCheckbox" name="trending">
+                            </div>
                         </div>
                     
                     </div>
@@ -199,6 +220,12 @@
                         } else {
                             $('#man_training_Err').text('');
                         }
+
+                        if (error.responseJSON.errors.type) {
+                            $('#TypeErr').text(error.responseJSON.errors.type[0]);
+                        } else {
+                            $('#TypeErr').text('');
+                        }
                         
                     }
                 }
@@ -248,6 +275,12 @@
                             $('#man_training_Err').text(error.responseJSON.errors.man_training[0]);
                         } else {
                             $('#man_training_Err').text('');
+                        }
+
+                        if (error.responseJSON.errors.type) {
+                            $('#Type_edit_Err').text(error.responseJSON.errors.type[0]);
+                        } else {
+                            $('#Type_edit_Err').text('');
                         }
                         
                     }
@@ -322,6 +355,7 @@
                     $('#edit_id').val(res.id);
                     $('#edit_trendingCheckbox').prop('checked', res.is_featured);
                     $('#edit_Man_tra_model').modal('show');
+                    $('#typevalue').val(res.type);
                 },
                 error: function(error) {
                     console.log("errorr-", error);

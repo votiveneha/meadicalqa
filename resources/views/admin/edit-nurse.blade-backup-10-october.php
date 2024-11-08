@@ -1,6 +1,5 @@
 @extends('admin.layouts.layout')
 @section('content')
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <style>
 
   span.select2.select2-container {
@@ -47,39 +46,6 @@
     font-weight: 700;
   line-height: 20px; */
   /* }     */
-  .trans_img {
-    margin-bottom: 5px;
-    display: flex;
-}
-.trans_img i.fa {
-    position: relative;
-    left: 0px;
-    font-size: 14px;
-    line-height: 25px;
-    margin-right: 5px;
-	color: #000000;
-}
-.trans_img .close_btn i {
-    margin-left: 10px;
-    line-height: 22px;
-}
-.badge {
-    display: inline-block;
-    padding: .35em .65em;
-    font-size: .75em;
-    font-weight: 700;
-    line-height: 1;
-    color: #fff;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: baseline;
-    border-radius: .25rem;
-}
-.btn-warning {
-    color: #000;
-    background-color: #ffc107;
-    border-color: #ffc107;
-}
 
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
@@ -128,7 +94,7 @@
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link" data-bs-toggle="tab" href="#tab-4" role="tab" aria-selected="false"
+                        <a class="nav-link" data-bs-toggle="tab" href="#navpill-4" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Education and Certifications</span>
                         </a>
@@ -136,55 +102,49 @@
                     <li class="nav-item" role="presentation">
                         <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-5" role="tab" aria-selected="false"
                             tabindex="-1">
-                            <span>Experience</span>
+                            <span>Experience and References</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link" data-bs-toggle="tab" href="#tab-6" role="tab" aria-selected="false"
-                            tabindex="-1">
-                            <span>References</span>
-                        </a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" data-bs-toggle="tab" href="#tab-7" role="tab" aria-selected="false"
+                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-6" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Mandatory Training</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link" data-bs-toggle="tab" href="#tab-8" role="tab" aria-selected="false"
+                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-7" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Vaccinations</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link" data-bs-toggle="tab" href="#tab-9" role="tab" aria-selected="false"
+                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-8" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Work Clearances</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link" data-bs-toggle="tab" href="#tab-10" role="tab" aria-selected="false"
+                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-9" role="tab" aria-selected="false"
                             tabindex="-1">
-                            <span>Professional Memberships</span>
+                            <span>Professional</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link" data-bs-toggle="tab" href="#tab-11" role="tab" aria-selected="false"
+                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-10" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Interview</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link" data-bs-toggle="tab" href="#tab-12" role="tab" aria-selected="false"
+                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-11" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Personal Preferences</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link" data-bs-toggle="tab" href="#tab-13" role="tab" aria-selected="false"
+                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-12" role="tab" aria-selected="false"
                             tabindex="-1">
-                            <span>Job Search Preferences</span>
+                            <span>Job Search & Personal Preferences</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
@@ -202,7 +162,7 @@
                     
                     
                 </ul>
-                {{-- <form method="post" enctype="multipart/form-data" id="AddNurse"> --}}
+                <form method="post" enctype="multipart/form-data" id="AddNurse">
                 <!-- Tab panes -->
                 <div class="tab-content border mt-2">
                     <div class="tab-pane p-3 active show" id="tab-1" role="tabpanel">
@@ -431,7 +391,7 @@
                                         <div class="row">
                                             <div class="col-md-12 mt-3">
                                                 <div class="form-group">
-                                                    <input class="form-check-input" type="checkbox" id="visibleToMedicalFacilities" name="medical_facilities" id="medical_facilities" {{ $profileData->medical_facilities=='Yes' ? 'checked' : '' }}> 
+                                                    <input class="form-check-input" type="checkbox" id="visibleToMedicalFacilities" name="medical_facilities" id="medical_facilities" > 
                                                      <label class="form-check-label" for="visibleToMedicalFacilities">
                                                         Visible to Healthcare Facilities
                                                     </label>
@@ -814,15 +774,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane p-3" id="tab-4" role="tabpanel">
-                        <form method="POST" id="edit_education_form">
-                        @csrf
-                        <input type="hidden" value="tab3" name="tab">
-                        <input type="hidden" value="{{ $educationData->user_id }}" name="user_id">
+                    <div class="tab-pane p-3" id="navpill-4" role="tabpanel">
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
-                                    <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center">Education and Certification 
+                                    <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center ">Education and Certification 
                                     </h3>
                                 </div>
                                 <?php 
@@ -1017,7 +973,6 @@
                                     ?>
                                 <div class="card-body p-3 px-md-4">
                                     <div class="col-md-12">
-                                       
                                         <div class="row">
                                             <h4 class="fw-bolder fs-6 lh-base d-flex align-items-center ">Educational Background
                                             </h4>
@@ -1055,28 +1010,16 @@
 
                                             <div class="col-md-6 mt-3">
                                                 <div class="form-group">
+                                                    {{-- <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Upload Degree & Transcript</strong></label>
+                                                    <input type="file" name="upload_degree" id="upload_degree" class="" accept="image/*">  --}}
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Upload Degree & Transcript</strong></label>
-                                                   <input class="form-control degree_transcript" type="file" name="degree_transcript[]" multiple="">
+                                                    <input class="form-control" type="file" name="upload_degree" id="upload_degree">
                                                     <span id="upload_degree_error" class="reqError text-danger valley "></span>
                                                 </div>
 
                                                 <div class="mt-3">
                                                     @if(!empty($educationData) && $educationData->degree_transcript)
-                                                    <?php
-                                                    $dtran_img = json_decode($educationData->degree_transcript);
-                                                    //print_r($dtran_img);
-                                                    $i = 1;
-                                                    $user_id = $educationData->user_id;
-                                                    ?>
-                                                    @foreach($dtran_img as $tranimg)
-                                                    <div class="trans_img trans_img-{{ $i }}">
-                                                    <a href="{{ url('/public/uploads/education_degree') }}/{{ $tranimg }}"><i class="fa fa-file"></i>{{ $tranimg }}</a>
-                                                    <div class="close_btn close_btn-{{ $i }}" onclick="deleteImg('{{ $i }}','{{ $user_id }}','{{ $tranimg }}')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
-                                                    </div>
-                                                    <?php
-                                                    $i++;
-                                                    ?>
-                                                    @endforeach
+                                                        <img src="{{ url('/public/uploads/education_degree') }}/{{ $educationData->degree_transcript }}" style="width:100px;">
                                                     @endif
                                                 </div>
                                             </div>
@@ -1109,6 +1052,7 @@
                                                         <?php
                                                             $acls_data = DB::table("professional_certificate_table")->where("cert_id","6")->get();
                                                         ?>                            
+                                                        {{-- <label class="form-label" for="input-1">ACLS (Advanced Cardiovascular Life Support)</label>                 --}}
                                                         <ul id="acls_data" style="display:none;">
                                                             @foreach($acls_data as $data)
                                                              <li data-value="{{ $data->name }}">{{ $data->name }}</li>
@@ -1118,9 +1062,7 @@
                                                 </div>
 
                                                 <div class="acls_certification_div">
-                                                
-                                                    @if(!empty($acls_data1))
-                                                    <?php $i = 0;?>
+                                                    
                                                     @foreach($acls_data1 as $a_data)
                                                         <?php
                                                         $acls_first_word = strtok($a_data->acls_certification_id, " ");
@@ -1143,34 +1085,16 @@
                                                                 </div>
                                                                 <div class="form-group col-md-6">
                                                                     <label class="form-label" for="input-1">Upload your certification/Licence</label>
-                                                                    <input class="form-control acls_upload_certification acls_upload_certification-{{ $i }}" type="file" name="acls_upload_certification[{{ $i }}][]" multiple="">
+                                                                    <input class="form-control acls_upload_certification acls_upload_certification-{{ $i }}" type="file" name="acls_upload_certification[]">
                                                                     <span id="reqaclsuploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
-                                                                   <?php
-                                                                    $acls_data_imgs = json_decode($a_data->acls_upload_certification);
-                                                                    
-                                                                    //print_r($dtran_img);
-                                                                    $l = 1;
-                                                                    $user_id = $educationData->user_id;
-                                                                    ?>
-                                                                    @if(!empty($acls_data_imgs))
-                                                                    @foreach($acls_data_imgs as $tranimg)
-                                                                    <div class="trans_img trans_img-{{ $i }}">
-                                                                    <a href="{{ url('/public/uploads/education_degree') }}/{{ $tranimg }}"><i class="fa fa-file"></i>{{ $tranimg }}</a>
-                                                                    <div class="close_btn close_btn-{{ $i }}" onclick="deleteImgCert('{{ $i }}','{{ $user_id }}','{{ $tranimg }}')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
-                                                                    </div>
-                                                                    <?php
-                                                                    $l++;
-                                                                    ?>
-                                                                    @endforeach
+                                                                    @if($a_data->acls_upload_certification)
+                                                                    <img src="{{ url('/public/uploads/certificates') }}/{{ $a_data->acls_upload_certification }}" class="acls_licence_img-{{ $i }} mt-3" style="width:100px;">
                                                                     @endif
                                                                 </div>
                                                             </div>
-                                                        </div> 
-                                                        <?php
-                                                        $i++;
-                                                        ?>                                                
+                                                        </div>
+                                                 
                                                     @endforeach
-                                                    @endif
                                                 </div>
 
                                                 <div class="form-group level-drp @if($educationData && $educationData->bls_data == NULL) d-none @endif @if(empty($educationData)) d-none @endif procertdivone mt-3">     
@@ -1215,34 +1139,15 @@
                                                             </div>
                                                             <div class="form-group col-md-6">
                                                                 <label class="form-label" for="input-1">Upload your certification/Licence</label>
-                                                                <input class="form-control bls_upload_certification bls_upload_certification-{{ $i }}" type="file" name="bls_upload_certification" id="bls_upload_certification" multiple="">
+                                                                <input class="form-control bls_upload_certification bls_upload_certification-{{ $i }}" type="file" name="bls_upload_certification" id="bls_upload_certification">
                                                                 <span id="reqblsuploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
 
-                                                                 <?php
-                                                                    $bls_data_imgs = json_decode($b_data->bls_upload_certification);
-                                                                    
-                                                                    //print_r($dtran_img);
-                                                                    $l = 1;
-                                                                    $user_id =$educationData->user_id;
-                                                                    ?>
-                                                                    @if(!empty($bls_data_imgs))
-                                                                    @foreach($bls_data_imgs as $tranimg)
-                                                                    <div class="trans_img trans_img-{{ $i }}">
-                                                                    <a href="{{ url('/public/uploads/education_degree') }}/{{ $tranimg }}"><i class="fa fa-file"></i>{{ $tranimg }}</a>
-                                                                    <div class="close_btn close_btn-{{ $i }}" onclick="deleteImgCert('{{ $l }}','{{ $user_id }}','{{ $tranimg }}')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
-                                                                    </div>
-
-                                                                    <?php
-                                                                    $l++;
-                                                                    ?>
-                                                                    @endforeach
-                                                                    @endif
+                                                                @if($b_data->bls_upload_certification)
+                                                                    <img src="{{ url('/public/uploads/certificates') }}/{{ $b_data->bls_upload_certification }}" class="bls_licence_img-{{ $i }} mt-3" style="width:100px;">
+                                                                @endif
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <?php
-                                                    $i++;
-                                                    ?>
                                                     @endforeach
                                                 @endif
                 
@@ -1264,7 +1169,6 @@
 
                                                 <div class="cpr_certification_div">
                                                 @if(!empty($cpr_data1))
-                                                <?php $i = 0 ;?>
                                                     @foreach($cpr_data1 as $c_data)
                                                         <?php
                                                         $cpr_first_word = strtok($c_data->cpr_certification_id, " ");;
@@ -1287,32 +1191,13 @@
                                                                 </div>
                                                                 <div class="form-group col-md-6">
                                                                     <label class="form-label" for="input-1">Upload your certification/Licence</label>
-                                                                    <input class="form-control cpr_upload_certification cpr_upload_certification-{{ $i }}" type="file" name="cpr_upload_certification" id="cpr1_upload_certification" multiple>
-                                                                     <?php
-                                                                    $cpr_data_imgs = json_decode($c_data->cpr_upload_certification);
-                                                                    
-                                                                    //print_r($dtran_img);
-                                                                    $l = 1;
-                                                                    $user_id = $educationData->user_id;
-                                                                    ?>
-                                                                    @if(!empty($cpr_data_imgs))
-                                                                    @foreach($cpr_data_imgs as $tranimg)
-                                                                    <div class="trans_img trans_img-{{ $i }}">
-                                                                    <a href="{{ url('/public/uploads/education_degree') }}/{{ $tranimg }}"><i class="fa fa-file"></i>{{ $tranimg }}</a>
-                                                                    <div class="close_btn close_btn-{{ $i }}" onclick="deleteImgCert('{{ $l }}','{{ $user_id }}','{{ $tranimg }}')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
-                                                                    </div>
-
-                                                                    <?php
-                                                                    $l++;
-                                                                    ?>
-                                                                    @endforeach
-                                                                    @endif
+                                                                    <input class="form-control cpr_upload_certification cpr_upload_certification-{{ $i }}" type="file" name="cpr_upload_certification" id="cpr1_upload_certification">
+                                                                    @if($c_data->cpr_upload_certification)
+                                                                        <img src="{{ url('/public/uploads/certificates') }}/{{ $c_data->cpr_upload_certification }}" style="width:100px;" class="mt-3">
+                                                                     @endif
                                                                 </div>
                                                             </div>
-                                                        </div> 
-                                                        <?php
-                                                        $i++;
-                                                        ?>                       
+                                                        </div>                        
                                                     @endforeach
                                                     @endif
                                                 </div>
@@ -1371,11 +1256,11 @@
                                                     ?>
                                                     <ul id="pls_data" style="display:none;">
                                                         @foreach($pls_data as $data)
-                                                        <li data-value="{{ $data->name }}">{{ $data->name }}</li>
+                                                        <li data-value="{{  $data->name }}">{{ $data->name }}</li>
                                                         @endforeach
                                                         
                                                     </ul>
-                                                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="pls_data" name="pals_data[]" multiple="multiple"></select>
+                                                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="pals_data" name="pals_data[]" multiple="multiple"></select>
                                                 </div>
                                                 <div class="pls_certification_div">
                                                     @if(!empty($pls_data1))
@@ -1500,7 +1385,7 @@
                                                                     <input class="form-control" type="file" name="np_upload_certification" id="np_upload_certification">
                                                                     <span id="reqnpuploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
                                                                     @if($n_data->np_upload_certification)
-                                                                     <img src="{{ url('/public/uploads/certificates') }}/{{ $n_data->np_upload_certification }}" style="width:100px;" class="mt-3">
+                                                                     <img src="{{ url('/public/uploads/certificates') }}/{{ $n_data->np_upload_certification }}" style="width:100px;">
                                                                     @endif
                                                                 </div>
                                                             </div>
@@ -1509,19 +1394,18 @@
                                                          @endif
                                                 </div> 
                                                 <div class="form-group level-drp @if($educationData && $educationData->cna_data == NULL) d-none @endif @if(empty($educationData)) d-none @endif procertdivsix">   
-                                                    <input type="hidden" name="pro_cert_cna" class="pro_cert_cna" value="@if(!empty($educationData)){{ $cna_data_json }}@endif">
-                                                        <label class="form-label" for="input-1">CNA (Certified Nursing Assistant) / EN (Enrolled Nurse)</label>
-                                                        <?php
-                                                            $cn_data = DB::table("professional_certificate_table")->where("cert_id","12")->get();
-                                                        ?>
-                                                        <ul id="cn_data" style="display:none;">
-                                                            @foreach($cn_data as $data)
-                                                            <li data-value="{{ $data->name }}">{{ $data->name }}</li>
-                                                            @endforeach
-                                                            
-                                                        </ul>
+                                                    <input type="hidden" name="pro_cert_cna" class="pro_cert_cna" value="@if(!empty($educationData)){{ $cna_data_json }}@endif">                         
+                                                    <label class="form-label" for="input-1">CNA (Certified Nursing Assistant) / EN (Enrolled Nurse)</label>
+                                                    <?php
+                                                        $cn_data = DB::table("professional_certificate_table")->where("cert_id","12")->get();
+                                                    ?>
+                                                    <ul id="rn_data" style="display:none;">
+                                                        @foreach($cn_data as $data)
+                                                        <li data-value="{{ $data->professionalcert_id }}">{{ $data->name }}</li>
+                                                        @endforeach
+                                                        
+                                                    </ul>
                                                     <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="cn_data" name="cn_data[]" multiple="multiple"></select>
-                                                    <span id="reqcnvalid" class="reqError text-danger valley"></span>
                                                 </div>
                                                 <div class="cna_certification_div">
                                                     @if(!empty($cna_data1))
@@ -1531,50 +1415,42 @@
 
                                                     $cna_first_word_one = strtolower(preg_replace('/[^A-Za-z0-9\-]/', '', $cna_first_word));
                                                     ?>
-                                                    <div class="cna_{{ $cna_first_word_one }}">
-                                                        <h6>{{ $cn_data->cn_certification_id }}</h6>
-                                                        <div class="license_number_div row license_number_cn d-none">
-                                                            <div class="form-group col-md-6">
-                                                                <input type="hidden" name="cnnamearr[]" class="cn_input_{{ $cn_data->cn_certification_id }}" value="{{ $cn_data->cn_certification_id }}">
-                                                                <label class="form-label" for="input-1">Certification/Licence Number</label>
-                                                                <input class="form-control cn_license_number cn_license_number-{{ $i }}" type="text" name="cn_license_number" id="cn_license_number" value="{{ $cn_data->cn_license_number }}">
-                                                            </div>
-                                                            <div class="form-group col-md-6">
-                                                                <label class="form-label" for="input-1">Expiry</label>
-                                                                <input class="form-control cnexpiry cnexpiry-{{ $i }}" type="date" name="cn_expiry" id="cn_expiry" value="{{ $cn_data->cn_expiry }}">
-                                                                <span id="reqcnexpiryvalid-{{ $i }}" class="reqError text-danger valley"></span>
-                                                            </div>
-                                                            <div class="form-group col-md-6">
-                                                                <label class="form-label" for="input-1">Upload your certification/Licence</label>
-                                                                <input class="form-control cn_upload_certification cn_upload_certification-{{ $i }}" type="file" name="cn_upload_certification" id="cn_upload_certification">
-                                                                <span id="reqcnuploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
-                                                                @if($cn_data->cn_upload_certification)
-                                                                <img src="{{ url('/public/uploads/certificates') }}/{{ $cn_data->cn_upload_certification }}" style="width:100px;" class="mt-3">
-                                                                @endif
-                                                            </div>
+                                                    <div class="license_number_div row license_number_cn d-none">
+                                                        <div class="form-group col-md-6">
+                                                            <input type="hidden" name="cnnamearr[]" class="cn_input_{{ $cn_data->cn_certification_id }}" value="{{ $cn_data->cn_certification_id }}">
+                                                            <label class="form-label" for="input-1">Certification/Licence Number</label>
+                                                            <input class="form-control cn_license_number cn_license_number-{{ $i }}" type="text" name="cn_license_number" id="cn_license_number" value="{{ $cn_data->cn_license_number }}">
+                                                        </div>
+                                                        <div class="form-group col-md-6">
+                                                            <label class="form-label" for="input-1">Expiry</label>
+                                                            <input class="form-control cnexpiry cnexpiry-{{ $i }}" type="date" name="cn_expiry" id="cn_expiry" value="{{ $cn_data->cn_expiry }}">
+                                                             <span id="reqcnexpiryvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                                        </div>
+                                                        <div class="form-group col-md-6">
+                                                            <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                                                            <input class="form-control cn_upload_certification cn_upload_certification-{{ $i }}" type="file" name="cn_upload_certification" id="cn_upload_certification">
+                                                            <span id="reqcnuploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                                            @if($cn_data->cn_upload_certification)
+                                                             <img src="{{ url('/public/uploads/certificates') }}/{{ $cn_data->cn_upload_certification }}" style="width:100px;" class="mt-3">
+                                                            @endif
                                                         </div>
                                                     </div>
                                                     @endforeach
                                                     @endif
                                                 </div>
-
                                                 <div class="form-group level-drp  @if($educationData && $educationData->lpn_data == NULL) d-none @endif @if(empty($educationData)) d-none @endif procertdivseven">   
-                                                        <input type="hidden" name="pro_cert_lpn" class="pro_cert_lpn" value="@if(!empty($educationData)){{ $lpn_data_json }}@endif">
-                                                        <label class="form-label" for="input-1">LPN (Licensed Practical Nurse) / LVN (Licensed Vocational Nurse)</label>
-                                                        <?php
-                                                            $lpn_data = DB::table("professional_certificate_table")->where("cert_id","13")->get();
-                                                        ?>
-                                                        <ul id="lpn_data" style="display:none;">
-                                                            @foreach($lpn_data as $data)
-                                                            <li data-value="{{ $data->name }}">{{ $data->name }}</li>
-                                                            @endforeach
-                                                            
-                                                        </ul>
-                                                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="lpn_data" name="lpn_data[]" multiple="multiple"></select>
-                                                    <span id="reqlpnvalid" class="reqError text-danger valley"></span>
+                                                    <input type="hidden" name="pro_cert_lpn" class="pro_cert_lpn" value="@if(!empty($educationData)){{ $lpn_data_json }}@endif">                     
+                                                    <label class="form-label" for="input-1">LPN (Licensed Practical Nurse) / LVN (Licensed Vocational Nurse)</label>
+                                                    <?php
+                                                        $lpn_data = DB::table("professional_certificate_table")->where("cert_id","13")->get();
+                                                    ?>
+                                                    <ul id="rn_data" style="display:none;">
+                                                        @foreach($lpn_data as $data)
+                                                        <li data-value="{{ $data->name }}">{{ $data->name }}</li>
+                                                        @endforeach   
+                                                    </ul>
+                                                   <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="lpn_data" name="lpn_data[]" multiple="multiple"></select>
                                                 </div>
-
-                                                {{-- lpn Div --}}
                                                 <div class="lpn_certification_div">
                                                     @if(!empty($lpn_data1))
                                                         @foreach($lpn_data1 as $l_data)
@@ -1610,25 +1486,21 @@
                                                      @endforeach
                                                      @endif
                                                 </div>
-                                                {{-- end div --}}
-
-                                                {{-- crna div --}}
                                                 <div class="form-group level-drp @if($educationData && $educationData->crna_data == NULL) d-none @endif @if(empty($educationData)) d-none @endif procertdiveight">  
-                                                      <input type="hidden" name="pro_cert_crna" class="pro_cert_crna" value="@if(!empty($educationData)){{ $crna_data_json }}@endif">
+                                                      <input type="hidden" name="pro_cert_crna" class="pro_cert_crna" value="@if(!empty($educationData)){{ $crna_data_json }}@endif">                          
                                                         <label class="form-label" for="input-1">CRNA (Certified Registered Nurse Anesthetist)</label>
                                                         <?php
                                                             $crn_data = DB::table("professional_certificate_table")->where("cert_id","14")->get();
                                                         ?>
-                                                        <ul id="crn_data" style="display:none;">
+                                                        <ul id="rn_data" style="display:none;">
                                                             @foreach($crn_data as $data)
                                                             <li data-value="{{ $data->name }}">{{ $data->name }}</li>
                                                             @endforeach
                                                             
                                                         </ul>
                                                     <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="crn_data" name="crn_data[]" multiple="multiple"></select>
-                                                    <span id="reqcrnavalid" class="reqError text-danger valley"></span>
                                                 </div>
-                                                <div class="crna_certification_div">
+                                                <div class="crna_{{ $crna_first_word_one }}">
                                                     @if(!empty($crna_data1))
                                                       @foreach($crna_data1 as $crna_data)
                                                         <?php
@@ -1654,7 +1526,7 @@
                                                                     <input class="form-control crna_upload_certification crna_upload_certification-{{ $i }}" type="file" name="crn_upload_certification" id="crn_upload_certification">
                                                                     <span id="reqcrnauploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
                                                                         @if($crna_data->crna_upload_certification)
-                                                                        <img src="{{ url('/public/uploads/certificates') }}/{{ $crna_data->crna_upload_certification }}" style="width:100px;" class="mt-3">
+                                                                        <img src="{{ url('/public/uploads/certificates') }}/{{ $crna_data->crna_upload_certification }}" style="width:100px;">
                                                                         @endif
                                                                 </div>
                                                             </div>
@@ -1662,10 +1534,6 @@
                                                     @endforeach
                                                     @endif
                                                 </div>
-                                                {{-- end div --}}
-
-
-                                                {{-- cnm div --}}
                                                 <div class="form-group level-drp @if($educationData && $educationData->cnm_data == NULL) d-none @endif @if(empty($educationData)) d-none @endif procertdivnine">  
                                                     <input type="hidden" name="pro_cert_cnm" class="pro_cert_cnm" value="@if(!empty($educationData)){{ $cnm_data_json }}@endif">                  
                                                     <label class="form-label" for="input-1">CNM (Certified Nurse Midwife)</label>
@@ -1687,7 +1555,7 @@
 
                                                             $cnm_first_word_one = strtolower(preg_replace('/[^A-Za-z0-9\-]/', '', $cnm_first_word));
                                                             ?>
-                                                            <div class="cnm_{{ $cnm_first_word_one }}">
+                                                            <div class="cnm_{{ $cnm_first_word_one }}"></div>
                                                                <h6>{{ $cnm_data->cnm_certification_id }}</h6>
                                                                 <div class="license_number_div row license_number_cnm d-none">
                                                                     <div class="form-group col-md-6">
@@ -1714,11 +1582,7 @@
                                                      @endforeach
                                                     @endif
                                                 </div>
-                                                {{-- end div --}}
-
-                                                {{-- ons div --}}
-                                                <div class="form-group level-drp @if($educationData && $educationData->ons_data == NULL) d-none @endif @if(empty($educationData)) d-none @endif procertdivten">       
-                                                    <input type="hidden" name="pro_cert_ons" class="pro_cert_ons" value="@if(!empty($educationData)){{ $ons_data_json }}@endif">                 
+                                                <div class="form-group level-drp @if($educationData && $educationData->ons_data == NULL) d-none @endif @if(empty($educationData)) d-none @endif procertdivten">                        
                                                     <label class="form-label" for="input-1">ONS/ONCC (Oncology Nursing Society/Oncology Nursing Certification Corporation)</label>
                                                     <?php
                                                         $ons_data = DB::table("professional_certificate_table")->where("cert_id","16")->get();
@@ -1765,65 +1629,49 @@
                                                     @endforeach
                                                     @endif
                                                 </div>
-                                                {{-- end div --}}
-
-                                                {{-- msw div --}}
-                                                 <div class="form-group level-drp @if($educationData && $educationData->msw_data == NULL) d-none @endif @if(empty($educationData)) d-none @endif procertdiveleven">  
-                                                    <input type="hidden" name="pro_cert_msw" class="pro_cert_msw" value="@if(!empty($educationData)){{ $msw_data_json }}@endif">
-                                                        <label class="form-label" for="input-1">MSW/AiM (Maternity Support Worker/Assistant in Midwifery ) / Midwife Assistant</label>
-                                                        <?php
-                                                            $msw_data = DB::table("professional_certificate_table")->where("cert_id","17")->get();
-                                                        ?>
-                                                        <ul id="msw_data" style="display:none;">
-                                                            @foreach($msw_data as $data)
-                                                            <li data-value="{{ $data->name }}">{{ $data->name }}</li>
-                                                            @endforeach
-                                                            
-                                                        </ul>
-                                                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="msw_data" name="msw_data[]" multiple="multiple"></select>
-                                                    <span id="reqmswvalid" class="reqError text-danger valley"></span>
+                                                <div class="form-group level-drp @if($educationData && $educationData->msw_data == NULL) d-none @endif @if(empty($educationData)) d-none @endif procertdiveleven">  
+                                                    <input type="hidden" name="pro_cert_msw" class="pro_cert_msw" value="@if(!empty($educationData)){{ $msw_data_json }}@endif">                          
+                                                    <label class="form-label" for="input-1">MSW/AiM (Maternity Support Worker/Assistant in Midwifery ) / Midwife Assistant</label>
+                                                    <?php
+                                                        $msw_data = DB::table("professional_certificate_table")->where("cert_id","17")->get();
+                                                    ?>
+                                                    <ul id="msw_data" style="display:none;">
+                                                        @foreach($msw_data as $data)
+                                                        <li data-value="{{ $data->professionalcert_id }}">{{ $data->name }}</li>
+                                                        @endforeach
+                                                        
+                                                    </ul>
+                                                     <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="msw_data" name="msw_data[]" multiple="multiple"></select>
                                                 </div>
                                                 <div class="msw_certification_div">
-                                                    @if(!empty($msw_data1))
-                                                    @foreach($msw_data1 as $msw_data)
-                                                        <?php
-                                                        $msw_first_word = strtok($msw_data->msw_certification_id, " ");;
-
-                                                        $msw_first_word_one = strtolower(preg_replace('/[^A-Za-z0-9\-]/', '', $msw_first_word));
-                                                        ?>
-                                                        <div class="msw_{{ $msw_first_word_one }}">
-                                                       <h6>{{ $msw_data->msw_certification_id }}</h6>
-                                                        <div class="license_number_div row license_number_msw">
-                                                            <div class="form-group col-md-6">
-                                                                <label class="form-label" for="input-1">Certification/Licence Number</label>
-                                                                <input type="hidden" name="mswnamearr[]" class="msw_input_{{ $msw_data->msw_certification_id }}" value="{{ $msw_data->msw_certification_id }}">
-                                                                <input class="form-control msw_license_number msw_license_number-{{ $i }}" type="text" name="msw_license_number[]" value="{{ $msw_data->msw_license_number }}">
-                                                                <span id="reqmswlicencevalid-{{ $i }}" class="reqError text-danger valley"></span>
-                                                            </div>
-                                                            <div class="form-group col-md-6">
-                                                                <label class="form-label" for="input-1">Expiry</label>
-                                                                <input class="form-control mswexpiry mswexpiry-{{ $i }}" type="date" name="msw_expiry[]" value="{{ $msw_data->msw_expiry }}">
-                                                                <span id="reqmswexpiryvalid-{{ $i }}" class="reqError text-danger valley"></span>
-                                                            </div>
-                                                            <div class="form-group col-md-6">
-                                                                <label class="form-label" for="input-1">Upload your certification/Licence</label>
-                                                                <input class="form-control msw_upload_certification msw_upload_certification-{{ $i }}" type="file" name="msw_upload_certification[]">
-                                                                <span id="reqmswuploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
-                                                                @if($msw_data->msw_upload_certification)
-                                                                <img src="{{ url('/public/uploads/certificates') }}/{{ $msw_data->msw_upload_certification }}" style="width:100px;">
-                                                                @endif
-                                                            </div>
+                                                    <div class="license_number_div row license_number_ons d-none">
+                                                        <div class="form-group col-md-6">
+                                                            <label class="form-label" for="input-1">Certification/Licence Number</label>
+                                                            <input type="hidden" name="mswnamearr[]" class="msw_input_{{ $msw_data->msw_certification_id }}" value="{{ $msw_data->msw_certification_id }}">
+                                                            <input class="form-control msw_license_number msw_license_number-{{ $i }}" type="text" name="msw_license_number[]" value="{{ $msw_data->msw_license_number }}">
+                                                            <span id="reqmswlicencevalid-{{ $i }}" class="reqError text-danger valley"></span>
                                                         </div>
+                                                        <div class="form-group col-md-6">
+                                                            <label class="form-label" for="input-1">Expiry</label>
+                                                            <input class="form-control mswexpiry mswexpiry-{{ $i }}" type="date" name="msw_expiry[]" value="{{ $msw_data->msw_expiry }}">
+                                                            <span id="reqmswexpiryvalid-{{ $i }}" class="reqError text-danger valley"></span>
                                                         </div>
-                                                    @endforeach
-                                                    @endif
+                                                        <div class="form-group col-md-6">
+                                                            <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                                                            <input class="form-control msw_upload_certification msw_upload_certification-{{ $i }}" type="file" name="msw_upload_certification[]">
+                                                            <span id="reqmswuploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                                            @if($msw_data->msw_upload_certification)
+                                                            <img src="{{ url('/public/uploads/certificates') }}/{{ $msw_data->msw_upload_certification }}" style="width:100px;">
+                                                            @endif
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                {{-- end div --}}
-
-                                                {{-- ain div --}}
+                                                @endforeach
+                                                @endif 
+                                            </div> 
                                                 <div class="form-group level-drp  @if($educationData && $educationData->ain_data == NULL) d-none @endif @if(empty($educationData)) d-none @endif procertdivthirteen">                    
-                                                    <input type="hidden" name="pro_cert_ain" class="pro_cert_ain" value="@if(!empty($educationData)){{ $ain_data_json }}@endif">
                                                     <label class="form-label" for="input-1">AIN (Assistant in Nursing) / NA (Nurse Associate) / HCA (Healthcare Assistant)</label>
+                                                    <input type="hidden" name="pro_cert_ain" class="pro_cert_ain" value="@if(!empty($educationData)){{ $ain_data_json }}@endif">
                                                     <?php
                                                         $msw_data = DB::table("professional_certificate_table")->where("cert_id","19")->get();
                                                     ?>
@@ -1833,61 +1681,46 @@
                                                         @endforeach
                                                         
                                                     </ul>
-                                                <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="ain_data" name="ain_data[]" multiple="multiple"></select>
-                                                <span id="reqainvalid" class="reqError text-danger valley"></span>
+                                                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="ain_data" name="ain_data[]" multiple="multiple"></select>
                                                 </div>
                                                 <div class="ain_certification_div">
                                                     @if(!empty($ain_data1))
-                                                     @foreach($ain_data1 as $ain_data)
-                                                    <?php
-                                                    $ain_first_word = strtok($ain_data->ain_certification_id, " ");;
-
-                                                    $ain_first_word_one = strtolower(preg_replace('/[^A-Za-z0-9\-]/', '', $ain_first_word));
-                                                    ?>               
+                            
                                                     <div class="ain_{{ $ain_first_word_one }}">
                                                     <h6>{{ $ain_data->ain_certification_id }}</h6>
-                                                        <div class="license_number_div row license_number_ain d-none">
-                                                            <div class="form-group col-md-6">
-                                                                <label class="form-label" for="input-1">Certification/Licence Number</label>
-                                                                <input type="hidden" name="ainnamearr[]" class="ain_input_{{ $ain_data->ain_certification_id }}" value="{{ $ain_data->ain_certification_id }}">
-                                                                <input class="form-control ain_license_number ain_license_number-{{ $i }}" type="text" name="ain_license_number[]" value="{{ $ain_data->ain_license_number }}">
-                                                                <span id="reqainlicencevalid-{{ $i }}" class="reqError text-danger valley"></span>
-                                                            </div>
-                                                            <div class="form-group col-md-6">
-                                                                <label class="form-label" for="input-1">Expiry</label>
-                                                                <input class="form-control ainexpiry ainexpiry-{{ $i }}" type="date" name="ain_expiry[]" value="{{ $ain_data->ain_expiry }}">
-                                                                <span id="reqainexpiryvalid-{{ $i }}" class="reqError text-danger valley"></span>
-                                                            </div>
-                                                            <div class="form-group col-md-6">
-                                                                <label class="form-label" for="input-1">Upload your certification/Licence</label>
-                                                                <input class="form-control ain_upload_certification ain_upload_certification-{{ $i }}" type="file" name="ain_upload_certification[]">
-                                                                <span id="reqainuploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
-                                                                @if($ain_data->ain_upload_certification)
-                                                                <img src="{{ url('/public/uploads/certificates') }}/{{ $ain_data->ain_upload_certification }}" style="width:100px;" class="mt-3">
-                                                                @endif
-                                                            </div>
+                                                    <div class="license_number_div row license_number_ain d-none">
+                                                        <div class="form-group col-md-6">
+                                                            <label class="form-label" for="input-1">Certification/Licence Number</label>
+                                                            <input type="hidden" name="ainnamearr[]" class="ain_input_{{ $ain_data->ain_certification_id }}" value="{{ $ain_data->ain_certification_id }}">
+                                                            <input class="form-control ain_license_number ain_license_number-{{ $i }}" type="text" name="ain_license_number[]" value="{{ $ain_data->ain_license_number }}">
+                                                            <span id="reqainlicencevalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                                        </div>
+                                                        <div class="form-group col-md-6">
+                                                            <label class="form-label" for="input-1">Expiry</label>
+                                                            <input class="form-control ainexpiry ainexpiry-{{ $i }}" type="date" name="ain_expiry[]" value="{{ $ain_data->ain_expiry }}">
+                                                            <span id="reqainexpiryvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                                        </div>
+                                                        <div class="form-group col-md-6">
+                                                            <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                                                            <span id="reqainuploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                                            @if($ain_data->ain_upload_certification)
+                                                            <img src="{{ url('/public/uploads/certificates') }}/{{ $ain_data->ain_upload_certification }}" style="width:100px;">
+                                                            @endif
                                                         </div>
                                                     </div>
-                                                    @endforeach
-                                                   @endif
                                                 </div>
-                                                {{-- end div --}}
-
-                                                {{-- rpn div --}}
                                                 <div class="form-group level-drp @if($educationData && $educationData->rpn_data == NULL) d-none @endif @if(empty($educationData)) d-none @endif procertdivfourteen">                    
-                                                    <input type="hidden" name="pro_cert_rpn" class="pro_cert_rpn" value="@if(!empty($educationData)){{ $rpn_data_json }}@endif">
-                                                        <label class="form-label" for="input-1">RPN (Registered Practical Nurse) / RGN (Registered General Nurse)</label>
-                                                        <?php
-                                                            $msw_data = DB::table("professional_certificate_table")->where("cert_id","20")->get();
-                                                        ?>
-                                                        <ul id="rpn_data" style="display:none;">
-                                                            @foreach($msw_data as $data)
-                                                            <li data-value="{{ $data->name }}">{{ $data->name }}</li>
-                                                            @endforeach
-                                                            
-                                                        </ul>
-                                                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="rpn_data" name="rpn_data[]" multiple="multiple"></select>
-                                                    <span id="reqrpnvalid" class="reqError text-danger valley"></span>
+                                                    <label class="form-label" for="input-1">RPN (Registered Practical Nurse) / RGN (Registered General Nurse)</label>
+                                                    <?php
+                                                        $msw_data = DB::table("professional_certificate_table")->where("cert_id","20")->get();
+                                                    ?>
+                                                    <ul id="rpn_data" style="display:none;">
+                                                        @foreach($msw_data as $data)
+                                                        <li data-value="{{ $data->professionalcert_id }}">{{ $data->name }}</li>
+                                                        @endforeach
+                                                        
+                                                    </ul>
+                                                     <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="rpn_data" name="rpn_data[]" multiple="multiple"></select>
                                                 </div>
                                                 <div class="rpn_certification_div">
                                                     @if(!empty($rpn_data1))
@@ -1914,125 +1747,98 @@
                                                            <input class="form-control rpn_upload_certification rpn_upload_certification-{{ $i }}" type="file" name="rpn_upload_certification[]">
                                                             <span id="reqrpnuploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
                                                             @if($rpn_data->rpn_upload_certification)
-                                                            <img src="{{ url('/public/uploads/certificates') }}/{{ $rpn_data->rpn_upload_certification }}" style="width:100px;" class="mt-3">
+                                                            <img src="{{ url('/public/uploads/certificates') }}/{{ $rpn_data->rpn_upload_certification }}" style="width:100px;">
                                                             @endif
                                                         </div>
                                                     </div>
                                                     @endforeach
                                                     @endif
                                                 </div>
-                                                {{-- end div --}}
-
                                                 <div class="form-group level-drp @if($educationData && $educationData->nl_data == NULL) d-none @endif @if(empty($educationData)) d-none @endif procertdivfiveteen">
-                                                     <input type="hidden" name="pro_cert_nl" class="pro_cert_nl" value="@if(!empty($educationData)){{ $nl_data_new }}@endif">
-                                                        <label class="form-label" for="input-1">No License/Certification</label>
-                                                        <?php
-                                                            $nlc_data = DB::table("professional_certificate_table")->where("cert_id","21")->get();
-                                                        ?>
-                                                        <ul id="nlc_data" style="display:none;">
-                                                            @foreach($nlc_data as $data)
-                                                            <li data-value="{{ $data->professionalcert_id }}">{{ $data->name }}</li>
-                                                            @endforeach
-                                                            
-                                                        </ul>
-                                                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="nlc_data" name="nl_data[]" multiple="multiple"></select>
-                                                </div>
-                                                <div class="another_certifications">
-                                                <h4 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3">Other certifications</h4>
-                                                <?php
-                                                    if(!empty($educationData)){
-                                                    $additional_certificate = json_decode($educationData->additional_certification);
-                                                    }else{
-                                                    $additional_certificate = "";
-                                                    }
-                                                    $i = 1;
-                                                ?>
-
-                                                
-                                                    @if(!empty($additional_certificate))
-                                                    @foreach($additional_certificate as $c_data)
-                                                    <div class="license_number_div license_number_div_{{ $i }} row license_number_anothercertifications">
-                                                    <div class="form-group col-md-6">
-                                                    <label class="form-label" for="input-1">Certificate {{ $i }}</label>
-                                                    <input class="form-control additional_certificate_field additional_certificate_field-{{ $i }}" type="text" name="training_certificate[]" value="@if(!empty($educationData)){{ $c_data->training_certificate }}@endif">
-                                                    <span id="reqcertname-{{ $i }}" class="reqError text-danger valley"></span>
-                                                    </div>
-                                                    <div class="form-group col-md-6">
-                                                    <label class="form-label" for="input-1">Certification/Licence Number</label>
-                                                    <input class="form-control cert_licence_num cert_licence_num-{{ $i }}" type="text" name="certificate_license_number[]" value="@if(!empty($educationData)){{ $c_data->certificate_license_number }}@endif">
-                                                    <span id="reqcertlicense-{{ $i }}" class="reqError text-danger valley"></span>
-                                                    </div>
-                                                    <div class="form-group col-md-6">
-                                                    <label class="form-label" for="input-1">Expiry</label>
-                                                    <input class="form-control cert_expiry cert_expiry-{{ $i }}" type="date" name="certificate_expiry[]" value="@if(!empty($educationData)){{ $c_data->certificate_expiry }}@endif">
-                                                    <span id="reqcertexpiry-{{ $i }}" class="reqError text-danger valley"></span>
-                                                    </div>
-                                                    <div class="form-group col-md-6">
-                                                    <label class="form-label" for="input-1">Regulating Body</label>
-                                                    <input class="form-control additional_regulating_body additional_regulating_body-{{ $i }}" type="text" name="regulating_body[]" value="@if(!empty($educationData)){{ $c_data->regulating_body }}@endif">
-                                                    <span id="reqcertregulating_body-{{ $i }}" class="reqError text-danger valley"></span>
-                                                    </div>
-                                                    <div class="form-group col-md-6">
-                                                    <label class="form-label" for="input-1">Upload your certification/Licence</label>
-                                                    <input class="form-control" type="file" name="certificate_upload_certification[]">
-                                                    @if($c_data->certificate_upload_certification)
-                                                    <img src="{{ url('/public/uploads/certificates') }}/{{ $c_data->certificate_upload_certification }}" style="width:100px;">
-                                                    @endif
-                                                    </div>
+                            
+                                                    <label class="form-label" for="input-1">No License/Certification</label>
                                                     <?php
-                                                    $user_id = $educationData->user_id;
+                                                        $nlc_data = DB::table("professional_certificate_table")->where("cert_id","21")->get();
                                                     ?>
-                                                    <div class="col-md-12"><div class="add_new_certification_div mb-3 mt-3"><a style="cursor: pointer;" onclick="delete_certification('{{ $i }}','{{ $user_id }}','{{ $c_data->certificate_id }}')">- Delete certification/Licence</a></div></div>
+                                                    <ul id="nlc_data" style="display:none;">
+                                                        @foreach($nlc_data as $data)
+                                                        <li data-value="{{ $data->name }}">{{ $data->name }}</li>
+                                                        @endforeach
+                                                        
+                                                    </ul>
+                                                   <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="nlc_data" name="nlc_data[]" multiple="multiple"></select>
                                                 </div>
-                                                <?php
-                                                    $i++;
-                                                ?>
-                                                @endforeach
-                                                
-                                                @endif
-
-                                                
-                                                </div>
-
-                                                 <div class="add_new_certification_div mb-3 mt-3">
-                                                    <a style="cursor: pointer;" onclick="add_listcertfication()">+ Add another certification/Licence</a>
-                                                </div>
-
-                                                <script type="text/javascript">
-                                                    var licence_div_count = $(".license_number_anothercertifications").length;
-                                                   
-                                                    console.log("licence_div_count",licence_div_count);
-                                                    function add_listcertfication(){
-                                                    licence_div_count++;
-                                                    
-                                                    $(".another_certifications").append('<div class="license_number_div license_number_div_'+licence_div_count+' row license_number_anothercertifications"><div class="form-group col-md-6"><label class="form-label" for="input-1">Certificate '+licence_div_count+'</label><input class="form-control additional_certificate_field additional_certificate_field-'+licence_div_count+'" type="text" name="training_certificate[]"><span id="reqcertname-'+licence_div_count+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control cert_licence_num cert_licence_num-'+licence_div_count+'" type="text" name="certificate_license_number[]"><span id="reqcertlicense-'+licence_div_count+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control cert_expiry cert_expiry-'+licence_div_count+'" type="date" name="certificate_expiry[]"><span id="reqcertexpiry-{{ $i }}" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Regulating Body</label><input class="form-control additional_regulating_body additional_regulating_body-'+licence_div_count+'" type="text" name="regulating_body[]"><span id="reqcertregulating_body-'+licence_div_count+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control" type="file" name="certificate_upload_certification[]"></div><div class="col-md-12"><div class="add_new_certification_div mb-3 mt-3"><a style="cursor: pointer;" onclick="delete_certification1('+licence_div_count+')">- Delete certification/Licence</a></div></div></div>');
-                                                    
+                                                <div class="license_number_div row license_number_nlc d-none">
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label" for="input-1">Certification/Licence Number</label>
+                                                        <input class="form-control" type="text" name="nlc_license_number" id="nlc_license_number">
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label" for="input-1">Expiry</label>
+                                                        <input class="form-control" type="date" name="nlc_expiry" id="nlc_expiry">
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                                                        <input class="form-control" type="file" name="nlc_upload_certification" id="nlc_upload_certification">
+                                                    </div>
+                                                </div> 
+                                               {{-- <h4 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3">Additional Training</h4>
+                                               <?php
+                                                    if(!empty($educationData)){
+                                                    $certificate_data = json_decode($educationData->additional_training_data);
+                                                    }else{
+                                                    $certificate_data = "";
                                                     }
-                                                </script>
-                                                
-                                            </div>
-                                            <div class="declaration_box">
-                                                <input type="checkbox" name="declare_information_edu" class="declare_information_edu" value="1" @if(!empty($educationData)) @if($educationData->declaration_status == 1) checked @endif @endif>
-                                                <label for="declare_information1">I declare that the information provided is true and correct</label>
-                                            </div>
-                                            <span id="reqdeclare_information1" class="reqError text-danger valley"></span> 
-                                              
-                                            <div class="d-flex align-items-center justify-content-between mt-3">
-                                                <button type="submit" class="btn btn-default next-step-44 align-items-center justify-content-between" data-target="#navpill-5">Next</button>
-                                            </div>
+                                                ?>
+                                                <div class="certification_box">
+                                                    <?php
+                                                    $i = 1;
+                                                    ?>
+                                                    @if(!empty($certificate_data))
+                                                     <p class="mt-3">Please add most relevant courses/workshops</p>
+                                                      @foreach($certificate_data as $c_data)
+                                                          <div class="license_number_div row license_number_additional">
+                                                            <div class="form-group col-md-6">
+                                                            <label class="form-label" for="input-1">Courses/workshops</label>
+                                                            <input class="form-control" type="text" name="training_courses[]" value="{{ $c_data->training_courses }}">
+                                                            </div>
+                                                            <div class="form-group col-md-6">
+                                                            <label class="form-label" for="input-1">Certification/Licence Number</label>
+                                                            <input class="form-control" type="text" name="additional_license_number[]" value="{{ $c_data->additional_license_number }}">
+                                                            </div>
+                                                            <div class="form-group col-md-6">
+                                                            <label class="form-label" for="input-1">Expiry</label>
+                                                            <input class="form-control" type="date" name="additional_expiry[]" value="{{ $c_data->additional_expiry }}">
+                                                            </div>
+                                                            <div class="form-group col-md-6">
+                                                            <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                                                            <input class="form-control" type="file" name="additional_upload_certification[]">
+                                                            @if($c_data->additional_upload_certification)
+                                                            <img src="{{ url('/public/uploads/certificates') }}/{{ $c_data->additional_upload_certification }}" style="width:100px;height: 70px; object-fit: cover;">
+                                                            @endif
+                                                            </div>
+                                                        </div>
+                                                        <?php
+                                                            $i++;
+                                                        ?>
+                                                     @endforeach
+                                                    @endif
+                                                </div> --}}
+                                                 <div class="d-flex align-items-center justify-content-between mt-3">
+                                                    <button type="button" class="btn btn-default next-step-4 align-items-center justify-content-between" data-target="#navpill-5">Next</button>
+                                                </div>
                                         </div>                     
                                     </div>
                     
                                 </div>
                             </div>
-                        </form>
                         </div>
                     </div>
                     <div class="tab-pane p-3" id="navpill-5" role="tabpanel">
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
-                                    <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center ">Experience</h3>
+                                    <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center ">Experience and References</h3>
                                 </div>
                                 <div class="card-body p-3 px-md-4">
                                     <div class="col-md-12">
@@ -2142,266 +1948,12 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane p-3" id="tab-6" role="tabpanel">
-                        <div class="row">
-                            <div class=" w-100  overflow-hidden">
-                                <div class="card-body p-3 px-md-4 pb-0">
-                                    <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center ">References</h3>
-                                </div>
-                                <form method="post" id="edit_reference_form">
-                                <input type="hidden" name="tab" value="tab15">
-                                <input type="hidden" value="{{isset($profileData->id)? $profileData->id : ''}}" id="user_id" name="user_id">
-                                <div class="card-body p-3 px-md-4">
-                                    <div class="col-md-12">
-                                        <div class="row">
-                                        <div class="reference_form">  
-                                            @if(count($RefereData)>0)
-                                            <?php
-                                            $i = 1;
-                                            ?>
-                                        @foreach($RefereData as $referee_data)
-                                        <div class="referee_data referee_data-{{ $i }}">
-                                        <h6 class="fw-bolder fs-6 lh-base d-flex align-items-center referee_no">REFEREE {{ $i }}</h6>
-                                        <div class="col-md-12 mt-3">
-                                            <div class="form-group">
-                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>First name</strong></label>
-                                                <input type="hidden" name="reference_no[]" value="{{ $i }}">
-                                                <input class="form-control first_name first_name-{{ $i }}" type="text" name="first_name[]" value="{{ $referee_data->first_name }}">
-                                                <span id="reqfname-{{ $i }}" class="reqError text-danger valley"></span>
-                                            </div>
-                                        </div>  
-                                        <div class="col-md-12 mt-3">
-                                            <div class="form-group">
-                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Last name</strong></label>
-                                                <input class="form-control last_name last_name-{{ $i }}" type="text" name="last_name[]" value="{{ $referee_data->last_name }}">
-                                                <span id="reqlname-{{ $i }}" class="reqError text-danger valley"></span>
-                                            </div>
-                                        </div>   
-                                        <div class="col-md-12 mt-3">
-                                            <div class="form-group">
-                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Email</strong></label>
-                                                <input class="form-control reference_email reference_email-{{ $i }}" type="text" name="email[]" value="{{ $referee_data->email }}">
-                                                <span id="reqemail-{{ $i }}" class="reqError text-danger valley"></span>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12 mt-3">
-                                            <div class="form-group">
-                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Phone number</strong></label>
-                                                <input class="form-control  phone_no phone_no-{{ $i }}" type="text" name="phone_no[]" value="{{ $referee_data->phone_no }}">
-                                                <span id="reqphoneno-1" class="reqError text-danger valley"></span>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12 mt-3">
-                                            <div class="form-group">
-                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Referee relationship to you</strong></label>
-                                                <select class="form-control reference_relationship reference_relationship-{{ $i }}" name="reference_relationship[]">
-                                                    <option value="">Select</option>
-                                                    <option value="Worked in Same Group" @if($referee_data->relationship == "Worked in Same Group") selected @endif>Worked in Same Group</option>
-                                                    <option value="Referee Managed Me" @if($referee_data->relationship == "Referee Managed Me") selected @endif>Referee Managed Me</option>
-                                                    <option value="I Managed Referee" @if($referee_data->relationship == "I Managed Referee") selected @endif>I Managed Referee</option>
-                                                    <option value="Worked Together on a Project" @if($referee_data->relationship == "Worked Together on a Project") selected @endif>Worked Together on a Project</option>
-                                                    <option value="Worked Together in Different Departments" @if($referee_data->relationship == "Worked Together in Different Departments") selected @endif>Worked Together in Different Departments</option>
-                                                    <option value="Colleague" @if($referee_data->relationship == "Colleague") selected @endif>Colleague</option>
-                                                    <option value="Peer Mentor" @if($referee_data->relationship == "Peer Mentor") selected @endif>Peer Mentor</option>
-                                                    <option value="Clinical Supervisor" @if($referee_data->relationship == "Clinical Supervisor") selected @endif>Clinical Supervisor</option>
-                                                    <option value="Educational Supervisor" @if($referee_data->relationship == "Educational Supervisor") selected @endif>Educational Supervisor</option>
-                                                    <option value="Preceptor" @if($referee_data->relationship == "Preceptor") selected @endif>Preceptor</option>
-                                                    <option value="Instructor or Teacher" @if($referee_data->relationship == "Instructor or Teacher") selected @endif>Instructor or Teacher</option>
-                                                    <option value="Collaborated on Research" @if($referee_data->relationship == "Collaborated on Research") selected @endif>Collaborated on Research</option>
-                                                    <option value="Clinical Educator" @if($referee_data->relationship == "Clinical Educator") selected @endif>Clinical Educator</option>
-                                                    <option value="Patient Advocate" @if($referee_data->relationship == "Patient Advocate") selected @endif>Patient Advocate</option>
-                                                    <option value="Coordinated Care Together" @if($referee_data->relationship == "Coordinated Care Together") selected @endif>Coordinated Care Together</option>
-                                                    <option value="Advisory Role" @if($referee_data->relationship == "Advisory Role") selected @endif>Advisory Role</option>
-                                                    <option value="Worked Together on Committees" @if($referee_data->relationship == "Worked Together on Committees") selected @endif>Worked Together on Committees</option>
-                                                    <option value="Consultant Relationship" @if($referee_data->relationship == "Consultant Relationship") selected @endif>Consultant Relationship</option>
-                                                    <option value="Professional Mentor" @if($referee_data->relationship == "Professional Mentor") selected @endif>Professional Mentor</option>
-                                                    <option value="Team Leader" @if($referee_data->relationship == "Team Leader") selected @endif>Team Leader</option>
-                                                    <option value="Subordinate in a Leadership Role" @if($referee_data->relationship == "Subordinate in a Leadership Role") selected @endif>Subordinate in a Leadership Role</option>
-                                                    <option value="Provided Professional Development Support" @if($referee_data->relationship == "Provided Professional Development Support") selected @endif>Provided Professional Development Support</option>
-                                                    <option value="Oversaw my Certification Process" @if($referee_data->relationship == "Oversaw my Certification Process") selected @endif>Oversaw my Certification Process</option>
-                                                    <option value="External Collaborator" @if($referee_data->relationship == "External Collaborator") selected @endif>External Collaborator</option>
-                                                    <option value="Other" @if($referee_data->relationship == "Other") selected @endif>Other</option>
-                                                </select>
-                                               <span id="reqreferencerel-{{ $i }}" class="reqError text-danger valley"></span>
-                                            </div>
-                                        </div> 
-                                        <div class="col-md-12 mt-3">
-                                            <div class="form-group">
-                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>You worked together at:</strong></label>
-                                                <input class="form-control worked_together worked_together-{{ $i }}" type="text" name="worked_together[]"  value="{{ $referee_data->worked_together }}">
-                                                <span id="reqworked_together-{{ $i }}" class="reqError text-danger valley"></span>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12 mt-3">
-                                            <div class="form-group">
-                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>What was your position when you worked with this referee?</strong></label>
-                                                <input class="form-control  position_with_referee position_with_referee-{{ $i }}" type="text" name="position_with_referee[]" value="{{ $referee_data->position_with_referee }}">
-                                                <span id="reqpositionreferee-{{ $i }}" class="reqError text-danger valley"></span>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12 mt-3">
-                                            <div class="form-group">
-                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Start Date</strong></label>
-                                                <input class="form-control referee_start_date referee_start_date-{{ $i }}" type="date" name="start_date[]" value="{{ $referee_data->start_date }}" onchange="startDate('{{ $i }}')" onkeydown="return false">
-                                                <span id="reqempsdate" class="reqError text-danger valley"></span>
-                                            </div>
-                                        </div>   
-                                        <div class="col-md-12 mt-3">
-                                            <div class="form-group level-drp working-{{ $i }}">
-                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>End Date</strong></label>
-                                                <input class="form-control end_date end_date-{{ $i }}" type="date" name="end_date[]" value="{{ $referee_data->end_date }}" onkeydown="return false">
-                                                <span id="reqrefereeedate-{{ $i }}" class="reqError text-danger valley"></span>
-                                            </div>
-                                        </div>
-                                        <div class="declaration_box">
-                                           <input class="still_working still_working-{{ $i }}" type="checkbox" name="still_working[]" @if($referee_data->still_working == 1) checked @endif onclick="stillWorking({{ $i }})">I'm still working with this referee
-                                           <span id="reqstillworking-{{ $i }}" class="reqError text-danger valley"></span>
-                                        </div>
-                                        @if($i != 1)
-                                        <?php
-                                            $user_id = $referee_data->user_id;
-                                        ?>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                            <div class="add_new_certification_div mb-3 mt-3">
-                                                <a style="cursor: pointer;" onclick="delete_reference('{{ $i }}','{{ $user_id }}','{{ $referee_data->referee_id }}')">- Delete Referee</a>
-                                            </div>
-                                            </div>
-                                        </div>
-                                        @endif
-                                        </div>
-                                        {{-- <div class="add_new_certification_div mb-3 mt-3">
-                                            <a style="cursor: pointer;" onclick="add_another_referee()">+ Add another Referee</a>
-                                        </div> --}}
-                                        <?php
-                                        $i++;
-                                        ?>
-                                    @endforeach
-                                    @else
-                                    <h6 class="fw-bolder fs-6 lh-base d-flex align-items-center referee_no">REFEREE 1</h6>
-                                        <div class="col-md-12 mt-3">
-                                            <div class="form-group">
-                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>First name</strong></label>
-                                                <input class="form-control first_name first_name-1" type="text" name="first_name[]">
-                                                <span id="reqfname-1" class="reqError text-danger valley"></span>
-                                            </div>
-                                        </div>  
-                                        <div class="col-md-12 mt-3">
-                                            <div class="form-group">
-                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Last name</strong></label>
-                                                <input class="form-control last_name last_name-1" type="text" name="last_name[]">
-                                                <span id="reqlname-1" class="reqError text-danger valley"></span>
-                                            </div>
-                                        </div>   
-                                        <div class="col-md-12 mt-3">
-                                            <div class="form-group">
-                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Email</strong></label>
-                                                <input class="form-control reference_email reference_email-1" type="text" name="email[]">
-                                                <span id="reqemail-1" class="reqError text-danger valley"></span>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12 mt-3">
-                                            <div class="form-group">
-                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Phone number</strong></label>
-                                                <input class="form-control  phone_no phone_no-1" type="text" name="phone_no[]">
-                                                <span id="reqphoneno-1" class="reqError text-danger valley"></span>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12 mt-3">
-                                            <div class="form-group">
-                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Referee relationship to you</strong></label>
-                                                <select class="form-control reference_relationship reference_relationship-{{ $i }}" name="reference_relationship[]">
-                                                    <option value="">Select</option>
-                                                    <option value="Worked in Same Group">Worked in Same Group</option>
-                                                    <option value="Referee Managed Me">Referee Managed Me</option>
-                                                    <option value="I Managed Referee">I Managed Referee</option>
-                                                    <option value="Worked Together on a Project">Worked Together on a Project</option>
-                                                    <option value="Worked Together in Different Departments">Worked Together in Different Departments</option>
-                                                    <option value="Colleague">Colleague</option>
-                                                    <option value="Peer Mentor">Peer Mentor</option>
-                                                    <option value="Clinical Supervisor">Clinical Supervisor</option>
-                                                    <option value="Educational Supervisor">Educational Supervisor</option>
-                                                    <option value="Preceptor">Preceptor</option>
-                                                    <option value="Instructor or Teacher">Instructor or Teacher</option>
-                                                    <option value="Collaborated on Research">Collaborated on Research</option>
-                                                    <option value="Clinical Educator">Clinical Educator</option>
-                                                    <option value="Patient Advocate">Patient Advocate</option>
-                                                    <option value="Coordinated Care Together">Coordinated Care Together</option>
-                                                    <option value="Advisory Role">Advisory Role</option>
-                                                    <option value="Worked Together on Committees">Worked Together on Committees</option>
-                                                    <option value="Consultant Relationship">Consultant Relationship</option>
-                                                    <option value="Professional Mentor">Professional Mentor</option>
-                                                    <option value="Team Leader">Team Leader</option>
-                                                    <option value="Subordinate in a Leadership Role">Subordinate in a Leadership Role</option>
-                                                    <option value="Provided Professional Development Support">Provided Professional Development Support</option>
-                                                    <option value="Oversaw my Certification Process">Oversaw my Certification Process</option>
-                                                    <option value="External Collaborator">External Collaborator</option>
-                                                    <option value="Other">Other</option>
-                                                </select>
-                                               <span id="reqreferencerel-1" class="reqError text-danger valley"></span>
-                                            </div>
-                                        </div> 
-                                        <div class="col-md-12 mt-3">
-                                            <div class="form-group">
-                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>You worked together at:</strong></label>
-                                                <input class="form-control worked_together worked_together-1" type="text" name="worked_together[]">
-                                                <span id="reqworked_together-1" class="reqError text-danger valley"></span>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12 mt-3">
-                                            <div class="form-group">
-                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>What was your position when you worked with this referee?</strong></label>
-                                                <input class="form-control  position_with_referee position_with_referee-1" type="text" name="position_with_referee[]">
-                                                <span id="reqpositionreferee-1" class="reqError text-danger valley"></span>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12 mt-3">
-                                            <div class="form-group">
-                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Start Date</strong></label>
-                                                <input class="form-control referee_start_date referee_start_date-1" type="date" name="start_date[]" onchange="startDate('1')" onkeydown="return false">
-                                                <span id="reqempsdate" class="reqError text-danger valley"></span>
-                                            </div>
-                                        </div>   
-                                        <div class="col-md-12 mt-3">
-                                            <div class="form-group level-drp working-1">
-                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>End Date</strong></label>
-                                                <input class="form-control end_date end_date-1" type="date" name="end_date[]" onkeydown="return false">
-                                                <span id="reqrefereeedate-1" class="reqError text-danger valley"></span>
-                                            </div>
-                                        </div>
-                                        <div class="declaration_box">
-                                           <input class="still_working still_working-1" type="checkbox" name="still_working[]"  onclick="stillWorking(1)">I'm still working with this referee
-                                           <span id="reqstillworking-1" class="reqError text-danger valley"></span>
-                                        </div>
-                                    @endif    
-                                    </div> 
-                                    <div class="add_new_certification_div mb-3 mt-3">
-                                            <a style="cursor: pointer;" onclick="add_another_referee()">+ Add another Referee</a>
-                                        </div>
-                                    <div class="d-flex align-items-center justify-content-between mt-3">
-                                            <button type="submit" class="btn btn-default  align-items-center justify-content-between">Next</button>
-                                        </div> 
-                                    </div> 
-                                        
-                                    </div>                    
-                                </div>
-                            </form>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tab-pane p-3" id="tab-7" role="tabpanel">
-                       <?php $trainingdata =  $mandatorytrainingData; 
-                       ?>
+                    <div class="tab-pane p-3" id="navpill-6" role="tabpanel">
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
                                     <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center ">Mandatory Training</h3>
                                 </div>
-                                <form  method="POST" id="edit_man_tra_form">
-                                <input type="hidden" value="tab5" name="tab">
-                                <input type="hidden" value="{{ $profileData->id }}" name="user_id">
-                                <?php $trainingData = $mandatorytrainingData; ?>
-                               
                                 <div class="card-body p-3 px-md-4">
                                     <div class="col-md-12">
                                         <div class="row">
@@ -2409,62 +1961,54 @@
                                         <div class="col-md-6 mt-3">
                                             <div class="form-group">
                                                 <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Training Start Date</strong></label>
-                                                <input class="form-control training_start_date" type="date" name="start_date" value="@if(!empty($trainingData)){{ $trainingData->start_date }}@endif" onchange="trainingStartDate(event);">
-                                                <span id="reqempsdate" class="reqError text-danger valley"></span>
+                                                <input class="form-control" type="date" name="tra_start_date"  id="tra_start_date">
+                                                <span id="tra_start_date_error" class="text-danger valley"></span>
                                             </div>
                                         </div> 
                                         <div class="col-md-6 mt-3">
                                             <div class="form-group">
                                                 <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Training End Date</strong></label>
-                                                <input class="form-control training_end_date" type="date" name="end_date" value="@if(!empty($trainingData)){{ $trainingData->end_date }}@endif" onchange="trainingEndDate(event);">
-                                                <span id="reqtrainingenddate" class="reqError text-danger valley"></span>
+                                                <input class="form-control" type="date" name="tra_end_date" id="tra_end_date">
+                                                <span id="tra_end_date_error" class="text-danger valley"></span>
                                             </div>
                                         </div>   
                                         <div class="col-md-12 mt-3">
                                             <div class="form-group">
                                                 <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Institution</strong></label>
-                                                <input class="form-control" type="text" name="institution" value="@if(!empty($trainingData)){{ $trainingData->institutions }}@endif">
+                                                <input class="form-control" type="text" name="institution"  id="institution1">
                                                 <span id="institution_error_2" class="text-danger valley"></span>
                                             </div>
                                         </div>
                                         <div class="col-md-12 mt-3">
                                             <div class="form-group">
                                                 <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Mandatory Continuing Education</strong></label>
-                                                 <select class="form-control form-select ps-5" name="mand_continue_education" id="mand_continue_education">
+                                                <select class="form-control form-select ps-5" name="mand_continue_education" id="mand_continue_education">
                                                     <option value="">Select mandatory continuing education</option>                                                    
-                                                    <option value="Ongoing" @if(!empty($trainingData)) @if(!empty($trainingData->continuing_education == "Ongoing")) selected @endif @endif>Ongoing</option>
-                                                    <option value="Completed" @if(!empty($trainingData)) @if(!empty($trainingData->continuing_education == "Completed")) selected @endif @endif>Completed</option>
+                                                    <option value="Ongoing">Ongoing</option>
+                                                    <option value="Completed">Completed</option>
                                                 </select>
                                                 <span id="mand_continue_education_error" class="text-danger valley"></span>
                                             </div>
                                         </div> 
-                                        {{-- <div class="add_new_certification_div mb-3 mt-3">
-                                            <a style="cursor: pointer;" onclick="add_another_referee()">+ Add another Referee</a>
-                                        </div> --}}
+                                        <div class="d-flex align-items-center justify-content-between mt-3">
+                                            <button type="button" class="btn btn-default next-step-6 align-items-center justify-content-between" data-target="#navpill-7">Next</button>
+                                        </div>
                                     </div>                     
-                                    </div> 
-                                    <div class="d-flex align-items-center justify-content-between mt-3">
-                                        <button type="submit" class="btn btn-default next-step-61 align-items-center justify-content-between" data-target="#navpill-7">Next</button>
-                                    </div>                   
+                                    </div>                    
                                 </div>
                             </div>
-                        </form>
                         </div>
                     </div>
-                    <div class="tab-pane p-3" id="tab-8" role="tabpanel">
+                    <div class="tab-pane p-3" id="navpill-7" role="tabpanel">
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
                                     <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center">Vaccinations</h3>
                                 </div>
-                                <form method="POST" id="edit_vacc_form">
-                                <input type="hidden" value="tab6" name="tab">
-                                <input type="hidden" value="{{ $profileData->id }}" name="user_id">                        
                                 <div class="card-body p-3 px-md-4">
                                     <div class="col-md-12">
                                         <div class="row">
                                         <div class="col-md-12 mt-3">
-                                            <input type="hidden" name="vaccination_r" class="vaccination_r" value="@if(!empty($vaccinationData)){{ $vaccinationData->vaccination_records }}@endif">
                                             <div class="form-group">
                                                 <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Vaccination Records</strong></label>
                                                  <?php
@@ -2490,70 +2034,56 @@
                                                 <span id="immunization_status_error" class="text-danger valley"></span>
                                             </div>
                                         </div>   
-                                                                    
+                                        
+                            
                                         <div class="d-flex align-items-center justify-content-between mt-3">
-                                            <button type="submit" class="btn btn-default  align-items-center justify-content-between" data-target="#navpill-8">Next</button>
+                                            <button type="button" class="btn btn-default next-step-7 align-items-center justify-content-between" data-target="#navpill-8">Next</button>
                                         </div>
                                     </div>                     
                                     </div>                    
                                 </div>
-                            </form>
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane p-3" id="tab-9" role="tabpanel">
+                    <div class="tab-pane p-3" id="navpill-8" role="tabpanel">
                         <div class="row">
-                            <form method="POST" id="work_clearances">
                             <div class="w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
                                     <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center">Work Clearances</h3>
                                 </div>
-                                <input type="hidden" value="tab7" name="tab">
-                                <input type="hidden" value="eligibility_work" name="type">
-                                <input type="hidden" value="{{ $profileData->id }}" name="user_id">
                                 <div class="card-body p-3 px-md-4">
                                     <div class="col-md-12">
                                         <div class="row">
                                             <h6 class="mt-2 color-brand-1 mb-2">Eligibility To Work</h6>
                                              <a class="font-md color-text-paragraph-2" href="#">{{ env('APP_NAME') }} does not yet connect talent to sponsorship opportunities</a>
-                                             @php
-                                            //  dd($eligibilityToWorkData);
-                                                // $eligibilityToWorkData =clearances_data();
-                                            @endphp
-                                            <?php $valesidency = '';
-                                            if (!empty($eligibilityToWorkData)) $valesidency = $eligibilityToWorkData->residency; 
-                                            ?>
+
                                             <div class="col-md-12 mt-3">
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Residency</strong></label>
                                                     <select class="form-control" name="residency" id="residencyId">
                                                         <option value="">Select</option>
-                                                        <option value="Citizen" {{ $valesidency == "Citizen" ? 'selected' : '' }}>Citizen</option>
-                                                        <option value="Permanent Resident" {{ $valesidency == "Permanent Resident" ? 'selected' : '' }}>Permanent Resident</option>
-                                                        <option value="Visa Holder" {{ $valesidency == "Visa Holder" ? 'selected' : '' }}>Visa Holder</option>
+                                                        <option value="Citizen">Citizen</option>
+                                                        <option value="Permanent Resident">Permanent Resident</option>
+                                                        <option value="Visa Holder">Visa Holder</option>
                                                     </select>
                                                     <span id="residency_error" class="text-danger reqError valley"></span>
                                                 </div>
                                             </div>
                                              
 
-                                            <div id="passport_detail" @if($valesidency != '' && $valesidency == 'Citizen' ) style="display:none;" @else style="display:none;" @endif>
+                                            <div id="passport_detail" style="display: none">
                                                 <div class="col-md-12 mt-3">
-                                                    <?php $valvisa_subclass_numbery = '';
-                                                    if ($eligibilityToWorkData != 'null') $valvisa_subclass_numbery = $eligibilityToWorkData->visa_subclass_number; ?>
                                                     <div class="form-group">
                                                         <label class="d-flex gap-3 flex-wrap"><strong>Visa Subclass Number *</strong></label>
-                                                        <input class="form-control" type="text" name="visa_subclass_number" id="visa_subclass_numberI" placeholder="" value="{{$valvisa_subclass_numbery }}">
+                                                        <input class="form-control" type="text" name="visa_subclass_number" id="visa_subclass_numberI" placeholder="" value="">
                                                     </div>
                                                     <span id="visa_subclass_error" class="text-danger  reqError valley"></span>
                                                 </div>
 
                                                 <div class="col-md-12 mt-3">
-                                                    <?php $passport_number = '';
-                                                    if ($eligibilityToWorkData != 'null') $passport_number = $eligibilityToWorkData->passport_number; ?>
                                                     <div class="form-group ">
                                                         <label class="d-flex gap-3 flex-wrap"><strong>Passport Number *</strong></label>
-                                                        <input class="form-control" type="text" name="passport_number" id="passport_numberI" placeholder="" value="{{ $passport_number }}">
+                                                        <input class="form-control" type="text" name="passport_number" id="passport_numberI" placeholder="" value="">
                                                     </div>
                                                     <span id="passport_number_error" class="text-danger reqError valley"></span>
                                                 </div>
@@ -2561,13 +2091,11 @@
                                                 <div class="col-md-12 mt-3">
                                                     <div class="form-group position-relative">
                                                         <!-- <textarea type="text" class="form-control ps-5" placeholder="Address"></textarea> -->
-                                                        <?php $countryumber = $profileData->country;
-                                                        if ($eligibilityToWorkData != 'null') $countryumber = $eligibilityToWorkData->passport_country_of_Issue; ?>
                                                         <select class="form-control form-select ps-5" name="passport_country_of_Issue" id="passportcountryI">
                                                         <option value="">Select Country</option>
                                                         @php $country_data=country_name_from_db();@endphp
                                                         @foreach ($country_data as $data)
-                                                        <option value="{{$data->id}}" <?= $countryumber == $data->id ? 'selected' : '' ?> > {{$data->name}} </option>
+                                                        <option value="{{$data->id}}" > {{$data->name}} </option>
                                                         @endforeach
                                                         </select>
                                                         <span id="passport_country_error" class="reqError text-danger valley"></span>
@@ -2575,90 +2103,45 @@
                                                 </div>
 
                                                 <div class="col-md-12 mt-3">
-                                                    <?php $visa_grant_number = '';
-                                                    if ($eligibilityToWorkData != 'null') $visa_grant_number = $eligibilityToWorkData->visa_grant_number; ?>
                                                     <div class="form-group ">
                                                         <label class="d-flex gap-3 flex-wrap"><strong>Visa Grant Number*</strong></label>
-                                                        <input class="form-control" type="text" name="visa_grant_number" id="visa_grant_numberI" placeholder="" value="{{ $visa_grant_number }}">
+                                                        <input class="form-control" type="text" name="visa_grant_number" id="visa_grant_numberI" placeholder="" value="">
                                                     </div>
                                                     <span id="visa_grant_error" class="reqError text-danger valley"></span>
                                                 </div>
                                             </div>
 
-                                            <div id="passport_detail_date" @if($valesidency != 'Visa Holder') style="display:none;" @else style="display:none;" @endif>
+                                            <div id="passport_detail_date" style="display:none;">
                                                 <div class="col-md-12 mt-3">
-                                                     <?php $expiry_data = '';
-                                                     if ($eligibilityToWorkData != 'null') $expiry_data = $eligibilityToWorkData->expiry_date; ?>
                                                     <div class="form-group ">
                                                         <label class="d-flex gap-3 flex-wrap"><strong>Expiry Date*</strong></label>
-                                                        <input class="form-control" type="date" name="expiry_date" id="expiry_dataI" value="{{ $expiry_data }}" min="{{ date('Y-m-d') }}">
+                                                        <input class="form-control" type="date" name="expiry_date" id="expiry_dataI" value="" min="{{ date('Y-m-d') }}">
                                                     </div>
                                                 <span id="expiry_date_error" class="reqError text-danger valley"></span>
                                                 </div>
                                             </div>
 
                                             <div class="col-md-12 mt-3">
-                                                <?php
-                                                    if ($eligibilityToWorkData != 'null') {
-                                                    $valspecialimage = $eligibilityToWorkData->support_document;
-                                                    if ($valspecialimage != 'null' && $valspecialimage != '') {
-                                                    ?>                        
-                                                    <a href="{{ asset($valspecialimage) }}" target="_blank">
-
-                                                    <span class="btn-primary badge badge-primary">Show</span>
-                                                    </a>
-
-                                                    <?php
-                                                    }
-                                                    }else{
-                                                    $valspecialimage = '/nurse/assets/imgs/evidence_of_year_level1712557746.png';
-                                                    }
-                                                ?>
                                                 <div class="form-group ">
                                                     <label class="d-flex gap-3 flex-wrap"><strong>Support Document*</strong></label>
                                                     <input type="file" name="image_support_document" id="image_support_documentI" class="form-control h-100" accept="image/*">
                                                 </div>
-                                                <input type="hidden" value="{{ $valspecialimage}}" id="old_supp_doc">
                                               <span id="image_support_error" class="reqError text-danger valley"></span>
                                             </div> 
-                                            <?php
-                                            if ($eligibilityToWorkData != 'null') {
-                                            $valspecialimage = $eligibilityToWorkData->support_document;
-                                            if ($valspecialimage != 'null' && $valspecialimage != '') {
-                                            ?>
-
-                                                    <a href="{{ asset($valspecialimage) }}" target="_blank" class="mt-3">
-                                                    <img src="{{ asset($valspecialimage) }}" width="50px;" height="50px" />
-
-                                                    </a>
-
-                                            <?php
-                                            }
-                                            } else {
-                                            $valspecialimage = '/nurse/assets/imgs/evidence_of_year_level1712557746.png';
-                                            }
-                                            ?>
 
                                             <div class="d-flex align-items-center justify-content-between mt-3">
-                                              <button type="submit" class="btn btn-default eligibility_workttt align-items-center justify-content-between">Save</button>
+                                              <button type="button" class="btn btn-default eligibility_work align-items-center justify-content-between" data-target="#navpill-8">Save</button>
                                             </div> 
                                         </div> 
-                                        </form>
-                                         
-                                        <form method="post" id="work_with_children">
-                                            <input type="hidden" value="tab7" name="tab">
-                                            <input type="hidden" value="children_check" name="type">
-                                            <input type="hidden" value="{{ $profileData->id }}" name="user_id">
+
                                         <div class="row mt-3">
                                             <h6 class="mt-2 color-brand-1 mb-2">Working With Children Check</h6>
                                             <a class="font-md color-text-paragraph-2" href="#">Add your state specific working with children clearance/s as required. Refer to your profile checklist</a>
                                             <span class="btn-dark badge badge-dark">Optional</span>
                                             <div class="col-md-12 mt-3">
-                                                <?php $clearance_number = '';
-                                                if ($workingChildrenCheckData != 'null') $clearance_number = $workingChildrenCheckData->clearance_number; ?>
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Clearance Number</strong></label>
-                                                    <input class="form-control" type="text" name="clearance_number" id="clearance_numberI" placeholder="" value="{{ $clearance_number }}">
+                                                    <input class="form-control" type="text" name="clearance_number" id="clearance_numberI" placeholder="" value="">
                                                     <span id="reqTxtclearance_numberI" class="text-danger reqError valley"></span>
                                                 </div>
                                             </div>
@@ -2667,7 +2150,6 @@
                                             <div id="passport_detail">
                                                 <div class="col-md-12 mt-3">
                                                     <div class="form-group">
-
                                                         <label class="d-flex gap-3 flex-wrap"><strong>State *</strong></label>
                                                         <select class="form-control form-select" name="clearance_state" id="clearancestateI" id="stateI">
                                                             @php
@@ -2676,11 +2158,10 @@
                                                             
                                                             @endphp
                                                             <?php 
-                                                            $state_data_child = $profileData->state;
                                                             ?>
                                                             @if(isset($state_data) && !empty($state_data))
                                                             @foreach ($state_data as $data_state)
-                                                            <option value="{{$data_state->id}}" <?= $state_data_child  == $data_state->id ? 'selected' : '' ?>> {{$data_state->name}} </option>
+                                                            <option value="{{$data_state->id}}"> {{$data_state->name}} </option>
                                                             @endforeach
                                                             @endif
 
@@ -2690,11 +2171,9 @@
                                                 </div>
 
                                                 <div class="col-md-12 mt-3">
-                                                     <?php $workingexpiry_data = '';
-                                                    if ($workingChildrenCheckData != 'null') $workingexpiry_data = $workingChildrenCheckData->expiry_date; ?>
                                                     <div class="form-group ">
                                                         <label class="d-flex gap-3 flex-wrap"><strong>Expiry Date*</strong></label>
-                                                       <input class="form-control" type="date" name="clearance_expiry_date" id="clearance_expiry_dataI" value="{{ $workingexpiry_data }}"  min="{{ date('Y-m-d') }}">
+                                                       <input class="form-control" type="date" name="clearance_expiry_date" id="clearance_expiry_dataI" value="" min="{{ date('Y-m-d') }}">
                                                     </div>
                                                     <span id="reqTxtclearance_expiry_dataI" class="text-danger reqError valley"></span>
                                                 </div>
@@ -2702,16 +2181,10 @@
                                             </div>
 
                                             <div class="d-flex align-items-center justify-content-between mt-3">
-                                              <button type="submit" class="btn btn-default children_check11 align-items-center justify-content-between" data-target="#navpill-8">Save</button>
+                                              <button type="button" class="btn btn-default children_check align-items-center justify-content-between" data-target="#navpill-8">Save</button>
                                             </div> 
                                         </div>
-                                    </form>
-
-
-                                    <form method="POST" id="police_check"> 
-                                        <input type="hidden" value="tab7" name="tab">
-                                            <input type="hidden" value="police_check" name="type">
-                                            <input type="hidden" value="{{ $profileData->id }}" name="user_id">   
+                                        
                                         <div class="row mt-3">
                                             <h4 class="fw-bolder fs-6 lh-base d-flex align-items-center">Police check</h4>
                                              <a class="font-md color-text-paragraph-2" href="#">Add your national police check certificate, if you have one already. The recency of the check required, will depend on the role you want. Find work you want, to learn what’s required. The check must be for employment purposes. Volunteer checks will not be accepted</a>
@@ -2724,15 +2197,9 @@
                                             </div>
 
                                             <div class="col-md-12 mt-3">
-                                                <?php $date_acquired = '';
-
-                                               if ($policeCheckVerificationData !== null) { 
-                                                    $date_acquired = $policeCheckVerificationData->date; 
-                                                }
-                                                ?>
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Date Acquired*</strong></label>
-                                                     <input class="form-control" type="date" name="date_acquired" id="date_acquiredI"  max="{{ date('Y-m-d') }}">
+                                                     <input class="form-control" type="date" name="date_acquired" id="date_acquiredI" value="" max="{{ date('Y-m-d') }}">
                                                     <span id="reqTxtdate_acquiredI" class="text-danger reqError valley"></span>
                                                 </div>
                                             </div>
@@ -2745,112 +2212,24 @@
                                                 </div>
                                               <span id="reqTxtimage_support_documentI" class="reqError text-danger valley"></span>
                                             </div> 
-                                            <?php
-                                            if ($policeCheckVerificationData !== null) {
-                                            $check_image = $policeCheckVerificationData->image;
-                                            if ($check_image != 'null' && $check_image != '') {
-                                            ?>
-
-                                                <a href="{{ asset($check_image) }}" target="_blank" class="mt-3">
-                                                <img src="{{ asset($check_image) }}" width="50px;" height="50px" />
-
-                                                </a>
-
-                                            <?php
-                                            }
-                                            } else {
-                                            $check_image = '/nurse/assets/imgs/evidence_of_year_level1712557746.png';
-                                            }
-                                            ?>
-                                             <?php
-                                            if ($policeCheckVerificationData !== null) {
-                                                $status = $policeCheckVerificationData->status;
-                                                if ($status == '2') {
-
-                                                echo  '<br> <div>Status:  <span class="btn-danger badge badge-danger">Rejected</span></div>';
-                                            ?>
-                                            <input type="hidden" name="action" value="1">
-                                            <div class="alert alert-danger mt-2" role="alert">Reason : Your Detail has been rejectd due
-                                                <b> {{ $police_check_data->reason }} </b> . Please Resubmit the details.
-                                            </div>
-                                            <div class="col-lg-12 col-md-12">
-                                                <label class="">
-                                                <input class="float-start mr-5 mt-6" type="checkbox" id="confirmationCheckboxPoliceCheck"> Since I obtained this National Police Check, I confirm that there have been no changes to my criminal history, and that I have not been charged with an offence punishable by 12 months imprisonment or more, or convicted, pleaded guilty to, or found guilty of an offence punishable by imprisonment in Australia and/or overseas.
-                                                </label>
-                                                <span id="reqTxtconfirmationCheckboxPoliceCheckI" class="reqError text-danger valley"></span>
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                <button  class="btn btn-default px-5 py-8  rounded-2 mb-0 submit-btn-120" type="submit"><span class="resetpassword">Re-Submit</span>
-                                                    <div class="spinner-border submit-btn-1" role="status" style="display:none;">
-                                                    <span class="sr-only">Loading...</span>
-                                                    </div>
-                                                </button>
-
-                                                </div>
-                                            </div>
-                                            <?php    } elseif ($status == '0') {
-                                                    echo  '<div> Status: <span class="btn-warning badge badge-warning">Pending</span> </div>';
-                                                    echo ' <div class="alert alert-warning mt-2 " role="alert">
-                                                                Your request has been successfully submitted.Its in pending state, We will back to you as soon as possible.
-                                                        </div>';
-                                                    } elseif ($status == '1') {
-                                                    echo  '<div>Status: <span class="btn-success badge badge-success">Approved</span> </div>';
-                                                    } else {
-                                                    ?>
-
-
-                                                    <div class="d-flex align-items-center justify-content-between">
-                                                        <button  @if(!email_verified())  disabled  @endif  class="btn btn-default px-5 py-8  rounded-2 mb-0 submit-btn-120" type="submit"><span class="resetpassword">Save</span>
-                                                        <div class="spinner-border submit-btn-1" role="status" style="display:none;">
-                                                            <span class="sr-only">Loading...</span>
-                                                        </div>
-                                                        </button>
-                                                    </div><?php
-                                                        }
-                                                        } else {
-                                                            ?>
-                                                    <div class="col-lg-12 col-md-12 declaration_box mb-3">      
-                                                        <input type="checkbox" id="confirmationCheckboxPoliceCheck">
-                                        <label class="">Since I obtained this National Police Check, I confirm that there have been no changes to my criminal history, and that I have not been charged with an offence punishable by 12 months imprisonment or more, or convicted, pleaded guilty to, or found guilty of an offence punishable by imprisonment in Australia and/or overseas.
-                                                    </label>
-                                                    <span id="reqTxtconfirmationCheckboxPoliceCheckI" class="reqError text-danger valley"></span>  
-                                                    </div>
-                                        <div class="col-lg-12 col-md-12">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                                        <button @if(!email_verified())  disabled  @endif class="btn btn-default px-5 py-8  rounded-2 mb-0 submit-btn-120" type="submit"><span class="resetpassword">Save</span>
-                                                        <div class="spinner-border submit-btn-1" role="status" style="display:none;">
-                                                            <span class="sr-only">Loading...</span>
-                                                        </div>
-                                                        </button>
-
-                                                    </div>
-                                        </div>
-                                                <?php
-
-                                        }
-                                        ?>
-                                            
-                                            {{-- <div class="col-md-12 mt-3">
+                                             
+                                            <div class="col-md-12 mt-3">
                                             <label class="ml-20">
                                             <input class="float-start mr-5 mt-6" type="checkbox" id="confirmationCheckboxPoliceCheck"> Since I obtained this National Police Check, I confirm that there have been no changes to my criminal history, and that I have not been charged with an offence punishable by 12 months imprisonment or more, or convicted, pleaded guilty to, or found guilty of an offence punishable by imprisonment in Australia and/or overseas.
                                             </label>
                                               <span id="reqTxtconfirmationCheckboxPoliceCheckI" class="reqError text-danger valley"></span>
-                                            </div> --}}
+                                            </div>
 
-                                            {{-- <div class="d-flex align-items-center justify-content-between mt-3">
+                                            <div class="d-flex align-items-center justify-content-between mt-3">
                                               <button type="button" class="btn btn-default police_check align-items-center justify-content-between" data-target="#navpill-9">Save</button>
-                                            </div>  --}}
-                                        </div>
-                                    </form> 
+                                            </div> 
+                                        </div> 
                                     </div>                    
                                 </div>
                             </div>
-                        
                         </div>
                     </div>
-                    <div class="tab-pane p-3" id="tab-10" role="tabpanel">
-                        <form method="POST" id="profess_membership"> 
-                            <input type="hidden" value="tab8" name="tab">
-                            <input type="hidden" value="{{ $profileData->id }}" name="user_id">   
+                    <div class="tab-pane p-3" id="navpill-9" role="tabpanel">
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
@@ -2861,11 +2240,12 @@
                                         <div class="row">
                                         <div class="col-md-12 mt-3">
                                             <div class="form-group">
-                                                <input type="hidden" name="professional_as" class="professional_as" value="@if(!empty($proMembershipData)){{ $proMembershipData->des_profession_association }}@endif">
                                                 <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Professional Associations</strong></label>
                                                 <ul id="des_profession_association" style="display:none;">
+
                                                     <li data-value="ANA">ANA</li>
                                                     <li data-value="ENA">ENA</li>
+
                                                 </ul>
                                                 <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="des_profession_association" name="des_profession_association[]" multiple="multiple"></select>
                                                 <span id="des_profession_error" class="text-danger valley"></span>
@@ -2874,7 +2254,7 @@
                                         <div class="col-md-12 mt-3">
                                             <div class="form-group">
                                                 <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Membership Numbers</strong></label>
-                                                <input type="text" name="membership_numbers" class="form-control" id="membership_numbers" value="@if(!empty($proMembershipData)){{ $proMembershipData->membership_numbers }}@endif">
+                                                <input type="text" name="membership_numbers" class="form-control" id="membership_numbers">
                                                 <span id="membership_numbers_error" class="reqError text-danger valley"></span>
                                             </div>
                                         </div>
@@ -2882,26 +2262,22 @@
                                             <div class="form-group">
                                                 <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Status</strong></label>
                                                 <select class="form-control" name="membership_status" id="membership_status">
-                                                    <option value="Active" @if(!empty($proMembershipData) && $proMembershipData->membership_status == "Active") selected @endif>Active</option>
-                                                    <option value="Lapsed" @if(!empty($proMembershipData) && $proMembershipData->membership_status == "Lapsed") selected @endif>Lapsed</option>                                                
+                                                    <option value="Active">Active</option>
+                                                    <option value="Lapsed">Lapsed</option>                                                
                                                 </select>
                                                  <span id="membership_status_error" class="reqError text-danger valley"></span>
                                             </div>
                                         </div> 
                                         <div class="d-flex align-items-center justify-content-between mt-3">
-                                            <button type="submit" class="btn btn-default next-step-91 align-items-center justify-content-between" data-target="#navpill-10">Next</button>
+                                            <button type="button" class="btn btn-default next-step-9 align-items-center justify-content-between" data-target="#navpill-10">Next</button>
                                         </div>
                                     </div>                     
                                     </div>                    
                                 </div>
                             </div>
                         </div>
-                    </form>
                     </div>
-                    <div class="tab-pane p-3" id="tab-11" role="tabpanel">
-                    <form method="POST" id="interview_form">
-                        <input type="hidden" value="tab9" name="tab">
-                        <input type="hidden" value="{{ $profileData->id }}" name="user_id">
+                    <div class="tab-pane p-3" id="navpill-10" role="tabpanel">
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
@@ -2913,7 +2289,7 @@
                                         <div class="col-md-12 mt-3">
                                             <div class="form-group">
                                                 <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Interview Availability</strong></label>
-                                                 <input type="datetime-local" name="interview_availablity" class="form-control" value="@if(!empty($interviewrefData)){{ $interviewrefData->interview_availablity }}@endif" id="interview_availablity">
+                                                 <input type="datetime-local" name="interview_availablity" class="form-control" value="" id="interview_availablity">
                                                   <span id="reqinterviewdate" class="reqError text-danger valley"></span>
                                             </div>
                                         </div> 
@@ -2923,14 +2299,14 @@
                                         <div class="col-md-12 mt-3">
                                             <div class="form-group">
                                                 <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Names</strong></label>
-                                                <input type="text" name="reference_name" class="form-control" value="@if(!empty($interviewrefData)){{ $interviewrefData->reference_name }}@endif" id="reference_name">
+                                                <input type="text" name="reference_name" class="form-control" value="" id="reference_name">
                                                  <span id="reqprofessionalnames" class="reqError text-danger valley"></span>
                                             </div>
                                         </div>
                                         <div class="col-md-12 mt-3">
                                             <div class="form-group">
                                                 <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Email</strong></label>
-                                                <input type="text" name="reference_email" class="form-control" id="reference_email" value="@if(!empty($interviewrefData)){{ $interviewrefData->reference_email }}@endif">
+                                                <input type="text" name="reference_email" class="form-control" value="" id="reference_email">
                                                   <span id="reqprofessionalemail" class="reqError text-danger valley"></span>
                                             </div>
                                         </div> 
@@ -2940,7 +2316,7 @@
                                                 <div class="mob-adj">
                                                 <input type="hidden" name="reference_countryCode" id="reference_countryCode">
                                                 <input type="hidden" name="reference_countryiso" id="reference_countryiso" value="">
-                                                <input class="form-control numbers" type="tel" name="reference_contact" id="reference_contactI" value="@if(!empty($interviewrefData)){{ $interviewrefData->reference_contact }}@endif"  maxlength="10" style="padding-right: 20rem">
+                                                <input class="form-control numbers" type="tel" name="reference_contact" id="reference_contactI" value=""  maxlength="10" style="padding-right: 20rem">
                                                 <span id="reqTxtreferencecontactI" class="reqError text-danger valley"></span>
                                                 </div>
                                             </div>
@@ -2950,32 +2326,28 @@
                                                 <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Relationship</strong></label>
                                                 <select class="form-control form-select ps-5" name="reference_relationship" id="reference_relationship">
                                                     <option value="">Select Relationship</option>
-                                                    <option value="Mother" @if(!empty($interviewrefData)) @if(!empty($interviewrefData->reference_relationship == "Mother")) selected @endif @endif>Mother</option>
-                                                    <option value="Father" @if(!empty($interviewrefData)) @if(!empty($interviewrefData->reference_relationship == "Father")) selected @endif @endif>Father</option>
-                                                    <option value="Brother" @if(!empty($interviewrefData)) @if(!empty($interviewrefData->reference_relationship == "Brother")) selected @endif @endif>Brother</option>
-                                                    <option value="Sister" @if(!empty($interviewrefData)) @if(!empty($interviewrefData->reference_relationship == "Sister")) selected @endif @endif>Sister</option>
-                                                    <option value="Cousin" @if(!empty($interviewrefData)) @if(!empty($interviewrefData->reference_relationship == "Cousin")) selected @endif @endif>Cousin</option>
-                                                    <option value="Uncle" @if(!empty($interviewrefData)) @if(!empty($interviewrefData->reference_relationship == "Uncle")) selected @endif @endif>Uncle</option>
-                                                    <option value="Aunt" @if(!empty($interviewrefData)) @if(!empty($interviewrefData->reference_relationship == "Aunt")) selected @endif @endif>Aunt</option>
+                                                    <option value="Mother">Mother</option>
+                                                    <option value="Father">Father</option>
+                                                    <option value="Brother">Brother</option>
+                                                    <option value="Sister">Sister</option>
+                                                    <option value="Cousin">Cousin</option>
+                                                    <option value="Uncle">Uncle</option>
+                                                    <option value="Aunt">Aunt</option>
                                                 </select>
                                                 <span id="reqprofessionalrelationship" class="reqError text-danger valley"></span>
                                             </div>
                                         </div> 
                                         <div class="d-flex align-items-center justify-content-between mt-3">
-                                            <button type="submit" class="btn btn-default next-step-1044 align-items-center justify-content-between" data-target="#navpill-11">Next</button>
+                                            <button type="button" class="btn btn-default next-step-10 align-items-center justify-content-between" data-target="#navpill-11">Next</button>
                                         </div>
                                     </div>                     
                                     </div>                    
                                 </div>
                             </div>
                         </div>
-                    </form>
                     </div> 
-                    <div class="tab-pane p-3" id="tab-12" role="tabpanel">
+                    <div class="tab-pane p-3" id="navpill-11" role="tabpanel">
                         <div class="row">
-                            <form id="personal_pre_form" method="POST">
-                            <input type="hidden" value="tab10" name="tab">
-                            <input type="hidden" value="{{ $profileData->id }}" name="user_id"> 
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
                                     <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center">Personal Preferences</h3>
@@ -2988,9 +2360,9 @@
                                                 <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Preferred Work Schedule</strong></label>
                                                  <select class="form-control form-select ps-5" name="preferred_work_schedule" id="preferred_work_schedule">
                                                 <option value="">Select preferred work schedule</option>
-                                                <option value="Full-time" @if(!empty($personalprefData)) @if(!empty($personalprefData->preferred_work_schedule == "Full-time")) selected @endif @endif>Full-time</option>
-                                                <option value="Part-time" @if(!empty($personalprefData)) @if(!empty($personalprefData->preferred_work_schedule == "Part-time")) selected @endif @endif>Part-time</option>
-                                                <option value="Shift preferences" @if(!empty($personalprefData)) @if(!empty($personalprefData->preferred_work_schedule == "Shift preferences")) selected @endif @endif>Shift preferences</option>
+                                                <option value="Full-time">Full-time</option>
+                                                <option value="Part-time">Part-time</option>
+                                                <option value="Shift preferences">Shift preferences</option>
                                                 </select>
                                                 <span id="reqpreferecschedule" class="reqError text-danger valley"></span>
                                             </div>
@@ -3006,7 +2378,7 @@
                                                 @php $country_data=country_name_from_db();@endphp
                                                 
                                                 @foreach ($country_data as $data)
-                                                <option value="{{$data->iso2}}" @if(!empty($personalprefData))@if($personalprefData->country == $data->iso2) selected @endif @endif> {{$data->name}} </option>
+                                                <option value="{{$data->iso2}}"> {{$data->name}} </option>
                                                 @endforeach
                                                 </select>
                                                 <span id="reqprecountry" class="reqError text-danger valley"></span>
@@ -3017,15 +2389,15 @@
                                                 <label for="skill" class="d-flex gap-3 flex-wrap"><strong>State *</strong></label>
                                                 <select class="form-control form-select ps-5" name="state" id="stateworkprefer">
                                                     @php
-                                                    if(isset( $personalprefData->country)){
-                                                    $state_data =state_name_array($personalprefData->country);
+                                                    if(isset( $preferenceData->country)){
+                                                    $state_data =state_name_array($preferenceData->country);
                                                     }else{
                                                     $state_data = '';
                                                     }
                                                     @endphp
                                                     @if(isset($state_data) && !empty($state_data))
                                                     @foreach ($state_data as $data_state)
-                                                    <option value="{{$data_state->id}}" <?= isset($personalprefData->state) &&  $personalprefData->state  == $data_state->id ? 'selected' : '' ?>> {{$data_state->name}} </option>
+                                                    <option value="{{$data_state->id}}" ?>> {{$data_state->name}} </option>
                                                     @endforeach
                                                     @endif
 
@@ -3036,7 +2408,7 @@
                                         <div class="col-md-12 mt-3">
                                             <div class="form-group">
                                                 <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Specific Facilities</strong></label>
-                                                <textarea name="specific_facilities" class="form-control" id="specific_facilities">@if(!empty($personalprefData)){{ $personalprefData->specific_facilities }}@endif</textarea>
+                                                <textarea name="specific_facilities" class="form-control" id="specific_facilities"></textarea>
                                                 <span id="reqspecificfacilities" class="reqError text-danger valley"></span>
                                             </div>
                                         </div> 
@@ -3045,9 +2417,9 @@
                                                 <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Work Environment Preferences</strong></label>
                                                  <select class="form-control form-select ps-5" name="work_environment" id="work_environment">
                                                     <option value="">Select Work Environment Preferences</option>
-                                                    <option value="Hospital" @if(!empty($personalprefData)) @if(!empty($personalprefData->work_environment == "Hospital")) selected @endif @endif>Hospital</option>
-                                                    <option value="Clinic" @if(!empty($personalprefData)) @if(!empty($personalprefData->work_environment == "Clinic")) selected @endif @endif>Clinic</option>
-                                                    <option value="Home Health" @if(!empty($personalprefData)) @if(!empty($personalprefData->work_environment == "Home Healt")) selected @endif @endif>Home Health</option>
+                                                    <option value="Hospital">Hospital</option>
+                                                    <option value="Clinic">Clinic</option>
+                                                    <option value="Home Health">Home Health</option>
                                                  </select>
                                                 <span id="reqworkenvironement" class="reqError text-danger valley"></span>
                                             </div>
@@ -3057,38 +2429,33 @@
                                                 <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Shift Preferences</strong></label>
                                                 <select class="form-control form-select ps-5" name="shift_preferences" id="shift_preferences">
                                                     <option value="">Select Shift Preferences</option>
-                                                    <option value="Day" @if(!empty($personalprefData)) @if(!empty($personalprefData->shift_preferences == "Day")) selected @endif @endif>Day</option>
-                                                    <option value="Clinic" @if(!empty($personalprefData)) @if(!empty($personalprefData->shift_preferences == "Evening")) selected @endif @endif>Evening</option>
-                                                    <option value="Night" @if(!empty($personalprefData)) @if(!empty($personalprefData->shift_preferences == "Night")) selected @endif @endif>Night</option>
+                                                    <option value="Day">Day</option>
+                                                    <option value="Clinic">Evening</option>
+                                                    <option value="Night">Night</option>
                                                 </select>
                                                 <span id="reqshiftpreferences" class="reqError text-danger valley"></span>
                                             </div>
                                         </div>
                                         <div class="d-flex align-items-center justify-content-between mt-3">
-                                            <button type="submit" class="btn btn-default next-step-11444 align-items-center justify-content-between" data-target="#navpill-12">Next</button>
+                                            <button type="button" class="btn btn-default next-step-11 align-items-center justify-content-between" data-target="#navpill-12">Next</button>
                                         </div>
                                     </div>                     
                                     </div>                    
                                 </div>
                             </div>
-                            </form>
                         </div>
                     </div>
-                    <div class="tab-pane p-3" id="tab-13" role="tabpanel">
+                    <div class="tab-pane p-3" id="navpill-12" role="tabpanel">
                         <div class="row">
-                            <form method="POST" id="job_serach_form">
-                            <input type="hidden" value="tab11" name="tab">
-                            <input type="hidden" value="{{ $profileData->id }}" name="user_id"> 
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
-                                    <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center">Job Search Preferences</h3>
+                                    <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center">Job Search & Personal Preferences</h3>
                                 </div>
                                 <div class="card-body p-3 px-md-4">
                                     <div class="col-md-12">
                                         <div class="row">
                                         <div class="col-md-12 mt-3">
                                             <div class="form-group">
-                                                <input type="hidden" name="desired_job_roles" class="desired_job_roles" value="@if(!empty($findworkData)){{ $findworkData->desired_job_role }}@endif">
                                                 <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Desired Job Roles</strong></label>
                                                 <?php
                                                     $practitioner_type = DB::table("practitioner_type")->get();
@@ -3097,6 +2464,7 @@
                                                     @foreach($practitioner_type as $cert)
                                                     <li data-value="{{ $cert->id }}">{{ $cert->name }}</li>
                                                     @endforeach
+  
                                                 </ul>
                                                 <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="des_job_role" name="des_job_role[]" multiple="multiple"></select>
                                                 <span id="reqjobroles" class="reqError text-danger valley"></span>
@@ -3105,14 +2473,13 @@
                                         <div class="col-md-12 mt-3">
                                             <div class="form-group">
                                                 <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Salary Expectations</strong></label>
-                                                <input type="text" name="salary_expectation" class="form-control"  id="salary_expectation" value="@if(!empty($findworkData)){{ $findworkData->salary_expectations }}@endif">
+                                                <input type="text" name="salary_expectation" class="form-control"  id="salary_expectation">
                                                  <span id="reqsalaryexp" class="reqError text-danger valley"></span>
                                             </div>
                                         </div>
                                         <div class="col-md-12 mt-3">
                                             <div class="form-group">
                                                 <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Benefits Preferences</strong></label>
-                                                <input type="hidden" name="benefit_preferences" class="benefit_preferences" value="@if(!empty($findworkData)){{ $findworkData->benefits_preferences }}@endif">
                                                   <ul id="benefit_prefer" style="display:none;">
                                                     <li data-value="Health insurance">Health insurance</li>
                                                     <li data-value="Retirement plans">Retirement plans</li>
@@ -3122,13 +2489,12 @@
                                             </div>
                                         </div> 
                                         <div class="d-flex align-items-center justify-content-between mt-3">
-                                            <button type="submit" class="btn btn-default next-step-124 align-items-center justify-content-between" data-target="#navpill-14">Next</button>
+                                            <button type="button" class="btn btn-default next-step-12 align-items-center justify-content-between" data-target="#navpill-14">Next</button>
                                         </div>
                                     </div>                     
                                     </div>                    
                                 </div>
                             </div>
-                        </form>
                         </div>
                     </div> 
                     <div class="tab-pane p-3" id="navpill-14" role="tabpanel">
@@ -3176,7 +2542,7 @@
                         </div>
                     </div>                   
                 </div>
-            {{-- </form> --}}
+            </form>
             </div>
         </div>
 
@@ -3197,7 +2563,6 @@
 </div>
 @endsection
 @section('js')
-
     <script type="text/javascript"
         src="https://nextjs.webwiders.in/pindrow/public/advertiser/dist/libs/owl.carousel/dist/owl.carousel.min.js">
     </script>
@@ -3205,212 +2570,9 @@
 
 
 <script>
-    $(document).ready(function() {
-        // Get the current query string parameter
-        let urlParams = new URLSearchParams(window.location.search);
-        let tabParam = urlParams.get('tab');
-        // If no tab query string is present, default to tab-1
-        if (!tabParam) {
-            // Set the first tab as the default
-            let defaultTab = 'tab-1';
-            // Update the URL to include ?tab=tab-1
-            let newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?tab=' + defaultTab;
-            history.replaceState(null, null, newUrl);
-            // Show the default tab
-            $('.nav-link[href="#' + defaultTab + '"]').tab('show');
-        } else {
-            // If a tab query parameter exists, activate that tab
-            $('.nav-link[href="#' + tabParam + '"]').tab('show');
-        }
-        // Update the URL with the tab ID as a query parameter when a tab is shown
-        $('a[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
-            let newTab = $(e.target).attr('href').substring(1); // Get tab ID without the #
-            let newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?tab=' + newTab;
-            history.replaceState(null, null, newUrl);
-        });
-    });
-
-
-    function deleteImg(i,user_id,img){
-    //alert(img);    
-    $.ajax({
-      type: "post",
-      url: "{{ route('admin.delete_cer_img') }}",
-      data: {user_id:user_id,img:img,_token:'{{ csrf_token() }}'},
-      cache: false,
-      success: function(data){
-         if(data == 1){
-          $(".trans_img-"+i).remove();
-         }         
-      }
-    });
-   }
-
-   var referee_div_count = $(".referee_no").length;
-
-    function add_another_referee(){
-        referee_div_count++;
-        // $(".reference_form").append('<div class="referee_data referee_data-'+referee_div_count+'"><h6 class="mt-0 color-brand-1 mb-20 referee_no">References '+referee_div_count+'</h6><div class="row"><div class="col-md-12"><div class="form-group level-drp"><label class="form-label" for="input-1">First name</label><input class="form-control first_name first_name-'+referee_div_count+'" type="text" name="first_name[]"><span id="reqfname-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Last name</label><input class="form-control last_name last_name-'+referee_div_count+'" type="text" name="last_name[]"><span id="reqlname-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div></div><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Email</label><input class="form-control reference_email reference_email-'+referee_div_count+'" type="text" name="email[]"><span id="reqemail-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Phone number</label><input class="form-control phone_no phone_no-'+referee_div_count+'" type="text" name="phone_no[]"><span id="reqphoneno-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div></div><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Relationship</label><select class="form-control reference_relationship reference_relationship-'+referee_div_count+'" name="reference_relationship[]"><option value="" data-select2-id="9">Select Reference Relationship</option><option value="Brother">Brother</option><option value="Sister">Sister</option><option value="Sister">Cousin</option></select><span id="reqreferencerel-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">You worked together at:</label><input class="form-control worked_together worked_together-'+referee_div_count+'" type="text" name="worked_together[]"><span id="reqworked_together-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div></div><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">What was your position when you worked with this referee?</label><input class="form-control position_with_referee position_with_referee-'+referee_div_count+'" type="text" name="position_with_referee[]"><span id="reqpositionreferee-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div></div><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Start Date</label><input class="form-control start_date start_date-'+referee_div_count+'" type="date" name="start_date[]" onchange="startDate('+referee_div_count+')" onkeydown="return false"><span id="reqrefereesdate-'+referee_div_count+'" class="reqError text-danger valley"></span><div class="declaration_box"><input class="still_working still_working-'+referee_div_count+'" type="checkbox" name="still_working[]" onclick="stillWorking('+referee_div_count+')">I am still working with this referee<span id="reqstillworking-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div></div><div class="col-md-6"><div class="form-group level-drp working-'+referee_div_count+'"><label class="form-label" for="input-1">End Date</label><input class="form-control end_date end_date-'+referee_div_count+'" type="date" name="end_date[]" onkeydown="return false"><span id="reqrefereeedate-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div><div class="row"><div class="col-md-6"><div class="add_new_certification_div mb-3 mt-3"><a style="cursor: pointer;" onclick="delete_reference1('+referee_div_count+')">- Delete Referee</a></div></div></div></div>');   
-         $(".reference_form").append('<div class="referee_data referee_data-'+referee_div_count+'"><h6 class="mt-0 color-brand-1 mb-20 referee_no">References '+referee_div_count+'</h6><div><div class="col-md-12 mt-3"><div class="form-group level-drp"><label class="d-flex gap-3 flex-wrap" for="input-1"><strong>First name</strong></label><input class="form-control first_name first_name-'+referee_div_count+'" type="text" name="first_name[]"><span id="reqfname-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div><div class="col-md-12 mt-3"><div class="form-group level-drp"><label class="d-flex gap-3 flex-wrap" for="input-1"><strong>Last name</strong></label><input class="form-control last_name last_name-'+referee_div_count+'" type="text" name="last_name[]"><span id="reqlname-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div></div><div><div class="col-md-12"><div class="form-group level-drp"><label class="d-flex gap-3 flex-wrap" for="input-1"><strong>Email</strong></label><input class="form-control reference_email reference_email-'+referee_div_count+'" type="text" name="email[]"><span id="reqemail-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div><div class="col-md-12"><div class="form-group level-drp"><label class="d-flex gap-3 flex-wrap" for="input-1"><strong>Phone number</strong></label><input class="form-control phone_no phone_no-'+referee_div_count+'" type="text" name="phone_no[]"><span id="reqphoneno-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div></div><div><div class="col-md-12 mt-3"><div class="form-group level-drp"><label class="d-flex gap-3 flex-wrap" for="input-1"><strong>Relationship</strong></label><select class="form-control reference_relationship reference_relationship-'+referee_div_count+'" name="reference_relationship[]"><option value="" data-select2-id="9">Select Reference Relationship</option><option value="Brother">Brother</option><option value="Sister">Sister</option><option value="Sister">Cousin</option></select><span id="reqreferencerel-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div><div class="col-md-12 mt-3"><div class="form-group level-drp"><label class="d-flex gap-3 flex-wrap" for="input-1"><strong>You worked together at:</strong></label><input class="form-control worked_together worked_together-'+referee_div_count+'" type="text" name="worked_together[]"><span id="reqworked_together-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div></div><div><div class="col-md-12 mt-3"><div class="form-group level-drp"><label class="d-flex gap-3 flex-wrap" for="input-1"><strong>What was your position when you worked with this referee?</strong></label><input class="form-control position_with_referee position_with_referee-'+referee_div_count+'" type="text" name="position_with_referee[]"><span id="reqpositionreferee-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div></div><div><div class="col-md-12 mt-3"><div class="form-group level-drp"><label class="d-flex gap-3 flex-wrap" for="input-1"><strong>Start Date</strong></label><input class="form-control start_date start_date-'+referee_div_count+'" type="date" name="start_date[]" onchange="startDate('+referee_div_count+')" onkeydown="return false"><span id="reqrefereesdate-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div><div class="col-md-12 mt-3"><div class="form-group level-drp working-'+referee_div_count+'"><label class="d-flex gap-3 flex-wrap" for="input-1"><strong>End Date</strong></label><input class="form-control end_date end_date-'+referee_div_count+'" type="date" name="end_date[]" onkeydown="return false"><span id="reqrefereeedate-'+referee_div_count+'" class="reqError text-danger valley"></span></div></div><div><div class="declaration_box"><input class="still_working still_working-'+referee_div_count+'" type="checkbox" name="still_working[]" onclick="stillWorking('+referee_div_count+')">I am still working with this referee<span id="reqstillworking-'+referee_div_count+'" class="reqError text-danger valley"></span></div><div class="col-md-12 mt-3"><div class="add_new_certification_div mb-3"><a style="cursor: pointer;" onclick="delete_reference1('+referee_div_count+')">- Delete Referee</a></div></div></div></div>');
-        }
-
-        function delete_reference1(i){
-        $(".referee_data-"+i).remove();    
-    }
-
-    var i = 1;
-    $(".referee_start_date").each(function(){
-    console.log("start_date",$(".referee_start_date-"+i).val());
-    var start_date = $(".referee_start_date-"+i).val();
-        
-    var date = new Date(start_date);
-    
-    date.setDate(date.getDate() + 1);
-    
-
-    var start_date1 = new Date(date);
-    var month = start_date1.getMonth() + 1;
-    if(month.toString().length == 1){
-        var month1 = "0"+month;
-    }else{
-        var month1 = month;
-    }
-    var day = start_date1.getDate();
-
-    if(day.toString().length == 1){
-
-        var day1 = "0"+day;
-
-    }else{
-
-        var day1 = day;
-
-    }
-    var year = start_date1.getFullYear();
-    var new_date = year+"-"+month1+"-"+day1;
-    console.log("refree_start_date",$('.working-'+i).is(':visible'));
-    if($('.working-'+i).is(':visible')){
-        document.getElementsByClassName("end_date-"+i)[0].setAttribute('min', new_date);
-    }
-    i++;
-    });
-
-    function stillWorking(i){
-        if ($(".still_working-"+i).prop('checked')==true){ 
-        $(".working-"+i).hide();
-        }else{
-        $(".working-"+i).show();
-        $(".end_date-"+i).val("");
-        }
-    }
-
-    function startDate(i){
-        //alert(i);
-        var start_date = $(".start_date-"+i).val();
-        console.log("start_date",$(".start_date-"+i).val());
-        var date = new Date(start_date);
-        
-        date.setDate(date.getDate() + 1);
-        
-
-        var start_date1 = new Date(date);
-        var month = start_date1.getMonth() + 1;
-        if(month.toString().length == 1){
-            var month1 = "0"+month;
-        }else{
-            var month1 = month;
-        }
-        var day = start_date1.getDate();
-
-        if(day.toString().length == 1){
-
-            var day1 = "0"+day;
-
-        }else{
-
-            var day1 = day;
-
-        }
-        var year = start_date1.getFullYear();
-        var new_date = year+"-"+month1+"-"+day1;
-        console.log("refree_start_date",new_date);
-        document.getElementsByClassName("end_date-"+i)[0].setAttribute('min', new_date);
-    }
-</script>
-<script type="text/javascript">
-function trainingEndDate(e){
-    var end_date = e.target.value;
-    var start_date = $('.training_start_date').val();
-
-    if(end_date < start_date){
-    $("#reqtrainingenddate").html("End date should not less than start date");
-    }else{
-    if(end_date == start_date){
-        $("#reqtrainingenddate").html("End date should not equal to start date");
-    }else{
-        $("#reqtrainingenddate").html("");
-    }
-    
-    }
-    
-}
-var start_date = $('.training_start_date').val();
-
-var date = new Date(start_date);
-
-    
-
-// Add five days to current date
-date.setDate(date.getDate() + 1);
-var date1 = new Date(date);
-
-
-//var str = date1.toLocaleDateString();
-var year_val = `${date1.getFullYear()}`;
-var month_val = `${date1.getMonth() + 1}`;
-var date_val = `${date1.getDate()}`;
-
-var month_len = month_val.length;
-if(month_len<2){
-    var show_month = 0+month_val;
-}else{
-    var show_month = month_val;
-}
-const formattedDate2 = year_val+"-"+show_month+"-"+date_val;
-// console.log("month_val",formattedDate);
-
-// jQuery equivalent
-$(".training_end_date").eq(0).attr("min", formattedDate2);
-function trainingStartDate(e){
-    var start_date = e.target.value;
-    var date = new Date(start_date);
-    // Add five days to current date
-    date.setDate(date.getDate() + 1);
-    var date1 = new Date(date);
-
-    
-    //var str = date1.toLocaleDateString();
-    var year_val = `${date1.getFullYear()}`;
-    var month_val = `${date1.getMonth() + 1}`;
-    var date_val = `${date1.getDate()}`;
-
-    var month_len = month_val.length;
-    if(month_len<2){
-    var show_month = 0+month_val;
-    }else{
-    var show_month = month_val
-    }
-    const formattedDate = year_val+"-"+show_month+"-"+date_val;
-    // console.log("month_val",formattedDate);
-    
-    document.getElementsByClassName("training_end_date")[0].setAttribute('min', formattedDate);
-}
-
-
-
 
 </script>
   
-@include('admin.edit_script');
+@include('admin.script');
     
 @endsection

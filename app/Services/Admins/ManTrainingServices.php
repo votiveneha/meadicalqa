@@ -18,6 +18,7 @@ class ManTrainingServices
     {
         try {
             $allData['name'] = $data['man_training'];
+            $allData['type'] =$data['type'];
             if(isset($data['trending'])){  $allData['is_featured'] = $data['trending'];}
             else{$allData['is_featured'] = '0';}
             $allData['parent'] = 0;
@@ -51,6 +52,7 @@ class ManTrainingServices
         try {
 
             $allData['name'] = $data['man_training'];
+            $allData['type'] =$data['type'];
             if(isset($data['trending'])){  $allData['is_featured'] = $data['trending'];}
             else{$allData['is_featured'] = '0';}
             $allData['parent'] = 0;
@@ -93,6 +95,7 @@ class ManTrainingServices
         try {
             $allData['name'] = $data['subspeciality'];
             $allData['parent'] =$data['speciality'];
+
             if(isset($data['trending'])){  $allData['is_featured'] = $data['trending'];}
             else{$allData['is_featured'] = '0';}
             $run = $this->manTrainingRepository->create($allData);

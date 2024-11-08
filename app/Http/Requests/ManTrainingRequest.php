@@ -10,6 +10,7 @@ class ManTrainingRequest extends FormRequest
     {
         return [
             'man_training' => 'required',
+            'type' => 'required',
         ];
     }
 
@@ -17,6 +18,7 @@ class ManTrainingRequest extends FormRequest
     {
         return [
             'man_training.required' => 'This field is required.',
+            'type.required' => 'This field is required.',
         ];
     }
 }
