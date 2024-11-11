@@ -2586,10 +2586,10 @@
                       @endforeach
                       
                       @endif
-                        </div>
+                    </div>
                       <div class="add_new_certification_div mb-3 mt-3">
-                            <a style="cursor: pointer;" onclick="add_listcertfication()">+ Add another certification/Licence</a>
-                          </div>
+                        <a style="cursor: pointer;" onclick="add_listcertfication()">+ Add another certification/Licence</a>
+                        </div>
                       
               <script type="text/javascript">
                             var licence_div_count = $(".license_number_anothercertifications").length;
@@ -3822,132 +3822,6 @@
                         </div>
 
                         <div class="clinic_skill_core_div"></div>
-                    </div>
-                    <div class="another_com_training">
-                      <h6 class="emergency_text mt-2">Other Trainings 
-                      </h6>
-                    </div>
-                    <div class="add_new_cmp_training_div mb-3 mt-3">
-                      <a style="cursor: pointer;" onclick="add_listtraining()">+ Add another Completed Training</a>
-                    </div>
-
-                    <h6 class="mt-2">Mandatory Continuing Education</h6>
-                    <p>Continuing Professional Development (CPD) for Australian nurses and midwives involves annual training that covers ethics, infection control, and clinical skills updates</p>
-                    
-                    <div class="form-group level-drp">
-                      <!-- <input type="hidden" name="skills_comp" class="skills_comp" value="@if(!empty($experienceData)) {{ $experienceData->skills_compantancies }}@endif"> -->
-                      <p>Please add required ongoing education to stay updated in your field and maintain licensure</p>
-                      <label class="form-label" for="input-1">Please select all that apply</label>
-                        <?php
-                          $mandatory_courses = DB::table('man_training_category')->where('type', 'Education')->where('parent', 0)->orderBy('id','desc')->get();
-                        ?>
-                        <ul id="mandatory_education" style="display:none;">
-                            @foreach($mandatory_courses as $m_courses)
-                            <li data-value="{{ $m_courses->id }}">{{ $m_courses->name }}</li>
-                            @endforeach
-                            
-                        </ul>
-                      <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="mandatory_education" name="mandatory_education[]" multiple="multiple"></select>
-                    </div>
-
-                    <div class="mandatory_sub_education">
-                      <!-- cat-1 -->
-                        <?php
-                           $mandatory_sub_education = DB::table('man_training_category')
-                                                        ->where('parent',440)
-                                                        ->where('type', 'Education')
-                                                        ->get();
-                                                     
-                        ?>
-                        <div class="form-group level-drp mandatory_sub_edu_div  mandatory_sub_edu_div_1 d-none">
-                         <input type="hidden" name="mandatory_training_value" class="mandatory_training_value mandatory_training_value-{{ $m_courses->id }}" value="{{ $m_courses->id }}"> 
-                          <label class="form-label" for="input-1">Core Mandatory Continuing Education </label>
-                           
-                            <ul id="core_man_con_data" style="display:none;">
-                                @foreach($mandatory_sub_education as $ms_education)
-                                <li data-value="{{ $ms_education->name }}">{{ $ms_education->name }}</li>
-                                @endforeach  
-                            </ul>
-                          <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="core_man_con_data" name="core_man_con_data[]" multiple="multiple"></select>
-                        </div>
-
-                        <div class="core_man_con_data_div"></div>
-
-                        <!-- cat-2 -->
-                        <div class="form-group level-drp mandatory_sub_edu_div  mandatory_sub_edu_div_2 d-none">
-                          <input type="hidden" name="mandatory_training_value" class="mandatory_training_value mandatory_training_value-{{ $m_courses->id }}" value="{{ $m_courses->id }}">
-                          <label class="form-label" for="input-1">Midwifery-Specific Mandatory Continuing Education </label>
-                           <?php $mandatory_sub_courses = DB::table('man_training_category')
-                                                        ->where('parent',441)
-                                                        ->where('type', 'Education')
-                                                        ->get(); ?>
-                           
-                            <ul id="mid_spe_mandotry_data" style="display:none;">
-                                @foreach($mandatory_sub_education as $ms_education)
-                                <li data-value="{{ $ms_education->name }}">{{ $ms_education->name }}</li>
-                                @endforeach
-                                
-                            </ul>
-                          <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="mid_spe_mandotry_data" name="mid_spe_mandotry[]" multiple="multiple"></select>
-                        </div>
-
-                        <div class="mid_spe_mandotry_div"></div>
-
-                        <!-- cat-3 -->
-                        <div class="form-group level-drp mandatory_sub_edu_div  mandatory_sub_edu_div_3 d-none">
-                          <input type="hidden" name="mandatory_training_value" class="mandatory_training_value mandatory_training_value-{{ $m_courses->id }}" value="{{ $m_courses->id }}">
-                          <label class="form-label" for="input-1">Specialized Areas</label>
-                           <?php $mandatory_sub_courses = DB::table('man_training_category')
-                                                        ->where('parent',442)
-                                                        ->where('type', 'Education')
-                                                        ->get(); ?>
-                           
-                            <ul id="spec_area_data" style="display:none;">
-                                @foreach($mandatory_sub_education as $ms_education)
-                                <li data-value="{{ $ms_education->name }}">{{ $ms_education->name }}</li>
-                                @endforeach
-                            </ul>
-                          <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="spec_area_data" name="spec_area[]" multiple="multiple"></select>
-                        </div>
-
-                        <div class="spec_area_div"></div>
-
-                        <!-- cat-4 -->
-                        <div class="form-group level-drp mandatory_sub_edu_div  mandatory_sub_edu_div_4 d-none">
-                          <input type="hidden" name="mandatory_training_value" class="mandatory_training_value mandatory_training_value-{{ $m_courses->id }}" value="{{ $m_courses->id }}">
-                          <label class="form-label" for="input-1">Safety and Compliance Training</label>
-                           <?php $mandatory_sub_courses = DB::table('man_training_category')
-                                                        ->where('parent',443)
-                                                        ->where('type', 'Education')
-                                                        ->get(); ?>
-                           
-                            <ul id="safety_com_data" style="display:none;">
-                                @foreach($mandatory_sub_education as $ms_education)
-                                <li data-value="{{ $ms_education->name }}">{{ $ms_education->name }}</li>
-                                @endforeach
-                            </ul>
-                          <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="safety_com_data" name="safety_com[]" multiple="multiple"></select>
-                        </div>
-
-                        <div class="safety_com_div"></div>
-
-                        <div class="form-group level-drp mandatory_sub_edu_div  mandatory_sub_edu_div_5 d-none">
-                          <input type="hidden" name="mandatory_training_value" class="mandatory_training_value mandatory_training_value-{{ $m_courses->id }}" value="{{ $m_courses->id }}">
-                          <label class="form-label" for="input-1">Emerging Topics and Continuing Education</label>
-                           <?php $mandatory_sub_courses = DB::table('man_training_category')
-                                                        ->where('parent',444)
-                                                        ->where('type', 'Education')
-                                                        ->get(); ?>
-                           
-                            <ul id="emerging_topic_data" style="display:none;">
-                                @foreach($mandatory_sub_education as $ms_education)
-                                <li data-value="{{ $ms_education->name }}">{{ $ms_education->name }}</li>
-                                @endforeach
-                            </ul>
-                          <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="emerging_topic_data" name="emerging_topic[]" multiple="multiple"></select>
-                        </div>
-
-                        <div class="emerging_topic_div"></div>
                     </div>
                     <h6 class="emergency_text">
                       Completed Mandatory Training
