@@ -3704,121 +3704,9 @@
                   <form id="training_form" method="POST" onsubmit="return updateTraining()">
                     @csrf
                     <input type="hidden" name="user_id" value="{{ Auth::guard('nurse_middle')->user()->id }}">
-                    <!-- <p>Please add required courses or certifications completed for compliance or safety</p> -->
-                    <h6 class="emergency_text">
-                      Completed Mandatory Training
-                    </h6>
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="form-group level-drp">
-                          <label class="form-label" for="input-1">Training Start Date</label>
-                          <input class="form-control training_start_date" type="date" name="start_date" value="@if(!empty($trainingData)){{ $trainingData->start_date }}@endif" onchange="trainingStartDate(event);">
-                          <span id="reqempsdate" class="reqError text-danger valley"></span>
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group level-drp">
-                          <label class="form-label" for="input-1">Training End Date</label>
-                          <input class="form-control training_end_date" type="date" name="end_date" value="@if(!empty($trainingData)){{ $trainingData->end_date }}@endif" onchange="trainingEndDate(event);">
-                          <span id="reqtrainingenddate" class="reqError text-danger valley"></span>
-                        </div>
-                        
-                      </div>
-                      <script type="text/javascript">
-                        function trainingEndDate(e){
-                          var end_date = e.target.value;
-                          var start_date = $('.training_start_date').val();
-
-                          if(end_date < start_date){
-                            $("#reqtrainingenddate").html("End date should not less than start date");
-                          }else{
-                            if(end_date == start_date){
-                              $("#reqtrainingenddate").html("End date should not equal to start date");
-                            }else{
-                              $("#reqtrainingenddate").html("");
-                            }
-                            
-                          }
-                          
-                        }
-                        var start_date = $('.training_start_date').val();
-                        
-                        var date = new Date(start_date);
-
-                          
-
-                        // Add five days to current date
-                        date.setDate(date.getDate() + 1);
-                        var date1 = new Date(date);
-
-                        
-                        //var str = date1.toLocaleDateString();
-                        var year_val = `${date1.getFullYear()}`;
-                        var month_val = `${date1.getMonth() + 1}`;
-                        var date_val = `${date1.getDate()}`;
-
-                        var month_len = month_val.length;
-                        if(month_len<2){
-                          var show_month = 0+month_val;
-                        }else{
-                          var show_month = month_val;
-                        }
-                        const formattedDate2 = year_val+"-"+show_month+"-"+date_val;
-                        console.log("month_val",formattedDate);
-                        
-                        document.getElementsClassByName("training_end_date")[0].setAttribute('min', formattedDate2);
-                        function trainingStartDate(e){
-                          var start_date = e.target.value;
-                          var date = new Date(start_date);
-                          // Add five days to current date
-                          date.setDate(date.getDate() + 1);
-                          var date1 = new Date(date);
-
-                          
-                          //var str = date1.toLocaleDateString();
-                          var year_val = `${date1.getFullYear()}`;
-                          var month_val = `${date1.getMonth() + 1}`;
-                          var date_val = `${date1.getDate()}`;
-
-                          var month_len = month_val.length;
-                          if(month_len<2){
-                            var show_month = 0+month_val;
-                          }else{
-                            var show_month = month_val
-                          }
-                          const formattedDate = year_val+"-"+show_month+"-"+date_val;
-                          console.log("month_val",formattedDate);
-                          
-                          document.getElementsByClassName("training_end_date")[0].setAttribute('min', formattedDate);
-                        }
-
-                      </script>
-                      <div class="form-group level-drp">
-                          <label class="form-label" for="input-1">Institution</label>
-                          <input class="form-control" type="text" name="institution" value="@if(!empty($trainingData)){{ $trainingData->institutions }}@endif">
-                          
-                        </div>
-                        
-                        <!-- <div class="form-group level-drp">
-                           <label class="form-label" for="input-1">Mandatory Continuing Education</label>
-                           <select class="form-control form-select ps-5" name="mand_continue_education" id="mand_continue_education">
-                            <option value="">Select mandatory continuing education</option>
-                            
-                            
-                            <option value="Ongoing" @if(!empty($trainingData)) @if(!empty($trainingData->continuing_education == "Ongoing")) selected @endif @endif>Ongoing</option>
-                            <option value="Completed" @if(!empty($trainingData)) @if(!empty($trainingData->continuing_education == "Completed")) selected @endif @endif>Completed</option>
-
-
-                          </select>          
-                        </div> -->      
-                    </div>
-                    <p>Please add required courses or certifications completed for compliance or safety</p>
-                    <h6 class="emergency_text">
-                      Mandatory Training
-                    </h6>
                     <div class="form-group level-drp">
                       <!-- <input type="hidden" name="skills_comp" class="skills_comp" value="@if(!empty($experienceData)) {{ $experienceData->skills_compantancies }}@endif"> -->
-                      
+                      <p>Please add required courses or certifications completed for compliance or safety</p>
                       <label class="form-label" for="input-1">Please select all that apply</label>
                         <?php
                           $mandatory_courses = DB::table('man_training_category')->where('type', 'Training')->where('parent', 0)->orderBy('id','desc')->get();
@@ -3826,7 +3714,8 @@
                         <ul id="mandatory_courses" style="display:none;">
                             @foreach($mandatory_courses as $m_courses)
                             <li data-value="{{ $m_courses->id }}">{{ $m_courses->name }}</li>
-                            @endforeach   
+                            @endforeach
+                            
                         </ul>
                       <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="mandatory_courses" name="mandatory_courses[]" multiple="multiple"></select>
                     </div>
@@ -4060,18 +3949,117 @@
 
                         <div class="emerging_topic_div"></div>
                     </div>
-                    <div class="another_education">
-                      <h6 class="emergency_text mt-2">Other Educations 
-                      </h6>
-                    </div>
-                    <div class="add_new_education_div mb-3 mt-3">
-                      <a style="cursor: pointer;" onclick="add_listeduction()">+ Add another Education</a>
-                    </div>
+                    <h6 class="emergency_text">
+                      Completed Mandatory Training
+                    </h6>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group level-drp">
+                          <label class="form-label" for="input-1">Training Start Date</label>
+                          <input class="form-control training_start_date" type="date" name="start_date" value="@if(!empty($trainingData)){{ $trainingData->start_date }}@endif" onchange="trainingStartDate(event);">
+                          <span id="reqempsdate" class="reqError text-danger valley"></span>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group level-drp">
+                          <label class="form-label" for="input-1">Training End Date</label>
+                          <input class="form-control training_end_date" type="date" name="end_date" value="@if(!empty($trainingData)){{ $trainingData->end_date }}@endif" onchange="trainingEndDate(event);">
+                          <span id="reqtrainingenddate" class="reqError text-danger valley"></span>
+                        </div>
+                        
+                      </div>
+                      <script type="text/javascript">
+                        function trainingEndDate(e){
+                          var end_date = e.target.value;
+                          var start_date = $('.training_start_date').val();
 
-                    <div class="box-button mt-15">
-                      <button class="btn btn-apply-big font-md font-bold" type="submitTraining" id="submitTraining">Save Changes</button>
+                          if(end_date < start_date){
+                            $("#reqtrainingenddate").html("End date should not less than start date");
+                          }else{
+                            if(end_date == start_date){
+                              $("#reqtrainingenddate").html("End date should not equal to start date");
+                            }else{
+                              $("#reqtrainingenddate").html("");
+                            }
+                            
+                          }
+                          
+                        }
+                        var start_date = $('.training_start_date').val();
+                        
+                        var date = new Date(start_date);
+
+                          
+
+                        // Add five days to current date
+                        date.setDate(date.getDate() + 1);
+                        var date1 = new Date(date);
+
+                        
+                        //var str = date1.toLocaleDateString();
+                        var year_val = `${date1.getFullYear()}`;
+                        var month_val = `${date1.getMonth() + 1}`;
+                        var date_val = `${date1.getDate()}`;
+
+                        var month_len = month_val.length;
+                        if(month_len<2){
+                          var show_month = 0+month_val;
+                        }else{
+                          var show_month = month_val;
+                        }
+                        const formattedDate2 = year_val+"-"+show_month+"-"+date_val;
+                        console.log("month_val",formattedDate);
+                        
+                        document.getElementsClassByName("training_end_date")[0].setAttribute('min', formattedDate2);
+                        function trainingStartDate(e){
+                          var start_date = e.target.value;
+                          var date = new Date(start_date);
+                          // Add five days to current date
+                          date.setDate(date.getDate() + 1);
+                          var date1 = new Date(date);
+
+                          
+                          //var str = date1.toLocaleDateString();
+                          var year_val = `${date1.getFullYear()}`;
+                          var month_val = `${date1.getMonth() + 1}`;
+                          var date_val = `${date1.getDate()}`;
+
+                          var month_len = month_val.length;
+                          if(month_len<2){
+                            var show_month = 0+month_val;
+                          }else{
+                            var show_month = month_val
+                          }
+                          const formattedDate = year_val+"-"+show_month+"-"+date_val;
+                          console.log("month_val",formattedDate);
+                          
+                          document.getElementsByClassName("training_end_date")[0].setAttribute('min', formattedDate);
+                        }
+
+                      </script>
+                      <div class="form-group level-drp">
+                          <label class="form-label" for="input-1">Institution</label>
+                          <input class="form-control" type="text" name="institution" value="@if(!empty($trainingData)){{ $trainingData->institutions }}@endif">
+                          
+                        </div>
+                        
+                        <div class="form-group level-drp">
+                           <label class="form-label" for="input-1">Mandatory Continuing Education</label>
+                           <select class="form-control form-select ps-5" name="mand_continue_education" id="mand_continue_education">
+                            <option value="">Select mandatory continuing education</option>
+                            
+                            
+                            <option value="Ongoing" @if(!empty($trainingData)) @if(!empty($trainingData->continuing_education == "Ongoing")) selected @endif @endif>Ongoing</option>
+                            <option value="Completed" @if(!empty($trainingData)) @if(!empty($trainingData->continuing_education == "Completed")) selected @endif @endif>Completed</option>
+
+
+                          </select>
+                          
+                        </div>
+                        <div class="box-button mt-15">
+                          <button class="btn btn-apply-big font-md font-bold" type="submitTraining" id="submitTraining">Save Changes</button>
+                        </div>  
                     </div>
-                    
                   </form>
                 </div>
               </div>  
@@ -6773,6 +6761,45 @@ $('.js-example-basic-multiple[data-list-id="profess_cert"]').on('change', functi
         
     });
 
+    // For Mandatory Training and Education Js
+    $('.js-example-basic-multiple[data-list-id="rpn_data"]').on('change', function() {
+        let selectedValues = $(this).val();
+        var rpn_certification_array = [];
+        $('.rpn_certification_div').removeClass('d-none');
+        $(".rpn_certification_div h6").each(function(){
+          var text = $(this).text();
+
+          if(selectedValues.includes(text) == false){
+            let res = text.split(' ')[0];
+            let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
+            console.log("res_one",res_one);
+
+            $(".rpn_"+res_one).remove();
+          }
+          
+          rpn_certification_array.push(text);
+        });
+        console.log("selectedValues",selectedValues);
+        
+        //$(".bls_certification_div").empty();
+        for(var i = 0;i<selectedValues.length;i++){
+          var selected_text = selectedValues[i].replace(/ .*/,'').replace(/[^\w\s]/gi, '').toLowerCase();
+          let res = selectedValues[i].split(' ')[0];
+          let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
+          console.log("res_one",res_one);
+          if(rpn_certification_array.includes(selectedValues[i]) == false){
+            var user_id = "{{ $user_id }}";
+            var img_text = "rpn_imgs";
+            
+            $(".rpn_certification_div").append('<div class="rpn_'+res_one+' cert_div_'+selected_text+'"><h6 class="cert_head_'+selected_text+'">'+selectedValues[i]+'</h6><input type="hidden" name="rpnnamearr[]" class="rpn_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control rpn_license_number rpn_license_number-'+i+'" type="text" name="rpn_license_number[]"><span id="reqrpnlicencevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control rpnexpiry rpnexpiry-'+i+'" type="date" name="rpn_expiry[]"><span id="reqrpnexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control degree_transcript rpn_imgs_'+res_one+' rpn_upload_certification rpn_upload_certification-'+i+'" type="file" name="rpn_upload_certification['+i+'][]" onchange="changeImg1('+user_id+','+i+',\''+img_text+'\',\''+res_one+'\')" multiple><div class="rpn_imgs'+res_one+'"></div><span id="reqrpnuploadvalid-'+i+'" class="reqError text-danger valley"></span></div></div></div>');
+
+            
+          }
+        }
+
+        
+    });
+
   $(".change_password_link").click(function(){
 
     window.history.replaceState(null, null, "?page=change_password");
@@ -8506,17 +8533,17 @@ function fillInAddress() {
   // and then fill-in the corresponding field on the form.
   // place.address_components are google.maps.GeocoderAddressComponent objects
   // which are documented at http://goo.gle/3l5i5Mr
-  for (const component of place.address_components) {
+  for (const component of place.address_components){
     // @ts-ignore remove once typings fixed
     const componentType = component.types[0];
 
     switch (componentType) {
-      case "street_number": {
+      case "street_number":{
         address1 = `${component.long_name} ${address1}`;
         break;
       }
 
-      case "route": {
+      case "route":{
         address1 += component.short_name;
         break;
       }

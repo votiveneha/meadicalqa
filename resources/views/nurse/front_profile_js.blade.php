@@ -1,3 +1,4 @@
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> -->
 <script>
  $(document).ready(function(){
 // Mandatory Training and Education
@@ -88,7 +89,7 @@ $('.js-example-basic-multiple[data-list-id="mandatory_courses"]').on('change', f
             
             var user_id = "{{ $user_id }}";
             var img_text = "well_self_care_imgs";
-            $(".well_self_care_div").append('<div class="well_self_care_'+res_one+' well_div_'+selected_text+'"><h6 class="well_head_'+selected_text+'">'+selectedValues[i]+'</h6><input type="hidden" name="wellnamearr[]" class="wellness_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="wellness_inst_div row wellness_institution"><div class="form-group col-md-12"><label class="form-label" for="input-1">Institution/Regulating Body</label><input class="form-control well_institution well_institution-'+i+'" type="text" name="well_institution[]"><span id="wellinstitutionvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Training Start Date</label><input class="form-control well_tra_start_date well_tra_start_date-'+i+'" type="date" name="well_tra_start_date[]"><span id="well_tra_start_datevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Training End  Date</label><input class="form-control tra_end_date well_tra_end_date-'+i+'" type="date" name="well_tra_end_date[]"><span id="well_tra_end_datevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control well_expiry well_expiry-'+i+'" type="date" name="well_expiry[]"><span id="wellexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload Certificate</label><input class="form-control well_upload_certification well_imgs_'+res_one+' well_upload_certification-'+i+'" type="file" name="well_upload_certification['+i+'][]" onchange="changeImg1('+user_id+','+i+',\''+img_text+'\',\''+res_one+'\')" multiple><span id="reqwelluploadvalid-'+i+'" class="reqError text-danger valley"></span><div class="well_imgs'+res_one+'"></div></div></div></div>');
+            $(".well_self_care_div").append('<div class="well_self_care_'+res_one+' well_div_'+selected_text+'"><h6 class="well_head_'+selected_text+'">'+selectedValues[i]+'</h6><input type="hidden" name="wellnamearr[]" class="wellness_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="wellness_inst_div row wellness_institution"><div class="form-group col-md-12"><label class="form-label" for="input-1">Institution/Regulating Body</label><input class="form-control well_institution well_institution-'+i+'" type="text" name="well_institution[]"><span id="wellinstitutionvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Training Start Date</label><input class="form-control well_tra_start_date well_tra_start_date-'+i+'" type="date" name="well_tra_start_date[]"><span id="well_tra_start_datevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Training End  Date</label><input class="form-control tra_end_date well_tra_end_date-'+i+'" type="date" name="well_tra_end_date[]"><span id="well_tra_end_datevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control well_expiry well_expiry-'+i+'" type="date" name="well_expiry[]"><span id="wellexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload Certificate</label><input class="form-control well_upload_certification well_imgs_'+res_one+' well_upload_certification-'+i+'" type="file" name="well_upload_certification['+i+'][]" onchange="changetraImg1('+user_id+','+i+',\''+img_text+'\',\''+res_one+'\')" multiple><span id="reqwelluploadvalid-'+i+'" class="reqError text-danger valley"></span><div class="well_imgs'+res_one+'"></div></div></div></div>');
 
             
           }
@@ -478,6 +479,276 @@ $('.js-example-basic-multiple[data-list-id="mandatory_courses"]').on('change', f
 
         
     });
+
+    $('.js-example-basic-multiple[data-list-id="spec_area_data"]').on('change', function(){
+        let selectedValues = $(this).val();
+        var spec_area_data = [];
+        $('.spec_area_div').removeClass('d-none');
+        $(".spec_area_div h6").each(function(){
+          var text = $(this).text();
+          if(selectedValues.includes(text) == false){
+            let res = text.split(' ')[0];
+            let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
+            console.log("res_one",res_one);
+            $(".spec_area_data_"+res_one).remove();
+          }
+          spec_area_data_.push(text);
+        });
+        console.log("selectedValues",selectedValues);
+        
+        $(".spec_area_div").empty();
+        
+        for(var i = 0;i<selectedValues.length;i++){
+          var selected_text = selectedValues[i].replace(/ .*/,'').replace(/[^\w\s]/gi, '').toLowerCase();
+          let res = selectedValues[i].split(' ')[0];
+          let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
+          console.log("res_one",res_one);
+
+          if(spec_area_data.includes(selectedValues[i]) == false){            
+            var user_id = "{{ $user_id }}";
+            var img_text = "spec_area_imgs";
+            $(".spec_area_div").append(`
+              <div class="spec_area_${res_one} spec_area_${selected_text}">
+                  <h6 class="mid_spe_head_${selected_text}">${selectedValues[i]}</h6>
+                  <input type="hidden" name="specareaarr[]" class="spec_area_input_${selectedValues[i]}" value="${selectedValues[i]}">
+                  
+                  <div class="spec_area_div row spec_area_institution">
+                      <!-- Institution/Regulating Body -->
+                      <div class="form-group col-md-12">
+                          <label class="form-label" for="input-1">Institution/Regulating Body</label>
+                          <input class="form-control spec_area_institution spec_area_institution-${i}" type="text" name="spec_area_institution[]">
+                          <span id="specareainstitutionvalid-${i}" class="reqError text-danger valley"></span>
+                      </div>
+
+                      <!-- Start Date -->
+                      <div class="form-group col-md-6">
+                          <label class="form-label" for="input-1">Start Date</label>
+                          <input class="form-control spec_area_start_date spec_area_start_date-${i}" type="date" name="spec_area_start_date[]">
+                          <span id="spec_area_start_datevalid-${i}" class="reqError text-danger valley"></span>
+                      </div>
+
+                      <!-- End Date -->
+                      <div class="form-group col-md-6">
+                          <label class="form-label" for="input-1">End Date</label>
+                          <input class="form-control spec_area_end_date spec_area_end_date-${i}" type="date" name="spec_area_end_date[]">
+                          <span id="spec_area_end_datevalid-${i}" class="reqError text-danger valley"></span>
+                      </div>
+
+                      <!-- Status -->
+                      <div class="form-group col-md-6">
+                          <label class="form-label" for="input-1">Status</label>
+                          <select class="form-control spec_area_status spec_area_status-${i}" name="spec_area_status[]">
+                              <option value="Completed">Completed</option>
+                              <option value="Ongoing">Ongoing</option>
+                              <option value="Pending">Pending</option>
+                          </select>
+                          <span id="spec_area_statusvalid-${i}" class="reqError text-danger valley"></span>
+                      </div>
+
+                      <!-- Expiry -->
+                      <div class="form-group col-md-6">
+                          <label class="form-label" for="input-1">Expiry</label>
+                          <input class="form-control spec_area_expiry spec_area_expiry-${i}" type="date" name="spec_area_expiry[]">
+                          <span id="specareaexpiryvalid-${i}" class="reqError text-danger valley"></span>
+                      </div>
+
+                      <!-- Upload Certificate/Licence -->
+                      <div class="form-group col-md-12">
+                          <label class="form-label" for="input-1">Upload Certificate/Licence</label>
+                          <input class="form-control specarea__upload_certification specarea_imgs_${res_one} specarea_upload_certification-${i}" 
+                                type="file" name="specarea_upload_certification[${i}][]" 
+                                onchange="changeImg1(${user_id},${i},'${img_text}','${res_one}')" multiple>
+                          <span id="reqspecarea uploadvalid-${i}" class="reqError text-danger valley"></span>
+                          <div class="specarea_imgs${res_one}"></div>
+                      </div>
+                  </div>
+              </div>
+          `);
+
+            
+          }
+        }      
+    });
+
+    $('.js-example-basic-multiple[data-list-id="safety_com_data"]').on('change', function(){
+        let selectedValues = $(this).val();
+        var safety_com_data = [];
+        $('.safety_com_div').removeClass('d-none');
+        $(".safety_com_div h6").each(function(){
+          var text = $(this).text();
+          if(selectedValues.includes(text) == false){
+            let res = text.split(' ')[0];
+            let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
+            console.log("res_one",res_one);
+            $(".safety_com_data_"+res_one).remove();
+          }
+          safety_com_data_.push(text);
+        });
+        console.log("selectedValues",selectedValues);
+        
+        $(".safety_com_div").empty();
+        
+        for(var i = 0;i<selectedValues.length;i++){
+          var selected_text = selectedValues[i].replace(/ .*/,'').replace(/[^\w\s]/gi, '').toLowerCase();
+          let res = selectedValues[i].split(' ')[0];
+          let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
+          console.log("res_one",res_one);
+
+          if(safety_com_data.includes(selectedValues[i]) == false){            
+            var user_id = "{{ $user_id }}";
+            var img_text = "safety_com_imgs";
+            $(".safety_com_div").append(`
+              <div class="safety_com_${res_one} safety_com_${selected_text}">
+                  <h6 class="safety_com_head_${selected_text}">${selectedValues[i]}</h6>
+                  <input type="hidden" name="safetycomaarr[]" class="safety_com_input_${selectedValues[i]}" value="${selectedValues[i]}">
+                  
+                  <div class="safety_com_div row safety_com_institution">
+                      <!-- Institution/Regulating Body -->
+                      <div class="form-group col-md-12">
+                          <label class="form-label" for="input-1">Institution/Regulating Body</label>
+                          <input class="form-control safety_com_institution safety_com_institution-${i}" type="text" name="safety_com_institution[]">
+                          <span id="safetycominstitutionvalid-${i}" class="reqError text-danger valley"></span>
+                      </div>
+
+                      <!-- Start Date -->
+                      <div class="form-group col-md-6">
+                          <label class="form-label" for="input-1">Start Date</label>
+                          <input class="form-control safety_com_start_date safety_com_start_date-${i}" type="date" name="safety_com_start_date[]">
+                          <span id="safety_com_start_datevalid-${i}" class="reqError text-danger valley"></span>
+                      </div>
+
+                      <!-- End Date -->
+                      <div class="form-group col-md-6">
+                          <label class="form-label" for="input-1">End Date</label>
+                          <input class="form-control safety_com_end_date safety_com_end_date-${i}" type="date" name="safety_com_end_date[]">
+                          <span id="safety_com_end_datevalid-${i}" class="reqError text-danger valley"></span>
+                      </div>
+
+                      <!-- Status -->
+                      <div class="form-group col-md-6">
+                          <label class="form-label" for="input-1">Status</label>
+                          <select class="form-control safety_com_status safety_com_status-${i}" name="safety_com_status[]">
+                              <option value="Completed">Completed</option>
+                              <option value="Ongoing">Ongoing</option>
+                              <option value="Pending">Pending</option>
+                          </select>
+                          <span id="safety_com_statusvalid-${i}" class="reqError text-danger valley"></span>
+                      </div>
+
+                      <!-- Expiry -->
+                      <div class="form-group col-md-6">
+                          <label class="form-label" for="input-1">Expiry</label>
+                          <input class="form-control safety_com_expiry safety_com_expiry-${i}" type="date" name="safety_com_expiry[]">
+                          <span id="safetycomexpiryvalid-${i}" class="reqError text-danger valley"></span>
+                      </div>
+
+                      <!-- Upload Certificate/Licence -->
+                      <div class="form-group col-md-12">
+                          <label class="form-label" for="input-1">Upload Certificate/Licence</label>
+                          <input class="form-control safetycome_upload_certification safetycome_imgs_${res_one} safetycome_upload_certification-${i}" 
+                                type="file" name="safetycome_upload_certification[${i}][]" 
+                                onchange="changeImg1(${user_id},${i},'${img_text}','${res_one}')" multiple>
+                          <span id="reqsafetycome uploadvalid-${i}" class="reqError text-danger valley"></span>
+                          <div class="safetycome_imgs${res_one}"></div>
+                      </div>
+                  </div>
+              </div>
+          `);
+
+            
+          }
+        }      
+    });
+
+    $('.js-example-basic-multiple[data-list-id="emerging_topic_data"]').on('change', function(){
+        let selectedValues = $(this).val();
+        var emerging_topic_data = [];
+        $('.emerging_topic_div').removeClass('d-none');
+        $(".emerging_topic_div h6").each(function(){
+          var text = $(this).text();
+          if(selectedValues.includes(text) == false){
+            let res = text.split(' ')[0];
+            let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
+            console.log("res_one",res_one);
+            $(".emerging_topic_data_"+res_one).remove();
+          }
+          emerging_topic_data_.push(text);
+        });
+        console.log("selectedValues",selectedValues);
+        
+        $(".emerging_topic_div").empty();
+        
+        for(var i = 0;i<selectedValues.length;i++){
+          var selected_text = selectedValues[i].replace(/ .*/,'').replace(/[^\w\s]/gi, '').toLowerCase();
+          let res = selectedValues[i].split(' ')[0];
+          let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
+          console.log("res_one",res_one);
+
+          if(emerging_topic_data.includes(selectedValues[i]) == false){            
+            var user_id = "{{ $user_id }}";
+            var img_text = "eme_topic_imgs";
+            $(".emerging_topic_div").append(`
+              <div class="eme_topic_${res_one} eme_topic_${selected_text}">
+                  <h6 class="eme_topic_head_${selected_text}">${selectedValues[i]}</h6>
+                  <input type="hidden" name="emetopicarr[]" class="eme_topic_input_${selectedValues[i]}" value="${selectedValues[i]}">
+                  
+                  <div class="eme_topic_div row eme_topic_institution">
+                      <!-- Institution/Regulating Body -->
+                      <div class="form-group col-md-12">
+                          <label class="form-label" for="input-1">Institution/Regulating Body</label>
+                          <input class="form-control eme_topic_institution eme_topic_institution-${i}" type="text" name="eme_topic_institution[]">
+                          <span id="emetopicinstitutionvalid-${i}" class="reqError text-danger valley"></span>
+                      </div>
+
+                      <!-- Start Date -->
+                      <div class="form-group col-md-6">
+                          <label class="form-label" for="input-1">Start Date</label>
+                          <input class="form-control eme_topic_start_date eme_topic_start_date-${i}" type="date" name="eme_topic_start_date[]">
+                          <span id="eme_topic_start_datevalid-${i}" class="reqError text-danger valley"></span>
+                      </div>
+
+                      <!-- End Date -->
+                      <div class="form-group col-md-6">
+                          <label class="form-label" for="input-1">End Date</label>
+                          <input class="form-control eme_topic_end_date eme_topic_end_date-${i}" type="date" name="eme_topic_end_date[]">
+                          <span id="eme_topic_end_datevalid-${i}" class="reqError text-danger valley"></span>
+                      </div>
+
+                      <!-- Status -->
+                      <div class="form-group col-md-6">
+                          <label class="form-label" for="input-1">Status</label>
+                          <select class="form-control eme_topic_status eme_topic_status-${i}" name="eme_topic_status[]">
+                              <option value="Completed">Completed</option>
+                              <option value="Ongoing">Ongoing</option>
+                              <option value="Pending">Pending</option>
+                          </select>
+                          <span id="eme_topic_statusvalid-${i}" class="reqError text-danger valley"></span>
+                      </div>
+
+                      <!-- Expiry -->
+                      <div class="form-group col-md-6">
+                          <label class="form-label" for="input-1">Expiry</label>
+                          <input class="form-control eme_topic_expiry eme_topic_expiry-${i}" type="date" name="eme_topic_expiry[]">
+                          <span id="emetopicexpiryvalid-${i}" class="reqError text-danger valley"></span>
+                      </div>
+
+                      <!-- Upload Certificate/Licence -->
+                      <div class="form-group col-md-12">
+                          <label class="form-label" for="input-1">Upload Certificate/Licence</label>
+                          <input class="form-control emetopic_upload_certification emetopic_imgs_${res_one} emetopic_upload_certification-${i}" 
+                                type="file" name="emetopic_upload_certification[${i}][]" 
+                                onchange="changeImg1(${user_id},${i},'${img_text}','${res_one}')" multiple>
+                          <span id="reqemetopic uploadvalid-${i}" class="reqError text-danger valley"></span>
+                          <div class="emetopic_imgs${res_one}"></div>
+                      </div>
+                  </div>
+              </div>
+          `);
+
+            
+          }
+        }      
+    });
  });
 </script>
 
@@ -511,5 +782,135 @@ function delete_training(i,user_id,training_id){
 //   });
 // }
 
+// for education
+var education_div_count = $(".another_edu_div").length;
+// console.log("training_div_count",training_div_count);
+function add_listeduction(){
+education_div_count++;
+var user_id = "{{ $user_id }}";
+// $(".another_education").append('<div class="training_div training_div_'+training_div_count+' row another_com_tra_div"><div class="form-group col-md-6"><label class="form-label" for="input-1">Training '+training_div_count+'</label><input class="form-control additional_tra_field additional_tra_field-'+training_div_count+'" type="text" name="training[]"><span id="reqtraname-'+training_div_count+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Institution/Regulating Body</label><input class="form-control institution institution-'+training_div_count+'" type="text" name="institution[]"><span id="reqinstitution-'+training_div_count+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Training Start Date</label><input class="form-control tra_start_date tra_start_date-'+training_div_count+'" type="date" name="tra_start_date[]"><span id="reqtrastartdate-{{ $i }}" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Training End Date</label><input class="form-control tra_end_date tra_end_date-'+training_div_count+'" type="date" name="tra_end_date[]"><span id="reqtraenddate-{{ $i }}" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control tra_expiry tra_expiry-'+training_div_count+'" type="date" name="tra_expiry[]"><span id="reqtra_expiry-{{ $i }}" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload Certificate</label><input class="form-control additional_certifications-'+training_div_count+'" type="file" name="certificate_upload_certification['+training_div_count+'][]" onchange="changeImg2('+user_id+','+training_div_count+')" multiple></div><div class="col-md-12"><div class="add_new_certification_div mb-3 mt-3"><a style="cursor: pointer;" onclick="delete_training('+training_div_count+')">- Delete certification/Licence</a></div></div></div>');
+$(".another_education").append(`
+    <div class="eduction_div eduction_div_${education_div_count} row another_edu_div">
+        
+        <div class="form-group col-md-6">
+            <label class="form-label" for="input-1">Course/Workshop ${education_div_count}</label>
+            <input class="form-control additional_course_field additional_course_field-${education_div_count}" 
+                   type="text" name="education[]">
+            <span id="reqeduname-${education_div_count}" class="reqError text-danger valley"></span>
+        </div>
+        
+        <div class="form-group col-md-6">
+            <label class="form-label" for="input-1">Institution/Regulating Body</label>
+            <input class="form-control institution institution-${education_div_count}" 
+                   type="text" name="institution[]">
+            <span id="reqinstitution-${education_div_count}" class="reqError text-danger valley"></span>
+        </div>
+        
+        <div class="form-group col-md-6">
+            <label class="form-label" for="input-1">Start Date</label>
+            <input class="form-control start_date start_date-${education_div_count}" 
+                   type="date" name="start_date[]">
+            <span id="reqstartdate-${education_div_count}" class="reqError text-danger valley"></span>
+        </div>
+        
+        <div class="form-group col-md-6">
+            <label class="form-label" for="input-1">End Date</label>
+            <input class="form-control end_date end_date-${education_div_count}" 
+                   type="date" name="end_date[]">
+            <span id="reqenddate-${education_div_count}" class="reqError text-danger valley"></span>
+        </div>
+
+        <!-- Status -->
+        <div class="form-group col-md-6">
+            <label class="form-label" for="input-1">Status</label>
+            <select class="form-control edu_status edu_status-${education_div_count}" name="edu_status[]">
+                <option value="Completed">Completed</option>
+                <option value="Ongoing">Ongoing</option>
+                <option value="Pending">Pending</option>
+            </select>
+            <span id="edu_statusvalid-${education_div_count}" class="reqError text-danger valley"></span>
+        </div>
+        
+        <div class="form-group col-md-6">
+            <label class="form-label" for="input-1">Expiry</label>
+            <input class="form-control edu_expiry edu_expiry-${education_div_count}" 
+                   type="date" name="edu_expiry[]">
+            <span id="reqedu_expiry-${education_div_count}" class="reqError text-danger valley"></span>
+        </div>
+        
+        <div class="form-group col-md-6">
+            <label class="form-label" for="input-1">Upload Certificate/Licence</label>
+            <input class="form-control additional_cour_certifications-${education_div_count}" 
+                   type="file" name="cour_certificate_upload_certification[${education_div_count}][]" 
+                   onchange="changeImg2(${user_id}, ${education_div_count})" multiple>
+        </div>
+        
+        <div class="col-md-12">
+            <div class="add_new_certification_div mb-3 mt-3">
+                <a style="cursor: pointer;" onclick="delete_edu(${education_div_count})">
+                    - Delete Education
+                </a>
+            </div>
+        </div>
+        
+    </div>
+`);
+}
+
+function delete_edu(i,user_id,education_id){ 
+   $(".eduction_div_"+i).remove();
+}
+
+
+function changetraImg1(user_id,i,field_name,cat_name){
+    var files =$('.'+field_name+'_'+cat_name)[0].files;
+    alert('.'+field_name+'_'+cat_name );
+    console.log("files12",'.'+field_name+'_'+cat_name);
+    
+    // var form_data =  "";
+    
+    // form_data = new FormData();
+
+    // for(var i=0;i<files.length;i++){
+    //   form_data.append("upload_images[]", files[i], files[i]['name']);
+
+    // }
+
+    // form_data.append("user_id", user_id);
+    // form_data.append("country_name", country_name);
+    // form_data.append("field_name", field_name);
+    // form_data.append("_token", '{{ csrf_token() }}');
+    
+    // $.ajax({
+    //   type: "post",
+    //   url: "{{ route('nurse.uploadImgs1') }}",
+    //   cache: false,
+    //   contentType: false,
+    //   processData: false,
+    //   async: true,
+    //   data: form_data,
+      
+    //   success: function(data){
+        
+    //      var image_array = JSON.parse(data);
+    //      var htmlData = '';
+    //      console.log("data",image_array);
+    //      for(var i=0;i<image_array.length;i++){
+    //         console.log("degree_transcript",image_array[i]);
+    //         var img_name = image_array[i];
+    //         var img_text = field_name;
+    //         console.log("img_name",'deleteImg('+(i+1)+','+user_id+',"'+img_name+'")');
+    //         htmlData += '<div class="trans_img trans_img-'+(i+1)+' trans_img'+field_name+country_name+i+'"><a href="{{ url("/public") }}/uploads/education_degree/'+img_name+'" target="_blank"><i class="fa fa-file" aria-hidden="true"></i>'+image_array[i]+'</a><div class="close_btn close_btn-'+i+'" onclick="deleteImg1('+i+','+user_id+',\''+image_array[i]+'\',\''+country_name+'\',\''+img_text+'\')" style="cursor: pointer;"><i class="fa fa-close" aria-hidden="true"></i></div></div>';
+    //      }
+    //      $("."+field_name+country_name).html(htmlData);
+         
+         
+    //   }
+    // });
+
+  }
+
 </script>
+
+
 

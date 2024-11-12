@@ -11,7 +11,7 @@
     color: red;
   }
 
-  .step-container {
+  .step-container{
     position: relative;
     text-align: center;
     transform: translateY(-43%);
@@ -43,12 +43,12 @@
     z-index: -1;
   }
 
-  #multi-step-form {
+  #multi-step-form{
     overflow-x: hidden;
   }
 
   #multi-step-form .step-1:before,
-  #multi-step-form .step-2:before {
+  #multi-step-form .step-2:before{
     display: none;
   }
 
@@ -72,51 +72,51 @@
   }
 
 
-  span.select2.select2-container {
+  span.select2.select2-container{
     padding: 5px !important;
     width: 100% !important;
   }
 
 
-  .select2-container--default .select2-selection--multiple {
+  .select2-container--default .select2-selection--multiple{
     background-color: white !important;
     border: 1px solid #0000 !important;
     border-radius: 4px !important;
     cursor: text !important;
   }
 
-  .select2-container--default .select2-selection--multiple .select2-selection__choice {
+  .select2-container--default .select2-selection--multiple .select2-selection__choice{
     background-color: #000 !important;
     border: 1px solid #000 !important;
     border-radius: 4px !important;
     cursor: default !important;
     color: #fff !important;
-  float: left;
+    float: left;
     padding: 0;
     padding-right: 0.75rem;
     margin-top: calc(0.375rem - 2px);
     margin-right: 0.375rem;
-  padding-bottom: 0px;
-  white-space: normal;
+    padding-bottom: 0px;
+    white-space: normal;
     line-height: 20px;
   }
 
-  .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+  .select2-container--default .select2-selection--multiple .select2-selection__choice__remove{
     color: #fff !important;
     font-size: 20px !important;
-  float: left;
+    float: left;
     padding-right: 3px;
     padding-left: 3px;
     margin-right: 1px;
     margin-left: 3px;
     font-weight: 700;
-  line-height: 20px;
+    line-height: 20px;
   }
-  .registration_progress {
+  .registration_progress{
     font-weight: 900;
     background-color: black;
     color: #fff;
-}
+  }
 .step-2 input{
   border: 1px solid #dedddd !important;
 }
@@ -153,7 +153,7 @@
               <div class="text-center">
                 <!-- <p class="font-sm text-brand-2">Register </p> -->
                 <h2 class="mt-10 mb-5 text-brand-1 fs_24">Please select your level and specialties<br>
-        You can select multiple options</h2>
+                You can select multiple options</h2>
 
                 <!-- <h2 class="mt-10 mb-5 text-brand-1 fs_24">Tell us about your qualifications</h2> -->
 
