@@ -3171,25 +3171,15 @@
                       </div>
                       
                     </div>
+                    <br>
                     <div class="row">
                       <div class="col-md-6">
                         <div class="form-group level-drp">
                           <label class="form-label" for="input-1">Employment type</label>
                           <select class="form-control" name="employeement_type[]">
                             <option value="">select</option>
-                            <option value="Full-time">Full-time</option>
-                            <option value="Part-time">Part-time</option>
-                            <option value="Contract">Contract</option>
-                            <option value="Casual">Casual</option>
-                            <option value="Volunteer">Volunteer</option>
-                            <option value="Temporary">Temporary</option>
-                            <option value="Freelance">Freelance</option>
-                            <option value="Per diem">Per diem</option>
-                            <option value="Internship">Internship</option>
-                            <option value="Locum tenens (temporary substitute)">Locum tenens (temporary substitute)</option>
-                            <option value="Apprenticeship">Apprenticeship</option>
-                            <option value="Agency staff">Agency staff</option>
-                            <option value="Seasonal">Seasonal</option>
+                            <option value="Permanent" @if(Auth::guard('nurse_middle')->user()->current_employee_status == "Permanent") selected @endif>Permanent</option>
+                      <option value="Temporary" @if(Auth::guard('nurse_middle')->user()->current_employee_status == "Temporary") selected @endif>Temporary</option>
                           </select>
                           <span id="reqemptype" class="reqError text-danger valley"></span>
                         </div>
