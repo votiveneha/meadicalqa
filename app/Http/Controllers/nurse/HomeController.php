@@ -2579,42 +2579,39 @@ class HomeController extends Controller
     //for Mandatory Training
     public function uploadmantraImgs1(Request $request){
         $files = $request->file('upload_images');
-        // $user_id = $request->user_id;
-        // $country_name = $request->country_name;
-        // $field_name = $request->field_name;
-        //print_r($files);die;
-
-        // $getedufieldsdata = DB::table("edu_fields")->where("user_id",$user_id)->first();
-        // //print_r($getedufieldsdata);die;
-        // if(empty($getedufieldsdata)){
-
+        $user_id = $request->user_id;
+        $cat_name = $request->cat_name;
+        $field_name = $request->field_name;
+        // dd($field_name);die;  
+        $getedufieldsdata = DB::table("edu_fields")->where("user_id",$user_id)->first();
+        
+        if(empty($getedufieldsdata)){  
+            $acls_img = Helpers::multipleFileUpload($files,'');
+            $acls_data = array($cat_name => $acls_img);
+            $getImg_array = $acls_data;
+            DB::table("edu_fields")->insert(["user_id"=>$user_id,$field_name=>json_encode($acls_data)]);
+        }
+        else{
+            $getEdufieldsData1 = (array)$getedufieldsdata;
+            $getImgfield = $getEdufieldsData1[$field_name];
+            $getImg_array = (array)json_decode($getImgfield);
             
-        //     $acls_img = Helpers::multipleFileUpload($files,'');
-        //     $acls_data = array($country_name => $acls_img);
-        //     $getImg_array = $acls_data;
-        //     DB::table("edu_fields")->insert(["user_id"=>$user_id,$field_name=>json_encode($acls_data)]);
-        // }else{
-        //     $getEdufieldsData1 = (array)$getedufieldsdata;
-        //     $getImgfield = $getEdufieldsData1[$field_name];
-        //     $getImg_array = (array)json_decode($getImgfield);
-            
-        //     if(array_key_exists($country_name,$getImg_array)){
-        //         $available_imgs = (array)json_decode($getImg_array[$country_name]);
-        //         $acls_img = Helpers::multipleFileUpload($files,$available_imgs);
-        //         $getImg_array[$country_name] = $acls_img;
-        //         DB::table("edu_fields")->where("user_id",$user_id)->update([$field_name=>json_encode($getImg_array)]);
-        //     }else{
-        //         $acls_img = Helpers::multipleFileUpload($files,'');
-        //         $getImg_array[$country_name] = $acls_img;
-                
-                
-        //         DB::table("edu_fields")->where("user_id",$user_id)->update([$field_name=>json_encode($getImg_array)]);
-        //     }
+            if(array_key_exists($cat_name,$getImg_array)){
+                $available_imgs = (array)json_decode($getImg_array[$cat_name]);
+                $acls_img = Helpers::multipleFileUpload($files,$available_imgs);
+                $getImg_array[$cat_name] = $acls_img;
+                DB::table("edu_fields")->where("user_id",$user_id)->update([$field_name=>json_encode($getImg_array)]);
+            }
+            else{
+                $acls_img = Helpers::multipleFileUpload($files,'');
+                $getImg_array[$cat_name] = $acls_img;  
+                DB::table("edu_fields")->where("user_id",$user_id)->update([$field_name=>json_encode($getImg_array)]);
+            }
             
 
-        // }
+        }
 
-        // return $acls_img;
+        return $acls_img;
 
     }
 }

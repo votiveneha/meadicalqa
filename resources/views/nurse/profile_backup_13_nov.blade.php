@@ -3915,7 +3915,7 @@
                            
                             <ul id="clinic_skill_core_data" style="display:none;">
                                 @foreach($mandatory_sub_courses as $ms_courses)
-                                <li data-value="{{ $ms_courses->name }}" data-id='{{ $ms_courses->id }}'>{{ $ms_courses->name }}</li>
+                                <li data-value="{{ $ms_courses->name }}">{{ $ms_courses->name }}</li>
                                 @endforeach
                                 
                             </ul>
