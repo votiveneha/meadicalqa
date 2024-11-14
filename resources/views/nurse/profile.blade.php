@@ -2570,7 +2570,7 @@
                         </div>
                         <div class="form-group col-md-6">
                           <label class="form-label" for="input-1">Upload your certification/Licence</label>
-                          <input class="form-control" type="file" name="certificate_upload_certification[]">
+                          <input class="form-control" type="file" name="certificate_upload_certification[]" onchange="changeImg2('{{ $user_id }}','{{ $i }}')" multiple="">
                           @if($c_data->certificate_upload_certification)
                           <img src="{{ url('/public/uploads/certificates') }}/{{ $c_data->certificate_upload_certification }}" style="width:100px;">
                           @endif
@@ -2592,9 +2592,10 @@
                           </div>
                       
               <script type="text/javascript">
-                            var licence_div_count = $(".license_number_anothercertifications").length;
-                            console.log("licence_div_count",licence_div_count);
+                            
                             function add_listcertfication(){
+                              var licence_div_count = $(".license_number_anothercertifications").length;
+                            console.log("licence_div_count",licence_div_count);
                               licence_div_count++;
                               var user_id = "{{ $user_id }}";
                               $(".another_certifications").append('<div class="license_number_div license_number_div_'+licence_div_count+' row license_number_anothercertifications"><div class="form-group col-md-6"><label class="form-label" for="input-1">Certificate '+licence_div_count+'</label><input class="form-control additional_certificate_field additional_certificate_field-'+licence_div_count+'" type="text" name="training_certificate[]"><span id="reqcertname-'+licence_div_count+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control cert_licence_num cert_licence_num-'+licence_div_count+'" type="text" name="certificate_license_number[]"><span id="reqcertlicense-'+licence_div_count+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control cert_expiry cert_expiry-'+licence_div_count+'" type="date" name="certificate_expiry[]"><span id="reqcertexpiry-{{ $i }}" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Regulating Body</label><input class="form-control additional_regulating_body additional_regulating_body-'+licence_div_count+'" type="text" name="regulating_body[]"><span id="reqcertregulating_body-'+licence_div_count+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control additional_certifications-'+licence_div_count+'" type="file" name="certificate_upload_certification['+licence_div_count+'][]" onchange="changeImg2('+user_id+','+licence_div_count+')" multiple></div><div class="col-md-12"><div class="add_new_certification_div mb-3 mt-3"><a style="cursor: pointer;" onclick="delete_certification1('+licence_div_count+')">- Delete certification/Licence</a></div></div></div>');
