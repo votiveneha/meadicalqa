@@ -3916,7 +3916,7 @@
                            
                             <ul id="clinic_skill_core_data" style="display:none;">
                                 @foreach($mandatory_sub_courses as $ms_courses)
-                                <li data-value="{{ $ms_courses->name }}">{{ $ms_courses->name }}</li>
+                                <li data-value="{{ $ms_courses->name }}" data-id='{{ $ms_courses->id }}'>{{ $ms_courses->name }}</li>
                                 @endforeach
                                 
                             </ul>
@@ -3957,7 +3957,7 @@
                         <?php
                            $mandatory_sub_education = DB::table('man_training_category')
                                                         ->where('parent',440)
-                                                        ->where('type','Education')
+                                                        ->where('type', 'Education')
                                                         ->get();
                                                      
                         ?>
@@ -3979,9 +3979,9 @@
                         <div class="form-group level-drp mandatory_sub_edu_div  mandatory_sub_edu_div_2 d-none">
                           <input type="hidden" name="mandatory_training_value" class="mandatory_training_value mandatory_training_value-{{ $m_courses->id }}" value="{{ $m_courses->id }}">
                           <label class="form-label" for="input-1">Midwifery-Specific Mandatory Continuing Education </label>
-                           <?php $mandatory_sub_education = DB::table('man_training_category')
+                           <?php $mandatory_sub_courses = DB::table('man_training_category')
                                                         ->where('parent',441)
-                                                        ->where('type','Education')
+                                                        ->where('type', 'Education')
                                                         ->get(); ?>
                            
                             <ul id="mid_spe_mandotry_data" style="display:none;">
@@ -3999,7 +3999,7 @@
                         <div class="form-group level-drp mandatory_sub_edu_div  mandatory_sub_edu_div_3 d-none">
                           <input type="hidden" name="mandatory_training_value" class="mandatory_training_value mandatory_training_value-{{ $m_courses->id }}" value="{{ $m_courses->id }}">
                           <label class="form-label" for="input-1">Specialized Areas</label>
-                           <?php $mandatory_sub_education = DB::table('man_training_category')
+                           <?php $mandatory_sub_courses = DB::table('man_training_category')
                                                         ->where('parent',442)
                                                         ->where('type', 'Education')
                                                         ->get(); ?>
@@ -4018,7 +4018,7 @@
                         <div class="form-group level-drp mandatory_sub_edu_div  mandatory_sub_edu_div_4 d-none">
                           <input type="hidden" name="mandatory_training_value" class="mandatory_training_value mandatory_training_value-{{ $m_courses->id }}" value="{{ $m_courses->id }}">
                           <label class="form-label" for="input-1">Safety and Compliance Training</label>
-                           <?php $mandatory_sub_education = DB::table('man_training_category')
+                           <?php $mandatory_sub_courses = DB::table('man_training_category')
                                                         ->where('parent',443)
                                                         ->where('type', 'Education')
                                                         ->get(); ?>
@@ -4036,14 +4036,14 @@
                         <div class="form-group level-drp mandatory_sub_edu_div  mandatory_sub_edu_div_5 d-none">
                           <input type="hidden" name="mandatory_training_value" class="mandatory_training_value mandatory_training_value-{{ $m_courses->id }}" value="{{ $m_courses->id }}">
                           <label class="form-label" for="input-1">Emerging Topics and Continuing Education</label>
-                           <?php $mandatory_sub_education = DB::table('man_training_category')
+                           <?php $mandatory_sub_courses = DB::table('man_training_category')
                                                         ->where('parent',444)
                                                         ->where('type', 'Education')
                                                         ->get(); ?>
                            
                             <ul id="emerging_topic_data" style="display:none;">
                                 @foreach($mandatory_sub_education as $ms_education)
-                                <li data-value="{{ $ms_education->name }}" data-id="{{ $ms_education->id }}">{{ $ms_education->name }}</li>
+                                <li data-value="{{ $ms_education->name }}">{{ $ms_education->name }}</li>
                                 @endforeach
                             </ul>
                           <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="emerging_topic_data" name="emerging_topic[]" multiple="multiple"></select>
@@ -5303,12 +5303,12 @@
                     return false;                        
     
             });    
-  $('.js-example-basic-multiple').each(function(){
+  $('.js-example-basic-multiple').each(function() {
         let listId = $(this).data('list-id');
         //alert(listId);
         let items = [];
         console.log("listId1",listId);
-        $('#' + listId + ' li').each(function(){
+        $('#' + listId + ' li').each(function() {
             console.log("value1",$(this).text());
             items.push({ id: $(this).data('value'), text: $(this).text() });
         });
@@ -5316,7 +5316,9 @@
         $(this).select2({
             data: items
         });
-        //$("#type-of-nurse").select2({'val': 3});          
+
+          //$("#type-of-nurse").select2({'val': 3});
+          
     });
   //$("#type-of-nurse").val([1,2,3], null, false);
   //$("#type-of-nurse").select2().select 2("val", [1,2,3]);

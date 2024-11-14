@@ -1,6 +1,8 @@
 <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> -->
 <script>
  $(document).ready(function(){
+
+
 // Mandatory Training and Education
 $('.js-example-basic-multiple[data-list-id="mandatory_courses"]').on('change', function() {
         let selectedValues = $(this).val();
@@ -241,15 +243,38 @@ $('.js-example-basic-multiple[data-list-id="mandatory_courses"]').on('change', f
     });
 
     $('.js-example-basic-multiple[data-list-id="clinic_skill_core_data"]').on('change', function() {
-        let selectedValues = $(this).val();
+        let selectedValues = $(this).val();    
         var clinic_skill_core = [];
+        let selectedIds = [];
+        let selectedDataIds = [];
+   
+
+       selectedValues.forEach(function(value) {
+            // Use jQuery to find the <li> element by its text and get the data-value
+            let dataId = $('#clinic_skill_core_data li').filter(function() {
+                return $(this).text() === value;
+            }).data('id');
+
+            // Add the found dataId to the selectedIds array if it exists
+            if (dataId !== undefined) {
+                selectedIds.push(dataId);
+            }
+        });
+
         $('.clinic_skill_core_div').removeClass('d-none');
         $(".clinic_skill_core_div h6").each(function(){
           var text = $(this).text();
           if(selectedValues.includes(text) == false){
             let res = text.split(' ')[0];
-            let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-            console.log("res_one",res_one);
+            let res_1 = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
+            // console.log("res_one",res_one);
+
+            // Find the corresponding dataId for the text from the list
+            let dataId = $('#clinic_skill_core_data li').filter(function() {
+                return $(this).text() === text;
+            }).data('id');  // Get the associated data-id
+            
+            let res_one = res_1 + '_' +dataId;
 
             $(".clinic_skill_core_"+res_one).remove();
           }
@@ -261,13 +286,18 @@ $('.js-example-basic-multiple[data-list-id="mandatory_courses"]').on('change', f
         for(var i = 0;i<selectedValues.length;i++){
           var selected_text = selectedValues[i].replace(/ .*/,'').replace(/[^\w\s]/gi, '').toLowerCase();
           let res = selectedValues[i].split(' ')[0];
-          let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-          console.log("res_one",res_one);
+          let res_1 = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
+          
+          // Get the corresponding selectedId
+            let selectedId = selectedIds[i];
 
+            let res_one = res_1+'_'+selectedId;
+            console.log(res_one);
+       
           if(clinic_skill_core.includes(selectedValues[i]) == false){
             
             var user_id = "{{ $user_id }}";
-            var img_text = "clinic_skill_core_imgs";
+            var img_text = "clinic_skill_imgs";
             $(".clinic_skill_core_div").append('<div class="clinic_skill_'+res_one+' clinic_skill_div_'+selected_text+'"><h6 class="clinic_skill_head_'+selected_text+'">'+selectedValues[i]+'</h6><input type="hidden" name="clinicskillnamearr[]" class="clinic_skill_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="clinic_skill_div row clinic_skill_institution"><div class="form-group col-md-12"><label class="form-label" for="input-1">Institution/Regulating Body</label><input class="form-control clinic_skill_institution clinic_skill-'+i+'" type="text" name="clinic_skill_institution[]"><span id="cliskillinstivalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Training Start Date</label><input class="form-control clinic_skill_tra_start_date clinic_skill_tra_start_date-'+i+'" type="date" name="clinic_skill_tra_start_date[]"><span id="clinic_skill_tra_start_datevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Training End  Date</label><input class="form-control clinic_skill_tra_end_date clinic_skill_tra_end_date-'+i+'" type="date" name="clinic_skill_tra_end_date[]"><span id="clinic_skill_tra_end_datevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control clinic_skill_expiry clinic_skill_expiry-'+i+'" type="date" name="clinic_skill_expiry[]"><span id="clinicskillexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload Certificate</label><input class="form-control clinic_skill_upload_certification clinic_skill_imgs_'+res_one+' clinic_skill_upload_certification-'+i+'" type="file" name="clinic_skill_upload_certification['+i+'][]" onchange="changeImg1('+user_id+','+i+',\''+img_text+'\',\''+res_one+'\')" multiple><span id="reqclinskilluploadvalid-'+i+'" class="reqError text-danger valley"></span><div class="clinic_skill_imgs'+res_one+'"></div></div></div></div>');  
           }
         } 
@@ -331,16 +361,37 @@ $('.js-example-basic-multiple[data-list-id="mandatory_courses"]').on('change', f
 
     $('.js-example-basic-multiple[data-list-id="core_man_con_data"]').on('change', function() {
         let selectedValues = $(this).val();
+            let selectedIds = [];
+         let selectedDataIds = [];
+   
+
+       selectedValues.forEach(function(value) {
+            // Use jQuery to find the <li> element by its text and get the data-value
+            let dataId = $('#core_man_con_data li').filter(function() {
+                return $(this).text() === value;
+            }).data('id');
+
+            // Add the found dataId to the selectedIds array if it exists
+            if (dataId !== undefined) {
+                selectedIds.push(dataId);
+            }
+        });
         var core_man_con_data = [];
         $('.core_man_con_data_div').removeClass('d-none');
         $(".core_man_con_data_div h6").each(function(){
           var text = $(this).text();
           if(selectedValues.includes(text) == false){
             let res = text.split(' ')[0];
-            let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-            console.log("res_one",res_one);
+            let res_1 = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
+            // console.log("res_one",res_one);
+            // Find the corresponding dataId for the text from the list
+            let dataId = $('#core_man_con_data li').filter(function() {
+                return $(this).text() === text;
+            }).data('id');  // Get the associated data-id
+            
+            let res_one = res_1 + '_' +dataId;
 
-            $(".core_man_con_data_"+res_one).remove();
+            $(".core_man_"+res_one).remove();
           }
           core_man_con_data.push(text);
         });
@@ -351,12 +402,15 @@ $('.js-example-basic-multiple[data-list-id="mandatory_courses"]').on('change', f
         for(var i = 0;i<selectedValues.length;i++){
           var selected_text = selectedValues[i].replace(/ .*/,'').replace(/[^\w\s]/gi, '').toLowerCase();
           let res = selectedValues[i].split(' ')[0];
-          let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-          console.log("res_one",res_one);
+          let res_1 = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
+          let selectedId = selectedIds[i];
+
+        let res_one = res_1+'_'+selectedId;
 
           if(core_man_con_data.includes(selectedValues[i]) == false){            
             var user_id = "{{ $user_id }}";
             var img_text = "core_man_imgs";
+              
             // $(".core_man_con_data_div").append('<div class="core_man_'+res_one+' core_man_'+selected_text+'"><h6 class="core_man_head_'+selected_text+'">'+selectedValues[i]+'</h6><input type="hidden" name="coremanarr[]" class="coreman_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="core_man_div row core_man_institution"><div class="form-group col-md-12"><label class="form-label" for="input-1">Institution/Regulating Body</label><input class="form-control core_man_institution core_man_institution-'+i+'" type="text" name="core_man_institution[]"><span id="coreinstitutionvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Start Date</label><input class="form-control coreman_start_date coreman_start_date-'+i+'" type="date" name="coreman_start_date[]"><span id="coreman_start_datevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">End Date</label><input class="form-control coreman_end_date coreman_end_date-'+i+'" type="date" name="coreman_end_date[]"><span id="coreman_end_datevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control well_expiry well_expiry-'+i+'" type="date" name="well_expiry[]"><span id="wellexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload Certificate</label><input class="form-control well_upload_certification well_imgs_'+res_one+' well_upload_certification-'+i+'" type="file" name="well_upload_certification['+i+'][]" onchange="changeImg1('+user_id+','+i+',\''+img_text+'\',\''+res_one+'\')" multiple><span id="reqwelluploadvalid-'+i+'" class="reqError text-danger valley"></span><div class="well_imgs'+res_one+'"></div></div></div></div>');
             $(".core_man_con_data_div").append(`
               <div class="core_man_${res_one} core_man_${selected_text}">
@@ -406,11 +460,11 @@ $('.js-example-basic-multiple[data-list-id="mandatory_courses"]').on('change', f
                       <!-- Upload Certificate/Licence -->
                       <div class="form-group col-md-12">
                           <label class="form-label" for="input-1">Upload Certificate/Licence</label>
-                          <input class="form-control coreman_upload_certification coreman_imgs_${res_one} coreman_upload_certification-${i}" 
+                          <input class="form-control coreman_upload_certification core_man_imgs_${res_one} coreman_upload_certification-${i}" 
                                 type="file" name="coreman_upload_certification[${i}][]" 
                                 onchange="changeImg1(${user_id},${i},'${img_text}','${res_one}')" multiple>
                           <span id="reqcoremanuploadvalid-${i}" class="reqError text-danger valley"></span>
-                          <div class="coreman_imgs${res_one}"></div>
+                          <div class="core_man_imgs${res_one}"></div>
                       </div>
                   </div>
               </div>
@@ -434,7 +488,7 @@ $('.js-example-basic-multiple[data-list-id="mandatory_courses"]').on('change', f
             let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
             console.log("res_one",res_one);
 
-            $(".mid_spe_mandotry_data_"+res_one).remove();
+            $(".mid_spe__"+res_one).remove();
           }
           mid_spe_mandotry_data.push(text);
         });
@@ -500,11 +554,11 @@ $('.js-example-basic-multiple[data-list-id="mandatory_courses"]').on('change', f
                       <!-- Upload Certificate/Licence -->
                       <div class="form-group col-md-12">
                           <label class="form-label" for="input-1">Upload Certificate/Licence</label>
-                          <input class="form-control midspe_upload_certification midspe_imgs_${res_one} midspe_upload_certification-${i}" 
+                          <input class="form-control midspe_upload_certification mid_spe_imgs_${res_one} midspe_upload_certification-${i}" 
                                 type="file" name="midspe_upload_certification[${i}][]" 
-                                onchange="changeImg1(${user_id},${i},'${img_text}','${res_one}')" multiple>
+                                onchange="changetraImg1(${user_id},${i},'${img_text}','${res_one}')" multiple>
                           <span id="reqmidspeuploadvalid-${i}" class="reqError text-danger valley"></span>
-                          <div class="midspe_imgs${res_one}"></div>
+                          <div class="mid_spe_imgs${res_one}"></div>
                       </div>
                   </div>
               </div>
@@ -527,7 +581,7 @@ $('.js-example-basic-multiple[data-list-id="mandatory_courses"]').on('change', f
             let res = text.split(' ')[0];
             let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
             console.log("res_one",res_one);
-            $(".spec_area_data_"+res_one).remove();
+            $(".spec_area_"+res_one).remove();
           }
           spec_area_data_.push(text);
         });
@@ -592,11 +646,11 @@ $('.js-example-basic-multiple[data-list-id="mandatory_courses"]').on('change', f
                       <!-- Upload Certificate/Licence -->
                       <div class="form-group col-md-12">
                           <label class="form-label" for="input-1">Upload Certificate/Licence</label>
-                          <input class="form-control specarea__upload_certification specarea_imgs_${res_one} specarea_upload_certification-${i}" 
+                          <input class="form-control specarea__upload_certification spec_area_imgs_${res_one} specarea_upload_certification-${i}" 
                                 type="file" name="specarea_upload_certification[${i}][]" 
-                                onchange="changeImg1(${user_id},${i},'${img_text}','${res_one}')" multiple>
+                                onchange="changetraImg1(${user_id},${i},'${img_text}','${res_one}')" multiple>
                           <span id="reqspecarea uploadvalid-${i}" class="reqError text-danger valley"></span>
-                          <div class="specarea_imgs${res_one}"></div>
+                          <div class="spec_area_imgs${res_one}"></div>
                       </div>
                   </div>
               </div>
@@ -617,7 +671,7 @@ $('.js-example-basic-multiple[data-list-id="mandatory_courses"]').on('change', f
             let res = text.split(' ')[0];
             let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
             console.log("res_one",res_one);
-            $(".safety_com_data_"+res_one).remove();
+            $(".safety_com_"+res_one).remove();
           }
           safety_com_data_.push(text);
         });
@@ -682,11 +736,11 @@ $('.js-example-basic-multiple[data-list-id="mandatory_courses"]').on('change', f
                       <!-- Upload Certificate/Licence -->
                       <div class="form-group col-md-12">
                           <label class="form-label" for="input-1">Upload Certificate/Licence</label>
-                          <input class="form-control safetycome_upload_certification safetycome_imgs_${res_one} safetycome_upload_certification-${i}" 
+                          <input class="form-control safetycome_upload_certification safety_com_imgs_${res_one} safetycome_upload_certification-${i}" 
                                 type="file" name="safetycome_upload_certification[${i}][]" 
-                                onchange="changeImg1(${user_id},${i},'${img_text}','${res_one}')" multiple>
+                                onchange="changetraImg1(${user_id},${i},'${img_text}','${res_one}')" multiple>
                           <span id="reqsafetycome uploadvalid-${i}" class="reqError text-danger valley"></span>
-                          <div class="safetycome_imgs${res_one}"></div>
+                          <div class="safety_com_imgs${res_one}"></div>
                       </div>
                   </div>
               </div>
@@ -699,6 +753,22 @@ $('.js-example-basic-multiple[data-list-id="mandatory_courses"]').on('change', f
 
     $('.js-example-basic-multiple[data-list-id="emerging_topic_data"]').on('change', function(){
         let selectedValues = $(this).val();
+    //     let selectedIds = [];
+    //      let selectedDataIds = [];
+   
+
+    //    selectedValues.forEach(function(value) {
+    //         // Use jQuery to find the <li> element by its text and get the data-value
+    //         let dataId = $('#emerging_topic_data li').filter(function() {
+    //             return $(this).text() === value;
+    //         }).data('id');
+
+    //         // Add the found dataId to the selectedIds array if it exists
+    //         if (dataId !== undefined) {
+    //             selectedIds.push(dataId);
+    //         }
+    //     });
+
         var emerging_topic_data = [];
         $('.emerging_topic_div').removeClass('d-none');
         $(".emerging_topic_div h6").each(function(){
@@ -706,10 +776,16 @@ $('.js-example-basic-multiple[data-list-id="mandatory_courses"]').on('change', f
           if(selectedValues.includes(text) == false){
             let res = text.split(' ')[0];
             let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-            console.log("res_one",res_one);
-            $(".emerging_topic_data_"+res_one).remove();
+            // Find the corresponding dataId for the text from the list
+            // let dataId = $('#emerging_topic_data li').filter(function() {
+            //     return $(this).text() === text;
+            // }).data('id');  // Get the associated data-id
+            
+            // let res_one = res_1 + '_' +dataId;
+
+            $(".eme_topic_"+res_one).remove();
           }
-          emerging_topic_data_.push(text);
+          emerging_topic_data.push(text);
         });
         console.log("selectedValues",selectedValues);
         
@@ -719,7 +795,9 @@ $('.js-example-basic-multiple[data-list-id="mandatory_courses"]').on('change', f
           var selected_text = selectedValues[i].replace(/ .*/,'').replace(/[^\w\s]/gi, '').toLowerCase();
           let res = selectedValues[i].split(' ')[0];
           let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-          console.log("res_one",res_one);
+        //   let selectedId = selectedIds[i];
+
+        //   let res_one = res_1+'_'+selectedId;
 
           if(emerging_topic_data.includes(selectedValues[i]) == false){            
             var user_id = "{{ $user_id }}";
@@ -772,11 +850,11 @@ $('.js-example-basic-multiple[data-list-id="mandatory_courses"]').on('change', f
                       <!-- Upload Certificate/Licence -->
                       <div class="form-group col-md-12">
                           <label class="form-label" for="input-1">Upload Certificate/Licence</label>
-                          <input class="form-control emetopic_upload_certification emetopic_imgs_${res_one} emetopic_upload_certification-${i}" 
+                          <input class="form-control emetopic_upload_certification eme_topic_imgs_${res_one} emetopic_upload_certification-${i}" 
                                 type="file" name="emetopic_upload_certification[${i}][]" 
-                                onchange="changeImg1(${user_id},${i},'${img_text}','${res_one}')" multiple>
+                                onchange="changetraImg1(${user_id},${i},'${img_text}','${res_one}')" multiple>
                           <span id="reqemetopic uploadvalid-${i}" class="reqError text-danger valley"></span>
-                          <div class="emetopic_imgs${res_one}"></div>
+                          <div class="eme_topic_imgs${res_one}"></div>
                       </div>
                   </div>
               </div>
