@@ -16,7 +16,7 @@
     padding: 5px !important;
     width: 100% !important;
   }
-hello
+
 
   .select2-container--default .select2-selection--multiple {
     background-color: white !important;
