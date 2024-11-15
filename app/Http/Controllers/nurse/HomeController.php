@@ -2419,6 +2419,40 @@ class HomeController extends Controller
         return $acls_img;
 
     }
+
+    public function uploadImgs2(Request $request){
+        $files = $request->file('upload_images');
+        $user_id = $request->user_id;
+        echo $file_id = $request->file_id;die;
+
+        $getedufieldsdata = DB::table("edu_fields")->where("user_id",$user_id)->first();
+
+        if(empty($getedufieldsdata)){
+            echo "hello";
+        }else{
+            $getEdufieldsData1 = (array)$getedufieldsdata;
+            $getImgfield = $getEdufieldsData1["additional_certification"];
+
+            $getImg_array = (array)json_decode($getImgfield);
+            
+            
+            if(array_key_exists($file_id,$getImg_array)){
+                $available_imgs = (array)json_decode($getImg_array[$file_id]);
+                $certification_img = Helpers::multipleFileUpload($files,$available_imgs);
+                $getImg_array[$file_id] = $certification_img;
+                DB::table("edu_fields")->where("user_id",$user_id)->update(["additional_certification"=>json_encode($getImg_array)]);
+            }else{
+                $additional_img = Helpers::multipleFileUpload($files,'');
+                $getImg_array[$file_id] = $additional_img;
+                
+                
+                DB::table("edu_fields")->where("user_id",$user_id)->update(["additional_certification"=>json_encode($getImg_array)]);
+            }
+           
+        }
+        
+
+    }
     
      public function update_profession_ahpra_numberI(Request $request)
     {      
