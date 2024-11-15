@@ -868,14 +868,59 @@ $('.js-example-basic-multiple[data-list-id="mandatory_courses"]').on('change', f
 </script>
 
 <script type="text/javascript">
-var training_div_count = $(".another_com_tra_div").length;
-// console.log("training_div_count",training_div_count);
+var ano_img_txt = "other_tran_img";
 function add_listtraining(){
-
+var training_div_count = $(".another_com_tra_div").length;
+console.log("training_div_count",training_div_count);
 training_div_count++;
 var user_id = "{{ $user_id }}";
-$(".another_com_training").append('<div class="training_div training_div_'+training_div_count+' row another_com_tra_div"><div class="form-group col-md-6"><label class="form-label" for="input-1">Training '+training_div_count+'</label><input class="form-control additional_tra_field additional_tra_field-'+training_div_count+'" type="text" name="training[]"><span id="reqtraname-'+training_div_count+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Institution/Regulating Body</label><input class="form-control institution institution-'+training_div_count+'" type="text" name="institution[]"><span id="reqinstitution-'+training_div_count+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Training Start Date</label><input class="form-control tra_start_date tra_start_date-'+training_div_count+'" type="date" name="tra_start_date[]"><span id="reqtrastartdate-{{ $i }}" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Training End Date</label><input class="form-control tra_end_date tra_end_date-'+training_div_count+'" type="date" name="tra_end_date[]"><span id="reqtraenddate-{{ $i }}" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control tra_expiry tra_expiry-'+training_div_count+'" type="date" name="tra_expiry[]"><span id="reqtra_expiry-{{ $i }}" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload Certificate</label><input class="form-control additional_certifications-'+training_div_count+'" type="file" name="certificate_upload_certification['+training_div_count+'][]" onchange="changeImg2('+user_id+','+training_div_count+')" multiple></div><div class="col-md-12"><div class="add_new_certification_div mb-3 mt-3"><a style="cursor: pointer;" onclick="delete_training('+training_div_count+')">- Delete certification/Licence</a></div></div></div>');
-
+// var ano_img_txt = "other_tran_img";
+var name = 'tran'+'_' +training_div_count;
+// $(".another_com_training").append('<div class="training_div training_div_'+training_div_count+' row another_com_tra_div"><div class="form-group col-md-6"><label class="form-label" for="input-1">Training '+training_div_count+'</label><input class="form-control additional_tra_field additional_tra_field-'+training_div_count+'" type="text" name="training[]"><span id="reqtraname-'+training_div_count+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Institution/Regulating Body</label><input class="form-control institution institution-'+training_div_count+'" type="text" name="institution[]"><span id="reqinstitution-'+training_div_count+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Training Start Date</label><input class="form-control tra_start_date tra_start_date-'+training_div_count+'" type="date" name="tra_start_date[]"><span id="reqtrastartdate-{{ $i }}" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Training End Date</label><input class="form-control tra_end_date tra_end_date-'+training_div_count+'" type="date" name="tra_end_date[]"><span id="reqtraenddate-{{ $i }}" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control tra_expiry tra_expiry-'+training_div_count+'" type="date" name="tra_expiry[]"><span id="reqtra_expiry-{{ $i }}" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload Certificate</label><input class="form-control '+name+' additional_certifications-'+training_div_count+'" type="file" name="certificate_upload_certification['+training_div_count+'][]" onchange="changeAnoImg('+user_id+','+training_div_count+','+ano_img_txt+','+name+')" multiple></div><div class="'+ano_img_txt+training_div_count+'"></div><div class="col-md-12"><div class="add_new_certification_div mb-3 mt-3"><a style="cursor: pointer;" onclick="delete_training('+training_div_count+')">- Delete Training</a></div></div></div>');
+$(".another_com_training").append(`
+        <div class="training_div training_div_${training_div_count} row another_com_tra_div">
+            <div class="form-group col-md-6">
+                <label class="form-label" for="input-1">Training ${training_div_count}</label>
+                <input class="form-control additional_tra_field additional_tra_field-${training_div_count}" type="text" name="training[]">
+                <span id="reqtraname-${training_div_count}" class="reqError text-danger valley"></span>
+            </div>
+            <div class="form-group col-md-6">
+                <label class="form-label" for="input-1">Institution/Regulating Body</label>
+                <input class="form-control institution institution-${training_div_count}" type="text" name="institution[]">
+                <span id="reqinstitution-${training_div_count}" class="reqError text-danger valley"></span>
+            </div>
+            <div class="form-group col-md-6">
+                <label class="form-label" for="input-1">Training Start Date</label>
+                <input class="form-control tra_start_date tra_start_date-${training_div_count}" type="date" name="tra_start_date[]">
+                <span id="reqtrastartdate-${training_div_count}" class="reqError text-danger valley"></span>
+            </div>
+            <div class="form-group col-md-6">
+                <label class="form-label" for="input-1">Training End Date</label>
+                <input class="form-control tra_end_date tra_end_date-${training_div_count}" type="date" name="tra_end_date[]">
+                <span id="reqtraenddate-${training_div_count}" class="reqError text-danger valley"></span>
+            </div>
+            <div class="form-group col-md-6">
+                <label class="form-label" for="input-1">Expiry</label>
+                <input class="form-control tra_expiry tra_expiry-${training_div_count}" type="date" name="tra_expiry[]">
+                <span id="reqtra_expiry-${training_div_count}" class="reqError text-danger valley"></span>
+            </div>
+            <div class="form-group col-md-6">
+                <label class="form-label" for="input-1">Upload Certificate</label>
+                <input class="form-control other_tran_img_${name} additional_certifications-${training_div_count}" 
+                       type="file" 
+                       name="certificate_upload_certification[${training_div_count}][]" 
+                       onchange="changeAnoImg(${user_id}, ${training_div_count}, '${ano_img_txt}', '${name}')" 
+                       multiple>
+                <div class="other_tran_img${name} mt-2"></div>
+            </div>
+            
+            <div class="col-md-12">
+                <div class="add_new_certification_div mb-3 mt-3">
+                    <a style="cursor: pointer;" onclick="delete_training(${training_div_count})">- Delete Training</a>
+                </div>
+            </div>
+        </div>
+    `);
 }
 
 function delete_training(i,user_id,training_id){ 
@@ -898,11 +943,14 @@ function delete_training(i,user_id,training_id){
 // }
 
 // for education
-var education_div_count = $(".another_edu_div").length;
+
 // console.log("training_div_count",training_div_count);
 function add_listeduction(){
+var education_div_count = $(".another_edu_div").length;
 education_div_count++;
 var user_id = "{{ $user_id }}";
+var ano_edu_img_txt = 'ano_education_imgs'
+var name =  'edu'+'_'+education_div_count;
 // $(".another_education").append('<div class="training_div training_div_'+training_div_count+' row another_com_tra_div"><div class="form-group col-md-6"><label class="form-label" for="input-1">Training '+training_div_count+'</label><input class="form-control additional_tra_field additional_tra_field-'+training_div_count+'" type="text" name="training[]"><span id="reqtraname-'+training_div_count+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Institution/Regulating Body</label><input class="form-control institution institution-'+training_div_count+'" type="text" name="institution[]"><span id="reqinstitution-'+training_div_count+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Training Start Date</label><input class="form-control tra_start_date tra_start_date-'+training_div_count+'" type="date" name="tra_start_date[]"><span id="reqtrastartdate-{{ $i }}" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Training End Date</label><input class="form-control tra_end_date tra_end_date-'+training_div_count+'" type="date" name="tra_end_date[]"><span id="reqtraenddate-{{ $i }}" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control tra_expiry tra_expiry-'+training_div_count+'" type="date" name="tra_expiry[]"><span id="reqtra_expiry-{{ $i }}" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload Certificate</label><input class="form-control additional_certifications-'+training_div_count+'" type="file" name="certificate_upload_certification['+training_div_count+'][]" onchange="changeImg2('+user_id+','+training_div_count+')" multiple></div><div class="col-md-12"><div class="add_new_certification_div mb-3 mt-3"><a style="cursor: pointer;" onclick="delete_training('+training_div_count+')">- Delete certification/Licence</a></div></div></div>');
 $(".another_education").append(`
     <div class="eduction_div eduction_div_${education_div_count} row another_edu_div">
@@ -955,9 +1003,10 @@ $(".another_education").append(`
         
         <div class="form-group col-md-6">
             <label class="form-label" for="input-1">Upload Certificate/Licence</label>
-            <input class="form-control additional_cour_certifications-${education_div_count}" 
+            <input class="form-control ano_education_imgs_${name} additional_cour_certifications-${education_div_count}" 
                    type="file" name="cour_certificate_upload_certification[${education_div_count}][]" 
-                   onchange="changeImg2(${user_id}, ${education_div_count})" multiple>
+                   onchange="changeAnoImg(${user_id}, ${education_div_count},'${ano_edu_img_txt}','${name}')" multiple>
+                   <div class="ano_education_imgs${name}" ></div>
         </div>
         
         <div class="col-md-12">
@@ -1020,7 +1069,50 @@ function changetraImg1(user_id,i,field_name,cat_name){
       }
     });
 
-  }
+    }
+
+    // change image for another training and education
+    function changeAnoImg(user_id,i,field_name,cat_name){
+    var files =$('.'+field_name+'_'+cat_name)[0].files;
+
+    var form_data =  "";
+    
+    form_data = new FormData();
+
+    for(var i=0;i<files.length;i++){
+      form_data.append("upload_images[]", files[i], files[i]['name']);
+    }
+
+    form_data.append("user_id", user_id);
+    form_data.append("cat_name", cat_name);
+    form_data.append("field_name", field_name);
+    form_data.append("_token", '{{ csrf_token() }}');
+    
+    $.ajax({
+      type: "post",
+      url: "{{ route('nurse.uploadAnotherImgs') }}",
+      cache: false,
+      contentType: false,
+      processData: false,
+      async: true,
+      data: form_data,
+      
+      success: function(data){ 
+         var image_array = JSON.parse(data);
+         var htmlData = '';
+         console.log("data",image_array);
+         for(var i=0;i<image_array.length;i++){
+            console.log("degree_transcript",image_array[i]);
+            var img_name = image_array[i];
+            var img_text = field_name;
+            console.log("img_name",'deleteImg('+(i+1)+','+user_id+',"'+img_name+'")');
+            htmlData += '<div class="edu_img edu_img-'+(i+1)+' edu_img'+field_name+cat_name+i+'"><a href="{{ url("/public") }}/uploads/education_degree/'+img_name+'" target="_blank"><i class="fa fa-file" aria-hidden="true"></i>'+image_array[i]+'</a><div class="close_btn close_btn-'+i+'" onclick="deleteImg1('+i+','+user_id+',\''+image_array[i]+'\',\''+cat_name+'\',\''+img_text+'\')" style="cursor: pointer;"><i class="fa fa-close" aria-hidden="true"></i></div></div>';
+         }
+         $("."+field_name+cat_name).html(htmlData);
+      }
+    });
+
+    }
 
 </script>
 

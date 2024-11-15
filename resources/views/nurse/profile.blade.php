@@ -3804,6 +3804,7 @@
                         </div> -->      
                     </div>
                     <p>Please add required courses or certifications completed for compliance or safety</p>
+
                     <h6 class="emergency_text">
                       Mandatory Training
                     </h6>
@@ -3820,7 +3821,9 @@
                             @endforeach   
                         </ul>
                       <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="mandatory_courses" name="mandatory_courses[]" multiple="multiple"></select>
+                      <span id="reqmantra" class="reqError text-danger valley"></span>
                     </div>
+                   
                     <div class="mandatory_sub_courses">
                       <!-- cat-1 -->
                         <?php
@@ -3841,6 +3844,7 @@
                             </ul>
                           <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="well_self_care_data" name="well_self_care_data[]" multiple="multiple"></select>
                         </div>
+                          <span id="reqwellself" class="reqError text-danger valley"></span>
 
                         <div class="well_self_care_div"></div>
 
@@ -3862,13 +3866,14 @@
                             </ul>
                           <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="tech_innvo_health_data" name="tech_innvo_health[]" multiple="multiple"></select>
                         </div>
+                          <span id="reqtechinno" class="reqError text-danger valley"></span>
 
                         <div class="tech_innvo_health_div"></div>
 
                         <!-- cat-3 -->
                         <div class="form-group level-drp mandatory_courses_div mandatory_courses_div_{{ $m_courses->id }} mandatory_tr_div_3 d-none">
                           <input type="hidden" name="mandatory_training_value" class="mandatory_training_value mandatory_training_value-{{ $m_courses->id }}" value="{{ $m_courses->id }}">
-                          <label class="form-label" for="input-1">Leadership and Professional Development </label>
+                          <label class="form-label" for="input-1">Leadership and Professional Development</label>
                            <?php $mandatory_sub_courses = DB::table('man_training_category')
                                                         ->where('parent',417)
                                                         ->where('type', 'Training')
@@ -3877,11 +3882,11 @@
                             <ul id="leader_pro_dev_data" style="display:none;">
                                 @foreach($mandatory_sub_courses as $ms_courses)
                                 <li data-value="{{ $ms_courses->name }}">{{ $ms_courses->name }}</li>
-                                @endforeach
-                                
+                                @endforeach            
                             </ul>
                           <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="leader_pro_dev_data" name="leader_pro_dev_data[]" multiple="multiple"></select>
                         </div>
+                        <span id="reqeaderpro" class="reqError text-danger valley"></span>
 
                         <div class="leader_pro_dev_div"></div>
 
@@ -3902,6 +3907,7 @@
                             </ul>
                           <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="mid_spec_tra_data" name="mid_spec_tra_data[]" multiple="multiple"></select>
                         </div>
+                        <span id="reqmidwifespe" class="reqError text-danger valley"></span>
 
                         <div class="mid_spec_tra_div"></div>
 
@@ -3922,6 +3928,7 @@
                             </ul>
                           <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="clinic_skill_core_data" name="clinic_skill_core_data[]" multiple="multiple"></select>
                         </div>
+                        <span id="reqcliniskill" class="reqError text-danger valley"></span>
 
                         <div class="clinic_skill_core_div"></div>
                     </div>
@@ -3946,8 +3953,7 @@
                         <ul id="mandatory_education" style="display:none;">
                             @foreach($mandatory_courses as $m_courses)
                             <li data-value="{{ $m_courses->id }}">{{ $m_courses->name }}</li>
-                            @endforeach
-                            
+                            @endforeach    
                         </ul>
                       <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="mandatory_education" name="mandatory_education[]" multiple="multiple"></select>
                     </div>
@@ -4060,7 +4066,7 @@
                     </div>
 
                     <div class="box-button mt-15">
-                      <button class="btn btn-apply-big font-md font-bold" type="submitTraining" id="submitTraining">Save Changes</button>
+                      <button class="btn btn-apply-big font-md font-bold" type="submit" id="submitTraining">Save Changes</button>
                     </div>
                     
                   </form>
@@ -4099,7 +4105,6 @@
                       <label class="form-label" for="input-3">Mobile Number *</label>
 
                           <div class="row">
-                            
                             <div class="col-md-12 mob-adj">
                               <input type="hidden" name="reference_countryCode" id="reference_countryCode">
                               <input type="hidden" name="reference_countryiso" id="reference_countryiso" value="">

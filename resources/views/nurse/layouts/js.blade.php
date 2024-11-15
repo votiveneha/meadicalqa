@@ -1470,6 +1470,138 @@ function pad(number) {
     return false;
   }
    function updateTraining() {
+    var isValid = true;
+    if ($('[name="mandatory_courses[]"]').val() == '') {
+      console.log('test');
+      document.getElementById("reqmantra").innerHTML = "*Please Select training";
+      isValid = false;
+    }
+    if ($(".mandatory_tr_div_1").hasClass("d-none") == false) {
+      if ($('[name="well_self_care_data[]"]').val() == '') {
+        document.getElementById("reqwellself").innerHTML = "* Please Select Wellness And Self-Care";
+        isValid = false;
+      }
+    }
+    var i = 0;
+    $(".well_institution").each(function(){
+      if ($(".well_institution-"+i).length > 0) {
+        if ($(".well_institution-"+i).val() == '') {
+          document.getElementById("wellinstitutionvalid-"+i).innerHTML = "* Please enter the institution/regulating body";
+          isValid = false;
+        }
+      }
+      i++;
+    });
+
+    var j = 0;
+    $(".well_institution").each(function(){
+      if ($(".well_institution-"+j).length > 0) {
+        if ($(".well_institution-"+j).val() == '') {
+          document.getElementById("wellinstitutionvalid-"+j).innerHTML = "* Please enter the institution/regulating body";
+          isValid = false;
+        }
+      }
+      j++;
+    });
+    var k = 0;
+    $(".well_tra_start_date").each(function(){
+      if ($(".well_tra_start_date-"+k).length > 0) {
+        if ($(".well_tra_start_date-"+k).val() == '') {
+          document.getElementById("well_tra_start_datevalid-"+k).innerHTML = "* Please enter the training start date";
+          isValid = false;
+        }
+      }
+      k++;
+    });
+    var l = 0;
+    $(".well_tra_end_date").each(function(){
+      if ($(".well_tra_end_date-"+l).length > 0) {
+        if ($(".well_tra_end_date-"+l).val() == '') {
+          document.getElementById("well_tra_end_datevalid-"+l).innerHTML = "* Please enter the training end date";
+          isValid = false;
+        }
+      }
+      l++;
+    });
+    var m= 0;
+    $(".well_expiry").each(function(){
+      if ($(".well_expiry-"+m).length > 0) {
+        if ($(".well_expiry-"+m).val() == '') {
+          document.getElementById("wellexpiryvalid-"+m).innerHTML = "* Please enter the expiry date";
+          isValid = false;
+        }
+      }
+      m++;
+    });
+    if ($(".mandatory_tr_div_2").hasClass("d-none") == false) {
+      if ($('[name="tech_innvo_health[]"]').val() == '') {
+        document.getElementById("reqtechinno").innerHTML = "* Please Select Technology and Innovation in Healthcare";
+        isValid = false;
+      }
+    }
+     
+    if ($(".mandatory_tr_div_3").hasClass("d-none") == false) {
+      if ($('[name="leader_pro_dev_data[]"]').val() == '') {
+        document.getElementById("reqeaderpro").innerHTML = "*Please Select Leadership and Professional Development";
+        isValid = false;
+      }
+    }
+    var i = 0;
+    $(".leader_pro_institution").each(function(){
+      if ($(".leader_pro-"+i).length > 0) {
+        if ($(".leader_pro-"+i).val() == '') {
+          document.getElementById("leaderproinstivalid-"+i).innerHTML = "* Please enter the institution/regulating body";
+          isValid = false;
+        }
+      }
+      i++;
+    });
+
+    
+    var k = 0;
+    $(".leader_pro_tra_start_date ").each(function(){
+      if ($(".leader_pro_tra_start_date-"+k).length > 0) {
+        if ($(".leader_pro_tra_start_date-"+k).val() == '') {
+          document.getElementById("leader_pro_tra_start_datevalid-"+k).innerHTML = "* Please enter the training start date";
+          isValid = false;
+        }
+      }
+      k++;
+    });
+    var l = 0;
+    $(".leader_pro_tra_end_date ").each(function(){
+      if ($(".leader_pro_tra_end_date-"+l).length > 0) {
+        if ($(".leader_pro_tra_end_date-"+l).val() == '') {
+          document.getElementById("leader_pro_tra_end_datevalid-"+l).innerHTML = "* Please enter the training end date";
+          isValid = false;
+        }
+      }
+      l++;
+    });
+    var m= 0;
+    $(".leader_pro_expiry").each(function(){
+      if ($(".leader_pro_expiry-"+m).length > 0) {
+        if ($(".leader_pro_expiry-"+m).val() == '') {
+          document.getElementById("leaderproexpiryvalid-"+m).innerHTML = "* Please enter the expiry date";
+          isValid = false;
+        }
+      }
+      m++;
+    });
+    if ($(".mandatory_tr_div_4").hasClass("d-none") == false) {
+      if ($('[name="mid_spec_tra_data[]"]').val() == '') {
+        document.getElementById("reqmidwifespe").innerHTML = "*Please Select Midwifery-Specific Training";
+        isValid = false;
+      }
+    }
+    if($(".mandatory_tr_div_5").hasClass("d-none") == false){
+      if($('[name="clinic_skill_core_data[]"]').val() == '') {
+        document.getElementById("reqcliniskill").innerHTML = "*Please Select Clinical Skills and Core Competencies";
+        isValid = false;
+      }
+    }
+
+    if(isValid == true){
     $('#training_form').find('.text-danger').hide();
     $.ajax({
       url: "{{ route('nurse.updateTraining') }}",
@@ -1513,6 +1645,7 @@ function pad(number) {
         }
       }
     });
+    }
     return false;
   }
 
