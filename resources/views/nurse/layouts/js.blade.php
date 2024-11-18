@@ -1469,7 +1469,7 @@ function pad(number) {
     }
     return false;
   }
-   function updateTraining() {
+  function updateTraining() {
     var isValid = true;
     if ($('[name="mandatory_courses[]"]').val() == '') {
       console.log('test');

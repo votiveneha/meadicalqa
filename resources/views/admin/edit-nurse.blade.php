@@ -2535,12 +2535,14 @@
                                                     <span id="residency_error" class="text-danger reqError valley"></span>
                                                 </div>
                                             </div>
-                                             
 
-                                            <div id="passport_detail" @if($valesidency != '' && $valesidency == 'Citizen' ) style="display:none;" @else style="display:none;" @endif>
+
+                                            <div id="passport_detail" @if($valesidency != 'null' && $valesidency == 'Citizen' ) style="display:none;" @else style="display:none;" @endif>
+                                                
                                                 <div class="col-md-12 mt-3">
                                                     <?php $valvisa_subclass_numbery = '';
-                                                    if ($eligibilityToWorkData != 'null') $valvisa_subclass_numbery = $eligibilityToWorkData->visa_subclass_number; ?>
+
+                                                    if ($eligibilityToWorkData != NULL) $valvisa_subclass_numbery = $eligibilityToWorkData->visa_subclass_number; ?>
                                                     <div class="form-group">
                                                         <label class="d-flex gap-3 flex-wrap"><strong>Visa Subclass Number *</strong></label>
                                                         <input class="form-control" type="text" name="visa_subclass_number" id="visa_subclass_numberI" placeholder="" value="{{$valvisa_subclass_numbery }}">
@@ -2550,7 +2552,7 @@
 
                                                 <div class="col-md-12 mt-3">
                                                     <?php $passport_number = '';
-                                                    if ($eligibilityToWorkData != 'null') $passport_number = $eligibilityToWorkData->passport_number; ?>
+                                                    if ($eligibilityToWorkData != NULL) $passport_number = $eligibilityToWorkData->passport_number; ?>
                                                     <div class="form-group ">
                                                         <label class="d-flex gap-3 flex-wrap"><strong>Passport Number *</strong></label>
                                                         <input class="form-control" type="text" name="passport_number" id="passport_numberI" placeholder="" value="{{ $passport_number }}">
@@ -2562,7 +2564,7 @@
                                                     <div class="form-group position-relative">
                                                         <!-- <textarea type="text" class="form-control ps-5" placeholder="Address"></textarea> -->
                                                         <?php $countryumber = $profileData->country;
-                                                        if ($eligibilityToWorkData != 'null') $countryumber = $eligibilityToWorkData->passport_country_of_Issue; ?>
+                                                        if ($eligibilityToWorkData != NULL) $countryumber = $eligibilityToWorkData->passport_country_of_Issue; ?>
                                                         <select class="form-control form-select ps-5" name="passport_country_of_Issue" id="passportcountryI">
                                                         <option value="">Select Country</option>
                                                         @php $country_data=country_name_from_db();@endphp
@@ -2576,7 +2578,7 @@
 
                                                 <div class="col-md-12 mt-3">
                                                     <?php $visa_grant_number = '';
-                                                    if ($eligibilityToWorkData != 'null') $visa_grant_number = $eligibilityToWorkData->visa_grant_number; ?>
+                                                    if ($eligibilityToWorkData != NULL) $visa_grant_number = $eligibilityToWorkData->visa_grant_number; ?>
                                                     <div class="form-group ">
                                                         <label class="d-flex gap-3 flex-wrap"><strong>Visa Grant Number*</strong></label>
                                                         <input class="form-control" type="text" name="visa_grant_number" id="visa_grant_numberI" placeholder="" value="{{ $visa_grant_number }}">
@@ -2588,7 +2590,7 @@
                                             <div id="passport_detail_date" @if($valesidency != 'Visa Holder') style="display:none;" @else style="display:none;" @endif>
                                                 <div class="col-md-12 mt-3">
                                                      <?php $expiry_data = '';
-                                                     if ($eligibilityToWorkData != 'null') $expiry_data = $eligibilityToWorkData->expiry_date; ?>
+                                                     if ($eligibilityToWorkData != NULL) $expiry_data = $eligibilityToWorkData->expiry_date; ?>
                                                     <div class="form-group ">
                                                         <label class="d-flex gap-3 flex-wrap"><strong>Expiry Date*</strong></label>
                                                         <input class="form-control" type="date" name="expiry_date" id="expiry_dataI" value="{{ $expiry_data }}" min="{{ date('Y-m-d') }}">
@@ -2599,9 +2601,9 @@
 
                                             <div class="col-md-12 mt-3">
                                                 <?php
-                                                    if ($eligibilityToWorkData != 'null') {
+                                                    if ($eligibilityToWorkData != NULL) {
                                                     $valspecialimage = $eligibilityToWorkData->support_document;
-                                                    if ($valspecialimage != 'null' && $valspecialimage != '') {
+                                                    if ($valspecialimage != NULL && $valspecialimage != '') {
                                                     ?>                        
                                                     <a href="{{ asset($valspecialimage) }}" target="_blank">
 
@@ -2622,9 +2624,9 @@
                                               <span id="image_support_error" class="reqError text-danger valley"></span>
                                             </div> 
                                             <?php
-                                            if ($eligibilityToWorkData != 'null') {
+                                            if ($eligibilityToWorkData != NULL) {
                                             $valspecialimage = $eligibilityToWorkData->support_document;
-                                            if ($valspecialimage != 'null' && $valspecialimage != '') {
+                                            if ($valspecialimage != NULL && $valspecialimage != '') {
                                             ?>
 
                                                     <a href="{{ asset($valspecialimage) }}" target="_blank" class="mt-3">
@@ -2655,7 +2657,7 @@
                                             <span class="btn-dark badge badge-dark">Optional</span>
                                             <div class="col-md-12 mt-3">
                                                 <?php $clearance_number = '';
-                                                if ($workingChildrenCheckData != 'null') $clearance_number = $workingChildrenCheckData->clearance_number; ?>
+                                                if ($workingChildrenCheckData != NULL) $clearance_number = $workingChildrenCheckData->clearance_number; ?>
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Clearance Number</strong></label>
                                                     <input class="form-control" type="text" name="clearance_number" id="clearance_numberI" placeholder="" value="{{ $clearance_number }}">
@@ -2691,7 +2693,7 @@
 
                                                 <div class="col-md-12 mt-3">
                                                      <?php $workingexpiry_data = '';
-                                                    if ($workingChildrenCheckData != 'null') $workingexpiry_data = $workingChildrenCheckData->expiry_date; ?>
+                                                    if ($workingChildrenCheckData != NULL) $workingexpiry_data = $workingChildrenCheckData->expiry_date; ?>
                                                     <div class="form-group ">
                                                         <label class="d-flex gap-3 flex-wrap"><strong>Expiry Date*</strong></label>
                                                        <input class="form-control" type="date" name="clearance_expiry_date" id="clearance_expiry_dataI" value="{{ $workingexpiry_data }}"  min="{{ date('Y-m-d') }}">
@@ -2799,7 +2801,7 @@
 
 
                                                     <div class="d-flex align-items-center justify-content-between">
-                                                        <button  @if(!email_verified())  disabled  @endif  class="btn btn-default px-5 py-8  rounded-2 mb-0 submit-btn-120" type="submit"><span class="resetpassword">Save</span>
+                                                        <button class="btn btn-default px-5 py-8  rounded-2 mb-0 submit-btn-120" type="submit"><span class="resetpassword">Save</span>
                                                         <div class="spinner-border submit-btn-1" role="status" style="display:none;">
                                                             <span class="sr-only">Loading...</span>
                                                         </div>
@@ -2816,7 +2818,7 @@
                                                     </div>
                                         <div class="col-lg-12 col-md-12">
                                         <div class="d-flex align-items-center justify-content-between">
-                                                        <button @if(!email_verified())  disabled  @endif class="btn btn-default px-5 py-8  rounded-2 mb-0 submit-btn-120" type="submit"><span class="resetpassword">Save</span>
+                                                        <button class="btn btn-default px-5 py-8  rounded-2 mb-0 submit-btn-120" type="submit"><span class="resetpassword">Save</span>
                                                         <div class="spinner-border submit-btn-1" role="status" style="display:none;">
                                                             <span class="sr-only">Loading...</span>
                                                         </div>

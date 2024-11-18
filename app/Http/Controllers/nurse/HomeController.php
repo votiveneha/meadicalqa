@@ -8,15 +8,10 @@ use App\Models\ProfessionModel;
 use App\Models\EligibilityToWorkModel;
 use App\Models\WorkingChildrenCheckModel;
 use App\Models\PoliceCheckModel;
-
-
 use App\Http\Requests\AddnewsletterRequest;
-
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
-
 use Illuminate\Support\Facades\Log;
 use App\Services\User\AuthServices;
 use App\Http\Requests\UserUpdateProfile;
@@ -24,7 +19,6 @@ use App\Http\Requests\UserChangePasswordRequest;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Crypt;
-
 use Illuminate\Support\Str;
 use Helpers;
 use Mail;
@@ -34,7 +28,6 @@ use URL;
 use Session;
 use File;
 use App\Services\Admins\SpecialityServices;
-
 use App\Models\SpecialityModel;
 use App\Models\EducationModel;
 use App\Models\ExperienceModel;
@@ -191,8 +184,7 @@ class HomeController extends Controller
             ];
             
             $randnum = rand(1111111111, 9999999999);
-            Mail::to($to)->send(new \App\Mail\DemoMail($mailData));
-            
+            Mail::to($to)->send(new \App\Mail\DemoMail($mailData));            
             $companyinsert['name'] = $request->fullname;
             $companyinsert['lastname'] = $request->lastname;
             $companyinsert['email'] = $request->email;
@@ -1564,7 +1556,6 @@ class HomeController extends Controller
             
             //print_r(json_decode($certificate_data[$i]->acls_upload_certification));
             if(!empty($msw_upload_certification[$i])){
-
                 $msw_img = Helpers::multipleFileUpload($msw_upload_certification[$i],$mswimg);
             }else{
                 $msw_img = Helpers::multipleFileUpload('',$mswimg);
@@ -1838,8 +1829,7 @@ class HomeController extends Controller
 
     public function updateReference(Request $request){
         $user_id = $request->user_id;
-        $first_name = $request->first_name;
-        
+        $first_name = $request->first_name;        
         $last_name = $request->last_name;
         $email = $request->email;
         $phone_no = $request->phone_no;
@@ -1979,7 +1969,9 @@ class HomeController extends Controller
         if($deleteData){
             return 1;
         }
-        //print_r($gettransimg);  
+
+        //print_r($gettransimg);
+        
     }
 
     public function deleteImg1(Request $request){
@@ -2323,30 +2315,235 @@ class HomeController extends Controller
         $end_date = $request->end_date;
         $institution = $request->institution;
         $mand_continue_education = $request->mand_continue_education;
-        
-        
-        
+        $mand_training = $request->mandatory_courses;
+
         $gettrainingdata = DB::table("mandatory_training")->where("user_id",$user_id)->first();
+        
+
+        $well_data = $request->well_self_care_data;
+        if($well_data){
+            $well_count = count($well_data);
+        }else{
+            $well_count = 0;
+        }
+        $wellnamearr = $request->wellnamearr;
+        $well_institution = $request->well_institution;
+        $well_tra_start_date = $request->well_tra_start_date;
+        $well_tra_end_date = $request->well_tra_end_date;
+        $well_expiry = $request->well_expiry;
+
+        $well_self_array = array();
+        $training_data = json_decode($gettrainingdata->well_sel_data);
+
+        for($i=0;$i<$well_count;$i++){
+            // if(!empty($training_data) && array_key_exists($i,$training_data)){
+            //     $aclsimg = json_decode($certificate_data[$i]->acls_upload_certification);
+            // }else{
+            //     $aclsimg = '';
+            // }
+            //print_r(json_decode($certificate_data[$i]->acls_upload_certification));
+            // if(!empty($acls_upload_certification[$i])){
+            //     $acls_img = Helpers::multipleFileUpload($acls_upload_certification[$i],$aclsimg);
+            // }else{
+            //     $acls_img = Helpers::multipleFileUpload('',$aclsimg);
+            // }
+            //echo $acls_img;
+            
+            $well_self_array[] = array("well_tra_id"=>$wellnamearr[$i],"well_institution"=>$well_institution[$i],"well_tra_start_date"=>$well_tra_start_date[$i],"well_tra_end_date"=>$well_tra_end_date[$i],"well_expiry"=>$well_expiry[$i]);
+        }
+
+        if(!empty($well_self_array)){
+            $well_data_json = json_encode($well_self_array);
+        }else{
+            $well_data_json = '';
+        } 
+
+        // training sec
+        if(!empty($tech_innvo_array)){
+            $lead_data_json = json_encode($lead_pro_array);
+        }else{
+            $lead_data_json = '';
+        }
+
+        $tech_innvo_data = $request->tech_innvo_health_data;
+        if($tech_innvo_data){
+            $tech_innvo_count = count($tech_innvo_data);
+        }else{
+            $tech_innvo_count = 0;
+        }
+        $techinnvonamearr = $request->techinnvonamearr;
+        $tech_institution = $request->tech_innvo_institution;
+        $tech_start_date = $request->tech_innvo_tra_start_date;
+        $tech_end_date = $request->tech_innvo_tra_end_date;
+        $tech_expiry = $request->tech_innvo_expiry;
+        $tech_innvo_array = array();
+        $training_data = json_decode($gettrainingdata->tech_innvo_data);
+
+        for($i=0;$i<$tech_innvo_count;$i++){
+            // if(!empty($training_data) && array_key_exists($i,$training_data)){
+            //     $aclsimg = json_decode($certificate_data[$i]->acls_upload_certification);
+            // }else{
+            //     $aclsimg = '';
+            // }
+            //print_r(json_decode($certificate_data[$i]->acls_upload_certification));
+            // if(!empty($acls_upload_certification[$i])){
+            //     $acls_img = Helpers::multipleFileUpload($acls_upload_certification[$i],$aclsimg);
+            // }else{
+            //     $acls_img = Helpers::multipleFileUpload('',$aclsimg);
+            // }
+            //echo $acls_img;        
+            $tech_innvo_array[] = array("tech_tra_id"=>$techinnvonamearr[$i],"tech_institution"=>$tech_institution[$i],"tech_start_date"=>$tech_start_date[$i],"tech_end_date"=>$tech_end_date[$i],"tech_expiry"=>$tech_expiry[$i]);
+        }
+
+        if(!empty($tech_innvo_array)){
+            $tech_data_json = json_encode($tech_innvo_array);
+        }else{
+            $tech_data_json = '';
+        }
+
+        // thired
+        $lead_pro_data = $request->leader_pro_dev_data;
+        if($lead_pro_data){
+            $lead_pro_count = count($lead_pro_data);
+        }else{
+            $lead_pro_count = 0;
+        }
+        $leaderpronamearr = $request->leaderpronamearr;
+        $lead_pro_institution = $request->leader_pro_institution;
+        $lead_pro_start_date = $request->leader_pro_tra_start_date;
+        $lead_pro_end_date = $request->leader_pro_tra_end_date;
+        $leader_pro_expiry = $request->leader_pro_expiry;
+        $lead_pro_array = array();
+        $training_data = json_decode($gettrainingdata->leader_pro_data);
+
+        for($i=0;$i<$lead_pro_count;$i++){
+            // if(!empty($training_data) && array_key_exists($i,$training_data)){
+            //     $aclsimg = json_decode($certificate_data[$i]->acls_upload_certification);
+            // }else{
+            //     $aclsimg = '';
+            // }
+            //print_r(json_decode($certificate_data[$i]->acls_upload_certification));
+            // if(!empty($acls_upload_certification[$i])){
+            //     $acls_img = Helpers::multipleFileUpload($acls_upload_certification[$i],$aclsimg);
+            // }else{
+            //     $acls_img = Helpers::multipleFileUpload('',$aclsimg);
+            // }
+            //echo $acls_img;        
+            $lead_pro_array[] = array("lead_pro_tra_id"=>$leaderpronamearr[$i],"lead_pro_institution"=>$lead_pro_institution[$i],"lead_start_date"=>$lead_pro_start_date[$i],"lead_end_date"=>$lead_pro_end_date[$i],"lead_expiry"=>$leader_pro_expiry[$i]);
+        }
+
+        if(!empty($lead_pro_array)){
+            $lead_data_json = json_encode($lead_pro_array);
+        }else{
+            $lead_data_json = '';
+        }
+
+
+        // fourth        
+        $mid_spec_tra_data = $request->mid_spec_tra_data;
+        if($mid_spec_tra_data){
+            $mid_spec_count = count($mid_spec_tra_data);
+        }else{
+            $mid_spec_count = 0;
+        }
+        $midspecnamearr = $request->midspecnamearr;
+        $mid_spec_institution = $request->mid_spec_institution;
+        $mid_spec_tra_start_date = $request->mid_spec_tra_start_date;
+        $mid_spec_tra_end_date = $request->mid_spec_tra_end_date;
+        $mid_spec_expiry = $request->mid_spec_expiry;
+        $mid_spec_array = array();
+        $training_data = json_decode($gettrainingdata->leader_pro_data);
+
+        for($i=0;$i<$mid_spec_count;$i++){
+            // if(!empty($training_data) && array_key_exists($i,$training_data)){
+            //     $aclsimg = json_decode($certificate_data[$i]->acls_upload_certification);
+            // }else{
+            //     $aclsimg = '';
+            // }
+            //print_r(json_decode($certificate_data[$i]->acls_upload_certification));
+            // if(!empty($acls_upload_certification[$i])){
+            //     $acls_img = Helpers::multipleFileUpload($acls_upload_certification[$i],$aclsimg);
+            // }else{
+            //     $acls_img = Helpers::multipleFileUpload('',$aclsimg);
+            // }
+            //echo $acls_img;        
+            $mid_spec_array[] = array("mid_spec_tra_id"=>$midspecnamearr[$i],"mid_spec_institution"=>$mid_spec_institution[$i],"mid_spec_start_date"=>$mid_spec_tra_start_date[$i],"mid_spec_end_date"=>$mid_spec_tra_end_date[$i],"mis_spec_expiry"=>$mid_spec_expiry[$i]);
+        }
+
+         if(!empty($mid_spec_array)){
+            $mid_data_json = json_encode($mid_spec_array);
+        }else{
+            $mid_data_json = '';
+        }
+
+
+        // fifth
+         $cli_skill_data = $request->clinic_skill_core_data;
+        if($cli_skill_data){
+            $cli_skill_count = count($cli_skill_data);
+        }else{
+            $cli_skill_count = 0;
+        }
+        $clinicskillnamearr = $request->clinicskillnamearr;
+        $clinic_skill_institution = $request->clinic_skill_institution;
+        $clinic_skill_tra_start_date = $request->clinic_skill_tra_start_date;
+        $clinic_skill_tra_end_date = $request->clinic_skill_tra_end_date;
+        $clinic_skill_expiry = $request->clinic_skill_expiry;
+        $cli_skill_array = array();
+        $training_data = json_decode($gettrainingdata->leader_pro_data);
+
+        for($i=0;$i<$cli_skill_count;$i++){
+            // if(!empty($training_data) && array_key_exists($i,$training_data)){
+            //     $aclsimg = json_decode($certificate_data[$i]->acls_upload_certification);
+            // }else{
+            //     $aclsimg = '';
+            // }
+            //print_r(json_decode($certificate_data[$i]->acls_upload_certification));
+            // if(!empty($acls_upload_certification[$i])){
+            //     $acls_img = Helpers::multipleFileUpload($acls_upload_certification[$i],$aclsimg);
+            // }else{
+            //     $acls_img = Helpers::multipleFileUpload('',$aclsimg);
+            // }
+            //echo $acls_img;        
+            $cli_skill_array[] = array("cli_skill_tra_id"=>$midspecnamearr[$i],"clinic_skill_institution"=>$clinic_skill_institution[$i],"cli_skill_start_date"=>$clinic_skill_tra_start_date[$i],"cli_skill_end_date"=>$clinic_skill_tra_end_date[$i],"cli_skill_expiry"=>$clinic_skill_expiry[$i]);
+        }
+
+         if(!empty($cli_skill_array)){
+            $cli_skill_data_json = json_encode($cli_skill_array);
+        }else{
+            $cli_skill_data_json = '';
+        }
+        
+        // $gettrainingdata = DB::table("mandatory_training")->where("user_id",$user_id)->first();
         //$post = User::find($request->user_id);
         
         if(!empty($gettrainingdata)>0){
             
-            
-            $run = MandatoryTrainModel::where('user_id',$user_id)->update(['start_date'=>$start_date,'end_date'=>$end_date,'institutions'=>$institution,'continuing_education'=>$mand_continue_education]);
+
+            $run = MandatoryTrainModel::where('user_id',$user_id)->update([
+                'start_date'=>$start_date,
+                'end_date'=>$end_date,
+                'institutions'=>$institution,
+                'continuing_education'=>$mand_continue_education,
+                'well_sel_data'=>$well_data_json,
+                'tech_innvo_data'=>$tech_data_json,
+                'leader_pro_data'=>$lead_data_json,
+                'mid_spec_data'=>$mid_data_json,
+                'clinic_skill_data'=>$cli_skill_data_json,
+            ]);
         }else{
-
-            
-
             $post = new MandatoryTrainModel();
-            $post->user_id = $user_id;
-            
+            $post->user_id = $user_id;            
             //$post->year_experience = $year_experience;
             $post->start_date = $start_date;
             $post->end_date = $end_date;
             $post->institutions = $institution;
             $post->continuing_education = $mand_continue_education;
-            
-            
+            $post->well_sel_data = $well_data_json;
+            $post->tech_innvo_data = $tech_data_json;
+            $post->leader_pro_data = $lead_data_json;
+            $post->mid_spec_data = $mid_data_json;
+            $post->clinic_skill_data = $cli_skill_data_json;
             $run = $post->save();
 
         }
@@ -2417,40 +2614,6 @@ class HomeController extends Controller
         }
 
         return $acls_img;
-
-    }
-
-    public function uploadImgs2(Request $request){
-        $files = $request->file('upload_images');
-        $user_id = $request->user_id;
-        echo $file_id = $request->file_id;die;
-
-        $getedufieldsdata = DB::table("edu_fields")->where("user_id",$user_id)->first();
-
-        if(empty($getedufieldsdata)){
-            echo "hello";
-        }else{
-            $getEdufieldsData1 = (array)$getedufieldsdata;
-            $getImgfield = $getEdufieldsData1["additional_certification"];
-
-            $getImg_array = (array)json_decode($getImgfield);
-            
-            
-            if(array_key_exists($file_id,$getImg_array)){
-                $available_imgs = (array)json_decode($getImg_array[$file_id]);
-                $certification_img = Helpers::multipleFileUpload($files,$available_imgs);
-                $getImg_array[$file_id] = $certification_img;
-                DB::table("edu_fields")->where("user_id",$user_id)->update(["additional_certification"=>json_encode($getImg_array)]);
-            }else{
-                $additional_img = Helpers::multipleFileUpload($files,'');
-                $getImg_array[$file_id] = $additional_img;
-                
-                
-                DB::table("edu_fields")->where("user_id",$user_id)->update(["additional_certification"=>json_encode($getImg_array)]);
-            }
-           
-        }
-        
 
     }
     
@@ -2609,7 +2772,6 @@ class HomeController extends Controller
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
         }
     }
-
     //for Mandatory Training
     public function uploadmantraImgs1(Request $request){
         $files = $request->file('upload_images');
@@ -2687,4 +2849,5 @@ class HomeController extends Controller
         return $acls_img;
 
     }
+    
 }

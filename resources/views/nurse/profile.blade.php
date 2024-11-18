@@ -3864,7 +3864,7 @@
                                 @endforeach
                                 
                             </ul>
-                          <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="tech_innvo_health_data" name="tech_innvo_health[]" multiple="multiple"></select>
+                          <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="tech_innvo_health_data" name="tech_innvo_health_data[]" multiple="multiple"></select>
                         </div>
                           <span id="reqtechinno" class="reqError text-danger valley"></span>
 

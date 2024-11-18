@@ -204,6 +204,7 @@ function nurse_Type_header()
 }
 function email_verified()
 {
+       
         if(Auth::guard('nurse_middle')->user()->user_stage=='0'){
                 return false;
         }else{

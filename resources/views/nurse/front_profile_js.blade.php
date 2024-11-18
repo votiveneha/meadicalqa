@@ -91,16 +91,14 @@ $('.js-example-basic-multiple[data-list-id="mandatory_courses"]').on('change', f
             
             var user_id = "{{ $user_id }}";
             var img_text = "well_imgs";
-            $(".well_self_care_div").append('<div class="well_self_care_'+res_one+' well_div_'+selected_text+'"><h6 class="well_head_'+selected_text+'">'+selectedValues[i]+'</h6><input type="hidden" name="wellnamearr[]" class="wellness_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="wellness_inst_div row wellness_institution"><div class="form-group col-md-12"><label class="form-label" for="input-1">Institution/Regulating Body</label><input class="form-control well_institution well_institution-'+i+'" type="text" name="well_institution[]"><span id="wellinstitutionvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Training Start Date</label><input class="form-control well_tra_start_date well_tra_start_date-'+i+'" type="date" name="well_tra_start_date[]"><span id="well_tra_start_datevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Training End  Date</label><input class="form-control tra_end_date well_tra_end_date-'+i+'" type="date" name="well_tra_end_date[]"><span id="well_tra_end_datevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control well_expiry well_expiry-'+i+'" type="date" name="well_expiry[]"><span id="wellexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload Certificate</label><input class="form-control well_upload_certification well_imgs_'+res_one+' well_upload_certification-'+i+'" type="file" name="well_upload_certification['+i+'][]" onchange="changetraImg1('+user_id+','+i+',\''+img_text+'\',\''+res_one+'\')" multiple><span id="reqwelluploadvalid-'+i+'" class="reqError text-danger valley"></span><div class="well_imgs'+res_one+'"></div></div></div></div>');
-
-        
+            $(".well_self_care_div").append('<div class="well_self_care_'+res_one+' well_div_'+selected_text+'"><h6 class="well_head_'+selected_text+'">'+selectedValues[i]+'</h6><input type="hidden" name="wellnamearr[]" class="wellness_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="wellness_inst_div row wellness_institution"><div class="form-group col-md-12"><label class="form-label" for="input-1">Institution/Regulating Body</label><input class="form-control well_institution well_institution-'+i+'" type="text" name="well_institution[]"><span id="wellinstitutionvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Training Start Date</label><input class="form-control well_tra_start_date well_tra_start_date-'+i+'" type="date" name="well_tra_start_date[]"><span id="well_tra_start_datevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Training End  Date</label><input class="form-control well_tra_end_date well_tra_end_date-'+i+'" type="date" name="well_tra_end_date[]"><span id="well_tra_end_datevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control well_expiry well_expiry-'+i+'" type="date" name="well_expiry[]"><span id="wellexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload Certificate</label><input class="form-control well_upload_certification well_imgs_'+res_one+' well_upload_certification-'+i+'" type="file" name="well_upload_certification['+i+'][]" onchange="changetraImg1('+user_id+','+i+',\''+img_text+'\',\''+res_one+'\')" multiple><span id="reqwelluploadvalid-'+i+'" class="reqError text-danger valley"></span><div class="well_imgs'+res_one+'"></div></div></div></div>');
           }
         }
 
         
     });
 
-    $('.js-example-basic-multiple[data-list-id="tech_innvo_health_data"]').on('change', function() {
+    $('.js-example-basic-multiple[data-list-id="tech_innvo_health_data"]').on('change', function(){
         let selectedValues = $(this).val();
         var tech_innvo_health = [];
         $('.tech_innvo_health_div').removeClass('d-none');
@@ -124,19 +122,15 @@ $('.js-example-basic-multiple[data-list-id="mandatory_courses"]').on('change', f
           let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
           console.log("res_one",res_one);
 
-          if(tech_innvo_health.includes(selectedValues[i]) == false){
-            
+          if(tech_innvo_health.includes(selectedValues[i]) == false){            
             var user_id = "{{ $user_id }}";
             var img_text = "tech_innvo_imgs";
             $(".tech_innvo_health_div").append('<div class="tech_innvo_health_'+res_one+' tech_innvo_div_'+selected_text+'"><h6 class="tech_innvo_head_'+selected_text+'">'+selectedValues[i]+'</h6><input type="hidden" name="techinnvonamearr[]" class="tech_innvo_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="tech_innvo_div row tech_innvo_institution"><div class="form-group col-md-12"><label class="form-label" for="input-1">Institution/Regulating Body</label><input class="form-control tech_innvo_institution tech_innvo-'+i+'" type="text" name="tech_innvo_institution[]"><span id="techinnvoinstitutionvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Training Start Date</label><input class="form-control tech_innvo_tra_start_date tech_innvo_tra_start_date-'+i+'" type="date" name="tech_innvo_tra_start_date[]"><span id="tech_innvo_tra_start_datevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Training End  Date</label><input class="form-control tech_innvo_tra_end_date tech_innvo_tra_end_date-'+i+'" type="date" name="tech_innvo_tra_end_date[]"><span id="tech_innvo_tra_end_datevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control tech_innvo_expiry tech_innvo_expiry-'+i+'" type="date" name="tech_innvo_expiry[]"><span id="techinnvoexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload Certificate</label><input class="form-control tech_innvo_upload_certification tech_innvo_imgs_'+res_one+' tech_innvo_upload_certification-'+i+'" type="file" name="tech_innvo_upload_certification['+i+'][]" onchange="changetraImg1('+user_id+','+i+',\''+img_text+'\',\''+res_one+'\')" multiple><span id="reqtechinnvouploadvalid-'+i+'" class="reqError text-danger valley"></span><div class="tech_innvo_imgs'+res_one+'"></div></div></div></div>');
-
           }
-        }
-
-        
+        }    
     });
 
-    $('.js-example-basic-multiple[data-list-id="leader_pro_dev_data"]').on('change', function() {
+    $('.js-example-basic-multiple[data-list-id="leader_pro_dev_data"]').on('change', function(){
         let selectedValues = $(this).val();
         var leader_pro_dev = [];
         $('.leader_pro_dev_div').removeClass('d-none');
@@ -167,24 +161,20 @@ $('.js-example-basic-multiple[data-list-id="mandatory_courses"]').on('change', f
           
           let res = selectedValues[i].split(' ')[0];
 
-           let res_1 = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
+          let res_1 = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
 
           let res_2 = selectedValues[i].split(' ')[1];
        
           res_2 = res_2.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-
          
           let chunks =  res_2.substring(0, 4); 
 
           let res_one = res_1 +'_' +chunks;
 
-
-          if(leader_pro_dev.includes(selectedValues[i]) == false){
-            
+          if(leader_pro_dev.includes(selectedValues[i]) == false){            
             var user_id = "{{ $user_id }}";
             var img_text = "leader_pro_imgs";
             $(".leader_pro_dev_div").append('<div class="leader_pro_dev_'+res_one+' leader_pro_div_'+selected_text+'"><h6 class="leader_pro_head_'+selected_text+'">'+selectedValues[i]+'</h6><input type="hidden" name="leaderpronamearr[]" class="leader_pro_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="leader_pro_div row leader_pro_institution"><div class="form-group col-md-12"><label class="form-label" for="input-1">Institution/Regulating Body</label><input class="form-control leader_pro_institution leader_pro-'+i+'" type="text" name="leader_pro_institution[]"><span id="leaderproinstivalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Training Start Date</label><input class="form-control leader_pro_tra_start_date leader_pro_tra_start_date-'+i+'" type="date" name="leader_pro_tra_start_date[]"><span id="leader_pro_tra_start_datevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Training End  Date</label><input class="form-control leader_pro_tra_end_date leader_pro_tra_end_date-'+i+'" type="date" name="leader_pro_tra_end_date[]"><span id="leader_pro_tra_end_datevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control leader_pro_expiry leader_pro_expiry-'+i+'" type="date" name="leader_pro_expiry[]"><span id="leaderproexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload Certificate</label><input class="form-control leader_pro_upload_certification leader_pro_imgs_'+res_one+' leader_pro_upload_certification-'+i+'" type="file" name="leader_pro_upload_certification['+i+'][]" onchange="changeImg1('+user_id+','+i+',\''+img_text+'\',\''+res_one+'\')" multiple><span id="reqleaderprouploadvalid-'+i+'" class="reqError text-danger valley"></span><div class="leader_pro_imgs'+res_one+'"></div></div></div></div>');
-    
           }
         } 
     });
