@@ -2530,6 +2530,7 @@ class HomeController extends Controller
                 'leader_pro_data'=>$lead_data_json,
                 'mid_spec_data'=>$mid_data_json,
                 'clinic_skill_data'=>$cli_skill_data_json,
+                'man_training'    =>json_encode($mand_training),
             ]);
         }else{
             $post = new MandatoryTrainModel();
@@ -2544,6 +2545,7 @@ class HomeController extends Controller
             $post->leader_pro_data = $lead_data_json;
             $post->mid_spec_data = $mid_data_json;
             $post->clinic_skill_data = $cli_skill_data_json;
+            $post->man_training   =json_encode($mand_training);
             $run = $post->save();
 
         }

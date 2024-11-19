@@ -1212,57 +1212,57 @@
                               <h6>{{ $a_data->acls_certification_id }}</h6>
                               <div class="license_number_div row license_number_acls">
                               
-                              <div class="form-group col-md-6">
-                                <label class="form-label" for="input-1">Certification/Licence Number</label>
-                                <input type="hidden" name="aclsnamearr[]" class="acls_input_{{ $a_data->acls_certification_id }}" value="{{ $a_data->acls_certification_id }}">
-                                <input class="form-control acls_license_number acls_license_number-{{ $i }}" type="text" name="acls_license_number[]" value="{{ $a_data->acls_license_number }}">
-                                <span id="reqaclslicencevalid-{{ $i }}" class="reqError text-danger valley"></span>
-                              </div>
-                              <div class="form-group col-md-6">
-                                <label class="form-label" for="input-1">Expiry</label>
-                                <input class="form-control aclsexpiry aclsexpiry-{{ $i }}" type="date" name="acls_expiry[]" value="{{ $a_data->acls_expiry }}">
-                                <span id="reqaclsexpiryvalid-{{ $i }}" class="reqError text-danger valley"></span>
-                              </div>
-                              <div class="form-group col-md-6">
-                                <label class="form-label" for="input-1">Upload your certification/Licence</label>
-                                <input class="form-control acls_imgs_{{ $acls_first_word_one }} acls_upload_certification-{{ $i }}" type="file" name="acls_upload_certification[{{ $i }}][]" onchange="changeImg1('{{ $user_id }}','{{ $i }}','acls_imgs','{{ $acls_first_word_one }}',)" multiple="">
-                                <span id="reqaclsuploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
-                                <?php
-                                  $getedufieldsdata = DB::table("edu_fields")->where("user_id",$user_id)->first();
-
-                                  if(!empty($getedufieldsdata)){
-                                    $acls_img = (array)json_decode($getedufieldsdata->acls_imgs);
-                                  }else{
-                                    $acls_img = '';
-                                  }
-                                  
-
-                                  if(!empty($acls_img)){
-                                    $acls_img_data = json_decode($acls_img[$acls_first_word_one]);
-                                  }else{
-                                    $acls_img_data = "";
-                                  }
-                                  //print_r($acls_img[$acls_first_word_one]);
-                                  
-                                  
-                                  //print_r($dtran_img);
-                                  $l = 1;
-                                  $user_id = Auth::guard('nurse_middle')->user()->id;
-                                ?>
-                                <div class="acls_imgs{{ $acls_first_word_one }}">
-                                @if(!empty($acls_img_data))
-                                @foreach($acls_img_data as $tranimg)
-                                <div class="trans_img trans_img-{{ $i }} trans_imgacls_imgs{{ $acls_first_word_one }}{{ $l }}">
-                                  <a href="{{ url('/public/uploads/education_degree') }}/{{ $tranimg }}"><i class="fa fa-file"></i>{{ $tranimg }}</a>
-                                  <div class="close_btn close_btn-{{ $i }}" onclick="deleteImg1('{{ $l }}','{{ $user_id }}','{{ $tranimg }}','{{ $acls_first_word_one }}','acls_imgs')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
+                                <div class="form-group col-md-6">
+                                  <label class="form-label" for="input-1">Certification/Licence Number</label>
+                                  <input type="hidden" name="aclsnamearr[]" class="acls_input_{{ $a_data->acls_certification_id }}" value="{{ $a_data->acls_certification_id }}">
+                                  <input class="form-control acls_license_number acls_license_number-{{ $i }}" type="text" name="acls_license_number[]" value="{{ $a_data->acls_license_number }}">
+                                  <span id="wellinstitutionvalid-{{ $i }}" class="reqError text-danger valley"></span>
                                 </div>
-                                <?php
-                                  $l++;
-                                ?>
-                                @endforeach
-                                @endif
+                                <div class="form-group col-md-6">
+                                  <label class="form-label" for="input-1">Expiry</label>
+                                  <input class="form-control aclsexpiry aclsexpiry-{{ $i }}" type="date" name="acls_expiry[]" value="{{ $a_data->acls_expiry }}">
+                                  <span id="reqaclsexpiryvalid-{{ $i }}" class="reqError text-danger valley"></span>
                                 </div>
-                              </div>
+                                <div class="form-group col-md-6">
+                                  <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                                  <input class="form-control acls_imgs_{{ $acls_first_word_one }} acls_upload_certification-{{ $i }}" type="file" name="acls_upload_certification[{{ $i }}][]" onchange="changeImg1('{{ $user_id }}','{{ $i }}','acls_imgs','{{ $acls_first_word_one }}',)" multiple="">
+                                  <span id="reqaclsuploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                  <?php
+                                    $getedufieldsdata = DB::table("edu_fields")->where("user_id",$user_id)->first();
+
+                                    if(!empty($getedufieldsdata)){
+                                      $acls_img = (array)json_decode($getedufieldsdata->acls_imgs);
+                                    }else{
+                                      $acls_img = '';
+                                    }
+                                    
+
+                                    if(!empty($acls_img)){
+                                      $acls_img_data = json_decode($acls_img[$acls_first_word_one]);
+                                    }else{
+                                      $acls_img_data = "";
+                                    }
+                                    //print_r($acls_img[$acls_first_word_one]);
+                                    
+                                    
+                                    //print_r($dtran_img);
+                                    $l = 1;
+                                    $user_id = Auth::guard('nurse_middle')->user()->id;
+                                  ?>
+                                  <div class="acls_imgs{{ $acls_first_word_one }}">
+                                  @if(!empty($acls_img_data))
+                                  @foreach($acls_img_data as $tranimg)
+                                  <div class="trans_img trans_img-{{ $i }} trans_imgacls_imgs{{ $acls_first_word_one }}{{ $l }}">
+                                    <a href="{{ url('/public/uploads/education_degree') }}/{{ $tranimg }}"><i class="fa fa-file"></i>{{ $tranimg }}</a>
+                                    <div class="close_btn close_btn-{{ $i }}" onclick="deleteImg1('{{ $l }}','{{ $user_id }}','{{ $tranimg }}','{{ $acls_first_word_one }}','acls_imgs')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
+                                  </div>
+                                  <?php
+                                    $l++;
+                                  ?>
+                                  @endforeach
+                                  @endif
+                                  </div>
+                                </div>
                             </div>
                           </div>
                           <?php

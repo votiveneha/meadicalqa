@@ -79,7 +79,7 @@ $('.js-example-basic-multiple[data-list-id="mandatory_courses"]').on('change', f
         });
         console.log("selectedValues",selectedValues);
         
-        $(".well_self_care_div").empty();
+        // $(".well_self_care_div").empty();
         
         for(var i = 0;i<selectedValues.length;i++){
           var selected_text = selectedValues[i].replace(/ .*/,'').replace(/[^\w\s]/gi, '').toLowerCase();
@@ -115,7 +115,7 @@ $('.js-example-basic-multiple[data-list-id="mandatory_courses"]').on('change', f
         });
         console.log("selectedValues",selectedValues);
         
-        $(".tech_innvo_health_div").empty();
+        // $(".tech_innvo_health_div").empty();
         for(var i = 0;i<selectedValues.length;i++){
           var selected_text = selectedValues[i].replace(/ .*/,'').replace(/[^\w\s]/gi, '').toLowerCase();
           let res = selectedValues[i].split(' ')[0];
@@ -155,7 +155,7 @@ $('.js-example-basic-multiple[data-list-id="mandatory_courses"]').on('change', f
         });
         console.log("selectedValues",selectedValues);
         
-        $(".leader_pro_dev_div").empty();
+        // $(".leader_pro_dev_div").empty();
         for(var i = 0;i<selectedValues.length;i++){
           var selected_text = selectedValues[i].replace(/ .*/,'').replace(/[^\w\s]/gi, '').toLowerCase();
           
@@ -205,7 +205,7 @@ $('.js-example-basic-multiple[data-list-id="mandatory_courses"]').on('change', f
         });
         console.log("selectedValues",selectedValues);
         
-        $(".mid_spec_tra_div").empty();
+        // $(".mid_spec_tra_div").empty();
         for(var i = 0;i<selectedValues.length;i++){
           var selected_text = selectedValues[i].replace(/ .*/,'').replace(/[^\w\s]/gi, '').toLowerCase();
           let res = selectedValues[i].split(' ')[0];
@@ -239,18 +239,18 @@ $('.js-example-basic-multiple[data-list-id="mandatory_courses"]').on('change', f
         let selectedDataIds = [];
    
 
-       selectedValues.forEach(function(value) {
+        selectedValues.forEach(function(value) {
             // Use jQuery to find the <li> element by its text and get the data-value
             let dataId = $('#clinic_skill_core_data li').filter(function() {
                 return $(this).text() === value;
             }).data('id');
-
+              console.log('ggg',dataId);
             // Add the found dataId to the selectedIds array if it exists
             if (dataId !== undefined) {
                 selectedIds.push(dataId);
             }
         });
-
+         
         $('.clinic_skill_core_div').removeClass('d-none');
         $(".clinic_skill_core_div h6").each(function(){
           var text = $(this).text();
@@ -282,8 +282,7 @@ $('.js-example-basic-multiple[data-list-id="mandatory_courses"]').on('change', f
             let selectedId = selectedIds[i];
 
             let res_one = res_1+'_'+selectedId;
-            console.log(res_one);
-       
+
           if(clinic_skill_core.includes(selectedValues[i]) == false){
             
             var user_id = "{{ $user_id }}";
@@ -854,6 +853,31 @@ $('.js-example-basic-multiple[data-list-id="mandatory_courses"]').on('change', f
           }
         }      
     });
+
+    if($(".man_training").val() != ""){
+    var man_training = JSON.parse($(".man_training").val());
+    $('.js-example-basic-multiple[data-list-id="mandatory_courses"]').select2().val(man_training).trigger('change');
+    }
+
+    if($(".well_sel_data").val() != ""){
+    var well_data = JSON.parse($(".well_sel_data").val());
+    $('.js-example-basic-multiple[data-list-id="well_self_care_data"]').select2().val(well_data).trigger('change');
+    }
+
+    if($(".tech_innvo_data").val() != ""){
+    var tech_data = JSON.parse($(".tech_innvo_data").val());
+    $('.js-example-basic-multiple[data-list-id="tech_innvo_health_data"]').select2().val(tech_data).trigger('change');
+    }
+
+    if($(".lead_data").val() != ""){
+    var lead_data = JSON.parse($(".lead_data").val());
+    $('.js-example-basic-multiple[data-list-id="leader_pro_dev_data"]').select2().val(lead_data).trigger('change');
+    }
+
+    if($(".mid_data").val() != ""){
+    var mid_data = JSON.parse($(".mid_data").val());
+    $('.js-example-basic-multiple[data-list-id="mid_spec_tra_data"]').select2().val(mid_data).trigger('change');
+    }
  });
 </script>
 
