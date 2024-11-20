@@ -1267,8 +1267,7 @@ function pad(number) {
     $(".additional_certificate_field").each(function(){
       
       if ($(".additional_certificate_field-"+u).length > 0) {
-        if ($(".additional_certificate_field-"+u).val() == '') {
-          
+        if ($(".additional_certificate_field-"+u).val() == '') {          
           document.getElementById("reqcertname-"+u).innerHTML = "* Please enter the certificate name";
           isValid = false;
         }
@@ -1539,6 +1538,48 @@ function pad(number) {
         isValid = false;
       }
     }
+
+    var i = 0;
+    $(".tech_innvo_institution").each(function(){
+      if ($(".tech_innvo-"+i).length > 0) {
+        if ($(".tech_innvo-"+i).val() == '') {
+          document.getElementById("techinnvoinstitutionvalid-"+i).innerHTML = "* Please enter the institution/regulating body";
+          isValid = false;
+        }
+      }
+      i++;
+    });
+
+    var k = 0;
+    $(".tech_innvo_tra_start_date").each(function(){
+      if ($(".tech_innvo_tra_start_date-"+k).length > 0) {
+        if ($(".tech_innvo_tra_start_date-"+k).val() == '') {
+          document.getElementById("tech_innvo_tra_start_datevalid-"+k).innerHTML = "* Please enter the training start date";
+          isValid = false;
+        }
+      }
+      k++;
+    });
+    var l = 0;
+    $(".tech_innvo_tra_end_date").each(function(){
+      if ($(".tech_innvo_tra_end_date-"+l).length > 0) {
+        if ($(".tech_innvo_tra_end_date-"+l).val() == '') {
+          document.getElementById("tech_innvo_tra_end_datevalid-"+l).innerHTML = "* Please enter the training end date";
+          isValid = false;
+        }
+      }
+      l++;
+    });
+    var m= 0;
+    $(".tech_innvo_expiry ").each(function(){
+      if ($(".tech_innvo_expiry-"+m).length > 0) {
+        if ($(".tech_innvo_expiry-"+m).val() == '') {
+          document.getElementById("wellexpiryvalid-"+m).innerHTML = "* Please enter the expiry date";
+          isValid = false;
+        }
+      }
+      m++;
+    });
      
     if ($(".mandatory_tr_div_3").hasClass("d-none") == false) {
       if ($('[name="leader_pro_dev_data[]"]').val() == '') {
@@ -1594,12 +1635,156 @@ function pad(number) {
         isValid = false;
       }
     }
+    var i = 0;
+    $(".mid_spec_institution").each(function(){
+      if ($(".mid_spec-0-"+i).length > 0) {
+        if ($(".lmid_spec-0-"+i).val() == '') {
+          document.getElementById("midspecinstivalid-"+i).innerHTML = "* Please enter the institution/regulating body";
+          isValid = false;
+        }
+      }
+      i++;
+    });
+
+    
+    var k = 0;
+    $(".mid_spec_tra_start_date ").each(function(){
+      if ($(".mid_spec_tra_start_date-"+k).length > 0) {
+        if ($(".mid_spec_tra_start_date-"+k).val() == '') {
+          document.getElementById("mid_spec_tra_start_datevalid-"+k).innerHTML = "* Please enter the training start date";
+          isValid = false;
+        }
+      }
+      k++;
+    });
+    var l = 0;
+    $(".mid_spec_tra_end_date ").each(function(){
+      if ($(".mid_spec_tra_end_date-"+l).length > 0) {
+        if ($(".mid_spec_tra_end_date-"+l).val() == '') {
+          document.getElementById("mid_spec_tra_end_datevalid-"+l).innerHTML = "* Please enter the training end date";
+          isValid = false;
+        }
+      }
+      l++;
+    });
+    var m= 0;
+    $(".mid_spec_expiry").each(function(){
+      if ($(".mid_spec_expiry-"+m).length > 0) {
+        if ($(".mid_spec_expiry-"+m).val() == '') {
+          document.getElementById("midspecexpiryvalid-"+m).innerHTML = "* Please enter the expiry date";
+          isValid = false;
+        }
+      }
+      m++;
+    });
     if($(".mandatory_tr_div_5").hasClass("d-none") == false){
       if($('[name="clinic_skill_core_data[]"]').val() == '') {
         document.getElementById("reqcliniskill").innerHTML = "*Please Select Clinical Skills and Core Competencies";
         isValid = false;
       }
     }
+
+    var i = 0;
+    $(".clinic_skill_institution").each(function(){
+      if ($(".clinic_skill-0-"+i).length > 0) {
+        if ($(".clinic_skill-0-"+i).val() == '') {
+          document.getElementById("cliskillinstivalid-"+i).innerHTML = "* Please enter the institution/regulating body";
+          isValid = false;
+        }
+      }
+      i++;
+    });
+
+    
+    var k = 0;
+    $(".clinic_skill_tra_start_date ").each(function(){
+      if ($(".clinic_skill_tra_start_date-"+k).length > 0) {
+        if ($(".clinic_skill_tra_start_date-"+k).val() == '') {
+          document.getElementById("clinic_skill_tra_start_datevalid-"+k).innerHTML = "* Please enter the training start date";
+          isValid = false;
+        }
+      }
+      k++;
+    });
+    var l = 0;
+    $(".clinic_skill_tra_end_date ").each(function(){
+      if ($(".clinic_skill_tra_end_date-"+l).length > 0) {
+        if ($(".clinic_skill_tra_end_date-"+l).val() == '') {
+          document.getElementById("clinic_skill_tra_end_datevalid-"+l).innerHTML = "* Please enter the training end date";
+          isValid = false;
+        }
+      }
+      l++;
+    });
+    var m= 0;
+    $(".clinic_skill_expiry").each(function(){
+      if ($(".clinic_skill_expiry-"+m).length > 0) {
+        if ($(".clinic_skill_expiry-"+m).val() == '') {
+          document.getElementById("clinicskillexpiryvalid-"+m).innerHTML = "* Please enter the expiry date";
+          isValid = false;
+        }
+      }
+      m++;
+    });
+
+    var n = 1;
+    $(".additional_tra_field").each(function(){      
+      if ($(".additional_tra_field-"+n).length > 0) {
+        if ($(".additional_tra_field-"+n).val() == '') {          
+          document.getElementById("reqtraname-"+n).innerHTML = "* Please enter the training name";
+          isValid = false;
+        }
+      }
+      n++;
+    });
+
+    var o = 1;
+    $(".institution").each(function(){
+      
+      if ($(".institution-"+o).length > 0) {
+        if ($(".institution-"+o).val() == '') {
+          document.getElementById("reqinstitution-"+o).innerHTML = "* Please enter the institution/regulating body";
+          isValid = false;
+        }
+      }
+      o++;
+    });
+
+    var p = 1;
+    $(".tra_start_date").each(function(){
+      
+      if ($(".tra_start_date-"+p).length > 0) {
+        if ($(".tra_start_date-"+p).val() == '') {
+          document.getElementById("reqtrastartdate-"+p).innerHTML = "* Please enter the Training Start Date";
+          isValid = false;
+        }
+      }
+      p++;
+    });
+
+    var q = 1;
+    $(".tra_end_date").each(function(){
+      
+      if ($(".tra_start_date-"+q).length > 0) {
+        if ($(".tra_end_date-"+q).val() == '') {
+          document.getElementById("reqtraenddate-"+q).innerHTML = "* Please enter the Training End Date";
+          isValid = false;
+        }
+      }
+      q++;
+    });
+
+    var r = 1;
+    $(".tra_expiry").each(function(){
+      
+      if ($(".tra_expiry-"+r).length > 0) {
+        if ($(".tra_expiry-"+r).val() == '') {
+          document.getElementById("reqtra_expiry-"+r).innerHTML = "* Please enter the Expiry Date";
+          isValid = false;
+        }
+      }
+      q++;
+    });
 
     if(isValid == true){
     $('#training_form').find('.text-danger').hide();

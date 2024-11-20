@@ -137,11 +137,13 @@ $('.js-example-basic-multiple[data-list-id="mandatory_courses"]').on('change', f
         $(".leader_pro_dev_div h6").each(function(){
           var text = $(this).text();
           if(selectedValues.includes(text) == false){
-          let res = selectedValues[i].split(' ')[0];
+            // alert(text);
+
+           let res = text.split(' ')[0];
 
           let res_1 = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
 
-          let res_2 = selectedValues[i].split(' ')[1];
+          let res_2 = text.split(' ')[1];
        
           res_2 = res_2.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
 
@@ -149,7 +151,7 @@ $('.js-example-basic-multiple[data-list-id="mandatory_courses"]').on('change', f
 
           let res_one = res_1 +'_' +chunks;
 
-            $(".leader_pro_dev_"+res_one).remove();
+          $(".leader_pro_dev_"+res_one).remove();
           }
           leader_pro_dev.push(text);
         });
@@ -189,11 +191,11 @@ $('.js-example-basic-multiple[data-list-id="mandatory_courses"]').on('change', f
             let res = text.split(' ')[0];
             let res_1 = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
            
-            let res_2 = selectedValues[i].split(' ')[1];
+            let res_2 = text.split(' ')[1];
             res_2 = res_2.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
             res_2 =  res_2.substring(0, 2); 
 
-            let res_3 = selectedValues[i].split(' ')[1];
+            let res_3 = text.split(' ')[1];
             res_3 = res_3.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
             res_3 = res_3.substring(0,4)
 
@@ -266,13 +268,13 @@ $('.js-example-basic-multiple[data-list-id="mandatory_courses"]').on('change', f
             
             let res_one = res_1 + '_' +dataId;
 
-            $(".clinic_skill_core_"+res_one).remove();
+            $(".clinic_skill_"+res_one).remove();
           }
           clinic_skill_core.push(text);
         });
         console.log("selectedValues",selectedValues);
         
-        $(".clinic_skill_core_div").empty();
+        // $(".clinic_skill_core_div").empty();
         for(var i = 0;i<selectedValues.length;i++){
           var selected_text = selectedValues[i].replace(/ .*/,'').replace(/[^\w\s]/gi, '').toLowerCase();
           let res = selectedValues[i].split(' ')[0];
@@ -877,6 +879,11 @@ $('.js-example-basic-multiple[data-list-id="mandatory_courses"]').on('change', f
     if($(".mid_data").val() != ""){
     var mid_data = JSON.parse($(".mid_data").val());
     $('.js-example-basic-multiple[data-list-id="mid_spec_tra_data"]').select2().val(mid_data).trigger('change');
+    }
+
+    if($(".cli_data").val() != ""){
+    var cli_data = JSON.parse($(".cli_data").val());
+    $('.js-example-basic-multiple[data-list-id="clinic_skill_core_data"]').select2().val(cli_data).trigger('change');
     }
  });
 </script>

@@ -3743,7 +3743,20 @@
                       $mid_data1 = "";
                       $mid_data_json = "";
                       
-                    }   
+                    } 
+                    
+                    if($trainingData && $trainingData->clinic_skill_data){
+                      $cli_data1 = json_decode($trainingData->clinic_skill_data);
+                      $cli_data_arr = array();
+                      foreach ($cli_data1 as $c_data) {
+                        $cli_data_arr[] = $c_data->cli_skill_tra_id;
+                      }
+                      $cli_data_json = json_encode($cli_data_arr);
+                    }else{
+                      $cli_data1 = "";
+                      $cli_data_json = "";
+                      
+                    } 
                  
                   ?>
                   <form id="training_form" method="POST" onsubmit="return updateTraining()">
@@ -3790,7 +3803,6 @@
                         
                         var date = new Date(start_date);
 
-                          
 
                         // Add five days to current date
                         date.setDate(date.getDate() + 1);
@@ -3940,7 +3952,7 @@
                                 </div>
                                 <div class="form-group col-md-6">
                                   <label class="form-label" for="input-1">Upload Certificate</label>
-                                  <input class="form-control well_upload_certification well_imgs_{{ $well_first_word }} well_upload_certification-{{ $i }}" type="file" name="well_upload_certification[{{ $i }}][]">
+                                  <input class="form-control well_upload_certification well_imgs_{{ $well_first_word }} well_upload_certification-{{ $i }}" type="file" name="well_upload_certification[{{ $i }}][]" onchange="changetraImg1({{ $user_id }},{{ $i }},'well_imgs','{{ $well_first_word }}')">
                                   <span id="reqwelluploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
                                 
                                 <?php
@@ -4048,7 +4060,7 @@
                                 </div>
                                 <div class="form-group col-md-6">
                                   <label class="form-label" for="input-1">Upload Certificate</label>
-                                  <input class="form-control tech_innvo_upload_certification tech_innvo_imgs_{{ $tech_first_word }} tech_innvo_upload_certification-{{ $i }}" type="file" name="tech_innvo_upload_certification[{{ $i }}][]">
+                                  <input class="form-control tech_innvo_upload_certification tech_innvo_imgs_{{ $tech_first_word }} tech_innvo_upload_certification-{{ $i }}" type="file" name="tech_innvo_upload_certification[{{ $i }}][]" onchange="changetraImg1({{ $user_id }},{{ $i }},'tech_innvo_imgs','{{ $tech_first_word }}')"> 
                                   <span id="reqtechinnvouploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
                                 
                                 <?php
@@ -4073,7 +4085,7 @@
                                     $l = 1;
                                     $user_id = Auth::guard('nurse_middle')->user()->id;
                                   ?>
-                                  <div class="well_imgs{{ $tech_first_word }}">
+                                  <div class="tech_innvo_imgs{{ $tech_first_word }}">
                                     @if(!empty($tech_img_data))
                                     @foreach($tech_img_data as $t_img)
                                     <div class="trans_img trans_img-{{ $i }} trans_imgtech_innvo_imgs{{ $tech_first_word }}{{ $l }}">
@@ -4164,7 +4176,7 @@
                                 </div>
                                 <div class="form-group col-md-6">
                                   <label class="form-label" for="input-1">Upload Certificate</label>
-                                  <input class="form-control leader_pro_upload_certification leader_pro_imgs_{{ $tech_first_word }} leader_pro_upload_certification-{{ $i }}" type="file" name="leader_pro_upload_certification[{{ $i }}][]">
+                                  <input class="form-control leader_pro_upload_certification leader_pro_imgs_{{ $lead_first_word }} leader_pro_upload_certification-{{ $i }}" type="file" name="leader_pro_upload_certification[{{ $i }}][]"  onchange="changetraImg1({{ $user_id }},{{ $i }},'leader_pro_imgs','{{ $lead_first_word }}')">
                                   <span id="reqleaderprouploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
                                 
                                 <?php
@@ -4254,10 +4266,7 @@
 
                               // Get the first four characters of the second word
                               $thired_word = substr($thired_word, 0, 4);
-                           
-
                               $mid_first_word = $first_word.'_'.$second_word.'_'.$thired_word ;
-                             
                             ?>
                             <div class="mid_spec_tra_{{ $mid_first_word }} mid_spec_tra_{{ $mid_first_word }}">
                           
@@ -4266,7 +4275,7 @@
                                 <div class="form-group col-md-12">
                                   <label class="form-label" for="input-1">Institution/Regulating Body</label>
                                   <input type="hidden" name="midspecnamearr[]" class="mid_spec_input_{{ $mid_data->mid_spec_tra_id }}" value="{{ $mid_data->mid_spec_tra_id }}">
-                                  <input class="form-control mid_spec_institution mid_spec-{{ $i }}" type="text" name="mid_spec_institution[[]" value="{{ $mid_data->mid_spec_institution }}">
+                                  <input class="form-control mid_spec_institution mid_spec-{{ $i }}" type="text" name="mid_spec_institution[]" value="{{ $mid_data->mid_spec_institution }}">
                                   <span id="midspecinstivalid-{{ $i }}" class="reqError text-danger valley"></span>
                                 </div>
                                 <div class="form-group col-md-6">
@@ -4277,7 +4286,7 @@
                                 <div class="form-group col-md-6">
                                   <label class="form-label" for="input-1">Training End Date</label>
                                   <input class="form-control mid_spec_tra_end_date mid_spec_tra_end_date-{{ $i }}" type="date" name="mid_spec_tra_end_date[]" value="{{ $mid_data->mid_spec_end_date }}">
-                                  <span id="tech_innvo_tra_end_datevalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                  <span id="mid_spec_tra_end_datevalid-{{ $i }}" class="reqError text-danger valley"></span>
                                 </div>
                                 <div class="form-group col-md-6">
                                   <label class="form-label" for="input-1">Expiry</label>
@@ -4286,7 +4295,7 @@
                                 </div>
                                 <div class="form-group col-md-6">
                                   <label class="form-label" for="input-1">Upload Certificate</label>
-                                  <input class="form-control mid_spec_upload_certification mid_spec_imgs_{{ $tech_first_word }} mid_spec_upload_certification-{{ $i }}" type="file" name="mid_spec_upload_certification[{{ $i }}][]">
+                                  <input class="form-control mid_spec_upload_certification mid_spec_imgs_{{ $mid_first_word }} mid_spec_upload_certification-{{ $i }}" type="file" name="mid_spec_upload_certification[{{ $i }}][]" onchange="changetraImg1({{ $user_id }},{{ $i }},'mid_spec_imgs','{{ $mid_first_word }}')">
                                   <span id="reqmidspecuploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
                                 
                                 <?php
@@ -4335,8 +4344,8 @@
                         </div>
 
                         <!-- cat-5-->
-                        <div class="form-group level-drp mandatory_courses_div mandatory_courses_div_{{ $m_courses->id }} mandatory_tr_div_5 d-none">
-                          <input type="hidden" name="mandatory_training_value" class="mandatory_training_value mandatory_training_value-{{ $m_courses->id }}" value="{{ $m_courses->id }}">
+                        <div class="form-group level-drp mandatory_courses_div mandatory_courses_div_{{ $m_courses->id }} mandatory_tr_div_5 @if($trainingData && $trainingData->clinic_skill_data == NULL) d-none @endif @if(empty($trainingData)) d-none @endif">
+                         <input type="hidden" name="cli_data" class="cli_data" value="@if(!empty($trainingData)){{ $cli_data_json }}@endif">
                           <label class="form-label" for="input-1">Clinical Skills and Core Competencies </label>
                            <?php $mandatory_sub_courses = DB::table('man_training_category')
                                                         ->where('parent',415)
@@ -4353,11 +4362,190 @@
                         </div>
                         <span id="reqcliniskill" class="reqError text-danger valley"></span>
 
-                        <div class="clinic_skill_core_div"></div>
+                        <div class="clinic_skill_core_div">
+                          <?php 
+                          $i = 0 ;
+                          ?>
+                          @if(!empty($cli_data1))
+                          @foreach($cli_data1 as $cli_data)
+                          
+                            <?php
+                           $get_id = DB::table('man_training_category')
+                                                        ->where('parent',415)
+                                                        ->where('type','Training')
+                                                        ->where('name','=',$cli_data->cli_skill_tra_id)
+                                                        ->first();
+
+                                               
+                              $cli_first = strtok($cli_data->cli_skill_tra_id, " ");
+
+                              $cli_first  = strtolower(preg_replace('/[^A-Za-z0-9\-]/', '', $cli_first));
+
+                              $cli_first_word =  $cli_first . '_' . $get_id->id; 
+                            ?>
+                            <div class="clinic_skill_{{ $cli_first_word }} clinic_skill_div_{{ $cli_first_word }}">
+                          
+                              <h6>{{ $cli_data->cli_skill_tra_id }}</h6>
+                               <div class="clinic_skill_div row clinic_skill_institution">
+                                <div class="form-group col-md-12">
+                                  <label class="form-label" for="input-1">Institution/Regulating Body</label>
+                                  <input type="hidden" name="clinicskillnamearr[]" class="clinic_skill_{{ $cli_data->cli_skill_tra_id }}" value="{{ $cli_data->cli_skill_tra_id }}">
+                                  <input class="form-control clinic_skill_institution clinic_skill-{{ $i }}" type="text" name="clinic_skill_institution[]" value="{{ $cli_data->clinic_skill_institution }}">
+                                  <span id="cliskillinstivalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                </div>
+                                <div class="form-group col-md-6">
+                                  <label class="form-label" for="input-1">Training Start Date</label>
+                                  <input class="form-control clinic_skill_tra_start_date clinic_skill_tra_start_date-0-{{ $i }}" type="date" name="clinic_skill_tra_start_date[]" value="{{ $cli_data->cli_skill_start_date }}">
+                                  <span id="clinic_skill_tra_start_datevalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                </div>
+                                <div class="form-group col-md-6">
+                                  <label class="form-label" for="input-1">Training End Date</label>
+                                  <input class="form-control clinic_skill_tra_end_date clinic_skill_tra_end_date-{{ $i }}" type="date" name="clinic_skill_tra_end_date[]" value="{{ $cli_data->cli_skill_end_date }}">
+                                  <span id="clinic_skill_tra_end_datevalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                </div>
+                                <div class="form-group col-md-6">
+                                  <label class="form-label" for="input-1">Expiry</label>
+                                  <input class="form-control clinic_skill_expiry clinic_skill_expiry-{{ $i }}" type="date" name="clinic_skill_expiry[]" value="{{ $cli_data->cli_skill_expiry }}">
+                                  <span id="clinicskillexpiryvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                </div>
+                                <div class="form-group col-md-6">
+                                  <label class="form-label" for="input-1">Upload Certificate</label>
+                                  <input class="form-control clinic_skill_upload_certification clinic_skill_imgs_{{ $cli_first_word }} clinic_skill_upload_certification-{{ $i }}" type="file" name="clinic_skill_upload_certification[{{ $i }}][]">
+                                  <span id="reqtechinnvouploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                
+                                <?php
+                                    $getedufieldsdata = DB::table("edu_fields")->where("user_id",$user_id)->first();
+
+                                    if(!empty($getedufieldsdata)){
+                                      $cli_img = (array)json_decode($getedufieldsdata->clinic_skill_imgs);
+                                    }else{
+                                      $cli_img = '';
+                                    }
+                                    
+
+                                    if(!empty($cli_img)){
+                                      $cli_img_data = json_decode($cli_img[$cli_first_word]);
+                                    }else{
+                                      $cli_img_data = "";
+                                    }
+                                    //print_r($acls_img[$acls_first_word_one]);
+                                    
+                                    
+                                    //print_r($dtran_img);
+                                    $l = 1;
+                                    $user_id = Auth::guard('nurse_middle')->user()->id;
+                                  ?>
+                                  <div class="clinic_skill_imgs{{ $cli_first_word }}">
+                                    @if(!empty($cli_img_data))
+                                    @foreach($cli_img_data as $cli_img)
+                                    <div class="trans_img trans_img-{{ $i }} trans_imgclinic_skill_img{{ $cli_first_word }}{{ $l }}">
+                                      <a href="{{ url('/public/uploads/education_degree') }}/{{ $cli_img }}"><i class="fa fa-file"></i>{{ $cli_img }}</a>
+                                      <div class="close_btn close_btn-{{ $i }}" onclick="deleteImg1('{{ $l }}','{{ $user_id }}','{{ $cli_img }}','{{ $cli_first_word }}','clinic_skill_imgs')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
+                                     </div>
+                                     <?php
+                                        $l++;
+                                      ?>
+                                    @endforeach
+                                    @endif
+                                  </div>
+                                  </div>
+
+                               </div>
+                            </div>
+                          @endforeach
+                          @endif
+                        </div>
                     </div>
                     <div class="another_com_training">
                       <h6 class="emergency_text mt-2">Other Trainings 
                       </h6>
+                      <?php
+                            if(!empty($trainingData)){
+                              $additional_tra_data = json_decode($trainingData->other_tra_data);
+                            }else{
+                              $additional_tra_data = "";
+                            }
+                            $i = 1;
+                          ?>
+
+                        @if(!empty($additional_tra_data))
+                         @foreach($additional_tra_data as $a_data)
+                          <div class="training_div training_div_{{ $i }} row another_com_tra_div">
+                        <div class="form-group col-md-6">
+                          <label class="form-label" for="input-1">Training {{ $i }}</label>
+                          <input class="form-control additional_tra_field additional_tra_field-{{ $i }}" type="text" name="training[]" value="@if(!empty($trainingData)){{ $a_data->training_name }}@endif">
+                          <span id="reqtraname-{{ $i }}" class="reqError text-danger valley"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label class="form-label" for="input-1">Institution/Regulating Body</label>
+                          <input class="form-control institution institution--{{ $i }}" type="text" name="institution[]" value="@if(!empty($trainingData)){{ $a_data->training_ins }}@endif">
+                          <span id="reqinstitution-{{ $i }}" class="reqError text-danger valley"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label class="form-label" for="input-1">Training Start Date</label>
+                          <input class="form-control tra_start_date tra_start_date-1" type="date" name="tra_start_date[]" value="@if(!empty($trainingData)){{ $a_data->training_end_date }}@endif">
+                          <span id="reqtrastartdate-{{ $i }}" class="reqError text-danger valley"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label class="form-label" for="input-1">Training End Date</label>
+                          <input class="form-control tra_end_date tra_end_date-{{ $i }}" type="date" name="tra_end_date[]" value="@if(!empty($trainingData)){{ $a_data->training_start_date }}@endif">
+                          <span id="reqtraenddate-{{ $i }}" class="reqError text-danger valley"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label class="form-label" for="input-1">Expiry</label>
+                          <input class="form-control tra_expiry tra_expiry-{{ $i }}" type="date" name="tra_expiry[]" value="@if(!empty($trainingData)){{$a_data->tra_exp}}@endif">
+                          <span id="reqtraenddate-{{ $i }}" class="reqError text-danger valley"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                          <input class="form-control other_tran_img_tran_{{ $i }} additional_certifications-{{ $i }}" type="file" name="certificate_upload_certification[]" onchange="changeAnoImg('{{ $user_id }}','{{ $i }}','other_tran_img','tran_{{ $i}}')" multiple="">   
+                         <?php
+                            $getedufieldsdata = DB::table("edu_fields")->where("user_id",$user_id)->first();
+
+                            if(!empty($getedufieldsdata)){
+                              $other_tra_img = (array)json_decode($getedufieldsdata->other_tran_img);
+                            }else{
+                              $other_tra_img = '';
+                            }
+                            
+
+                            if(!empty($other_tra_img)){
+                              $other_tra_img_data = json_decode($other_tra_img["tran_$i"]);
+                            }else{
+                              $other_tra_img_data = "";
+                            }
+                            //print_r($acls_img[$acls_first_word_one]);
+                            
+                            
+                            //print_r($dtran_img);
+                            $l = 1;
+                            $user_id = Auth::guard('nurse_middle')->user()->id;
+                          ?>
+                          <div class="other_tran_imgtran{{ $i }}">
+                            @if(!empty($other_tra_img_data))
+                            @foreach($other_tra_img_data as $other_img)
+                            <div class="edu_img edu_img-{{ $i }} edu_imgother_tran_imgtran{{ $i }}{{ $l }}">
+                              <a href="{{ url('/public/uploads/education_degree') }}/{{ $other_img }}"><i class="fa fa-file"></i>{{ $other_img }}</a>
+                              <div class="close_btn close_btn-{{ $i }}" onclick="deleteImg1('{{ $l }}','{{ $user_id }}','{{ $other_img }}','tra_{{$i  }}','other_tran_img')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
+                              </div>
+                              <?php
+                                $l++;
+                              ?>
+                            @endforeach
+                            @endif
+                          </div>
+                        </div>
+                        <?php
+                          $user_id = Auth::guard('nurse_middle')->user()->id;
+                        ?>
+                        <div class="col-md-12"><div class="add_new_cmp_training_div mb-3 mt-3"><a style="cursor: pointer;" onclick="delete_training('{{ $i }}','{{ $user_id }}','{{ $a_data->other_tra_id }}')">- Delete Training</a></div></div>
+                      </div>
+                      <?php
+                        $i++;
+                      ?>
+                      @endforeach
+                      
+                      @endif
                     </div>
                     <div class="add_new_cmp_training_div mb-3 mt-3">
                       <a style="cursor: pointer;" onclick="add_listtraining()">+ Add another Completed Training</a>

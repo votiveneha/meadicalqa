@@ -2318,6 +2318,39 @@ class HomeController extends Controller
         $mand_training = $request->mandatory_courses;
 
         $gettrainingdata = DB::table("mandatory_training")->where("user_id",$user_id)->first();
+
+
+        $training_name = $request->training;
+        $training_ins = $request->institution;
+        $training_start_date = $request->tra_start_date;
+        $training_end_date = $request->tra_end_date;
+        $tra_exp = $request->tra_expiry;
+
+        $other_tra_array = array();
+        if(!empty($training_name)){
+            for($i=0;$i<count($training_name);$i++){
+                // if(!empty($certificate_upload_certification[$i])){
+                //     $name1=$certificate_upload_certification[$i]->getClientOriginalName();
+                //     $name= time().$name1;
+                //     $destinationPathcert = public_path()."/uploads/certificates"; 
+                //     $certificate_upload_certification[$i]->move($destinationPathcert,$name);
+                // }else{
+                //     $certificate_data = json_decode($getedudata->additional_certification);
+                //     //print_r($certificate_data);die;
+                //     if(!empty($certificate_data) && !empty($certificate_data[$i])){
+                //         $name = $certificate_data[$i]->certificate_upload_certification;
+                //     }else{
+                //         $name = "";
+                //     }
+                // }
+                
+                $other_tra_array[] = array("other_tra_id"=>$i+1,"training_name"=>$training_name[$i],"training_ins"=>$training_ins[$i],"training_start_date"=>$training_start_date[$i],"training_end_date"=>$training_end_date[$i],"tra_exp"=>$tra_exp[$i]);
+            }
+
+            $other_tra_json = json_encode($other_tra_array);
+        }else{
+            $other_tra_json = '';
+        }
         
 
         $well_data = $request->well_self_care_data;
@@ -2452,9 +2485,12 @@ class HomeController extends Controller
         $mid_spec_tra_end_date = $request->mid_spec_tra_end_date;
         $mid_spec_expiry = $request->mid_spec_expiry;
         $mid_spec_array = array();
-        $training_data = json_decode($gettrainingdata->leader_pro_data);
+        $training_data = json_decode($gettrainingdata->mid_spec_data);
+
+        
 
         for($i=0;$i<$mid_spec_count;$i++){
+  
             // if(!empty($training_data) && array_key_exists($i,$training_data)){
             //     $aclsimg = json_decode($certificate_data[$i]->acls_upload_certification);
             // }else{
@@ -2467,9 +2503,8 @@ class HomeController extends Controller
             //     $acls_img = Helpers::multipleFileUpload('',$aclsimg);
             // }
             //echo $acls_img;        
-            $mid_spec_array[] = array("mid_spec_tra_id"=>$midspecnamearr[$i],"mid_spec_institution"=>$mid_spec_institution[$i],"mid_spec_start_date"=>$mid_spec_tra_start_date[$i],"mid_spec_end_date"=>$mid_spec_tra_end_date[$i],"mis_spec_expiry"=>$mid_spec_expiry[$i]);
+            $mid_spec_array[] = array("mid_spec_tra_id"=>$midspecnamearr[$i],"mid_spec_institution"=>$mid_spec_institution[$i],"mid_spec_start_date"=>$mid_spec_tra_start_date[$i],"mid_spec_end_date"=>$mid_spec_tra_start_date[$i],"mis_spec_expiry"=>$mid_spec_expiry[$i]);
         }
-
          if(!empty($mid_spec_array)){
             $mid_data_json = json_encode($mid_spec_array);
         }else{
@@ -2490,22 +2525,10 @@ class HomeController extends Controller
         $clinic_skill_tra_end_date = $request->clinic_skill_tra_end_date;
         $clinic_skill_expiry = $request->clinic_skill_expiry;
         $cli_skill_array = array();
-        $training_data = json_decode($gettrainingdata->leader_pro_data);
+        $training_data = json_decode($gettrainingdata->clinic_skill_data);
 
-        for($i=0;$i<$cli_skill_count;$i++){
-            // if(!empty($training_data) && array_key_exists($i,$training_data)){
-            //     $aclsimg = json_decode($certificate_data[$i]->acls_upload_certification);
-            // }else{
-            //     $aclsimg = '';
-            // }
-            //print_r(json_decode($certificate_data[$i]->acls_upload_certification));
-            // if(!empty($acls_upload_certification[$i])){
-            //     $acls_img = Helpers::multipleFileUpload($acls_upload_certification[$i],$aclsimg);
-            // }else{
-            //     $acls_img = Helpers::multipleFileUpload('',$aclsimg);
-            // }
-            //echo $acls_img;        
-            $cli_skill_array[] = array("cli_skill_tra_id"=>$midspecnamearr[$i],"clinic_skill_institution"=>$clinic_skill_institution[$i],"cli_skill_start_date"=>$clinic_skill_tra_start_date[$i],"cli_skill_end_date"=>$clinic_skill_tra_end_date[$i],"cli_skill_expiry"=>$clinic_skill_expiry[$i]);
+        for($i=0;$i<$cli_skill_count;$i++){        
+            $cli_skill_array[] = array("cli_skill_tra_id"=>$clinicskillnamearr[$i],"clinic_skill_institution"=>$clinic_skill_institution[$i],"cli_skill_start_date"=>$clinic_skill_tra_start_date[$i],"cli_skill_end_date"=>$clinic_skill_tra_end_date[$i],"cli_skill_expiry"=>$clinic_skill_expiry[$i]);
         }
 
          if(!empty($cli_skill_array)){
@@ -2530,6 +2553,7 @@ class HomeController extends Controller
                 'leader_pro_data'=>$lead_data_json,
                 'mid_spec_data'=>$mid_data_json,
                 'clinic_skill_data'=>$cli_skill_data_json,
+                'other_tra_data' => $other_tra_json, 
                 'man_training'    =>json_encode($mand_training),
             ]);
         }else{
@@ -2545,6 +2569,7 @@ class HomeController extends Controller
             $post->leader_pro_data = $lead_data_json;
             $post->mid_spec_data = $mid_data_json;
             $post->clinic_skill_data = $cli_skill_data_json;
+            $post->other_tra_data = $other_tra_json;
             $post->man_training   =json_encode($mand_training);
             $run = $post->save();
 
