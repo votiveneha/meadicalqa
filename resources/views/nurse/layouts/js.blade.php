@@ -1471,7 +1471,6 @@ function pad(number) {
   function updateTraining() {
     var isValid = true;
     if ($('[name="mandatory_courses[]"]').val() == '') {
-      console.log('test');
       document.getElementById("reqmantra").innerHTML = "*Please Select training";
       isValid = false;
     }
@@ -1786,6 +1785,80 @@ function pad(number) {
       q++;
     });
 
+    if ($('[name="mandatory_education[]"]').val() == '') {
+      document.getElementById("reqmanedu").innerHTML = "*Please Select continuing education";
+      isValid = false;
+    }
+
+    if ($(".mandatory_sub_edu_div_5").hasClass("d-none") == false){
+      if ($('[name="emerging_topic[]"]').val() == '') {
+        document.getElementById("reqemrtopic").innerHTML = "* Please Select Emerging Topics and Continuing Education";
+        isValid = false;
+      }
+    }
+
+    var i = 0;
+    $(".well_institution").each(function(){
+      if ($(".well_institution-"+i).length > 0) {
+        if ($(".well_institution-"+i).val() == '') {
+          document.getElementById("wellinstitutionvalid-"+i).innerHTML = "* Please enter the institution/regulating body";
+          isValid = false;
+        }
+      }
+      i++;
+    });
+
+    var j = 0;
+    $(".eme_topic_institution ").each(function(){
+      if ($(".eme_topic_institution -"+j).length > 0) {
+        if ($(".eme_topic_institution -"+j).val() == '') {
+          document.getElementById("emetopicinstitutionvalid-"+j).innerHTML = "* Please enter the institution/regulating body";
+          isValid = false;
+        }
+      }
+      j++;
+    });
+    var k = 0;
+    $(".eme_topic_start_date").each(function(){
+      if ($(".eme_topic_start_date-"+k).length > 0) {
+        if ($(".eme_topic_start_date-"+k).val() == '') {
+          document.getElementById("eme_topic_start_datevalid-"+k).innerHTML = "* Please enter the start date";
+          isValid = false;
+        }
+      }
+      k++;
+    });
+    var l = 0;
+    $(".eme_topic_end_date").each(function(){
+      if ($(".eme_topic_end_date-"+l).length > 0) {
+        if ($(".eme_topic_end_date-"+l).val() == '') {
+          document.getElementById("eme_topic_end_datevalid-"+l).innerHTML = "* Please enter the end date";
+          isValid = false;
+        }
+      }
+      l++;
+    });
+    
+    var m= 0;
+    $(".eme_topic_expiry").each(function(){
+      if ($(".eme_topic_expiry-"+m).length > 0) {
+        if ($(".eme_topic_expiry-"+m).val() == '') {
+          document.getElementById("emetopicexpiryvalid-"+m).innerHTML = "* Please enter the expiry date";
+          isValid = false;
+        }
+      }
+      m++;
+    });
+    var n = 0;
+    $(".eme_topic_status").each(function(){
+      if ($(".eme_topic_status-"+n).length > 0) {
+        if ($(".eme_topic_status-"+n).val() == '') {
+          document.getElementById("eme_topic_statusvalid-"+n).innerHTML = "* Please select status";
+          isValid = false;
+        }
+      }
+      n++;
+    });
     if(isValid == true){
     $('#training_form').find('.text-danger').hide();
     $.ajax({

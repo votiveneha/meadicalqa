@@ -294,7 +294,7 @@ $('.js-example-basic-multiple[data-list-id="mandatory_courses"]').on('change', f
         } 
     });
 
-    $('.js-example-basic-multiple[data-list-id="mandatory_education"]').on('change', function() {
+    $('.js-example-basic-multiple[data-list-id="mandatory_education"]').on('change', function(){
         let selectedValues = $(this).val();
         
       console.log("selectedValues",selectedValues);
@@ -350,7 +350,7 @@ $('.js-example-basic-multiple[data-list-id="mandatory_courses"]').on('change', f
         
     });
 
-    $('.js-example-basic-multiple[data-list-id="core_man_con_data"]').on('change', function() {
+    $('.js-example-basic-multiple[data-list-id="core_man_con_data"]').on('change',function(){
         let selectedValues = $(this).val();
             let selectedIds = [];
          let selectedDataIds = [];
@@ -780,7 +780,7 @@ $('.js-example-basic-multiple[data-list-id="mandatory_courses"]').on('change', f
         });
         console.log("selectedValues",selectedValues);
         
-        $(".emerging_topic_div").empty();
+        // $(".emerging_topic_div").empty();
         
         for(var i = 0;i<selectedValues.length;i++){
           var selected_text = selectedValues[i].replace(/ .*/,'').replace(/[^\w\s]/gi, '').toLowerCase();
@@ -859,6 +859,15 @@ $('.js-example-basic-multiple[data-list-id="mandatory_courses"]').on('change', f
     if($(".man_training").val() != ""){
     var man_training = JSON.parse($(".man_training").val());
     $('.js-example-basic-multiple[data-list-id="mandatory_courses"]').select2().val(man_training).trigger('change');
+    }
+
+    if($(".man_education").val() != ""){
+    var man_education = JSON.parse($(".man_education").val());
+    $('.js-example-basic-multiple[data-list-id="mandatory_education"]').select2().val(man_education).trigger('change');
+    }
+    if($(".emr_data").val() != ""){
+    var emr_data = JSON.parse($(".emr_data").val());
+    $('.js-example-basic-multiple[data-list-id="emerging_topic_data"]').select2().val(emr_data).trigger('change');
     }
 
     if($(".well_sel_data").val() != ""){

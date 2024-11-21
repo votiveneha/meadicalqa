@@ -3774,6 +3774,18 @@
                       $cli_data_json = "";
                       
                     } 
+
+                    if($trainingData && $trainingData->emerg_topic_data){
+                      $emr_data1 = json_decode($trainingData->emerg_topic_data);
+                      $emr_data_arr = array();
+                      foreach ($emr_data1 as $emr_data) {
+                        $emr_data_arr[] = $emr_data->emr_edu_id;
+                      }
+                      $emr_data_json = json_encode($emr_data_arr);
+                    }else{
+                      $emr_data1 = "";
+                      $emr_data_json = "";
+                    } 
                  
                   ?>
                   <form id="training_form" method="POST" onsubmit="return updateTraining()">
@@ -4337,12 +4349,12 @@
                                     $l = 1;
                                     $user_id = Auth::guard('nurse_middle')->user()->id;
                                   ?>
-                                  <div class="leader_pro_imgs{{ $mid_first_word }}">
+                                  <div class="mid_spec_imgs{{ $mid_first_word }}">
                                     @if(!empty($mid_img_data))
                                     @foreach($mid_img_data as $m_img)
                                     <div class="trans_img trans_img-{{ $i }} trans_imgmid_spec_img{{ $mid_first_word }}{{ $l }}">
                                       <a href="{{ url('/public/uploads/education_degree') }}/{{ $m_img }}"><i class="fa fa-file"></i>{{ $m_img }}</a>
-                                      <div class="close_btn close_btn-{{ $i }}" onclick="deleteImg1('{{ $l }}','{{ $user_id }}','{{ $m_img }}','{{ $mid_first_word }}','mid_spec_imgs')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
+                                      <div class="close_btn close_btn-{{ $i }}" onclick="deleteImg1('{{ $i }}','{{ $user_id }}','{{ $m_img }}','{{ $mid_first_word }}','mid_spec_imgs')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
                                      </div>
                                      <?php
                                         $l++;
@@ -4427,7 +4439,7 @@
                                 </div>
                                 <div class="form-group col-md-6">
                                   <label class="form-label" for="input-1">Upload Certificate</label>
-                                  <input class="form-control clinic_skill_upload_certification clinic_skill_imgs_{{ $cli_first_word }} clinic_skill_upload_certification-{{ $i }}" type="file" name="clinic_skill_upload_certification[{{ $i }}][]">
+                                  <input class="form-control clinic_skill_upload_certification clinic_skill_imgs_{{ $cli_first_word }} clinic_skill_upload_certification-{{ $i }}" type="file" name="clinic_skill_upload_certification[{{ $i }}][]" onchange="changetraImg1({{ $user_id }},{{ $i }},'clinic_skill_imgs','{{ $cli_first_word }}')">
                                   <span id="reqtechinnvouploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
                                 
                                 <?php
@@ -4457,7 +4469,7 @@
                                     @foreach($cli_img_data as $cli_img)
                                     <div class="trans_img trans_img-{{ $i }} trans_imgclinic_skill_img{{ $cli_first_word }}{{ $l }}">
                                       <a href="{{ url('/public/uploads/education_degree') }}/{{ $cli_img }}"><i class="fa fa-file"></i>{{ $cli_img }}</a>
-                                      <div class="close_btn close_btn-{{ $i }}" onclick="deleteImg1('{{ $l }}','{{ $user_id }}','{{ $cli_img }}','{{ $cli_first_word }}','clinic_skill_imgs')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
+                                      <div class="close_btn close_btn-{{ $i }}" onclick="deleteImg1('{{ $i }}','{{ $user_id }}','{{ $cli_img }}','{{ $cli_first_word }}','clinic_skill_imgs')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
                                      </div>
                                      <?php
                                         $l++;
@@ -4538,12 +4550,12 @@
                             $l = 1;
                             $user_id = Auth::guard('nurse_middle')->user()->id;
                           ?>
-                          <div class="other_tran_imgtran{{ $i }}">
+                          <div class="other_tran_imgtran_{{ $i }}">
                             @if(!empty($other_tra_img_data))
                             @foreach($other_tra_img_data as $other_img)
                             <div class="edu_img edu_img-{{ $i }} edu_imgother_tran_imgtran{{ $i }}{{ $l }}">
                               <a href="{{ url('/public/uploads/education_degree') }}/{{ $other_img }}"><i class="fa fa-file"></i>{{ $other_img }}</a>
-                              <div class="close_btn close_btn-{{ $i }}" onclick="deleteImg1('{{ $l }}','{{ $user_id }}','{{ $other_img }}','tra_{{$i  }}','other_tran_img')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
+                              <div class="close_btn close_btn-{{ $i }}" onclick="deleteImg1('{{ $i }}','{{ $user_id }}','{{ $other_img }}','tra_{{$i  }}','other_tran_img')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
                               </div>
                               <?php
                                 $l++;
@@ -4572,7 +4584,7 @@
                     <p>Continuing Professional Development (CPD) for Australian nurses and midwives involves annual training that covers ethics, infection control, and clinical skills updates</p>
                     
                     <div class="form-group level-drp">
-                      <!-- <input type="hidden" name="skills_comp" class="skills_comp" value="@if(!empty($experienceData)) {{ $experienceData->skills_compantancies }}@endif"> -->
+                      <input type="hidden" name="man_education" class="man_education" value="@if(!empty($trainingData)) {{ $trainingData->man_education }}@endif">
                       <p>Please add required ongoing education to stay updated in your field and maintain licensure</p>
                       <label class="form-label" for="input-1">Please select all that apply</label>
                         <?php
@@ -4584,6 +4596,7 @@
                             @endforeach    
                         </ul>
                       <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="mandatory_education" name="mandatory_education[]" multiple="multiple"></select>
+                      <span id="reqmanedu" class="reqError text-danger valley"></span>
                     </div>
 
                     <div class="mandatory_sub_education">
@@ -4596,7 +4609,7 @@
                                                      
                         ?>
                         <div class="form-group level-drp mandatory_sub_edu_div  mandatory_sub_edu_div_1 d-none">
-                         <input type="hidden" name="mandatory_training_value" class="mandatory_training_value mandatory_training_value-{{ $m_courses->id }}" value="{{ $m_courses->id }}"> 
+                         <input type="hidden" name="cli_data" class="cli_data" value="@if(!empty($trainingData)){{ $emr_data_json }}@endif">
                           <label class="form-label" for="input-1">Core Mandatory Continuing Education </label>
                            
                             <ul id="core_man_con_data" style="display:none;">
@@ -4667,8 +4680,9 @@
 
                         <div class="safety_com_div"></div>
 
-                        <div class="form-group level-drp mandatory_sub_edu_div  mandatory_sub_edu_div_5 d-none">
-                          <input type="hidden" name="mandatory_training_value" class="mandatory_training_value mandatory_training_value-{{ $m_courses->id }}" value="{{ $m_courses->id }}">
+                        <div class="form-group level-drp mandatory_sub_edu_div  mandatory_sub_edu_div_5 @if($trainingData && $trainingData->emerg_topic_data == NULL) d-none @endif @if(empty($trainingData)) d-none @endif ">
+                        <input type="hidden" name="emr_data" class="emr_data" value="@if(!empty($trainingData)){{ $emr_data_json }}@endif">
+
                           <label class="form-label" for="input-1">Emerging Topics and Continuing Education</label>
                            <?php $mandatory_sub_education = DB::table('man_training_category')
                                                         ->where('parent',444)
@@ -4682,8 +4696,113 @@
                             </ul>
                           <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="emerging_topic_data" name="emerging_topic[]" multiple="multiple"></select>
                         </div>
+                         <span id="reqemrtopic" class="reqError text-danger valley"></span>
 
-                        <div class="emerging_topic_div"></div>
+                        <div class="emerging_topic_div">
+                          <?php 
+                          $i = 0 ;
+                          ?>
+                          @if(!empty($emr_data1))
+                          @foreach($emr_data1 as $emr_data)
+                          
+                          <?php
+                              $first_word = strtok($emr_data->emr_edu_id, " ");
+
+                              $first_word  = strtolower(preg_replace('/[^A-Za-z0-9\-]/', '', $first_word));
+
+
+                              // $second_word = strtolower(preg_replace('/[^A-Za-z0-9]/', '', explode(' ', $mid_data->mid_spec_tra_id)[1] ?? ''));
+
+                              // // Get the first four characters of the second word
+                              // $second_word = substr($second_word, 0, 2);
+
+                              // $thired_word = strtolower(preg_replace('/[^A-Za-z0-9]/', '', explode(' ', $mid_data->mid_spec_tra_id)[1] ?? ''));
+
+                              // // Get the first four characters of the second word
+                              // $thired_word = substr($thired_word, 0, 4);
+                              $emr_first_word = $first_word;
+                            ?>
+                            <div class="eme_topic_{{ $emr_first_word }} eme_topic_{{ $emr_first_word }}">
+                          
+                              <h6>{{ $emr_data->emr_edu_id }}</h6>
+                               <div class="eme_topic_div row eme_topic_institution">
+                                <div class="form-group col-md-12">
+                                  <label class="form-label" for="input-1">Institution/Regulating Body</label>
+                                  <input type="hidden" name="emetopicarr[]" class="eme_topic_input_{{ $emr_data->emr_edu_id }}" value="{{ $emr_data->emr_edu_id }}">
+                                  <input class="form-control eme_topic_institution eme_topic_institution-{{ $i }}" type="text" name="eme_topic_institution[]" value="{{ $emr_data->eme_topic_institution }}">
+                                  <span id="emetopicinstitutionvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                </div>
+                                <div class="form-group col-md-6">
+                                  <label class="form-label" for="input-1">Training Start Date</label>
+                                  <input class="form-control eme_topic_start_date eme_topic_start_date-{{ $i }}" type="date" name="eme_topic_start_date[]" value="{{ $emr_data->eme_topic_start_date }}">
+                                  <span id="eme_topic_start_datevalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                </div>
+                                <div class="form-group col-md-6">
+                                  <label class="form-label" for="input-1">Training End Date</label>
+                                  <input class="form-control eme_topic_end_date eme_topic_end_date-{{ $i }}" type="date" name="eme_topic_end_date[]" value="{{ $emr_data->eme_topic_end_date }}">
+                                  <span id="eme_topic_end_datevalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                </div>
+                                <div class="form-group col-md-6">
+                                  <label class="form-label" for="input-1">Status</label>
+                                  <select class="form-control eme_topic_status eme_topic_status-{{ $i }}" name="eme_topic_status[]">
+                                      <option value="Completed" @if($emr_data->eme_topic_status == 'Completed')  selected  @endif>Completed</option>
+                                      <option value="Ongoing" @if($emr_data->eme_topic_status == 'Ongoing')  selected  @endif>Ongoing</option>
+                                      <option value="Pending" @if($emr_data->eme_topic_status == 'Pending')  selected  @endif>Pending</option>
+                                  </select>
+                                  <span id="eme_topic_statusvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                </div>
+                                <div class="form-group col-md-6">
+                                  <label class="form-label" for="input-1">Expiry</label>
+                                  <input class="form-control eme_topic_expiry eme_topic_expiry-{{ $i }}" type="date" name="eme_topic_expiry[]" value="{{ $emr_data->eme_topic_expiry }}">
+                                  <span id="emetopicexpiryvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                </div>
+                                <div class="form-group col-md-12">
+                                  <label class="form-label" for="input-1">Upload Certificate</label>
+                                  <input class="form-control emetopic_upload_certification eme_topic_imgs_{{ $emr_first_word }} emetopic_upload_certification-{{ $i }}" type="file" name="emetopic_upload_certification[{{ $i }}][]" onchange="changetraImg1({{ $user_id }},{{ $i }},'eme_topic_imgs','{{ $emr_first_word }}')">
+                                  <span id="reqmidspecuploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                
+                                <?php
+                                    $getedufieldsdata = DB::table("edu_fields")->where("user_id",$user_id)->first();
+
+                                    if(!empty($getedufieldsdata)){
+                                      $eme_img = (array)json_decode($getedufieldsdata->eme_topic_imgs);
+                                    }else{
+                                      $eme_img = '';
+                                    }
+                                    
+
+                                    if(!empty($eme_img)){
+                                      $eme_img_data = json_decode($eme_img[$emr_first_word]);
+                                    }else{
+                                      $eme_img_data = "";
+                                    }
+                                    //print_r($acls_img[$acls_first_word_one]);
+                                    
+                                    
+                                    //print_r($dtran_img);
+                                    $l = 1;
+                                    $user_id = Auth::guard('nurse_middle')->user()->id;
+                                  ?>
+                                  <div class="eme_topic_imgs{{ $emr_first_word }}">
+                                    @if(!empty($eme_img_data))
+                                    @foreach($eme_img_data as $eme_img)
+                                    <div class="trans_img trans_img-{{ $i }} trans_imgeme_topic_imgs{{ $emr_first_word }}{{ $i }}">
+                                      <a href="{{ url('/public/uploads/education_degree') }}/{{ $eme_img }}"><i class="fa fa-file"></i>{{ $eme_img }}</a>
+                                      <div class="close_btn close_btn-{{ $i }}" onclick="deleteImg1('{{ $i }}','{{ $user_id }}','{{ $eme_img }}','{{ $emr_first_word }}','eme_topic_imgs')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
+                                     </div>
+                                     <?php
+                                        $l++;
+                                      ?>
+                                    @endforeach
+                                    @endif
+                                  </div>
+                                  </div>
+
+                               </div>
+                            </div>
+                          @endforeach
+                          @endif
+                        </div>
                     </div>
                     <div class="another_education">
                       <h6 class="emergency_text mt-2">Other Educations 
@@ -4892,11 +5011,8 @@
                     <input type="hidden" name="benefit_preferences" class="benefit_preferences" value="@if(!empty($workpreferenceData)){{ $workpreferenceData->benefits_preferences }}@endif">
                     
                     <ul id="benefit_prefer" style="display:none;">
-                        
                         <li data-value="Health insurance">Health insurance</li>
-                        <li data-value="Retirement plans">Retirement plans</li>
-                        
-                        
+                        <li data-value="Retirement plans">Retirement plans</li>  
                     </ul>
                     <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="benefit_prefer" name="benefit_prefer[]" multiple="multiple"></select>
                     

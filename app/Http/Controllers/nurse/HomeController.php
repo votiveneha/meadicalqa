@@ -2316,9 +2316,8 @@ class HomeController extends Controller
         $institution = $request->institution;
         $mand_continue_education = $request->mand_continue_education;
         $mand_training = $request->mandatory_courses;
-
+        $mand_education = $request->mandatory_education;
         $gettrainingdata = DB::table("mandatory_training")->where("user_id",$user_id)->first();
-
 
         $training_name = $request->training;
         $training_ins = $request->institution;
@@ -2536,13 +2535,65 @@ class HomeController extends Controller
         }else{
             $cli_skill_data_json = '';
         }
+
+        //man education
+        $emerging_data = $request->emerging_topic;
+        if($emerging_data){
+            $emerging_count = count($emerging_data);
+        }else{
+            $emerging_count = 0;
+        }
+        $emetopicarr = $request->emetopicarr;
+        $eme_topic_institution = $request->eme_topic_institution;
+        $eme_topic_start_date = $request->eme_topic_start_date;
+        $eme_topic_end_date = $request->eme_topic_end_date;
+        $eme_topic_status = $request->eme_topic_status;
+        $eme_topic_expiry = $request->eme_topic_expiry;
+
+        $emerging_array = array();
+        $edu_data = json_decode($gettrainingdata->emerg_topic_data);
+
+        for($i=0;$i<$emerging_count;$i++){            
+            $emerging_array[] = array("emr_edu_id"=>$emetopicarr[$i],"eme_topic_institution"=>$eme_topic_institution[$i],"eme_topic_start_date"=>$eme_topic_start_date[$i],"eme_topic_end_date"=>$eme_topic_end_date[$i],"eme_topic_expiry"=>$eme_topic_expiry[$i],"eme_topic_status"=>$eme_topic_status[$i],);
+        }
+
+        if(!empty($emerging_array)){
+            $eme_data_json = json_encode($emerging_array);
+        }else{
+            $eme_data_json = '';
+        } 
+
+        
+        $safety_com_data = $request->safety_com;
+        if($safety_com_data){
+            $safety_com_count = count($safety_com_data);
+        }else{
+            $safety_com_count = 0;
+        }
+        $safetycomaarr = $request->safetycomaarr;
+        $safety_com_institution = $request->safety_com_institution;
+        $safety_com_start_date = $request->safety_com_start_date;
+        $safety_com_end_date = $request->safety_com_end_date;
+        $safety_com_status = $request->safety_com_status;
+        $safety_com_expiry = $request->safety_com_expiry;
+
+        $safety_com_array = array();
+        $safety_com_data = json_decode($gettrainingdata->safety_com_data);
+
+        for($i=0;$i<$safety_com_count;$i++){            
+            $safety_com_array[] = array("saf_edu_id"=>$safetycomaarr[$i],"safety_com_institution"=>$safety_com_institution[$i],"safety_com_start_date"=>$safety_com_start_date[$i],"safety_com_end_date"=>$safety_com_end_date[$i],"safety_com_expiry"=>$safety_com_expiry[$i],"safety_com_status"=>$safety_com_status[$i],);
+        }
+
+        if(!empty($safety_com_array)){
+            $safety_data_json = json_encode($safety_com_array);
+        }else{
+            $safety_data_json = '';
+        } 
         
         // $gettrainingdata = DB::table("mandatory_training")->where("user_id",$user_id)->first();
         //$post = User::find($request->user_id);
         
         if(!empty($gettrainingdata)>0){
-            
-
             $run = MandatoryTrainModel::where('user_id',$user_id)->update([
                 'start_date'=>$start_date,
                 'end_date'=>$end_date,
@@ -2555,13 +2606,15 @@ class HomeController extends Controller
                 'clinic_skill_data'=>$cli_skill_data_json,
                 'other_tra_data' => $other_tra_json, 
                 'man_training'    =>json_encode($mand_training),
+                'man_education'    =>json_encode($mand_education),
+                'emerg_topic_data'    =>$eme_data_json,
+                'safety_com_data' =>$safety_data_json,
             ]);
         }else{
             $post = new MandatoryTrainModel();
             $post->user_id = $user_id;            
-            //$post->year_experience = $year_experience;
-            $post->start_date = $start_date;
-            $post->end_date = $end_date;
+            $post->start_date   = $start_date;
+            $post->end_date     = $end_date;
             $post->institutions = $institution;
             $post->continuing_education = $mand_continue_education;
             $post->well_sel_data = $well_data_json;
@@ -2571,6 +2624,10 @@ class HomeController extends Controller
             $post->clinic_skill_data = $cli_skill_data_json;
             $post->other_tra_data = $other_tra_json;
             $post->man_training   =json_encode($mand_training);
+            $post->man_education    =json_encode($mand_education);
+            $post->emerg_topic_data    = $eme_data_json;
+             $post->safety_com_data = $safety_data_json;
+
             $run = $post->save();
 
         }
