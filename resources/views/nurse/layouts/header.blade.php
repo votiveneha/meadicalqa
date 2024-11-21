@@ -146,22 +146,6 @@
       </div>
     </div>
   </header>
-  @if(!email_verified())
-  <div class="container-fluid">
-    <div class="alert alert-warning mt-2" role="alert">
-      <span class="d-flex align-items-center justify-content-center "><img src="{{ asset('nurse/assets/imgs/info.png') }}" width="25px;" alt="info" class="mx-2"> Thank you for signing up with us. To get full access, please verify your email first. If you didn't receive the email, <a href="javascript:void(0);" class="link-opacity-100 mx-1" style="color: black;text-decoration-line: underline;
-  text-decoration-style: straight;" onclick="return resendEmailLink()"><b> click here to resend it.</b></a></span>
-    </div>
-  </div>
-  @endif
-  @if(!account_verified())
-  <div class="container-fluid">
-    <div class="alert alert-warning mt-2" role="alert">
-      <span class="d-flex align-items-center justify-content-center "><img src="{{ asset('nurse/assets/imgs/info.png') }}" width="25px;" alt="info" class="mx-2">Thank you for verifying your email!<br>Please complete your profile, and once approved, you will be able to apply for jobs and make your profile visible.
-</span>
-
-    </div>
-  </div>
-  @endif
+  
   @endif
   
