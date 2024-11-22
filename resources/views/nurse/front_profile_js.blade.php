@@ -485,7 +485,7 @@ $('.js-example-basic-multiple[data-list-id="mandatory_courses"]').on('change', f
         });
         console.log("selectedValues",selectedValues);
         
-        $(".mid_spe_mandotry_div").empty();
+        // $(".mid_spe_mandotry_div").empty();
         
         for(var i = 0;i<selectedValues.length;i++){
           var selected_text = selectedValues[i].replace(/ .*/,'').replace(/[^\w\s]/gi, '').toLowerCase();
@@ -574,11 +574,11 @@ $('.js-example-basic-multiple[data-list-id="mandatory_courses"]').on('change', f
             console.log("res_one",res_one);
             $(".spec_area_"+res_one).remove();
           }
-          spec_area_data_.push(text);
+          spec_area_data.push(text);
         });
         console.log("selectedValues",selectedValues);
         
-        $(".spec_area_div").empty();
+        // $(".spec_area_div").empty();
         
         for(var i = 0;i<selectedValues.length;i++){
           var selected_text = selectedValues[i].replace(/ .*/,'').replace(/[^\w\s]/gi, '').toLowerCase();
@@ -664,11 +664,11 @@ $('.js-example-basic-multiple[data-list-id="mandatory_courses"]').on('change', f
             console.log("res_one",res_one);
             $(".safety_com_"+res_one).remove();
           }
-          safety_com_data_.push(text);
+          safety_com_data.push(text);
         });
         console.log("selectedValues",selectedValues);
         
-        $(".safety_com_div").empty();
+        // $(".safety_com_div").empty();
         
         for(var i = 0;i<selectedValues.length;i++){
           var selected_text = selectedValues[i].replace(/ .*/,'').replace(/[^\w\s]/gi, '').toLowerCase();
@@ -869,6 +869,11 @@ $('.js-example-basic-multiple[data-list-id="mandatory_courses"]').on('change', f
     var emr_data = JSON.parse($(".emr_data").val());
     $('.js-example-basic-multiple[data-list-id="emerging_topic_data"]').select2().val(emr_data).trigger('change');
     }
+    if($(".safety_data").val() != ""){
+    var safety_data = JSON.parse($(".safety_data").val());
+    console.log(safety_data);
+    $('.js-example-basic-multiple[data-list-id="safety_com_data"]').select2().val(safety_data).trigger('change');
+    }
 
     if($(".well_sel_data").val() != ""){
     var well_data = JSON.parse($(".well_sel_data").val());
@@ -894,6 +899,18 @@ $('.js-example-basic-multiple[data-list-id="mandatory_courses"]').on('change', f
     var cli_data = JSON.parse($(".cli_data").val());
     $('.js-example-basic-multiple[data-list-id="clinic_skill_core_data"]').select2().val(cli_data).trigger('change');
     }
+
+    if($(".spec_area_data").val() != ""){
+    var spec_area_data = JSON.parse($(".spec_area_data").val());
+    $('.js-example-basic-multiple[data-list-id="spec_area_data"]').select2().val(spec_area_data).trigger('change');
+    }
+
+    if($(".mid_spe_data").val() != ""){
+    var mid_spe_data = JSON.parse($(".mid_spe_data").val());
+    $('.js-example-basic-multiple[data-list-id="mid_spe_mandotry_data"]').select2().val(mid_spe_data).trigger('change');
+    }
+
+    
  });
 </script>
 

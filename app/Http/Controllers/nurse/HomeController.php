@@ -2589,6 +2589,87 @@ class HomeController extends Controller
         }else{
             $safety_data_json = '';
         } 
+
+
+        $spec_area_data = $request->spec_area;
+        if($spec_area_data){
+            $spec_area_count = count($spec_area_data);
+        }else{
+            $spec_area_count = 0;
+        }
+        $specareaarr = $request->specareaarr;
+        $spec_area_institution = $request->spec_area_institution;
+        $spec_area_start_date = $request->spec_area_start_date;
+        $spec_area_end_date = $request->spec_area_end_date;
+        $spec_area_status = $request->spec_area_status;
+        $spec_area_expiry = $request->spec_area_expiry;
+
+        $spec_area_array = array();
+        $spec_data = json_decode($gettrainingdata->spec_area_data);
+
+        for($i=0;$i<$spec_area_count;$i++){            
+            $spec_area_array[] = array("spec_edu_id"=>$specareaarr[$i],"spec_area_institution"=>$spec_area_institution[$i],"spec_area_start_date"=>$spec_area_start_date[$i],"spec_area_end_date"=>$spec_area_end_date[$i],"spec_area_expiry"=>$spec_area_expiry[$i],"spec_area_status"=>$spec_area_status[$i],);
+        }
+
+        if(!empty($spec_area_array)){
+            $spec_area_json = json_encode($spec_area_array);
+        }else{
+            $spec_area_json = '';
+        } 
+
+
+        $mid_spe_data = $request->mid_spe_mandotry;
+        if($mid_spe_data){
+            $mid_spe_count = count($mid_spe_data);
+        }else{
+            $mid_spe_count = 0;
+        }
+        $midspearr = $request->midspearr;
+        $mid_spe_institution = $request->mid_spe_institution;
+        $mid_spe_start_date = $request->mid_spe_start_date;
+        $mid_spe_end_date = $request->mid_spe_end_date;
+        $mid_spe_status = $request->mid_spe_status;
+        $mid_spe_expiry = $request->mid_spe_expiry;
+
+        $mid_spe_array = array();
+        $mid_data = json_decode($gettrainingdata->mid_spe_data);
+
+        for($i=0;$i<$mid_spe_count;$i++){            
+            $mid_spe_array[] = array("mid_spe_edu_id"=>$midspearr[$i],"mid_spe_institution"=>$mid_spe_institution[$i],"mid_spe_start_date"=>$mid_spe_start_date[$i],"mid_spe_end_date"=>$mid_spe_end_date[$i],"mid_spe_expiry"=>$mid_spe_expiry[$i],"mid_spe_status"=>$mid_spe_status[$i],);
+        }
+
+        if(!empty($mid_spe_array)){
+            $mid_spe_json = json_encode($mid_spe_array);
+        }else{
+            $mid_spe_json = '';
+        } 
+
+
+        $mid_spe_data = $request->mid_spe_mandotry;
+        if($mid_spe_data){
+            $mid_spe_count = count($mid_spe_data);
+        }else{
+            $mid_spe_count = 0;
+        }
+        $midspearr = $request->midspearr;
+        $mid_spe_institution = $request->mid_spe_institution;
+        $mid_spe_start_date = $request->mid_spe_start_date;
+        $mid_spe_end_date = $request->mid_spe_end_date;
+        $mid_spe_status = $request->mid_spe_status;
+        $mid_spe_expiry = $request->mid_spe_expiry;
+
+        $mid_spe_array = array();
+        $mid_data = json_decode($gettrainingdata->mid_spe_data);
+
+        for($i=0;$i<$mid_spe_count;$i++){            
+            $mid_spe_array[] = array("mid_spe_edu_id"=>$midspearr[$i],"mid_spe_institution"=>$mid_spe_institution[$i],"mid_spe_start_date"=>$mid_spe_start_date[$i],"mid_spe_end_date"=>$mid_spe_end_date[$i],"mid_spe_expiry"=>$mid_spe_expiry[$i],"mid_spe_status"=>$mid_spe_status[$i],);
+        }
+
+        if(!empty($mid_spe_array)){
+            $mid_spe_json = json_encode($mid_spe_array);
+        }else{
+            $mid_spe_json = '';
+        }
         
         // $gettrainingdata = DB::table("mandatory_training")->where("user_id",$user_id)->first();
         //$post = User::find($request->user_id);
@@ -2609,6 +2690,8 @@ class HomeController extends Controller
                 'man_education'    =>json_encode($mand_education),
                 'emerg_topic_data'    =>$eme_data_json,
                 'safety_com_data' =>$safety_data_json,
+                'spec_area_data' =>$spec_area_json,
+                'mid_spe_data' =>$mid_spe_json,
             ]);
         }else{
             $post = new MandatoryTrainModel();
@@ -2626,7 +2709,9 @@ class HomeController extends Controller
             $post->man_training   =json_encode($mand_training);
             $post->man_education    =json_encode($mand_education);
             $post->emerg_topic_data    = $eme_data_json;
-             $post->safety_com_data = $safety_data_json;
+            $post->safety_com_data = $safety_data_json;
+            $post->spec_area_data = $spec_area_json;
+             $post->mid_spe_data = $mid_spe_json;
 
             $run = $post->save();
 

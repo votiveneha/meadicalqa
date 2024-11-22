@@ -1859,6 +1859,164 @@ function pad(number) {
       }
       n++;
     });
+
+
+    var j = 0;
+    $(".safety_com_institution ").each(function(){
+      if ($(".safety_com_institution -"+j).length > 0) {
+        if ($(".safety_com_institution -"+j).val() == '') {
+          document.getElementById("safetycominstitutionvalid-"+j).innerHTML = "* Please enter the institution/regulating body";
+          isValid = false;
+        }
+      }
+      j++;
+    });
+    var k = 0;
+    $(".safety_com_start_date").each(function(){
+      if ($(".safety_com_start_date-"+k).length > 0) {
+        if ($(".safety_com_start_date-"+k).val() == '') {
+          document.getElementById("safety_com_start_datevalid-"+k).innerHTML = "* Please enter the start date";
+          isValid = false;
+        }
+      }
+      k++;
+    });
+    var l = 0;
+    $(".safety_com_end_date").each(function(){
+      if ($(".safety_com_end_date-"+l).length > 0) {
+        if ($(".safety_com_end_date-"+l).val() == '') {
+          document.getElementById("safety_com_end_datevalid-"+l).innerHTML = "* Please enter the end date";
+          isValid = false;
+        }
+      }
+      l++;
+    });
+    
+    var m= 0;
+    $(".safety_com_expiry").each(function(){
+      if ($(".safety_com_expiry-"+m).length > 0) {
+        if ($(".safety_com_expiry-"+m).val() == '') {
+          document.getElementById("safetycomexpiryvalid-"+m).innerHTML = "* Please enter the expiry date";
+          isValid = false;
+        }
+      }
+      m++;
+    });
+    var n = 0;
+    $(".safety_com_status").each(function(){
+      if ($(".safety_com_status-"+n).length > 0) {
+        if ($(".safety_com_status-"+n).val() == '') {
+          document.getElementById("safety_com_statusvalid-"+n).innerHTML = "* Please select status";
+          isValid = false;
+        }
+      }
+      n++;
+    });
+
+    var j = 0;
+    $(".mid_spe_institution ").each(function(){
+      if ($(".mid_spe_institution -"+j).length > 0) {
+        if ($(".mid_spe_institution-"+j).val() == '') {
+          document.getElementById("midspeinstitutionvalid-"+j).innerHTML = "* Please enter the institution/regulating body";
+          isValid = false;
+        }
+      }
+      j++;
+    });
+    var k = 0;
+    $(".mid_spe_start_date").each(function(){
+      if ($(".mid_spe_start_date-"+k).length > 0) {
+        if ($(".mid_spe_start_date-"+k).val() == '') {
+          document.getElementById("mid_spe_start_datevalid-"+k).innerHTML = "* Please enter the start date";
+          isValid = false;
+        }
+      }
+      k++;
+    });
+    var l = 0;
+    $(".mid_spe_end_date").each(function(){
+      if ($(".mid_spe_end_date-"+l).length > 0) {
+        if ($(".mid_spe_end_date-"+l).val() == '') {
+          document.getElementById("mid_spe_end_datevalid-"+l).innerHTML = "* Please enter the end date";
+          isValid = false;
+        }
+      }
+      l++;
+    });
+    
+    var m= 0;
+    $(".mid_spe_expiry").each(function(){
+      if ($(".mid_spe_expiry-"+m).length > 0) {
+        if ($(".mid_spe_expiry-"+m).val() == '') {
+          document.getElementById("midspeexpiryvalid-"+m).innerHTML = "* Please enter the expiry date";
+          isValid = false;
+        }
+      }
+      m++;
+    });
+    var n = 0;
+    $(".mid_spe_status").each(function(){
+      if ($(".mid_spe_status-"+n).length > 0) {
+        if ($(".mid_spe_status-"+n).val() == '') {
+          document.getElementById("mid_spe_statusvalid-"+n).innerHTML = "* Please select status";
+          isValid = false;
+        }
+      }
+      n++;
+    });
+
+
+    var j = 0;
+    $(".spec_area_institution ").each(function(){
+      if ($(".spec_area_institution -"+j).length > 0) {
+        if ($(".spec_area_institution-"+j).val() == '') {
+          document.getElementById("specareainstitutionvalid-"+j).innerHTML = "* Please enter the institution/regulating body";
+          isValid = false;
+        }
+      }
+      j++;
+    });
+    var k = 0;
+    $(".spec_area_start_date").each(function(){
+      if ($(".spec_area_start_date-"+k).length > 0) {
+        if ($(".spec_area_start_date-"+k).val() == '') {
+          document.getElementById("spec_area_start_datevalid-"+k).innerHTML = "* Please enter the start date";
+          isValid = false;
+        }
+      }
+      k++;
+    });
+    var l = 0;
+    $(".spec_area_end_date").each(function(){
+      if ($(".spec_area_end_date-"+l).length > 0) {
+        if ($(".spec_area_end_date-"+l).val() == '') {
+          document.getElementById("spec_area_end_datevalid-"+l).innerHTML = "* Please enter the end date";
+          isValid = false;
+        }
+      }
+      l++;
+    });
+    
+    var m= 0;
+    $(".mid_spe_expiry").each(function(){
+      if ($(".mid_spe_expiry-"+m).length > 0) {
+        if ($(".mid_spe_expiry-"+m).val() == '') {
+          document.getElementById("midspeexpiryvalid-"+m).innerHTML = "* Please enter the expiry date";
+          isValid = false;
+        }
+      }
+      m++;
+    });
+    var n = 0;
+    $(".spec_area_expiry").each(function(){
+      if ($(".spec_area_expiry-"+n).length > 0) {
+        if ($(".spec_area_expiry-"+n).val() == '') {
+          document.getElementById("specareaexpiryvalid-"+n).innerHTML = "* Please select status";
+          isValid = false;
+        }
+      }
+      n++;
+    });
     if(isValid == true){
     $('#training_form').find('.text-danger').hide();
     $.ajax({

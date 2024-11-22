@@ -3786,6 +3786,42 @@
                       $emr_data1 = "";
                       $emr_data_json = "";
                     } 
+
+                    if($trainingData && $trainingData->safety_com_data){
+                      $safety_data1 = json_decode($trainingData->safety_com_data);
+                      $safety_data_arr = array();
+                      foreach ($safety_data1 as $safety_data) {
+                        $safety_data_arr[] = $safety_data->saf_edu_id;
+                      }
+                      $safety_data_json = json_encode($safety_data_arr);
+                    }else{
+                      $safety_data1 = "";
+                      $safety_data_json = "";
+                    } 
+
+                    if($trainingData && $trainingData->spec_area_data){
+                      $spec_area_data1 = json_decode($trainingData->spec_area_data);
+                      $spec_area_data_arr = array();
+                      foreach ($spec_area_data1 as $spec_area_data) {
+                        $spec_area_data_arr[] = $spec_area_data->spec_edu_id;
+                      }
+                      $spec_area_json = json_encode($spec_area_data_arr);
+                    }else{
+                      $spec_area_data1 = "";
+                      $spec_area_json = "";
+                    }
+
+                    if($trainingData && $trainingData->mid_spe_data){
+                      $mid_spe_data1 = json_decode($trainingData->mid_spe_data);
+                      $mid_spe_data_arr = array();
+                      foreach ($mid_spe_data1 as $mid_spe_data) {
+                        $mid_spe_data_arr[] = $mid_spe_data->mid_spe_edu_id;
+                      }
+                      $mid_spe_json = json_encode($mid_spe_data_arr);
+                    }else{
+                      $mid_spe_data1 = "";
+                      $mid_spe_json = "";
+                    }
                  
                   ?>
                   <form id="training_form" method="POST" onsubmit="return updateTraining()">
@@ -4623,8 +4659,8 @@
                         <div class="core_man_con_data_div"></div>
 
                         <!-- cat-2 -->
-                        <div class="form-group level-drp mandatory_sub_edu_div  mandatory_sub_edu_div_2 d-none">
-                          <input type="hidden" name="mandatory_training_value" class="mandatory_training_value mandatory_training_value-{{ $m_courses->id }}" value="{{ $m_courses->id }}">
+                        <div class="form-group level-drp mandatory_sub_edu_div  mandatory_sub_edu_div_2 @if($trainingData && $trainingData->mid_spe_data == NULL) d-none @endif @if(empty($trainingData)) d-none @endif">
+                          <input type="hidden" name="mid_spe_data" class="mid_spe_data" value="@if(!empty($trainingData)){{ $mid_spe_json }}@endif">
                           <label class="form-label" for="input-1">Midwifery-Specific Mandatory Continuing Education </label>
                            <?php $mandatory_sub_education = DB::table('man_training_category')
                                                         ->where('parent',441)
@@ -4640,11 +4676,106 @@
                           <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="mid_spe_mandotry_data" name="mid_spe_mandotry[]" multiple="multiple"></select>
                         </div>
 
-                        <div class="mid_spe_mandotry_div"></div>
+                        <div class="mid_spe_mandotry_div">
+                          <?php 
+                            $i = 0 ;
+                            ?>
+                            @if(!empty($mid_spe_data1))
+                            @foreach($mid_spe_data1 as $mid_spe_data)
+                                <?php
+                                  $first_word = strtok($mid_spe_data->mid_spe_edu_id, " ");
+
+                                  $first_word  = strtolower(preg_replace('/[^A-Za-z0-9\-]/', '', $first_word));
+
+
+                                 
+                                  $mid_spe_first_word = $first_word;
+                                ?>
+                               <div class="mid_spe_{{ $mid_spe_first_word }} mid_spe_{{ $mid_spe_first_word }}">
+                                 <h6>{{ $mid_spe_data->mid_spe_edu_id }}</h6>
+                                 <div class="mid_spe_div row mid_spe_institution">
+                                  <div class="form-group col-md-12">
+                                      <label class="form-label" for="input-1">Institution/Regulating Body</label>
+                                      <input type="hidden" name="midspearr[]" class="midspe_input_{{ $mid_spe_data->mid_spe_edu_id }}" value="{{ $mid_spe_data->mid_spe_edu_id }}">
+                                      <input class="form-control mid_spe_institution mid_spe_institution-{{ $i }}" type="text" name="mid_spe_institution[]" value="{{ $mid_spe_data->mid_spe_institution }}">
+                                      <span id="midspeinstitutionvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                      <label class="form-label" for="input-1">Start Date</label>
+                                      <input class="form-control mid_spe_start_date mid_spe_start_date-{{ $i }}" type="date" name="mid_spe_start_date[]" value="{{ $mid_spe_data->mid_spe_start_date }}">
+                                      <span id="mid_spe_start_datevalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                      <label class="form-label" for="input-1">End Date</label>
+                                      <input class="form-control mid_spe_end_date mid_spe_end_date-{{ $i }}" type="date" name="mid_spe_end_date[]" value="{{ $mid_spe_data->mid_spe_end_date }}">
+                                      <span id="mid_spe_end_datevalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                      <label class="form-label" for="input-1">Status</label>
+                                      <select class="form-control mid_spe_status mid_spe_status-{{ $i }}" name="mid_spe_status[]">
+                                          <option value="Completed" @if($mid_spe_data->mid_spe_status == 'Completed')  selected  @endif>Completed</option>
+                                          <option value="Ongoing" @if($mid_spe_data->mid_spe_status == 'Ongoing')  selected  @endif>Ongoing</option>
+                                          <option value="Pending" @if($mid_spe_data->mid_spe_status == 'Pending')  selected  @endif>Pending</option>
+                                      </select>
+                                      <span id="mid_spe_statusvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                      <label class="form-label" for="input-1">Expiry</label>
+                                      <input class="form-control mid_spe_expiry mid_spe_expiry-{{ $i }}" type="date" name="mid_spe_expiry[]" value="{{ $mid_spe_data->mid_spe_expiry }}">
+                                      <span id="midspeexpiryvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                      <label class="form-label" for="input-1">Upload Certificate</label>
+                                      <input class="form-control midspe_upload_certification mid_spe_imgs_{{ $mid_spe_first_word }} midspe_upload_certification-{{ $i }}" type="file" name="midspe_upload_certification[{{ $i }}][]" onchange="changetraImg1({{ $user_id }},{{ $i }},'mid_spe_imgs','{{ $mid_spe_first_word }}')">
+                                      <span id="reqmidspecuploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                    
+                                    <?php
+                                        $getedufieldsdata = DB::table("edu_fields")->where("user_id",$user_id)->first();
+
+                                        if(!empty($getedufieldsdata)){
+                                          $mid_spe_img = (array)json_decode($getedufieldsdata->mid_spe_imgs);
+                                        }else{
+                                          $mid_spe_img = '';
+                                        }
+                                        
+                                        
+
+                                        if(!empty($mid_spe_img)){
+                                          $mid_spe_img_data = json_decode($mid_spe_img[$mid_spe_first_word]);
+                                        }else{
+                                          $mid_spe_img_data = "";
+                                        }
+                                        //print_r($acls_img[$acls_first_word_one]);
+                                        
+                                        
+                                        // //print_r($dtran_img);
+                                        $l = 1;
+                                        $user_id = Auth::guard('nurse_middle')->user()->id;
+                                      ?>
+                                      <div class="spec_area_imgs{{ $mid_spe_first_word }}">
+                                        @if(!empty($mid_spe_img_data))
+                                        @foreach($mid_spe_img_data as $mid_spe_img)
+                                        <div class="trans_img trans_img-{{ $i }} trans_imgmid_spe_imgs{{ $mid_spe_first_word }}{{ $i }}">
+                                          <a href="{{ url('/public/uploads/education_degree') }}/{{ $mid_spe_img }}"><i class="fa fa-file"></i>{{ $mid_spe_img }}</a>
+                                          <div class="close_btn close_btn-{{ $i }}" onclick="deleteImg1('{{ $i }}','{{ $user_id }}','{{ $mid_spe_img }}','{{ $mid_spe_first_word }}','mid_spe_imgs')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
+                                        </div>
+                                        <?php
+                                            $l++;
+                                          ?>
+                                        @endforeach
+                                        @endif
+                                      </div>
+                                      </div>
+                                </div>
+                               </div>
+                            @endforeach
+                            @endif
+
+                        </div>
 
                         <!-- cat-3 -->
-                        <div class="form-group level-drp mandatory_sub_edu_div  mandatory_sub_edu_div_3 d-none">
-                          <input type="hidden" name="mandatory_training_value" class="mandatory_training_value mandatory_training_value-{{ $m_courses->id }}" value="{{ $m_courses->id }}">
+                        <div class="form-group level-drp mandatory_sub_edu_div  mandatory_sub_edu_div_3 @if($trainingData && $trainingData->spec_area_data == NULL) d-none @endif @if(empty($trainingData)) d-none @endif">
+                          <input type="hidden" name="spec_area_data" class="spec_area_data" value="@if(!empty($trainingData)){{ $spec_area_json }}@endif">
                           <label class="form-label" for="input-1">Specialized Areas</label>
                            <?php $mandatory_sub_education = DB::table('man_training_category')
                                                         ->where('parent',442)
@@ -4659,11 +4790,107 @@
                           <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="spec_area_data" name="spec_area[]" multiple="multiple"></select>
                         </div>
 
-                        <div class="spec_area_div"></div>
+                        <div class="spec_area_div">
+                           <?php 
+                            $i = 0 ;
+                            ?>
+                            @if(!empty($spec_area_data1))
+                            @foreach($spec_area_data1 as $spec_area_data)
+                                <?php
+                                  $first_word = strtok($spec_area_data->spec_edu_id, " ");
+
+                                  $first_word  = strtolower(preg_replace('/[^A-Za-z0-9\-]/', '', $first_word));
+
+
+                                 
+                                  $spec_area_first_word = $first_word;
+                                ?>
+                               <div class="spec_area_{{ $spec_area_first_word }} spec_area_{{ $spec_area_first_word }}">
+                                 <h6>{{ $spec_area_data->spec_edu_id }}</h6>
+                                 <div class="spec_area_div row spec_area_institution">
+                                  <div class="form-group col-md-12">
+                                      <label class="form-label" for="input-1">Institution/Regulating Body</label>
+                                      <input type="hidden" name="specareaarr[]" class="spec_area_input_{{ $spec_area_data->spec_edu_id }}" value="{{ $spec_area_data->spec_edu_id }}">
+                                      <input class="form-control spec_area_institution spec_area_institution-{{ $i }}" type="text" name="spec_area_institution[]" value="{{ $spec_area_data->spec_edu_id }}">
+                                      <span id="specareainstitutionvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                      <label class="form-label" for="input-1">Start Date</label>
+                                      <input class="form-control spec_area_start_date spec_area_start_date-{{ $i }}" type="date" name="spec_area_start_date[]" value="{{ $spec_area_data->spec_area_start_date }}">
+                                      <span id="spec_area_start_datevalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                      <label class="form-label" for="input-1">End Date</label>
+                                      <input class="form-control spec_area_end_date spec_area_end_date-{{ $i }}" type="date" name="spec_area_end_date[]" value="{{ $spec_area_data->spec_area_end_date }}">
+                                      <span id="spec_area_end_datevalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                      <label class="form-label" for="input-1">Status</label>
+                                      <select class="form-control spec_area_status spec_area_status-{{ $i }}" name="spec_area_status[]">
+                                          <option value="Completed" @if($spec_area_data->spec_area_status == 'Completed')  selected  @endif>Completed</option>
+                                          <option value="Ongoing" @if($spec_area_data->spec_area_status == 'Ongoing')  selected  @endif>Ongoing</option>
+                                          <option value="Pending" @if($spec_area_data->spec_area_status == 'Pending')  selected  @endif>Pending</option>
+                                      </select>
+                                      <span id="spec_area_statusvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                      <label class="form-label" for="input-1">Expiry</label>
+                                      <input class="form-control spec_area_expiry spec_area_expiry-{{ $i }}" type="date" name="spec_area_expiry[]" value="{{ $spec_area_data->spec_area_expiry }}">
+                                      <span id="specareaexpiryvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                      <label class="form-label" for="input-1">Upload Certificate</label>
+                                      <input class="form-control specarea_upload_certification spec_area_imgs_{{ $spec_area_first_word }} specarea_upload_certification-{{ $i }}" type="file" name="specarea_upload_certification[{{ $i }}][]" onchange="changetraImg1({{ $user_id }},{{ $i }},'spec_area_imgs','{{ $spec_area_first_word }}')">
+                                      <span id="reqmidspecuploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                    
+                                    <?php
+                                        $getedufieldsdata = DB::table("edu_fields")->where("user_id",$user_id)->first();
+
+                                        if(!empty($getedufieldsdata)){
+                                          $spec_area_img = (array)json_decode($getedufieldsdata->spec_area_imgs);
+                                        }else{
+                                          $spec_area_img = '';
+                                        }
+                                        
+                                        
+
+                                        if(!empty($spec_area_img)){
+                                          $spec_area_img_data = json_decode($spec_area_img[$spec_area_first_word]);
+                                        }else{
+                                          $spec_area_img_data = "";
+                                        }
+                                        //print_r($acls_img[$acls_first_word_one]);
+                                        
+                                        
+                                        // //print_r($dtran_img);
+                                        $l = 1;
+                                        $user_id = Auth::guard('nurse_middle')->user()->id;
+                                      ?>
+                                      <div class="spec_area_imgs{{ $spec_area_first_word }}">
+                                        @if(!empty($spec_area_img_data))
+                                        @foreach($spec_area_img_data as $spec_area_img)
+                                        <div class="trans_img trans_img-{{ $i }} trans_imgspec_area_imgs{{ $spec_area_first_word }}{{ $i }}">
+                                          <a href="{{ url('/public/uploads/education_degree') }}/{{ $spec_area_img }}"><i class="fa fa-file"></i>{{ $spec_area_img }}</a>
+                                          <div class="close_btn close_btn-{{ $i }}" onclick="deleteImg1('{{ $i }}','{{ $user_id }}','{{ $spec_area_img }}','{{ $spec_area_first_word }}','spec_area_imgs')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
+                                        </div>
+                                        <?php
+                                            $l++;
+                                          ?>
+                                        @endforeach
+                                        @endif
+                                      </div>
+                                      </div>
+                                </div>
+                               </div>
+                            @endforeach
+                            @endif
+
+
+                        </div>
 
                         <!-- cat-4 -->
-                        <div class="form-group level-drp mandatory_sub_edu_div  mandatory_sub_edu_div_4 d-none">
-                          <input type="hidden" name="mandatory_training_value" class="mandatory_training_value mandatory_training_value-{{ $m_courses->id }}" value="{{ $m_courses->id }}">
+                        <div class="form-group level-drp mandatory_sub_edu_div  mandatory_sub_edu_div_4 @if($trainingData && $trainingData->safety_com_data == NULL) d-none @endif @if(empty($trainingData)) d-none @endif">
+                             <input type="hidden" name="safety_data" class="safety_data" value="@if(!empty($trainingData)){{ $safety_data_json }}@endif">
                           <label class="form-label" for="input-1">Safety and Compliance Training</label>
                            <?php $mandatory_sub_education = DB::table('man_training_category')
                                                         ->where('parent',443)
@@ -4678,7 +4905,101 @@
                           <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="safety_com_data" name="safety_com[]" multiple="multiple"></select>
                         </div>
 
-                        <div class="safety_com_div"></div>
+                        <div class="safety_com_div">
+                            <?php 
+                            $i = 0 ;
+                            ?>
+                            @if(!empty($safety_data1))
+                            @foreach($safety_data1 as $safe_data)
+                                <?php
+                                  $first_word = strtok($safe_data->saf_edu_id, " ");
+
+                                  $first_word  = strtolower(preg_replace('/[^A-Za-z0-9\-]/', '', $first_word));
+
+
+                                 
+                                  $safe_first_word = $first_word;
+                                ?>
+                               <div class="safety_com_{{ $safe_first_word }} safety_com_{{ $safe_first_word }}">
+                                 <h6>{{ $safe_data->saf_edu_id }}</h6>
+                                 <div class="eme_topic_div row eme_topic_institution">
+                                  <div class="form-group col-md-12">
+                                      <label class="form-label" for="input-1">Institution/Regulating Body</label>
+                                      <input type="hidden" name="safetycomaarr[]" class="safety_com_input_{{ $safe_data->saf_edu_id }}" value="{{ $safe_data->saf_edu_id }}">
+                                      <input class="form-control safety_com_institution safety_com_institution-{{ $i }}" type="text" name="safety_com_institution[]" value="{{ $safe_data->safety_com_institution }}">
+                                      <span id="safetycominstitutionvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                      <label class="form-label" for="input-1">Start Date</label>
+                                      <input class="form-control safety_com_start_date safety_com_start_date-{{ $i }}" type="date" name="safety_com_start_date[]" value="{{ $safe_data->safety_com_start_date }}">
+                                      <span id="safety_com_start_datevalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                      <label class="form-label" for="input-1">End Date</label>
+                                      <input class="form-control safety_com_end_date safety_com_end_date-{{ $i }}" type="date" name="safety_com_end_date[]" value="{{ $safe_data->safety_com_end_date }}">
+                                      <span id="safety_com_end_datevalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                      <label class="form-label" for="input-1">Status</label>
+                                      <select class="form-control safety_com_status safety_com_status-{{ $i }}" name="safety_com_status[]">
+                                          <option value="Completed" @if($safe_data->safety_com_status == 'Completed')  selected  @endif>Completed</option>
+                                          <option value="Ongoing" @if($safe_data->safety_com_status == 'Ongoing')  selected  @endif>Ongoing</option>
+                                          <option value="Pending" @if($safe_data->safety_com_status == 'Pending')  selected  @endif>Pending</option>
+                                      </select>
+                                      <span id="safety_com_statusvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                      <label class="form-label" for="input-1">Expiry</label>
+                                      <input class="form-control safety_com_expiry safety_com_expiry-{{ $i }}" type="date" name="safety_com_expiry[]" value="{{ $safe_data->safety_com_expiry }}">
+                                      <span id="safetycomexpiryvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                      <label class="form-label" for="input-1">Upload Certificate</label>
+                                      <input class="form-controlsafetycome_upload_certification safety_com_imgs_{{ $safe_first_word }} safetycome_upload_certification-{{ $i }}" type="file" name="safetycome_upload_certification[{{ $i }}][]" onchange="changetraImg1({{ $user_id }},{{ $i }},'safety_com_imgs','{{ $safe_first_word }}')">
+                                      <span id="reqmidspecuploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                    
+                                    <?php
+                                        $getedufieldsdata = DB::table("edu_fields")->where("user_id",$user_id)->first();
+
+                                        if(!empty($getedufieldsdata)){
+                                          $spec_img = (array)json_decode($getedufieldsdata->safety_com_imgs);
+                                        }else{
+                                          $spec_img = '';
+                                        }
+                                        
+                                        
+
+                                        if(!empty($spec_img)){
+                                          $spec_img_data = json_decode($spec_img[$safe_first_word]);
+                                        }else{
+                                          $spec_img_data = "";
+                                        }
+                                        //print_r($acls_img[$acls_first_word_one]);
+                                        
+                                        
+                                        // //print_r($dtran_img);
+                                        $l = 1;
+                                        $user_id = Auth::guard('nurse_middle')->user()->id;
+                                      ?>
+                                      <div class="safety_com_imgs{{ $safe_first_word }}">
+                                        @if(!empty($spec_img_data))
+                                        @foreach($spec_img_data as $spec_img)
+                                        <div class="trans_img trans_img-{{ $i }} trans_imgsafety_com_imgs{{ $safe_first_word }}{{ $i }}">
+                                          <a href="{{ url('/public/uploads/education_degree') }}/{{ $spec_img }}"><i class="fa fa-file"></i>{{ $spec_img }}</a>
+                                          <div class="close_btn close_btn-{{ $i }}" onclick="deleteImg1('{{ $i }}','{{ $user_id }}','{{ $spec_img }}','{{ $safe_first_word }}','safety_com_imgs')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
+                                        </div>
+                                        <?php
+                                            $l++;
+                                          ?>
+                                        @endforeach
+                                        @endif
+                                      </div>
+                                      </div>
+                                </div>
+                               </div>
+                            @endforeach
+                            @endif
+                        </div>
 
                         <div class="form-group level-drp mandatory_sub_edu_div  mandatory_sub_edu_div_5 @if($trainingData && $trainingData->emerg_topic_data == NULL) d-none @endif @if(empty($trainingData)) d-none @endif ">
                         <input type="hidden" name="emr_data" class="emr_data" value="@if(!empty($trainingData)){{ $emr_data_json }}@endif">
