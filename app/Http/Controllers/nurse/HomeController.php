@@ -1984,7 +1984,6 @@ class HomeController extends Controller
         $getEducationData1 = (array)$getEducationData;
         $gettransimg = (array)json_decode($getEducationData1[$img_text]);
         $gettransimg1 = json_decode($gettransimg[$country_name]);
-        
 
         $img_index = array_search($img, $gettransimg1);
         
@@ -2328,27 +2327,32 @@ class HomeController extends Controller
         $other_tra_array = array();
         if(!empty($training_name)){
             for($i=0;$i<count($training_name);$i++){
-                // if(!empty($certificate_upload_certification[$i])){
-                //     $name1=$certificate_upload_certification[$i]->getClientOriginalName();
-                //     $name= time().$name1;
-                //     $destinationPathcert = public_path()."/uploads/certificates"; 
-                //     $certificate_upload_certification[$i]->move($destinationPathcert,$name);
-                // }else{
-                //     $certificate_data = json_decode($getedudata->additional_certification);
-                //     //print_r($certificate_data);die;
-                //     if(!empty($certificate_data) && !empty($certificate_data[$i])){
-                //         $name = $certificate_data[$i]->certificate_upload_certification;
-                //     }else{
-                //         $name = "";
-                //     }
-                // }
-                
-                $other_tra_array[] = array("other_tra_id"=>$i+1,"training_name"=>$training_name[$i],"training_ins"=>$training_ins[$i],"training_start_date"=>$training_start_date[$i],"training_end_date"=>$training_end_date[$i],"tra_exp"=>$tra_exp[$i]);
+
+            $other_tra_array[] = array("other_tra_id"=>$i+1,"training_name"=>$training_name[$i],"training_ins"=>$training_ins[$i],"training_start_date"=>$training_start_date[$i],"training_end_date"=>$training_end_date[$i],"tra_exp"=>$tra_exp[$i]);
             }
 
             $other_tra_json = json_encode($other_tra_array);
         }else{
             $other_tra_json = '';
+        }
+
+
+        $education_name = $request->education;
+        $education_ins = $request->institution;
+        $education_start_date = $request->start_date;
+        $education_end_date = $request->end_date;
+        $education_exp = $request->edu_expiry;
+        $education_status = $request->edu_expiry;
+
+        $other_edu_array = array();
+        if(!empty($education_name)){
+            for($i=0;$i<count($education_name);$i++){
+            $other_edu_array[] = array("other_edu_id"=>$i+1,"education_name"=>$education_name[$i],"education_ins"=>$education_ins[$i],"education_start_date"=>$education_start_date[$i],"education_end_date"=>$education_end_date[$i],"education_exp"=>$education_exp[$i],"education_status"=>$education_status[$i]);
+            }
+
+            $other_edu_json = json_encode($other_edu_array);
+        }else{
+            $other_edu_json = '';
         }
         
 
@@ -2368,19 +2372,7 @@ class HomeController extends Controller
         $training_data = json_decode($gettrainingdata->well_sel_data);
 
         for($i=0;$i<$well_count;$i++){
-            // if(!empty($training_data) && array_key_exists($i,$training_data)){
-            //     $aclsimg = json_decode($certificate_data[$i]->acls_upload_certification);
-            // }else{
-            //     $aclsimg = '';
-            // }
-            //print_r(json_decode($certificate_data[$i]->acls_upload_certification));
-            // if(!empty($acls_upload_certification[$i])){
-            //     $acls_img = Helpers::multipleFileUpload($acls_upload_certification[$i],$aclsimg);
-            // }else{
-            //     $acls_img = Helpers::multipleFileUpload('',$aclsimg);
-            // }
-            //echo $acls_img;
-            
+
             $well_self_array[] = array("well_tra_id"=>$wellnamearr[$i],"well_institution"=>$well_institution[$i],"well_tra_start_date"=>$well_tra_start_date[$i],"well_tra_end_date"=>$well_tra_end_date[$i],"well_expiry"=>$well_expiry[$i]);
         }
 
@@ -2645,30 +2637,30 @@ class HomeController extends Controller
         } 
 
 
-        $mid_spe_data = $request->mid_spe_mandotry;
-        if($mid_spe_data){
-            $mid_spe_count = count($mid_spe_data);
+        $core_man_data = $request->core_man_con_data;
+        if($core_man_data){
+            $core_man_count = count($core_man_data);
         }else{
-            $mid_spe_count = 0;
+            $core_man_count = 0;
         }
-        $midspearr = $request->midspearr;
-        $mid_spe_institution = $request->mid_spe_institution;
-        $mid_spe_start_date = $request->mid_spe_start_date;
-        $mid_spe_end_date = $request->mid_spe_end_date;
-        $mid_spe_status = $request->mid_spe_status;
-        $mid_spe_expiry = $request->mid_spe_expiry;
+        $coremanarr  = $request->coremanarr;
+        $core_man_institution = $request->core_man_institution;
+        $coreman_start_date = $request->coreman_start_date;
+        $coreman_end_date = $request->coreman_end_date;
+        $coreman_status = $request->coreman_status;
+        $core_man_expiry = $request->core_man_expiry;
 
-        $mid_spe_array = array();
-        $mid_data = json_decode($gettrainingdata->mid_spe_data);
+        $core_man_array = array();
+        $core_man_data = json_decode($gettrainingdata->core_man_data);
 
-        for($i=0;$i<$mid_spe_count;$i++){            
-            $mid_spe_array[] = array("mid_spe_edu_id"=>$midspearr[$i],"mid_spe_institution"=>$mid_spe_institution[$i],"mid_spe_start_date"=>$mid_spe_start_date[$i],"mid_spe_end_date"=>$mid_spe_end_date[$i],"mid_spe_expiry"=>$mid_spe_expiry[$i],"mid_spe_status"=>$mid_spe_status[$i],);
+        for($i=0;$i<$core_man_count;$i++){            
+            $core_man_array[] = array("core_man_edu_id"=>$coremanarr[$i],"core_man_institution"=>$core_man_institution[$i],"coreman_start_date"=>$coreman_start_date[$i],"coreman_end_date"=>$coreman_end_date[$i],"core_man_expiry"=>$core_man_expiry[$i],"coreman_status"=>$coreman_status[$i],);
         }
 
-        if(!empty($mid_spe_array)){
-            $mid_spe_json = json_encode($mid_spe_array);
+        if(!empty($core_man_array)){
+            $core_man_json = json_encode($core_man_array);
         }else{
-            $mid_spe_json = '';
+            $core_man_json = '';
         }
         
         // $gettrainingdata = DB::table("mandatory_training")->where("user_id",$user_id)->first();
@@ -2691,7 +2683,9 @@ class HomeController extends Controller
                 'emerg_topic_data'    =>$eme_data_json,
                 'safety_com_data' =>$safety_data_json,
                 'spec_area_data' =>$spec_area_json,
-                'mid_spe_data' =>$mid_spe_json,
+                'mid_spe_data'   =>$mid_spe_json,
+                'core_man_data' =>$core_man_json,
+                'other_edu_data' => $other_edu_json,
             ]);
         }else{
             $post = new MandatoryTrainModel();
@@ -2711,7 +2705,9 @@ class HomeController extends Controller
             $post->emerg_topic_data    = $eme_data_json;
             $post->safety_com_data = $safety_data_json;
             $post->spec_area_data = $spec_area_json;
-             $post->mid_spe_data = $mid_spe_json;
+            $post->mid_spe_data = $mid_spe_json;
+            $post->core_man_data = $core_man_json;
+            $post->other_edu_data = $other_edu_json;
 
             $run = $post->save();
 
@@ -2755,8 +2751,6 @@ class HomeController extends Controller
         $getedufieldsdata = DB::table("edu_fields")->where("user_id",$user_id)->first();
         //print_r($getedufieldsdata);die;
         if(empty($getedufieldsdata)){
-
-            
             $acls_img = Helpers::multipleFileUpload($files,'');
             $acls_data = array($country_name => $acls_img);
             $getImg_array = $acls_data;
@@ -2783,7 +2777,6 @@ class HomeController extends Controller
         }
 
         return $acls_img;
-
     }
     
      public function update_profession_ahpra_numberI(Request $request)

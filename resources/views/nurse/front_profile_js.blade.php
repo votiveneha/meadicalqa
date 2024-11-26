@@ -352,8 +352,8 @@ $('.js-example-basic-multiple[data-list-id="mandatory_courses"]').on('change', f
 
     $('.js-example-basic-multiple[data-list-id="core_man_con_data"]').on('change',function(){
         let selectedValues = $(this).val();
-            let selectedIds = [];
-         let selectedDataIds = [];
+        let selectedIds = [];
+        let selectedDataIds = [];
    
 
        selectedValues.forEach(function(value) {
@@ -388,15 +388,14 @@ $('.js-example-basic-multiple[data-list-id="mandatory_courses"]').on('change', f
         });
         console.log("selectedValues",selectedValues);
         
-        $(".core_man_con_data_div").empty();
+        // $(".core_man_con_data_div").empty();
         
         for(var i = 0;i<selectedValues.length;i++){
           var selected_text = selectedValues[i].replace(/ .*/,'').replace(/[^\w\s]/gi, '').toLowerCase();
           let res = selectedValues[i].split(' ')[0];
           let res_1 = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
           let selectedId = selectedIds[i];
-
-        let res_one = res_1+'_'+selectedId;
+          let res_one = res_1+'_'+selectedId;
 
           if(core_man_con_data.includes(selectedValues[i]) == false){            
             var user_id = "{{ $user_id }}";
@@ -444,7 +443,7 @@ $('.js-example-basic-multiple[data-list-id="mandatory_courses"]').on('change', f
                       <!-- Expiry -->
                       <div class="form-group col-md-6">
                           <label class="form-label" for="input-1">Expiry</label>
-                          <input class="form-control core_man_expiry well_expiry-${i}" type="date" name="well_expiry[]">
+                          <input class="form-control core_man_expiry core_man_expiry-${i}" type="date" name="core_man_expiry[]">
                           <span id="coremanexpiryvalid-${i}" class="reqError text-danger valley"></span>
                       </div>
 
@@ -459,9 +458,7 @@ $('.js-example-basic-multiple[data-list-id="mandatory_courses"]').on('change', f
                       </div>
                   </div>
               </div>
-          `);
-
-            
+          `);            
           }
         }
 
@@ -478,8 +475,7 @@ $('.js-example-basic-multiple[data-list-id="mandatory_courses"]').on('change', f
             let res = text.split(' ')[0];
             let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
             console.log("res_one",res_one);
-
-            $(".mid_spe__"+res_one).remove();
+            $(".mid_spe_"+res_one).remove();
           }
           mid_spe_mandotry_data.push(text);
         });
@@ -496,7 +492,6 @@ $('.js-example-basic-multiple[data-list-id="mandatory_courses"]').on('change', f
           if(mid_spe_mandotry_data.includes(selectedValues[i]) == false){            
             var user_id = "{{ $user_id }}";
             var img_text = "mid_spe_imgs";
-            // $(".core_man_con_data_div").append('<div class="core_man_'+res_one+' core_man_'+selected_text+'"><h6 class="core_man_head_'+selected_text+'">'+selectedValues[i]+'</h6><input type="hidden" name="coremanarr[]" class="coreman_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="core_man_div row core_man_institution"><div class="form-group col-md-12"><label class="form-label" for="input-1">Institution/Regulating Body</label><input class="form-control core_man_institution core_man_institution-'+i+'" type="text" name="core_man_institution[]"><span id="coreinstitutionvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Start Date</label><input class="form-control coreman_start_date coreman_start_date-'+i+'" type="date" name="coreman_start_date[]"><span id="coreman_start_datevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">End Date</label><input class="form-control coreman_end_date coreman_end_date-'+i+'" type="date" name="coreman_end_date[]"><span id="coreman_end_datevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control well_expiry well_expiry-'+i+'" type="date" name="well_expiry[]"><span id="wellexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload Certificate</label><input class="form-control well_upload_certification well_imgs_'+res_one+' well_upload_certification-'+i+'" type="file" name="well_upload_certification['+i+'][]" onchange="changeImg1('+user_id+','+i+',\''+img_text+'\',\''+res_one+'\')" multiple><span id="reqwelluploadvalid-'+i+'" class="reqError text-danger valley"></span><div class="well_imgs'+res_one+'"></div></div></div></div>');
             $(".mid_spe_mandotry_div").append(`
               <div class="mid_spe_${res_one} mid_spe_${selected_text}">
                   <h6 class="mid_spe_head_${selected_text}">${selectedValues[i]}</h6>
@@ -553,13 +548,9 @@ $('.js-example-basic-multiple[data-list-id="mandatory_courses"]').on('change', f
                       </div>
                   </div>
               </div>
-          `);
-
-            
+          `); 
           }
         }
-
-        
     });
 
     $('.js-example-basic-multiple[data-list-id="spec_area_data"]').on('change', function(){
@@ -1152,8 +1143,8 @@ function changetraImg1(user_id,i,field_name,cat_name){
             console.log("degree_transcript",image_array[i]);
             var img_name = image_array[i];
             var img_text = field_name;
-            console.log("img_name",'deleteImg('+(i+1)+','+user_id+',"'+img_name+'")');
-            htmlData += '<div class="edu_img edu_img-'+(i+1)+' edu_img'+field_name+cat_name+i+'"><a href="{{ url("/public") }}/uploads/education_degree/'+img_name+'" target="_blank"><i class="fa fa-file" aria-hidden="true"></i>'+image_array[i]+'</a><div class="close_btn close_btn-'+i+'" onclick="deleteImg1('+i+','+user_id+',\''+image_array[i]+'\',\''+cat_name+'\',\''+img_text+'\')" style="cursor: pointer;"><i class="fa fa-close" aria-hidden="true"></i></div></div>';
+            console.log("img_name",'deleteanoImg('+(i+1)+','+user_id+',"'+img_name+'")');
+            htmlData += '<div class="edu_img edu_img-'+(i+1)+' edu_img'+field_name+cat_name+'"><a href="{{ url("/public") }}/uploads/education_degree/'+img_name+'" target="_blank"><i class="fa fa-file" aria-hidden="true"></i>'+image_array[i]+'</a><div class="close_btn close_btn-'+i+'" onclick="deleteanoImg1('+i+','+user_id+',\''+image_array[i]+'\',\''+cat_name+'\',\''+img_text+'\')" style="cursor: pointer;"><i class="fa fa-close" aria-hidden="true"></i></div></div>';
          }
          $("."+field_name+cat_name).html(htmlData);
       }

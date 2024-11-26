@@ -2587,14 +2587,46 @@
                         </div>
                         <div class="form-group col-md-6">
                           <label class="form-label" for="input-1">Upload your certification/Licence</label>
-                          <input class="form-control" type="file" name="certificate_upload_certification[]" onchange="changeImg2('{{ $user_id }}','{{ $i }}')" multiple="">
-                          @if($c_data->certificate_upload_certification)
-                          <img src="{{ url('/public/uploads/certificates') }}/{{ $c_data->certificate_upload_certification }}" style="width:100px;">
-                          @endif
+                        <input class="form-control ano_certifi_imgs_certifi_{{$i}}" type="file" name="certificate_upload_certification[]" onchange="changeAnoImg('{{ $user_id }}','{{ $i }}','ano_certifi_imgs','certifi_{{$i}}')" multiple="">
+                         <?php
+                            $getedufieldsdata = DB::table("edu_fields")->where("user_id",$user_id)->first();
+
+                            if(!empty($getedufieldsdata)){
+                              $ano_certifi_img = (array)json_decode($getedufieldsdata->ano_certifi_imgs);
+                            }else{
+                              $ano_certifi_img = '';
+                            }
+                            
+
+                            if(!empty($ano_certifi_img)){
+                              // $ano_certifi_img_data = json_decode($ano_certifi_img["certifi_$i"]);
+                              $key = "certifi_$i";
+                              $ano_certifi_img_data = isset($ano_certifi_img[$key]) ? json_decode($ano_certifi_img[$key], true) : [];
+                            }else{
+                              $ano_certifi_img_data = "";
+                            }
+                            //print_r($acls_img[$acls_first_word_one]);
+                            
+                            
+                            //print_r($dtran_img);
+                            $l = 1;
+                            $user_id = Auth::guard('nurse_middle')->user()->id;
+                          ?>  
+                          <div class="ano_certifi_imgscertifi_{{ $i }}">
+                            @if(!empty($ano_certifi_img_data))
+                            @foreach($ano_certifi_img_data as $ano_img)
+                            <div class="edu_img edu_img-{{ $i }} edu_imgano_certifi_imgscertifi_{{ $i }}">
+                              <a href="{{ url('/public/uploads/education_degree') }}/{{ $ano_img }}"><i class="fa fa-file"></i>{{ $ano_img }}</a>
+                              <div class="close_btn close_btn-{{ $i }}" onclick="deleteanoImg1('{{ $i }}','{{ $user_id }}','{{ $ano_img }}','certifi_{{$i}}','ano_certifi_imgs')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
+                              </div>
+                              <?php
+                                $l++;
+                              ?>
+                            @endforeach
+                            @endif
+                          </div>
                         </div>
-                        <?php
-                          $user_id = Auth::guard('nurse_middle')->user()->id;
-                        ?>
+                      
                         <div class="col-md-12"><div class="add_new_certification_div mb-3 mt-3"><a style="cursor: pointer;" onclick="delete_certification('{{ $i }}','{{ $user_id }}','{{ $c_data->certificate_id }}')">- Delete certification/Licence</a></div></div>
                       </div>
                       <?php
@@ -2612,11 +2644,51 @@
                             
                             function add_listcertfication(){
                               var licence_div_count = $(".license_number_anothercertifications").length;
-                            console.log("licence_div_count",licence_div_count);
+                              console.log("licence_div_count",licence_div_count);
                               licence_div_count++;
                               var user_id = "{{ $user_id }}";
-                              $(".another_certifications").append('<div class="license_number_div license_number_div_'+licence_div_count+' row license_number_anothercertifications"><div class="form-group col-md-6"><label class="form-label" for="input-1">Certificate '+licence_div_count+'</label><input class="form-control additional_certificate_field additional_certificate_field-'+licence_div_count+'" type="text" name="training_certificate[]"><span id="reqcertname-'+licence_div_count+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control cert_licence_num cert_licence_num-'+licence_div_count+'" type="text" name="certificate_license_number[]"><span id="reqcertlicense-'+licence_div_count+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control cert_expiry cert_expiry-'+licence_div_count+'" type="date" name="certificate_expiry[]"><span id="reqcertexpiry-{{ $i }}" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Regulating Body</label><input class="form-control additional_regulating_body additional_regulating_body-'+licence_div_count+'" type="text" name="regulating_body[]"><span id="reqcertregulating_body-'+licence_div_count+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control additional_certifications-'+licence_div_count+'" type="file" name="certificate_upload_certification['+licence_div_count+'][]" onchange="changeImg2('+user_id+','+licence_div_count+')" multiple></div><div class="col-md-12"><div class="add_new_certification_div mb-3 mt-3"><a style="cursor: pointer;" onclick="delete_certification1('+licence_div_count+')">- Delete certification/Licence</a></div></div></div>');
-                              
+                              var ano_cer_img_txt = 'ano_certifi_imgs'
+                              var name =  'certifi'+'_'+licence_div_count;
+                              // $(".another_certifications").append('<div class="license_number_div license_number_div_'+licence_div_count+' row license_number_anothercertifications"><div class="form-group col-md-6"><label class="form-label" for="input-1">Certificate '+licence_div_count+'</label><input class="form-control additional_certificate_field additional_certificate_field-'+licence_div_count+'" type="text" name="training_certificate[]"><span id="reqcertname-'+licence_div_count+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control cert_licence_num cert_licence_num-'+licence_div_count+'" type="text" name="certificate_license_number[]"><span id="reqcertlicense-'+licence_div_count+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control cert_expiry cert_expiry-'+licence_div_count+'" type="date" name="certificate_expiry[]"><span id="reqcertexpiry-{{ $i }}" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Regulating Body</label><input class="form-control additional_regulating_body additional_regulating_body-'+licence_div_count+'" type="text" name="regulating_body[]"><span id="reqcertregulating_body-'+licence_div_count+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control  ano_certifi_imgs_'+name+' additional_certifications-'+licence_div_count+'" type="file" name="certificate_upload_certification['+licence_div_count+'][]" onchange="changeAnoImg('+user_id+','+licence_div_count+',ano_certifi_imgs,'+name+')" multiple></div><div class="ano_certifi_imgs'+name+'" ></div><div class="col-md-12"><div class="add_new_certification_div mb-3 mt-3"><a style="cursor: pointer;" onclick="delete_certification1('+licence_div_count+')">- Delete certification/Licence</a></div></div></div>');
+                              $(".another_certifications").append(`
+                                <div class="license_number_div license_number_div_${licence_div_count} row license_number_anothercertifications">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="input-1">Certificate ${licence_div_count}</label>
+                                        <input class="form-control additional_certificate_field additional_certificate_field-${licence_div_count}" type="text" name="training_certificate[]">
+                                        <span id="reqcertname-${licence_div_count}" class="reqError text-danger valley"></span>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="input-1">Certification/Licence Number</label>
+                                        <input class="form-control cert_licence_num cert_licence_num-${licence_div_count}" type="text" name="certificate_license_number[]">
+                                        <span id="reqcertlicense-${licence_div_count}" class="reqError text-danger valley"></span>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="input-1">Expiry</label>
+                                        <input class="form-control cert_expiry cert_expiry-${licence_div_count}" type="date" name="certificate_expiry[]">
+                                        <span id="reqcertexpiry-${licence_div_count}" class="reqError text-danger valley"></span>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="input-1">Regulating Body</label>
+                                        <input class="form-control additional_regulating_body additional_regulating_body-${licence_div_count}" type="text" name="regulating_body[]">
+                                        <span id="reqcertregulating_body-${licence_div_count}" class="reqError text-danger valley"></span>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                                        <input class="form-control ano_certifi_imgs_${name} additional_certifications-${licence_div_count}" 
+                                              type="file" 
+                                              name="certificate_upload_certification[${licence_div_count}][]" 
+                                              onchange="changeAnoImg(${user_id}, ${licence_div_count}, 'ano_certifi_imgs', '${name}')" 
+                                              multiple>
+                                    </div>
+                                    <div class="ano_certifi_imgs${name}"></div>
+                                    <div class="col-md-12">
+                                        <div class="add_new_certification_div mb-3 mt-3">
+                                            <a style="cursor: pointer;" onclick="delete_certification1(${licence_div_count})">- Delete certification/Licence</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            `);
+
                             }
                           </script>
                       
@@ -3822,6 +3894,18 @@
                       $mid_spe_data1 = "";
                       $mid_spe_json = "";
                     }
+
+                    if($trainingData && $trainingData->core_man_data){
+                      $core_man_data1 = json_decode($trainingData->core_man_data);
+                      $core_man_data_arr = array();
+                      foreach ($core_man_data1 as $core_man_data) {
+                        $core_man_data_arr[] = $core_man_data->core_man_edu_id;
+                      }
+                      $core_man_json = json_encode($core_man_data_arr);
+                    }else{
+                      $core_man_data1 = "";
+                      $core_man_json = "";
+                    }
                  
                   ?>
                   <form id="training_form" method="POST" onsubmit="return updateTraining()">
@@ -3831,23 +3915,23 @@
                     <h6 class="emergency_text">
                       Completed Mandatory Training
                     </h6>
-                    <div class="row">
-                      <div class="col-md-6">
+                    <!-- <div class="row"> -->
+                      <!-- <div class="col-md-6">
                         <div class="form-group level-drp">
                           <label class="form-label" for="input-1">Training Start Date</label>
                           <input class="form-control training_start_date" type="date" name="start_date" value="@if(!empty($trainingData)){{ $trainingData->start_date }}@endif" onchange="trainingStartDate(event);">
                           <span id="reqempsdate" class="reqError text-danger valley"></span>
                         </div>
-                      </div>
-                      <div class="col-md-6">
+                      </div> -->
+                      <!-- <div class="col-md-6">
                         <div class="form-group level-drp">
                           <label class="form-label" for="input-1">Training End Date</label>
                           <input class="form-control training_end_date" type="date" name="end_date" value="@if(!empty($trainingData)){{ $trainingData->end_date }}@endif" onchange="trainingEndDate(event);">
                           <span id="reqtrainingenddate" class="reqError text-danger valley"></span>
                         </div>
                         
-                      </div>
-                      <script type="text/javascript">
+                      </div> -->
+                      <!-- <script type="text/javascript">
                         function trainingEndDate(e){
                           var end_date = e.target.value;
                           var start_date = $('.training_start_date').val();
@@ -3914,12 +3998,12 @@
                           document.getElementsByClassName("training_end_date")[0].setAttribute('min', formattedDate);
                         }
 
-                      </script>
-                      <div class="form-group level-drp">
+                      </script> -->
+                      <!-- <div class="form-group level-drp">
                           <label class="form-label" for="input-1">Institution</label>
                           <input class="form-control" type="text" name="institution" value="@if(!empty($trainingData)){{ $trainingData->institutions }}@endif">
                           
-                        </div>
+                        </div> -->
                         
                         <!-- <div class="form-group level-drp">
                            <label class="form-label" for="input-1">Mandatory Continuing Education</label>
@@ -3933,7 +4017,7 @@
 
                           </select>          
                         </div> -->      
-                    </div>
+                    <!-- </div> -->
                     <p>Please add required courses or certifications completed for compliance or safety</p>
 
                     <h6 class="emergency_text">
@@ -4589,9 +4673,9 @@
                           <div class="other_tran_imgtran_{{ $i }}">
                             @if(!empty($other_tra_img_data))
                             @foreach($other_tra_img_data as $other_img)
-                            <div class="edu_img edu_img-{{ $i }} edu_imgother_tran_imgtran{{ $i }}{{ $l }}">
+                            <div class="edu_img edu_img-{{ $i }} edu_imgother_tran_imgtran_{{ $i }}">
                               <a href="{{ url('/public/uploads/education_degree') }}/{{ $other_img }}"><i class="fa fa-file"></i>{{ $other_img }}</a>
-                              <div class="close_btn close_btn-{{ $i }}" onclick="deleteImg1('{{ $i }}','{{ $user_id }}','{{ $other_img }}','tra_{{$i  }}','other_tran_img')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
+                              <div class="close_btn close_btn-{{ $i }}" onclick="deleteanoImg1('{{ $i }}','{{ $user_id }}','{{ $other_img }}','tran_{{$i  }}','other_tran_img')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
                               </div>
                               <?php
                                 $l++;
@@ -4650,13 +4734,115 @@
                            
                             <ul id="core_man_con_data" style="display:none;">
                                 @foreach($mandatory_sub_education as $ms_education)
-                                <li data-value="{{ $ms_education->name }}">{{ $ms_education->name }}</li>
+                                <li data-value="{{ $ms_education->name }}" data-id="{{ $ms_education->id }}">{{ $ms_education->name }}</li>
                                 @endforeach  
                             </ul>
                           <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="core_man_con_data" name="core_man_con_data[]" multiple="multiple"></select>
                         </div>
 
-                        <div class="core_man_con_data_div"></div>
+                        <div class="core_man_con_data_div">
+
+                          <?php 
+                            $i = 0 ;
+                            ?>
+                            @if(!empty($core_man_data1))
+                            @foreach($core_man_data1 as $core_man_data)
+                                <?php
+                                  $first_word = strtok($core_man_data->core_man_edu_id, " ");
+
+                                  $first_word  = strtolower(preg_replace('/[^A-Za-z0-9\-]/', '', $first_word));
+
+                                  $getname = DB::table('man_training_category')
+                                                        ->where('parent',440)
+                                                        ->where('type','Education')
+                                                        ->where('name','=',$core_man_data->core_man_edu_id)
+                                                        ->first();
+
+
+                                 
+                                  $core_man_first_word = $first_word.'_'.$getname->id;
+                                ?>
+                               <div class="core_man_{{ $core_man_first_word }} core_man_{{ $core_man_first_word }}">
+                                 <h6>{{ $core_man_data->core_man_edu_id }}</h6>
+                                 <div class="core_man_div row core_man_institution">
+                                  <div class="form-group col-md-12">
+                                      <label class="form-label" for="input-1">Institution/Regulating Body</label>
+                                      <input type="hidden" name="coremanarr[]" class="coreman_input_{{ $core_man_data->core_man_edu_id }}" value="{{ $core_man_data->core_man_edu_id }}">
+                                      <input class="form-control core_man_institution core_man_institution-{{ $i }}" type="text" name="core_man_institution[]" value="{{ $core_man_data->core_man_institution }}">
+                                      <span id="coreinstitutionvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                      <label class="form-label" for="input-1">Start Date</label>
+                                      <input class="form-control coreman_start_date coreman_start_date-{{ $i }}" type="date" name="coreman_start_date[]" value="{{ $core_man_data->coreman_start_date }}">
+                                      <span id="coreman_start_datevalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                      <label class="form-label" for="input-1">End Date</label>
+                                      <input class="form-control coreman_end_date coreman_end_date-{{ $i }}" type="date" name="coreman_end_date[]" value="{{ $core_man_data->coreman_end_date }}">
+                                      <span id="coreman_end_datevalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                      <label class="form-label" for="input-1">Status</label>
+                                      <select class="form-control coreman_status coreman_status-{{ $i }}" name="coreman_status[]">
+                                          <option value="Completed" @if($core_man_data->coreman_status == 'Completed')  selected  @endif>Completed</option>
+                                          <option value="Ongoing" @if($core_man_data->coreman_status == 'Ongoing')  selected  @endif>Ongoing</option>
+                                          <option value="Pending" @if($core_man_data->coreman_status == 'Pending')  selected  @endif>Pending</option>
+                                      </select>
+                                      <span id="coreman_statusvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                      <label class="form-label" for="input-1">Expiry</label>
+                                      <input class="form-control core_man_expiry core_man_expiry-{{ $i }}" type="date" name="core_man_expiry[]" value="{{ $core_man_data->core_man_expiry }}">
+                                      <span id="coremanexpiryvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                      <label class="form-label" for="input-1">Upload Certificate</label>
+                                      <input class="form-control coreman_upload_certification core_man_imgs_{{ $core_man_first_word }} coreman_upload_certification-{{ $i }}" type="file" name="coreman_upload_certification[{{ $i }}][]" onchange="changetraImg1({{ $user_id }},{{ $i }},'core_man_imgs','{{ $core_man_first_word }}')">
+                                      <span id="reqmidspecuploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                                    
+                                    <?php
+                                        $getedufieldsdata = DB::table("edu_fields")->where("user_id",$user_id)->first();
+
+                                        if(!empty($getedufieldsdata)){
+                                          $core_man_img = (array)json_decode($getedufieldsdata->core_man_imgs);
+                                        }else{
+                                          $core_man_img = '';
+                                        }
+                                        
+                                        
+
+                                        if(!empty($core_man_img)){
+                                          $core_man_img_data = json_decode($core_man_img[$core_man_first_word]);
+                                        }else{
+                                          $core_man_img_data = "";
+                                        }
+                                        //print_r($acls_img[$acls_first_word_one]);
+                                        
+                                        
+                                        // //print_r($dtran_img);
+                                        $l = 1;
+                                        $user_id = Auth::guard('nurse_middle')->user()->id;
+                                      ?>
+                                      <div class="core_man_imgs{{ $core_man_first_word }}">
+                                        @if(!empty($core_man_img_data))
+                                        @foreach($core_man_img_data as $core_man_img)
+                                        <div class="trans_img trans_img-{{ $i }} trans_imgcore_man_imgs{{ $core_man_first_word }}{{ $i }}">
+                                          <a href="{{ url('/public/uploads/education_degree') }}/{{ $core_man_img }}"><i class="fa fa-file"></i>{{ $core_man_img }}</a>
+                                          <div class="close_btn close_btn-{{ $i }}" onclick="deleteImg1('{{ $i }}','{{ $user_id }}','{{ $core_man_img }}','{{ $core_man_first_word  }}','core_man_imgs')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
+                                        </div>
+                                        <?php
+                                            $l++;
+                                          ?>
+                                        @endforeach
+                                        @endif
+                                      </div>
+                                      </div>
+                                </div>
+                               </div>
+                            @endforeach
+                            @endif
+
+                        </div>
 
                         <!-- cat-2 -->
                         <div class="form-group level-drp mandatory_sub_edu_div  mandatory_sub_edu_div_2 @if($trainingData && $trainingData->mid_spe_data == NULL) d-none @endif @if(empty($trainingData)) d-none @endif">
@@ -4752,7 +4938,7 @@
                                         $l = 1;
                                         $user_id = Auth::guard('nurse_middle')->user()->id;
                                       ?>
-                                      <div class="spec_area_imgs{{ $mid_spe_first_word }}">
+                                      <div class="mid_spe_imgs{{ $mid_spe_first_word }}">
                                         @if(!empty($mid_spe_img_data))
                                         @foreach($mid_spe_img_data as $mid_spe_img)
                                         <div class="trans_img trans_img-{{ $i }} trans_imgmid_spe_imgs{{ $mid_spe_first_word }}{{ $i }}">
@@ -5128,6 +5314,102 @@
                     <div class="another_education">
                       <h6 class="emergency_text mt-2">Other Educations 
                       </h6>
+                      <?php
+                            if(!empty($trainingData)){
+                              $additional_edu_data = json_decode($trainingData->other_edu_data);
+                            }else{
+                              $additional_edu_data = "";
+                            }
+                            $i = 1;
+                          ?>
+
+                        @if(!empty($additional_edu_data))
+                         @foreach($additional_edu_data as $edu_data)
+                          <div class="eductiondiv eduction_div_{{ $i }} row another_edu_div">
+                        <div class="form-group col-md-6">
+                          <label class="form-label" for="input-1">Training {{ $i }}</label>
+                          <input class="form-control additional_course_field additional_course_field-{{ $i }}" type="text" name="education[]" value="@if(!empty($trainingData)){{ $edu_data->education_name }}@endif">
+                          <span id="reqeduname-{{ $i }}" class="reqError text-danger valley"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label class="form-label" for="input-1">Institution/Regulating Body</label>
+                          <input class="form-control institution institution--{{ $i }}" type="text" name="institution[]" value="@if(!empty($trainingData)){{ $edu_data->education_ins }}@endif">
+                          <span id="reqinstitution-{{ $i }}" class="reqError text-danger valley"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label class="form-label" for="input-1">Start Date</label>
+                          <input class="form-control start_date start_date-1" type="date" name="start_date[]" value="@if(!empty($trainingData)){{ $edu_data->education_start_date }}@endif">
+                          <span id="reqstartdate--{{ $i }}" class="reqError text-danger valley"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label class="form-label" for="input-1">End Date</label>
+                          <input class="form-control end_date end_date-{{ $i }}" type="date" name="end_date[]" value="@if(!empty($trainingData)){{ $edu_data->education_end_date }}@endif">
+                          <span id="reqenddate-{{ $i }}" class="reqError text-danger valley"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="form-label" for="input-{{ $i }}">Status</label>
+                            <select class="form-control edu_status edu_status-{{ $i }}" name="edu_status[]">
+                                <option value="Completed" @if($edu_data->education_status == 'Completed')selected  @endif>Completed</option>
+                                <option value="Ongoing" @if($edu_data->education_status == 'Ongoing')    selected  @endif>Ongoing</option>
+                                <option value="Pending" @if($edu_data->education_status == 'Pending')    selected  @endif>Pending</option>
+                            </select>
+                            <span id="edu_statusvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label class="form-label" for="input-1">Expiry</label>
+                          <input class="form-control edu_expiry edu_expiry-{{ $i }}" type="date" name="edu_expiry[]" value="@if(!empty($trainingData)){{$edu_data->education_exp}}@endif">
+                          <span id="reqedu_expiry{{ $i }}" class="reqError text-danger valley"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                          <input class="form-control ano_education_imgs_edu_{{ $i }} additional_cour_certifications-{{ $i }}" type="file" name="cour_certificate_upload_certification[]" onchange="changeAnoImg('{{ $user_id }}','{{ $i }}','ano_education_imgs','edu_{{ $i}}')" multiple="">   
+                         <?php
+                            $getedufieldsdata = DB::table("edu_fields")->where("user_id",$user_id)->first();
+
+                            if(!empty($getedufieldsdata)){
+                              $ano_education_img = (array)json_decode($getedufieldsdata->ano_education_imgs);
+                            }else{
+                              $ano_education_img = '';
+                            }
+                            
+
+                            if(!empty($ano_education_img)){
+                              $ano_education_img_data = json_decode($ano_education_img["edu_$i"]);
+                            }else{
+                              $ano_education_img_data = "";
+                            }
+                            //print_r($acls_img[$acls_first_word_one]);
+                            
+                            //print_r($dtran_img);
+                            $l = 1;
+                            $user_id = Auth::guard('nurse_middle')->user()->id;
+                          ?>
+                          <div class="ano_education_imgsedu_{{ $i }}">
+                            @if(!empty($ano_education_img_data))
+                            @foreach($ano_education_img_data as $edu_img)
+                            <div class="edu_img edu_img-{{ $i }} edu_imgano_education_imgsedu_{{ $i }}">
+                              <a href="{{ url('/public/uploads/education_degree') }}/{{ $edu_img }}"><i class="fa fa-file"></i>{{ $edu_img }}</a>
+                              <div class="close_btn close_btn-{{ $i}}" onclick="deleteanoImg1('{{ $i }}','{{ $user_id }}','{{ $edu_img }}','edu_{{$i  }}','ano_education_imgs')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
+                              </div>
+                              <?php
+                                $l++;
+                              ?>
+                            @endforeach
+                            @endif
+                          </div>
+                        </div>
+                        <?php
+                          $user_id = Auth::guard('nurse_middle')->user()->id;
+                        ?>
+                        <div class="col-md-12"><div class="add_new_cmp_training_div mb-3 mt-3"><a style="cursor: pointer;" onclick="delete_edu('{{ $i }}','{{ $user_id }}','{{ $edu_data->other_edu_id }}')">- Delete Training</a></div></div>
+                      </div>
+                      <?php
+                        $i++;
+                      ?>
+                      @endforeach
+                      
+                      @endif
+                   
                     </div>
                     <div class="add_new_education_div mb-3 mt-3">
                       <a style="cursor: pointer;" onclick="add_listeduction()">+ Add another Education</a>
@@ -5186,8 +5468,6 @@
                         <label class="form-label" for="input-1">Relationship</label>
                         <select class="form-control form-select" name="reference_relationship" id="reference_relationship">
                             <option value="">Select Relationship</option>
-                            
-                            
                             <option value="Mother" @if(!empty($interviewReferenceData)) @if(!empty($interviewReferenceData->reference_relationship == "Mother")) selected @endif @endif>Mother</option>
                             <option value="Father" @if(!empty($interviewReferenceData)) @if(!empty($interviewReferenceData->reference_relationship == "Father")) selected @endif @endif>Father</option>
                             <option value="Brother" @if(!empty($interviewReferenceData)) @if(!empty($interviewReferenceData->reference_relationship == "Brother")) selected @endif @endif>Brother</option>

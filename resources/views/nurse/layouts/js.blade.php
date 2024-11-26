@@ -1810,8 +1810,8 @@ function pad(number) {
 
     var j = 0;
     $(".eme_topic_institution ").each(function(){
-      if ($(".eme_topic_institution -"+j).length > 0) {
-        if ($(".eme_topic_institution -"+j).val() == '') {
+      if ($(".eme_topic_institution-"+j).length > 0) {
+        if ($(".eme_topic_institution-"+j).val() == '') {
           document.getElementById("emetopicinstitutionvalid-"+j).innerHTML = "* Please enter the institution/regulating body";
           isValid = false;
         }
@@ -1863,8 +1863,8 @@ function pad(number) {
 
     var j = 0;
     $(".safety_com_institution ").each(function(){
-      if ($(".safety_com_institution -"+j).length > 0) {
-        if ($(".safety_com_institution -"+j).val() == '') {
+      if ($(".safety_com_institution-"+j).length > 0) {
+        if ($(".safety_com_institution-"+j).val() == '') {
           document.getElementById("safetycominstitutionvalid-"+j).innerHTML = "* Please enter the institution/regulating body";
           isValid = false;
         }
@@ -1914,8 +1914,8 @@ function pad(number) {
     });
 
     var j = 0;
-    $(".mid_spe_institution ").each(function(){
-      if ($(".mid_spe_institution -"+j).length > 0) {
+    $(".mid_spe_institution").each(function(){
+      if ($(".mid_spe_institution-"+j).length > 0) {
         if ($(".mid_spe_institution-"+j).val() == '') {
           document.getElementById("midspeinstitutionvalid-"+j).innerHTML = "* Please enter the institution/regulating body";
           isValid = false;
@@ -1968,7 +1968,7 @@ function pad(number) {
 
     var j = 0;
     $(".spec_area_institution ").each(function(){
-      if ($(".spec_area_institution -"+j).length > 0) {
+      if ($(".spec_area_institution-"+j).length > 0) {
         if ($(".spec_area_institution-"+j).val() == '') {
           document.getElementById("specareainstitutionvalid-"+j).innerHTML = "* Please enter the institution/regulating body";
           isValid = false;
@@ -1998,10 +1998,10 @@ function pad(number) {
     });
     
     var m= 0;
-    $(".mid_spe_expiry").each(function(){
-      if ($(".mid_spe_expiry-"+m).length > 0) {
-        if ($(".mid_spe_expiry-"+m).val() == '') {
-          document.getElementById("midspeexpiryvalid-"+m).innerHTML = "* Please enter the expiry date";
+    $(".spec_area_status").each(function(){
+      if ($(".spec_area_status-"+m).length > 0) {
+        if ($(".spec_area_status-"+m).val() == '') {
+          document.getElementById("spec_area_statusvalid-"+m).innerHTML = "*Please select status ";
           isValid = false;
         }
       }
@@ -2011,7 +2011,60 @@ function pad(number) {
     $(".spec_area_expiry").each(function(){
       if ($(".spec_area_expiry-"+n).length > 0) {
         if ($(".spec_area_expiry-"+n).val() == '') {
-          document.getElementById("specareaexpiryvalid-"+n).innerHTML = "* Please select status";
+          document.getElementById("specareaexpiryvalid-"+n).innerHTML = "*Please enter the expiry date";
+          isValid = false;
+        }
+      }
+      n++;
+    });
+
+
+     var j = 0;
+    $(".core_man_institution ").each(function(){
+      if ($(".core_man_institution-"+j).length > 0) {
+        if ($(".core_man_institution-"+j).val() == '') {
+          document.getElementById("coreinstitutionvalid-"+j).innerHTML = "* Please enter the institution/regulating body";
+          isValid = false;
+        }
+      }
+      j++;
+    });
+    var k = 0;
+    $(".coreman_start_date").each(function(){
+      if ($(".coreman_start_date-"+k).length > 0) {
+        if ($(".coreman_start_date-"+k).val() == '') {
+          document.getElementById("coreman_start_datevalid-"+k).innerHTML = "* Please enter the start date";
+          isValid = false;
+        }
+      }
+      k++;
+    });
+    var l = 0;
+    $(".coreman_end_date").each(function(){
+      if ($(".coreman_end_date-"+l).length > 0) {
+        if ($(".coreman_end_date-"+l).val() == '') {
+          document.getElementById("coreman_end_datevalid-"+l).innerHTML = "* Please enter the end date";
+          isValid = false;
+        }
+      }
+      l++;
+    });
+    
+    var m= 0;
+    $(".coreman_status").each(function(){
+      if ($(".coreman_status-"+m).length > 0) {
+        if ($(".coreman_status-"+m).val() == '') {
+          document.getElementById("coreman_statusvalid-"+m).innerHTML = "*Please select status";
+          isValid = false;
+        }
+      }
+      m++;
+    });
+    var n = 0;
+    $(".core_man_expiry ").each(function(){
+      if ($(".core_man_expiry-"+n).length > 0) {
+        if ($(".core_man_expiry-"+n).val() == '') {
+          document.getElementById("coremanexpiryvalid-"+n).innerHTML = "*Please enter the expiry date";
           isValid = false;
         }
       }
@@ -2653,6 +2706,24 @@ function pad(number) {
       success: function(data){
          if(data == 1){
           $(".trans_img"+img_text+country_name+i).remove();
+         }
+         
+      }
+    });
+  }
+
+    function deleteanoImg1(i,user_id,img,country_name,img_text){
+    // alert(".trans_img"+img_text+country_name+i);
+    
+    
+    $.ajax({
+      type: "post",
+      url: "{{ route('nurse.deleteImg1') }}",
+      data: {user_id:user_id,img:img,country_name:country_name,img_text:img_text,_token:'{{ csrf_token() }}'},
+      cache: false,
+      success: function(data){
+         if(data == 1){
+          $(".edu_img"+img_text+country_name).remove();
          }
          
       }
