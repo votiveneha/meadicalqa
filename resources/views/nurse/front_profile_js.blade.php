@@ -1144,7 +1144,7 @@ function changetraImg1(user_id,i,field_name,cat_name){
             var img_name = image_array[i];
             var img_text = field_name;
             console.log("img_name",'deleteanoImg('+(i+1)+','+user_id+',"'+img_name+'")');
-            htmlData += '<div class="edu_img edu_img-'+(i+1)+' edu_img'+field_name+cat_name+'"><a href="{{ url("/public") }}/uploads/education_degree/'+img_name+'" target="_blank"><i class="fa fa-file" aria-hidden="true"></i>'+image_array[i]+'</a><div class="close_btn close_btn-'+i+'" onclick="deleteanoImg1('+i+','+user_id+',\''+image_array[i]+'\',\''+cat_name+'\',\''+img_text+'\')" style="cursor: pointer;"><i class="fa fa-close" aria-hidden="true"></i></div></div>';
+            htmlData += '<div class="trans_img edu_img-'+(i+1)+' edu_img'+field_name+cat_name+'"><a href="{{ url("/public") }}/uploads/education_degree/'+img_name+'" target="_blank"><i class="fa fa-file" aria-hidden="true"></i>'+image_array[i]+'</a><div class="close_btn close_btn-'+i+'" onclick="deleteanoImg1('+i+','+user_id+',\''+image_array[i]+'\',\''+cat_name+'\',\''+img_text+'\')" style="cursor: pointer;"><i class="fa fa-close" aria-hidden="true"></i></div></div>';
          }
          $("."+field_name+cat_name).html(htmlData);
       }

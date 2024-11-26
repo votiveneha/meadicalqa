@@ -2070,6 +2070,11 @@ function pad(number) {
       }
       n++;
     });
+
+    if($(".declare_information_man").prop('checked') == false){
+      document.getElementById("reqmantradeclare_information").innerHTML = "* Please check this checkbox";
+      isValid = false;
+    }
     if(isValid == true){
     $('#training_form').find('.text-danger').hide();
     $.ajax({

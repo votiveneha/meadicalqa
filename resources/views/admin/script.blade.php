@@ -807,7 +807,50 @@ $(document).ready(function() {
 </script>
 
 {{-- for add Nurse script --}}
-<script>      
+<script> 
+ $(document).ready(function() {
+$('#professs_form').on('submit', function(event){
+ event.preventDefault(); 
+    var isValid = true;
+    if ($('[name="states[]"]').val() == '') {
+      document.getElementById("reqnurseTypeId").innerHTML = "* Please select one or more Type of nurse";
+      isValid = false;
+    }
+
+    if ($('[name="specialties[]"]').val() == '') {
+      document.getElementById("specialties_error").innerHTML = "* Please select one or more specialties.";
+      isValid = false;
+    }
+
+    // if ($('[name="degree[]"]').val() == '') {
+    //   document.getElementById("reqdegree").innerHTML = "* Please select degree.";
+    //   isValid = false;
+    // }
+
+    if ($('[name="bio"]').val() == '') {
+      document.getElementById("reqprofessional_bio").innerHTML = "* Please enter the bio.";
+      isValid = false;
+    }
+
+    if ($('[name="employee_status"]').val() == '') {
+      document.getElementById("reqemployee_status").innerHTML = "* Please select the employee status.";
+      isValid = false;
+    }
+
+    if($(".declare_information").prop('checked') == false){
+      document.getElementById("reqdeclare_information").innerHTML = "* Please check this checkbox";
+      isValid = false;
+    }
+
+    if(isValid == true){
+
+    }
+
+});
+
+
+ });
+
     $(document).ready(function() {
         // Initially deactivate all tabs except the first one
         // $('.nav-pills .nav-link').not('.active').addClass('disabled');
@@ -907,133 +950,7 @@ $(document).ready(function() {
                 $('#reqTxtconfirm_passwordI').text('');
             }
 
-             // Function to show error message
-        // function showError(element, message) {
-        //     $('#' + element).text(message);
-        //     hasErrors = true;
-        // }
-
-        // // Function to clear error message
-        // function clearError(element) {
-        //     $('#' + element).text("");
-        // }
-
-        // // Validate each field
-        // if (first_name === "") {
-        //     showError('first_name_error', "First name is required.");
-        // } else {
-        //     clearError('first_name_error');
-        // }
-
-        // if (last_name === "") {
-        //     showError('last_name_error', "Last name is required.");
-        // } else {
-        //     clearError('last_name_error');
-        // }
-
-        // if (email === "") {
-        //     showError('email_error', "Email is required.");
-        // } else {
-        //     clearError('email_error');
-        // }
-
-        // if (!selectedGender) {
-        //     showError('genderErr', "Please select a gender.");
-        // } else {
-        //     clearError('genderErr');
-        // }
-
-        // if (contact === "") {
-        //     showError('contact_error', "Mobile Number is required.");
-        // } else {
-        //     clearError('contact_error');
-        // }
-
-        // if (dob === "") {
-        //     showError('date_error', "Date of Birth is required.");
-        // } else {
-        //     clearError('date_error');
-        // }
-
-        // if (per_website === "") {
-        //     showError('per_website_error', "Personal website is required.");
-        // } else {
-        //     clearError('per_website_error');
-        // }
-
-        // if (countryI === "") {
-        //     showError('country_error', "Country is required.");
-        // } else {
-        //     clearError('country_error');
-        // }
-
-        // if (stateI === "") {
-        //     showError('state_error', "State is required.");
-        // } else {
-        //     clearError('state_error');
-        // }
-
-        // if (city === "") {
-        //     showError('city_error', "City is required.");
-        // } else {
-        //     clearError('city_error');
-        // }
-
-        // if (zip_code === "") {
-        //     showError('zip_code_error', "Zip Code is required.");
-        // } else {
-        //     clearError('zip_code_error');
-        // }
-
-        // if (home_address === "") {
-        //     showError('home_address_error', "Home address is required.");
-        // } else {
-        //     clearError('home_address_error');
-        // }
-
-        // if (emrg_contact === "") {
-        //     showError('emrg_contact_error', "Mobile number is required.");
-        // } else {
-        //     clearError('emrg_contact_error');
-        // }
-
-        // if (emrg_email === "") {
-        //     showError('emrg_email_error', "Email is required.");
-        // } else {
-        //     clearError('emrg_email_error');
-        // }
-
-        // if (profile_image === "") {
-        //     showError('profile_image_error', "Profile Image is required.");
-        // } else {
-        //     clearError('profile_image_error');
-        // }
-
-        // Gather form data
-        // var formData = {
-        //     first_name: $('#first_name').val(),
-        //     last_name: $('#last_name').val(),
-        //     email: $('#email').val(),
-        //     gender: $('input[name="gender"]:checked').val(),
-        //     contact: $('#contact').val(),
-        //     country_code_phone: $('#country_code_phone').val(),
-        //     country_iso_phone: $('#country_iso_phone').val(),
-        //     profile_image: profile_image,
-        //     dob: $('#dob').val(),
-        //     per_website: $('#per_website').val(),
-        //     country: countryI,
-        //     state: stateI,
-        //     city: $('#city').val(),
-        //     zip_code: $('#zip_code').val(),
-        //     home_address: $('#home_address').val(),
-        //     emrg_contact: $('#emrg_contact').val(),
-        //     emrg_email: $('#emrg_email').val(),
-        //     country_code_mobile: $('#country_code_mobile').val(),
-        //     country_iso_mobile: $('#country_iso_mobile').val(),
-        //     // _token: '{{ csrf_token() }}', // Add CSRF token
-        //     tab:'tab1'
             
-        // };
         // Create a new FormData object
         var formData = new FormData();
         

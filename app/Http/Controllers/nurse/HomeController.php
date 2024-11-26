@@ -2316,6 +2316,7 @@ class HomeController extends Controller
         $mand_continue_education = $request->mand_continue_education;
         $mand_training = $request->mandatory_courses;
         $mand_education = $request->mandatory_education;
+        $declare_information =  $request->declare_information;
         $gettrainingdata = DB::table("mandatory_training")->where("user_id",$user_id)->first();
 
         $training_name = $request->training;
@@ -2323,6 +2324,8 @@ class HomeController extends Controller
         $training_start_date = $request->tra_start_date;
         $training_end_date = $request->tra_end_date;
         $tra_exp = $request->tra_expiry;
+        
+        
 
         $other_tra_array = array();
         if(!empty($training_name)){
@@ -2686,6 +2689,7 @@ class HomeController extends Controller
                 'mid_spe_data'   =>$mid_spe_json,
                 'core_man_data' =>$core_man_json,
                 'other_edu_data' => $other_edu_json,
+                'declaration_status'=>$declare_information,
             ]);
         }else{
             $post = new MandatoryTrainModel();
@@ -2708,6 +2712,7 @@ class HomeController extends Controller
             $post->mid_spe_data = $mid_spe_json;
             $post->core_man_data = $core_man_json;
             $post->other_edu_data = $other_edu_json;
+            $post->declaration_status = $declare_information;
 
             $run = $post->save();
 

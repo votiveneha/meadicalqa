@@ -463,6 +463,7 @@
                                     <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center ">Profession 
                                     </h3>
                                 </div>
+                                <form method="POST" id="professs_form">
                                 <div class="card-body p-3 px-md-4">
                                     <div class="col-md-12">                             
                                             <div class="row">
@@ -483,7 +484,7 @@
                                                                 
                                                             </ul>
                                                             <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="type-of-nurse" name="states[]" multiple="multiple" id="type_nurse"></select>
-                                                            <span id="type_nurse_error" class="reqError text-danger valley "></span>
+                                                            <span id="reqnurseTypeId" class="reqError text-danger valley "></span>
                                                         </div>
                                                     </div>
                                                 
@@ -708,7 +709,7 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-md-12 mt-2">
+                                                     <div class="col-md-12 mt-2">
                                                         <div class="form-group">
                                                             <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Current Employment Status</strong></label>
                                                             <select class="form-control mr-10 select-active" name="employee_status" id="employee_status">
@@ -729,6 +730,34 @@
                                                             </select>
                                                             <span id="status_error" class="reqError text-danger valley "></span>
                                                         </div>
+                                                      </div>
+
+                                                      <div class="col-md-12 mt-2">
+                                                        <div class="form-group">
+                                                            <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Temporary</strong></label>
+                                                            <select class="form-control mr-10 select-active" name="temporary_status" id="temporary_status">
+                                                            <option value="">Select</option>
+                                                            <option value="Temporary" >Temporary</option>
+                                                            <option value="Contract">Contract</option>
+                                                            <option value="Term Contract">Term Contract</option>
+                                                            <option value="Travel">Travel</option>
+                                                            <option value="Per Diem">Per Diem</option>
+                                                            <option value="Local">Local</option>
+                                                            <option value="On-Call">On-Call</option> 
+                                                            <option value="PRN (Pro Re Nata)">PRN (Pro Re Nata)</option>
+                                                            <option value="Casual">Casual</option>
+                                                            <option value="Locum tenens (temporary substitute)">Locum tenens (temporary substitute)</option>
+                                                            <option value="Agency Nurse/Midwife" >Agency Nurse/Midwife</option>
+                                                            <option value="Seasonal" >Seasonal</option>
+                                                            <option value="Freelance" >Freelance</option>
+                                                            <option value="Internship" >Internship</option>
+                                                            <option value="Apprenticeship" >Apprenticeship</option>
+                                                            <option value="Residency" >Residency</option>
+                                                            <option value="Volunteer" >Volunteer</option>
+                                                            </select>
+                                                            <span id="status_error" class="reqError text-danger valley "></span>
+                                                        </div>
+                                                      </div>
 
                                                         <div class="col-md-12 mt-2">
                                                             <div class="form-group">
@@ -744,13 +773,13 @@
                                                             <span id="diclare_error" class="reqError text-danger valley "></span>
                                                         </div>
                                                         <div class="d-flex align-items-center justify-content-between mt-3">
-                                                            <button type="button" class="btn btn-default next-step-3 align-items-center justify-content-between" data-target="#navpill-4">Next</button>
-                                                        </div>  
-                                                    </div>
+                                                            <button type="submit" class="btn btn-default next-step-33 align-items-center justify-content-between" data-target="#navpill-4">Next</button>
+                                                        </div>    
                                             </div>
                                     </div>
                     
                                 </div>
+                                </form>
                             </div>
                         </div>
                     </div>

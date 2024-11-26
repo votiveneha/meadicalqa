@@ -2615,7 +2615,7 @@
                           <div class="ano_certifi_imgscertifi_{{ $i }}">
                             @if(!empty($ano_certifi_img_data))
                             @foreach($ano_certifi_img_data as $ano_img)
-                            <div class="edu_img edu_img-{{ $i }} edu_imgano_certifi_imgscertifi_{{ $i }}">
+                            <div class="trans_img edu_img-{{ $i }} edu_imgano_certifi_imgscertifi_{{ $i }}">
                               <a href="{{ url('/public/uploads/education_degree') }}/{{ $ano_img }}"><i class="fa fa-file"></i>{{ $ano_img }}</a>
                               <div class="close_btn close_btn-{{ $i }}" onclick="deleteanoImg1('{{ $i }}','{{ $user_id }}','{{ $ano_img }}','certifi_{{$i}}','ano_certifi_imgs')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
                               </div>
@@ -4673,7 +4673,7 @@
                           <div class="other_tran_imgtran_{{ $i }}">
                             @if(!empty($other_tra_img_data))
                             @foreach($other_tra_img_data as $other_img)
-                            <div class="edu_img edu_img-{{ $i }} edu_imgother_tran_imgtran_{{ $i }}">
+                            <div class="trans_img edu_img-{{ $i }} edu_imgother_tran_imgtran_{{ $i }}">
                               <a href="{{ url('/public/uploads/education_degree') }}/{{ $other_img }}"><i class="fa fa-file"></i>{{ $other_img }}</a>
                               <div class="close_btn close_btn-{{ $i }}" onclick="deleteanoImg1('{{ $i }}','{{ $user_id }}','{{ $other_img }}','tran_{{$i  }}','other_tran_img')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
                               </div>
@@ -5387,7 +5387,7 @@
                           <div class="ano_education_imgsedu_{{ $i }}">
                             @if(!empty($ano_education_img_data))
                             @foreach($ano_education_img_data as $edu_img)
-                            <div class="edu_img edu_img-{{ $i }} edu_imgano_education_imgsedu_{{ $i }}">
+                            <div class="trans_img edu_img-{{ $i }} edu_imgano_education_imgsedu_{{ $i }}">
                               <a href="{{ url('/public/uploads/education_degree') }}/{{ $edu_img }}"><i class="fa fa-file"></i>{{ $edu_img }}</a>
                               <div class="close_btn close_btn-{{ $i}}" onclick="deleteanoImg1('{{ $i }}','{{ $user_id }}','{{ $edu_img }}','edu_{{$i  }}','ano_education_imgs')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
                               </div>
@@ -5411,9 +5411,14 @@
                       @endif
                    
                     </div>
-                    <div class="add_new_education_div mb-3 mt-3">
+                    <div class="add_new_education_div mt-3" style="margin-bottom: 2rem !important;">
                       <a style="cursor: pointer;" onclick="add_listeduction()">+ Add another Education</a>
                     </div>
+                    <div class="declaration_box mt-2">
+                      <input type="checkbox" name="declare_information" class="declare_information_man" value="1" @if(!empty($trainingData)) @if($trainingData->declaration_status == 1) checked @endif @endif>
+                      <label for="declare_information">I declare that the information provided is true and correct</label>
+                    </div>    
+                    <span id="reqmantradeclare_information" class="reqError text-danger valley"></span>
 
                     <div class="box-button mt-15">
                       <button class="btn btn-apply-big font-md font-bold" type="submit" id="submitTraining">Save Changes</button>
