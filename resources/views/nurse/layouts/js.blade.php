@@ -2717,23 +2717,24 @@ function pad(number) {
     });
   }
 
-    function deleteanoImg1(i,user_id,img,country_name,img_text){
-    // alert(".trans_img"+img_text+country_name+i);
-    
-    
+  function deleteanoImg1(i,user_id,img,country_name,img_text){
+
     $.ajax({
       type: "post",
-      url: "{{ route('nurse.deleteImg1') }}",
+      url: "{{ route('nurse.deleteAnoImg1') }}",
       data: {user_id:user_id,img:img,country_name:country_name,img_text:img_text,_token:'{{ csrf_token() }}'},
       cache: false,
       success: function(data){
          if(data == 1){
-          $(".edu_img"+img_text+country_name).remove();
+          $(".edu_img"+img_text+'tran_'+i).remove();
+          $(".edu_img"+img_text+'certifi_'+i).remove();
+          $(".edu_img"+img_text+'edu_'+i).remove();
          }
          
       }
     });
   }
+
   function deleteImgCert(i,user_id,img){
     
     

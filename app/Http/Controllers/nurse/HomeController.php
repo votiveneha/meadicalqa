@@ -1956,7 +1956,7 @@ class HomeController extends Controller
             $tranimgData = '';
         }
 
-
+ 
 
         $deleteData = EducationModel::where('user_id',$user_id)->update(['degree_transcript'=>$tranimgData]);
 
@@ -1986,7 +1986,7 @@ class HomeController extends Controller
         $gettransimg1 = json_decode($gettransimg[$country_name]);
 
         $img_index = array_search($img, $gettransimg1);
-        
+
         array_splice($gettransimg1, $img_index, 1);
 
         if(!empty($gettransimg1)){
@@ -2004,6 +2004,54 @@ class HomeController extends Controller
         }
 
         //print_r($gettransimg);die;
+
+        $deleteData = DB::table("edu_fields")->where('user_id',$user_id)->update([$img_text=>$tranimgData1]);
+
+        $destinationPath = public_path() . '/uploads/education_degree/'.$img;
+        
+        if(File::exists($destinationPath)) {
+            File::delete($destinationPath);
+        }
+
+        if($deleteData){
+            return 1;
+        }
+
+        //print_r($gettransimg);
+        
+    }
+
+
+    public function deleteAnoImg1(Request $request){
+        $user_id = $request->user_id;
+        $img = $request->img;
+        $country_name = $request->country_name;
+        $img_text = $request->img_text;
+        $getEducationData = DB::table("edu_fields")->where("user_id",$user_id)->first();
+        $getEducationData1 = (array)$getEducationData;        
+        $gettransimg = (array)json_decode($getEducationData1[$img_text]);
+      
+        $gettransimg1 = json_decode($gettransimg[$country_name]);
+ 
+        $img_index = array_search($img, $gettransimg1);
+        
+        array_splice($gettransimg1, $img_index, 1);
+        
+        if(!empty($gettransimg1)){
+            $tranimgData = json_encode($gettransimg1);
+        }else{
+            $tranimgData = '';
+        }
+       
+        $gettransimg[$country_name] = $tranimgData;
+
+        if(!empty($gettransimg)){
+            $tranimgData1 = json_encode($gettransimg);
+            // echo $tranimgData1;die;
+        }else{
+            $tranimgData1 = '';
+        }
+
 
         $deleteData = DB::table("edu_fields")->where('user_id',$user_id)->update([$img_text=>$tranimgData1]);
 

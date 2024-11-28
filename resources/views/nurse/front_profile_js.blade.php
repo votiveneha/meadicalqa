@@ -553,95 +553,192 @@ $('.js-example-basic-multiple[data-list-id="mandatory_courses"]').on('change', f
         }
     });
 
-    $('.js-example-basic-multiple[data-list-id="spec_area_data"]').on('change', function(){
-        let selectedValues = $(this).val();
-        var spec_area_data = [];
-        $('.spec_area_div').removeClass('d-none');
-        $(".spec_area_div h6").each(function(){
-          var text = $(this).text();
-          if(selectedValues.includes(text) == false){
-            let res = text.split(' ')[0];
-            let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-            console.log("res_one",res_one);
-            $(".spec_area_"+res_one).remove();
-          }
-          spec_area_data.push(text);
-        });
-        console.log("selectedValues",selectedValues);
+    // $('.js-example-basic-multiple[data-list-id="spec_area_data"]').on('change', function(){
+    //     let selectedValues = $(this).val();
+    //     var spec_area_data = [];
+    //     $('.spec_area_div').removeClass('d-none');
+    //     $(".spec_area_div h6").each(function(){
+    //       var text = $(this).text();
+    //       if(selectedValues.includes(text) == false){
+    //         let res = text.split(' ')[0];
+    //         let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
+    //         console.log("res_one",res_one);
+    //         $(".spec_area_"+res_one).remove();
+    //       }
+    //       spec_area_data.push(text);
+    //     });
+    //     console.log("selectedValues",selectedValues);
         
-        // $(".spec_area_div").empty();
+    //     // $(".spec_area_div").empty();
         
-        for(var i = 0;i<selectedValues.length;i++){
-          var selected_text = selectedValues[i].replace(/ .*/,'').replace(/[^\w\s]/gi, '').toLowerCase();
-          let res = selectedValues[i].split(' ')[0];
-          let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-          console.log("res_one",res_one);
+    //     for(var i = 0;i<selectedValues.length;i++){
+    //       var selected_text = selectedValues[i].replace(/ .*/,'').replace(/[^\w\s]/gi, '').toLowerCase();
+    //       let res = selectedValues[i].split(' ')[0];
+    //       let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
+    //       console.log("res_one",res_one);
 
-          if(spec_area_data.includes(selectedValues[i]) == false){            
-            var user_id = "{{ $user_id }}";
-            var img_text = "spec_area_imgs";
-            $(".spec_area_div").append(`
-              <div class="spec_area_${res_one} spec_area_${selected_text}">
-                  <h6 class="mid_spe_head_${selected_text}">${selectedValues[i]}</h6>
-                  <input type="hidden" name="specareaarr[]" class="spec_area_input_${selectedValues[i]}" value="${selectedValues[i]}">
+    //       if(spec_area_data.includes(selectedValues[i]) == false){            
+    //         var user_id = "{{ $user_id }}";
+    //         var img_text = "spec_area_imgs";
+    //         $(".spec_area_div").append(`
+    //           <div class="spec_area_${res_one} spec_area_${selected_text}">
+    //               <h6 class="mid_spe_head_${selected_text}">${selectedValues[i]}</h6>
+    //               <input type="hidden" name="specareaarr[]" class="spec_area_input_${selectedValues[i]}" value="${selectedValues[i]}">
                   
-                  <div class="spec_area_div row spec_area_institution">
-                      <!-- Institution/Regulating Body -->
-                      <div class="form-group col-md-12">
-                          <label class="form-label" for="input-1">Institution/Regulating Body</label>
-                          <input class="form-control spec_area_institution spec_area_institution-${i}" type="text" name="spec_area_institution[]">
-                          <span id="specareainstitutionvalid-${i}" class="reqError text-danger valley"></span>
-                      </div>
+    //               <div class="spec_area_div row spec_area_institution">
+    //                   <!-- Institution/Regulating Body -->
+    //                   <div class="form-group col-md-12">
+    //                       <label class="form-label" for="input-1">Institution/Regulating Body</label>
+    //                       <input class="form-control spec_area_institution spec_area_institution-${i}" type="text" name="spec_area_institution[]">
+    //                       <span id="specareainstitutionvalid-${i}" class="reqError text-danger valley"></span>
+    //                   </div>
 
-                      <!-- Start Date -->
-                      <div class="form-group col-md-6">
-                          <label class="form-label" for="input-1">Start Date</label>
-                          <input class="form-control spec_area_start_date spec_area_start_date-${i}" type="date" name="spec_area_start_date[]">
-                          <span id="spec_area_start_datevalid-${i}" class="reqError text-danger valley"></span>
-                      </div>
+    //                   <!-- Start Date -->
+    //                   <div class="form-group col-md-6">
+    //                       <label class="form-label" for="input-1">Start Date</label>
+    //                       <input class="form-control spec_area_start_date spec_area_start_date-${i}" type="date" name="spec_area_start_date[]">
+    //                       <span id="spec_area_start_datevalid-${i}" class="reqError text-danger valley"></span>
+    //                   </div>
 
-                      <!-- End Date -->
-                      <div class="form-group col-md-6">
-                          <label class="form-label" for="input-1">End Date</label>
-                          <input class="form-control spec_area_end_date spec_area_end_date-${i}" type="date" name="spec_area_end_date[]">
-                          <span id="spec_area_end_datevalid-${i}" class="reqError text-danger valley"></span>
-                      </div>
+    //                   <!-- End Date -->
+    //                   <div class="form-group col-md-6">
+    //                       <label class="form-label" for="input-1">End Date</label>
+    //                       <input class="form-control spec_area_end_date spec_area_end_date-${i}" type="date" name="spec_area_end_date[]">
+    //                       <span id="spec_area_end_datevalid-${i}" class="reqError text-danger valley"></span>
+    //                   </div>
 
-                      <!-- Status -->
-                      <div class="form-group col-md-6">
-                          <label class="form-label" for="input-1">Status</label>
-                          <select class="form-control spec_area_status spec_area_status-${i}" name="spec_area_status[]">
-                              <option value="Completed">Completed</option>
-                              <option value="Ongoing">Ongoing</option>
-                              <option value="Pending">Pending</option>
-                          </select>
-                          <span id="spec_area_statusvalid-${i}" class="reqError text-danger valley"></span>
-                      </div>
+    //                   <!-- Status -->
+    //                   <div class="form-group col-md-6">
+    //                       <label class="form-label" for="input-1">Status</label>
+    //                       <select class="form-control spec_area_status spec_area_status-${i}" name="spec_area_status[]">
+    //                           <option value="Completed">Completed</option>
+    //                           <option value="Ongoing">Ongoing</option>
+    //                           <option value="Pending">Pending</option>
+    //                       </select>
+    //                       <span id="spec_area_statusvalid-${i}" class="reqError text-danger valley"></span>
+    //                   </div>
 
-                      <!-- Expiry -->
-                      <div class="form-group col-md-6">
-                          <label class="form-label" for="input-1">Expiry</label>
-                          <input class="form-control spec_area_expiry spec_area_expiry-${i}" type="date" name="spec_area_expiry[]">
-                          <span id="specareaexpiryvalid-${i}" class="reqError text-danger valley"></span>
-                      </div>
+    //                   <!-- Expiry -->
+    //                   <div class="form-group col-md-6">
+    //                       <label class="form-label" for="input-1">Expiry</label>
+    //                       <input class="form-control spec_area_expiry spec_area_expiry-${i}" type="date" name="spec_area_expiry[]">
+    //                       <span id="specareaexpiryvalid-${i}" class="reqError text-danger valley"></span>
+    //                   </div>
 
-                      <!-- Upload Certificate/Licence -->
-                      <div class="form-group col-md-12">
-                          <label class="form-label" for="input-1">Upload Certificate/Licence</label>
-                          <input class="form-control specarea__upload_certification spec_area_imgs_${res_one} specarea_upload_certification-${i}" 
-                                type="file" name="specarea_upload_certification[${i}][]" 
-                                onchange="changetraImg1(${user_id},${i},'${img_text}','${res_one}')" multiple>
-                          <span id="reqspecarea uploadvalid-${i}" class="reqError text-danger valley"></span>
-                          <div class="spec_area_imgs${res_one}"></div>
-                      </div>
-                  </div>
-              </div>
-          `);
+    //                   <!-- Upload Certificate/Licence -->
+    //                   <div class="form-group col-md-12">
+    //                       <label class="form-label" for="input-1">Upload Certificate/Licence</label>
+    //                       <input class="form-control specarea__upload_certification spec_area_imgs_${res_one} specarea_upload_certification-${i}" 
+    //                             type="file" name="specarea_upload_certification[${i}][]" 
+    //                             onchange="changetraImg1(${user_id},${i},'${img_text}','${res_one}')" multiple>
+    //                       <span id="reqspecarea uploadvalid-${i}" class="reqError text-danger valley"></span>
+    //                       <div class="spec_area_imgs${res_one}"></div>
+    //                   </div>
+    //               </div>
+    //           </div>
+    //       `);
 
             
-          }
-        }      
+    //       }
+    //     }      
+    // });
+    $('.js-example-basic-multiple[data-list-id="spec_area_data"]').on('change', function() {
+        let selectedValues = $(this).val();
+        var spec_area_data = [];
+        
+        // Hide and clear unnecessary elements
+        $('.spec_area_div').removeClass('d-none');
+        $(".spec_area_div h6").each(function() {
+            var text = $(this).text();
+            if (!selectedValues.includes(text)) {
+                let res = text.split(' ')[0];
+                let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
+                $(".spec_area_" + res_one).remove();
+            }
+            spec_area_data.push(text);
+        });
+
+        console.log("selectedValues", selectedValues);
+
+        // Accumulate HTML in a variable
+        var newContent = "";
+
+        // Loop through selected values and generate the necessary fields
+        for (var i = 0; i < selectedValues.length; i++) {
+            var selected_text = selectedValues[i].replace(/ .*/,'').replace(/[^\w\s]/gi, '').toLowerCase();
+            let res = selectedValues[i].split(' ')[0];
+            let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
+            
+            console.log("res_one", res_one);
+
+            if (spec_area_data.indexOf(selectedValues[i]) === -1) {
+                var user_id = "{{ $user_id }}";
+                var img_text = "spec_area_imgs";
+
+                // Append HTML content for this selection
+                newContent += `
+                <div class="spec_area_${res_one} spec_area_${selected_text}">
+                    <h6 class="mid_spe_head_${selected_text}">${selectedValues[i]}</h6>
+                    <input type="hidden" name="specareaarr[]" class="spec_area_input_${selectedValues[i]}" value="${selectedValues[i]}">
+                    
+                    <div class="spec_area_div row spec_area_institution">
+                        <!-- Institution/Regulating Body -->
+                        <div class="form-group col-md-12">
+                            <label class="form-label" for="input-1">Institution/Regulating Body</label>
+                            <input class="form-control spec_area_institution spec_area_institution-${i}" type="text" name="spec_area_institution[]">
+                            <span id="specareainstitutionvalid-${i}" class="reqError text-danger valley"></span>
+                        </div>
+
+                        <!-- Start Date -->
+                        <div class="form-group col-md-6">
+                            <label class="form-label" for="input-1">Start Date</label>
+                            <input class="form-control spec_area_start_date spec_area_start_date-${i}" type="date" name="spec_area_start_date[]">
+                            <span id="spec_area_start_datevalid-${i}" class="reqError text-danger valley"></span>
+                        </div>
+
+                        <!-- End Date -->
+                        <div class="form-group col-md-6">
+                            <label class="form-label" for="input-1">End Date</label>
+                            <input class="form-control spec_area_end_date spec_area_end_date-${i}" type="date" name="spec_area_end_date[]">
+                            <span id="spec_area_end_datevalid-${i}" class="reqError text-danger valley"></span>
+                        </div>
+
+                        <!-- Status -->
+                        <div class="form-group col-md-6">
+                            <label class="form-label" for="input-1">Status</label>
+                            <select class="form-control spec_area_status spec_area_status-${i}" name="spec_area_status[]">
+                                <option value="Completed">Completed</option>
+                                <option value="Ongoing">Ongoing</option>
+                                <option value="Pending">Pending</option>
+                            </select>
+                            <span id="spec_area_statusvalid-${i}" class="reqError text-danger valley"></span>
+                        </div>
+
+                        <!-- Expiry -->
+                        <div class="form-group col-md-6">
+                            <label class="form-label" for="input-1">Expiry</label>
+                            <input class="form-control spec_area_expiry spec_area_expiry-${i}" type="date" name="spec_area_expiry[]">
+                            <span id="specareaexpiryvalid-${i}" class="reqError text-danger valley"></span>
+                        </div>
+
+                        <!-- Upload Certificate/Licence -->
+                        <div class="form-group col-md-12">
+                            <label class="form-label" for="input-1">Upload Certificate/Licence</label>
+                            <input class="form-control specarea__upload_certification spec_area_imgs_${res_one} specarea_upload_certification-${i}" 
+                                type="file" name="specarea_upload_certification[${i}][]" 
+                                onchange="changetraImg1(${user_id},${i},'${img_text}','${res_one}')" multiple>
+                            <span id="reqspecarea uploadvalid-${i}" class="reqError text-danger valley"></span>
+                            <div class="spec_area_imgs${res_one}"></div>
+                        </div>
+                    </div>
+                </div>`;
+            }
+        }
+
+        // Append all new content at once
+        $(".spec_area_div").append(newContent);
     });
+
 
     $('.js-example-basic-multiple[data-list-id="safety_com_data"]').on('change', function(){
         let selectedValues = $(this).val();
@@ -1050,7 +1147,7 @@ $(".another_education").append(`
         <div class="col-md-12">
             <div class="add_new_certification_div mb-3 mt-3">
                 <a style="cursor: pointer;" onclick="delete_edu(${education_div_count})">
-                    - Delete Education
+                    - Delete Continuing Education
                 </a>
             </div>
         </div>
@@ -1144,7 +1241,7 @@ function changetraImg1(user_id,i,field_name,cat_name){
             var img_name = image_array[i];
             var img_text = field_name;
             console.log("img_name",'deleteanoImg('+(i+1)+','+user_id+',"'+img_name+'")');
-            htmlData += '<div class="trans_img edu_img-'+(i+1)+' edu_img'+field_name+cat_name+'"><a href="{{ url("/public") }}/uploads/education_degree/'+img_name+'" target="_blank"><i class="fa fa-file" aria-hidden="true"></i>'+image_array[i]+'</a><div class="close_btn close_btn-'+i+'" onclick="deleteanoImg1('+i+','+user_id+',\''+image_array[i]+'\',\''+cat_name+'\',\''+img_text+'\')" style="cursor: pointer;"><i class="fa fa-close" aria-hidden="true"></i></div></div>';
+            htmlData += '<div class="trans_img edu_img-'+(i+1)+' edu_img'+field_name+'tran_'+(i)+'"><a href="{{ url("/public") }}/uploads/education_degree/'+img_name+'" target="_blank"><i class="fa fa-file" aria-hidden="true"></i>'+image_array[i]+'</a><div class="close_btn close_btn-'+i+'" onclick="deleteanoImg1('+i+','+user_id+',\''+image_array[i]+'\',\''+cat_name+'\',\''+img_text+'\')" style="cursor: pointer;"><i class="fa fa-close" aria-hidden="true"></i></div></div>';
          }
          $("."+field_name+cat_name).html(htmlData);
       }

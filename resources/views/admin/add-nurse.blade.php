@@ -88,13 +88,13 @@
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link" data-bs-toggle="tab" href="#navpill-3" role="tab" aria-selected="false"
+                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-3" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Profession</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-4" role="tab" aria-selected="false"
+                        <a class="nav-link" data-bs-toggle="tab" href="#navpill-4" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Education and Certifications</span>
                         </a>
@@ -463,7 +463,9 @@
                                     <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center ">Profession 
                                     </h3>
                                 </div>
-                                <form method="POST" id="professs_form">
+                                <form method="POST" id="professs_form" data-target="#navpill-4">
+                                @csrf
+                                <input type="hidden" name="tab" value="tab2">
                                 <div class="card-body p-3 px-md-4">
                                     <div class="col-md-12">                             
                                             <div class="row">
@@ -507,7 +509,7 @@
                                                                 @endforeach
                                                                 <!-- Add more list items as needed -->
                                                             </ul>
-                                                            <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="nursing_entry-{{ $i }}" name="states[]" multiple="multiple"></select>
+                                                            <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="nursing_entry-{{ $i }}" name="nursing_type_{{ $i }}[]" multiple="multiple"></select>
                                                         <span id="photo_id" class="reqError text-danger valley "></span>
                                                     </div>
                                                      <?php
@@ -755,7 +757,7 @@
                                                             <option value="Residency" >Residency</option>
                                                             <option value="Volunteer" >Volunteer</option>
                                                             </select>
-                                                            <span id="status_error" class="reqError text-danger valley "></span>
+                                                            <span id="temp_status_error" class="reqError text-danger valley "></span>
                                                         </div>
                                                       </div>
 
@@ -773,7 +775,7 @@
                                                             <span id="diclare_error" class="reqError text-danger valley "></span>
                                                         </div>
                                                         <div class="d-flex align-items-center justify-content-between mt-3">
-                                                            <button type="submit" class="btn btn-default next-step-33 align-items-center justify-content-between" data-target="#navpill-4">Next</button>
+                                                            <button type="submit" class="btn btn-default next-step-33 align-items-center justify-content-between">Next</button>
                                                         </div>    
                                             </div>
                                     </div>
@@ -808,18 +810,10 @@
                                                     <ul id="ndegree" style="display:none;">
                                                         @foreach($nurse_midwife_degree as $ptl)
                                                             <li data-value="{{ $ptl->id }}">{{ $ptl->name }}</li>
-                                                            
-                                                            @endforeach
+                                                        @endforeach
                                                     </ul>
                                                      <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="ndegree" name="ndegree[]" multiple="multiple"></select>
                                                     <span id="ndegree_error" class="reqError text-danger valley "></span>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12 mt-3">
-                                                <div class="form-group">
-                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Institutions (Please start with the most relevant)</strong></label>
-                                                   <input class="form-control" type="text" name="institution" value="" id="institution">
-                                                    <span id="institution_error" class="reqError text-danger valley "></span>
                                                 </div>
                                             </div>            
                                             <div class="col-md-12 mt-3">

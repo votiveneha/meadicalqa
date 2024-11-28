@@ -106,5 +106,6 @@ Route::prefix('nurse')->name('nurse.')->namespace('App\Http\Controllers\nurse')-
     Route::post('/uploadmantraImgs1', 'HomeController@uploadmantraImgs1')->name('uploadmantraImgs1');
     Route::post('/uploadAnotherImgs', 'HomeController@uploadAnotherImgs')->name('uploadAnotherImgs');
     Route::post('/deleteTraining', 'HomeController@deleteTraining')->name('deleteTraining');
+      Route::post('/deleteAnoImg1', 'HomeController@deleteAnoImg1')->name('deleteAnoImg1');
   });
 });

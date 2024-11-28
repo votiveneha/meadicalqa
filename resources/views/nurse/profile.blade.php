@@ -188,7 +188,7 @@
                <li><a href="#tab-my-jobs" id="my_profession" class="btn btn-border recruitment-icon mb-20 profile_tabs" data-bs-toggle="tab" role="tab" aria-controls="tab-my-jobs" aria-selected="false"><i class="fi fi-rr-employee-man"></i> Profession</a></li>
                 
                 <li><a class="btn btn-border people-icon mb-20" id="educert"  data-bs-toggle="tab" role="tab" aria-controls="tab-saved-jobs" aria-selected="false"><i class="fi fi-rr-graduation-cap"></i> Education and Certifications</a></li>
-                <li><a href="#mand_training" id="mand_training" class="btn btn-border aboutus-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true"><i class="fi fi-rr-chart-user"></i> Mandatory Training and Education</a></li>
+                <li><a href="#mand_training" id="mand_training" class="btn btn-border aboutus-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true"><i class="fi fi-rr-chart-user"></i>Mandatory Training and Continuing Education</a></li>
                 <li><a href="#experience" id="experience_info" class="btn btn-border aboutus-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true"><i class="fi fi-rr-suitcase-alt"></i> Experience</a></li>
                 <li><a href="#reference" id="reference_info" class="btn btn-border aboutus-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true"><i class="fi fi-rr-suitcase-alt"></i> References</a></li>
                 <!-- <li><a href="#experience" id="experience_info" class="btn btn-border aboutus-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true"><i class="fi fi-rr-chart-histogram"></i>  Financial Details</a></li> -->
@@ -2560,6 +2560,7 @@
                               $additional_certificate = "";
                             }
                             $i = 1;
+                             $l = 0;
                           ?>
 
                         @if(!empty($additional_certificate))
@@ -2587,7 +2588,7 @@
                         </div>
                         <div class="form-group col-md-6">
                           <label class="form-label" for="input-1">Upload your certification/Licence</label>
-                        <input class="form-control ano_certifi_imgs_certifi_{{$i}}" type="file" name="certificate_upload_certification[]" onchange="changeAnoImg('{{ $user_id }}','{{ $i }}','ano_certifi_imgs','certifi_{{$i}}')" multiple="">
+                        <input class="form-control ano_certifi_imgs_certifi_{{$i}}" type="file" name="certificate_upload_certification[]" onchange="changeAnoImg('{{ $user_id }}','{{ $l }}','ano_certifi_imgs','certifi_{{$i}}')" multiple="">
                          <?php
                             $getedufieldsdata = DB::table("edu_fields")->where("user_id",$user_id)->first();
 
@@ -2609,15 +2610,15 @@
                             
                             
                             //print_r($dtran_img);
-                            $l = 1;
+                           
                             $user_id = Auth::guard('nurse_middle')->user()->id;
                           ?>  
                           <div class="ano_certifi_imgscertifi_{{ $i }}">
                             @if(!empty($ano_certifi_img_data))
                             @foreach($ano_certifi_img_data as $ano_img)
-                            <div class="trans_img edu_img-{{ $i }} edu_imgano_certifi_imgscertifi_{{ $i }}">
+                            <div class="trans_img edu_img-{{ $i }} edu_imgano_certifi_imgscertifi_{{ $l }}">
                               <a href="{{ url('/public/uploads/education_degree') }}/{{ $ano_img }}"><i class="fa fa-file"></i>{{ $ano_img }}</a>
-                              <div class="close_btn close_btn-{{ $i }}" onclick="deleteanoImg1('{{ $i }}','{{ $user_id }}','{{ $ano_img }}','certifi_{{$i}}','ano_certifi_imgs')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
+                              <div class="close_btn close_btn-{{ $i }}" onclick="deleteanoImg1('{{ $l }}','{{ $user_id }}','{{ $ano_img }}','certifi_{{$i}}','ano_certifi_imgs')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
                               </div>
                               <?php
                                 $l++;
@@ -3775,7 +3776,7 @@
                           </script>
               <div class="tab-pane fade" id="tab-mandtraining" role="tabpanel" aria-labelledby="tab-educert" style="display: none">
                 <div class="card shadow-sm border-0 p-4 mt-30">
-                  <h3 class="mt-0 color-brand-1 mb-20">Mandatory Training and Education</h3>
+                  <h3 class="mt-0 color-brand-1 mb-20">Mandatory Training and Continuing Education</h3>
                   <p>Mandatory Training and Continuing Education are vital for many nursing and midwifery roles. Keeping them up to date is crucial to maintaining your eligibility for employment opportunities</p>
                   
                   
@@ -4021,7 +4022,7 @@
                     <p>Please add required courses or certifications completed for compliance or safety</p>
 
                     <h6 class="emergency_text">
-                      Mandatory Training
+                      <!-- Mandatory Training -->
                     </h6>
                     <div class="form-group level-drp">
                       <input type="hidden" name="man_training" class="man_training" value="@if(!empty($trainingData)) {{ $trainingData->man_training }}@endif">
@@ -4101,7 +4102,7 @@
                                 </div>
                                 <div class="form-group col-md-6">
                                   <label class="form-label" for="input-1">Upload Certificate</label>
-                                  <input class="form-control well_upload_certification well_imgs_{{ $well_first_word }} well_upload_certification-{{ $i }}" type="file" name="well_upload_certification[{{ $i }}][]" onchange="changetraImg1({{ $user_id }},{{ $i }},'well_imgs','{{ $well_first_word }}')">
+                                  <input class="form-control well_upload_certification well_imgs_{{ $well_first_word }} well_upload_certification-{{ $i }}" type="file" name="well_upload_certification[{{ $i }}][]" onchange="changetraImg1({{ $user_id }},{{ $i }},'well_imgs','{{ $well_first_word }}')" multiple>
                                   <span id="reqwelluploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
                                 
                                 <?php
@@ -4325,7 +4326,7 @@
                                 </div>
                                 <div class="form-group col-md-6">
                                   <label class="form-label" for="input-1">Upload Certificate</label>
-                                  <input class="form-control leader_pro_upload_certification leader_pro_imgs_{{ $lead_first_word }} leader_pro_upload_certification-{{ $i }}" type="file" name="leader_pro_upload_certification[{{ $i }}][]"  onchange="changetraImg1({{ $user_id }},{{ $i }},'leader_pro_imgs','{{ $lead_first_word }}')">
+                                  <input class="form-control leader_pro_upload_certification leader_pro_imgs_{{ $lead_first_word }} leader_pro_upload_certification-{{ $i }}" type="file" name="leader_pro_upload_certification[{{ $i }}][]"  onchange="changetraImg1({{ $user_id }},{{ $i }},'leader_pro_imgs','{{ $lead_first_word }}')" multiple>
                                   <span id="reqleaderprouploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
                                 
                                 <?php
@@ -4615,6 +4616,7 @@
                               $additional_tra_data = "";
                             }
                             $i = 1;
+                            $l=0;
                           ?>
 
                         @if(!empty($additional_tra_data))
@@ -4647,7 +4649,7 @@
                         </div>
                         <div class="form-group col-md-6">
                           <label class="form-label" for="input-1">Upload your certification/Licence</label>
-                          <input class="form-control other_tran_img_tran_{{ $i }} additional_certifications-{{ $i }}" type="file" name="certificate_upload_certification[]" onchange="changeAnoImg('{{ $user_id }}','{{ $i }}','other_tran_img','tran_{{ $i}}')" multiple="">   
+                          <input class="form-control other_tran_img_tran_{{ $i }} additional_certifications-{{ $i }}" type="file" name="certificate_upload_certification[]" onchange="changeAnoImg('{{ $user_id }}','{{ $l }}','other_tran_img','tran_{{ $i}}')" multiple="">   
                          <?php
                             $getedufieldsdata = DB::table("edu_fields")->where("user_id",$user_id)->first();
 
@@ -4667,15 +4669,15 @@
                             
                             
                             //print_r($dtran_img);
-                            $l = 1;
+                          
                             $user_id = Auth::guard('nurse_middle')->user()->id;
                           ?>
                           <div class="other_tran_imgtran_{{ $i }}">
                             @if(!empty($other_tra_img_data))
                             @foreach($other_tra_img_data as $other_img)
-                            <div class="trans_img edu_img-{{ $i }} edu_imgother_tran_imgtran_{{ $i }}">
+                            <div class="trans_img edu_img-{{ $i }} edu_imgother_tran_imgtran_{{ $l }}">
                               <a href="{{ url('/public/uploads/education_degree') }}/{{ $other_img }}"><i class="fa fa-file"></i>{{ $other_img }}</a>
-                              <div class="close_btn close_btn-{{ $i }}" onclick="deleteanoImg1('{{ $i }}','{{ $user_id }}','{{ $other_img }}','tran_{{$i  }}','other_tran_img')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
+                              <div class="close_btn close_btn-{{ $i }}" onclick="deleteanoImg1('{{ $l }}','{{ $user_id }}','{{ $other_img }}','tran_{{$i  }}','other_tran_img')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
                               </div>
                               <?php
                                 $l++;
@@ -4696,7 +4698,7 @@
                       
                       @endif
                     </div>
-                    <div class="add_new_cmp_training_div mb-3 mt-3">
+                    <div class="add_new_cmp_training_div  mt-3" style="margin-bottom: 3rem !important;margin-top: 2rem !important;">
                       <a style="cursor: pointer;" onclick="add_listtraining()">+ Add another Completed Training</a>
                     </div>
 
@@ -5312,7 +5314,7 @@
                         </div>
                     </div>
                     <div class="another_education">
-                      <h6 class="emergency_text mt-2">Other Educations 
+                      <h6 class="emergency_text mt-2">Other Continuing Education 
                       </h6>
                       <?php
                             if(!empty($trainingData)){
@@ -5321,13 +5323,14 @@
                               $additional_edu_data = "";
                             }
                             $i = 1;
+                            $l = 0;
                           ?>
 
                         @if(!empty($additional_edu_data))
                          @foreach($additional_edu_data as $edu_data)
                           <div class="eductiondiv eduction_div_{{ $i }} row another_edu_div">
                         <div class="form-group col-md-6">
-                          <label class="form-label" for="input-1">Training {{ $i }}</label>
+                          <label class="form-label" for="input-1">Course/Workshop {{ $i }}</label>
                           <input class="form-control additional_course_field additional_course_field-{{ $i }}" type="text" name="education[]" value="@if(!empty($trainingData)){{ $edu_data->education_name }}@endif">
                           <span id="reqeduname-{{ $i }}" class="reqError text-danger valley"></span>
                         </div>
@@ -5381,15 +5384,15 @@
                             //print_r($acls_img[$acls_first_word_one]);
                             
                             //print_r($dtran_img);
-                            $l = 1;
+                           
                             $user_id = Auth::guard('nurse_middle')->user()->id;
                           ?>
                           <div class="ano_education_imgsedu_{{ $i }}">
                             @if(!empty($ano_education_img_data))
                             @foreach($ano_education_img_data as $edu_img)
-                            <div class="trans_img edu_img-{{ $i }} edu_imgano_education_imgsedu_{{ $i }}">
+                            <div class="trans_img edu_img-{{ $i }} edu_imgano_education_imgsedu_{{ $l }}">
                               <a href="{{ url('/public/uploads/education_degree') }}/{{ $edu_img }}"><i class="fa fa-file"></i>{{ $edu_img }}</a>
-                              <div class="close_btn close_btn-{{ $i}}" onclick="deleteanoImg1('{{ $i }}','{{ $user_id }}','{{ $edu_img }}','edu_{{$i  }}','ano_education_imgs')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
+                              <div class="close_btn close_btn-{{ $i}}" onclick="deleteanoImg1('{{ $l }}','{{ $user_id }}','{{ $edu_img }}','edu_{{$i  }}','ano_education_imgs')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
                               </div>
                               <?php
                                 $l++;
@@ -5401,7 +5404,7 @@
                         <?php
                           $user_id = Auth::guard('nurse_middle')->user()->id;
                         ?>
-                        <div class="col-md-12"><div class="add_new_cmp_training_div mb-3 mt-3"><a style="cursor: pointer;" onclick="delete_edu('{{ $i }}','{{ $user_id }}','{{ $edu_data->other_edu_id }}')">- Delete Training</a></div></div>
+                        <div class="col-md-12"><div class="add_new_cmp_training_div mb-3 mt-3"><a style="cursor: pointer;" onclick="delete_edu('{{ $i }}','{{ $user_id }}','{{ $edu_data->other_edu_id }}')">- Delete Continuing Education</a></div></div>
                       </div>
                       <?php
                         $i++;
@@ -5411,8 +5414,8 @@
                       @endif
                    
                     </div>
-                    <div class="add_new_education_div mt-3" style="margin-bottom: 2rem !important;">
-                      <a style="cursor: pointer;" onclick="add_listeduction()">+ Add another Education</a>
+                    <div class="add_new_education_div mt-3" style="margin-bottom: 3rem !important;margin-top: 2rem !important;">
+                      <a style="cursor: pointer;" onclick="add_listeduction()">+Add another Continuing Education</a>
                     </div>
                     <div class="declaration_box mt-2">
                       <input type="checkbox" name="declare_information" class="declare_information_man" value="1" @if(!empty($trainingData)) @if($trainingData->declaration_status == 1) checked @endif @endif>

@@ -811,44 +811,85 @@ $(document).ready(function() {
  $(document).ready(function() {
 $('#professs_form').on('submit', function(event){
  event.preventDefault(); 
+   var targetTab = $('#professs_form').data('target'); 
+   // Function to enable the next tab
+    function enableNextTab(targetTab) {
+        $('a[href="' + targetTab + '"]').removeClass('disabled').tab('show');
+    }
     var isValid = true;
     if ($('[name="states[]"]').val() == '') {
       document.getElementById("reqnurseTypeId").innerHTML = "* Please select one or more Type of nurse";
       isValid = false;
     }
 
-    if ($('[name="specialties[]"]').val() == '') {
+    if ($('[name="specialties[]"]').val() == ''){
       document.getElementById("specialties_error").innerHTML = "* Please select one or more specialties.";
       isValid = false;
     }
-
     // if ($('[name="degree[]"]').val() == '') {
     //   document.getElementById("reqdegree").innerHTML = "* Please select degree.";
     //   isValid = false;
     // }
-
     if ($('[name="bio"]').val() == '') {
-      document.getElementById("reqprofessional_bio").innerHTML = "* Please enter the bio.";
+      document.getElementById("bio_error").innerHTML = "* Please enter the bio.";
       isValid = false;
     }
 
     if ($('[name="employee_status"]').val() == '') {
-      document.getElementById("reqemployee_status").innerHTML = "* Please select the employee status.";
+      document.getElementById("status_error").innerHTML = "* Please select the employee status.";
+      isValid = false;
+    }
+
+    if ($('[name="temporary_status"]').val() == '') {
+      document.getElementById("temp_status_error").innerHTML = "* Please select the employee status.";
       isValid = false;
     }
 
     if($(".declare_information").prop('checked') == false){
-      document.getElementById("reqdeclare_information").innerHTML = "* Please check this checkbox";
+      document.getElementById("diclare_error").innerHTML = "* Please check this checkbox";
       isValid = false;
     }
 
     if(isValid == true){
+     $.ajax({
+        url: "{{ route('admin.add_nurse_post_2') }}",
+        type: "POST",
+        // data: formData,
+        data: new FormData($('#professs_form')[0]),
+        dataType: 'json',
+        contentType: false,
+        processData: false,
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include CSRF token for security
+        },
+        success: function(res) {
+            console.log(res.type);
 
+                if (res.status == '2') {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: res.message,
+                }).then(function() {
+                    $('a[href="' + targetTab + '"]').tab('show');
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: res.message,
+                });
+            }
+                // Show the target tab
+        },
+        error: function(error) {
+        // if(targetTab ==  '#navpill-2'){
+            
+        }
+    });
+      
     }
-
-});
-
-
+   });
  });
 
     $(document).ready(function() {
@@ -875,10 +916,9 @@ $('#professs_form').on('submit', function(event){
             }
         });
 
-        $('.next-step-1').on('click', function() { 
+        $('.next-step-1').on('click', function(){ 
 
-            $(".valley").html("");
-            // alert($('#stateI').val());     
+            $(".valley").html("");    
              var targetTab            = $(this).data('target');     
              var first_name          =  $('#first_name').val();
              var last_name           =  $('#last_name').val();  

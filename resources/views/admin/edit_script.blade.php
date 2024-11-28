@@ -1245,7 +1245,6 @@ $(document).ready(function() {
                     // // Add 'disabled' class
                     // $('a[href="navpill-1"]').addClass('disabled');
                 }
-
                 // Function to enable the next tab
                 function enableNextTab(targetTab) {
                     $('a[href="' + targetTab + '"]').removeClass('disabled').tab('show');
@@ -1293,8 +1292,7 @@ $(document).ready(function() {
             var specialtiest_5 = $('select[data-list-id="surgical_operative_care-2"]');        
             // Get the selected value(s) from the Select2 element
             var surgical_operative_care_2 = specialtiest_5.val(); 
-            
-            
+                        
             var specialtiest_6 = $('select[data-list-id="surgical_operative_care-3"]');        
             // Get the selected value(s) from the Select2 element
             var surgical_operative_care_3 = specialtiest_6.val(); 
@@ -1343,40 +1341,36 @@ $(document).ready(function() {
 
             var declare_information = $('#declare_information').val();
 
-
-             let hasErrors = false;
-
+            let hasErrors = false;
          
-        // Create a new FormData object
-        var formData = new FormData();
-        
-        // if(targetTab ==  '#navpill-2'){
-      
-        formData.append('states',type_nurse);
-        formData.append('entry_level_nursing',nursing_entry_first);
-        formData.append('registered_nurses', nursing_entry_sec);
-        formData.append('advanced_practioner', nursing_entry_thired);
-        formData.append('nurse_prac', nurse_practitioner_menu);
-        formData.append('specialties', specialties);     
-        formData.append('adults', adults);
-        formData.append('surgical_preoperative', surgical_data);
-        formData.append('operating_room', surgical_operative_care_1);
-        formData.append('operating_room_scout', surgical_operative_care_2);
-        formData.append('operating_room_scrub', surgical_operative_care_3);
-        formData.append('maternity', speciality_entry_2);
-        formData.append('surgical_obstrics_gynacology', surgical_obs_care);
-        formData.append('paediatrics_neonatal', speciality_entry_3);
-        formData.append('neonatal_care', neonatal_care);
-        formData.append('paedia_surgical_preoperative',surgical_rowpad_box);
-        formData.append('pad_op_room', surgical_operative_carep_1);
-        formData.append('tab', 'tab2');
-        formData.append('pad_qr_scout',surgical_operative_carep_2);
-        formData.append('pad_qr_scrub', surgical_operative_carep_3);
-        formData.append('community', speciality_entry_4);
-        formData.append('current_employee_status', employee_status);
-        formData.append('bio', bio);
-        formData.append('assistent_level',assistent_level);
-        formData.append('declare_information',declare_information);
+            // Create a new FormData object
+            var formData = new FormData();        
+            // if(targetTab ==  '#navpill-2'){
+            formData.append('states',type_nurse);
+            formData.append('entry_level_nursing',nursing_entry_first);
+            formData.append('registered_nurses', nursing_entry_sec);
+            formData.append('advanced_practioner', nursing_entry_thired);
+            formData.append('nurse_prac', nurse_practitioner_menu);
+            formData.append('specialties', specialties);     
+            formData.append('adults', adults);
+            formData.append('surgical_preoperative', surgical_data);
+            formData.append('operating_room', surgical_operative_care_1);
+            formData.append('operating_room_scout', surgical_operative_care_2);
+            formData.append('operating_room_scrub', surgical_operative_care_3);
+            formData.append('maternity', speciality_entry_2);
+            formData.append('surgical_obstrics_gynacology', surgical_obs_care);
+            formData.append('paediatrics_neonatal', speciality_entry_3);
+            formData.append('neonatal_care', neonatal_care);
+            formData.append('paedia_surgical_preoperative',surgical_rowpad_box);
+            formData.append('pad_op_room', surgical_operative_carep_1);
+            formData.append('tab', 'tab2');
+            formData.append('pad_qr_scout',surgical_operative_carep_2);
+            formData.append('pad_qr_scrub', surgical_operative_carep_3);
+            formData.append('community', speciality_entry_4);
+            formData.append('current_employee_status', employee_status);
+            formData.append('bio', bio);
+            formData.append('assistent_level',assistent_level);
+            formData.append('declare_information',declare_information);
         
         $.ajax({
                 url: "{{ route('admin.add_nurse_post_2') }}",
@@ -1419,8 +1413,7 @@ $(document).ready(function() {
                         }
 
                         if (error.responseJSON.errors.specialties) {
-                            $('#specialties_error').text(error.responseJSON.errors.specialties[0]);
-                           
+                            $('#specialties_error').text(error.responseJSON.errors.specialties[0]);    
                         } else {
                             $('#specialties_error').text('');
                         }
@@ -1431,15 +1424,11 @@ $(document).ready(function() {
                         } else {
                             $('#bio_error').text('');
                         }
-
                         if (error.responseJSON.errors.declare_information) {
                             $('#diclare_error').text(error.responseJSON.errors.declare_information[0]);
-                           
                         } else {
                             $('#diclare_error').text('');
                         }
-
-                        
                     // }                        
                     }
                 }
@@ -1449,10 +1438,7 @@ $(document).ready(function() {
         //     $('a[href="' + targetTab + '"]').tab('show'); // Show the target tab
         // }
            
-        });
-        
-
-        
+        });        
     });
     </script>
 

@@ -82,8 +82,7 @@ class NurseServices
                 if($request->status == 2){
                     $body .= '<p>Your profile has been successfully validated!<br>You can now apply for all jobs and receive interview requests from healthcare facilities, nursing agencies, and individuals seeking nurse care at home.</p>';
                 }else{
-                    $body .= '<p>We regret to inform you that your account request has been rejected due to <b>'.$request->reasonData.'.</b><br><br> Please contact us for further information.
-';
+                    $body .= '<p>We regret to inform you that your account request has been rejected due to <b>'.$request->reasonData.'.</b><br><br> Please contact us for further information.';
                 }
                 if($request->status == 2){
                         $subject = 'Your Account Request  has been  Approved!';
@@ -217,8 +216,7 @@ class NurseServices
     
    public function addNursePost($data)
     {
-
- 
+// dd($data);
         try {
 
             if($data['tab'] == 'tab1'){
@@ -228,8 +226,7 @@ class NurseServices
                     $destinationPath=public_path().'/nurse/assets/imgs/';
                     $profile_img_name=$profile_img->getClientOriginalName();                    
                     $profile_img->move($destinationPath,$profile_img->getClientOriginalName());  
-                    $profilename = 'nurse/assets/imgs/' . $profile_img_name;  
-                        
+                    $profilename = 'nurse/assets/imgs/' . $profile_img_name;      
                 }
                 Session::put('nurseemail', $data['email']);
                 $allData['name'] = $data['first_name'];
@@ -261,37 +258,76 @@ class NurseServices
                 $param='Basic detail';
             
             }else if($data['tab'] == 'tab2'){
-                
-                $states=isset($data['states']) ? explode(',', $data['states']) : '';
+                $nurse_type = json_encode($data['states']);
+                $nursing_type_1 = json_encode($data['nursing_type_1']);
+                $nursing_type_2 = json_encode($data['nursing_type_2']);
+                $nursing_type_3 = json_encode($data['nursing_type_3']);
+                $nurse_practitioner_menu = json_encode($data['nurse_practitioner_menu']);
+                $specialties = json_encode($data['specialties']);
+                $speciality_entry_1 = json_encode($data['speciality_entry_1']);
+                $speciality_entry_2 = json_encode($data['speciality_entry_2']);
+                $speciality_entry_3 = json_encode($data['speciality_entry_3']);
+                $speciality_entry_4 = json_encode($data['speciality_entry_4']);
+                $surgical_row_box = json_encode($data['surgical_row_box']);
+                $surgical_obs_care = json_encode($data['surgical_obs_care']);
+                $surgical_operative_care_1 = json_encode($data['surgical_operative_care_1']);
+                $surgical_operative_care_2 = json_encode($data['surgical_operative_care_2']);
+                $surgical_operative_care_3 = json_encode($data['surgical_operative_care_3']);
+                $neonatal_care = json_encode($data['neonatal_care']);
+                $surgical_rowpad_box = json_encode($data['surgical_rowpad_box']);
+                $surgical_operative_carep_1 = json_encode($data['surgical_operative_carep_1']);
+                $surgical_operative_carep_2 = json_encode($data['surgical_operative_carep_2']);
+                $surgical_operative_carep_3 = json_encode($data['surgical_operative_carep_3']);                
+                $assistent_level = $data['assistent_level'];
+                $declare_information = $data['declare_information'];
+                $bio = $data['bio'] ;
+                $employee_status = $data['employee_status'];
+                $permanent_status = $data['permanent_status'];
+                $temporary_status = $data['temporary_status'];
 
-                $allData['nurseType'] =  array_map('strval', $states);
-                $allData['entry_level_nursing'] = isset($data['entry_level_nursing']) ? explode(',', $data['entry_level_nursing']) : '';
-                $allData['registered_nurses'] = isset($data['registered_nurses']) ? explode(',', $data['registered_nurses']) : '';
-                $allData['advanced_practioner'] = isset($data['advanced_practioner']) ? explode(',', $data['advanced_practioner']) : '';
-                $allData['nurse_prac'] = isset($data['nurse_prac']) ? explode(',', $data['nurse_prac']) : '';
-                $allData['specialties'] = isset($data['specialties']) ? explode(',', $data['specialties']) : '';
-                $allData['adults'] = isset($data['adults']) ? explode(',', $data['adults']) : '';
-                $allData['surgical_preoperative'] = isset($data['surgical_preoperative']) ? explode(',', $data['surgical_preoperative']) : '';
-                $allData['operating_room'] =isset($data['operating_room']) ? explode(',', $data['operating_room']) : '';
-                $allData['operating_room_scout'] = isset($data['operating_room_scout']) ? explode(',', $data['operating_room_scout']) : '';
-                $allData['operating_room_scrub'] = isset($data['operating_room_scrub']) ? explode(',', $data['operating_room_scrub']) : '';
-                $allData['maternity'] = isset($data['maternity']) ? explode(',', $data['maternity']) : '';
-                $allData['surgical_obstrics_gynacology'] = isset($data['surgical_obstrics_gynacology']) ? explode(',', $data['surgical_obstrics_gynacology']) : '';
-                $allData['paediatrics_neonatal'] = isset($data['paediatrics_neonatal']) ? explode(',', $data['paediatrics_neonatal']) : '';
-                $allData['neonatal_care'] = isset($data['neonatal_care']) ? explode(',', $data['neonatal_care']) : '';
-                $allData['paedia_surgical_preoperative'] = isset($data['paedia_surgical_preoperative']) ? explode(',', $data['paedia_surgical_preoperative']) : '';
-                $allData['pad_op_room'] = isset($data['pad_op_room']) ? explode(',', $data['pad_op_room']) : '';
-                $allData['pad_qr_scout'] = isset($data['pad_qr_scout']) ? explode(',', $data['pad_qr_scout']) : '';
-                $allData['pad_qr_scrub'] = isset($data['pad_qr_scrub']) ? explode(',', $data['pad_qr_scrub']) : '';
-                $allData['community'] = isset($data['community']) ? explode(',', $data['community']) : '';   
-                $allData['current_employee_status'] = $data['current_employee_status'];   
-                $allData['assistent_level'] = $data['assistent_level'];   
-                $allData['bio'] = $data['bio'];   
-                $allData['user_stage'] = '5';
-                $allData['professional_info_status'] = $data['declare_information'];
+                if($employee_status == "Permanent"){
+                    $permanent_status1 = $permanent_status;
+                }else{
+                    $permanent_status1 = "";
+                }
+
+                if($employee_status == "Temporary"){
+                    $temporary_status1 = $temporary_status;
+                }else{
+                    $temporary_status1 = "";
+                }
                 $email=Session::get('nurseemail');
-                // dd($allData);
-                $run=$this->nurseRepository->updateData(['email'=>$email], $allData);
+
+                $post = User::where('email',$email)->first();
+                $post->nurseType = $nurse_type;
+                $post->entry_level_nursing = $nursing_type_1;
+                $post->registered_nurses = $nursing_type_2;
+                $post->advanced_practioner = $nursing_type_3;
+                $post->nurse_prac = $nurse_practitioner_menu;
+                $post->specialties = $specialties;
+                $post->adults = $speciality_entry_1;
+                $post->maternity = $speciality_entry_2;
+                $post->paediatrics_neonatal = $speciality_entry_3;
+                $post->community = $speciality_entry_4;
+                $post->surgical_preoperative = $surgical_row_box;
+                $post->surgical_obstrics_gynacology = $surgical_obs_care;
+                $post->operating_room = $surgical_operative_care_1;
+                $post->operating_room_scout = $surgical_operative_care_2;
+                $post->operating_room_scrub = $surgical_operative_care_3;
+                $post->neonatal_care = $neonatal_care;
+                $post->paedia_surgical_preoperative = $surgical_rowpad_box;
+                $post->pad_op_room = $surgical_operative_carep_1;
+                $post->pad_qr_scout = $surgical_operative_carep_2;
+                $post->pad_qr_scrub = $surgical_operative_carep_3;
+                $post->assistent_level = $assistent_level;
+                $post->declaration_status = $declare_information;
+                $post->bio = $bio;
+                $post->current_employee_status = $employee_status;
+                $post->permanent_status = $permanent_status1;
+                $post->temporary_status = $temporary_status1;
+                $post->professional_info_status = "1";
+                $run = $post->save();
+
                 $param='Professional detail';
 
             // session()->forget('nurseemail');
