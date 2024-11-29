@@ -50,6 +50,7 @@
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
 
+
     <div class="container-fluid">
         <div class="card bg-light-info shadow-none position-relative overflow-hidden">
             <div class="card-body px-4 py-3">
@@ -822,30 +823,32 @@
                                                    <input class="form-control" type="text" name="most_relevant" value="" id="most_relevant">
                                                     <span id="relevant_error" class="reqError text-danger valley "></span>
                                                 </div>
-                                            </div>    
-                                            <div class="col-md-6 mt-3">
+                                            </div>  
+                                            <div class="col-md-12 mt-3">
+                                                <div class="form-group">
+                                                     <?php 
+                                                       $sessid = 112; // Default value
+                                                            if(Session::has('nurseemail')) {
+                                                                $email = Session::get('nurseemail');
+                                                                $post = User::where('email', $email)->first();
+                                                                $sessid = 112; 
+                                                            }
+                                                        ?>
+                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Upload Degree & Transcript</strong></label>
+                                                    <input class="form-control" type="file" name="upload_degree[]" id="upload_degree"  onchange="changeDegreeImg('<?= $sessid ?>')">
+                                                    <span id="upload_degree_error" class="reqError text-danger valley"></span>
+                                                </div>
+                                                <div class="degree_transcript_imgs"></div>
+                                            </div>  
+                                            <div class="col-md-12 mt-3">
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Graduation Date</strong></label>
                                                     <input class="form-control" type="date" name="graduation_start_date" value="" id="graduation_start_date">
-                                                    <span id="gra_start_date_error" class="reqError text-danger valley "></span>
-                                                </div>
+                                                    <span id="gra_start_date_error" class="reqError text-danger valley"></span>
+                                                </div>                                                                                                
                                             </div>
-                                            <div class="col-md-6 mt-3">
-                                                <div class="form-group">
-                                                    {{-- <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Upload Degree & Transcript</strong></label>
-                                                    <input type="file" name="upload_degree" id="upload_degree" class="" accept="image/*">  --}}
-                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Upload Degree & Transcript</strong></label>
-                                                    <input class="form-control" type="file" name="upload_degree" id="upload_degree">
-                                                    <span id="upload_degree_error" class="reqError text-danger valley "></span>
-                                                </div>
-                                            </div>
-                                            {{-- <div class="col-md-6 mt-3">
-                                                <div class="form-group">
-                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Graduation End Date</strong></label>
-                                                    <input class="form-control" type="date" name="graduation_end_date" value="" id="graduation_end_date">
-                                                    <span id="gra_end_date_error" class="reqError text-danger valley "></span>
-                                                </div>
-                                            </div> --}}
+                                            
+                                            
                                             <h4 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3">General Certifications/Licences:
                                             </h4>
 
@@ -867,19 +870,7 @@
                                             </div>
 
                                             <div class="professional_certification_div">
-                                                {{-- <div class="form-group level-drp d-none procertdiv">                        
-                                                    <label class="form-label" for="input-1">ACLS(Advanced Cardiovascular Life Support)</label>
-                                                    <?php
-                                                        $acls_data = DB::table("professional_certificate_table")->where("cert_id","6")->get();
-                                                    ?>
-                                                    <ul id="acls_data" style="display:none;">
-                                                        @foreach($acls_data as $data)
-                                                        <li data-value="{{ $data->name }}">{{ $data->name }}</li>
-                                                        @endforeach
-                                                        
-                                                    </ul>
-                                                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="acls_data" name="acls_data[]" multiple="multiple"></select>
-                                                </div> --}}
+                                            
                                                 
                                                 <div class="form-group level-drp  d-none procertdiv">
                                                       
@@ -990,7 +981,7 @@
                                                     ?>
                                                     <ul id="np_data" style="display:none;">
                                                         @foreach($rn_data as $data)
-                                                        <li data-value="{{ $data->professionalcert_id }}">{{ $data->name }}</li>
+                                                        <li data-value="{{ $data->name }}">{{ $data->name }}</li>
                                                         @endforeach
                                                         
                                                     </ul>

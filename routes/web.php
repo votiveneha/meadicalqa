@@ -97,6 +97,11 @@ Route::prefix('/admin')->name('admin.')->namespace('App\Http\Controllers\admin')
         Route::get('/edit-nurse/{id}', 'NurseController@EditNurse')->name('edit_nurse');
         Route::post('/edit-nurse-post', 'NurseController@EditNursePost')->name('edit_nurse_post');
         Route::post('/delete-cer-img', 'NurseController@deleteCertificateImg')->name('delete_cer_img');
+        Route::post('/upload-deg-img', 'NurseController@UploadDegreeImg')->name('upload-deg-img');
+        Route::post('/dlt-deg-img', 'NurseController@deleteDegImg')->name('dlt-deg-img');
+        Route::post('/uploadImgs', 'NurseController@uploadImgs')->name('uploadImgs1');
+        Route::post('/dlt-deg-img', 'NurseController@deleteDegImg')->name('dlt-deg-img');
+        Route::post('/deleteImg1', 'NurseController@deleteImg1')->name('deleteImg1');
 
         Route::get('/customer-list', 'NurseController@customerList')->name('customer-list'); 
              

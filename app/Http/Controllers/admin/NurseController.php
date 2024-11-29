@@ -18,6 +18,7 @@ use App\Http\Requests\Nurseform6Request;
 use App\Models\EducationModel;
 use File;
 use DB;
+use Helpers;
 
 
 class NurseController extends Controller
@@ -383,11 +384,146 @@ class NurseController extends Controller
 
         if($deleteData){
             return 1;
+        }  
+    }
+
+    // for upload multiple  image
+    public function UploadDegreeImg(Request $request){
+        $files = $request->file('upload_images');
+        $user_id = $request->user_id;
+        $getedudata = DB::table("user_education_cerification")->where("user_id",$user_id)->first();
+        $dtranaimg = json_decode($getedudata->degree_transcript);
+        $dtranimgs = Helpers::multipleFileUpload($files,$dtranaimg);
+        $run = EducationModel::where('user_id',$user_id)->update(['degree_transcript'=>$dtranimgs]);
+        //print_r($files);
+        return $dtranimgs;
+    }
+
+
+    public function deleteDegImg(Request $request){
+        $user_id = $request->user_id;
+        $img = $request->img;
+
+        $getEducationData = DB::table("user_education_cerification")->where("user_id",$user_id)->first();
+
+        $gettransimg = json_decode($getEducationData->degree_transcript);
+
+        
+
+        $img_index = array_search($img, $gettransimg);
+        
+        array_splice($gettransimg, $img_index, 1);
+
+        if(!empty($gettransimg)){
+            $tranimgData = json_encode($gettransimg);
+        }else{
+            $tranimgData = '';
+        }
+
+ 
+
+        $deleteData = EducationModel::where('user_id',$user_id)->update(['degree_transcript'=>$tranimgData]);
+
+        $destinationPath = public_path() . '/uploads/education_degree/'.$img;
+        
+        if(File::exists($destinationPath)) {
+            File::delete($destinationPath);
+        }
+
+        if($deleteData){
+            return 1;
         }
 
         //print_r($gettransimg);
         
     }
+
+    public function uploadImgs(Request $request){
+        $files = $request->file('upload_images');
+        $user_id = $request->user_id;
+        $country_name = $request->country_name;
+        $field_name = $request->field_name;
+        //print_r($files);die;
+
+        $getedufieldsdata = DB::table("edu_fields")->where("user_id",$user_id)->first();
+        //print_r($getedufieldsdata);die;
+        if(empty($getedufieldsdata)){
+            $acls_img = Helpers::multipleFileUpload($files,'');
+            $acls_data = array($country_name => $acls_img);
+            $getImg_array = $acls_data;
+            DB::table("edu_fields")->insert(["user_id"=>$user_id,$field_name=>json_encode($acls_data)]);
+        }else{
+            $getEdufieldsData1 = (array)$getedufieldsdata;
+            $getImgfield = $getEdufieldsData1[$field_name];
+            $getImg_array = (array)json_decode($getImgfield);
+            
+            if(array_key_exists($country_name,$getImg_array)){
+                $available_imgs = (array)json_decode($getImg_array[$country_name]);
+                $acls_img = Helpers::multipleFileUpload($files,$available_imgs);
+                $getImg_array[$country_name] = $acls_img;
+                DB::table("edu_fields")->where("user_id",$user_id)->update([$field_name=>json_encode($getImg_array)]);
+            }else{
+                $acls_img = Helpers::multipleFileUpload($files,'');
+                $getImg_array[$country_name] = $acls_img;
+                
+                
+                DB::table("edu_fields")->where("user_id",$user_id)->update([$field_name=>json_encode($getImg_array)]);
+            }
+            
+
+        }
+
+        return $acls_img;
+    }
+
+
+   public function deleteImg1(Request $request){
+        $user_id = $request->user_id;
+        $img = $request->img;
+        $country_name = $request->country_name;
+        $img_text = $request->img_text;
+
+        $getEducationData = DB::table("edu_fields")->where("user_id",$user_id)->first();
+        $getEducationData1 = (array)$getEducationData;
+        $gettransimg = (array)json_decode($getEducationData1[$img_text]);
+        $gettransimg1 = json_decode($gettransimg[$country_name]);
+
+        $img_index = array_search($img, $gettransimg1);
+
+        array_splice($gettransimg1, $img_index, 1);
+
+        if(!empty($gettransimg1)){
+            $tranimgData = json_encode($gettransimg1);
+        }else{
+            $tranimgData = '';
+        }
+        
+        $gettransimg[$country_name] = $tranimgData;
+
+        if(!empty($gettransimg)){
+            $tranimgData1 = json_encode($gettransimg);
+        }else{
+            $tranimgData1 = '';
+        }
+
+        //print_r($gettransimg);die;
+
+        $deleteData = DB::table("edu_fields")->where('user_id',$user_id)->update([$img_text=>$tranimgData1]);
+
+        $destinationPath = public_path() . '/uploads/education_degree/'.$img;
+        
+        if(File::exists($destinationPath)) {
+            File::delete($destinationPath);
+        }
+
+        if($deleteData){
+            return 1;
+        }
+
+        //print_r($gettransimg);
+        
+    }
+
    
 
 }

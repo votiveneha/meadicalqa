@@ -2114,9 +2114,7 @@ class HomeController extends Controller
     }
 
     public function updateInterview(Request $request){
-        
 
-        
         $user_id = $request->user_id;
         $interview_availablity = $request->interview_availablity;
         $reference_name = $request->reference_name;

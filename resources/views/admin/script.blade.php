@@ -3958,33 +3958,71 @@ $('#professs_form').on('submit', function(event){
         let selectedValues = $(this).val();
         var acls_certification_array = [];
         $('.acls_certification_div').removeClass('d-none');
-        $(".acls_certification_div h4").each(function(){
+        $(".acls_certification_div h6").each(function(){
           var text = $(this).text();
           if(selectedValues.includes(text) == false){
             let res = text.split(' ')[0];
             let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
+            console.log("res_one",res_one);
+
             $(".acls_"+res_one).remove();
           }
           acls_certification_array.push(text);
-        });        
+        });
+        console.log("selectedValues",selectedValues);
+        
         //$(".bls_certification_div").empty();
         for(var i = 0;i<selectedValues.length;i++){
           var selected_text = selectedValues[i].replace(/ .*/,'').replace(/[^\w\s]/gi, '').toLowerCase();
           let res = selectedValues[i].split(' ')[0];
           let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-          if(acls_certification_array.includes(selectedValues[i]) == false){        
-            $(".acls_certification_div").append('<div class="acls_'+res_one+' cert_div_'+selected_text+'"><h4 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3 cert_head_'+selected_text+'">'+selectedValues[i]+'</h4><input type="hidden" name="aclsnamearr[]" class="bls_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control acls_license_number acls_license_number-'+i+'" type="text" name="acls_license_number[]"><span id="reqaclslicencevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control aclsexpiry aclsexpiry-'+i+'" type="date" name="acls_expiry[]"><span id="reqaclsexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control acls_upload_certification acls_upload_certification-'+i+'" type="file" name="acls_upload_certification[]"><span id="reqaclsuploadvalid-'+i+'" class="reqError text-danger valley"></span></div></div></div>');
+          console.log("res_one",res_one);
+
+          if(acls_certification_array.includes(selectedValues[i]) == false){
             
+            var user_id = "{{ $sessid }}";
+            var img_text = "acls_imgs";
+            // $(".acls_certification_div").append('<div class="acls_'+res_one+' cert_div_'+selected_text+'"><h6 class="cert_head_'+selected_text+'">'+selectedValues[i]+'</h6><input type="hidden" name="aclsnamearr[]" class="bls_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control acls_license_number acls_license_number-'+i+'" type="text" name="acls_license_number[]"><span id="reqaclslicencevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control aclsexpiry aclsexpiry-'+i+'" type="date" name="acls_expiry[]"><span id="reqaclsexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control acls_upload_certification acls_imgs_'+res_one+' acls_upload_certification-'+i+'" type="file" name="acls_upload_certification['+i+'][]" onchange="changeImg1('+user_id+','+i+',\''+img_text+'\',\''+res_one+'\')" multiple><span id="reqaclsuploadvalid-'+i+'" class="reqError text-danger valley"></span><div class="acls_imgs'+res_one+'"></div></div></div></div>');
+            $(".acls_certification_div").append(`
+                <div class="acls_${res_one} cert_div_${selected_text}">
+                    <h6 class="cert_head_${selected_text}">${selectedValues[i]}</h6>
+                    <input type="hidden" name="aclsnamearr[]" class="bls_input_${selectedValues[i]}" value="${selectedValues[i]}">
+                    <div class="license_number_div row license_number_additional">
+                        <div class="form-group col-md-12">
+                            <label class="form-label" for="input-1">Certification/Licence Number</label>
+                            <input class="form-control acls_license_number acls_license_number-${i}" type="text" name="acls_license_number[]">
+                            <span id="reqaclslicencevalid-${i}" class="reqError text-danger valley"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="form-label" for="input-1">Expiry</label>
+                            <input class="form-control aclsexpiry aclsexpiry-${i}" type="date" name="acls_expiry[]">
+                            <span id="reqaclsexpiryvalid-${i}" class="reqError text-danger valley"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                            <input 
+                                class="form-control acls_upload_certification acls_imgs_${res_one} acls_upload_certification-${i}" 
+                                type="file" 
+                                name="acls_upload_certification[${i}][]" 
+                                onchange="changeImg1(${user_id}, ${i}, '${img_text}', '${res_one}')" 
+                                multiple>
+                            <span id="reqaclsuploadvalid-${i}" class="reqError text-danger valley"></span>
+                            <div class="acls_imgs${res_one}"></div>
+                        </div>
+                    </div>
+                </div>
+            `);
+
           }
         }
 
         
     });
-     $('.js-example-basic-multiple[data-list-id="bls_data"]').on('change', function() {
+    $('.js-example-basic-multiple[data-list-id="bls_data"]').on('change', function() {
         let selectedValues = $(this).val();
         var bls_certification_array = [];
         $('.bls_certification_div').removeClass('d-none');
-        $(".bls_certification_div h4").each(function(){
+        $(".bls_certification_div h6").each(function(){
           var text = $(this).text();
           if(selectedValues.includes(text) == false){
             let res = text.split(' ')[0];
@@ -4004,15 +4042,62 @@ $('#professs_form').on('submit', function(event){
           let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
           console.log("res_one",res_one);
           if(bls_certification_array.includes(selectedValues[i]) == false){
-            $(".bls_certification_div").append('<div class="bls_'+res_one+' cert_div_'+selected_text+'"><h4 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3">'+selectedValues[i]+'</h4><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control bls_license_number bls_license_number-'+i+'" type="text" name="bls_license_number[]"><span id="reqblslicencevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control blsexpiry blsexpiry-'+i+'" type="date" name="bls_expiry[]"><span id="reqblsexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control bls_upload_certification bls_upload_certification-'+i+'" type="file" name="bls_upload_certification[]"><span id="reqblsuploadvalid-'+i+'" class="reqError text-danger valley"></span></div></div></div>');
+            var user_id = "{{ $sessid }}";
+            var img_text = "bls_imgs";
+
+            // $(".bls_certification_div").append('<div class="bls_'+res_one+' cert_div_'+selected_text+'"><h6>'+selectedValues[i]+'</h6><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control bls_license_number bls_license_number-'+i+'" type="text" name="bls_license_number[]"><span id="reqblslicencevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control blsexpiry blsexpiry-'+i+'" type="date" name="bls_expiry[]"><span id="reqblsexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control bls_upload_certification degree_transcript bls_imgs_'+res_one+' bls_upload_certification-'+i+'" type="file" name="bls_upload_certification['+i+'][]" onchange="changeImg1('+user_id+','+i+',\''+img_text+'\',\''+res_one+'\')" multiple><div class="bls_imgs'+res_one+'"></div><span id="reqblsuploadvalid-'+i+'" class="reqError text-danger valley"></span></div></div></div>');
+            $(".bls_certification_div").append(`
+                <div class="bls_${res_one} cert_div_${selected_text}">
+                    <h6>${selectedValues[i]}</h6>
+                    <div class="license_number_div row license_number_additional">
+                        <div class="form-group col-md-12">
+                            <label class="form-label" for="input-1">Certification/Licence Number</label>
+                            <input 
+                                class="form-control bls_license_number bls_license_number-${i}" 
+                                type="text" 
+                                name="bls_license_number[]">
+                            <span 
+                                id="reqblslicencevalid-${i}" 
+                                class="reqError text-danger valley">
+                            </span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="form-label" for="input-1">Expiry</label>
+                            <input 
+                                class="form-control blsexpiry blsexpiry-${i}" 
+                                type="date" 
+                                name="bls_expiry[]">
+                            <span 
+                                id="reqblsexpiryvalid-${i}" 
+                                class="reqError text-danger valley">
+                            </span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                            <input 
+                                class="form-control bls_upload_certification degree_transcript bls_imgs_${res_one} bls_upload_certification-${i}" 
+                                type="file" 
+                                name="bls_upload_certification[${i}][]" 
+                                onchange="changeImg1(${user_id}, ${i}, '${img_text}', '${res_one}')" 
+                                multiple>
+                            <div class="bls_imgs${res_one}"></div>
+                            <span 
+                                id="reqblsuploadvalid-${i}" 
+                                class="reqError text-danger valley">
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            `);
+
           }
         }
     });
-      $('.js-example-basic-multiple[data-list-id="cpr_data"]').on('change', function() {
+    $('.js-example-basic-multiple[data-list-id="cpr_data"]').on('change', function() {
         let selectedValues = $(this).val();
         var cpr_certification_array = [];
         $('.cpr_certification_div').removeClass('d-none');
-        $(".cpr_certification_div h4").each(function(){
+        $(".cpr_certification_div h6").each(function(){
           var text = $(this).text();
           
           if(selectedValues.includes(text) == false){
@@ -4034,9 +4119,58 @@ $('#professs_form').on('submit', function(event){
           let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
           console.log("res_one",res_one);
           if(cpr_certification_array.includes(selectedValues[i]) == false){
+            var user_id = "{{ $sessid }}";
+            var img_text = "cpr_imgs";
             
-            
-            $(".cpr_certification_div").append('<div class="cpr_'+res_one+' cert_div_'+selected_text+'"><h4 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3 cert_head_'+selected_text+'">'+selectedValues[i]+'</h4><input type="hidden" name="cprnamearr[]" class="cpr_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control cpr_license_number cpr_license_number-'+i+'" type="text" name="cpr_license_number[]"><span id="reqcprlicencevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control cprexpiry cprexpiry-'+i+'" type="date" name="cpr_expiry[]"><span id="reqcprexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control cpr_upload_certification cpr_upload_certification-'+i+'" type="file" name="cpr_upload_certification[]"><span id="reqcpruploadvalid-'+i+'" class="reqError text-danger valley"></span></div></div></div>');
+            // $(".cpr_certification_div").append('<div class="cpr_'+res_one+' cert_div_'+selected_text+'"><h6 class="cert_head_'+selected_text+'">'+selectedValues[i]+'</h6><input type="hidden" name="cprnamearr[]" class="cpr_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control cpr_license_number cpr_license_number-'+i+'" type="text" name="cpr_license_number[]"><span id="reqcprlicencevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control cprexpiry cprexpiry-'+i+'" type="date" name="cpr_expiry[]"><span id="reqcprexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control degree_transcript cpr_imgs_'+res_one+' cpr_upload_certification cpr_upload_certification-'+i+'" type="file" name="cpr_upload_certification['+i+'][]" onchange="changeImg1('+user_id+','+i+',\''+img_text+'\',\''+res_one+'\')" multiple><div class="cpr_imgs'+res_one+'"></div><span id="reqcpruploadvalid-'+i+'" class="reqError text-danger valley"></span></div></div></div>');
+            $(".cpr_certification_div").append(`
+                <div class="cpr_${res_one} cert_div_${selected_text}">
+                    <h6 class="cert_head_${selected_text}">${selectedValues[i]}</h6>
+                    <input 
+                        type="hidden" 
+                        name="cprnamearr[]" 
+                        class="cpr_input_${selectedValues[i]}" 
+                        value="${selectedValues[i]}">
+                    <div class="license_number_div row license_number_additional">
+                        <div class="form-group col-md-12">
+                            <label class="form-label" for="input-1">Certification/Licence Number</label>
+                            <input 
+                                class="form-control cpr_license_number cpr_license_number-${i}" 
+                                type="text" 
+                                name="cpr_license_number[]">
+                            <span 
+                                id="reqcprlicencevalid-${i}" 
+                                class="reqError text-danger valley">
+                            </span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="form-label" for="input-1">Expiry</label>
+                            <input 
+                                class="form-control cprexpiry cprexpiry-${i}" 
+                                type="date" 
+                                name="cpr_expiry[]">
+                            <span 
+                                id="reqcprexpiryvalid-${i}" 
+                                class="reqError text-danger valley">
+                            </span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                            <input 
+                                class="form-control degree_transcript cpr_imgs_${res_one} cpr_upload_certification cpr_upload_certification-${i}" 
+                                type="file" 
+                                name="cpr_upload_certification[${i}][]" 
+                                onchange="changeImg1(${user_id}, ${i}, '${img_text}', '${res_one}')" 
+                                multiple>
+                            <div class="cpr_imgs${res_one}"></div>
+                            <span 
+                                id="reqcpruploadvalid-${i}" 
+                                class="reqError text-danger valley">
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            `);
 
             
           }
@@ -4048,7 +4182,7 @@ $('#professs_form').on('submit', function(event){
         let selectedValues = $(this).val();
         var nrp_certification_array = [];
         $('.nrp_certification_div').removeClass('d-none');
-        $(".nrp_certification_div h4").each(function(){
+        $(".nrp_certification_div h6").each(function(){
           var text = $(this).text();
 
           if(selectedValues.includes(text) == false){
@@ -4070,9 +4204,58 @@ $('#professs_form').on('submit', function(event){
           let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
           console.log("res_one",res_one);
           if(nrp_certification_array.includes(selectedValues[i]) == false){
+            var user_id = "{{ $sessid }}";
+            var img_text = "nrp_imgs";
             
-            
-            $(".nrp_certification_div").append('<div class="nrp_'+res_one+' cert_div_'+selected_text+'"><h4 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3 cert_head_'+selected_text+'">'+selectedValues[i]+'</h4><input type="hidden" name="nrpnamearr[]" class="cpr_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control nrp_license_number nrp_license_number-'+i+'" type="text" name="nrp_license_number[]"><span id="reqnrplicencevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control nrpexpiry nrpexpiry-'+i+'" type="date" name="nrp_expiry[]"><span id="reqnrpexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control nrp_upload_certification nrp_upload_certification-'+i+'" type="file" name="nrp_upload_certification[]"><span id="reqnrpuploadvalid-'+i+'" class="reqError text-danger valley"></span></div></div></div>');
+            // $(".nrp_certification_div").append('<div class="nrp_'+res_one+' cert_div_'+selected_text+'"><h6 class="cert_head_'+selected_text+'">'+selectedValues[i]+'</h6><input type="hidden" name="nrpnamearr[]" class="cpr_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control nrp_license_number nrp_license_number-'+i+'" type="text" name="nrp_license_number[]"><span id="reqnrplicencevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control nrpexpiry nrpexpiry-'+i+'" type="date" name="nrp_expiry[]"><span id="reqnrpexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control degree_transcript nrp_imgs_'+res_one+' nrp_upload_certification nrp_upload_certification-'+i+'" type="file" name="nrp_upload_certification['+i+'][]" onchange="changeImg1('+user_id+','+i+',\''+img_text+'\',\''+res_one+'\')" multiple><div class="nrp_imgs'+res_one+'"></div><span id="reqnrpuploadvalid-'+i+'" class="reqError text-danger valley"></span></div></div></div>');
+            $(".nrp_certification_div").append(`
+                <div class="nrp_${res_one} cert_div_${selected_text}">
+                    <h6 class="cert_head_${selected_text}">${selectedValues[i]}</h6>
+                    <input 
+                        type="hidden" 
+                        name="nrpnamearr[]" 
+                        class="cpr_input_${selectedValues[i]}" 
+                        value="${selectedValues[i]}">
+                    <div class="license_number_div row license_number_additional">
+                        <div class="form-group col-md-12">
+                            <label class="form-label" for="input-1">Certification/Licence Number</label>
+                            <input 
+                                class="form-control nrp_license_number nrp_license_number-${i}" 
+                                type="text" 
+                                name="nrp_license_number[]">
+                            <span 
+                                id="reqnrplicencevalid-${i}" 
+                                class="reqError text-danger valley">
+                            </span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="form-label" for="input-1">Expiry</label>
+                            <input 
+                                class="form-control nrpexpiry nrpexpiry-${i}" 
+                                type="date" 
+                                name="nrp_expiry[]">
+                            <span 
+                                id="reqnrpexpiryvalid-${i}" 
+                                class="reqError text-danger valley">
+                            </span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                            <input 
+                                class="form-control degree_transcript nrp_imgs_${res_one} nrp_upload_certification nrp_upload_certification-${i}" 
+                                type="file" 
+                                name="nrp_upload_certification[${i}][]" 
+                                onchange="changeImg1(${user_id}, ${i}, '${img_text}', '${res_one}')" 
+                                multiple>
+                            <div class="nrp_imgs${res_one}"></div>
+                            <span 
+                                id="reqnrpuploadvalid-${i}" 
+                                class="reqError text-danger valley">
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            `);
 
             
           }
@@ -4106,9 +4289,58 @@ $('#professs_form').on('submit', function(event){
           let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
           console.log("res_one",res_one);
           if(pls_certification_array.includes(selectedValues[i]) == false){
+            var user_id = "{{ $sessid }}";
+            var img_text = "pls_imgs";
             
-            
-            $(".pls_certification_div").append('<div class="pls_'+res_one+' cert_div_'+selected_text+'"><h4 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3 cert_head_'+selected_text+'">'+selectedValues[i]+'</h4><input type="hidden" name="plsnamearr[]" class="pls_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control pls_license_number pls_license_number-'+i+'" type="text" name="pls_license_number[]"><span id="reqplslicencevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control plsexpiry plsexpiry-'+i+'" type="date" name="pls_expiry[]"><span id="reqplsexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control pls_upload_certification pls_upload_certification-'+i+'" type="file" name="pls_upload_certification[]"><span id="reqplsuploadvalid-'+i+'" class="reqError text-danger valley"></span></div></div></div>');
+            // $(".pls_certification_div").append('<div class="pls_'+res_one+' cert_div_'+selected_text+'"><h6 class="cert_head_'+selected_text+'">'+selectedValues[i]+'</h6><input type="hidden" name="plsnamearr[]" class="pls_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control pls_license_number pls_license_number-'+i+'" type="text" name="pls_license_number[]"><span id="reqplslicencevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control plsexpiry plsexpiry-'+i+'" type="date" name="pls_expiry[]"><span id="reqplsexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control degree_transcript pls_imgs_'+res_one+' pls_upload_certification pls_upload_certification-'+i+'" type="file" name="pls_upload_certification['+i+'][]" onchange="changeImg1('+user_id+','+i+',\''+img_text+'\',\''+res_one+'\')" multiple><div class="pls_imgs'+res_one+'"></div><span id="reqplsuploadvalid-'+i+'" class="reqError text-danger valley"></span></div></div></div>');
+            $(".pls_certification_div").append(`
+                <div class="pls_${res_one} cert_div_${selected_text}">
+                    <h6 class="cert_head_${selected_text}">${selectedValues[i]}</h6>
+                    <input 
+                        type="hidden" 
+                        name="plsnamearr[]" 
+                        class="pls_input_${selectedValues[i]}" 
+                        value="${selectedValues[i]}">
+                    <div class="license_number_div row license_number_additional">
+                        <div class="form-group col-md-12">
+                            <label class="form-label" for="input-1">Certification/Licence Number</label>
+                            <input 
+                                class="form-control pls_license_number pls_license_number-${i}" 
+                                type="text" 
+                                name="pls_license_number[]">
+                            <span 
+                                id="reqplslicencevalid-${i}" 
+                                class="reqError text-danger valley">
+                            </span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="form-label" for="input-1">Expiry</label>
+                            <input 
+                                class="form-control plsexpiry plsexpiry-${i}" 
+                                type="date" 
+                                name="pls_expiry[]">
+                            <span 
+                                id="reqplsexpiryvalid-${i}" 
+                                class="reqError text-danger valley">
+                            </span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                            <input 
+                                class="form-control degree_transcript pls_imgs_${res_one} pls_upload_certification pls_upload_certification-${i}" 
+                                type="file" 
+                                name="pls_upload_certification[${i}][]" 
+                                onchange="changeImg1(${user_id}, ${i}, '${img_text}', '${res_one}')" 
+                                multiple>
+                            <div class="pls_imgs${res_one}"></div>
+                            <span 
+                                id="reqplsuploadvalid-${i}" 
+                                class="reqError text-danger valley">
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            `);
 
             
           }
@@ -4120,7 +4352,7 @@ $('#professs_form').on('submit', function(event){
         let selectedValues = $(this).val();
         var rn_certification_array = [];
         $('.rn_certification_div').removeClass('d-none');
-        $(".rn_certification_div h4").each(function(){
+        $(".rn_certification_div h6").each(function(){
           var text = $(this).text();
 
           if(selectedValues.includes(text) == false){
@@ -4144,9 +4376,58 @@ $('#professs_form').on('submit', function(event){
           console.log("res_one",res_one);
 
           if(rn_certification_array.includes(selectedValues[i]) == false){
+            var user_id = "{{ $sessid }}";
+            var img_text = "rn_imgs";
             
-            
-            $(".rn_certification_div").append('<div class="rn_'+res_one+' cert_div_'+selected_text+'"><h4 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3 cert_head_'+selected_text+'">'+selectedValues[i]+'</h6><input type="hidden" name="rnnamearr[]" class="rn_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control rn_license_number rn_license_number-'+i+'" type="text" name="rn_license_number[]"><span id="reqrnlicencevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control rnexpiry rnexpiry-'+i+'" type="date" name="rn_expiry[]"><span id="reqrnexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control rn_upload_certification rn_upload_certification-'+i+'" type="file" name="rn_upload_certification[]"><span id="reqrnuploadvalid-'+i+'" class="reqError text-danger valley"></span></div></div></div>');
+           $(".rn_certification_div").append(`
+            <div class="rn_${res_one} cert_div_${selected_text}">
+                <h6 class="cert_head_${selected_text}">${selectedValues[i]}</h6>
+                <input 
+                    type="hidden" 
+                    name="rnnamearr[]" 
+                    class="rn_input_${selectedValues[i]}" 
+                    value="${selectedValues[i]}">
+                <div class="license_number_div row license_number_additional">
+                    <div class="form-group col-md-12">
+                        <label class="form-label" for="input-1">Certification/Licence Number</label>
+                        <input 
+                            class="form-control rn_license_number rn_license_number-${i}" 
+                            type="text" 
+                            name="rn_license_number[]">
+                        <span 
+                            id="reqrnlicencevalid-${i}" 
+                            class="reqError text-danger valley">
+                        </span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="form-label" for="input-1">Expiry</label>
+                        <input 
+                            class="form-control rnexpiry rnexpiry-${i}" 
+                            type="date" 
+                            name="rn_expiry[]">
+                        <span 
+                            id="reqrnexpiryvalid-${i}" 
+                            class="reqError text-danger valley">
+                        </span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                        <input 
+                            class="form-control degree_transcript rn_imgs_${res_one} rn_upload_certification rn_upload_certification-${i}" 
+                            type="file" 
+                            name="rn_upload_certification[${i}][]" 
+                            onchange="changeImg1(${user_id}, ${i}, '${img_text}', '${res_one}')" 
+                            multiple>
+                        <div class="rn_imgs${res_one}"></div>
+                        <span 
+                            id="reqrnuploadvalid-${i}" 
+                            class="reqError text-danger valley">
+                        </span>
+                    </div>
+                </div>
+            </div>
+        `);
+
 
             
           }
@@ -4160,7 +4441,7 @@ $('#professs_form').on('submit', function(event){
         let selectedValues = $(this).val();
         var np_certification_array = [];
         $('.np_certification_div').removeClass('d-none');
-        $(".np_certification_div h4").each(function(){
+        $(".np_certification_div h6").each(function(){
           var text = $(this).text();
 
           if(selectedValues.includes(text) == false){
@@ -4182,21 +4463,67 @@ $('#professs_form').on('submit', function(event){
           let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
           console.log("res_one",res_one);
           if(np_certification_array.includes(selectedValues[i]) == false){
+            var user_id = "{{ $sessid }}";
+            var img_text = "np_imgs";
             
-            
-            $(".np_certification_div").append('<div class="np_'+res_one+' cert_div_'+selected_text+'"><h4 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3 cert_head_'+selected_text+'">'+selectedValues[i]+'</h4><input type="hidden" name="npnamearr[]" class="np_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control np_license_number np_license_number-'+i+'" type="text" name="np_license_number[]"><span id="reqnplicencevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control npexpiry npexpiry-'+i+'" type="date" name="np_expiry[]"><span id="reqnpexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control np_upload_certification np_upload_certification-'+i+'" type="file" name="np_upload_certification[]"><span id="reqnpuploadvalid-'+i+'" class="reqError text-danger valley"></span></div></div></div>');
+           $(".np_certification_div").append(`
+                <div class="np_${res_one} cert_div_${selected_text}">
+                    <h6 class="cert_head_${selected_text}">${selectedValues[i]}</h6>
+                    <input 
+                        type="hidden" 
+                        name="npnamearr[]" 
+                        class="np_input_${selectedValues[i]}" 
+                        value="${selectedValues[i]}">
+                    <div class="license_number_div row license_number_additional">
+                        <div class="form-group col-md-12">
+                            <label class="form-label" for="input-1">Certification/Licence Number</label>
+                            <input 
+                                class="form-control np_license_number np_license_number-${i}" 
+                                type="text" 
+                                name="np_license_number[]">
+                            <span 
+                                id="reqnplicencevalid-${i}" 
+                                class="reqError text-danger valley">
+                            </span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="form-label" for="input-1">Expiry</label>
+                            <input 
+                                class="form-control npexpiry npexpiry-${i}" 
+                                type="date" 
+                                name="np_expiry[]">
+                            <span 
+                                id="reqnpexpiryvalid-${i}" 
+                                class="reqError text-danger valley">
+                            </span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                            <input 
+                                class="form-control degree_transcript np_imgs_${res_one} np_upload_certification np_upload_certification-${i}" 
+                                type="file" 
+                                name="np_upload_certification[${i}][]" 
+                                onchange="changeImg1(${user_id}, ${i}, '${img_text}', '${res_one}')" 
+                                multiple>
+                            <div class="np_imgs${res_one}"></div>
+                            <span 
+                                id="reqnpuploadvalid-${i}" 
+                                class="reqError text-danger valley">
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            `);
 
-            
           }
         }
 
-        
     });
     $('.js-example-basic-multiple[data-list-id="cn_data"]').on('change', function() {
         let selectedValues = $(this).val();
         var cn_certification_array = [];
         $('.cna_certification_div').removeClass('d-none');
-        $(".cna_certification_div h4").each(function(){
+        $(".cna_certification_div h6").each(function(){
           var text = $(this).text();
 
           if(selectedValues.includes(text) == false){
@@ -4218,21 +4545,66 @@ $('#professs_form').on('submit', function(event){
           let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
           console.log("res_one",res_one);
           if(cn_certification_array.includes(selectedValues[i]) == false){
+            var user_id = "{{ $sessid }}";
+            var img_text = "cn_imgs";
             
-            
-            $(".cna_certification_div").append('<div class="cn_'+res_one+' cert_div_'+selected_text+'"><h4 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3 cert_head_'+selected_text+'">'+selectedValues[i]+'</h4><input type="hidden" name="cnnamearr[]" class="cn_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control cn_license_number cn_license_number-'+i+'" type="text" name="cn_license_number[]"><span id="reqcnlicencevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control cnexpiry cnexpiry-'+i+'" type="date" name="cn_expiry[]"><span id="reqcnexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control cn_upload_certification cn_upload_certification-'+i+'" type="file" name="cn_upload_certification[]"><span id="reqcnuploadvalid-'+i+'" class="reqError text-danger valley"></span></div></div></div>');
-
+            $(".cna_certification_div").append(`
+                <div class="cn_${res_one} cert_div_${selected_text}">
+                    <h6 class="cert_head_${selected_text}">${selectedValues[i]}</h6>
+                    <input 
+                        type="hidden" 
+                        name="cnnamearr[]" 
+                        class="cn_input_${selectedValues[i]}" 
+                        value="${selectedValues[i]}">
+                    <div class="license_number_div row license_number_additional">
+                        <div class="form-group col-md-12">
+                            <label class="form-label" for="input-1">Certification/Licence Number</label>
+                            <input 
+                                class="form-control cn_license_number cn_license_number-${i}" 
+                                type="text" 
+                                name="cn_license_number[]">
+                            <span 
+                                id="reqcnlicencevalid-${i}" 
+                                class="reqError text-danger valley">
+                            </span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="form-label" for="input-1">Expiry</label>
+                            <input 
+                                class="form-control cnexpiry cnexpiry-${i}" 
+                                type="date" 
+                                name="cn_expiry[]">
+                            <span 
+                                id="reqcnexpiryvalid-${i}" 
+                                class="reqError text-danger valley">
+                            </span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                            <input 
+                                class="form-control degree_transcript cn_imgs_${res_one} cn_upload_certification cn_upload_certification-${i}" 
+                                type="file" 
+                                name="cn_upload_certification[${i}][]" 
+                                onchange="changeImg1(${user_id}, ${i}, '${img_text}', '${res_one}')" 
+                                multiple>
+                            <div class="cn_imgs${res_one}"></div>
+                            <span 
+                                id="reqcnuploadvalid-${i}" 
+                                class="reqError text-danger valley">
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            `);
             
           }
-        }
-
-        
+        }        
     });
     $('.js-example-basic-multiple[data-list-id="lpn_data"]').on('change', function() {
         let selectedValues = $(this).val();
         var lpn_certification_array = [];
         $('.lpn_certification_div').removeClass('d-none');
-        $(".lpn_certification_div h4").each(function(){
+        $(".lpn_certification_div h6").each(function(){
           var text = $(this).text();
 
           if(selectedValues.includes(text) == false){
@@ -4254,18 +4626,70 @@ $('#professs_form').on('submit', function(event){
           let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
           console.log("res_one",res_one);
           if(lpn_certification_array.includes(selectedValues[i]) == false){
+            var user_id = "{{ $sessid }}";
+            var img_text = "lpn_imgs";
             
-            
-            $(".lpn_certification_div").append('<div class="lpn_'+res_one+' cert_div_'+selected_text+'"><h4 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3 cert_head_'+selected_text+'">'+selectedValues[i]+'</h4><input type="hidden" name="lpnnamearr[]" class="lpn_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control lpn_license_number lpn_license_number-'+i+'" type="text" name="lpn_license_number[]"><span id="reqlpnlicencevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control lpnexpiry lpnexpiry-'+i+'" type="date" name="lpn_expiry[]"><span id="reqlpnexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control lpn_upload_certification lpn_upload_certification-'+i+'" type="file" name="lpn_upload_certification[]"><span id="reqlpnuploadvalid-'+i+'" class="reqError text-danger valley"></span></div></div></div>');
+            $(".lpn_certification_div").append(`
+                <div class="lpn_${res_one} cert_div_${selected_text}">
+                    <h6 class="cert_head_${selected_text}">${selectedValues[i]}</h6>
+                    <input 
+                        type="hidden" 
+                        name="lpnnamearr[]" 
+                        class="lpn_input_${selectedValues[i]}" 
+                        value="${selectedValues[i]}">
+                    <div class="license_number_div row license_number_additional">
+                        <div class="form-group col-md-12">
+                            <label class="form-label" for="input-1">Certification/Licence Number</label>
+                            <input 
+                                class="form-control lpn_license_number lpn_license_number-${i}" 
+                                type="text" 
+                                name="lpn_license_number[]">
+                            <span 
+                                id="reqlpnlicencevalid-${i}" 
+                                class="reqError text-danger valley">
+                            </span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="form-label" for="input-1">Expiry</label>
+                            <input 
+                                class="form-control lpnexpiry lpnexpiry-${i}" 
+                                type="date" 
+                                name="lpn_expiry[]">
+                            <span 
+                                id="reqlpnexpiryvalid-${i}" 
+                                class="reqError text-danger valley">
+                            </span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                            <input 
+                                class="form-control lpn_upload_certification degree_transcript lpn_imgs_${res_one} lpn_upload_certification-${i}" 
+                                type="file" 
+                                name="lpn_upload_certification[${i}][]" 
+                                onchange="changeImg1(${user_id}, ${i}, '${img_text}', '${res_one}')" 
+                                multiple>
+                            <div class="lpn_imgs${res_one}"></div>
+                            <span 
+                                id="reqlpnuploadvalid-${i}" 
+                                class="reqError text-danger valley">
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            `);
+
+
             
           }
-        }        
+        }
+
+        
     });
     $('.js-example-basic-multiple[data-list-id="crn_data"]').on('change', function() {
         let selectedValues = $(this).val();
         var crna_certification_array = [];
         $('.crna_certification_div').removeClass('d-none');
-        $(".crna_certification_div h4").each(function(){
+        $(".crna_certification_div h6").each(function(){
           var text = $(this).text();
 
           if(selectedValues.includes(text) == false){
@@ -4286,8 +4710,57 @@ $('#professs_form').on('submit', function(event){
           let res = selectedValues[i].split(' ')[0];
           let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
           console.log("res_one",res_one);
-          if(crna_certification_array.includes(selectedValues[i]) == false){  
-            $(".crna_certification_div").append('<div class="crna_'+res_one+' cert_div_'+selected_text+'"><h4 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3 cert_head_'+selected_text+'">'+selectedValues[i]+'</h4><input type="hidden" name="crnanamearr[]" class="lpn_input_'+selectedValues[i]+'" value="'+selectedValues[i]+'"><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control crna_license_number crna_license_number-'+i+'" type="text" name="crna_license_number[]"><span id="reqcrnalicencevalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control crnaexpiry crnaexpiry-'+i+'" type="date" name="crna_expiry[]"><span id="reqcrnaexpiryvalid-'+i+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control acls_upload_certification acls_upload_certification-'+i+'" type="file" name="crna_upload_certification[]"><span id="reqcrnauploadvalid-'+i+'" class="reqError text-danger valley"></span></div></div></div>');
+          if(crna_certification_array.includes(selectedValues[i]) == false){
+            var user_id = "{{ $sessid }}";
+            var img_text = "crna_imgs";            
+            $(".crna_certification_div").append(`
+                <div class="crna_${res_one} cert_div_${selected_text}">
+                    <h6 class="cert_head_${selected_text}">${selectedValues[i]}</h6>
+                    <input 
+                        type="hidden" 
+                        name="crnanamearr[]" 
+                        class="crna_input_${selectedValues[i]}" 
+                        value="${selectedValues[i]}">
+                    <div class="license_number_div row license_number_additional">
+                        <div class="form-group col-md-12">
+                            <label class="form-label" for="input-1">Certification/Licence Number</label>
+                            <input 
+                                class="form-control crna_license_number crna_license_number-${i}" 
+                                type="text" 
+                                name="crna_license_number[]">
+                            <span 
+                                id="reqcrnalicencevalid-${i}" 
+                                class="reqError text-danger valley">
+                            </span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="form-label" for="input-1">Expiry</label>
+                            <input 
+                                class="form-control crnaexpiry crnaexpiry-${i}" 
+                                type="date" 
+                                name="crna_expiry[]">
+                            <span 
+                                id="reqcrnaexpiryvalid-${i}" 
+                                class="reqError text-danger valley">
+                            </span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                            <input 
+                                class="form-control degree_transcript crna_imgs_${res_one} crna_upload_certification crna_upload_certification-${i}" 
+                                type="file" 
+                                name="crna_upload_certification[${i}][]" 
+                                onchange="changeImg1(${user_id}, ${i}, '${img_text}', '${res_one}')" 
+                                multiple>
+                            <div class="crna_imgs${res_one}"></div>
+                            <span 
+                                id="reqcrnauploadvalid-${i}" 
+                                class="reqError text-danger valley">
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            `);
             
           }
         }
@@ -5363,7 +5836,134 @@ function add_listcertfication(){
     
 }
 </script> --}}
+<!-- for multiple upload image -->
+<script>
+  function changeDegreeImg(user_id){
+    var files =$('#upload_degree')[0].files;
+    console.log("files",files.length);
+    
+    var form_data =  "";
+    
+    form_data = new FormData();
+
+    for(var i=0;i<files.length;i++){
+        form_data.append("upload_degree[]", files[i], files[i]['name']);
+
+    }
+
+    form_data.append("user_id", user_id);
+    form_data.append("_token", '{{ csrf_token() }}');
+    
+    $.ajax({
+      type: "post",
+      url: "{{ route('admin.upload-deg-img') }}",
+      cache: false,
+      contentType: false,
+      processData: false,
+      async: true,
+      data: form_data,
+      
+      success: function(data){
+         var image_array = JSON.parse(data);
+         var htmlData = '';
+         for(var i=0;i<image_array.length;i++){
+            console.log("degree_transcript",image_array[i]);
+            var img_name = image_array[i];
+            console.log("img_name",'deleteImg('+(i+1)+','+user_id+',"'+img_name+'")');
+            htmlData += '<div class="trans_img trans_img-'+(i+1)+'"><a href="{{ url("/public") }}/uploads/education_degree/'+img_name+'" target="_blank"><i class="fa fa-file" aria-hidden="true"></i>'+image_array[i]+'</a><div class="close_btn close_btn-'+i+'" onclick="deleteDegImg('+(i+1)+','+user_id+',\''+img_name+'\')" style="cursor: pointer;"><i class="fa fa-close" aria-hidden="true"></i></div></div>';
+         }
+         $(".degree_transcript_imgs").html(htmlData);
+         
+         
+      }
+    });
+
+  }
+
+  function deleteDegImg(i,user_id,img){
+    // alert(img);
+    
+    
+    $.ajax({
+      type: "post",
+      url: "{{ route('admin.dlt-deg-img') }}",
+      data: {user_id:user_id,img:img,_token:'{{ csrf_token() }}'},
+      cache: false,
+      success: function(data){
+         if(data == 1){
+          $(".trans_img-"+i).remove();
+         }
+         
+      }
+    });
+  }
+
+  function changeImg1(user_id,i,field_name,country_name){
+    var files =$('.'+field_name+'_'+country_name)[0].files;
+    console.log("files",'.'+field_name+'_'+country_name);
+    
+    var form_data =  "";
+    
+    form_data = new FormData();
+
+    for(var i=0;i<files.length;i++){
+        form_data.append("upload_images[]", files[i], files[i]['name']);
+
+    }
+
+    form_data.append("user_id", user_id);
+    form_data.append("country_name", country_name);
+    form_data.append("field_name", field_name);
+    form_data.append("_token", '{{ csrf_token() }}');
+    
+    $.ajax({
+      type: "post",
+      url: "{{ route('admin.uploadImgs1') }}",
+      cache: false,
+      contentType: false,
+      processData: false,
+      async: true,
+      data: form_data,
+      
+      success: function(data){
+    
+         var image_array = JSON.parse(data);
+         var htmlData = '';
+         console.log("data",image_array);
+         for(var i=0;i<image_array.length;i++){
+            console.log("degree_transcript",image_array[i]);
+            var img_name = image_array[i];
+            var img_text = field_name;
+            console.log("img_name",'deleteImg('+(i+1)+','+user_id+',"'+img_name+'")');
+            htmlData += '<div class="trans_img trans_img-'+(i+1)+' trans_img'+field_name+country_name+i+'"><a href="{{ url("/public") }}/uploads/education_degree/'+img_name+'" target="_blank"><i class="fa fa-file" aria-hidden="true"></i>'+image_array[i]+'</a><div class="close_btn close_btn-'+i+'" onclick="deleteImg1('+i+','+user_id+',\''+image_array[i]+'\',\''+country_name+'\',\''+img_text+'\')" style="cursor: pointer;"><i class="fa fa-close" aria-hidden="true"></i></div></div>';
+         }
+         $("."+field_name+country_name).html(htmlData);
+         
+         
+      }
+    });
+
+  }
+
+  function deleteImg1(i,user_id,img,country_name,img_text){
+    //alert(".trans_img"+img_text+country_name+i);
+    
+    
+    $.ajax({
+      type: "post",
+      url: "{{ route('admin.deleteImg1') }}",
+      data: {user_id:user_id,img:img,country_name:country_name,img_text:img_text,_token:'{{ csrf_token() }}'},
+      cache: false,
+      success: function(data){
+         if(data == 1){
+          $(".trans_img"+img_text+country_name+i).remove();
+         }
+         
+      }
+    });
+  }
 </script>
+
 
 
 
