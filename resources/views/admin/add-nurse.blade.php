@@ -571,8 +571,7 @@
                                                            <label class="form-label" for="input-2">{{ $ptl->name }}</label>
                                                             <ul id="speciality_entry-{{ $l }}" style="display:none;">
                                                                 @foreach($speciality_data as $sd)
-                                                                <li data-value="{{ $sd->id }}">{{ $sd->name }}</li>
-                                                                
+                                                                <li data-value="{{ $sd->id }}">{{ $sd->name }}</li>   
                                                                 @endforeach
                                                                 <!-- Add more list items as needed -->
                                                             </ul>
@@ -788,7 +787,7 @@
                     </div>
                     <div class="tab-pane p-3" id="navpill-4" role="tabpanel">
                         <div class="row">
-                            <div class=" w-100  overflow-hidden">
+                            <div class="w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
                                     <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center ">Education and Certification 
                                     </h3>
@@ -805,33 +804,35 @@
                                             <div class="col-md-12 mt-3">
                                                 <div class="form-group">
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Nurse & Midwife degree</strong></label>
-                                                     <?php
+                                                    <?php
                                                     $nurse_midwife_degree = DB::table("degree")->where('status', '1')->orderBy('name')->get();
                                                     ?>
                                                     <ul id="ndegree" style="display:none;">
                                                         @foreach($nurse_midwife_degree as $ptl)
-                                                            <li data-value="{{ $ptl->id }}">{{ $ptl->name }}</li>
+                                                             <li data-value="{{ $ptl->id }}">{{ $ptl->name }}</li>
                                                         @endforeach
                                                     </ul>
                                                      <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="ndegree" name="ndegree[]" multiple="multiple"></select>
-                                                    <span id="ndegree_error" class="reqError text-danger valley "></span>
+                                                     <span id="ndegree_error" class="reqError text-danger valley "></span>
                                                 </div>
                                             </div>            
                                             <div class="col-md-12 mt-3">
                                                 <div class="form-group">
-                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Please start with the most relevant</strong></label>
-                                                   <input class="form-control" type="text" name="most_relevant" value="" id="most_relevant">
+                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Institutions(Please start with the most relevant)</strong></label>
+                                                   <input class="form-control" type="text" name="institution"  id="most_relevant">
                                                     <span id="relevant_error" class="reqError text-danger valley "></span>
                                                 </div>
                                             </div>  
                                             <div class="col-md-12 mt-3">
                                                 <div class="form-group">
                                                      <?php 
-                                                       $sessid = 112; // Default value
-                                                            if(Session::has('nurseemail')) {
+                                                       $sessid = ''; // Default value
+                                                            if(Session::has('nurseemail')) {           
                                                                 $email = Session::get('nurseemail');
-                                                                $post = User::where('email', $email)->first();
-                                                                $sessid = 112; 
+                                                                $post = DB::table("users")->where('email', $email)->first();
+                                                                if($post){
+                                                                $sessid = $post->id; 
+                                                                }
                                                             }
                                                         ?>
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Upload Degree & Transcript</strong></label>
@@ -861,8 +862,7 @@
                                                     <ul id="profess_cert" style="display:none;">
                                                         @foreach($certificates as $cert)
                                                         <li data-value="{{ $cert->id }}">{{ $cert->name }}</li>
-                                                        @endforeach
-                                                        
+                                                        @endforeach                                                    
                                                     </ul>
                                                       <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="profess_cert" name="professional_certification[]" multiple="multiple"></select>
                                                     <span id="profess_cert_error" class="reqError text-danger valley "></span>
@@ -1045,7 +1045,7 @@
                                                     ?>
                                                     <ul id="cnm_data" style="display:none;">
                                                         @foreach($cnm_data as $data)
-                                                        <li data-value="{{ $data->professionalcert_id }}">{{ $data->name }}</li>
+                                                        <li data-value="{{ $data->name }}">{{ $data->name }}</li>
                                                         @endforeach
                                                         
                                                     </ul>
@@ -1061,7 +1061,7 @@
                                                     ?>
                                                     <ul id="ons_data" style="display:none;">
                                                         @foreach($ons_data as $data)
-                                                        <li data-value="{{ $data->professionalcert_id }}">{{ $data->name }}</li>
+                                                        <li data-value="{{ $data->name }}">{{ $data->name }}</li>
                                                         @endforeach                                                    
                                                     </ul>
                                                     <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="ons_data" name="ons_data[]" multiple="multiple"></select>
@@ -1075,7 +1075,7 @@
                                                     ?>
                                                     <ul id="msw_data" style="display:none;">
                                                         @foreach($msw_data as $data)
-                                                        <li data-value="{{ $data->professionalcert_id }}">{{ $data->name }}</li>
+                                                        <li data-value="{{ $data->name }}">{{ $data->name }}</li>
                                                         @endforeach
                                                         
                                                     </ul>
@@ -1090,7 +1090,7 @@
                                                     ?>
                                                     <ul id="ain_data" style="display:none;">
                                                         @foreach($msw_data as $data)
-                                                        <li data-value="{{ $data->professionalcert_id }}">{{ $data->name }}</li>
+                                                        <li data-value="{{ $data->name }}">{{ $data->name }}</li>
                                                         @endforeach
                                                         
                                                     </ul>
@@ -1105,7 +1105,7 @@
                                                     ?>
                                                     <ul id="rpn_data" style="display:none;">
                                                         @foreach($msw_data as $data)
-                                                        <li data-value="{{ $data->professionalcert_id }}">{{ $data->name }}</li>
+                                                        <li data-value="{{ $data->name }}">{{ $data->name }}</li>
                                                         @endforeach
                                                         
                                                     </ul>
@@ -1114,76 +1114,62 @@
                                                 <div class="rpn_certification_div"></div>                                                
                                             </div>
                                               
-                                               {{-- <div class="another_certifications">
-                                                    <h4 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3">
-                                                        Another Certifications 
-                                                    </h4>
-                                                    <div class="license_number_div row license_number_anothercertifications">
-                                                        <div class="form-group col-md-6">
-                                                        <label class="form-label" for="input-1">Certificate 1</label>
-                                                        <input class="form-control" type="text" name="training_certificate[]" value="@if(!empty($educationData)){{ $c_data->training_certificate }}@endif">
-                                                        </div>
-                                                        <div class="form-group col-md-6">
-                                                        <label class="form-label" for="input-1">Certification/Licence Number</label>
-                                                        <input class="form-control" type="text" name="certificate_license_number[]" value="@if(!empty($educationData)){{ $c_data->certificate_license_number }}@endif">
-                                                        </div>
-                                                        <div class="form-group col-md-6">
-                                                        <label class="form-label" for="input-1">Expiry</label>
-                                                        <input class="form-control" type="date" name="certificate_expiry[]" value="@if(!empty($educationData)){{ $c_data->certificate_expiry }}@endif">
-                                                        </div>
-                                                        <div class="form-group col-md-6">
-                                                        <label class="form-label" for="input-1">Upload your certification/Licence</label>
-                                                        <input class="form-control" type="file" name="certificate_upload_certification[]">                        
-                                                        {{-- <img src="{{ url('/public/uploads/certificates') }}/{{ $c_data->certificate_upload_certification }}" style="width:100px;"> --}}                          
-                                                        {{-- </div>
-                                                    </div> --}}
-                                                {{-- </div> --}}
-                                                {{-- <div class="add_new_certification_div mb-3 mt-3">
-                                                    <a style="cursor: pointer;" onclick="add_listcertfication()">+ Add another certification/Licence</a>
-                                                </div> --}}
-                                                <div class="certification_box">
-                                                <h4 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3">Additional Training</h4>
-                                                <p>Please add most relevant courses/workshops</p>
-
-                                                <h6 fw-bolder fs-6 lh-base d-flex align-items-center mt-2>Certification/Licence 1</h6>
-                                                <div class="license_number_div row license_number_additional_add">
-                                                    <div class="col-md-6 mt-3">
-                                                        <div class="form-group">
-                                                            <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Courses/workshops</strong></label>
-                                                            <input class="form-control" type="text" name="training_courses[]">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6 mt-3">
-                                                        <div class="form-group">
-                                                            <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Certification/Licence Number</strong></label>
-                                                             <input class="form-control" type="text" name="additional_license_number[]">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6 mt-3">
-                                                        <div class="form-group">
-                                                            <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Expiry</strong></label>
-                                                            <input class="form-control" type="date" name="additional_expiry[]">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6 mt-3">
-                                                        <div class="form-group">
-                                                            <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Upload your certification/Licence</strong></label>
-                                                           <input class="form-control" type="file" name="additional_upload_certification[]">
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                               
+                                                <div class="another_certifications">
+                                                  <h4 class="fw-bolder fs-6 lh-base d-flex align-items-center mt-3">Other certifications</h4>
                                                 </div>
 
-                                                <div class="add_new_certification_div mb-3 mt-3">
+                                                <div class="add_new_certification_div">
                                                     <a style="cursor: pointer;" onclick="add_certfication()">+ Add another certification/Licence</a>
                                                 </div>
                                                 <script type="text/javascript">
-                                                    var licence_div_count = 1;
-                                                    console.log("licence_div_count",licence_div_count);
-                                                    function add_certfication(){
-                                                    licence_div_count++;
-                                                    $(".certification_box").append('<h6>Certification/Licence '+licence_div_count+'</h6><div class="license_number_div row license_number_additional"><div class="form-group col-md-6"><label class="form-label" for="input-1">Courses/workshops</label><input class="form-control" type="text" name="training_courses[]"></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control" type="text" name="additional_license_number[]"></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control" type="date" name="additional_expiry[]"></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control" type="file" name="additional_upload_certification[]"></div></div>');
                                                     
+                                                    function add_certfication(){
+                                                    var licence_div_count = $(".license_number_anothercertifications").length;
+                                                    console.log("licence_div_count",licence_div_count);
+                                                    var ano_cer_img_txt = 'ano_certifi_imgs'
+                                                    var name =  'certifi'+'_'+licence_div_count;
+                                                    var user_id = "{{ $sessid }}";
+                                                    licence_div_count++;
+                                                    // $(".certification_box").append('<h6>Certification/Licence '+licence_div_count+'</h6><div class="license_number_div row license_number_additional"><div class="form-group col-md-6"><label class="form-label" for="input-1">Courses/workshops</label><input class="form-control" type="text" name="training_courses[]"></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control" type="text" name="additional_license_number[]"></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control" type="date" name="additional_expiry[]"></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control" type="file" name="additional_upload_certification[]"></div></div>');
+                                                    $(".another_certifications").append(`
+                                                        <div class="license_number_div license_number_div_${licence_div_count} row license_number_anothercertifications">
+                                                            <div class="form-group col-md-6">
+                                                                <label class="form-label" for="input-1">Certificate ${licence_div_count}</label>
+                                                                <input class="form-control additional_certificate_field additional_certificate_field-${licence_div_count}" type="text" name="training_certificate[]">
+                                                                <span id="reqcertname-${licence_div_count}" class="reqError text-danger valley"></span>
+                                                            </div>
+                                                            <div class="form-group col-md-6">
+                                                                <label class="form-label" for="input-1">Certification/Licence Number</label>
+                                                                <input class="form-control cert_licence_num cert_licence_num-${licence_div_count}" type="text" name="certificate_license_number[]">
+                                                                <span id="reqcertlicense-${licence_div_count}" class="reqError text-danger valley"></span>
+                                                            </div>
+                                                            <div class="form-group col-md-6">
+                                                                <label class="form-label" for="input-1">Expiry</label>
+                                                                <input class="form-control cert_expiry cert_expiry-${licence_div_count}" type="date" name="certificate_expiry[]">
+                                                                <span id="reqcertexpiry-${licence_div_count}" class="reqError text-danger valley"></span>
+                                                            </div>
+                                                            <div class="form-group col-md-6">
+                                                                <label class="form-label" for="input-1">Regulating Body</label>
+                                                                <input class="form-control additional_regulating_body additional_regulating_body-${licence_div_count}" type="text" name="regulating_body[]">
+                                                                <span id="reqcertregulating_body-${licence_div_count}" class="reqError text-danger valley"></span>
+                                                            </div>
+                                                            <div class="form-group col-md-6">
+                                                                <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                                                                <input class="form-control ano_certifi_imgs_${name} additional_certifications-${licence_div_count}" 
+                                                                    type="file" 
+                                                                    name="certificate_upload_certification[${licence_div_count}][]" 
+                                                                    onchange="changeAnoImg(${user_id}, ${licence_div_count}, 'ano_certifi_imgs', '${name}')" 
+                                                                    multiple>
+                                                            </div>
+                                                            <div class="ano_certifi_imgs${name}"></div>
+                                                            <div class="col-md-12">
+                                                                <div class="add_new_certification_div">
+                                                                    <a style="cursor: pointer;" onclick="delete_certification1(${licence_div_count})">- Delete certification/Licence</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    `);    
                                                     }
                                                 </script>
                                                 <div class="declaration_box mt-3">
@@ -1199,7 +1185,6 @@
                                     </div>
                                 </form>
                                 </div>
-                               
                             </div>
                         </div>
                     </div>
