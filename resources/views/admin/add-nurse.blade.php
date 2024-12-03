@@ -77,27 +77,33 @@
             <div class="card-body">
                 <ul class="nav nav-pills nav-fill mt-4 tabs-feat" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link active" data-bs-toggle="tab" href="#navpill-1" role="tab"
+                        <a class="nav-link disabled" data-bs-toggle="tab" href="#tab-1" role="tab"
                             aria-selected="true">
                             <span>Basic Details</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-2" role="tab" aria-selected="false"
+                        <a class="nav-link disabled" data-bs-toggle="tab" href="#tab-2" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Setting</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-3" role="tab" aria-selected="false"
+                        <a class="nav-link disabled" data-bs-toggle="tab" href="#tab-3" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Profession</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link" data-bs-toggle="tab" href="#navpill-4" role="tab" aria-selected="false"
+                        <a class="nav-link" data-bs-toggle="tab" href="#tab-4" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Education and Certifications</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link disabled" data-bs-toggle="tab" href="#tab-6" role="tab" aria-selected="false"
+                            tabindex="-1">
+                            <span>Mandatory Training</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
@@ -112,12 +118,7 @@
                             <span>References</span>
                         </a>
                     </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-6" role="tab" aria-selected="false"
-                            tabindex="-1">
-                            <span>Mandatory Training</span>
-                        </a>
-                    </li>
+                    
                     <li class="nav-item" role="presentation">
                         <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-7" role="tab" aria-selected="false"
                             tabindex="-1">
@@ -172,7 +173,7 @@
                 {{-- <form method="post" enctype="multipart/form-data" id="AddNurse"> --}}
                 <!-- Tab panes -->
                 <div class="tab-content border mt-2">
-                    <div class="tab-pane p-3 active show" id="navpill-1" role="tabpanel">
+                    <div class="tab-pane p-3 active show" id="tab-1" role="tabpanel">
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
@@ -384,7 +385,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane p-3" id="navpill-2" role="tabpanel">
+                    <div class="tab-pane p-3" id="tab-2" role="tabpanel">
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
@@ -457,7 +458,7 @@
                         </div>
                     </div>
                                     
-                    <div class="tab-pane p-3" id="navpill-3" role="tabpanel">
+                    <div class="tab-pane p-3" id="tab-3" role="tabpanel">
                         <div class="row">
                             <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
@@ -785,12 +786,25 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane p-3" id="navpill-4" role="tabpanel">
+                    <div class="tab-pane p-3" id="tab-4" role="tabpanel">
+                        <?php 
+                        $sessid = ''; // Default value
+                        
+                            if(Session::has('nurseemail')) {           
+                                $email = Session::get('nurseemail');
+                                $post = DB::table("users")->where('email', $email)->first();
+                                if($post){
+                                $sessid = $post->id; 
+                                }
+                            }
+                            
+                        ?>
                         <div class="row">
                             <div class="w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
                                     <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center ">Education and Certification 
                                     </h3>
+                                    <input type="hidden" value="{{$sessid}}">
                                 </div>
                                
                                 <div class="card-body p-3 px-md-4">
@@ -825,16 +839,7 @@
                                             </div>  
                                             <div class="col-md-12 mt-3">
                                                 <div class="form-group">
-                                                     <?php 
-                                                       $sessid = ''; // Default value
-                                                            if(Session::has('nurseemail')) {           
-                                                                $email = Session::get('nurseemail');
-                                                                $post = DB::table("users")->where('email', $email)->first();
-                                                                if($post){
-                                                                $sessid = $post->id; 
-                                                                }
-                                                            }
-                                                        ?>
+                                                     
                                                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Upload Degree & Transcript</strong></label>
                                                     <input class="form-control" type="file" name="upload_degree[]" id="upload_degree"  onchange="changeDegreeImg('<?= $sessid ?>')">
                                                     <span id="upload_degree_error" class="reqError text-danger valley"></span>
@@ -2165,7 +2170,118 @@
     `);
 
     }
-    </script>    
+    </script> 
+    
+<script>
+//  $(document).ready(function() {
+//     // Get the current query string parameter
+//     let urlParams = new URLSearchParams(window.location.search);
+//     let tabParam = urlParams.get('tab');
+//     // If no tab query string is present, default to tab-1
+//     if (!tabParam) {
+//         // Set the first tab as the default
+//         let defaultTab = 'tab-1';
+//         // Update the URL to include ?tab=tab-1
+//         let newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?tab=' + defaultTab;
+//         history.replaceState(null, null, newUrl);
+//         // Show the default tab
+//         $('.nav-link[href="#' + defaultTab + '"]').tab('show');
+//     } else {
+//         // If a tab query parameter exists, activate that tab
+//         $('.nav-link[href="#' + tabParam + '"]').tab('show');
+//     }
+//     // Update the URL with the tab ID as a query parameter when a tab is shown
+//     $('a[data-bs-toggle="tab"]').on('shown.bs.tab', function(e) {
+//         let newTab = $(e.target).attr('href').substring(1); // Get tab ID without the #
+//         let newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?tab=' + newTab;
+//         history.replaceState(null, null, newUrl);
+//     });
+// // });
+
+// $(document).ready(function() {
+//     // Get the current query string parameter
+//     let urlParams = new URLSearchParams(window.location.search);
+//     let tabParam = urlParams.get('tab');
+    
+//     // If no tab query string is present, default to tab-1
+//     if (!tabParam) {
+//         // Set the first tab as the default
+//         let defaultTab = 'tab-1';
+//         // Update the URL to include ?tab=tab-1
+//         let newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?tab=' + defaultTab;
+//         history.replaceState(null, null, newUrl);
+//         // Show the default tab and disable others
+//         $('.nav-link[href="#' + defaultTab + '"]').tab('show').removeClass('disabled').addClass('active').parent().addClass('active');
+//         // Disable other tabs
+//         $('.nav-link').not('.active').addClass('disabled');
+//     } else {
+//         // If a tab query parameter exists, activate that tab and disable others
+//         $('.nav-link[href="#' + tabParam + '"]').tab('show').removeClass('disabled').addClass('active').parent().addClass('active');
+//         // Disable all other tabs
+//         $('.nav-link').not('.active').addClass('disabled');
+//     }
+
+//     // Update the URL with the tab ID as a query parameter when a tab is shown
+//     $('a[data-bs-toggle="tab"]').on('shown.bs.tab', function(e) {
+//         let newTab = $(e.target).attr('href').substring(1); // Get tab ID without the #
+//         let newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?tab=' + newTab;
+//         history.replaceState(null, null, newUrl);
+        
+//         // Disable all tabs except the active one
+//         $('a[data-bs-toggle="tab"]').addClass('disabled');
+//         $(e.target).removeClass('disabled');
+//         $(e.target).parent().addClass('active');
+//     });
+// });
+$(document).ready(function() {
+    // Get the tab parameter from the URL (e.g., ?tab=tab-6)
+    let urlParams = new URLSearchParams(window.location.search);
+    let tabParam = urlParams.get('tab');
+
+    // If the tab parameter exists, show the corresponding tab
+    if (tabParam) {
+        // Activate the target tab based on the query parameter
+        $('.nav-link[href="#' + tabParam + '"]').tab('show').removeClass('disabled').addClass('active');
+        $('.nav-link[href="#' + tabParam + '"]').parent().addClass('active');
+
+        // Disable the other tabs that are not the target tab
+        $('a[data-bs-toggle="tab"]').not('.active').addClass('disabled').attr('aria-disabled', 'true').off('click');
+    } else {
+        // If no tab parameter is present, set default to tab-1 and update the URL
+        let defaultTab = 'tab-1';
+        let newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?tab=' + defaultTab;
+        
+        // Update the URL to include ?tab=tab-1
+        history.replaceState(null, null, newUrl);
+
+        // Activate tab-1 by default
+        $('.nav-link[href="#' + defaultTab + '"]').tab('show').removeClass('disabled').addClass('active');
+        $('.nav-link[href="#' + defaultTab + '"]').parent().addClass('active');
+    }
+
+    // Function to handle tab switching when called (e.g., after a success event)
+    function switchTab(currentTab, targetTab) {
+        let newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?tab=' + targetTab;
+
+        // Disable the current tab and store it in localStorage
+        $('.nav-link[href="#' + currentTab + '"]').addClass('disabled').attr('aria-disabled', 'true').off('click');
+        let disabledTabs = JSON.parse(localStorage.getItem('disabledTabs')) || [];
+        if (!disabledTabs.includes(currentTab)) {
+            disabledTabs.push(currentTab);
+            localStorage.setItem('disabledTabs', JSON.stringify(disabledTabs));
+        }
+
+        // Redirect to the target tab by updating the URL
+        window.location.href = newUrl;
+    }
+
+    // Example: call switchTab('tab-4', 'tab-6'); after some event like success
+});
+
+
+
+
+</script>
     
 @include('admin.script');
     
