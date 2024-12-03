@@ -813,9 +813,7 @@ $('#professs_form').on('submit', function(event){
  event.preventDefault(); 
    var targetTab = $('#professs_form').data('target'); 
    // Function to enable the next tab
-    function enableNextTab(targetTab) {
-        $('a[href="' + targetTab + '"]').removeClass('disabled').tab('show');
-    }
+    
     var isValid = true;
     if ($('[name="states[]"]').val() == '') {
       document.getElementById("reqnurseTypeId").innerHTML = "* Please select one or more Type of nurse";
@@ -871,7 +869,20 @@ $('#professs_form').on('submit', function(event){
                     title: 'Success',
                     text: res.message,
                 }).then(function() {
-                    $('a[href="' + targetTab + '"]').tab('show');
+                let currentTab = 'tab-3';
+                let targetTab = 'tab-4';
+                let newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?tab=' + targetTab;
+
+                // Disable the current tab and save it in local storage
+                $('.nav-link[href="#' + currentTab + '"]').addClass('disabled').attr('aria-disabled', 'true').off('click');
+                let disabledTabs = JSON.parse(localStorage.getItem('disabledTabs')) || [];
+                if (!disabledTabs.includes(currentTab)) {
+                    disabledTabs.push(currentTab);
+                    localStorage.setItem('disabledTabs', JSON.stringify(disabledTabs));
+                }
+
+                // Redirect to the target tab
+                window.location.href = newUrl;
                 });
             } else {
                 Swal.fire({
@@ -1046,9 +1057,22 @@ $('#professs_form').on('submit', function(event){
                             title: 'Success',
                             text: res.message,
                         }).then(function() {
-                           $('a[href="' + targetTab + '"]').tab('show');
-                           // Disable the previous tab
-                           $('a[href="' + targetTab + '"]').parent().prev().find('a').addClass('disabled');
+                            let currentTab = 'tab-1';
+                            let targetTab = 'tab-2';
+                            let newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?tab=' + targetTab;
+
+
+                            // Disable the current tab and save it in local storage
+                            $('.nav-link[href="#' + currentTab + '"]').addClass('disabled').attr('aria-disabled', 'true').off('click');
+                            let disabledTabs = JSON.parse(localStorage.getItem('disabledTabs')) || [];
+                            if (!disabledTabs.includes(currentTab)) {
+                                disabledTabs.push(currentTab);
+                                localStorage.setItem('disabledTabs', JSON.stringify(disabledTabs));
+                            }
+
+                            // Redirect to the target tab
+                            window.location.href = newUrl;
+                              
                         });
 
                         
@@ -1736,7 +1760,7 @@ $('#professs_form').on('submit', function(event){
 
             if(isValid == true){
             $('#educert_form').find('.text-danger').hide();
-            var targetTab  = '#navpill-5';  
+            var targetTab  = '#navpill-6';  
 
             function enableNextTab(targetTab) {
             $('a[href="' + targetTab + '"]').removeClass('disabled').tab('show');
@@ -1761,7 +1785,20 @@ $('#professs_form').on('submit', function(event){
                                 title: 'Success',
                                 text: res.message,
                             }).then(function() {
-                                $('a[href="' + targetTab + '"]').tab('show');
+                                let currentTab = 'tab-4';
+                                let targetTab = 'tab-6';
+                                let newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?tab=' + targetTab;
+
+                                // Disable the current tab and save it in local storage
+                                $('.nav-link[href="#' + currentTab + '"]').addClass('disabled').attr('aria-disabled', 'true').off('click');
+                                let disabledTabs = JSON.parse(localStorage.getItem('disabledTabs')) || [];
+                                if (!disabledTabs.includes(currentTab)) {
+                                    disabledTabs.push(currentTab);
+                                    localStorage.setItem('disabledTabs', JSON.stringify(disabledTabs));
+                                }
+
+                                // Redirect to the target tab
+                                window.location.href = newUrl;
                             });
                         } else {
                             Swal.fire({
@@ -3213,7 +3250,21 @@ $('#professs_form').on('submit', function(event){
                         title: 'Success',
                         text: res.message,
                     }).then(function() {
-                        $('a[href="' + targetTab + '"]').tab('show');
+                            let currentTab = 'tab-2';
+                            let targetTab = 'tab-3';
+                            let newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?tab=' + targetTab;
+
+
+                            // Disable the current tab and save it in local storage
+                            $('.nav-link[href="#' + currentTab + '"]').addClass('disabled').attr('aria-disabled', 'true').off('click');
+                            let disabledTabs = JSON.parse(localStorage.getItem('disabledTabs')) || [];
+                            if (!disabledTabs.includes(currentTab)) {
+                                disabledTabs.push(currentTab);
+                                localStorage.setItem('disabledTabs', JSON.stringify(disabledTabs));
+                            }
+
+                            // Redirect to the target tab
+                            window.location.href = newUrl;
                     });
                 } else {
                     Swal.fire({
