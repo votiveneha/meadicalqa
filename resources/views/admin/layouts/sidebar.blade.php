@@ -94,7 +94,7 @@
         <li class="sidebar-item">
           <a class="sidebar-link has-arrow" href="#" aria-expanded="false">
             <span class="d-flex">
-              <i class="ti ti-package"></i>
+              <i class='fas fa-graduation-cap'></i>
             </span>
             <span class="hide-menu">Degree Management</span>
           </a>
@@ -112,7 +112,7 @@
         <li class="sidebar-item">
           <a class="sidebar-link has-arrow" href="#" aria-expanded="false">
             <span class="d-flex">
-              <i class="ti ti-package"></i>
+              <i class="fa fa-certificate"></i>
             </span>
             <span class="hide-menu">Certificate Management</span>
           </a>
@@ -130,7 +130,7 @@
         <li class="sidebar-item">
           <a class="sidebar-link has-arrow" href="#" aria-expanded="false">
             <span class="d-flex">
-              <i class="ti ti-package"></i>
+             <i class='fas fa-user-graduate'></i>
             </span>
             <span class="hide-menu">Training Management</span>
           </a>
@@ -148,7 +148,7 @@
         <li class="sidebar-item">
           <a class="sidebar-link has-arrow" href="#" aria-expanded="false">
             <span class="d-flex">
-              <i class="ti ti-package"></i>
+              <i class='fas fa-syringe'></i>
             </span>
             <span class="hide-menu">Vaccination Management</span>
           </a>
