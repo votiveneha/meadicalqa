@@ -335,9 +335,7 @@ class NurseServices
 
                 $email=Session::get('nurseemail');
                 $user_id=User::where('email',$email)->first();
-               
-
-                
+                            
                 $bls_data = $data['bls_data'];
                 if($bls_data){
                     $bls_count = count($bls_data);
@@ -346,27 +344,12 @@ class NurseServices
                 }
                 $bls_license_number = $data['bls_license_number'];
                 $bls_expiry =$data['bls_expiry'];
-                $bls_upload_certification =$data['bls_upload_certification'];
+                // $bls_upload_certification =$data['bls_upload_certification'];
 
                 $bls_data_array = array();
 
                 for($i=0;$i<$bls_count;$i++){
-                    if(!empty($bls_upload_certification[$i])){
-                        $name1=$bls_upload_certification[$i]->getClientOriginalName();
-                        $name= time().$name1;
-                        $destinationPathcert = public_path()."/uploads/certificates"; 
-                        $bls_upload_certification[$i]->move($destinationPathcert,$name);
-                    }else{
-                        $certificate_data = json_decode($getedudata->bls_data);
-                        $name = $certificate_data[$i]->bls_upload_certification;
-                        if(!empty($certificate_data)){
-                            $name = $certificate_data[$i]->bls_upload_certification;
-                        }else{
-                            $name = "";
-                        }
-                    }
-                    
-                    $bls_data_array[] = array("bls_certification_id"=>$bls_data[$i],"bls_license_number"=>$bls_license_number[$i],"bls_expiry"=>$bls_expiry[$i],"bls_upload_certification"=>$name);
+                    $bls_data_array[] = array("bls_certification_id"=>$bls_data[$i],"bls_license_number"=>$bls_license_number[$i],"bls_expiry"=>$bls_expiry[$i]);
                 }
 
                 if(!empty($bls_data_array)){
@@ -386,26 +369,12 @@ class NurseServices
                 $aclsnamearr = $data['aclsnamearr'];
                 $acls_license_number =$data['acls_license_number'];
                 $acls_expiry = $data['acls_expiry'];
-                $acls_upload_certification = $data['acls_upload_certification'];
 
                 $acls_data_array = array();
 
                 for($i=0;$i<$acls_count;$i++){
-                    if(!empty($acls_upload_certification[$i])){
-                        $name1=$acls_upload_certification[$i]->getClientOriginalName();
-                        $name= time().$name1;
-                        $destinationPathcert = public_path()."/uploads/certificates"; 
-                        $acls_upload_certification[$i]->move($destinationPathcert,$name);
-                    }else{
-                        $certificate_data = json_decode($getedudata->acls_data);
-                        if(!empty($certificate_data)){
-                            $name = $certificate_data[$i]->acls_upload_certification;
-                        }else{
-                            $name = "";
-                        }
-                    }
                     
-                    $acls_data_array[] = array("acls_certification_id"=>$aclsnamearr[$i],"acls_license_number"=>$acls_license_number[$i],"acls_expiry"=>$acls_expiry[$i],"acls_upload_certification"=>$name);
+                    $acls_data_array[] = array("acls_certification_id"=>$aclsnamearr[$i],"acls_license_number"=>$acls_license_number[$i],"acls_expiry"=>$acls_expiry[$i]);
                 }
 
                 if(!empty($acls_data_array)){
@@ -424,26 +393,11 @@ class NurseServices
 
                 $cpr_license_number = $data['cpr_license_number'];
                 $cpr_expiry = $data['cpr_expiry'];
-                $cpr_upload_certification = $data['cpr_upload_certification'];
-
+            
                 $cpr_data_array = array();
 
                 for($i=0;$i<$cpr_count;$i++){
-                    if(!empty($cpr_upload_certification[$i])){
-                        $name1=$cpr_upload_certification[$i]->getClientOriginalName();
-                        $name= time().$name1;
-                        $destinationPathcert = public_path()."/uploads/certificates"; 
-                        $cpr_upload_certification[$i]->move($destinationPathcert,$name);
-                    }else{
-                        $certificate_data = json_decode($getedudata->cpr_data);
-                        if(!empty($certificate_data)){
-                            $name = $certificate_data[$i]->cpr_upload_certification;
-                        }else{
-                            $name = "";
-                        }
-                    }
-                    
-                    $cpr_data_array[] = array("cpr_certification_id"=>$cprnamearr[$i],"cpr_license_number"=>$cpr_license_number[$i],"cpr_expiry"=>$cpr_expiry[$i],"cpr_upload_certification"=>$name);
+                    $cpr_data_array[] = array("cpr_certification_id"=>$cprnamearr[$i],"cpr_license_number"=>$cpr_license_number[$i],"cpr_expiry"=>$cpr_expiry[$i]);
                 }
 
                 if(!empty($cpr_data_array)){
@@ -462,26 +416,11 @@ class NurseServices
                 $nrpnamearr = $data['nrpnamearr'];
                 $nrp_license_number = $data['nrp_license_number'];
                 $nrp_expiry = $data['nrp_expiry'];
-                $nrp_upload_certification = $data['nrp_upload_certification'];
-
+            
                 $nrp_data_array = array();
 
                 for($i=0;$i<$nrp_count;$i++){
-                    if(!empty($nrp_upload_certification[$i])){
-                        $name1=$nrp_upload_certification[$i]->getClientOriginalName();
-                        $name= time().$name1;
-                        $destinationPathcert = public_path()."/uploads/certificates"; 
-                        $nrp_upload_certification[$i]->move($destinationPathcert,$name);
-                    }else{
-                        $certificate_data = json_decode($getedudata->nrp_data);
-                        if(!empty($certificate_data)){
-                            $name = $certificate_data[$i]->nrp_upload_certification;
-                        }else{
-                            $name = "";
-                        }
-                    }
-                    
-                    $nrp_data_array[] = array("nrp_certification_id"=>$nrpnamearr[$i],"nrp_license_number"=>$nrp_license_number[$i],"nrp_expiry"=>$nrp_expiry[$i],"nrp_upload_certification"=>$name);
+                    $nrp_data_array[] = array("nrp_certification_id"=>$nrpnamearr[$i],"nrp_license_number"=>$nrp_license_number[$i],"nrp_expiry"=>$nrp_expiry[$i]);
                 }
 
                 if(!empty($nrp_data_array)){
@@ -499,26 +438,11 @@ class NurseServices
                 $plsnamearr = $data['plsnamearr'];
                 $pls_license_number = $data['pls_license_number'];
                 $pls_expiry = $data['pls_expiry'];
-                $pls_upload_certification = $data['pls_upload_certification'];
-
+                
                 $pls_data_array = array();
 
                 for($i=0;$i<$pls_count;$i++){
-                    if(!empty($pls_upload_certification[$i])){
-                        $name1=$pls_upload_certification[$i]->getClientOriginalName();
-                        $name= time().$name1;
-                        $destinationPathcert = public_path()."/uploads/certificates"; 
-                        $pls_upload_certification[$i]->move($destinationPathcert,$name);
-                    }else{
-                        $certificate_data = json_decode($getedudata->pals_data);
-                        if(!empty($certificate_data)){
-                            $name = $certificate_data[$i]->pals_upload_certification;
-                        }else{
-                            $name = "";
-                        }
-                    }
-                    
-                    $pls_data_array[] = array("pls_certification_id"=>$plsnamearr[$i],"pls_license_number"=>$pls_license_number[$i],"pls_expiry"=>$pls_expiry[$i],"pls_upload_certification"=>$name);
+                    $pls_data_array[] = array("pls_certification_id"=>$plsnamearr[$i],"pls_license_number"=>$pls_license_number[$i],"pls_expiry"=>$pls_expiry[$i]);
                 }
 
                 if(!empty($pls_data_array)){
@@ -536,26 +460,11 @@ class NurseServices
                 $rnnamearr = $data['rnnamearr'];
                 $rn_license_number = $data['rn_license_number'];
                 $rn_expiry = $data['rn_expiry'];
-                $rn_upload_certification = $data['rn_upload_certification'];
-
+              
                 $rn_data_array = array();
 
                 for($i=0;$i<$rn_count;$i++){
-                    if(!empty($rn_upload_certification[$i])){
-                        $name1=$rn_upload_certification[$i]->getClientOriginalName();
-                        $name= time().$name1;
-                        $destinationPathcert = public_path()."/uploads/certificates"; 
-                        $rn_upload_certification[$i]->move($destinationPathcert,$name);
-                    }else{
-                        $certificate_data = json_decode($getedudata->rn_data);
-                        if(!empty($certificate_data)){
-                            $name = $certificate_data[$i]->rn_upload_certification;
-                        }else{
-                            $name = "";
-                        }
-                    }
-                    
-                    $rn_data_array[] = array("rn_certification_id"=>$rnnamearr[$i],"rn_license_number"=>$rn_license_number[$i],"rn_expiry"=>$rn_expiry[$i],"rn_upload_certification"=>$name);
+                    $rn_data_array[] = array("rn_certification_id"=>$rnnamearr[$i],"rn_license_number"=>$rn_license_number[$i],"rn_expiry"=>$rn_expiry[$i]);
                 }
 
                 if(!empty($rn_data_array)){
@@ -573,26 +482,11 @@ class NurseServices
                 $npnamearr = $data['npnamearr'];
                 $np_license_number = $data['np_license_number'];
                 $np_expiry = $data['np_expiry'];
-                $np_upload_certification = $data['np_upload_certification'];
-
+            
                 $np_data_array = array();
 
                 for($i=0;$i<$np_count;$i++){
-                    if(!empty($np_upload_certification[$i])){
-                        $name1=$np_upload_certification[$i]->getClientOriginalName();
-                        $name= time().$name1;
-                        $destinationPathcert = public_path()."/uploads/certificates"; 
-                        $np_upload_certification[$i]->move($destinationPathcert,$name);
-                    }else{
-                        $certificate_data = json_decode($getedudata->np_data);
-                        if(!empty($certificate_data)){
-                            $name = $certificate_data[$i]->np_upload_certification;
-                        }else{
-                            $name = "";
-                        }
-                    }
-                    
-                    $np_data_array[] = array("np_certification_id"=>$npnamearr[$i],"np_license_number"=>$np_license_number[$i],"np_expiry"=>$np_expiry[$i],"np_upload_certification"=>$name);
+                 $np_data_array[] = array("np_certification_id"=>$npnamearr[$i],"np_license_number"=>$np_license_number[$i],"np_expiry"=>$np_expiry[$i],"np_upload_certification"=>$name);
                 }
 
                 if(!empty($np_data_array)){
@@ -610,26 +504,11 @@ class NurseServices
                 $cnnamearr = $data['cnnamearr'];
                 $cn_license_number = $data['cn_license_number'];
                 $cn_expiry = $data['cn_expiry'];
-                $cn_upload_certification = $data['cn_upload_certification'];
 
                 $cn_data_array = array();
 
                 for($i=0;$i<$cn_count;$i++){
-                    if(!empty($cn_upload_certification[$i])){
-                        $name1=$cn_upload_certification[$i]->getClientOriginalName();
-                        $name= time().$name1;
-                        $destinationPathcert = public_path()."/uploads/certificates"; 
-                        $cn_upload_certification[$i]->move($destinationPathcert,$name);
-                    }else{
-                        $certificate_data = json_decode($getedudata->cna_data);
-                        if(!empty($certificate_data)){
-                            $name = $certificate_data[$i]->cna_upload_certification;
-                        }else{
-                            $name = "";
-                        }
-                    }
-                    
-                    $cn_data_array[] = array("cn_certification_id"=>$cnnamearr[$i],"cn_license_number"=>$cn_license_number[$i],"cn_expiry"=>$cn_expiry[$i],"cn_upload_certification"=>$name);
+                    $cn_data_array[] = array("cn_certification_id"=>$cnnamearr[$i],"cn_license_number"=>$cn_license_number[$i],"cn_expiry"=>$cn_expiry[$i]);
                 }
       
 
@@ -648,26 +527,11 @@ class NurseServices
                 $lpnnamearr = $data['lpnnamearr'];
                 $lpn_license_number = $data['lpn_license_number'];
                 $lpn_expiry = $data['lpn_expiry'];
-                $lpn_upload_certification = $data['lpn_upload_certification'];
-
+            
                 $lpn_data_array = array();
 
                 for($i=0;$i<$lpn_count;$i++){
-                    if(!empty($lpn_upload_certification[$i])){
-                        $name1=$lpn_upload_certification[$i]->getClientOriginalName();
-                        $name= time().$name1;
-                        $destinationPathcert = public_path()."/uploads/certificates"; 
-                        $lpn_upload_certification[$i]->move($destinationPathcert,$name);
-                    }else{
-                        $certificate_data = json_decode($getedudata->lpn_data);
-                        if(!empty($certificate_data)){
-                            $name = $certificate_data[$i]->lpn_upload_certification;
-                        }else{
-                            $name = "";
-                        }
-                    }
-                    
-                    $lpn_data_array[] = array("lpn_certification_id"=>$lpnnamearr[$i],"lpn_license_number"=>$lpn_license_number[$i],"lpn_expiry"=>$lpn_expiry[$i],"lpn_upload_certification"=>$name);
+                    $lpn_data_array[] = array("lpn_certification_id"=>$lpnnamearr[$i],"lpn_license_number"=>$lpn_license_number[$i],"lpn_expiry"=>$lpn_expiry[$i]);
                 }
 
                 if(!empty($lpn_data_array)){
@@ -686,25 +550,11 @@ class NurseServices
                 //print_r($crna_count);die;
                 $crna_license_number = $data['crna_license_number'];
                 $crna_expiry = $data['crna_expiry'];
-                $crna_upload_certification = $data['crna_upload_certification'];
-
+              
                 $crna_data_array = array();
 
-                for($i=0;$i<$crna_count;$i++){
-                    if(!empty($crna_upload_certification[$i])){
-                        $name1=$crna_upload_certification[$i]->getClientOriginalName();
-                        $name= time().$name1;
-                        $destinationPathcert = public_path()."/uploads/certificates"; 
-                        $crna_upload_certification[$i]->move($destinationPathcert,$name);
-                    }else{
-                        $certificate_data = json_decode($getedudata->crna_data);
-                        if(!empty($certificate_data)){
-                            $name = $certificate_data[$i]->crna_upload_certification;
-                        }else{
-                            $name = "";
-                        }
-                    }        
-                    $crna_data_array[] = array("crna_certification_id"=>$crnanamearr[$i],"crna_license_number"=>$crna_license_number[$i],"crna_expiry"=>$crna_expiry[$i],"crna_upload_certification"=>$name);
+                for($i=0;$i<$crna_count;$i++){    
+                    $crna_data_array[] = array("crna_certification_id"=>$crnanamearr[$i],"crna_license_number"=>$crna_license_number[$i],"crna_expiry"=>$crna_expiry[$i]);
                 }
                 
                 if(!empty($crna_data_array)){
@@ -723,26 +573,11 @@ class NurseServices
                 //print_r($crna_count);die;
                 $cnm_license_number = $data['cnm_license_number'];
                 $cnm_expiry = $data['cnm_expiry'];
-                $cnm_upload_certification = $data['cnm_upload_certification'];
-
+                
                 $cnm_data_array = array();
 
                 for($i=0;$i<$cnm_count;$i++){
-                    if(!empty($cnm_upload_certification[$i])){
-                        $name1=$cnm_upload_certification[$i]->getClientOriginalName();
-                        $name= time().$name1;
-                        $destinationPathcert = public_path()."/uploads/certificates"; 
-                        $cnm_upload_certification[$i]->move($destinationPathcert,$name);
-                    }else{
-                        $certificate_data = json_decode($getedudata->cnm_data);
-                        if(!empty($certificate_data)){
-                            $name = $certificate_data[$i]->cnm_upload_certification;
-                        }else{
-                            $name = "";
-                        }
-                    }
-                    
-                    $cnm_data_array[] = array("cnm_certification_id"=>$cnmnamearr[$i],"cnm_license_number"=>$cnm_license_number[$i],"cnm_expiry"=>$cnm_expiry[$i],"cnm_upload_certification"=>$name);
+                    $cnm_data_array[] = array("cnm_certification_id"=>$cnmnamearr[$i],"cnm_license_number"=>$cnm_license_number[$i],"cnm_expiry"=>$cnm_expiry[$i]);
                 }
                 
                 if(!empty($cnm_data_array)){
@@ -761,26 +596,10 @@ class NurseServices
                 //print_r($crna_count);die;
                 $ons_license_number = $data['ons_license_number'];
                 $ons_expiry = $data['ons_expiry'];
-                $ons_upload_certification = $data['ons_upload_certification'];
-
                 $ons_data_array = array();
       
                 for($i=0;$i<$ons_count;$i++){
-                    if(!empty($ons_upload_certification[$i])){
-                        $name1=$ons_upload_certification[$i]->getClientOriginalName();
-                        $name= time().$name1;
-                        $destinationPathcert = public_path()."/uploads/certificates"; 
-                        $ons_upload_certification[$i]->move($destinationPathcert,$name);
-                    }else{
-                        $certificate_data = json_decode($getedudata->ons_data);
-                        if(!empty($certificate_data)){
-                            $name = $certificate_data[$i]->ons_upload_certification;
-                        }else{
-                            $name = "";
-                        }
-                    }
-                    
-                    $ons_data_array[] = array("ons_certification_id"=>$onsnamearr[$i],"ons_license_number"=>$ons_license_number[$i],"ons_expiry"=>$ons_expiry[$i],"ons_upload_certification"=>$name);
+                    $ons_data_array[] = array("ons_certification_id"=>$onsnamearr[$i],"ons_license_number"=>$ons_license_number[$i],"ons_expiry"=>$ons_expiry[$i]);
                 }
                 
                 if(!empty($ons_data_array)){
@@ -799,26 +618,11 @@ class NurseServices
                 
                 $msw_license_number = $data['msw_license_number'];
                 $msw_expiry = $data['msw_expiry'];
-                $msw_upload_certification = $data['msw_upload_certification'];
-
                 $msw_data_array = array();
 
                 for($i=0;$i<$msw_count;$i++){
-                    if(!empty($msw_upload_certification[$i])){
-                        $name1=$msw_upload_certification[$i]->getClientOriginalName();
-                        $name= time().$name1;
-                        $destinationPathcert = public_path()."/uploads/certificates"; 
-                        $msw_upload_certification[$i]->move($destinationPathcert,$name);
-                    }else{
-                        $certificate_data = json_decode($getedudata->msw_data);
-                        if(!empty($certificate_data)){
-                            $name = $certificate_data[$i]->msw_upload_certification;
-                        }else{
-                            $name = "";
-                        }
-                    }
-                    
-                    $msw_data_array[] = array("msw_certification_id"=>$mswnamearr[$i],"msw_license_number"=>$msw_license_number[$i],"msw_expiry"=>$msw_expiry[$i],"msw_upload_certification"=>$name);
+
+                    $msw_data_array[] = array("msw_certification_id"=>$mswnamearr[$i],"msw_license_number"=>$msw_license_number[$i],"msw_expiry"=>$msw_expiry[$i]);
                 }
                 //print_r(count($msw_data_array));die;
                 if(!empty($msw_data_array)){
@@ -837,26 +641,12 @@ class NurseServices
                 //print_r($crna_count);die;
                 $ain_license_number = $data['ain_license_number'];
                 $ain_expiry = $data['ain_expiry'];
-                $ain_upload_certification = $data['ain_upload_certification'];
-
+            
                 $ain_data_array = array();
 
                 for($i=0;$i<$ain_count;$i++){
-                    if(!empty($ain_upload_certification[$i])){
-                        $name1=$ain_upload_certification[$i]->getClientOriginalName();
-                        $name= time().$name1;
-                        $destinationPathcert = public_path()."/uploads/certificates"; 
-                        $ain_upload_certification[$i]->move($destinationPathcert,$name);
-                    }else{
-                        $certificate_data = json_decode($getedudata->ain_data);
-                        if(!empty($certificate_data)){
-                            $name = $certificate_data[$i]->ain_upload_certification;
-                        }else{
-                            $name = "";
-                        }
-                    }
-                    
-                    $ain_data_array[] = array("ain_certification_id"=>$ainnamearr[$i],"ain_license_number"=>$ain_license_number[$i],"ain_expiry"=>$ain_expiry[$i],"ain_upload_certification"=>$name);
+
+                    $ain_data_array[] = array("ain_certification_id"=>$ainnamearr[$i],"ain_license_number"=>$ain_license_number[$i],"ain_expiry"=>$ain_expiry[$i]);
                 }
                 
                 if(!empty($ain_data_array)){
@@ -875,26 +665,10 @@ class NurseServices
                 //print_r($crna_count);die;
                 $rpn_license_number = $data['rpn_license_number'];
                 $rpn_expiry = $data['rpn_expiry'];
-                $rpn_upload_certification = $data['rpn_upload_certification'];
-
                 $rpn_data_array = array();
 
                 for($i=0;$i<$rpn_count;$i++){
-                    if(!empty($rpn_upload_certification[$i])){
-                        $name1=$rpn_upload_certification[$i]->getClientOriginalName();
-                        $name= time().$name1;
-                        $destinationPathcert = public_path()."/uploads/certificates"; 
-                        $rpn_upload_certification[$i]->move($destinationPathcert,$name);
-                    }else{
-                        $certificate_data = json_decode($getedudata->rpn_data);
-                        if(!empty($certificate_data)){
-                            $name = $certificate_data[$i]->rpn_upload_certification;
-                        }else{
-                            $name = "";
-                        }
-                    }
-                    
-                    $rpn_data_array[] = array("rpn_certification_id"=>$rpnnamearr[$i],"rpn_license_number"=>$rpn_license_number[$i],"rpn_expiry"=>$rpn_expiry[$i],"rpn_upload_certification"=>$name);
+                    $rpn_data_array[] = array("rpn_certification_id"=>$rpnnamearr[$i],"rpn_license_number"=>$rpn_license_number[$i],"rpn_expiry"=>$rpn_expiry[$i]);
                 }
                 
                 if(!empty($rpn_data_array)){
@@ -909,34 +683,25 @@ class NurseServices
                     $nl_data = '';
                 }
 
-                $file = $data['upload_degree'];
-                if(!empty($file)){
-                    $destinationPath = public_path() . '/uploads/education_degree';
-                    $file->move($destinationPath,time().$file->getClientOriginalName());
-                    $degree_transcript = time().$file->getClientOriginalName();
-                }
+                $training_certificate = $data['training_certificate'];
+                $certificate_license_number = $data['certificate_license_number'];
+                $certificate_expiry = $data['certificate_expiry'];
+                $regulating_body = $data['regulating_body'];
+  
 
-                $training_courses = $data['training_courses'];
-                $additional_license_number = $data['additional_license_number'];
-                $additional_expiry = $data['additional_expiry'];
-                $additional_upload_certification = $data['additional_upload_certification'];
-
-                $certificate_array = array();
-                for($i=0;$i<count($training_courses);$i++){
-                    if(!empty($additional_upload_certification[$i])){
-                        $name1=$additional_upload_certification[$i]->getClientOriginalName();
-                        $name= time().$name1;
-                        $destinationPathcert = public_path()."/uploads/certificates"; 
-                        $additional_upload_certification[$i]->move($destinationPathcert,$name);
-                    }else{
-                        $certificate_data = json_decode($getedudata->additional_training_data);
-                        $name = $certificate_data[$i]->additional_upload_certification;
+                $new_certificate_array = array();
+                if(!empty($training_certificate)){
+                    for($i=0;$i<count($training_certificate);$i++){
+                     
+                        $new_certificate_array[] = array("certificate_id"=>$i+1,"training_certificate"=>$training_certificate[$i],"certificate_license_number"=>$certificate_license_number[$i],"certificate_expiry"=>$certificate_expiry[$i],"regulating_body"=>$regulating_body[$i]);
                     }
-                    
-                    $certificate_array[] = array("training_courses"=>$training_courses[$i],"additional_license_number"=>$additional_license_number[$i],"additional_expiry"=>$additional_expiry[$i],"additional_upload_certification"=>$name);
+
+                    $new_certificate_json = json_encode($new_certificate_array);
+                }else{
+                    $new_certificate_json = '';
                 }
 
-                $certificate_json = json_encode($certificate_array);
+                $certificate_json = $new_certificate_json;
                 $user_id=$user_id->id;
 
                 $CER=json_encode($data['professional_certification']);            
@@ -963,13 +728,13 @@ class NurseServices
                 $allData['ain_data']  = $ain_data_json;
                 $allData['rpn_data']  = $rpn_data_json;
                 $allData['nl_data']   = $nl_data;
-                $allData['degree_transcript'] = $degree_transcript;
+                // $allData['degree_transcript'] = $degree_transcript;
                 $allData['additional_training_data'] = $certificate_json;
                 $allData['user_id']  = $user_id;
                 $allData['complete_status'] = 1;
                 $allData['training_courses']  = '';
                
-                // $allData['training_workshops'] = isset($data['training_workshop']) ? json_encode($data['training_workshop']) : '';
+                
                 $run=EducationModel::create($allData);
 
                 if($run){               
