@@ -102,6 +102,9 @@ Route::prefix('/admin')->name('admin.')->namespace('App\Http\Controllers\admin')
         Route::post('/uploadImgs', 'NurseController@uploadImgs')->name('uploadImgs1');
         Route::post('/dlt-deg-img', 'NurseController@deleteDegImg')->name('dlt-deg-img');
         Route::post('/deleteImg1', 'NurseController@deleteImg1')->name('deleteImg1');
+        Route::post('/uploadmantraImgs1', 'NurseController@uploadmantraImgs1')->name('uploadmantraImgs1');
+        Route::post('/uploadAnotherImgs', 'NurseController@uploadAnotherImgs')->name('uploadAnotherImgs');
+        Route::post('/deleteAnoImg1', 'NurseController@deleteAnoImg1')->name('deleteAnoImg1');
 
         Route::get('/customer-list', 'NurseController@customerList')->name('customer-list'); 
              

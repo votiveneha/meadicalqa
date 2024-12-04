@@ -6362,6 +6362,9 @@ $(document).ready(function() {
                     }).then(function() {
                         var targetTab = 'tab-12'; 
                         var newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?tab=' + targetTab;
+
+                        // Disable the current tab
+                
                         window.location.href = newUrl;
                     });
                 } else {

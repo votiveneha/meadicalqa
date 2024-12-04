@@ -216,7 +216,7 @@ class NurseServices
     
    public function addNursePost($data)
     {
-// dd($data);
+
         try {
 
             if($data['tab'] == 'tab1'){
@@ -837,13 +837,417 @@ class NurseServices
 
                 $email=Session::get('nurseemail');
                 $user_id=User::where('email',$email)->first();
-                $allData['user_id'] = $user_id->id;
-                $allData['start_date'] = $data['tra_start_date'];
-                $allData['end_date'] = $data['tra_end_date'];
-                $allData['institutions'] = $data['institution1'];
-                $allData['continuing_education'] = $data['mand_continue_education'];
+                $user_id = $user_id->id;
+                $start_date = $data['start_date'];
+                $end_date = $data['end_date'];
+                $institution = $data['institution'];
+                $mand_continue_education = $data['mand_continue_education'];
+                $mand_training = $data['mandatory_courses'];
+                $mand_education = $data['mandatory_education'];
+                $declare_information =  $data['declare_information'];
+                $gettrainingdata = DB::table("mandatory_training")->where("user_id",$user_id)->first();
 
-                $run=MandatoryTrainModel::create($allData);
+                $training_name = $data['training'];
+                $training_ins = $data['institution'];
+                $training_start_date = $data['tra_start_date'];
+                $training_end_date = $data['tra_end_date'];
+                $tra_exp = $data['tra_expiry'];
+                
+                
+
+                $other_tra_array = array();
+                if(!empty($training_name)){
+                    for($i=0;$i<count($training_name);$i++){
+
+                    $other_tra_array[] = array("other_tra_id"=>$i+1,"training_name"=>$training_name[$i],"training_ins"=>$training_ins[$i],"training_start_date"=>$training_start_date[$i],"training_end_date"=>$training_end_date[$i],"tra_exp"=>$tra_exp[$i]);
+                    }
+
+                    $other_tra_json = json_encode($other_tra_array);
+                }else{
+                    $other_tra_json = '';
+                }
+
+
+                $education_name = $data['education'];
+                $education_ins = $data['institution'];
+                $education_start_date = $data['start_date'];
+                $education_end_date = $data['end_date'];
+                $education_exp = $data['edu_expiry'];
+                $education_status = $data['edu_expiry'];
+
+                $other_edu_array = array();
+                if(!empty($education_name)){
+                    for($i=0;$i<count($education_name);$i++){
+                    $other_edu_array[] = array("other_edu_id"=>$i+1,"education_name"=>$education_name[$i],"education_ins"=>$education_ins[$i],"education_start_date"=>$education_start_date[$i],"education_end_date"=>$education_end_date[$i],"education_exp"=>$education_exp[$i],"education_status"=>$education_status[$i]);
+                    }
+
+                    $other_edu_json = json_encode($other_edu_array);
+                }else{
+                    $other_edu_json = '';
+                }
+                
+
+                $well_data = $data['well_self_care_data'];
+                if($well_data){
+                    $well_count = count($well_data);
+                }else{
+                    $well_count = 0;
+                }
+                $wellnamearr = $data['wellnamearr'];
+                $well_institution = $data['well_institution'];
+                $well_tra_start_date = $data['well_tra_start_date'];
+                $well_tra_end_date = $data['well_tra_end_date'];
+                $well_expiry = $data['well_expiry'];
+
+                $well_self_array = array();
+                $training_data = json_decode($gettrainingdata->well_sel_data);
+
+                for($i=0;$i<$well_count;$i++){
+
+                    $well_self_array[] = array("well_tra_id"=>$wellnamearr[$i],"well_institution"=>$well_institution[$i],"well_tra_start_date"=>$well_tra_start_date[$i],"well_tra_end_date"=>$well_tra_end_date[$i],"well_expiry"=>$well_expiry[$i]);
+                }
+
+                if(!empty($well_self_array)){
+                    $well_data_json = json_encode($well_self_array);
+                }else{
+                    $well_data_json = '';
+                } 
+
+                // training sec
+                if(!empty($tech_innvo_array)){
+                    $lead_data_json = json_encode($lead_pro_array);
+                }else{
+                    $lead_data_json = '';
+                }
+
+                $tech_innvo_data = $data['tech_innvo_health_data'];
+                if($tech_innvo_data){
+                    $tech_innvo_count = count($tech_innvo_data);
+                }else{
+                    $tech_innvo_count = 0;
+                }
+                $techinnvonamearr = $data['techinnvonamearr'];
+                $tech_institution = $data['tech_innvo_institution'];
+                $tech_start_date = $data['tech_innvo_tra_start_date'];
+                $tech_end_date = $data['tech_innvo_tra_end_date'];
+                $tech_expiry = $data['tech_innvo_expiry'];
+                $tech_innvo_array = array();
+                $training_data = json_decode($gettrainingdata->tech_innvo_data);
+
+                for($i=0;$i<$tech_innvo_count;$i++){
+                    // if(!empty($training_data) && array_key_exists($i,$training_data)){
+                    //     $aclsimg = json_decode($certificate_data[$i]->acls_upload_certification);
+                    // }else{
+                    //     $aclsimg = '';
+                    // }
+                    //print_r(json_decode($certificate_data[$i]->acls_upload_certification));
+                    // if(!empty($acls_upload_certification[$i])){
+                    //     $acls_img = Helpers::multipleFileUpload($acls_upload_certification[$i],$aclsimg);
+                    // }else{
+                    //     $acls_img = Helpers::multipleFileUpload('',$aclsimg);
+                    // }
+                    //echo $acls_img;        
+                    $tech_innvo_array[] = array("tech_tra_id"=>$techinnvonamearr[$i],"tech_institution"=>$tech_institution[$i],"tech_start_date"=>$tech_start_date[$i],"tech_end_date"=>$tech_end_date[$i],"tech_expiry"=>$tech_expiry[$i]);
+                }
+
+                if(!empty($tech_innvo_array)){
+                    $tech_data_json = json_encode($tech_innvo_array);
+                }else{
+                    $tech_data_json = '';
+                }
+
+                // thired
+                $lead_pro_data = $data['leader_pro_dev_data'];
+                if($lead_pro_data){
+                    $lead_pro_count = count($lead_pro_data);
+                }else{
+                    $lead_pro_count = 0;
+                }
+                $leaderpronamearr = $data['leaderpronamearr'];
+                $lead_pro_institution = $data['leader_pro_institution'];
+                $lead_pro_start_date = $data['leader_pro_tra_start_date'];
+                $lead_pro_end_date = $data['leader_pro_tra_end_date'];
+                $leader_pro_expiry = $data['leader_pro_expiry'];
+                $lead_pro_array = array();
+                $training_data = json_decode($gettrainingdata->leader_pro_data);
+
+                for($i=0;$i<$lead_pro_count;$i++){
+                    // if(!empty($training_data) && array_key_exists($i,$training_data)){
+                    //     $aclsimg = json_decode($certificate_data[$i]->acls_upload_certification);
+                    // }else{
+                    //     $aclsimg = '';
+                    // }
+                    //print_r(json_decode($certificate_data[$i]->acls_upload_certification));
+                    // if(!empty($acls_upload_certification[$i])){
+                    //     $acls_img = Helpers::multipleFileUpload($acls_upload_certification[$i],$aclsimg);
+                    // }else{
+                    //     $acls_img = Helpers::multipleFileUpload('',$aclsimg);
+                    // }
+                    //echo $acls_img;        
+                    $lead_pro_array[] = array("lead_pro_tra_id"=>$leaderpronamearr[$i],"lead_pro_institution"=>$lead_pro_institution[$i],"lead_start_date"=>$lead_pro_start_date[$i],"lead_end_date"=>$lead_pro_end_date[$i],"lead_expiry"=>$leader_pro_expiry[$i]);
+                }
+
+                if(!empty($lead_pro_array)){
+                    $lead_data_json = json_encode($lead_pro_array);
+                }else{
+                    $lead_data_json = '';
+                }
+
+
+                // fourth        
+                $mid_spec_tra_data = $data['mid_spec_tra_data'];
+                if($mid_spec_tra_data){
+                    $mid_spec_count = count($mid_spec_tra_data);
+                }else{
+                    $mid_spec_count = 0;
+                }
+                $midspecnamearr = $data['midspecnamearr'];
+                $mid_spec_institution = $data['mid_spec_institution'];
+                $mid_spec_tra_start_date = $data['mid_spec_tra_start_date'];
+                $mid_spec_tra_end_date = $data['mid_spec_tra_end_date'];
+                $mid_spec_expiry = $data['mid_spec_expiry'];
+                $mid_spec_array = array();
+                $training_data = json_decode($gettrainingdata->mid_spec_data);
+
+                
+
+                for($i=0;$i<$mid_spec_count;$i++){
+        
+                    // if(!empty($training_data) && array_key_exists($i,$training_data)){
+                    //     $aclsimg = json_decode($certificate_data[$i]->acls_upload_certification);
+                    // }else{
+                    //     $aclsimg = '';
+                    // }
+                    //print_r(json_decode($certificate_data[$i]->acls_upload_certification));
+                    // if(!empty($acls_upload_certification[$i])){
+                    //     $acls_img = Helpers::multipleFileUpload($acls_upload_certification[$i],$aclsimg);
+                    // }else{
+                    //     $acls_img = Helpers::multipleFileUpload('',$aclsimg);
+                    // }
+                    //echo $acls_img;        
+                    $mid_spec_array[] = array("mid_spec_tra_id"=>$midspecnamearr[$i],"mid_spec_institution"=>$mid_spec_institution[$i],"mid_spec_start_date"=>$mid_spec_tra_start_date[$i],"mid_spec_end_date"=>$mid_spec_tra_start_date[$i],"mis_spec_expiry"=>$mid_spec_expiry[$i]);
+                }
+                if(!empty($mid_spec_array)){
+                    $mid_data_json = json_encode($mid_spec_array);
+                }else{
+                    $mid_data_json = '';
+                }
+
+
+                // fifth
+                $cli_skill_data = $data['clinic_skill_core_data'];
+                if($cli_skill_data){
+                    $cli_skill_count = count($cli_skill_data);
+                }else{
+                    $cli_skill_count = 0;
+                }
+                $clinicskillnamearr = $data['clinicskillnamearr'];
+                $clinic_skill_institution = $data['clinic_skill_institution'];
+                $clinic_skill_tra_start_date = $data['clinic_skill_tra_start_date'];
+                $clinic_skill_tra_end_date = $data['clinic_skill_tra_end_date'];
+                $clinic_skill_expiry = $data['clinic_skill_expiry'];
+                $cli_skill_array = array();
+                $training_data = json_decode($gettrainingdata->clinic_skill_data);
+
+                for($i=0;$i<$cli_skill_count;$i++){        
+                    $cli_skill_array[] = array("cli_skill_tra_id"=>$clinicskillnamearr[$i],"clinic_skill_institution"=>$clinic_skill_institution[$i],"cli_skill_start_date"=>$clinic_skill_tra_start_date[$i],"cli_skill_end_date"=>$clinic_skill_tra_end_date[$i],"cli_skill_expiry"=>$clinic_skill_expiry[$i]);
+                }
+
+                if(!empty($cli_skill_array)){
+                    $cli_skill_data_json = json_encode($cli_skill_array);
+                }else{
+                    $cli_skill_data_json = '';
+                }
+
+                //man education
+                $emerging_data = $data['emerging_topic'];
+                if($emerging_data){
+                    $emerging_count = count($emerging_data);
+                }else{
+                    $emerging_count = 0;
+                }
+                $emetopicarr = $data['emetopicarr'];
+                $eme_topic_institution = $data['eme_topic_institution'];
+                $eme_topic_start_date = $data['eme_topic_start_date'];
+                $eme_topic_end_date = $data['eme_topic_end_date'];
+                $eme_topic_status = $data['eme_topic_status'];
+                $eme_topic_expiry = $data['eme_topic_expiry'];
+
+                $emerging_array = array();
+                $edu_data = json_decode($gettrainingdata->emerg_topic_data);
+
+                for($i=0;$i<$emerging_count;$i++){            
+                    $emerging_array[] = array("emr_edu_id"=>$emetopicarr[$i],"eme_topic_institution"=>$eme_topic_institution[$i],"eme_topic_start_date"=>$eme_topic_start_date[$i],"eme_topic_end_date"=>$eme_topic_end_date[$i],"eme_topic_expiry"=>$eme_topic_expiry[$i],"eme_topic_status"=>$eme_topic_status[$i],);
+                }
+
+                if(!empty($emerging_array)){
+                    $eme_data_json = json_encode($emerging_array);
+                }else{
+                    $eme_data_json = '';
+                } 
+
+                
+                $safety_com_data = $data['safety_com'];
+                if($safety_com_data){
+                    $safety_com_count = count($safety_com_data);
+                }else{
+                    $safety_com_count = 0;
+                }
+                $safetycomaarr = $data['safetycomaarr'];
+                $safety_com_institution = $data['safety_com_institution'];
+                $safety_com_start_date = $data['safety_com_start_date'];
+                $safety_com_end_date = $data['safety_com_end_date'];
+                $safety_com_status = $data['safety_com_status'];
+                $safety_com_expiry = $data['safety_com_expiry'];
+
+                $safety_com_array = array();
+                $safety_com_data = json_decode($gettrainingdata->safety_com_data);
+
+                for($i=0;$i<$safety_com_count;$i++){            
+                    $safety_com_array[] = array("saf_edu_id"=>$safetycomaarr[$i],"safety_com_institution"=>$safety_com_institution[$i],"safety_com_start_date"=>$safety_com_start_date[$i],"safety_com_end_date"=>$safety_com_end_date[$i],"safety_com_expiry"=>$safety_com_expiry[$i],"safety_com_status"=>$safety_com_status[$i],);
+                }
+
+                if(!empty($safety_com_array)){
+                    $safety_data_json = json_encode($safety_com_array);
+                }else{
+                    $safety_data_json = '';
+                } 
+
+
+                $spec_area_data = $data['spec_area'];
+                if($spec_area_data){
+                    $spec_area_count = count($spec_area_data);
+                }else{
+                    $spec_area_count = 0;
+                }
+                $specareaarr = $data['specareaarr'];
+                $spec_area_institution = $data['spec_area_institution'];
+                $spec_area_start_date = $data['spec_area_start_date'];
+                $spec_area_end_date = $data['spec_area_end_date'];
+                $spec_area_status = $data['spec_area_status'];
+                $spec_area_expiry = $data['spec_area_expiry'];
+
+                $spec_area_array = array();
+                $spec_data = json_decode($gettrainingdata->spec_area_data);
+
+                for($i=0;$i<$spec_area_count;$i++){            
+                    $spec_area_array[] = array("spec_edu_id"=>$specareaarr[$i],"spec_area_institution"=>$spec_area_institution[$i],"spec_area_start_date"=>$spec_area_start_date[$i],"spec_area_end_date"=>$spec_area_end_date[$i],"spec_area_expiry"=>$spec_area_expiry[$i],"spec_area_status"=>$spec_area_status[$i],);
+                }
+
+                if(!empty($spec_area_array)){
+                    $spec_area_json = json_encode($spec_area_array);
+                }else{
+                    $spec_area_json = '';
+                } 
+
+
+                $mid_spe_data = $data['mid_spe_mandotry'];
+                if($mid_spe_data){
+                    $mid_spe_count = count($mid_spe_data);
+                }else{
+                    $mid_spe_count = 0;
+                }
+                $midspearr = $data['midspearr'];
+                $mid_spe_institution = $data['mid_spe_institution'];
+                $mid_spe_start_date = $data['mid_spe_start_date'];
+                $mid_spe_end_date = $data['mid_spe_end_date'];
+                $mid_spe_status = $data['mid_spe_status'];
+                $mid_spe_expiry = $data['mid_spe_expiry'];
+
+                $mid_spe_array = array();
+                $mid_data = json_decode($gettrainingdata->mid_spe_data);
+
+                for($i=0;$i<$mid_spe_count;$i++){            
+                    $mid_spe_array[] = array("mid_spe_edu_id"=>$midspearr[$i],"mid_spe_institution"=>$mid_spe_institution[$i],"mid_spe_start_date"=>$mid_spe_start_date[$i],"mid_spe_end_date"=>$mid_spe_end_date[$i],"mid_spe_expiry"=>$mid_spe_expiry[$i],"mid_spe_status"=>$mid_spe_status[$i],);
+                }
+
+                if(!empty($mid_spe_array)){
+                    $mid_spe_json = json_encode($mid_spe_array);
+                }else{
+                    $mid_spe_json = '';
+                } 
+
+
+                $core_man_data = $data['core_man_con_data'];
+                if($core_man_data){
+                    $core_man_count = count($core_man_data);
+                }else{
+                    $core_man_count = 0;
+                }
+                $coremanarr  = $data['coremanarr'];
+                $core_man_institution = $data['core_man_institution'];
+                $coreman_start_date = $data['coreman_start_date'];
+                $coreman_end_date = $data['coreman_end_date'];
+                $coreman_status = $data['coreman_status'];
+                $core_man_expiry = $data['core_man_expiry'];
+
+                $core_man_array = array();
+                $core_man_data = json_decode($gettrainingdata->core_man_data);
+
+                for($i=0;$i<$core_man_count;$i++){            
+                    $core_man_array[] = array("core_man_edu_id"=>$coremanarr[$i],"core_man_institution"=>$core_man_institution[$i],"coreman_start_date"=>$coreman_start_date[$i],"coreman_end_date"=>$coreman_end_date[$i],"core_man_expiry"=>$core_man_expiry[$i],"coreman_status"=>$coreman_status[$i],);
+                }
+
+                if(!empty($core_man_array)){
+                    $core_man_json = json_encode($core_man_array);
+                }else{
+                    $core_man_json = '';
+                }
+                
+                // $gettrainingdata = DB::table("mandatory_training")->where("user_id",$user_id)->first();
+                //$post = User::find($request->user_id);
+                
+                // if(!empty($gettrainingdata)>0){
+                //     $run = MandatoryTrainModel::where('user_id',$user_id)->update([
+                //         'start_date'=>$start_date,
+                //         'end_date'=>$end_date,
+                //         'institutions'=>$institution,
+                //         'continuing_education'=>$mand_continue_education,
+                //         'well_sel_data'=>$well_data_json,
+                //         'tech_innvo_data'=>$tech_data_json,
+                //         'leader_pro_data'=>$lead_data_json,
+                //         'mid_spec_data'=>$mid_data_json,
+                //         'clinic_skill_data'=>$cli_skill_data_json,
+                //         'other_tra_data' => $other_tra_json, 
+                //         'man_training'    =>json_encode($mand_training),
+                //         'man_education'    =>json_encode($mand_education),
+                //         'emerg_topic_data'    =>$eme_data_json,
+                //         'safety_com_data' =>$safety_data_json,
+                //         'spec_area_data' =>$spec_area_json,
+                //         'mid_spe_data'   =>$mid_spe_json,
+                //         'core_man_data' =>$core_man_json,
+                //         'other_edu_data' => $other_edu_json,
+                //         'declaration_status'=>$declare_information,
+                //     ]);
+                // }else{
+                    $post = new MandatoryTrainModel();
+                    $post->user_id = $user_id;            
+                    $post->start_date   = $start_date;
+                    $post->end_date     = $end_date;
+                    $post->institutions = $institution;
+                    $post->continuing_education = $mand_continue_education;
+                    $post->well_sel_data = $well_data_json;
+                    $post->tech_innvo_data = $tech_data_json;
+                    $post->leader_pro_data = $lead_data_json;
+                    $post->mid_spec_data = $mid_data_json;
+                    $post->clinic_skill_data = $cli_skill_data_json;
+                    $post->other_tra_data = $other_tra_json;
+                    $post->man_training   =json_encode($mand_training);
+                    $post->man_education    =json_encode($mand_education);
+                    $post->emerg_topic_data    = $eme_data_json;
+                    $post->safety_com_data = $safety_data_json;
+                    $post->spec_area_data = $spec_area_json;
+                    $post->mid_spe_data = $mid_spe_json;
+                    $post->core_man_data = $core_man_json;
+                    $post->other_edu_data = $other_edu_json;
+                    $post->declaration_status = $declare_information;
+
+                    $run = $post->save();
+
+                // }
+
+
+                // $run=MandatoryTrainModel::create($allData);
 
                 $param='Mandatory Training';
            

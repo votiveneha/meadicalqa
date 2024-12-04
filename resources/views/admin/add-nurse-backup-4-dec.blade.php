@@ -95,7 +95,7 @@
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link disabled" data-bs-toggle="tab" href="#tab-4" role="tab" aria-selected="false"
+                        <a class="nav-link" data-bs-toggle="tab" href="#tab-4" role="tab" aria-selected="false"
                             tabindex="-1">
                             <span>Education and Certifications</span>
                         </a>
@@ -740,7 +740,7 @@
                                                             <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Temporary</strong></label>
                                                             <select class="form-control mr-10 select-active" name="temporary_status" id="temporary_status">
                                                             <option value="">Select</option>
-                                                            <option value="Temporary">Temporary</option>
+                                                            <option value="Temporary" >Temporary</option>
                                                             <option value="Contract">Contract</option>
                                                             <option value="Term Contract">Term Contract</option>
                                                             <option value="Travel">Travel</option>
@@ -1460,294 +1460,56 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane p-3" id="tab-6" role="tabpanel">
-                        <form id="man_tra_form" method="post">
-                        <input type="hidden" value="tab5" name="tab">
-                        <input type="hidden" value="{{ $sessid }}" name="user_id">
+                    <div class="tab-pane p-3" id="navpill-6" role="tabpanel">
                         <div class="row">
-                            <div class="w-100  overflow-hidden">
+                            <div class=" w-100  overflow-hidden">
                                 <div class="card-body p-3 px-md-4 pb-0">
-                                    <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center ">Mandatory Training and Continuing Education</h3>
-                                    <p>Mandatory Training and Continuing Education are vital for many nursing and midwifery roles. Keeping them up to date is crucial to maintaining your eligibility for employment opportunities</p>  
+                                    <h3 class="fw-bolder fs-6 lh-base d-flex align-items-center ">Mandatory Training</h3>
                                 </div>
                                 <div class="card-body p-3 px-md-4">
                                     <div class="col-md-12">
                                         <div class="row">
-                                        <h6 class="fw-bolder fs-6 d-flex align-items-center ">Completed training programs</h6>
-                                        <p>Please add required courses or certifications completed for compliance or safety</p>
-                                        <div class="col-md-12 mt-3">
+                                        <h6 class="fw-bolder fs-6 lh-base d-flex align-items-center ">Completed training programs</h6>
+                                        <div class="col-md-6 mt-3">
                                             <div class="form-group">
-                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Please select all that apply</strong></label>
-                                                <?php
-                                                    $mandatory_courses = DB::table('man_training_category')->where('type', 'Training')->where('parent', 0)->orderBy('id','desc')->get();
-                                                    ?>
-                                                    <ul id="mandatory_courses" style="display:none;">
-                                                        @foreach($mandatory_courses as $m_courses)
-                                                        <li data-value="{{ $m_courses->id }}">{{ $m_courses->name }}</li>
-                                                        @endforeach   
-                                                    </ul>
-                                                <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="mandatory_courses" name="mandatory_courses[]" multiple="multiple"></select>
-                                                <span id="reqmantra" class="reqError text-danger valley"></span>
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Training Start Date</strong></label>
+                                                <input class="form-control" type="date" name="tra_start_date"  id="tra_start_date">
+                                                <span id="tra_start_date_error" class="reqError text-danger valley "></span>
                                             </div>
                                         </div> 
-
-                                        <div class="mandatory_sub_courses">
-                                            <?php
-                                            $mandatory_sub_courses = DB::table('man_training_category')
-                                                                    ->where('parent',419)
-                                                                    ->where('type', 'Training')
-                                                                    ->get();
-                                                                        
-                                            ?>
-                                            <!-- cat-1 -->
-                                            <div class="col-md-12 mt-3 level-drp mandatory_courses_div  mandatory_tr_div_1 d-none">
-                                              
-                                                <div class="form-group">
-                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Wellness And Self-Care</strong></label>
-                                                    <ul id="well_self_care_data" style="display:none;">
-                                                        @foreach($mandatory_sub_courses as $ms_courses)
-                                                        <li data-value="{{ $ms_courses->name }}">{{ $ms_courses->name }}</li>
-                                                        @endforeach  
-                                                    </ul>
-                                                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="well_self_care_data" name="well_self_care_data[]" multiple="multiple"></select>
-                                                </div> 
-                                           </div> 
-                                            <div class="well_self_care_div"></div>
-
-                                            <!-- cat-2 -->
-                                            <div class="col-md-12 mt-3 level-drp mandatory_courses_div  mandatory_tr_div_2 d-none">
-                                                <div class="form-group">
-                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Technology and Innovation in Healthcare</strong></label>
-                                                   <?php $mandatory_sub_courses = DB::table('man_training_category')
-                                                        ->where('parent',418)
-                                                        ->where('type', 'Training')
-                                                        ->get(); ?>
-                           
-                                                        <ul id="tech_innvo_health_data" style="display:none;">
-                                                            @foreach($mandatory_sub_courses as $ms_courses)
-                                                            <li data-value="{{ $ms_courses->name }}">{{ $ms_courses->name }}</li>
-                                                            @endforeach                                
-                                                        </ul>
-                                                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="tech_innvo_health_data" name="tech_innvo_health_data[]" multiple="multiple"></select>
-                                                </div> 
-                                           </div>
-                                           <span id="reqtechinno" class="reqError text-danger valley"></span> 
-                                           <div class="tech_innvo_health_div"></div>
-
-                                           <!-- cat-3 -->
-                                           <div class="col-md-12 mt-3 level-drp mandatory_courses_div  mandatory_tr_div_3 d-none">
-                                                <div class="form-group">
-                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Leadership and Professional Development</strong></label>
-                                                     <?php $mandatory_sub_courses = DB::table('man_training_category')
-                                                        ->where('parent',417)
-                                                        ->where('type', 'Training')
-                                                        ->get(); ?>
-                           
-                                                        <ul id="leader_pro_dev_data" style="display:none;">
-                                                            @foreach($mandatory_sub_courses as $ms_courses)
-                                                            <li data-value="{{ $ms_courses->name }}">{{ $ms_courses->name }}</li>
-                                                            @endforeach            
-                                                        </ul>
-                                                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="leader_pro_dev_data" name="leader_pro_dev_data[]" multiple="multiple"></select>
-                                                </div> 
-                                           </div> 
-                                           <span id="reqeaderpro" class="reqError text-danger valley"></span>
-                                           <div class="leader_pro_dev_div"></div>
-
-                                           <!-- cat-4 -->
-                                            <div class="col-md-12 mt-3 level-drp mandatory_courses_div  mandatory_tr_div_4 d-none">
-                                                <div class="form-group">
-                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Midwifery-Specific Training</strong></label>
-                                                     <?php $mandatory_sub_courses = DB::table('man_training_category')
-                                                        ->where('parent',416)
-                                                        ->where('type', 'Training')
-                                                        ->get(); ?>
-                           
-                                                        <ul id="mid_spec_tra_data" style="display:none;">
-                                                            @foreach($mandatory_sub_courses as $ms_courses)
-                                                            <li data-value="{{ $ms_courses->name}}">{{ $ms_courses->name }}</li>
-                                                            @endforeach
-                                                            
-                                                        </ul>
-                                                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="mid_spec_tra_data" name="mid_spec_tra_data[]" multiple="multiple"></select>
-                                                </div> 
-                                           </div> 
-                                           <span id="reqmidwifespe" class="reqError text-danger valley"></span>
-                                           <div class="mid_spec_tra_div"></div>
-
-                                           <!-- cat-5 -->
-                                            <div class="col-md-12 mt-3 level-drp mandatory_courses_div  mandatory_tr_div_5 d-none">
-                                                <div class="form-group">
-                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Clinical Skills and Core Competencies</strong></label>
-                                                     <?php $mandatory_sub_courses = DB::table('man_training_category')
-                                                        ->where('parent',416)
-                                                        ->where('type', 'Training')
-                                                        ->get(); ?>
-                           
-                                                        <ul id="mid_spec_tra_data" style="display:none;">
-                                                            @foreach($mandatory_sub_courses as $ms_courses)
-                                                            <li data-value="{{ $ms_courses->name}}">{{ $ms_courses->name }}</li>
-                                                            @endforeach
-                                                            
-                                                        </ul>
-                                                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="mid_spec_tra_data" name="mid_spec_tra_data[]" multiple="multiple"></select>
-                                                </div> 
-                                           </div> 
-                                        </div>
-                                        <span id="reqcliniskill" class="reqError text-danger valley"></span>
-                                        <div class="clinic_skill_core_div"></div>
-
-                                        <div class="another_com_training">
-                                            <h6 class="fw-bolder fs-6 d-flex align-items-center mt-2">Other Trainings</h6>
-                                        </div>
-
-                                        <div class="add_new_cmp_training_div  mt-3" style="margin-bottom: 3rem !important;margin-top: 2rem !important;">
-                                         <a style="cursor: pointer;" onclick="add_listtraining()">+ Add another Completed Training</a>
-                                        </div>
-
-                                        <h6 class="fw-bolder fs-6 d-flex align-items-center">Mandatory Continuing Education</h6>
-
-
-                                        <div class="col-md-12 mt-3">
-                                             <p>Please add required ongoing education to stay updated in your field and maintain licensure</p>
+                                        <div class="col-md-6 mt-3">
                                             <div class="form-group">
-                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Please select all that apply</strong></label>
-                                                <?php
-                                                    $mandatory_courses = DB::table('man_training_category')->where('type', 'Education')->where('parent', 0)->orderBy('id','desc')->get();
-                                                    ?>
-                                                    <ul id="mandatory_education" style="display:none;">
-                                                        @foreach($mandatory_courses as $m_courses)
-                                                        <li data-value="{{ $m_courses->id }}">{{ $m_courses->name }}</li>
-                                                        @endforeach    
-                                                    </ul>
-                                                <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="mandatory_education" name="mandatory_education[]" multiple="multiple"></select>
-                                                <span id="reqmanedu" class="reqError text-danger valley"></span>
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Training End Date</strong></label>
+                                                <input class="form-control" type="date" name="tra_end_date" id="tra_end_date">
+                                                <span id="tra_end_date_error" class="reqError text-danger valley "></span>
+                                            </div>
+                                        </div>   
+                                        <div class="col-md-12 mt-3">
+                                            <div class="form-group">
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Institution</strong></label>
+                                                <input class="form-control" type="text" name="institution"  id="institution1">
+                                                <span id="institution_error_2" class="reqError text-danger valley "></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 mt-3">
+                                            <div class="form-group">
+                                                <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Mandatory Continuing Education</strong></label>
+                                                <select class="form-control form-select ps-5" name="mand_continue_education" id="mand_continue_education">
+                                                    <option value="">Select mandatory continuing education</option>                                                    
+                                                    <option value="Ongoing">Ongoing</option>
+                                                    <option value="Completed">Completed</option>
+                                                </select>
+                                                <span id="mand_continue_education_error" class="reqError text-danger valley "></span>
                                             </div>
                                         </div> 
-
-                                        <!-- cat-1 -->
-                                        <?php
-                                        $mandatory_sub_education = DB::table('man_training_category')
-                                                                        ->where('parent',440)
-                                                                        ->where('type','Education')
-                                                                        ->get();
-                                                                    
-                                        ?>
-
-                                        <div class="mandatory_sub_education">
-                                           <div class="col-md-12 mt-3 level-drp mandatory_sub_edu_div  mandatory_sub_edu_div_1 d-none">
-                                                <div class="form-group">
-                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Core Mandatory Continuing Education</strong></label>
-                                                    <ul id="core_man_con_data" style="display:none;">
-                                                        @foreach($mandatory_sub_education as $ms_education)
-                                                        <li data-value="{{ $ms_education->name }}" data-id="{{ $ms_education->id }}">{{ $ms_education->name }}</li>
-                                                        @endforeach  
-                                                    </ul>
-                                                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="core_man_con_data" name="core_man_con_data[]" multiple="multiple"></select>
-                                                </div>
-                                            </div>
-                                            <div class="core_man_con_data_div"></div>
-                                            
-                                            <!-- cat-2 -->
-                                            <div class="col-md-12 mt-3 level-drp mandatory_sub_edu_div  mandatory_sub_edu_div_2 d-none">
-                                                <div class="form-group">
-                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Midwifery-Specific Mandatory Continuing Education</strong></label>
-                                                    <?php $mandatory_sub_education = DB::table('man_training_category')
-                                                        ->where('parent',441)
-                                                        ->where('type','Education')
-                                                        ->get(); ?>
-                           
-                                                        <ul id="mid_spe_mandotry_data" style="display:none;">
-                                                            @foreach($mandatory_sub_education as $ms_education)
-                                                            <li data-value="{{ $ms_education->name }}">{{ $ms_education->name }}</li>
-                                                            @endforeach
-                                                            
-                                                        </ul>
-                                                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="mid_spe_mandotry_data" name="mid_spe_mandotry[]" multiple="multiple"></select>
-                                                </div>
-                                            </div>
-                                            <div class="mid_spe_mandotry_div"></div>
-
-
-                                            <!-- cat-3 -->
-                                            <div class="col-md-12 mt-3 level-drp mandatory_sub_edu_div  mandatory_sub_edu_div_4 d-none">
-                                                <div class="form-group">
-                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Specialized Area</strong></label>
-                                                    <?php $mandatory_sub_education = DB::table('man_training_category')
-                                                        ->where('parent',442)
-                                                        ->where('type', 'Education')
-                                                        ->get(); ?>
-                                                    
-                                                        <ul id="spec_area_data" style="display:none;">
-                                                            @foreach($mandatory_sub_education as $ms_education)
-                                                            <li data-value="{{ $ms_education->name }}">{{ $ms_education->name }}</li>
-                                                            @endforeach
-                                                        </ul>
-                                                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="spec_area_data" name="spec_area[]" multiple="multiple"></select>
-                                                </div>
-                                            </div>
-                                            <div class="spec_area_div"></div>
-
-                                            <!-- cat-4-->
-                                            <div class="col-md-12 mt-3 level-drp mandatory_sub_edu_div  mandatory_sub_edu_div_5 d-none">
-                                                <div class="form-group">
-                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Emerging Topics and Continuing Education</strong></label>
-                                                        <?php
-                                                         $mandatory_sub_education = DB::table('man_training_category')
-                                                        ->where('parent',444)
-                                                        ->where('type', 'Education')
-                                                        ->get(); ?>
-                           
-                                                        <ul id="emerging_topic_data" style="display:none;">
-                                                            @foreach($mandatory_sub_education as $ms_education)
-                                                            <li data-value="{{ $ms_education->name }}" data-id="{{ $ms_education->id }}">{{ $ms_education->name }}</li>
-                                                            @endforeach
-                                                        </ul>
-                                                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="emerging_topic_data" name="emerging_topic[]" multiple="multiple"></select>
-                                                </div>
-                                            </div>
-                                            <span id="reqemrtopic" class="reqError text-danger valley"></span>  
-                                            <div class="emerging_topic_div"></div>  
-                                            
-                                            <!-- cat-5-->
-                                            <div class="col-md-12 mt-3 level-drp mandatory_sub_edu_div  mandatory_sub_edu_div_4 d-none">
-                                                <div class="form-group">
-                                                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Safety and Compliance Training</strong></label>
-                                                       <?php $mandatory_sub_education = DB::table('man_training_category')
-                                                          ->where('parent',443)
-                                                          ->where('type', 'Education')
-                                                          ->get(); ?>
-                            
-                                                        <ul id="safety_com_data" style="display:none;">
-                                                            @foreach($mandatory_sub_education as $ms_education)
-                                                            <li data-value="{{ $ms_education->name }}">{{ $ms_education->name }}</li>
-                                                            @endforeach
-                                                        </ul>
-                                                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="safety_com_data" name="safety_com[]" multiple="multiple"></select>
-                                                </div>
-                                            </div>
-                                            <div class="safety_com_div"></div> 
-                                        </div>
-                                        <div class="another_education">
-                                           <h6 class="fw-bolder fs-6 d-flex align-items-center  mt-2">Other Continuing Education</h6>
-                                        </div>
-                                        <div class="add_new_education_div mt-3" style="margin-bottom: 3rem !important;margin-top: 2rem !important;">
-                                            <a style="cursor: pointer;" onclick="add_listeduction()">+Add another Continuing Education</a>
-                                        </div>
-                                        <div class="declaration_box mt-2">
-                                            <input type="checkbox" name="declare_information" class="declare_information_man" value="1" @if(!empty($trainingData)) @if($trainingData->declaration_status == 1) checked @endif @endif>
-                                            <label for="declare_information">I declare that the information provided is true and correct</label>
-                                        </div>    
-                                        <span id="reqmantradeclare_information" class="reqError text-danger valley"></span>
                                         <div class="d-flex align-items-center justify-content-between mt-3">
-                                            <button type="submit" class="btn btn-default next-step-61 align-items-center justify-content-between" data-target="#navpill-7">Next</button>
+                                            <button type="button" class="btn btn-default next-step-6 align-items-center justify-content-between" data-target="#navpill-7">Next</button>
                                         </div>
                                     </div>                     
                                     </div>                    
                                 </div>
                             </div>
                         </div>
-                        </form>
                     </div>
                     <div class="tab-pane p-3" id="navpill-7" role="tabpanel">
                         <div class="row">
@@ -1761,7 +1523,7 @@
                                         <div class="col-md-12 mt-3">
                                             <div class="form-group">
                                                 <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Vaccination Records</strong></label>
-                                                <?php
+                                                 <?php
                                                 $vaccination_record = DB::table("vaccination")->get();
                                                 ?>
                                                 <ul id="vaccination_record" style="display:none;">

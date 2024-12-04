@@ -2857,7 +2857,7 @@
     <script type="text/javascript"
         src="https://nextjs.webwiders.in/pindrow/public/advertiser/dist/libs/owl.carousel/dist/owl.carousel.min.js">
     </script>
-    @include('admin.script');
+   
     <script type="text/javascript"></script>
     <script>
         $(document).ready(function() {

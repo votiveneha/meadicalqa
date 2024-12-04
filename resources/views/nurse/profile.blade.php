@@ -1824,15 +1824,14 @@
                         
                         <div class="form-group level-drp @if($education_data && $education_data->cna_data == NULL) d-none @endif @if(empty($educationData)) d-none @endif procertdivsix">
                             <input type="hidden" name="pro_cert_cna" class="pro_cert_cna" value="@if(!empty($educationData)){{ $cna_data_json }}@endif">
-                            <label class="form-label" for="input-1">CNA (Certified Nursing Assistant) / EN (Enrolled Nurse)</label>
+                            <label class="form-label" for="input-1">CNA (Certified Nursing Assistant)/EN (Enrolled Nurse)</label>
                               <?php
                                 $cn_data = DB::table("professional_certificate_table")->where("cert_id","12")->get();
                               ?>
                               <ul id="cn_data" style="display:none;">
                                   @foreach($cn_data as $data)
                                   <li data-value="{{ $data->name }}">{{ $data->name }}</li>
-                                  @endforeach
-                                  
+                                  @endforeach              
                               </ul>
                           <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="cn_data" name="cn_data[]" multiple="multiple"></select>
                           <span id="reqcnvalid" class="reqError text-danger valley"></span>
@@ -3963,109 +3962,7 @@
                     <h6 class="emergency_text">
                       Completed Mandatory Training
                     </h6>
-                    <!-- <div class="row"> -->
-                      <!-- <div class="col-md-6">
-                        <div class="form-group level-drp">
-                          <label class="form-label" for="input-1">Training Start Date</label>
-                          <input class="form-control training_start_date" type="date" name="start_date" value="@if(!empty($trainingData)){{ $trainingData->start_date }}@endif" onchange="trainingStartDate(event);">
-                          <span id="reqempsdate" class="reqError text-danger valley"></span>
-                        </div>
-                      </div> -->
-                      <!-- <div class="col-md-6">
-                        <div class="form-group level-drp">
-                          <label class="form-label" for="input-1">Training End Date</label>
-                          <input class="form-control training_end_date" type="date" name="end_date" value="@if(!empty($trainingData)){{ $trainingData->end_date }}@endif" onchange="trainingEndDate(event);">
-                          <span id="reqtrainingenddate" class="reqError text-danger valley"></span>
-                        </div>
-                        
-                      </div> -->
-                      <!-- <script type="text/javascript">
-                        function trainingEndDate(e){
-                          var end_date = e.target.value;
-                          var start_date = $('.training_start_date').val();
-
-                          if(end_date < start_date){
-                            $("#reqtrainingenddate").html("End date should not less than start date");
-                          }else{
-                            if(end_date == start_date){
-                              $("#reqtrainingenddate").html("End date should not equal to start date");
-                            }else{
-                              $("#reqtrainingenddate").html("");
-                            }
-                            
-                          }
-                          
-                        }
-                        var start_date = $('.training_start_date').val();
-                        
-                        var date = new Date(start_date);
-
-
-                        // Add five days to current date
-                        date.setDate(date.getDate() + 1);
-                        var date1 = new Date(date);
-
-                        
-                        //var str = date1.toLocaleDateString();
-                        var year_val = `${date1.getFullYear()}`;
-                        var month_val = `${date1.getMonth() + 1}`;
-                        var date_val = `${date1.getDate()}`;
-
-                        var month_len = month_val.length;
-                        if(month_len<2){
-                          var show_month = 0+month_val;
-                        }else{
-                          var show_month = month_val;
-                        }
-                        const formattedDate2 = year_val+"-"+show_month+"-"+date_val;
-                        console.log("month_val",formattedDate);
-                        
-                        document.getElementsClassByName("training_end_date")[0].setAttribute('min', formattedDate2);
-                        function trainingStartDate(e){
-                          var start_date = e.target.value;
-                          var date = new Date(start_date);
-                          // Add five days to current date
-                          date.setDate(date.getDate() + 1);
-                          var date1 = new Date(date);
-
-                          
-                          //var str = date1.toLocaleDateString();
-                          var year_val = `${date1.getFullYear()}`;
-                          var month_val = `${date1.getMonth() + 1}`;
-                          var date_val = `${date1.getDate()}`;
-
-                          var month_len = month_val.length;
-                          if(month_len<2){
-                            var show_month = 0+month_val;
-                          }else{
-                            var show_month = month_val
-                          }
-                          const formattedDate = year_val+"-"+show_month+"-"+date_val;
-                          console.log("month_val",formattedDate);
-                          
-                          document.getElementsByClassName("training_end_date")[0].setAttribute('min', formattedDate);
-                        }
-
-                      </script> -->
-                      <!-- <div class="form-group level-drp">
-                          <label class="form-label" for="input-1">Institution</label>
-                          <input class="form-control" type="text" name="institution" value="@if(!empty($trainingData)){{ $trainingData->institutions }}@endif">
-                          
-                        </div> -->
-                        
-                        <!-- <div class="form-group level-drp">
-                           <label class="form-label" for="input-1">Mandatory Continuing Education</label>
-                           <select class="form-control form-select ps-5" name="mand_continue_education" id="mand_continue_education">
-                            <option value="">Select mandatory continuing education</option>
-                            
-                            
-                            <option value="Ongoing" @if(!empty($trainingData)) @if(!empty($trainingData->continuing_education == "Ongoing")) selected @endif @endif>Ongoing</option>
-                            <option value="Completed" @if(!empty($trainingData)) @if(!empty($trainingData->continuing_education == "Completed")) selected @endif @endif>Completed</option>
-
-
-                          </select>          
-                        </div> -->      
-                    <!-- </div> -->
+                   
                     <p>Please add required courses or certifications completed for compliance or safety</p>
 
                     <h6 class="emergency_text">
@@ -5125,19 +5022,19 @@
 
                         <!-- cat-4 -->
                         <div class="form-group level-drp mandatory_sub_edu_div  mandatory_sub_edu_div_4 @if($trainingData && $trainingData->safety_com_data == NULL) d-none @endif @if(empty($trainingData)) d-none @endif">
-                             <input type="hidden" name="safety_data" class="safety_data" value="@if(!empty($trainingData)){{ $safety_data_json }}@endif">
+                          <input type="hidden" name="safety_data" class="safety_data" value="@if(!empty($trainingData)){{ $safety_data_json }}@endif">
                           <label class="form-label" for="input-1">Safety and Compliance Training</label>
-                           <?php $mandatory_sub_education = DB::table('man_training_category')
-                                                        ->where('parent',443)
-                                                        ->where('type', 'Education')
-                                                        ->get(); ?>
-                           
-                            <ul id="safety_com_data" style="display:none;">
-                                @foreach($mandatory_sub_education as $ms_education)
-                                <li data-value="{{ $ms_education->name }}">{{ $ms_education->name }}</li>
-                                @endforeach
-                            </ul>
-                          <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="safety_com_data" name="safety_com[]" multiple="multiple"></select>
+                            <?php $mandatory_sub_education = DB::table('man_training_category')
+                                                          ->where('parent',443)
+                                                          ->where('type', 'Education')
+                                                          ->get(); ?>
+                            
+                              <ul id="safety_com_data" style="display:none;">
+                                  @foreach($mandatory_sub_education as $ms_education)
+                                  <li data-value="{{ $ms_education->name }}">{{ $ms_education->name }}</li>
+                                  @endforeach
+                              </ul>
+                            <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="safety_com_data" name="safety_com[]" multiple="multiple"></select>
                         </div>
 
                         <div class="safety_com_div">
@@ -7724,7 +7621,6 @@ $('.js-example-basic-multiple[data-list-id="profess_cert"]').on('change', functi
             let res = text.split(' ')[0];
             let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
             console.log("res_one",res_one);
-
             $(".nrp_"+res_one).remove();
           }
           
@@ -7746,9 +7642,7 @@ $('.js-example-basic-multiple[data-list-id="profess_cert"]').on('change', functi
 
             
           }
-        }
-
-        
+        }        
     });
 
     $('.js-example-basic-multiple[data-list-id="pls_data"]').on('change', function() {

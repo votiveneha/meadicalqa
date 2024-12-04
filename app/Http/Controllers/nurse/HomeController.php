@@ -1437,7 +1437,6 @@ class HomeController extends Controller
                 $crnaimg = '';
             }
             
-            //print_r(json_decode($certificate_data[$i]->acls_upload_certification));
             if(!empty($crna_upload_certification[$i])){
 
                 $crna_img = Helpers::multipleFileUpload($crna_upload_certification[$i],$crnaimg);
