@@ -834,7 +834,6 @@ class NurseServices
                 $param='Experience and References';
            
             }else if($data['tab'] == 'tab5'){
-
                 $email=Session::get('nurseemail');
                 $user_id=User::where('email',$email)->first();
                 $user_id = $user_id->id;
@@ -845,6 +844,7 @@ class NurseServices
                 $mand_training = $data['mandatory_courses'];
                 $mand_education = $data['mandatory_education'];
                 $declare_information =  $data['declare_information'];
+             
                 $gettrainingdata = DB::table("mandatory_training")->where("user_id",$user_id)->first();
 
                 $training_name = $data['training'];
@@ -853,7 +853,7 @@ class NurseServices
                 $training_end_date = $data['tra_end_date'];
                 $tra_exp = $data['tra_expiry'];
                 
-                
+               
 
                 $other_tra_array = array();
                 if(!empty($training_name)){
@@ -885,9 +885,10 @@ class NurseServices
                 }else{
                     $other_edu_json = '';
                 }
-                
+                 
 
                 $well_data = $data['well_self_care_data'];
+              
                 if($well_data){
                     $well_count = count($well_data);
                 }else{
@@ -898,9 +899,10 @@ class NurseServices
                 $well_tra_start_date = $data['well_tra_start_date'];
                 $well_tra_end_date = $data['well_tra_end_date'];
                 $well_expiry = $data['well_expiry'];
+   
 
                 $well_self_array = array();
-                $training_data = json_decode($gettrainingdata->well_sel_data);
+                // $training_data = json_decode($gettrainingdata->well_sel_data);
 
                 for($i=0;$i<$well_count;$i++){
 
@@ -912,7 +914,7 @@ class NurseServices
                 }else{
                     $well_data_json = '';
                 } 
-
+ 
                 // training sec
                 if(!empty($tech_innvo_array)){
                     $lead_data_json = json_encode($lead_pro_array);
@@ -932,21 +934,9 @@ class NurseServices
                 $tech_end_date = $data['tech_innvo_tra_end_date'];
                 $tech_expiry = $data['tech_innvo_expiry'];
                 $tech_innvo_array = array();
-                $training_data = json_decode($gettrainingdata->tech_innvo_data);
+                // $training_data = json_decode($gettrainingdata->tech_innvo_data);
 
-                for($i=0;$i<$tech_innvo_count;$i++){
-                    // if(!empty($training_data) && array_key_exists($i,$training_data)){
-                    //     $aclsimg = json_decode($certificate_data[$i]->acls_upload_certification);
-                    // }else{
-                    //     $aclsimg = '';
-                    // }
-                    //print_r(json_decode($certificate_data[$i]->acls_upload_certification));
-                    // if(!empty($acls_upload_certification[$i])){
-                    //     $acls_img = Helpers::multipleFileUpload($acls_upload_certification[$i],$aclsimg);
-                    // }else{
-                    //     $acls_img = Helpers::multipleFileUpload('',$aclsimg);
-                    // }
-                    //echo $acls_img;        
+                for($i=0;$i<$tech_innvo_count;$i++){        
                     $tech_innvo_array[] = array("tech_tra_id"=>$techinnvonamearr[$i],"tech_institution"=>$tech_institution[$i],"tech_start_date"=>$tech_start_date[$i],"tech_end_date"=>$tech_end_date[$i],"tech_expiry"=>$tech_expiry[$i]);
                 }
 
@@ -969,7 +959,7 @@ class NurseServices
                 $lead_pro_end_date = $data['leader_pro_tra_end_date'];
                 $leader_pro_expiry = $data['leader_pro_expiry'];
                 $lead_pro_array = array();
-                $training_data = json_decode($gettrainingdata->leader_pro_data);
+                // $training_data = json_decode($gettrainingdata->leader_pro_data);
 
                 for($i=0;$i<$lead_pro_count;$i++){
                     // if(!empty($training_data) && array_key_exists($i,$training_data)){
@@ -1007,24 +997,8 @@ class NurseServices
                 $mid_spec_tra_end_date = $data['mid_spec_tra_end_date'];
                 $mid_spec_expiry = $data['mid_spec_expiry'];
                 $mid_spec_array = array();
-                $training_data = json_decode($gettrainingdata->mid_spec_data);
-
-                
-
-                for($i=0;$i<$mid_spec_count;$i++){
-        
-                    // if(!empty($training_data) && array_key_exists($i,$training_data)){
-                    //     $aclsimg = json_decode($certificate_data[$i]->acls_upload_certification);
-                    // }else{
-                    //     $aclsimg = '';
-                    // }
-                    //print_r(json_decode($certificate_data[$i]->acls_upload_certification));
-                    // if(!empty($acls_upload_certification[$i])){
-                    //     $acls_img = Helpers::multipleFileUpload($acls_upload_certification[$i],$aclsimg);
-                    // }else{
-                    //     $acls_img = Helpers::multipleFileUpload('',$aclsimg);
-                    // }
-                    //echo $acls_img;        
+                // $training_data = json_decode($gettrainingdata->mid_spec_data);
+                for($i=0;$i<$mid_spec_count;$i++){       
                     $mid_spec_array[] = array("mid_spec_tra_id"=>$midspecnamearr[$i],"mid_spec_institution"=>$mid_spec_institution[$i],"mid_spec_start_date"=>$mid_spec_tra_start_date[$i],"mid_spec_end_date"=>$mid_spec_tra_start_date[$i],"mis_spec_expiry"=>$mid_spec_expiry[$i]);
                 }
                 if(!empty($mid_spec_array)){
@@ -1047,7 +1021,7 @@ class NurseServices
                 $clinic_skill_tra_end_date = $data['clinic_skill_tra_end_date'];
                 $clinic_skill_expiry = $data['clinic_skill_expiry'];
                 $cli_skill_array = array();
-                $training_data = json_decode($gettrainingdata->clinic_skill_data);
+                // $training_data = json_decode($gettrainingdata->clinic_skill_data);
 
                 for($i=0;$i<$cli_skill_count;$i++){        
                     $cli_skill_array[] = array("cli_skill_tra_id"=>$clinicskillnamearr[$i],"clinic_skill_institution"=>$clinic_skill_institution[$i],"cli_skill_start_date"=>$clinic_skill_tra_start_date[$i],"cli_skill_end_date"=>$clinic_skill_tra_end_date[$i],"cli_skill_expiry"=>$clinic_skill_expiry[$i]);
@@ -1074,7 +1048,7 @@ class NurseServices
                 $eme_topic_expiry = $data['eme_topic_expiry'];
 
                 $emerging_array = array();
-                $edu_data = json_decode($gettrainingdata->emerg_topic_data);
+                // $edu_data = json_decode($gettrainingdata->emerg_topic_data);
 
                 for($i=0;$i<$emerging_count;$i++){            
                     $emerging_array[] = array("emr_edu_id"=>$emetopicarr[$i],"eme_topic_institution"=>$eme_topic_institution[$i],"eme_topic_start_date"=>$eme_topic_start_date[$i],"eme_topic_end_date"=>$eme_topic_end_date[$i],"eme_topic_expiry"=>$eme_topic_expiry[$i],"eme_topic_status"=>$eme_topic_status[$i],);
@@ -1101,7 +1075,7 @@ class NurseServices
                 $safety_com_expiry = $data['safety_com_expiry'];
 
                 $safety_com_array = array();
-                $safety_com_data = json_decode($gettrainingdata->safety_com_data);
+                // $safety_com_data = json_decode($gettrainingdata->safety_com_data);
 
                 for($i=0;$i<$safety_com_count;$i++){            
                     $safety_com_array[] = array("saf_edu_id"=>$safetycomaarr[$i],"safety_com_institution"=>$safety_com_institution[$i],"safety_com_start_date"=>$safety_com_start_date[$i],"safety_com_end_date"=>$safety_com_end_date[$i],"safety_com_expiry"=>$safety_com_expiry[$i],"safety_com_status"=>$safety_com_status[$i],);
@@ -1112,7 +1086,6 @@ class NurseServices
                 }else{
                     $safety_data_json = '';
                 } 
-
 
                 $spec_area_data = $data['spec_area'];
                 if($spec_area_data){
@@ -1128,7 +1101,7 @@ class NurseServices
                 $spec_area_expiry = $data['spec_area_expiry'];
 
                 $spec_area_array = array();
-                $spec_data = json_decode($gettrainingdata->spec_area_data);
+                // $spec_data = json_decode($gettrainingdata->spec_area_data);
 
                 for($i=0;$i<$spec_area_count;$i++){            
                     $spec_area_array[] = array("spec_edu_id"=>$specareaarr[$i],"spec_area_institution"=>$spec_area_institution[$i],"spec_area_start_date"=>$spec_area_start_date[$i],"spec_area_end_date"=>$spec_area_end_date[$i],"spec_area_expiry"=>$spec_area_expiry[$i],"spec_area_status"=>$spec_area_status[$i],);
@@ -1155,7 +1128,7 @@ class NurseServices
                 $mid_spe_expiry = $data['mid_spe_expiry'];
 
                 $mid_spe_array = array();
-                $mid_data = json_decode($gettrainingdata->mid_spe_data);
+                // $mid_data = json_decode($gettrainingdata->mid_spe_data);
 
                 for($i=0;$i<$mid_spe_count;$i++){            
                     $mid_spe_array[] = array("mid_spe_edu_id"=>$midspearr[$i],"mid_spe_institution"=>$mid_spe_institution[$i],"mid_spe_start_date"=>$mid_spe_start_date[$i],"mid_spe_end_date"=>$mid_spe_end_date[$i],"mid_spe_expiry"=>$mid_spe_expiry[$i],"mid_spe_status"=>$mid_spe_status[$i],);
@@ -1182,7 +1155,7 @@ class NurseServices
                 $core_man_expiry = $data['core_man_expiry'];
 
                 $core_man_array = array();
-                $core_man_data = json_decode($gettrainingdata->core_man_data);
+                // $core_man_data = json_decode($gettrainingdata->core_man_data);
 
                 for($i=0;$i<$core_man_count;$i++){            
                     $core_man_array[] = array("core_man_edu_id"=>$coremanarr[$i],"core_man_institution"=>$core_man_institution[$i],"coreman_start_date"=>$coreman_start_date[$i],"coreman_end_date"=>$coreman_end_date[$i],"core_man_expiry"=>$core_man_expiry[$i],"coreman_status"=>$coreman_status[$i],);
@@ -1194,6 +1167,7 @@ class NurseServices
                     $core_man_json = '';
                 }
                 
+
                 // $gettrainingdata = DB::table("mandatory_training")->where("user_id",$user_id)->first();
                 //$post = User::find($request->user_id);
                 
@@ -1220,6 +1194,7 @@ class NurseServices
                 //         'declaration_status'=>$declare_information,
                 //     ]);
                 // }else{
+                
                     $post = new MandatoryTrainModel();
                     $post->user_id = $user_id;            
                     $post->start_date   = $start_date;
@@ -1228,15 +1203,17 @@ class NurseServices
                     $post->continuing_education = $mand_continue_education;
                     $post->well_sel_data = $well_data_json;
                     $post->tech_innvo_data = $tech_data_json;
-                    $post->leader_pro_data = $lead_data_json;
+                    $post->leader_pro_data = $lead_data_json;                 
                     $post->mid_spec_data = $mid_data_json;
                     $post->clinic_skill_data = $cli_skill_data_json;
-                    $post->other_tra_data = $other_tra_json;
+                    $post->other_tra_data = $other_tra_json;      
                     $post->man_training   =json_encode($mand_training);
                     $post->man_education    =json_encode($mand_education);
+                          
                     $post->emerg_topic_data    = $eme_data_json;
                     $post->safety_com_data = $safety_data_json;
                     $post->spec_area_data = $spec_area_json;
+                               
                     $post->mid_spe_data = $mid_spe_json;
                     $post->core_man_data = $core_man_json;
                     $post->other_edu_data = $other_edu_json;
@@ -1244,10 +1221,6 @@ class NurseServices
 
                     $run = $post->save();
 
-                // }
-
-
-                // $run=MandatoryTrainModel::create($allData);
 
                 $param='Mandatory Training';
            

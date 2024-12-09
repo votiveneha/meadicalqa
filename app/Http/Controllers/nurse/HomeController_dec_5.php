@@ -8,15 +8,10 @@ use App\Models\ProfessionModel;
 use App\Models\EligibilityToWorkModel;
 use App\Models\WorkingChildrenCheckModel;
 use App\Models\PoliceCheckModel;
-
-
 use App\Http\Requests\AddnewsletterRequest;
-
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
-
 use Illuminate\Support\Facades\Log;
 use App\Services\User\AuthServices;
 use App\Http\Requests\UserUpdateProfile;
@@ -24,7 +19,6 @@ use App\Http\Requests\UserChangePasswordRequest;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Crypt;
-
 use Illuminate\Support\Str;
 use Helpers;
 use Mail;
@@ -34,7 +28,6 @@ use URL;
 use Session;
 use File;
 use App\Services\Admins\SpecialityServices;
-
 use App\Models\SpecialityModel;
 use App\Models\EducationModel;
 use App\Models\ExperienceModel;
@@ -191,8 +184,7 @@ class HomeController extends Controller
             ];
             
             $randnum = rand(1111111111, 9999999999);
-            Mail::to($to)->send(new \App\Mail\DemoMail($mailData));
-            
+            Mail::to($to)->send(new \App\Mail\DemoMail($mailData));            
             $companyinsert['name'] = $request->fullname;
             $companyinsert['lastname'] = $request->lastname;
             $companyinsert['email'] = $request->email;
@@ -1094,11 +1086,8 @@ class HomeController extends Controller
         $bls_upload_certification = $request->file('bls_upload_certification');
 
         $bls_data_array = array();
-        if($getedudata){
+
         $certificate_data = json_decode($getedudata->bls_data);
-        }else{
-            $certificate_data = '' ;
-        }
 
         for($i=0;$i<$bls_count;$i++){
             if(!empty($certificate_data) && array_key_exists($i,$certificate_data)){
@@ -1122,7 +1111,7 @@ class HomeController extends Controller
         }else{
             $bls_data_json = '';
         }
-        
+
         
 
         $acls_data = $request->acls_data;
@@ -1137,11 +1126,7 @@ class HomeController extends Controller
         $acls_upload_certification = $request->file('acls_upload_certification');
 
         $acls_data_array = array();
-        if($getedudata){
         $certificate_data = json_decode($getedudata->acls_data);
-        }else{
-            $certificate_data = '' ;
-        }
 
         for($i=0;$i<$acls_count;$i++){
             if(!empty($certificate_data) && array_key_exists($i,$certificate_data)){
@@ -1179,11 +1164,7 @@ class HomeController extends Controller
         $cpr_upload_certification = $request->file('cpr_upload_certification');
 
         $cpr_data_array = array();
-        if($getedudata){
         $certificate_data = json_decode($getedudata->cpr_data);
-        }else{
-            $certificate_data = '' ;
-        }
 
         for($i=0;$i<$cpr_count;$i++){
             if(!empty($certificate_data) && array_key_exists($i,$certificate_data)){
@@ -1221,11 +1202,7 @@ class HomeController extends Controller
         $nrp_upload_certification = $request->file('nrp_upload_certification');
 
         $nrp_data_array = array();
-        if($getedudata){
         $certificate_data = json_decode($getedudata->nrp_data);
-        }else{
-            $certificate_data = '' ;
-        }
 
         for($i=0;$i<$nrp_count;$i++){
             if(!empty($certificate_data) && array_key_exists($i,$certificate_data)){
@@ -1262,12 +1239,7 @@ class HomeController extends Controller
         $pls_upload_certification = $request->file('pls_upload_certification');
 
         $pls_data_array = array();
-        if($getedudata){
         $certificate_data = json_decode($getedudata->pals_data);
-        }else{
-            $certificate_data = '' ;
-        }
-    
 
         for($i=0;$i<$pls_count;$i++){
             if(!empty($certificate_data) && array_key_exists($i,$certificate_data)){
@@ -1304,11 +1276,7 @@ class HomeController extends Controller
         $rn_upload_certification = $request->file('rn_upload_certification');
 
         $rn_data_array = array();
-        if($getedudata){
         $certificate_data = json_decode($getedudata->rn_data);
-        }else{
-            $certificate_data = '' ;
-        }
 
         for($i=0;$i<$rn_count;$i++){
             if(!empty($certificate_data) && array_key_exists($i,$certificate_data)){
@@ -1345,11 +1313,7 @@ class HomeController extends Controller
         $np_upload_certification = $request->file('np_upload_certification');
 
         $np_data_array = array();
-        if($getedudata){
         $certificate_data = json_decode($getedudata->np_data);
-        }else{
-            $certificate_data = '' ;
-        }
 
         for($i=0;$i<$np_count;$i++){
             if(!empty($certificate_data) && array_key_exists($i,$certificate_data)){
@@ -1386,12 +1350,7 @@ class HomeController extends Controller
         $cn_upload_certification = $request->file('cn_upload_certification');
         //print_r($cn_upload_certification);die;
         $cn_data_array = array();
-        if($getedudata){
         $certificate_data = json_decode($getedudata->cna_data);
-        }else{
-        $certificate_data = '' ;
-        }
-        
 
         for($i=0;$i<$cn_count;$i++){
             if(!empty($certificate_data) && array_key_exists($i,$certificate_data)){
@@ -1430,12 +1389,8 @@ class HomeController extends Controller
         $lpn_upload_certification = $request->file('lpn_upload_certification');
 
         $lpn_data_array = array();
-        if($getedudata){
         $certificate_data = json_decode($getedudata->lpn_data);
-        }else{
-        $certificate_data = '' ;
-        }
-        
+
         for($i=0;$i<$lpn_count;$i++){
             if(!empty($certificate_data) && array_key_exists($i,$certificate_data)){
                 $lpnimg = json_decode($certificate_data[$i]->lpn_upload_certification);
@@ -1473,12 +1428,7 @@ class HomeController extends Controller
         $crna_upload_certification = $request->file('crna_upload_certification');
 
         $crna_data_array = array();
-        if($getedudata){
         $certificate_data = json_decode($getedudata->crna_data);
-        }else{
-        $certificate_data = '' ;
-        }
-
 
         for($i=0;$i<$crna_count;$i++){
             if(!empty($certificate_data) && array_key_exists($i,$certificate_data)){
@@ -1487,7 +1437,6 @@ class HomeController extends Controller
                 $crnaimg = '';
             }
             
-            //print_r(json_decode($certificate_data[$i]->acls_upload_certification));
             if(!empty($crna_upload_certification[$i])){
 
                 $crna_img = Helpers::multipleFileUpload($crna_upload_certification[$i],$crnaimg);
@@ -1517,12 +1466,7 @@ class HomeController extends Controller
         $cnm_upload_certification = $request->file('cnm_upload_certification');
 
         $cnm_data_array = array();
-        if($getedudata){
         $certificate_data = json_decode($getedudata->cnm_data);
-        }else{
-        $certificate_data = '' ;
-        }
-
 
         for($i=0;$i<$cnm_count;$i++){
             if(!empty($certificate_data) && array_key_exists($i,$certificate_data)){
@@ -1561,12 +1505,7 @@ class HomeController extends Controller
         $ons_upload_certification = $request->file('ons_upload_certification');
 
         $ons_data_array = array();
-        if($getedudata){
         $certificate_data = json_decode($getedudata->ons_data);
-        }else{
-        $certificate_data = '' ;
-        }
-       
 
         for($i=0;$i<$ons_count;$i++){
             if(!empty($certificate_data) && array_key_exists($i,$certificate_data)){
@@ -1605,12 +1544,7 @@ class HomeController extends Controller
         $msw_upload_certification = $request->file('msw_upload_certification');
 
         $msw_data_array = array();
-        if($getedudata){
         $certificate_data = json_decode($getedudata->msw_data);
-        }else{
-        $certificate_data = '' ;
-        }
-
 
         for($i=0;$i<$msw_count;$i++){
             if(!empty($certificate_data) && array_key_exists($i,$certificate_data)){
@@ -1621,7 +1555,6 @@ class HomeController extends Controller
             
             //print_r(json_decode($certificate_data[$i]->acls_upload_certification));
             if(!empty($msw_upload_certification[$i])){
-
                 $msw_img = Helpers::multipleFileUpload($msw_upload_certification[$i],$mswimg);
             }else{
                 $msw_img = Helpers::multipleFileUpload('',$mswimg);
@@ -1649,12 +1582,7 @@ class HomeController extends Controller
         $ain_upload_certification = $request->file('ain_upload_certification');
 
         $ain_data_array = array();
-        if($getedudata){
         $certificate_data = json_decode($getedudata->ain_data);
-        }else{
-        $certificate_data = '' ;
-        }
-        
 
         for($i=0;$i<$ain_count;$i++){
             if(!empty($certificate_data) && array_key_exists($i,$certificate_data)){
@@ -1691,12 +1619,7 @@ class HomeController extends Controller
         $rpn_license_number = $request->rpn_license_number;
         $rpn_expiry = $request->rpn_expiry;
         $rpn_upload_certification = $request->file('rpn_upload_certification');
-        if($getedudata){
         $certificate_data = json_decode($getedudata->rpn_data);
-        }else{
-        $certificate_data = '' ;
-        }
-      
 
         $rpn_data_array = array();
 
@@ -1730,14 +1653,10 @@ class HomeController extends Controller
             $nl_data = '';
         }
 
-        $file = $request->file('degree_transcript');
-        if($getedudata){
-        $dtranaimg = json_decode($getedudata->degree_transcript);
-      
-        $dtranimgs = Helpers::multipleFileUpload($file,$dtranaimg);
-       }else{
-          $dtranimgs = Helpers::multipleFileUpload($file,'');
-       }
+        // $file = $request->file('degree_transcript');
+        // $dtranaimg = json_decode($getedudata->degree_transcript);
+
+        // $dtranimgs = Helpers::multipleFileUpload($file,$dtranaimg);
         
         
         
@@ -1909,8 +1828,7 @@ class HomeController extends Controller
 
     public function updateReference(Request $request){
         $user_id = $request->user_id;
-        $first_name = $request->first_name;
-        
+        $first_name = $request->first_name;        
         $last_name = $request->last_name;
         $email = $request->email;
         $phone_no = $request->phone_no;
@@ -2037,7 +1955,7 @@ class HomeController extends Controller
             $tranimgData = '';
         }
 
-
+ 
 
         $deleteData = EducationModel::where('user_id',$user_id)->update(['degree_transcript'=>$tranimgData]);
 
@@ -2065,10 +1983,9 @@ class HomeController extends Controller
         $getEducationData1 = (array)$getEducationData;
         $gettransimg = (array)json_decode($getEducationData1[$img_text]);
         $gettransimg1 = json_decode($gettransimg[$country_name]);
-        
 
         $img_index = array_search($img, $gettransimg1);
-        
+
         array_splice($gettransimg1, $img_index, 1);
 
         if(!empty($gettransimg1)){
@@ -2102,6 +2019,7 @@ class HomeController extends Controller
         //print_r($gettransimg);
         
     }
+
 
     public function deleteAnoImg1(Request $request){
         $user_id = $request->user_id;
@@ -2195,9 +2113,7 @@ class HomeController extends Controller
     }
 
     public function updateInterview(Request $request){
-        
 
-        
         $user_id = $request->user_id;
         $interview_availablity = $request->interview_availablity;
         $reference_name = $request->reference_name;
@@ -2445,8 +2361,7 @@ class HomeController extends Controller
         $mand_continue_education = $request->mand_continue_education;
         $mand_training = $request->mandatory_courses;
         $mand_education = $request->mandatory_education;
-        $declare_information_man = $request->input('declare_information_man');
-        // dd($declare_information_man );
+        $declare_information =  $request->declare_information;
         $gettrainingdata = DB::table("mandatory_training")->where("user_id",$user_id)->first();
 
         $training_name = $request->training;
@@ -2454,6 +2369,8 @@ class HomeController extends Controller
         $training_start_date = $request->tra_start_date;
         $training_end_date = $request->tra_end_date;
         $tra_exp = $request->tra_expiry;
+        
+        
 
         $other_tra_array = array();
         if(!empty($training_name)){
@@ -2500,7 +2417,7 @@ class HomeController extends Controller
         $well_expiry = $request->well_expiry;
 
         $well_self_array = array();
-        // $training_data = json_decode($gettrainingdata->well_sel_data);
+        $training_data = json_decode($gettrainingdata->well_sel_data);
 
         for($i=0;$i<$well_count;$i++){
 
@@ -2532,7 +2449,7 @@ class HomeController extends Controller
         $tech_end_date = $request->tech_innvo_tra_end_date;
         $tech_expiry = $request->tech_innvo_expiry;
         $tech_innvo_array = array();
-        // $training_data = json_decode($gettrainingdata->tech_innvo_data);
+        $training_data = json_decode($gettrainingdata->tech_innvo_data);
 
         for($i=0;$i<$tech_innvo_count;$i++){
             // if(!empty($training_data) && array_key_exists($i,$training_data)){
@@ -2569,7 +2486,7 @@ class HomeController extends Controller
         $lead_pro_end_date = $request->leader_pro_tra_end_date;
         $leader_pro_expiry = $request->leader_pro_expiry;
         $lead_pro_array = array();
-        // $training_data = json_decode($gettrainingdata->leader_pro_data);
+        $training_data = json_decode($gettrainingdata->leader_pro_data);
 
         for($i=0;$i<$lead_pro_count;$i++){
             // if(!empty($training_data) && array_key_exists($i,$training_data)){
@@ -2607,7 +2524,7 @@ class HomeController extends Controller
         $mid_spec_tra_end_date = $request->mid_spec_tra_end_date;
         $mid_spec_expiry = $request->mid_spec_expiry;
         $mid_spec_array = array();
-        // $training_data = json_decode($gettrainingdata->mid_spec_data);
+        $training_data = json_decode($gettrainingdata->mid_spec_data);
 
         
 
@@ -2647,7 +2564,7 @@ class HomeController extends Controller
         $clinic_skill_tra_end_date = $request->clinic_skill_tra_end_date;
         $clinic_skill_expiry = $request->clinic_skill_expiry;
         $cli_skill_array = array();
-        // $training_data = json_decode($gettrainingdata->clinic_skill_data);
+        $training_data = json_decode($gettrainingdata->clinic_skill_data);
 
         for($i=0;$i<$cli_skill_count;$i++){        
             $cli_skill_array[] = array("cli_skill_tra_id"=>$clinicskillnamearr[$i],"clinic_skill_institution"=>$clinic_skill_institution[$i],"cli_skill_start_date"=>$clinic_skill_tra_start_date[$i],"cli_skill_end_date"=>$clinic_skill_tra_end_date[$i],"cli_skill_expiry"=>$clinic_skill_expiry[$i]);
@@ -2674,7 +2591,7 @@ class HomeController extends Controller
         $eme_topic_expiry = $request->eme_topic_expiry;
 
         $emerging_array = array();
-        // $edu_data = json_decode($gettrainingdata->emerg_topic_data);
+        $edu_data = json_decode($gettrainingdata->emerg_topic_data);
 
         for($i=0;$i<$emerging_count;$i++){            
             $emerging_array[] = array("emr_edu_id"=>$emetopicarr[$i],"eme_topic_institution"=>$eme_topic_institution[$i],"eme_topic_start_date"=>$eme_topic_start_date[$i],"eme_topic_end_date"=>$eme_topic_end_date[$i],"eme_topic_expiry"=>$eme_topic_expiry[$i],"eme_topic_status"=>$eme_topic_status[$i],);
@@ -2701,7 +2618,7 @@ class HomeController extends Controller
         $safety_com_expiry = $request->safety_com_expiry;
 
         $safety_com_array = array();
-        // $safety_com_data = json_decode($gettrainingdata->safety_com_data);
+        $safety_com_data = json_decode($gettrainingdata->safety_com_data);
 
         for($i=0;$i<$safety_com_count;$i++){            
             $safety_com_array[] = array("saf_edu_id"=>$safetycomaarr[$i],"safety_com_institution"=>$safety_com_institution[$i],"safety_com_start_date"=>$safety_com_start_date[$i],"safety_com_end_date"=>$safety_com_end_date[$i],"safety_com_expiry"=>$safety_com_expiry[$i],"safety_com_status"=>$safety_com_status[$i],);
@@ -2728,7 +2645,7 @@ class HomeController extends Controller
         $spec_area_expiry = $request->spec_area_expiry;
 
         $spec_area_array = array();
-        // $spec_data = json_decode($gettrainingdata->spec_area_data);
+        $spec_data = json_decode($gettrainingdata->spec_area_data);
 
         for($i=0;$i<$spec_area_count;$i++){            
             $spec_area_array[] = array("spec_edu_id"=>$specareaarr[$i],"spec_area_institution"=>$spec_area_institution[$i],"spec_area_start_date"=>$spec_area_start_date[$i],"spec_area_end_date"=>$spec_area_end_date[$i],"spec_area_expiry"=>$spec_area_expiry[$i],"spec_area_status"=>$spec_area_status[$i],);
@@ -2755,7 +2672,7 @@ class HomeController extends Controller
         $mid_spe_expiry = $request->mid_spe_expiry;
 
         $mid_spe_array = array();
-        // $mid_data = json_decode($gettrainingdata->mid_spe_data);
+        $mid_data = json_decode($gettrainingdata->mid_spe_data);
 
         for($i=0;$i<$mid_spe_count;$i++){            
             $mid_spe_array[] = array("mid_spe_edu_id"=>$midspearr[$i],"mid_spe_institution"=>$mid_spe_institution[$i],"mid_spe_start_date"=>$mid_spe_start_date[$i],"mid_spe_end_date"=>$mid_spe_end_date[$i],"mid_spe_expiry"=>$mid_spe_expiry[$i],"mid_spe_status"=>$mid_spe_status[$i],);
@@ -2782,7 +2699,7 @@ class HomeController extends Controller
         $core_man_expiry = $request->core_man_expiry;
 
         $core_man_array = array();
-        // $core_man_data = json_decode($gettrainingdata->core_man_data);
+        $core_man_data = json_decode($gettrainingdata->core_man_data);
 
         for($i=0;$i<$core_man_count;$i++){            
             $core_man_array[] = array("core_man_edu_id"=>$coremanarr[$i],"core_man_institution"=>$core_man_institution[$i],"coreman_start_date"=>$coreman_start_date[$i],"coreman_end_date"=>$coreman_end_date[$i],"core_man_expiry"=>$core_man_expiry[$i],"coreman_status"=>$coreman_status[$i],);
@@ -2793,9 +2710,6 @@ class HomeController extends Controller
         }else{
             $core_man_json = '';
         }
-
-      
-        // dd($declare_information_man);
         
         // $gettrainingdata = DB::table("mandatory_training")->where("user_id",$user_id)->first();
         //$post = User::find($request->user_id);
@@ -2820,7 +2734,7 @@ class HomeController extends Controller
                 'mid_spe_data'   =>$mid_spe_json,
                 'core_man_data' =>$core_man_json,
                 'other_edu_data' => $other_edu_json,
-                'declaration_status' =>  $declare_information_man,
+                'declaration_status'=>$declare_information,
             ]);
         }else{
             $post = new MandatoryTrainModel();
@@ -2843,7 +2757,7 @@ class HomeController extends Controller
             $post->mid_spe_data = $mid_spe_json;
             $post->core_man_data = $core_man_json;
             $post->other_edu_data = $other_edu_json;
-            $post->declaration_status = $declare_information_man;
+            $post->declaration_status = $declare_information;
 
             $run = $post->save();
 
@@ -2866,7 +2780,7 @@ class HomeController extends Controller
         $user_id = $request->user_id;
 
         $getedudata = DB::table("user_education_cerification")->where("user_id",$user_id)->first();
-
+        
         if($getedudata){
         $dtranaimg = json_decode($getedudata->degree_transcript);
 
@@ -2874,6 +2788,7 @@ class HomeController extends Controller
         }else{
         $dtranimgs = Helpers::multipleFileUpload($files,'');
         }
+
         $run = EducationModel::where('user_id',$user_id)->update(['degree_transcript'=>$dtranimgs]);
 
         //print_r($files);
@@ -2890,8 +2805,6 @@ class HomeController extends Controller
         $getedufieldsdata = DB::table("edu_fields")->where("user_id",$user_id)->first();
         //print_r($getedufieldsdata);die;
         if(empty($getedufieldsdata)){
-
-            
             $acls_img = Helpers::multipleFileUpload($files,'');
             $acls_data = array($country_name => $acls_img);
             $getImg_array = $acls_data;
@@ -2918,7 +2831,6 @@ class HomeController extends Controller
         }
 
         return $acls_img;
-
     }
     
      public function update_profession_ahpra_numberI(Request $request)
