@@ -3174,15 +3174,15 @@
                         $p = 1;
                         ?>
 
-                        <div class="surgicalobs_row form-group drp--clr d-none drpdown-set col-md-12">
+                        <div class="surgicalobs_row_experience form-group drp--clr d-none drpdown-set col-md-12">
                           <label class="form-label" for="input-1">Surgical Obstetrics and Gynecology (OB/GYN):</label>
 
-                          <ul id="surgical_obs_care" style="display:none;">
+                          <ul id="surgicalobs_row_data_experience" style="display:none;">
                             @foreach($speciality_surgical_datamater as $ssd)
                             <li data-value="{{ $ssd->id }}">{{ $ssd->name }}</li>
                             @endforeach
                           </ul>
-                          <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_obs_care" name="surgical_obs_care[]" multiple="multiple"></select>
+                          <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgicalobs_row_data_experience" name="surgical_obs_care[]" multiple="multiple"></select>
                         </div>
                         <?php
                         $speciality_surgical_datamater = DB::table("speciality")->where('parent', '250')->get();
@@ -3210,7 +3210,7 @@
                           <?php
                           $speciality_surgicalsub_data = DB::table("speciality")->where('parent', $ssd->id)->orderBy('name')->get();
                           ?>
-                          <ul id="surgical_operative_carep-{{ $q }}" style="display:none;">
+                          <ul id="surgical_operative_carep_experience-{{ $q }}" style="display:none;">
                             @foreach($speciality_surgicalsub_data as $sssd)
                             <li data-value="{{ $sssd->id }}">{{ $sssd->name }}</li>
                             @endforeach
@@ -7366,7 +7366,7 @@ if (!empty($interviewReferenceData)) {
 
   $('.js-example-basic-multiple[data-list-id="specialties_experience"]').on('change', function() {
     let selectedValues = $(this).val();
-    //alert("hello");
+    alert("hello");
     var speciality_len = $("#specialties_experience li").length;
     console.log("speciality_len", speciality_len);
 
@@ -7382,14 +7382,16 @@ if (!empty($interviewReferenceData)) {
 
         $('#specility_level_experience-' + k).removeClass('d-none');
         //$(".sub_speciality_value").val(k);
-
+        console.log('1');
       } else {
+        console.log('2');
         $('#specility_level_experience-' + k).addClass('d-none');
         $('.js-example-basic-multiple[data-list-id="speciality_entry_experience-' + k + '"]').select2().val(null).trigger('change');
       }
     }
 
     if (selectedValues.includes("1") == false) {
+
       $('.surgical_row_experience').addClass('d-none');
       $('.surgical_row_data_experience').addClass('d-none');
       $('.js-example-basic-multiple[data-list-id="surgical_row_box_experience"]').select2().val(null).trigger('change');
@@ -7401,7 +7403,7 @@ if (!empty($interviewReferenceData)) {
     }
 
     if (selectedValues.includes("3") == false) {
-
+      console.log('5');
       $('.surgicalpad_row_data_experience').addClass('d-none');
       $('.surgical_rowp_data_experience').addClass('d-none');
       $('.neonatal_row_experience').addClass('d-none');
@@ -7509,6 +7511,27 @@ if (!empty($interviewReferenceData)) {
     //         $('#specility_level-'+k).addClass('d-none');
     //     }
     // }
+  });
+
+  $('.js-example-basic-multiple[data-list-id="speciality_entry_experience-2"]').on('change', function() {
+    let selectedValues = $(this).val();
+
+    var speciality_entry = $("#speciality_entry-1 li").length;
+    console.log("speciality_entry", speciality_entry);
+    // $(".surgicalobs_row").wrapAll("<div class='col-md-12 row surgicalobs_row_data'>");
+    $(".surgicalobs_row_experience").insertAfter("#specility_level_experience-2");
+
+    //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
+
+    console.log("selectedValues", selectedValues);
+    //$('.result--show .form-group').addClass('d-none');
+
+    if (selectedValues.includes("233")) {
+      $('.surgicalobs_row_experience').removeClass('d-none');
+    } else {
+      $('.surgicalobs_row_experience').addClass('d-none');
+      $('.js-example-basic-multiple[data-list-id="surgicalobs_row_data_experience"]').select2().val(null).trigger('change');
+    }
   });
 
   $('.js-example-basic-multiple[data-list-id="surgical_row_box"]').on('change', function() {
@@ -7778,6 +7801,8 @@ if (!empty($interviewReferenceData)) {
       $('.license_number_acls').addClass('d-none');
       $('.acls_certification_div').addClass('d-none');
       $('.js-example-basic-multiple[data-list-id="acls_data"]').select2().val(null).trigger('change');
+      var user_id = "{{ $user_id }}";
+      deleteDatabaseImgs(user_id, "acls_imgs");
     }
     if (selectedValues.includes("7")) {
       $('.procertdivone').removeClass('d-none');
@@ -7787,6 +7812,8 @@ if (!empty($interviewReferenceData)) {
       $('.license_number_bls').addClass('d-none');
       $('.bls_certification_div').addClass('d-none');
       $('.js-example-basic-multiple[data-list-id="bls_data"]').select2().val(null).trigger('change');
+      var user_id = "{{ $user_id }}";
+      deleteDatabaseImgs(user_id, "bls_imgs");
     }
     if (selectedValues.includes("8")) {
       $('.procertdivtwo').removeClass('d-none');
@@ -7796,6 +7823,8 @@ if (!empty($interviewReferenceData)) {
       $('.license_number_cpr').addClass('d-none');
       $('.cpr_certification_div').addClass('d-none');
       $('.js-example-basic-multiple[data-list-id="cpr_data"]').select2().val(null).trigger('change');
+      var user_id = "{{ $user_id }}";
+      deleteDatabaseImgs(user_id, "cpr_imgs");
     }
     if (selectedValues.includes("9")) {
       $('.procertdivthree').removeClass('d-none');
@@ -7806,6 +7835,8 @@ if (!empty($interviewReferenceData)) {
       $('.license_number_nrp').addClass('d-none');
       $('.nrp_certification_div').addClass('d-none');
       $('.js-example-basic-multiple[data-list-id="nrp_data"]').select2().val(null).trigger('change');
+      var user_id = "{{ $user_id }}";
+      deleteDatabaseImgs(user_id, "nrp_imgs");
 
     }
     if (selectedValues.includes("10")) {
@@ -7818,6 +7849,8 @@ if (!empty($interviewReferenceData)) {
       $('.license_number_pals').addClass('d-none');
       $('.pls_certification_div').addClass('d-none');
       $('.js-example-basic-multiple[data-list-id="pls_data"]').select2().val(null).trigger('change');
+      var user_id = "{{ $user_id }}";
+      deleteDatabaseImgs(user_id, "pls_imgs");
     }
     if (selectedValues.includes("11")) {
       $('.procertdivfive').removeClass('d-none');
@@ -7828,6 +7861,8 @@ if (!empty($interviewReferenceData)) {
       $('.license_number_rn').addClass('d-none');
       $('.rn_certification_div').addClass('d-none');
       $('.js-example-basic-multiple[data-list-id="rn_data"]').select2().val(null).trigger('change');
+      var user_id = "{{ $user_id }}";
+      deleteDatabaseImgs(user_id, "rn_imgs");
     }
     if (selectedValues.includes("12")) {
       $('.procertdivsix').removeClass('d-none');
@@ -7838,6 +7873,8 @@ if (!empty($interviewReferenceData)) {
       $('.license_number_cn').addClass('d-none');
       $('.cna_certification_div').addClass('d-none');
       $('.js-example-basic-multiple[data-list-id="cn_data"]').select2().val(null).trigger('change');
+      var user_id = "{{ $user_id }}";
+      deleteDatabaseImgs(user_id, "cn_imgs");
     }
 
     if (selectedValues.includes("13")) {
@@ -7849,6 +7886,8 @@ if (!empty($interviewReferenceData)) {
       $('.license_number_lpn').addClass('d-none');
       $('.lpn_certification_div').addClass('d-none');
       $('.js-example-basic-multiple[data-list-id="lpn_data"]').select2().val(null).trigger('change');
+      var user_id = "{{ $user_id }}";
+      deleteDatabaseImgs(user_id, "lpn_imgs");
     }
     if (selectedValues.includes("14")) {
       $('.procertdiveight').removeClass('d-none');
@@ -7858,6 +7897,8 @@ if (!empty($interviewReferenceData)) {
       $('.license_number_crn').addClass('d-none');
       $('.crn_certification_div').addClass('d-none');
       $('.js-example-basic-multiple[data-list-id="crn_data"]').select2().val(null).trigger('change');
+      var user_id = "{{ $user_id }}";
+      deleteDatabaseImgs(user_id, "crna_imgs");
     }
     if (selectedValues.includes("15")) {
       $('.procertdivnine').removeClass('d-none');
@@ -7867,6 +7908,8 @@ if (!empty($interviewReferenceData)) {
       $('.license_number_cnm').addClass('d-none');
       $('.cnm_certification_div').addClass('d-none');
       $('.js-example-basic-multiple[data-list-id="cnm_data"]').select2().val(null).trigger('change');
+      var user_id = "{{ $user_id }}";
+      deleteDatabaseImgs(user_id, "cnm_imgs");
     }
     if (selectedValues.includes("16")) {
       $('.procertdivten').removeClass('d-none');
@@ -7876,6 +7919,8 @@ if (!empty($interviewReferenceData)) {
       $('.license_number_ons').addClass('d-none');
       $('.ons_certification_div').addClass('d-none');
       $('.js-example-basic-multiple[data-list-id="ons_data"]').select2().val(null).trigger('change');
+      var user_id = "{{ $user_id }}";
+      deleteDatabaseImgs(user_id, "ons_imgs");
     }
     if (selectedValues.includes("17")) {
       $('.procertdiveleven').removeClass('d-none');
@@ -7885,6 +7930,8 @@ if (!empty($interviewReferenceData)) {
       $('.license_number_msw').addClass('d-none');
       $('.msw_certification_div').addClass('d-none');
       $('.js-example-basic-multiple[data-list-id="msw_data"]').select2().val(null).trigger('change');
+      var user_id = "{{ $user_id }}";
+      deleteDatabaseImgs(user_id, "msw_imgs");
     }
     if (selectedValues.includes("18")) {
       $('.procertdivtwelfth').removeClass('d-none');
@@ -7894,6 +7941,8 @@ if (!empty($interviewReferenceData)) {
       $('.license_number_np').addClass('d-none');
       $('.np_certification_div').addClass('d-none');
       $('.js-example-basic-multiple[data-list-id="np_data"]').select2().val(null).trigger('change');
+      var user_id = "{{ $user_id }}";
+      deleteDatabaseImgs(user_id, "np_imgs");
     }
     if (selectedValues.includes("19")) {
       $('.procertdivthirteen').removeClass('d-none');
@@ -7903,6 +7952,8 @@ if (!empty($interviewReferenceData)) {
       $('.license_number_ain').addClass('d-none');
       $('.ain_certification_div').addClass('d-none');
       $('.js-example-basic-multiple[data-list-id="ain_data"]').select2().val(null).trigger('change');
+      var user_id = "{{ $user_id }}";
+      deleteDatabaseImgs(user_id, "ain_imgs");
     }
     if (selectedValues.includes("20")) {
       $('.procertdivfourteen').removeClass('d-none');
@@ -7912,6 +7963,7 @@ if (!empty($interviewReferenceData)) {
       $('.license_number_rpn').addClass('d-none');
       $('.rpn_certification_div').addClass('d-none');
       $('.js-example-basic-multiple[data-list-id="rpn_data"]').select2().val(null).trigger('change');
+
     }
     if (selectedValues.includes("21")) {
       $('.procertdivfiveteen').removeClass('d-none');
@@ -7938,6 +7990,8 @@ if (!empty($interviewReferenceData)) {
         console.log("res_one", res_one);
 
         $(".acls_" + res_one).remove();
+        var user_id = "{{ $user_id }}";
+        deleteDatabaseImgs(user_id, "acls_imgs");
       }
       acls_certification_array.push(text);
     });
@@ -7974,6 +8028,8 @@ if (!empty($interviewReferenceData)) {
         console.log("res_one2", res_one);
 
         $(".bls_" + res_one).remove();
+        var user_id = "{{ $user_id }}";
+        deleteDatabaseImgs(user_id, "bls_imgs");
       }
       bls_certification_array.push(text);
     });
@@ -8006,6 +8062,8 @@ if (!empty($interviewReferenceData)) {
         console.log("res_one", res_one);
 
         $(".cpr_" + res_one).remove();
+        var user_id = "{{ $user_id }}";
+        deleteDatabaseImgs(user_id, "cpr_imgs")
       }
 
       cpr_certification_array.push(text);
@@ -8043,6 +8101,8 @@ if (!empty($interviewReferenceData)) {
         console.log("res_one", res_one);
 
         $(".nrp_" + res_one).remove();
+        var user_id = "{{ $user_id }}";
+        deleteDatabaseImgs(user_id, "nrp_imgs");
       }
 
       nrp_certification_array.push(text);
@@ -8081,6 +8141,8 @@ if (!empty($interviewReferenceData)) {
         console.log("res_one", res_one);
 
         $(".pls_" + res_one).remove();
+        var user_id = "{{ $user_id }}";
+        deleteDatabaseImgs(user_id, "pls_imgs");
       }
 
       pls_certification_array.push(text);
@@ -8119,6 +8181,8 @@ if (!empty($interviewReferenceData)) {
         console.log("res_one", ".rn_" + res_one);
 
         $(".rn_" + res_one).remove();
+        var user_id = "{{ $user_id }}";
+        deleteDatabaseImgs(user_id, "rn_imgs");
       }
 
       rn_certification_array.push(text);
@@ -8157,6 +8221,8 @@ if (!empty($interviewReferenceData)) {
         console.log("res_one", res_one);
 
         $(".np_" + res_one).remove();
+        var user_id = "{{ $user_id }}";
+        deleteDatabaseImgs(user_id, "np_imgs");
       }
 
       np_certification_array.push(text);
@@ -8194,6 +8260,8 @@ if (!empty($interviewReferenceData)) {
         console.log("res_one", res_one);
 
         $(".cna_" + res_one).remove();
+        var user_id = "{{ $user_id }}";
+        deleteDatabaseImgs(user_id, "cn_imgs");
       }
 
       cn_certification_array.push(text);
@@ -8231,6 +8299,8 @@ if (!empty($interviewReferenceData)) {
         console.log("res_one", res_one);
 
         $(".lpn_" + res_one).remove();
+        var user_id = "{{ $user_id }}";
+        deleteDatabaseImgs(user_id, "lpn_imgs");
       }
 
       lpn_certification_array.push(text);
@@ -8268,6 +8338,9 @@ if (!empty($interviewReferenceData)) {
         console.log("res_one", res_one);
 
         $(".crna_" + res_one).remove();
+        var user_id = "{{ $user_id }}";
+        deleteDatabaseImgs(user_id, "crna_imgs");
+
       }
 
       crna_certification_array.push(text);
@@ -8306,6 +8379,8 @@ if (!empty($interviewReferenceData)) {
         console.log("res_one", res_one);
 
         $(".cnm_" + res_one).remove();
+        var user_id = "{{ $user_id }}";
+        deleteDatabaseImgs(user_id, "cnm_imgs");
       }
 
       cnm_certification_array.push(text);
@@ -8344,6 +8419,8 @@ if (!empty($interviewReferenceData)) {
         console.log("res_one", res_one);
 
         $(".ons_" + res_one).remove();
+        var user_id = "{{ $user_id }}";
+        deleteDatabaseImgs(user_id, "ons_imgs");
       }
 
       ons_certification_array.push(text);
@@ -8382,6 +8459,8 @@ if (!empty($interviewReferenceData)) {
         console.log("res_one", res_one);
 
         $(".msw_" + res_one).remove();
+        var user_id = "{{ $user_id }}";
+        deleteDatabaseImgs(user_id, "msw_imgs");
       }
 
       msw_certification_array.push(text);
@@ -8421,6 +8500,8 @@ if (!empty($interviewReferenceData)) {
         console.log("res_one", res_one);
 
         $(".ain_" + res_one).remove();
+        var user_id = "{{ $user_id }}";
+        deleteDatabaseImgs(user_id, "ain_imgs");
       }
 
       ain_certification_array.push(text);
@@ -8459,6 +8540,8 @@ if (!empty($interviewReferenceData)) {
         console.log("res_one", res_one);
 
         $(".rpn_" + res_one).remove();
+        var user_id = "{{ $user_id }}";
+        deleteDatabaseImgs(user_id, "rpn_imgs");
       }
 
       rpn_certification_array.push(text);

@@ -1364,16 +1364,16 @@
                 <?php
                 $speciality_data = DB::table("speciality")->where('parent', $ptl->id)->get();
                 ?>
-                <input type="hidden" name="speciality_result" class="speciality_result_experience-{{ $l }}" value="{{ $ptl->id }}">
-                <div class="speciality_data form-group drp--clr drpdown-set d-none col-md-6 speciality_{{ $ptl->id }}" id="specility_level_experience-{{ $l }}">
+                <input type="hidden" name="speciality_result" class="speciality_result_experience-${previous_employeers_head}-{{ $l }}" value="{{ $ptl->id }}">
+                <div class="speciality_data form-group drp--clr drpdown-set d-none col-md-12 speciality_{{ $ptl->id }}" id="specility_level_experience-${previous_employeers_head}-{{ $l }}">
                     <label class="form-label" for="input-2">{{ $ptl->name }}</label>
-                    <ul id="speciality_entry_experience-{{ $l }}" style="display:none;">
+                    <ul id="speciality_entry_experience-${previous_employeers_head}-{{ $l }}" style="display:none;">
                     @foreach($speciality_data as $sd)
                     <li data-value="{{ $sd->id }}">{{ $sd->name }}</li>
 
                     @endforeach
                     </ul>
-                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="speciality_entry_experience-{{ $l }}" name="speciality_entry_experience_{{ $l }}[]" multiple="multiple"></select>
+                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="speciality_entry_experience-${previous_employeers_head}-{{ $l }}" name="speciality_entry_experience_{{ $l }}[]" multiple="multiple"></select>
 
                 </div>
                 <?php
@@ -1381,6 +1381,140 @@
                 ?>
                 @endforeach
             </div>
+            <div class="specialty_entry_one_experience"></div>
+            <div class="specialty_entry_two_experience"></div>
+            <div class="surgical_div_experience">
+                <div class="surgical_row_data_experience-${previous_employeers_head} form-group drp--clr d-none col-md-12">
+                    <label class="form-label" for="input-1">Surgical Preoperative and Postoperative Care:</label>
+                    <?php
+                    $speciality_surgicalrow_data = DB::table("speciality")->where('parent', '96')->get();
+                    $r = 1;
+                    ?>
+                    <ul id="surgical_row_box_experience-${previous_employeers_head}" style="display:none;">
+                    @foreach($speciality_surgicalrow_data as $ssrd)
+                      <li data-value="{{ $ssrd->id }}">{{ $ssrd->name }}</li>
+                    @endforeach
+                    </ul>
+                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_row_box_experience-${previous_employeers_head}" name="surgical_row_box_experience[]" multiple="multiple"></select>
+                </div>
+            </div>
+            <div class="paediatric_surgical_div_experience-${previous_employeers_head}">
+                <div class="surgicalpad_row_data_experience-${previous_employeers_head} form-group drp--clr d-none col-md-12">
+                    <label class="form-label" for="input-1">Paediatric Surgical Preop. and Postop. Care:
+                    </label>
+                    <?php
+                    $speciality_padsurgicalrow_data = DB::table("speciality")->where('parent', '285')->get();
+                    $r = 1;
+                    ?>
+                    <ul id="surgical_rowpad_box_experience-${previous_employeers_head}" style="display:none;">
+                    @foreach($speciality_padsurgicalrow_data as $ssrd)
+                    <li data-value="{{ $ssrd->id }}">{{ $ssrd->name }}</li>
+                    @endforeach
+                    </ul>
+                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_rowpad_box_experience-${previous_employeers_head}" name="surgical_rowpad_box_experience[]" multiple="multiple"></select>
+                </div>
+            </div>
+            
+            <div class="specialty_sub_boxes_experience-${previous_employeers_head} row">
+                <?php
+                $speciality_surgical_data = DB::table("speciality")->where('parent', '96')->get();
+                $w = 1;
+                ?>
+                @foreach($speciality_surgical_data as $ssd)
+                <input type="hidden" name="speciality_result" class="speciality_surgical_result_experience-${previous_employeers_head}-{{ $w }}" value="{{ $ssd->id }}">
+                <div class="surgical_row_experience-${previous_employeers_head}-{{ $w }} surgical_sub-${previous_employeers_head}  surgicalopcboxes-{{ $ssd->id }} form-group drp--clr d-none drpdown-set">
+                    <label class="form-label" for="input-1">{{ $ssd->name }}</label>
+                    <?php
+                    $speciality_surgicalsub_data = DB::table("speciality")->where('parent', $ssd->id)->get();
+                    ?>
+                    <ul id="surgical_operative_care_experience-${previous_employeers_head}-{{ $w }}" style="display:none;">
+                    @foreach($speciality_surgicalsub_data as $sssd)
+                    <li data-value="{{ $sssd->id }}">{{ $sssd->name }}</li>
+                    @endforeach
+                    </ul>
+                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_operative_care_experience-${previous_employeers_head}-{{ $w }}" name="surgical_operative_care_{{ $w }}[]" multiple="multiple"></select>
+                    @foreach($speciality_surgicalsub_data as $sssd)
+
+
+                    <div class="d-none form-group level-drp level_id-{{ $sssd->id }}">
+                    <label class="form-label" for="input-1">What is your Level of experience in {{ $sssd->name }}:
+
+                    </label>
+                    <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
+                    <select class="form-input mr-10 select-active" name="assistent_level">
+
+                        @for($i = 1; $i <= 30; $i++) <option value="{{ $i }}" @if(Auth::guard('nurse_middle')->user()->assistent_level == $i) selected @endif>{{ $i }}{{ $i == 1 ? 'st' : ($i == 2 ? 'nd' : ($i == 3 ? 'rd' : 'th')) }} Year</option>
+                        @endfor
+                    </select>
+                    </div>
+
+                    @endforeach
+                </div>
+                <?php
+                $w++;
+                ?>
+
+                @endforeach
+                <div class="surgical_operative_care_level_experience"></div>
+                <div class="surgical_operative_care_level_experience_two"></div>
+                <div class="surgical_operative_care_level_experience_three"></div>
+                <?php
+                $speciality_surgical_datamater = DB::table("speciality")->where('parent', '233')->get();
+                $p = 1;
+                ?>
+
+                <div class="surgicalobs_row_experience-${previous_employeers_head} form-group drp--clr d-none drpdown-set col-md-12">
+                    <label class="form-label" for="input-1">Surgical Obstetrics and Gynecology (OB/GYN):</label>
+
+                    <ul id="surgicalobs_row_data_experience-${previous_employeers_head}" style="display:none;">
+                    @foreach($speciality_surgical_datamater as $ssd)
+                    <li data-value="{{ $ssd->id }}">{{ $ssd->name }}</li>
+                    @endforeach
+                    </ul>
+                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgicalobs_row_data_experience-${previous_employeers_head}" name="surgical_obs_care[]" multiple="multiple"></select>
+                </div>
+                <?php
+                $speciality_surgical_datamater = DB::table("speciality")->where('parent', '250')->get();
+
+                ?>
+                <div class="neonatal_row_experience-${previous_employeers_head} form-group drp--clr drpdown-set d-none col-md-12">
+                    <label class="form-label" for="input-1">Neonatal Care:</label>
+
+                    <ul id="neonatal_care_experience-${previous_employeers_head}" style="display:none;">
+                    @foreach($speciality_surgical_datamater as $ssd)
+                    <li data-value="{{ $ssd->id }}">{{ $ssd->name }}</li>
+                    @endforeach
+                    </ul>
+                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="neonatal_care_experience-${previous_employeers_head}" name="neonatal_care_experience[]" multiple="multiple"></select>
+                </div>
+                <div class="neonatal_care_experience_level-${previous_employeers_head}"></div>
+                <?php
+                $speciality_surgical_datap = DB::table("speciality")->where('parent', '285')->get();
+                $q = 1;
+                ?>
+                @foreach($speciality_surgical_datap as $ssd)
+                <input type="hidden" name="speciality_result" class="surgical_rowp_result_experience-${previous_employeers_head}-{{ $q }}" value="{{ $ssd->id }}">
+                <div class="surgical_rowp_experience-${previous_employeers_head} surgicalpad_row_experience-{{ $ssd->id }} surgical_rowp_experience-${previous_employeers_head}-{{ $q }} form-group drp--clr d-none drpdown-set col-md-4">
+                    <label class="form-label" for="input-1">{{ $ssd->name }}</label>
+                    <?php
+                    $speciality_surgicalsub_data = DB::table("speciality")->where('parent', $ssd->id)->orderBy('name')->get();
+                    ?>
+                    <ul id="surgical_operative_carep_experience-${previous_employeers_head}-{{ $q }}" style="display:none;">
+                    @foreach($speciality_surgicalsub_data as $sssd)
+                    <li data-value="{{ $sssd->id }}">{{ $sssd->name }}</li>
+                    @endforeach
+                    </ul>
+                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_operative_carep_experience-${previous_employeers_head}-{{ $q }}" name="surgical_operative_carep_experience_{{ $q }}[]" multiple="multiple"></select>
+                </div>
+                <?php
+                $q++;
+                ?>
+                @endforeach
+                <div class="surgical_operative_carep_level_one"></div>
+                <div class="surgical_operative_carep_level_two"></div>
+                <div class="surgical_operative_carep_level_three"></div>
+            </div>
+            
             <div class="form-group level-drp">
                 <label class="form-label" for="positions_held">Position Held</label>
                 <select class="form-control" name="positions_held[]" id="positions_held">
@@ -1581,8 +1715,8 @@
         });
 
         $('.js-example-basic-multiple[data-list-id="specialties_experience-' + previous_employeers_head + '"]').on('change', function() {
+
             let selectedValues = $(this).val();
-            //alert("hello");
             var speciality_len = $("#specialties_experience-" + previous_employeers_head + " li").length;
 
             console.log("speciality_len", speciality_len);
@@ -1593,35 +1727,36 @@
             //$('.result--show .form-group').addClass('d-none');
 
             for (var k = 1; k <= speciality_len; k++) {
-                var speciality_result_val = $(".speciality_result_experience-" + k).val();
+                var speciality_result_val = $(".speciality_result_experience-" + previous_employeers_head + '-' + k).val();
                 //alert(speciality_result_val);
                 if (selectedValues.includes(speciality_result_val)) {
-
-                    $('#specility_level_experience-' + k).removeClass('d-none');
+                    $('#specility_level_experience-' + previous_employeers_head + '-' + k).removeClass('d-none');
                     //$(".sub_speciality_value").val(k);
 
                 } else {
-                    $('#specility_level_experience-' + k).addClass('d-none');
-                    $('.js-example-basic-multiple[data-list-id="speciality_entry_experience-' + k + '"]').select2().val(null).trigger('change');
+                    $('#specility_level_experience-' + previous_employeers_head + '-' + k).addClass('d-none');
+                    $('.js-example-basic-multiple[data-list-id="speciality_entry_experience-' + previous_employeers_head + '-' + k + '"]').select2().val(null).trigger('change');
+
+                    if (selectedValues.includes("1") == false) {
+                        $('.surgical_row_experience-' + previous_employeers_head + k).addClass('d-none');
+                        $('.surgical_row_data_experience-' + previous_employeers_head).addClass('d-none');
+                        $('.js-example-basic-multiple[data-list-id="surgical_row_box_experience-' + previous_employeers_head + '"]').select2().val(null).trigger('change');
+                    }
                 }
+
+
             }
 
-            if (selectedValues.includes("1") == false) {
-                $('.surgical_row_experience').addClass('d-none');
-                $('.surgical_row_data_experience').addClass('d-none');
-                $('.js-example-basic-multiple[data-list-id="surgical_row_box_experience"]').select2().val(null).trigger('change');
-            }
+
             if (selectedValues.includes("2") == false) {
-
-                $('.surgicalobs_row_experience').addClass('d-none');
-                $('.js-example-basic-multiple[data-list-id="surgicalobs_row_data_experience"]').select2().val(null).trigger('change');
+                $('.surgicalobs_row_experience' + previous_employeers_head).addClass('d-none');
+                $('.js-example-basic-multiple[data-list-id="surgicalobs_row_data_experience-' + previous_employeers_head + '"]').select2().val(null).trigger('change');
             }
 
             if (selectedValues.includes("3") == false) {
-
-                $('.surgicalpad_row_data_experience').addClass('d-none');
-                $('.surgical_rowp_data_experience').addClass('d-none');
-                $('.neonatal_row_experience').addClass('d-none');
+                $('.surgicalpad_row_data_experience' + previous_employeers_head).addClass('d-none');
+                $('.surgical_rowp_data_experience' + previous_employeers_head).addClass('d-none');
+                $('.neonatal_row_experience' + previous_employeers_head).addClass('d-none');
                 //$('.js-example-basic-multiple[data-list-id="surgicalobs_row_data"]').select2().val(null).trigger('change');
             }
 
@@ -1631,30 +1766,29 @@
 
         $('.js-example-basic-multiple[data-list-id="speciality_entry_experience-' + previous_employeers_head + '-1"]').on('change', function() {
             let selectedValues = $(this).val();
-            //alert("hello");
             var speciality_entry = $("#speciality_entry_experience-" + previous_employeers_head + "-1 li").length;
             console.log("speciality_entry", speciality_entry);
             // $(".surgical_row").wrapAll("<div class='col-md-12 row surgical_row_data'>");
-            $(".surgical_row_data_experience").insertAfter("#specility_level_experience-" + previous_employeers_head + "-1");
+            $(".surgical_row_data_experience-" + previous_employeers_head + "").insertAfter("#specility_level_experience-" + previous_employeers_head + "-1");
             //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
 
             console.log("selectedValues", selectedValues.includes("96"));
             //$('.result--show .form-group').addClass('d-none');
 
             if (selectedValues.includes("96")) {
-                $('.surgical_row_data_experience').removeClass('d-none');
+                $('.surgical_row_data_experience-' + previous_employeers_head).removeClass('d-none');
+
             } else {
-                $('.surgical_row_data_experience').addClass('d-none');
-                $('.js-example-basic-multiple[data-list-id="surgical_row_box_experience"]').select2().val(null).trigger('change');
+                $('.surgical_row_data_experience-' + previous_employeers_head).addClass('d-none ');
+                $('.surgical_row_data_experience-' + previous_employeers_head).addClass('d-none ');
+                $('.js-example-basic-multiple[data-list-id="surgical_row_box_experience' + previous_employeers_head + '"]').select2().val(null).trigger('change');
             }
 
             if (selectedValues.includes("96") == false) {
-                $('.surgical_row_experience').addClass('d-none');
-                $('.js-example-basic-multiple[data-list-id="surgical_row_box_experience"]').select2().val(null).trigger('change');
+                // $('.surgical_row_experience' + previous_employeers_head).addClass('d-none ');
+                $('.surgical_sub' + previous_employeers_head).addClass('d-none ');
+                $('.js-example-basic-multiple[data-list-id="surgical_row_box_experience' + previous_employeers_head + '"]').select2().val(null).trigger('change');
             }
-
-
-
             // for(var k = 1;k<=speciality_entry;k++){
             //     var speciality_result_val = $(".speciality_result-"+k).val();
             //     //alert(speciality_result_val);
@@ -1667,6 +1801,132 @@
             //     }
             // }
         });
+
+        $('.js-example-basic-multiple[data-list-id="surgical_row_box_experience-' + previous_employeers_head + '"]').on('change', function() {
+            let selectedValues = $(this).val();
+            var speciality_entry = $("#surgical_row_box_experience-" + previous_employeers_head + " li").length;
+
+            console.log("surgical_row_data_experience-", previous_employeers_head);
+            // $(".surgical_row").wrapAll("<div class='col-md-12 row surgical_row_data'>");
+            $(".specialty_sub_boxes_experience-" + previous_employeers_head).insertAfter(".surgical_row_data_experience-" + previous_employeers_head);
+            //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
+
+            console.log("selectedValues", selectedValues);
+            //$('.result--show .form-group').addClass('d-none');
+
+            // if(selectedValues.includes("97")){
+            //     $('.surgical_row').removeClass('d-none');
+            // }else{
+            //     $('.surgical_row').addClass('d-none');
+            // }
+
+
+
+            for (var k = 1; k <= speciality_entry; k++) {
+                var speciality_result_val = $(".speciality_surgical_result_experience-" + previous_employeers_head + '-' + k).val();
+                console.log("speciality_result_val", speciality_result_val);
+                if (selectedValues.includes(speciality_result_val)) {
+                    $('.surgical_row_experience-' + previous_employeers_head + '-' + k).removeClass('d-none');
+                } else {
+                    $('.surgical_row_experience-' + previous_employeers_head + '-' + k).addClass('d-none');
+                    $('.js-example-basic-multiple[data-list-id="surgical_operative_care_experience-' + previous_employeers_head + '-' + k + '"]').select2().val(null).trigger('change');
+                }
+            }
+        });
+
+        $('.js-example-basic-multiple[data-list-id="speciality_entry_experience-' + previous_employeers_head + '-2"]').on('change', function() {
+            let selectedValues = $(this).val();
+
+            var speciality_entry = $("#speciality_entry_experience-" + previous_employeers_head + "-2 li").length;
+
+            console.log("speciality_entry", speciality_entry);
+            // $(".surgicalobs_row").wrapAll("<div class='col-md-12 row surgicalobs_row_data'>");
+            $(".surgicalobs_row_experience-" + previous_employeers_head).insertAfter("#specility_level_experience-" + previous_employeers_head + "-2");
+
+            //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
+
+            console.log("selectedValues", selectedValues);
+            //$('.result--show .form-group').addClass('d-none');
+
+            if (selectedValues.includes("233")) {
+                $('.surgicalobs_row_experience-' + previous_employeers_head).removeClass('d-none');
+            } else {
+                $('.surgicalobs_row_experience-' + previous_employeers_head).addClass('d-none');
+                $('.js-example-basic-multiple[data-list-id="surgicalobs_row_data_experience-' + previous_employeers_head + '"]').select2().val(null).trigger('change');
+            }
+        });
+
+        $('.js-example-basic-multiple[data-list-id="speciality_entry_experience-' + previous_employeers_head + '-3"]').on('change', function() {
+            let selectedValues = $(this).val();
+
+            var speciality_entry = $("#speciality_entry_experience-" + previous_employeers_head + "-2 li").length;
+            console.log("speciality_entry", speciality_entry);
+            $(".surgical_rowp_experience-" + previous_employeers_head).wrapAll("<div class='col-md-12 row surgical_rowp_data_experience-" + previous_employeers_head + "'>");
+            $(".paediatric_surgical_div_experience-" + previous_employeers_head).insertAfter("#specility_level_experience-" + previous_employeers_head + "-3");
+
+
+            //     $(".neonatal_row").wrapAll("<div class='col-md-12 row neonatal_row_data'>");
+            $(".neonatal_row_experience-" + previous_employeers_head).insertAfter("#specility_level_experience-" + previous_employeers_head + "-3");
+
+            //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
+
+            console.log("selectedValues", selectedValues);
+            //$('.result--show .form-group').addClass('d-none');
+
+            if (selectedValues.includes('250')) {
+                $('.neonatal_row_experience-' + previous_employeers_head).removeClass('d-none');
+            } else {
+                $('.neonatal_row_experience-' + previous_employeers_head).addClass('d-none');
+                $('.js-example-basic-multiple[data-list-id="neonatal_care_experience-' + previous_employeers_head + '"]').select2().val(null).trigger('change');
+            }
+
+            if (selectedValues.includes('285')) {
+                $('.surgicalpad_row_data_experience-' + previous_employeers_head).removeClass('d-none');
+            } else {
+                $('.surgicalpad_row_data_experience-' + previous_employeers_head).addClass('d-none');
+                $('.js-example-basic-multiple[data-list-id="surgical_rowpad_box_experience-' + previous_employeers_head + '"]').select2().val(null).trigger('change');
+            }
+
+            if (selectedValues.includes("285") == false) {
+                $('.surgical_rowp_data_experience-' + previous_employeers_head).addClass('d-none');
+                $('.js-example-basic-multiple[data-list-id="surgical_row_box_experience-' + previous_employeers_head + '"]').select2().val(null).trigger('change');
+            }
+
+        });
+
+        $('.js-example-basic-multiple[data-list-id="surgical_rowpad_box_experience-' + previous_employeers_head + '"]').on('change', function() {
+            let selectedValues = $(this).val();
+
+            var speciality_entry = $("#surgical_rowpad_box_experience-" + previous_employeers_head + " li").length;
+            console.log("speciality_entry", speciality_entry);
+            // $(".surgical_rowp").wrapAll("<div class='col-md-12 row surgical_rowp_data'>");
+            $(".surgical_rowp_data_experience-" + previous_employeers_head).insertAfter(".surgicalpad_row_data_experience-" + previous_employeers_head);
+
+
+            //     $(".neonatal_row").wrapAll("<div class='col-md-12 row neonatal_row_data'>");
+            //     $(".neonatal_row_data").insertAfter("#specility_level-3");
+
+            //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
+
+            console.log("selectedValues", selectedValues);
+            //$('.result--show .form-group').addClass('d-none');
+
+
+
+            for (var k = 1; k <= speciality_entry; k++) {
+                var speciality_result_val = $(".surgical_rowp_result_experience-" + previous_employeers_head + '-' + k).val();
+                //alert(speciality_result_val);
+                if (selectedValues.includes(speciality_result_val)) {
+
+                    $('.surgical_rowp_experience-' + previous_employeers_head + '-' + k).removeClass('d-none');
+
+                } else {
+                    $('.surgical_rowp_experience-' + previous_employeers_head + '-' + k).addClass('d-none');
+                    $('.js-example-basic-multiple[data-list-id="surgical_operative_carep_experience-' + previous_employeers_head + '-' + k + '"]').select2().val(null).trigger('change');
+                }
+            }
+        });
+
 
     }
 </script>

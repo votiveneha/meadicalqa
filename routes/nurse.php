@@ -32,18 +32,16 @@ Route::post('/getsurgicalSubSpeciality', 'App\Http\Controllers\HomeController@ge
 Route::prefix('medical-facilities')->name('medical-facilities.')->namespace('App\Http\Controllers\medical_facilities')->group(function () {
   Route::get('/', 'HomeController@index_main')->name('medical_facilities_home_main');
   Route::get('/medical-facilities-registraion', 'HomeController@registraion')->name('medical-facilities-registraion');
-  
-  Route::middleware('nurse_middle')->group(function () {
-     });
+
+  Route::middleware('nurse_middle')->group(function () {});
 });
 
 Route::prefix('agencies')->name('agencies.')->namespace('App\Http\Controllers\agencies')->group(function () {
   Route::get('/', 'HomeController@index_main')->name('agencies_home_main');
   Route::get('/agencies-registraion', 'HomeController@registraion')->name('agencies-registraion');
- 
-  
-  Route::middleware('nurse_middle')->group(function () {
-     });
+
+
+  Route::middleware('nurse_middle')->group(function () {});
 });
 Route::prefix('nurse')->name('nurse.')->namespace('App\Http\Controllers\nurse')->group(function () {
 
@@ -69,7 +67,7 @@ Route::prefix('nurse')->name('nurse.')->namespace('App\Http\Controllers\nurse')-
   Route::get('/resent-verification', 'HomeController@resentVerification')->name('resent-verification-link');
   Route::get('/email-verification/{token}', 'HomeController@email_verification')->name('email-verification');
   Route::post('/do-nurse-register', 'HomeController@do_nurse_register')->name('do-nurse-register');
-  
+
   Route::get('/profile-under-reviewed', 'HomeController@profileUnderReviewed')->name('profile-under-reviewed');
   Route::middleware('nurse_middle')->group(function () {
     Route::get('/my-profile', 'HomeController@manage_profile')->name('my-profile');
@@ -108,6 +106,7 @@ Route::prefix('nurse')->name('nurse.')->namespace('App\Http\Controllers\nurse')-
     Route::post('/deleteTraining', 'HomeController@deleteTraining')->name('deleteTraining');
     Route::post('/deleteAnoImg1', 'HomeController@deleteAnoImg1')->name('deleteAnoImg1');
     Route::post('/deleteImg12', 'HomeController@deleteImg12')->name('deleteImg12');
-     Route::post('/deleteImgtest', 'HomeController@deleteImgtest')->name('deleteImgtest');
+    Route::post('/deleteImgtest', 'HomeController@deleteImgtest')->name('deleteImgtest');
+    Route::post('/deletecertification_img', 'HomeController@deletecertification_img')->name('deletecertification_img');
   });
 });

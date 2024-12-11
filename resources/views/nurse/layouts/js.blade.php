@@ -2923,6 +2923,22 @@
     });
 
   }
+
+  function deleteDatabaseImgs(user_id, field_name) {
+    $.ajax({
+      type: "POST",
+      url: "{{ url('nurse/deletecertification_img') }}",
+      data: {
+        user_id: user_id,
+        field_name: field_name,
+        _token: "{{ csrf_token() }}"
+      },
+      cache: false,
+      success: function(data) {
+
+      }
+    });
+  }
 </script>
 <!-- =================================
 
