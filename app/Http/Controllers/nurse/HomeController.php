@@ -1807,8 +1807,9 @@ class HomeController extends Controller
 
     public function updateExperience(Request $request)
     {
-
-
+        echo "<pre>";
+        print_r($request->all());
+        die;
         $year_experience = $request->assistent_level;
         $user_id = $request->user_id;
         $previous_employer_name = $request->previous_employer_name;

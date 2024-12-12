@@ -2685,7 +2685,8 @@
   }
 
   function delete_certification1(i) {
-
+    // var user_id = "{{ $user_id }}";
+    // deleteDatabaseImgs(user_id, "ano_certifi_imgs");
     $(".license_number_div_" + i).remove();
 
   }
@@ -2761,8 +2762,6 @@
 
   function deleteanoImg1(i, user_id, img, country_name, img_text) {
     // alert(".trans_img"+img_text+country_name+i);
-
-
     $.ajax({
       type: "post",
       url: "{{ route('nurse.deleteImg1') }}",
@@ -2938,6 +2937,22 @@
 
       }
     });
+  }
+
+  function deleteDatabaseanoImgs(user_id, field_name, i) {
+    // $.ajax({
+    //   type: "POST",
+    //   url: "{{ url('nurse/deletecertification_img') }}",
+    //   data: {
+    //     user_id: user_id,
+    //     field_name: field_name,
+    //     _token: "{{ csrf_token() }}"
+    //   },
+    //   cache: false,
+    //   success: function(data) {
+
+    //   }
+    // });
   }
 </script>
 <!-- =================================

@@ -2992,7 +2992,7 @@
 
                           </ul>
 
-                          <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="type-of-nurse-experience" name="nurseType[]" id="nurse_type_experience" multiple="multiple"></select>
+                          <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="type-of-nurse-experience" name="nurseType[1][]" id="nurse_type_experience" multiple="multiple"></select>
                         </div>
                         <span id="reqnurseTypeId" class="reqError text-danger valley"></span>
                       </div>
@@ -3298,7 +3298,7 @@
                         <div class="form-group col-md-12">
                           <label class="form-label" for="input-1">Permanent</label>
                           <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
-                          <select class="form-input mr-10 select-active" name="permanent_status">
+                          <select class="form-input mr-10 select-active" name="permanent_status[]">
                             <option value="">Select</option>
                             <option value="Full-time" @if(Auth::guard('nurse_middle')->user()->permanent_status == "Full-time") selected @endif>Full-time</option>
                             <option value="Part-time" @if(Auth::guard('nurse_middle')->user()->permanent_status == "Part-time") selected @endif>Part-time</option>
@@ -3315,7 +3315,7 @@
                         <div class="form-group col-md-12">
                           <label class="form-label" for="input-1">Temporary</label>
                           <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
-                          <select class="form-input mr-10 select-active" name="temporary_status">
+                          <select class="form-input mr-10 select-active" name="temporary_status[]">
                             <option value="">Select</option>
                             <option value="Temporary" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Temporary") selected @endif>Temporary</option>
                             <option value="Contract" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Contract") selected @endif>Contract</option>
@@ -3355,51 +3355,52 @@
                       </div>
 
                       @endif
-                    </div>
 
-                    <h6 class="emergency_text">
-                      Areas of Expertise
-                    </h6>
-                    <div class="form-group level-drp">
-                      <input type="hidden" name="skills_comp" class="skills_comp" value="@if(!empty($experienceData)) {{ $experienceData->skills_compantancies }}@endif">
-                      <label class="form-label" for="input-1">Specific skills and competencies</label>
-                      <?php
-                      $skills = DB::table("skills")->get();
-                      ?>
-                      <ul id="skills_compantancies" style="display:none;">
-                        @foreach($skills as $cert)
-                        <li data-value="{{ $cert->id }}">{{ $cert->name }}</li>
-                        @endforeach
 
-                      </ul>
-                      <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="skills_compantancies" name="skills_compantancies[]" multiple="multiple"></select>
-                    </div>
-                    <span id="reqexpertise" class="reqError text-danger valley"></span>
-                    <div class="form-group level-drp">
-                      <input type="hidden" name="evidence_type" class="evidence_type" value="@if(!empty($experienceData)) {{ $experienceData->evidence_type }}@endif">
-                      <label class="form-label" for="input-1">Type of evidence</label>
-                      <?php
-                      $skills = DB::table("skills")->get();
-                      ?>
-                      <ul id="type_of_evidence" style="display:none;">
+                      <h6 class="emergency_text">
+                        Areas of Expertise
+                      </h6>
+                      <div class="form-group level-drp">
+                        <input type="hidden" name="skills_comp" class="skills_comp" value="@if(!empty($experienceData)) {{ $experienceData->skills_compantancies }}@endif">
+                        <label class="form-label" for="input-1">Specific skills and competencies</label>
+                        <?php
+                        $skills = DB::table("skills")->get();
+                        ?>
+                        <ul id="skills_compantancies" style="display:none;">
+                          @foreach($skills as $cert)
+                          <li data-value="{{ $cert->id }}">{{ $cert->name }}</li>
+                          @endforeach
 
-                        <li data-value="Statement of Service">Statement of Service</li>
-                        <li data-value="Statutory Declaration">Statutory Declaration</li>
-                        <li data-value="Award">Award</li>
-                        <li data-value="Transcript">Transcript</li>
-                        <li data-value="Certificate">Certificate</li>
-                      </ul>
-                      <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="type_of_evidence" name="type_of_evidence[]" multiple="multiple"></select>
-                      <span id="reqtype_evidence" class="reqError text-danger valley"></span>
-                    </div>
-                    <div class="form-group level-drp">
-                      <label class="form-label" for="input-1">Upload evidence</label>
+                        </ul>
+                        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="skills_compantancies" name="skills_compantancies[]" multiple="multiple"></select>
+                      </div>
+                      <span id="reqexpertise" class="reqError text-danger valley"></span>
+                      <div class="form-group level-drp">
+                        <input type="hidden" name="evidence_type" class="evidence_type" value="@if(!empty($experienceData)) {{ $experienceData->evidence_type }}@endif">
+                        <label class="form-label" for="input-1">Type of evidence</label>
+                        <?php
+                        $skills = DB::table("skills")->get();
+                        ?>
+                        <ul id="type_of_evidence" style="display:none;">
 
-                      <input class="form-control" type="file" name="upload_evidence">
-                      @if(!empty($experienceData) && $experienceData->upload_evidence != NULL)
-                      <img src="{{ url('/public/uploads/evidence') }}/{{ $experienceData->upload_evidence }}" style="width:100px;">
-                      @endif
-                      <!-- <span id="reqachievements" class="reqError text-danger valley"></span> -->
+                          <li data-value="Statement of Service">Statement of Service</li>
+                          <li data-value="Statutory Declaration">Statutory Declaration</li>
+                          <li data-value="Award">Award</li>
+                          <li data-value="Transcript">Transcript</li>
+                          <li data-value="Certificate">Certificate</li>
+                        </ul>
+                        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="type_of_evidence" name="type_of_evidence[]" multiple="multiple"></select>
+                        <span id="reqtype_evidence" class="reqError text-danger valley"></span>
+                      </div>
+                      <div class="form-group level-drp">
+                        <label class="form-label" for="input-1">Upload evidence</label>
+
+                        <input class="form-control" type="file" name="upload_evidence">
+                        @if(!empty($experienceData) && $experienceData->upload_evidence != NULL)
+                        <img src="{{ url('/public/uploads/evidence') }}/{{ $experienceData->upload_evidence }}" style="width:100px;">
+                        @endif
+                        <!-- <span id="reqachievements" class="reqError text-danger valley"></span> -->
+                      </div>
                     </div>
                     <div class="add_new_certification_div awe mb-3 mt-4">
                       <a style="cursor: pointer;" onclick="add_work_experience()">+ Add another work experience</a>
@@ -7366,7 +7367,6 @@ if (!empty($interviewReferenceData)) {
 
   $('.js-example-basic-multiple[data-list-id="specialties_experience"]').on('change', function() {
     let selectedValues = $(this).val();
-    alert("hello");
     var speciality_len = $("#specialties_experience li").length;
     console.log("speciality_len", speciality_len);
 

@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
-|
+|ererer
 | Here is where you can register web routes for your application. These
 | routes are loaded by the RouteServiceProvider and all of them will
 | be assigned to the "web" middleware group. Make something great!
@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 // ===========
 // User Route
 // ===========
+
 Route::post('/fetch-provinces', 'App\Http\Controllers\HomeController@fetchProvinces')->name('fetch-provinces');
 Route::get('/', 'App\Http\Controllers\nurse\HomeController@index_main')->name('home_main');
 Route::get('/term-and-condition', 'App\Http\Controllers\nurse\HomeController@term_and_condition')->name('term-and-condition');
@@ -67,7 +68,6 @@ Route::prefix('nurse')->name('nurse.')->namespace('App\Http\Controllers\nurse')-
   Route::get('/resent-verification', 'HomeController@resentVerification')->name('resent-verification-link');
   Route::get('/email-verification/{token}', 'HomeController@email_verification')->name('email-verification');
   Route::post('/do-nurse-register', 'HomeController@do_nurse_register')->name('do-nurse-register');
-
   Route::get('/profile-under-reviewed', 'HomeController@profileUnderReviewed')->name('profile-under-reviewed');
   Route::middleware('nurse_middle')->group(function () {
     Route::get('/my-profile', 'HomeController@manage_profile')->name('my-profile');
