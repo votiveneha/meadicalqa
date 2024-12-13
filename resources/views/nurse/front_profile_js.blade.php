@@ -1100,24 +1100,39 @@
     }
 
     function delete_training(i, user_id, training_id) {
+        var user_id = "{{$user_id}}";
+        var fldname = 'other_tran_img';
+        var type = 'training';
+
+        deleteDatabaseothimg(user_id, i, fldname, type)
 
         $(".training_div_" + i).remove();
     }
 
-    // function delete_training(i,user_id,training_id){ 
-    //   $.ajax({
-    //     type: "post",
-    //     url: "{{ route('nurse.deleteTraining') }}",
-    //     data: {user_id:user_id,training_id:training_id,_token:'{{ csrf_token() }}'},
-    //     cache: false,
-    //     success: function(data){
-    //         if(data == 1){
-    //         $(".another_com_training"+i).remove();
-    //         }
+    function deleteDatabaseothimg(user_id, i, fldname, type) {
 
-    //     }
-    //   });
-    // }
+        var user_id = user_id;
+        var tra_id = i;
+        var fldname = fldname;
+        var type = type;
+        $.ajax({
+            type: "post",
+            url: "{{ route('nurse.deleteotherImg') }}",
+            data: {
+                user_id: user_id,
+                training_id: tra_id,
+                fldname: fldname,
+                type: type,
+                _token: '{{ csrf_token() }}'
+            },
+            cache: false,
+            success: function(data) {
+                if (data == 1) {
+                    // $(".another_com_training" + i).remove();
+                }
+            }
+        });
+    }
 
     // for education
 
@@ -1199,7 +1214,20 @@
     }
 
     function delete_edu(i, user_id, education_id) {
+        var user_id = "{{$user_id}}";
+        var fldname = 'ano_education_imgs';
+        var type = 'education';
+
+        deleteDatabaseothimg(user_id, i, fldname, type)
         $(".eduction_div_" + i).remove();
+    }
+
+    function delete_certification1(i) {
+        var user_id = "{{$user_id}}";
+        var fldname = 'ano_certifi_imgs';
+        var type = 'certificate';
+        deleteDatabaseothimg(user_id, i, fldname, type)
+        $(".license_number_div_" + i).remove();
     }
 
 
@@ -1291,7 +1319,6 @@
 
     }
 
-
     function ExpEmpStatus(value) {
         if (value == "Permanent") {
             $(".exp_permanent").show();
@@ -1309,6 +1336,7 @@
 
         previous_employeers_head++;
         $(".previous_employeers").append(`
+             <div class="work_exp_${previous_employeers_head}">
             <h6 class="emergency_text previous_employeers_head">Work Experience ${previous_employeers_head}</h6>
             <div class="form-group drp--clr">
                 <label class="form-label" for="input-1">Type of Nurse?</label>
@@ -1595,17 +1623,67 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="form-group level-drp">
-                        <label class="form-label" for="employment_type">Employment Type</label>
-                        <select class="form-control" name="employeement_type[]" id="employment_type">
-                            <option value="">Employment Type</option>
-                            <option value="Agency">Agency</option>
-                            <option value="Staffing Agency">Staffing Agency</option>
-                        </select>
+                        <label class="form-label" for="employment_type">Employment type</label>
+                          <select
+                                class="form-control"
+                                name="employment_type[]"
+                                id="employment_type_${previous_employeers_head}"
+                                ">
+                                <option value="">select</option>
+                                <option value="Permanent" @if(Auth::guard('nurse_middle')->user()->current_employee_status == "Permanent") selected @endif>Permanent</option>
+                                <option value="Temporary" @if(Auth::guard('nurse_middle')->user()->current_employee_status == "Temporary") selected @endif>Temporary</option>
+                            </select>
                         <span id="reqemptype" class="reqError text-danger valley"></span>
                     </div>
                 </div>
+            </div>
+            <div class="exp_permanent_${previous_employeers_head}" @if(Auth::guard('nurse_middle')->user()->permanent_status == NULL) style="display: none;" @endif>
+            <div class="form-group col-md-12">
+                <label class="form-label" for="input-1">Permanent</label>
+                <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
+                <select class="form-control" name="permanent_status[]">
+                <option value="">Select</option>
+                <option value="Full-time" @if(Auth::guard('nurse_middle')->user()->permanent_status == "Full-time") selected @endif>Full-time</option>
+                <option value="Part-time" @if(Auth::guard('nurse_middle')->user()->permanent_status == "Part-time") selected @endif>Part-time</option>
+                <option value="Agency Nurse/Midwife" @if(Auth::guard('nurse_middle')->user()->permanent_status == "Agency Nurse/Midwife") selected @endif>Agency Nurse/Midwife</option>
+                <option value="Freelance" @if(Auth::guard('nurse_middle')->user()->permanent_status == "Freelance") selected @endif>Freelance</option>
+                <option value="Local" @if(Auth::guard('nurse_middle')->user()->permanent_status == "Local") selected @endif>Local</option>
+                <option value="Volunteer" @if(Auth::guard('nurse_middle')->user()->permanent_status == "Volunteer") selected @endif>Volunteer</option>
+
+                </select>
+            </div>
+            <span id="reqemployee_status" class="reqError text-danger valley"></span>
+            </div>
+            <div class="exp_temporary_${previous_employeers_head}" @if(Auth::guard('nurse_middle')->user()->temporary_status == NULL) style="display: none;" @endif>
+            <div class="form-group col-md-12">
+                <label class="form-label" for="input-1">Temporary</label>
+                <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
+                <select class="form-control" name="temporary_status[]">
+                <option value="">Select</option>
+                <option value="Temporary" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Temporary") selected @endif>Temporary</option>
+                <option value="Contract" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Contract") selected @endif>Contract</option>
+                <option value="Term Contract" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Term Contract") selected @endif>Term Contract</option>
+                <option value="Travel" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Travel") selected @endif>Travel</option>
+                <option value="Per Diem" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Per Diem") selected @endif>Per Diem</option>
+                <option value="Local" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Local") selected @endif>Local</option>
+                <option value="On-Call" @if(Auth::guard('nurse_middle')->user()->temporary_status == "On-Call") selected @endif>On-Call</option>
+                <option value="PRN (Pro Re Nata)" @if(Auth::guard('nurse_middle')->user()->temporary_status == "PRN (Pro Re Nata)") selected @endif>PRN (Pro Re Nata)</option>
+                <option value="Casual" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Casual") selected @endif>Casual</option>
+                <option value="Locum tenens (temporary substitute)" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Locum tenens (temporary substitute)") selected @endif>Locum tenens (temporary substitute)</option>
+                <option value="Agency Nurse/Midwife" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Agency Nurse/Midwife") selected @endif>Agency Nurse/Midwife</option>
+                <option value="Seasonal" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Seasonal") selected @endif>Seasonal</option>
+                <option value="Freelance" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Freelance") selected @endif>Freelance</option>
+                <option value="Internship" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Internship") selected @endif>Internship</option>
+                <option value="Apprenticeship" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Apprenticeship") selected @endif>Apprenticeship</option>
+                <option value="Residency" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Residency") selected @endif>Residency</option>
+                <option value="Volunteer" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Volunteer") selected @endif>Volunteer</option>
+
+
+                </select>
+            </div>
+            <span id="reqemployee_status" class="reqError text-danger valley"></span>
             </div>
             <h6 class="emergency_text">Detailed Job Descriptions</h6>
             <div class="form-group level-drp">
@@ -1662,7 +1740,37 @@
             @endif
             <!-- <span id="reqachievements" class="reqError text-danger valley"></span> -->
             </div>
+
+            <div class="col-md-12">
+                    <!-- Add Delete Button -->
+                    <div class="add_new_certification_div_2">
+                        <a 
+                            style="cursor: pointer; margin-bottom: 35px !important;" 
+                            class="delete-work-experience_${previous_employeers_head}" 
+                            data-index="${previous_employeers_head}">
+                            - Delete Work Experience
+                        </a>
+                    </div>
+                </div>
+            </div>
         `);
+
+        function ExpEmpStatus1(value, id) {
+            if (value == "Permanent") {
+                $(".exp_permanent_" + id).show();
+                $(".exp_temporary_" + id).hide();
+            } else {
+                if (value == "Temporary") {
+                    $(".exp_temporary_" + id).show();
+                    $(".exp_permanent_" + id).hide();
+                }
+            }
+        }
+
+        $(document).on('change', '[id=employment_type_' + previous_employeers_head + ']', function() {
+            var value = $(this).val();
+            ExpEmpStatus1(value, previous_employeers_head);
+        });
 
 
         $('.js-example-basic-multiple' + previous_employeers_head).each(function() {
@@ -1906,8 +2014,6 @@
             //     $('.surgical_row').addClass('d-none');
             // }
 
-
-
             for (var k = 1; k <= speciality_entry; k++) {
                 var speciality_result_val = $(".speciality_surgical_result_experience-" + previous_employeers_head + '-' + k).val();
                 console.log("speciality_result_val", speciality_result_val);
@@ -2014,5 +2120,15 @@
         });
 
 
+        $(document).on('click', '.delete-work-experience_' + previous_employeers_head, function() {
+            delete_Exp(previous_employeers_head);
+        });
+
+
+    }
+    // Function to delete the work experience section
+    function delete_Exp(previous_employeers_head) {
+        // Select and remove the work experience section using the unique ID
+        $(".work_exp_" + previous_employeers_head).remove();
     }
 </script>

@@ -2519,11 +2519,11 @@ class HomeController extends Controller
         }
 
         // training sec
-        if (!empty($tech_innvo_array)) {
-            $lead_data_json = json_encode($lead_pro_array);
-        } else {
-            $lead_data_json = '';
-        }
+        // if (!empty($tech_innvo_array)) {
+        //     $lead_data_json = json_encode($lead_pro_array);
+        // } else {
+        //     $lead_data_json = '';
+        // }
 
         $tech_innvo_data = $request->tech_innvo_health_data;
         if ($tech_innvo_data) {
@@ -3161,5 +3161,69 @@ class HomeController extends Controller
         $field_name = $request->field_name;
 
         DB::table("edu_fields")->where("user_id", $user_id)->update([$field_name => ""]);
+    }
+
+    public function deleteotherImg(Request $request)
+    {
+        $user_id = $request->user_id;
+        $training_id = $request->training_id;
+        $fldname = $request->fldname;
+        $type = $request->type;
+
+        // Get the education data
+        $getEducationData = DB::table("edu_fields")->where("user_id", $user_id)->first();
+
+        if ($getEducationData) {
+            // Convert the field into an array
+            $getEducationData1 = (array) $getEducationData;
+            $gettransimg = (array) json_decode($getEducationData1[$fldname], true); // Decode JSON as associative array
+
+            if ($type == 'training') {
+                $key = 'tran_' . $training_id;
+            }
+
+            if ($type == 'education') {
+                $key = 'edu_' . $training_id;
+            }
+
+            if ($type == 'certificate') {
+                $key = 'certifi_' . $training_id;
+            }
+
+            // Check and update the specific index
+
+            if (isset($gettransimg[$key]) && $gettransimg[$key] != '') {
+                // Decode the JSON string in the key to get file names
+                $filesToDelete = json_decode($gettransimg[$key], true);
+
+                if (is_array($filesToDelete)) {
+                    foreach ($filesToDelete as $file) {
+                        // Construct the file path
+                        $destinationPath = public_path('uploads/education_degree/' . $file);
+
+                        // Check if the file exists and delete it
+                        if (File::exists($destinationPath)) {
+                            File::delete($destinationPath);
+                        }
+                    }
+                }
+
+                // Set the key to an empty string
+                $gettransimg[$key] = "";
+            }
+
+            // Re-encode the array to JSON
+            $updatedJson = json_encode($gettransimg);
+
+            // Update the database
+            $updateData = DB::table("edu_fields")
+                ->where("user_id", $user_id)
+                ->update([$fldname => $updatedJson]);
+
+            if ($updateData) {
+                return 1; // Success response
+            }
+        }
+        //print_r($gettransimg);
     }
 }

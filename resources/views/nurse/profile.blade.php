@@ -7371,7 +7371,6 @@ if (!empty($interviewReferenceData)) {
     console.log("speciality_len", speciality_len);
 
     //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
-
     console.log("selectedValues", selectedValues);
     //$('.result--show .form-group').addClass('d-none');
 

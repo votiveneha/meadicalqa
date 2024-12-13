@@ -2,7 +2,6 @@
 @section('css')
 
 @section('content')
-
 <main class="main">
   <section class="section-box">
     <div class="breacrumb-cover bg-img-about">
@@ -61,32 +60,32 @@
                   </select>
                 </div>
               </div>
-             
-            
-            <div class="col-lg-4 col-md-4">
-              <div class="input-style mb-20">
 
-                <input class="font-sm color-text-paragraph-2 numbers" id="phone_no" name="phone_no" placeholder="Phone number" type="tel">
-                <span id="phone_noErr" class="text-danger"></span>
+
+              <div class="col-lg-4 col-md-4">
+                <div class="input-style mb-20">
+
+                  <input class="font-sm color-text-paragraph-2 numbers" id="phone_no" name="phone_no" placeholder="Phone number" type="tel">
+                  <span id="phone_noErr" class="text-danger"></span>
+                </div>
+
               </div>
-              
-            </div>
 
 
-            <div class="col-lg-12 col-md-12">
-              <div class="textarea-style mb-30">
-                <textarea class="font-sm color-text-paragraph-2" id="message" name="message" placeholder="Tell us about yourself"></textarea>
-                <span id="messageErr" class="text-danger"></span>
+              <div class="col-lg-12 col-md-12">
+                <div class="textarea-style mb-30">
+                  <textarea class="font-sm color-text-paragraph-2" id="message" name="message" placeholder="Tell us about yourself"></textarea>
+                  <span id="messageErr" class="text-danger"></span>
+                </div>
+                <button class="submit btn btn-send-message" type="button" id="signup_btn" onclick="return addContactUs()">Send message</button>
+
               </div>
-              <button class="submit btn btn-send-message" type="button" id="signup_btn" onclick="return addContactUs()">Send message</button>
-             
             </div>
+          </form>
+          <p class="form-messege"></p>
         </div>
-        </form>
-        <p class="form-messege"></p>
+        <div class="col-lg-4 text-center d-none d-lg-block"><img src="{{ asset('nurse/assets/imgs/page/contact/img.png') }}" alt="joxBox"></div>
       </div>
-      <div class="col-lg-4 text-center d-none d-lg-block"><img src="{{ asset('nurse/assets/imgs/page/contact/img.png') }}" alt="joxBox"></div>
-    </div>
     </div>
   </section>
 
@@ -105,44 +104,45 @@
   }); 
 
 <script> -->
-  <script>
+<script>
   function addContactUs() {
     $.ajax({
-    url: "{{ route('save-contact') }}",
-    type: "POST",
-    data: new FormData($('#contact-form')[0]),
-    cache: false,
-    contentType: false,
-    processData: false,
-    dataType: 'json',
-    headers: {
+      url: "{{ route('save-contact') }}",
+      type: "POST",
+      data: new FormData($('#contact-form')[0]),
+      cache: false,
+      contentType: false,
+      processData: false,
+      dataType: 'json',
+      headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    },
-    beforeSend: function() {
+      },
+      beforeSend: function() {
         $('#signup_btn').prop('disabled', true);
         $('#signup_btn').text('Processing...');
-    },
-    success: function(res) {
+      },
+      success: function(res) {
         $('#signup_btn').prop('disabled', false);
         $('#signup_btn').text('Send message');
         $('#contact-form')[0].reset();
         if (res.status == '2') {
-            Swal.fire({
-                icon: 'success',
-                title: 'Success',
-                text: res.message,
-            }).then(function() {
-                window.location.href = '{{ route("contact") }}';
-            });
+          Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: res.message,
+          }).then(function() {
+            window.location.href = '{{ route("contact") }}';
+          });
         } else {
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: res.message,
-            })
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: res.message,
+          })
         }
-    },
-    error: function(error) {
+      },
+
+      error: function(error) {
         $('#signup_btn').prop('disabled', false);
         $('#signup_btn').text('Send Now');
 
@@ -151,42 +151,42 @@
         var email = document.getElementById("email").value;
         var message = document.getElementById("message").value;
         var phone_no = document.getElementById("phone_no").value;
-        
+
         if (name == '') {
-            $('#nameErr').text(error.responseJSON.errors.name);
+          $('#nameErr').text(error.responseJSON.errors.name);
 
         } else {
-            $('#nameErr').text('');
+          $('#nameErr').text('');
         }
         if (lastname == '') {
-            $('#lastnameErr').text(error.responseJSON.errors.lastname);
+          $('#lastnameErr').text(error.responseJSON.errors.lastname);
 
         } else {
-            $('#lastnameErr').text('');
+          $('#lastnameErr').text('');
         }
         if (email == '') {
-            $('#emailErr').text(error.responseJSON.errors.email);
+          $('#emailErr').text(error.responseJSON.errors.email);
 
         } else {
-            $('#emailErr').text('');
+          $('#emailErr').text('');
         }
-       
+
         if (message == '') {
-            $('#messageErr').text(error.responseJSON.errors.message);
+          $('#messageErr').text(error.responseJSON.errors.message);
 
         } else {
-            $('#messageErr').text('');
+          $('#messageErr').text('');
         }
         if (phone_no == '') {
-            $('#phone_noErr').text(error.responseJSON.errors.phone_no);
+          $('#phone_noErr').text(error.responseJSON.errors.phone_no);
 
         } else {
-            $('#phone_noErr').text('');
+          $('#phone_noErr').text('');
         }
-    }
-});
+      }
+    });
 
-            return false;
-        }
-</script> 
+    return false;
+  }
+</script>
 @endsection
