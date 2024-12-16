@@ -7,7 +7,7 @@ use Illuminate\Contracts\Cache\Repository as Cache;
 use Illuminate\Support\Facades\Log;
 
 
-class VaccinationRepository extends BaseRepository
+class EvidenceRepository extends BaseRepository
 {
 
     protected $model;
@@ -20,13 +20,12 @@ class VaccinationRepository extends BaseRepository
     }
 
     // Degree data in database
-
     public function create($data)
     {
         try {
             return $this->model->create($data);
         } catch (\Exception $e) {
-            Log::error("Error in VaccinationRepository.create(): " . $e->getMessage());
+            Log::error("Error in EvidenceRepository.create(): " . $e->getMessage());
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
         }
     }
@@ -35,7 +34,7 @@ class VaccinationRepository extends BaseRepository
         try {
             return $this->model->where($byWhere)->first();
         } catch (\Exception $e) {
-            Log::error("Error in VaccinationRepository.get(): " . $e->getMessage());
+            Log::error("Error in EvidenceRepository.get(): " . $e->getMessage());
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
         }
     }
@@ -44,7 +43,7 @@ class VaccinationRepository extends BaseRepository
         try {
             return $this->model->orderBy('id', 'desc')->get();
         } catch (\Exception $e) {
-            Log::error("Error in VaccinationRepository.getAll(): " . $e->getMessage());
+            Log::error("Error in EvidenceRepository.getAll(): " . $e->getMessage());
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
         }
     }
@@ -53,7 +52,7 @@ class VaccinationRepository extends BaseRepository
         try {
             return $this->model->where($byWhere)->delete();
         } catch (\Exception $e) {
-            Log::error("Error in VaccinationRepository.delete(): " . $e->getMessage());
+            Log::error("Error in EvidenceRepository.delete(): " . $e->getMessage());
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
         }
     }
@@ -62,7 +61,7 @@ class VaccinationRepository extends BaseRepository
         try {
             return $this->model->where($byWhere)->update($Data);
         } catch (\Exception $e) {
-            Log::error("Error in VaccinationRepository.update(): " . $e->getMessage());
+            Log::error("Error in EvidenceRepository.update(): " . $e->getMessage());
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
         }
     }

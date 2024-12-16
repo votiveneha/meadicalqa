@@ -73,18 +73,14 @@
 
 @section('content')
 <main class="main">
-
   <section class="section-box mt-0">
     <div class="">
       <div class="row m-0 profile-wrapper">
         <div class="col-lg-3 col-md-4 col-sm-12 p-0 left_menu">
           <!--<div id="preloader-active" style="display:none;"> <div class="preloader d-flex align-items-center justify-content-center"> <div class="preloader-inner position-relative"> <div class="text-center"><img src="https://nextjs.webwiders.in/mediqa/public/nurse/assets/imgs/template/loading.gif" alt="jobBox"></div> </div> </div> </div>-->
-
           <div class="sidebar_profile">
-
             <div class="box-company-profile mb-20">
               <div class="image-compay-rel">
-
                 <img alt="{{  Auth::guard('nurse_middle')->user()->lastname }}" src="{{ asset( Auth::guard('nurse_middle')->user()->profile_img)}}">
               </div>
               <div class="row mt-10">
@@ -100,7 +96,6 @@
 
             <div class="profile-chklst">
               <span>Profile basics</span>
-
               <?php
               $get_myprofile_status = DB::table("users")->where("id", Auth::guard('nurse_middle')->user()->id)->first();
               $get_educert_status = DB::table("user_education_cerification")->where("user_id", Auth::guard('nurse_middle')->user()->id)->first();
@@ -201,26 +196,16 @@
                 <li><a href="#additional_info" id="additional_info" class="btn btn-border recruitment-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-myclearance-jobs" aria-selected="false"><i class="fi fi-rr-guide-alt"></i> Additional Information</a></li>
                 <div class="mt-0 mb-20 logout-line"><a class="link-red font-md" href="{{ route("nurse.logout") }}"><i class="fa-solid fa-arrow-right-from-bracket me-2"></i> Log Out</a></div>
               </ul>
-
-
             </div>
-
           </div>
-
-
         </div>
-
-
-
-
-
         <div class="col-lg-9 col-md-8 col-sm-12 col-12 right_content">
           <div class="content-single content_profile">
             @if(!email_verified())
             <div class="container-fluid">
               <div class="alert alert-warning mt-2" role="alert">
                 <span class="d-flex align-items-center justify-content-center "><img src="{{ asset('nurse/assets/imgs/info.png') }}" width="25px;" alt="info" class="mx-2"> Thank you for signing up with us. To get full access, please verify your email first. If you didn't receive the email, <a href="javascript:void(0);" class="link-opacity-100 mx-1" style="color: black;text-decoration-line: underline;
-  text-decoration-style: straight;" onclick="return resendEmailLink()"><b> click here to resend it.</b></a></span>
+                  text-decoration-style: straight;" onclick="return resendEmailLink()"><b> click here to resend it.</b></a></span>
               </div>
             </div>
             @endif
@@ -229,20 +214,16 @@
               <div class="alert alert-warning mt-2" role="alert">
                 <span class="d-flex align-items-center justify-content-center "><img src="{{ asset('nurse/assets/imgs/info.png') }}" width="25px;" alt="info" class="mx-2">Thank you for verifying your email!<br>Please complete your profile, and once approved, you will be able to apply for jobs and make your profile visible.
                 </span>
-
               </div>
             </div>
             @endif
             @if(!email_verified())
-
             <div class="alert alert-success mt-2" role="alert">
               <span class="d-flex align-items-center justify-content-center ">Please verify your email first to access your account </span>
             </div>
             @endif
 
             <div class="tab-content">
-
-
               <div class="tab-pane fade show active" id="tab-my-profile" role="tabpanel" aria-labelledby="tab-my-profile" style="display: none">
                 <div class="card shadow-sm border-0 p-4 mt-30">
                   <h3 class="mt-0 mb-15 color-brand-1">My Account</h3>
@@ -256,8 +237,6 @@
 
                       <form id="upload_profileimage" method="post" onsubmit="return upload_profileimage(event)">
                         <img alt="{{  Auth::guard('nurse_middle')->user()->name }}" style="object-fit:cover;border-radius: 16px;display: block;width: 85px;height: 85px;" src="{{ asset( Auth::guard('nurse_middle')->user()->profile_img)}}">
-
-
                     </div>
                     <div class="position-relative overflow-hidden">
                       <a class="btn btn-apply">Upload Avatar </a>
@@ -289,7 +268,6 @@
                           </div>
                           <div class="form-group col-md-6">
                             <label class="form-label" for="input-3">Mobile Number *</label>
-
                             <div class="row">
                               <!-- <div class="col-md-3">
                               <select name="countryCode" id="countryCode" class="form-control" placeholder="C. Code" aria-label="Default select example">
@@ -310,9 +288,6 @@
                                 <span id="reqTxtcontactI" class="reqError text-danger valley"></span>
                               </div>
                             </div>
-
-
-
                           </div>
                           <div class="col-lg-6">
                             <div class="form-group">
@@ -356,8 +331,6 @@
                             <input class="form-control" type="text" name="website" value="{{  Auth::guard('nurse_middle')->user()->personal_website }}">
                           </div>
                         </div>
-
-
 
 
                         <div class="row">
@@ -467,16 +440,10 @@
                       <form class="" id="ChangePassword" onsubmit="return ChangePassword()" method="POST">
                         @csrf
                         <div class="row">
-
                           <div class="form-group mb-3">
-
                             <label for="exampleInputEmail1" class="form-label">Old Password *</label>
-
                             <input type="password" name="old_password" id="old_password" class="form-control readonly-field" placeholder="">
-
                           </div>
-
-
                           <div class="col-lg-6">
                             <div class="form-group">
                               <label class="form-label">New Password *</label>
@@ -5865,7 +5832,6 @@
               <div class="tab-pane fade" id="tab-vaccination" role="tabpanel" aria-labelledby="tab-educert" style="display: none">
                 <div class="card shadow-sm border-0 p-4 mt-30">
                   <h3 class="mt-0 color-brand-1 mb-20">Vaccinations</h3>
-
                   <?php
                   $vaccinationData = DB::table("vaccination_front")->where("user_id", Auth::guard('nurse_middle')->user()->id)->first();
                   //print_r($vaccinationData);
@@ -5875,6 +5841,8 @@
                     <input type="hidden" name="user_id" value="{{ Auth::guard('nurse_middle')->user()->id }}">
                     <div class="row">
                       <div class="col-md-12">
+                        <p class="">Please upload all your vaccination records as required for your desired roles and state. You may also add non-mandatory vaccines and any additional vaccinations not listed. Keeping your vaccinations up to date will help maintain your eligibility for your role.</p>
+                        <p class="mt-2">To ensure your evidence is compliant, please refer to our guide Vaccination Compliance and Evidence Requirements by State.</p>
                         <div class="form-group level-drp">
 
                           <label class="form-label" for="input-1">Vaccination Records</label>
@@ -5888,7 +5856,6 @@
                             @endforeach
                           </ul>
                           <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="vaccination_record" name="vaccination_record[]" multiple="multiple"></select>
-
                           <span id="reqempsdate" class="reqError text-danger valley"></span>
                         </div>
                         <div class="form-group level-drp">
@@ -5909,10 +5876,7 @@
                 </div>
               </div>
               <div class="tab-pane fade" id="tab-myclearance-jobs" role="tabpanel" aria-labelledby="tab-myclearance-jobs" style="display: none">
-
-
                 <div class="card shadow-sm border-0 p-4 mt-30">
-
                   <h3 class="mt-2 color-brand-1 mb-2">Work Clearances</h3>
                   <a class="font-md color-text-paragraph-2" href="#">Please provide your work clearances, as required for the roles you want to apply to. Find work you want, to learn what’s required. Keep your work clearances up-to-date to maintain your eligibility for jobs</a>
                   <h6 class="mt-2 color-brand-1 mb-2">Eligibility To Work</h6>
@@ -9539,7 +9503,6 @@ if (!empty($interviewReferenceData)) {
   }
 
   function doeligibility_to_work() {
-
     event.preventDefault();
 
     $(".valley").html("");
@@ -9616,30 +9579,20 @@ if (!empty($interviewReferenceData)) {
 
 
     if (image_support_documentI.trim() == "") {
-
       document.getElementById("reqasupport_document").innerHTML = "* Please Upload the Support Document.";
-
       returnValue = false;
-
     }
 
     if (returnValue == false) {
-
       $('.submit-btn-120').prop('disabled', false);
-
       $('.submit-btn-1').hide();
-
       $('.resetpassword').show();
-
     }
 
 
 
     if (returnValue == true) {
-
       let formData = new FormData($('#multi-step-form-eligibility')[0]);
-
-
 
       $.ajax({
 
@@ -9671,13 +9624,9 @@ if (!empty($interviewReferenceData)) {
 
           $('.resetpassword').hide();
 
-
-
         },
 
         success: function(resp) {
-
-
 
           if (resp.status == 1) {
 
@@ -9688,8 +9637,6 @@ if (!empty($interviewReferenceData)) {
             $('.resetpassword').show();
 
             $('#multi-step-form-eligibility')[0].reset();
-
-
 
             Swal.fire({
 
@@ -9704,8 +9651,6 @@ if (!empty($interviewReferenceData)) {
               window.location = resp.url;
 
             });
-
-
 
           } else {
 
@@ -9992,10 +9937,6 @@ if (!empty($interviewReferenceData)) {
 
     return false;
 
-
-
-
-
   }
 
   function doprofession() {
@@ -10017,9 +9958,6 @@ if (!empty($interviewReferenceData)) {
     var assistent_level = document.getElementById("assistent_level").value;
     var evidence_type = document.getElementById("evidence_type").value;
     var image_evidenceI = document.getElementById("image_evidenceI").value;
-
-
-
 
 
     returnValue = true;
@@ -10177,10 +10115,7 @@ if (!empty($interviewReferenceData)) {
   }
 
   function printErrorMsg(msg) {
-
     $(".print-error-msg").find("ul").html('');
-
-
 
     $(".print-error-msg").css('display', 'block');
 
@@ -10191,10 +10126,6 @@ if (!empty($interviewReferenceData)) {
       $('#district_id').after('<span class="error">' + value + '</span>');
 
       $(".print-error-msg").find("ul").append('<li>' + value + '</li>');
-
-
-
-
 
     });
 
@@ -10266,9 +10197,6 @@ if (!empty($interviewReferenceData)) {
 
     };
     drawNewGraph('graph1');
-
-
-
   });
   //   let autocomplete;
   // let address1Field;
