@@ -169,6 +169,14 @@
                <span class="hide-menu">Evidence List</span>
              </a>
            </li>
+           <li class="sidebar-item">
+             <a href="{{route('admin.imStatusList')}}" class="sidebar-link">
+               <div class="round-16 d-flex align-items-center justify-content-center">
+                 <i class="ti ti-circle"></i>
+               </div>
+               <span class="hide-menu">Immunization Status List</span>
+             </a>
+           </li>
          </ul>
          <!-- <ul aria-expanded="false" class="collapse first-level">
            <li class="sidebar-item">

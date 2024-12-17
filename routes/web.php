@@ -153,6 +153,15 @@ Route::prefix('/admin')->name('admin.')->namespace('App\Http\Controllers\admin')
     Route::post('/delete-vaccination', 'VaccinationController@deleteVaccination')->name('deleteVaccination');
     Route::post('/get-vaccination', 'VaccinationController@getVaccination')->name('getVaccination');
     Route::get('/evidence-list', 'VaccinationController@EvidenceList')->name('EvidenceList');
+    Route::post('/add-evidence', 'VaccinationController@addEvidence')->name('addEvidence');
+    Route::post('/get-evidence', 'VaccinationController@getEvidence')->name('getEvidence');
+    Route::post('/update-evidence', 'VaccinationController@updateEvidence')->name('updateEvidence');
+    Route::post('/delete-evidence', 'VaccinationController@deleteEvidence')->name('deleteEvidence');
+    Route::get('/immunization-status-list', 'VaccinationController@imStatusList')->name('imStatusList');
+    Route::post('/add-imm-status', 'VaccinationController@addImmStatus')->name('addImmStatus');
+    Route::post('/get-imm-status', 'VaccinationController@getImmStatus')->name('getImmStatus');
+    Route::post('/update-imm-status', 'VaccinationController@updateImmStatus')->name('updateImmStatus');
+    Route::post('/delete-imm-status', 'VaccinationController@deleteImmStatus')->name('deleteImmStatus');
 
     //Seo  Managemenent
     Route::get('/content_pagelist', 'SeoController@SeoList')->name('SeoList');

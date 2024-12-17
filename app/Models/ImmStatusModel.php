@@ -5,9 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class EvidenceModel extends Model
+class ImmStatusModel extends Model
 {
     use HasFactory;
-    protected $table = 'evidence_type';
+    protected $table = 'imm_status';
     protected $guarded = [];
 }

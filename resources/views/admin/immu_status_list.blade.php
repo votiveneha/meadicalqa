@@ -1,15 +1,14 @@
 @extends('admin.layouts.layout')
 @section('content')
-<x-card-component parentHeading="Vaccination Management" childHeading="Vaccination List" parentUrl="{{route('admin.dashboard')}}" />
+<x-card-component parentHeading="Vaccination Management" childHeading="Immunization Status List" parentUrl="{{route('admin.dashboard')}}" />
 <div class="card w-100  overflow-hidden ">
     <div class="card-header pb-0 p-4">
         <div class="d-flex align-items-center justify-content-between">
             <div>
-                <h5 class="card-title fw-semibold mb-0">Vaccination List</h5>
+                <h5 class="card-title fw-semibold mb-0">Immunization Status List</h5>
             </div>
             <div>
-                <a href="" data-bs-toggle="modal" data-bs-target="#add_Vaccination" class="btn btn-primary text-nowrap">Add
-                    Vaccination </a>
+                <a href="" data-bs-toggle="modal" data-bs-target="#add_immu_status" class="btn btn-primary text-nowrap">Add Immunization Status</a>
             </div>
         </div>
     </div>
@@ -23,18 +22,17 @@
                             <h6 class="fs-4 fw-semibold mb-0">Sn.</h6>
                         </th>
                         <th>
-                            <h6 class="fs-4 fw-semibold mb-0">Vaccination</h6>
+                            <h6 class="fs-4 fw-semibold mb-0">Immunization Status</h6>
                         </th>
                         <th>
                             <h6 class="fs-4 fw-semibold ">Action</h6>
                         </th>
-
                     </tr>
                 </thead>
                 <tbody>
                     @php $i=1 @endphp
-                    @if ($vaccData)
-                    @foreach ($vaccData as $key => $item)
+                    @if ($immstatusData)
+                    @foreach ($immstatusData as $key => $item)
                     <tr>
                         <td>{{ $i }}</td>
                         <td>
@@ -45,11 +43,11 @@
 
                         <td>
                             <div class="d-flex align-items-center gap-1">
-                                <button href="javascript:void(0)" class="btn btn-success" onclick="return getVaccination({{ $item->id }})">
+                                <button href="javascript:void(0)" class="btn btn-success" onclick="return getImmStatus({{ $item->id }})">
                                     Edit
                                 </button>
-                                <button type="button" onclick="return deleteVaccination({{ $item->id }})"
-                                    class="btn btn-danger " data-bs-toggle="tooltip" data-bs-placement="top"
+                                <button type="button" onclick="return deleteImmStatus({{ $item->id }})"
+                                    class="btn btn-danger" data-bs-toggle="tooltip" data-bs-placement="top"
                                     aria-label="Delete" data-bs-original-title="Delete">
                                     Delete
                                 </button>
@@ -64,28 +62,26 @@
                     @else
                     {{ 'No Data Found' }}
                     @endif
-
-
                 </tbody>
             </table>
         </div>
     </div>
 </div>
-<div class="modal fade" id="add_Vaccination" tabindex="-1" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+<div class="modal fade" id="add_immu_status" tabindex="-1" aria-labelledby="mySmallModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <form id="AddVaccination" onsubmit="return addVaccination()">
+            <form id="addImmstatus" onsubmit="return addImmstatus()">
                 @csrf
                 <div class="modal-header d-flex align-items-center">
-                    <h4 class="modal-title" id="myModalLabel">Add Vaccination</h4>
+                    <h4 class="modal-title" id="myModalLabel">Add Immunization Status</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="category">Vaccination</label>
-                        <input type="text" class="form-control" placeholder="Write vaccination name" name="vaccination"
-                            id="vaccination">
-                        <span id="DegreeErr" class="text-danger"></span>
+                        <label for="category">Immunization Status</label>
+                        <input type="text" class="form-control" placeholder="Write Immunization Status name" name="immu_status"
+                            id="evidence">
+                        <span id="immustatusErr" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="modal-footer pt-0">
@@ -95,28 +91,27 @@
                 </div>
             </form>
         </div>
-
         <!-- /.modal-content -->
     </div>
     <!-- /.modal-dialog -->
 </div>
 
-<div class="modal fade" id="edit_Vaccination" tabindex="-1" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+<div class="modal fade" id="edit_Imm_status" tabindex="-1" aria-labelledby="mySmallModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <form id="EditVaccination" onsubmit="return editVaccination()">
+            <form id="EditImmStatus" onsubmit="return editImmStatus()">
                 @csrf
                 <div class="modal-header d-flex align-items-center">
-                    <h4 class="modal-title" id="myModalLabel">Edit Vaccination </h4>
+                    <h4 class="modal-title" id="myModalLabel">Edit Immunization Status</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="category">Vaccination </label>
-                        <input type="hidden" name="id" value="" id="edit_id" />
-                        <input type="text" class="form-control" placeholder="Write vaccination name" name="vaccination"
-                            id="edit_vaccination">
-                        <span id="edit_DegreeErr" class="text-danger"></span>
+                        <label for="category">Immunization Status</label>
+                        <input type="hidden" name="id" value="" id="imm_status_id" />
+                        <input type="text" class="form-control" placeholder="Write immunization status name" name="immu_status"
+                            id="edit_imm_stat">
+                        <span id="edit_immstatusErr" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="modal-footer pt-0">
@@ -135,14 +130,14 @@
 @section('js')
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script type="text/javascript">
-    function addVaccination() {
+    function addImmstatus() {
         $.ajax({
-            url: "{{ route('admin.addVaccination') }}",
+            url: "{{ route('admin.addImmStatus') }}",
             type: "POST",
             cache: false,
             contentType: false,
             processData: false,
-            data: new FormData($('#AddVaccination')[0]),
+            data: new FormData($('#addImmstatus')[0]),
             dataType: 'json',
             beforeSend: function() {
                 $('#signup_btn_btn').prop('disabled', true);
@@ -150,15 +145,14 @@
             },
             success: function(res) {
                 $('#signup_btn_btn').prop('disabled', false);
-                $('#signup_btn_btn').text('Add ');
+                $('#signup_btn_btn').text('Add');
                 if (res.status == '2') {
-
                     Swal.fire({
                         icon: 'success',
                         title: 'Success',
                         text: res.message,
                     }).then(function() {
-                        window.location.href = '{{ route("admin.VaccinationList") }}';
+                        window.location.href = '{{ route("admin.imStatusList") }}';
                     });
                 } else {
                     Swal.fire({
@@ -173,27 +167,25 @@
                 $('#signup_btn_btn').prop('disabled', false);
                 $('#signup_btn_btn').text('Add');
                 if (error.responseJSON.errors) {
-                    if (error.responseJSON.errors.vaccination) {
-                        $('#DegreeErr').text(error.responseJSON.errors.vaccination[0]);
-
+                    if (error.responseJSON.errors.immu_status) {
+                        $('#immustatusErr').text(error.responseJSON.errors.immu_status[0]);
                     } else {
-                        $('#DegreeErr').text('');
+                        $('#immustatusErr').text('');
                     }
-
                 }
             }
         });
         return false;
     }
 
-    function editVaccination() {
+    function editImmStatus() {
         $.ajax({
-            url: "{{ route('admin.updateVaccination') }}",
+            url: "{{ route('admin.updateImmStatus') }}",
             type: "POST",
             cache: false,
             contentType: false,
             processData: false,
-            data: new FormData($('#EditVaccination')[0]),
+            data: new FormData($('#EditImmStatus')[0]),
             dataType: 'json',
             beforeSend: function() {
                 $('#edit_signup_btn_btn').prop('disabled', true);
@@ -209,7 +201,7 @@
                         title: 'Success',
                         text: res.message,
                     }).then(function() {
-                        window.location.href = '{{ route("admin.VaccinationList") }}';
+                        window.location.href = '{{ route("admin.imStatusList") }}';
                     });
                 } else {
                     Swal.fire({
@@ -224,19 +216,11 @@
                 $('#edit_signup_btn_btn').text('Add');
 
                 if (error.responseJSON.errors) {
-                    if (error.responseJSON.errors.training) {
-                        $('#edit_DegreeErr').text(error.responseJSON.errors.training[0]);
+                    if (error.responseJSON.errors.immu_status) {
+                        $('#edit_immstatusErr').text(error.responseJSON.errors.immu_status[0]);
                     } else {
-                        $('#edit_DegreeErr').text('');
+                        $('#edit_immstatusErr').text('');
                     }
-
-                    if (error.responseJSON.errors.type) {
-                        $('#TypeErr').text(error.responseJSON.errors.type[0]);
-
-                    } else {
-                        $('#TypeErr').text('');
-                    }
-
                 }
 
             }
@@ -244,10 +228,10 @@
         return false;
     }
 
-    function deleteVaccination(id) {
+    function deleteImmStatus(id) {
         Swal.fire({
             title: 'Are you sure?',
-            text: 'Do you want to delete Degree ?',
+            text: 'Do you want to delete Immunization Status ?',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonText: 'Yes',
@@ -256,7 +240,7 @@
             if (result.isConfirmed) {
                 $.ajax({
                     type: 'POST',
-                    url: "{{ route('admin.deleteVaccination') }}",
+                    url: "{{ route('admin.deleteImmStatus') }}",
                     data: {
                         id: id,
                         _token: '{{ csrf_token() }}'
@@ -292,12 +276,10 @@
         });
 
     }
-
-
     $(document).ready(function() {
-        window.getVaccination = function(id) {
+        window.getImmStatus = function(id) {
             $.ajax({
-                url: "{{ route('admin.getVaccination') }}",
+                url: "{{ route('admin.getImmStatus') }}",
                 type: "POST",
                 data: {
                     id: id,
@@ -305,10 +287,10 @@
                 },
                 dataType: 'json',
                 success: function(res) {
-                    console.log(res.type);
-                    $('#edit_vaccination').val(res.name);
-                    $('#edit_id').val(res.id);
-                    $('#edit_Vaccination').modal('show');
+                    console.log(res);
+                    $('#edit_imm_stat').val(res.name);
+                    $('#imm_status_id').val(res.id);
+                    $('#edit_Imm_status').modal('show');
                 },
                 error: function(error) {
                     console.log("error-", error);
