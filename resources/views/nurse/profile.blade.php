@@ -5844,7 +5844,6 @@
                         <p class="">Please upload all your vaccination records as required for your desired roles and state. You may also add non-mandatory vaccines and any additional vaccinations not listed. Keeping your vaccinations up to date will help maintain your eligibility for your role.</p>
                         <p class="mt-2">To ensure your evidence is compliant, please refer to our guide Vaccination Compliance and Evidence Requirements by State.</p>
                         <div class="form-group level-drp">
-
                           <label class="form-label" for="input-1">Vaccination Records</label>
                           <input type="hidden" name="vaccination_r" class="vaccination_r" value="@if(!empty($vaccinationData)){{ $vaccinationData->vaccination_records }}@endif">
                           <?php
@@ -5852,12 +5851,13 @@
                           ?>
                           <ul id="vaccination_record" style="display:none;">
                             @foreach($vaccination_record as $v_record)
-                            <li data-value="{{ $v_record->id }}">{{ $v_record->name }}</li>
+                            <li data-value="{{ $v_record->id }}" data-id="{{ $v_record->name }}">{{ $v_record->name }}</li>
                             @endforeach
                           </ul>
                           <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="vaccination_record" name="vaccination_record[]" multiple="multiple"></select>
                           <span id="reqempsdate" class="reqError text-danger valley"></span>
                         </div>
+                        <div class="vacc_rec_div"></div>
                         <div class="form-group level-drp">
                           <label class="form-label" for="input-1">Immunization Status </label>
                           <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
@@ -5897,7 +5897,6 @@
                         <option value="Citizen" {{ $valesidency == "Citizen" ? 'selected' : '' }}>Citizen</option>
                         <option value="Permanent Resident" {{ $valesidency == "Permanent Resident" ? 'selected' : '' }}>Permanent Resident</option>
                         <option value="Visa Holder" {{ $valesidency == "Visa Holder" ? 'selected' : '' }}>Visa Holder</option>
-
                       </select>
                     </div>
                     <span id="reqTxtresidencyId" class="reqError text-danger valley"></span>

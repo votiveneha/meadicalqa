@@ -1482,8 +1482,10 @@
       isValid = false;
     }
     if ($(".mandatory_tr_div_1").hasClass("d-none") == false) {
-      document.getElementById("reqwellself").innerHTML = "* Please Select Wellness And Self-Care";
-      isValid = false;
+      if ($('[name="well_self_care_data[]"]').val() == '') {
+        document.getElementById("reqwellself").innerHTML = "* Please Select Wellness And Self-Care.";
+        isValid = false;
+      }
     }
 
     var i = 0;

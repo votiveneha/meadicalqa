@@ -79,6 +79,7 @@
             $(".well_self_care_div h6").each(function() {
                 var text = $(this).text();
                 if (selectedValues.includes(text) == false) {
+
                     let res = text.split(' ')[0];
                     let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
                     console.log("res_one", res_one);
@@ -2131,4 +2132,125 @@
         // Select and remove the work experience section using the unique ID
         $(".work_exp_" + previous_employeers_head).remove();
     }
+</script>
+
+
+<!-- vaccination Tab js -->
+<script>
+    $(document).ready(function() {
+        $('.js-example-basic-multiple[data-list-id="vaccination_record"]').on('change', function() {
+            let selectedValues = $(this).val(); // Get selected values (IDs)
+            console.log('selectedValues', selectedValues);
+
+            let processedIds = new Set(); // Track already processed IDs
+            $(".vacc_rec_div").empty(); // Clear the current contents of the vaccination record container
+
+            // Add new <h6> elements for IDs in selectedValues
+            selectedValues.forEach(function(id, i) {
+                if (!processedIds.has(id)) {
+                    processedIds.add(id); // Mark this ID as processed
+
+                    // Find the associated text using the `data-value` attribute
+                    let datatext = $('#vaccination_record li').filter(function() {
+                        return $(this).data('value') == id; // Compare the current `data-value` with the ID
+                    }).text(); // Get the text content of the matched element
+
+                    // Check if datatext is valid before appending
+                    if (datatext) {
+                        $(".vacc_rec_div").append(`
+                    <div class="vacc_rec_${id}">
+                        <h6 class="vacc_rec_head_${id}" data-id="${id}">${datatext}</h6>
+                        <input type="hidden" name="vaccrecarr[]" class="vacc_rec_input_${id}" value="${id}">
+
+                        <div class="row vacc_rec_institution">
+                            <!-- Level of Requirement -->
+                            <div class="form-group col-md-12">
+                                <label class="form-label" for="level_req-${i}">Level of Requirement</label>
+                                <select class="form-control mid_spe_status level_req-${i}" name="level_req[]">
+                                    <option value="test1">test1</option>
+                                    <option value="test2">test2</option>
+                                    <option value="test3">test3</option>
+                                    <option value="test4">test4</option>
+                                </select>
+                                <span id="level_req-${i}" class="reqError text-danger valley"></span>
+                            </div>
+
+                            <!-- Immunization Status -->
+                            <div class="form-group col-md-12">
+                                <label class="form-label" for="imm_status_status-${i}">Immunization Status</label>
+                                <select class="form-control mid_spe_status imm_status_status-${i}" name="imm_status_status[]">
+                                    <?php
+                                    $get_imm_status = DB::table("imm_status")->get();
+                                    foreach ($get_imm_status as $status) { ?>
+                                        <option value="<?= htmlspecialchars($status->name) ?>"><?= htmlspecialchars($status->name) ?></option>
+                                    <?php } ?>
+                                </select>
+                                <span id="imm_status_statusvalid-${i}" class="reqError text-danger valley"></span>
+                            </div>
+
+                           <!-- Evidence required --> 
+                            <div class="col-md-12">
+                                <label class="form-label" for="evidence_required-${i}">Evidence Required:</label>
+                                <div>
+                                  ${<?php echo json_encode(DB::table("evidence_type")->get()); ?>.map((data, index) => {
+                                  const adjustedIndex = 1; 
+                                if (data.type === id) {
+                                    return `
+                                        <input type="radio" id="evidence_re-${adjustedIndex}-${i}" name="evidence_required[]" value="${data.name}">
+                                        <label for="evidence_re-${adjustedIndex}-${i}">${data.name}</label><br>
+                                    `;
+                                    }
+                                    return '';
+                                    adjustedIndex++ ;
+                                }).join('')}  
+                                </div>
+                                <div class="hep-b mt-2" style="display: none;">
+                                <p>If vaccination records are missing, a <a href="https://www.health.nsw.gov.au/immunisation/Documents/Occupational/appendix-9-declaration.pdf" target="_blank">NSW Health Hepatitis B Vaccination Declaration form</a>, signed by an approved assessor, may be accepted in certain cases. However, it is not sufficient by itself; additional evidence, such as serology results showing immunity, is usually required for full compliance
+                                </p>
+                                </div>
+                                <span id="evidence_requiredvalid-${i}" class="reqError text-danger valley"></span>
+                            </div>
+
+
+                            <!-- Evidence required --> 
+                            <div class="form-group col-md-12">
+                             <label class="form-label" for="input-1">Upload Certificate</label>
+                             <input class="form-control clinic_skill_upload_certification clinic_skill_imgs_' + res_one + ' clinic_skill_upload_certification-' + i + '" type="file" name="clinic_skill_upload_certification[' + i + '][]" onchange="changeImg1(' + user_id + ',' + i + ',\'' + img_text + '\',\'' + res_one + '\')" multiple>
+                             <span id="reqclinskilluploadvalid-' + i + '" class="reqError text-danger valley"></span>
+                             <div class="clinic_skill_imgs' + res_one + '"></div>
+                            </div>
+                            
+
+                        </div>
+                    </div>
+                `);
+                    } else {
+                        console.log(`No matching text found for ID: ${id}`);
+                    }
+                }
+            });
+        });
+
+
+
+        // Dynamically generated checkbox selectors based on adjusted index
+        $(document).on('click', 'input[id^="evidence_re-1-0"]', function() {
+            // Check the value of the clicked checkbox
+            const checkboxId = $(this).attr('id');
+            const adjustedIndex = checkboxId.split('-')[1]; // Extract the index from the ID
+            var checkboxValue = $(this).val();
+
+
+            // If the checkbox is checked, show the hep-b message
+            if (checkboxValue == 'NSW Health Hepatitis B Vaccination Declaration formclaration' && $(this).prop('checked')) {
+                $(".hep-b").show();
+            } else {
+                $(".hep-b").hide(); // Hide the .hep-b element if not checked
+            }
+
+
+
+        });
+
+    })
 </script>
