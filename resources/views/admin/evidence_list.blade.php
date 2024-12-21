@@ -85,7 +85,7 @@
                     </div>
                     <div class="form-group">
                         <label for="category">Evidence Type</label>
-                        <select class="form-control" name="type" id="type">
+                        <select class="form-control" name="type" id="exampleSelect">
                             <?php
                             $vacc_data = DB::table("vaccination")->get();
                             ?>
@@ -95,6 +95,18 @@
                             @endforeach
                         </select>
                         <span id="evitypeErr" class="text-danger"></span>
+                    </div>
+                    <div class="form-group" style="display:none" id="covid_dose">
+                        <label for="category">Dose</label>
+                        <select class="form-control" name="dose" id="dose_id">
+                            <option value="1">dose-1</option>
+                            <option value="2">dose-2</option>
+                            <option value="3">dose-3</option>
+                            <option value="4">dose-4</option>
+                            <option value="5">dose-5</option>
+                            <option value="6">dose-6</option>
+                        </select>
+                        <span id="dose_error" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="modal-footer pt-0">
@@ -139,6 +151,20 @@
                         </select>
                         <span id="evitypeErr" class="text-danger"></span>
                     </div>
+                    <div class="form-group" id="covid_dose_edit">
+                        <label for="category">Dose</label>
+                        <select class="form-control" name="dose" id="dose_id">
+                            <option value="1">dose-1</option>
+                            <option value="2">dose-2</option>
+                            <option value="3">dose-3</option>
+                            <option value="4">dose-4</option>
+                            <option value="5">dose-5</option>
+                            <option value="6">dose-6</option>
+                        </select>
+                        <span id="dose_error" class="text-danger"></span>
+                    </div>
+
+
                 </div>
                 <div class="modal-footer pt-0">
                     <button type="submit" class="btn btn-primary font-medium waves-effect" id="edit_signup_btn_btn">
@@ -256,12 +282,10 @@
 
                     if (error.responseJSON.errors.type) {
                         $('#evitypeErr').text(error.responseJSON.errors.type[0]);
-
                     } else {
                         $('#evitypeErr').text('');
                     }
                 }
-
             }
         });
         return false;
@@ -326,11 +350,17 @@
                 },
                 dataType: 'json',
                 success: function(res) {
-                    console.log(res);
                     $('#edit_evi').val(res.name);
                     $('#edit_evi_id').val(res.id);
                     $('#type_evi').val(res.type); // Corrected: Select the dropdown correctly
-                    $('#type_evi').trigger('change'); // Trigger change event if needed('#type_evi').val(res.type); // Ensure the correct dropdown ID is used
+                    $('#type_evi').trigger('change');
+                    // Handle dose logic
+                    if (parseInt(res.type, 10) === 12) {
+                        $("#covid_dose_edit").show(); // Show the Dose section if dose is 12
+                        $('#dose_id').val(res.dose); // Pre-select dose if necessary
+                    } else {
+                        $("#covid_dose_edit").hide(); // Hide the Dose section otherwise
+                    }
                     $('#edit_Evidence').modal('show');
                 },
                 error: function(error) {
@@ -341,6 +371,16 @@
 
         // Example call to the function
         // getTraining(1); // Pass the appropriate ID here
+    });
+
+    $('#exampleSelect').on('change', function() {
+        // Get the selected value
+        let selectedValue = $(this).val();
+        if (selectedValue == 12) {
+            $("#covid_dose").show();
+        } else {
+            $("#covid_dose").none();
+        }
     });
 </script>
 @endsection

@@ -21,6 +21,7 @@ class EvidenceServices
         try {
             $allData['name'] = $data['evidence'];
             $allData['type'] = $data['type'];
+            $allData['dose'] = $data['dose'];
             $run = $this->evidenceRepository->create($allData);
             if ($run) {
                 return response()->json(['status' => '2', 'message' => __('message.statusOne', ['parameter' => 'Evidence'])]);
@@ -54,6 +55,7 @@ class EvidenceServices
             $allData['name'] = $data['evidence'];
             $allData['type'] = $data['type'];
             $id = $data['id'];
+            $allData['dose'] = $data['dose'];
             $run = $this->evidenceRepository->update(['id' => $id], $allData);
             if ($run) {
                 return response()->json(['status' => '2', 'message' => __('message.statusTwo', ['parameter' => 'Evidence'])]);

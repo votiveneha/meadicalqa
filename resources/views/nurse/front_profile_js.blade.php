@@ -1,8 +1,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
     $(document).ready(function() {
-
-
         // Mandatory Training and Education
         $('.js-example-basic-multiple[data-list-id="mandatory_courses"]').on('change', function() {
             let selectedValues = $(this).val();
@@ -2110,9 +2108,7 @@
                 var speciality_result_val = $(".surgical_rowp_result_experience-" + previous_employeers_head + '-' + k).val();
                 //alert(speciality_result_val);
                 if (selectedValues.includes(speciality_result_val)) {
-
                     $('.surgical_rowp_experience-' + previous_employeers_head + '-' + k).removeClass('d-none');
-
                 } else {
                     $('.surgical_rowp_experience-' + previous_employeers_head + '-' + k).addClass('d-none');
                     $('.js-example-basic-multiple' + previous_employeers_head + '[data-list-id="surgical_operative_carep_experience-' + previous_employeers_head + '-' + k + '"]').select2().val(null).trigger('change');
@@ -2188,9 +2184,24 @@
                                 <span id="imm_status_statusvalid-${i}" class="reqError text-danger valley"></span>
                             </div>
 
+                            <!-- Dose -->
+                            <div class="form-group col-md-12" style="display: ${id == 12 ? 'block' : 'none'}">
+                                <label class="form-label" for="dose-${i}">How many doses of a TGA-recognised COVID-19 vaccine have you received?</label>
+                                <select class="form-control mid_spe_status covid_dose-${i}" name="covid_dose[]"  onchange="handleDoseChange(this, ${id})">
+                                    <option value="None">None</option>
+                                    <option value="1">1 dose</option>
+                                    <option value="2">2 dose</option>
+                                    <option value="3">3 dose</option> 
+                                    <option value="4">4 dose</option>
+                                    <option value="5">5 dose</option>
+                                    <option value="6">6 dose</option>
+                                </select>
+                                <span id="coviddosevalid-${i}" class="reqError text-danger valley"></span>
+                            </div>
+
                            <!-- Evidence required --> 
-                            <div class="col-md-12">
-                                <label class="form-label" for="evidence_required-${i}">Evidence Required:</label>
+                            <div class="col-md-12" style="display: ${id == 12 ? 'none' : 'block'}">
+                                <label class="form-label" for="evidence_required-${i}">Evidence Requiredq:</label>
                                 <div>
                                   ${<?php echo json_encode(DB::table("evidence_type")->get()); ?>.map((data, index) => {
                                   const adjustedIndex = 1; 
@@ -2205,22 +2216,29 @@
                                 }).join('')}  
                                 </div>
                                 <div class="hep-b mt-2" style="display: none;">
-                                <p>If vaccination records are missing, a <a href="https://www.health.nsw.gov.au/immunisation/Documents/Occupational/appendix-9-declaration.pdf" target="_blank">NSW Health Hepatitis B Vaccination Declaration form</a>, signed by an approved assessor, may be accepted in certain cases. However, it is not sufficient by itself; additional evidence, such as serology results showing immunity, is usually required for full compliance
-                                </p>
+                                    <p>If vaccination records are missing, a <a href="https://www.health.nsw.gov.au/immunisation/Documents/Occupational/appendix-9-declaration.pdf" target="_blank">NSW Health Hepatitis B Vaccination Declaration form</a>, signed by an approved assessor, may be accepted in certain cases. However, it is not sufficient by itself; additional evidence, such as serology results showing immunity, is usually required for full compliance
+                                    </p>
+                                </div>
+                                <span id="evidence_requiredvalid-${i}" class="reqError text-danger valley"></span>
+                            </div>
+
+                            <!-- Evidence required --> 
+                            <div class="col-md-12" id="evidence_required_container-${id}" style="display: none;">
+                                <label class="form-label" for="evidence_requiredeee-${id}">Evidence Required:</label>
+                                <div id="evidence_div_${id}">
+                                    
                                 </div>
                                 <span id="evidence_requiredvalid-${i}" class="reqError text-danger valley"></span>
                             </div>
 
 
-                            <!-- Evidence required --> 
+                            <!-- Evidence Upload required --> 
                             <div class="form-group col-md-12">
-                             <label class="form-label" for="input-1">Upload Certificate</label>
+                             <label class="form-label" for="input-1">Upload Evidence</label>
                              <input class="form-control clinic_skill_upload_certification clinic_skill_imgs_' + res_one + ' clinic_skill_upload_certification-' + i + '" type="file" name="clinic_skill_upload_certification[' + i + '][]" onchange="changeImg1(' + user_id + ',' + i + ',\'' + img_text + '\',\'' + res_one + '\')" multiple>
                              <span id="reqclinskilluploadvalid-' + i + '" class="reqError text-danger valley"></span>
                              <div class="clinic_skill_imgs' + res_one + '"></div>
                             </div>
-                            
-
                         </div>
                     </div>
                 `);
@@ -2240,7 +2258,6 @@
             const adjustedIndex = checkboxId.split('-')[1]; // Extract the index from the ID
             var checkboxValue = $(this).val();
 
-
             // If the checkbox is checked, show the hep-b message
             if (checkboxValue == 'NSW Health Hepatitis B Vaccination Declaration formclaration' && $(this).prop('checked')) {
                 $(".hep-b").show();
@@ -2248,9 +2265,46 @@
                 $(".hep-b").hide(); // Hide the .hep-b element if not checked
             }
 
-
-
         });
 
     })
+
+    // Handle change event for dose selection
+    function handleDoseChange(selectElement, i) {
+
+        const selectedDose = selectElement.value; // Get selected dose value
+        const evidenceRequiredContainer = $(`#evidence_required_container-${i}`);
+        const evidenceRequiredDiv = $(`#evidence_div_${i}`);
+
+        // If selected dose is "None", hide evidence section
+        if (selectedDose === "None") {
+            evidenceRequiredContainer.hide(); // Hide the evidence section
+            evidenceRequiredDiv.html(''); // Clear the evidence options
+        } else {
+            // Show the evidence section
+            evidenceRequiredContainer.show();
+
+            // Get the evidence types related to the selected dose
+            const evidenceTypes = <?php echo json_encode(DB::table("evidence_type")->where('type', 12)->get()); ?>;
+
+            // Clear previous evidence before appending new ones
+            evidenceRequiredDiv.html('');
+
+            // Populate the evidence section dynamically based on the selected dose
+            $.each(evidenceTypes, function(index, data) {
+                // Ensure that data.dose exists and matches the selected dose
+                if (data.dose == selectedDose) { // Use '==' to compare as strings and numbers might differ
+                    evidenceRequiredDiv.append(`
+                    <input type="radio" id="evidence_re-${index}-${i}" name="evidence_required[]" value="${data.name}">
+                    <label for="evidence_re-${index}-${i}">${data.name}</label><br>
+                `);
+                }
+            });
+
+            // If no evidence found, add a message
+            if (evidenceRequiredDiv.html() === '') {
+                evidenceRequiredDiv.append('<p>No evidence required for this dose.</p>');
+            }
+        }
+    }
 </script>

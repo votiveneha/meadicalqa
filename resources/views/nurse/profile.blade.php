@@ -3243,9 +3243,7 @@
                             <input class="form-control employeement_end_date employeement_end_date-1" type="date" name="end_date[]" onkeydown="return false">
                             <span id="reqemployeementenddate-1" class="reqError text-danger valley"></span>
                           </div>
-
                         </div>
-
                       </div>
                       <br>
                       <div class="row">
@@ -3320,10 +3318,7 @@
                         <textarea class="form-control" name="achievements[]"></textarea>
                         <span id="reqachievements" class="reqError text-danger valley"></span>
                       </div>
-
                       @endif
-
-
                       <h6 class="emergency_text">
                         Areas of Expertise
                       </h6>
@@ -10006,12 +10001,9 @@ if (!empty($interviewReferenceData)) {
     }
 
 
-
     if (returnValue == true) {
 
       let formData = new FormData($('#multi-step-form')[0]);
-
-
 
       $.ajax({
 
@@ -10049,8 +10041,6 @@ if (!empty($interviewReferenceData)) {
 
         success: function(resp) {
 
-
-
           if (resp.status == 1) {
 
             $('.submit-btn-120').prop('disabled', false);
@@ -10060,8 +10050,6 @@ if (!empty($interviewReferenceData)) {
             $('.resetpassword').show();
 
             $('#multi-step-form')[0].reset();
-
-
 
             Swal.fire({
 
@@ -10076,8 +10064,6 @@ if (!empty($interviewReferenceData)) {
               window.location = resp.url;
 
             });
-
-
 
           } else {
 
@@ -10108,8 +10094,6 @@ if (!empty($interviewReferenceData)) {
       return false;
 
     }
-
-
 
   }
 
@@ -10197,7 +10181,7 @@ if (!empty($interviewReferenceData)) {
     };
     drawNewGraph('graph1');
   });
-  //   let autocomplete;
+  // let autocomplete;
   // let address1Field;
   // let address2Field;
   // let postalField;
