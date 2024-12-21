@@ -3226,4 +3226,17 @@ class HomeController extends Controller
         }
         //print_r($gettransimg);
     }
+
+    public function getSkillsData(Request $request){
+        $id = $request->id;
+        $skills = DB::table("skills")->where("parent_id",$id)->get();
+        $skills_name = DB::table("skills")->where("id",$id)->first();
+        $skills_array = array();
+        foreach ($skills as $skills1) {
+            $skills_array[] = array("parent_id"=>$id,"parent_name"=>$skills_name->name,"id"=>$skills1->id,"name"=>$skills1->name);
+
+        }
+        //print_r($skills_array);
+        return json_encode($skills_array);
+    }
 }
