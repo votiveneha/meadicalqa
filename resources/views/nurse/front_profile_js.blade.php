@@ -1658,7 +1658,7 @@
             <div class="exp_temporary_${previous_employeers_head}" @if(Auth::guard('nurse_middle')->user()->temporary_status == NULL) style="display: none;" @endif>
             <div class="form-group col-md-12">
                 <label class="form-label" for="input-1">Temporary</label>
-                <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
+                // <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
                 <select class="form-control" name="temporary_status[]">
                 <option value="">Select</option>
                 <option value="Temporary" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Temporary") selected @endif>Temporary</option>
@@ -1678,8 +1678,6 @@
                 <option value="Apprenticeship" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Apprenticeship") selected @endif>Apprenticeship</option>
                 <option value="Residency" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Residency") selected @endif>Residency</option>
                 <option value="Volunteer" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Volunteer") selected @endif>Volunteer</option>
-
-
                 </select>
             </div>
             <span id="reqemployee_status" class="reqError text-danger valley"></span>
@@ -1702,17 +1700,20 @@
             <input type="hidden" name="skills_comp" class="skills_comp" value="@if(!empty($experienceData)) {{ $experienceData->skills_compantancies }}@endif">
             <label class="form-label" for="input-1">Specific skills and competencies</label>
             <?php
-            $skills = DB::table("skills")->get();
+            $skills = DB::table("skills")->where("parent_id", "1")->get();
             ?>
-            <ul id="skills_compantancies" style="display:none;">
+            <ul id="skills_compantancies-${previous_employeers_head}" style="display:none;">
                 @foreach($skills as $cert)
                 <li data-value="{{ $cert->id }}">{{ $cert->name }}</li>
                 @endforeach
 
             </ul>
-            <select class="js-example-basic-multiple${previous_employeers_head} addAll_removeAll_btn" data-list-id="skills_compantancies" name="skills_compantancies[]" multiple="multiple"></select>
+            <select class="js-example-basic-multiple${previous_employeers_head} addAll_removeAll_btn" data-list-id="skills_compantancies-${previous_employeers_head}" name="skills_compantancies[]" multiple="multiple"></select>
             </div>
             <span id="reqexpertise" class="reqError text-danger valley"></span>
+
+            <div class="skills_compantancies_dropdowns-${previous_employeers_head}"></div>
+            
             <div class="form-group level-drp">
             <input type="hidden" name="evidence_type" class="evidence_type" value="@if(!empty($experienceData)) {{ $experienceData->evidence_type }}@endif">
             <label class="form-label" for="input-1">Type of evidence</label>
@@ -1720,7 +1721,6 @@
             $skills = DB::table("skills")->get();
             ?>
             <ul id="type_of_evidence" style="display:none;">
-
                 <li data-value="Statement of Service">Statement of Service</li>
                 <li data-value="Statutory Declaration">Statutory Declaration</li>
                 <li data-value="Award">Award</li>
@@ -1770,6 +1770,8 @@
             var value = $(this).val();
             ExpEmpStatus1(value, previous_employeers_head);
         });
+
+
 
 
         $('.js-example-basic-multiple' + previous_employeers_head).each(function() {
@@ -1937,9 +1939,7 @@
                     }
                 }
 
-
             }
-
 
             if (selectedValues.includes("2") == false) {
                 $('.surgicalobs_row_experience' + previous_employeers_head).addClass('d-none');
@@ -2115,6 +2115,169 @@
                 }
             }
         });
+
+        $('.js-example-basic-multiple' + previous_employeers_head + '[data-list-id="skills_compantancies-' + previous_employeers_head + '"]').on('change', function() {
+            // Get selected values from the main category dropdown
+            let selectedValues = $(this).val();
+
+            // Keep track of existing dropdowns
+            let existingDropdowns = [];
+            $('.skills_compantancies_dropdowns-' + previous_employeers_head + ' .js-example-basic-multiples' + previous_employeers_head).each(function() {
+                existingDropdowns.push($(this).data('list-id'));
+            });
+            alert(existingDropdowns);
+            // Loop through selected values
+            selectedValues.forEach(function(value) {
+
+                // Check if the dropdown for this ID already exists
+                // if (!existingDropdowns.includes(`skills_compantancies-${value}`)) {
+                // Fetch submenu data for new IDs
+                $.ajax({
+                    type: "POST",
+                    url: "{{ url('/nurse') }}/getSkillsData",
+                    data: {
+                        id: value,
+                        _token: "{{ csrf_token() }}"
+                    },
+                    cache: false,
+                    success: function(data) {
+                        var skills = JSON.parse(data);
+                        var skills_data = '';
+                        skills.forEach(function(skill) {
+                            skills_data += '<li data-value="' + skill.id + '">' + skill.name + '</li>';
+                        });
+
+                        // Create submenu HTML
+                        var dropdownHtml = `
+                                <div class="form-group level-drp">
+                                <label class="form-label" for="input-1">${skills[0].parent_name}</label>
+                                <ul id="skills_compantancies-${previous_employeers_head}-${skills[0].parent_id}" style="display:none;">
+                                    ${skills_data}
+                                </ul>
+                                <select class="js-example-basic-multiples${previous_employeers_head} addAll_removeAll_btn" 
+                                        data-list-id="skills_compantancies-${previous_employeers_head}-${skills[0].parent_id}" 
+                                        name="skills_compantancies[]" multiple="multiple">
+                                </select>
+                                </div>
+                            `;
+
+                        // Append the new dropdown
+                        $(".skills_compantancies_dropdowns-" + previous_employeers_head).append(dropdownHtml);
+
+
+                        // Populate the new dropdown with options
+                        let listId1 = `skills_compantancies-${previous_employeers_head}-${skills[0].parent_id}`;
+                        let items1 = [];
+
+                        $('#' + listId1 + ' li').each(function() {
+                            items1.push({
+                                id: $(this).data('value'),
+                                text: $(this).text()
+                            });
+                        });
+
+                        let $newDropdown = $(`[data-list-id="${listId}"]`);
+                        $newDropdown.select2({
+                            data: items1
+                        });
+
+                        // Add select all/remove all functionality
+                        initializeSelect22($newDropdown);
+
+                        $('.js-example-basic-multiples' + previous_employeers_head).each(function() {
+                            let listId12 = $(this).data('list-id');
+                            //alert(listId);
+                            let items12 = [];
+                            console.log("listId1", listId12);
+                            $('#' + listId12 + ' li').each(function() {
+                                console.log("value1", $(this).text());
+                                items12.push({
+                                    id: $(this).data('value'),
+                                    text: $(this).text()
+                                });
+                            });
+                            console.log("items1", items1);
+                            $(this).select2({
+                                data: items12
+                            });
+                        });
+
+                        $('.js-example-basic-multiple' + previous_employeers_head).on('select2:open', function() {
+                            var searchBoxHtml = `
+                            <div class="extra-search-container">
+                            <input type="text" class="extra-search-box" placeholder="Search...">
+                            <button class="clear-button" type="button">&times;</button>
+                            </div>`;
+
+                            if ($('.select2-results').find('.extra-search-container').length === 0) {
+                                $('.select2-results').prepend(searchBoxHtml);
+                            }
+
+                            var $searchBox = $('.extra-search-box');
+                            var $clearButton = $('.clear-button');
+
+                            $searchBox.on('input', function() {
+
+                                var searchTerm = $(this).val().toLowerCase();
+                                $('.select2-results__option').each(function() {
+                                    var text = $(this).text().toLowerCase();
+                                    if (text.includes(searchTerm)) {
+                                        $(this).show();
+                                    } else {
+                                        $(this).hide();
+                                    }
+                                });
+
+                                $clearButton.toggle($searchBox.val().length > 0);
+                            });
+
+                            $clearButton.on('click', function() {
+                                $searchBox.val('');
+                                $searchBox.trigger('input');
+                            });
+                        });
+                    }
+                });
+                // }
+            });
+
+            // Remove dropdowns for deselected IDs
+            if (selectedValues && selectedValues.length > 0) {
+                $('.skills_compantancies_dropdowns .js-example-basic-multiples' + previous_employeers_head).each(function() {
+                    let listId2 = $(this).data('list-id');
+                    let id = listId2.replace('skills_compantancies-', '');
+                    if (!selectedValues.includes(id)) {
+                        $(this).closest('.form-group').remove();
+                    }
+                });
+            }
+        });
+
+        // Function to initialize Select2 for dynamically created select elements
+        function initializeSelect22($dropdown) {
+            $dropdown.on('select2:open', function() {
+                var $currentDropdown = $(this);
+                var searchBoxHtml = `
+                <div class="extra-buttons">
+                    <button class="select-all-button" type="button">Select All</button>
+                    <button class="remove-all-button" type="button">Remove All</button>
+                </div>`;
+
+                // Add select all/remove all buttons
+                $('.select2-results').prepend(searchBoxHtml);
+
+                $('.select-all-button').on('click', function() {
+                    var allValues = $currentDropdown.find('option').map(function() {
+                        return $(this).val();
+                    }).get();
+                    $currentDropdown.val(allValues).trigger('change');
+                });
+
+                $('.remove-all-button').on('click', function() {
+                    $currentDropdown.val(null).trigger('change');
+                });
+            });
+        }
 
 
         $(document).on('click', '.delete-work-experience_' + previous_employeers_head, function() {

@@ -3326,13 +3326,12 @@
                         <input type="hidden" name="skills_comp" class="skills_comp" value="@if(!empty($experienceData)) {{ $experienceData->skills_compantancies }}@endif">
                         <label class="form-label" for="input-1">Specific skills and competencies</label>
                         <?php
-                        $skills = DB::table("skills")->where("parent_id","1")->get();
+                        $skills = DB::table("skills")->where("parent_id", "1")->get();
                         ?>
                         <ul id="skills_compantancies" style="display:none;">
                           @foreach($skills as $cert)
                           <li data-value="{{ $cert->id }}">{{ $cert->name }}</li>
                           @endforeach
-
                         </ul>
                         <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="skills_compantancies" name="skills_compantancies[]" multiple="multiple"></select>
                       </div>
@@ -7215,121 +7214,235 @@ if (!empty($interviewReferenceData)) {
     // }
   });
 
+  // $('.js-example-basic-multiple[data-list-id="skills_compantancies"]').on('change', function() {
+
+  //   let selectedValues = $(this).val();
+
+  //   $('.skills_compantancies_dropdowns').empty();
+  //   console.log("skills_data", selectedValues);
+  //   for (var i = 0; i < selectedValues.length; i++) {
+
+  //     $.ajax({
+  //       type: "POST",
+  //       url: "{{ url('/nurse') }}/getSkillsData",
+  //       data: {
+  //         id: selectedValues[i],
+  //         _token: "{{ csrf_token() }}"
+  //       },
+  //       cache: false,
+  //       success: function(data) {
+
+  //         var skills = JSON.parse(data);
+  //         console.log("selectedValues", skills[0].parent_id);
+  //         var skills_data = '';
+  //         for (var j = 0; j < skills.length; j++) {
+  //           skills_data += '<li data-value="' + skills[j]['id'] + '">' + skills[j]['name'] + '</li>';
+  //         }
+  //         console.log("skills_data", skills_data);
+  //         $(".skills_compantancies_dropdowns").append('<div class="form-group level-drp" ><label class="form-label" for="input-1">' + skills[0].parent_name + '</label><ul id="skills_compantancies-' + skills[0].parent_id + '" style="display:none;">' + skills_data + '</ul><select class="js-example-basic-multiple1 addAll_removeAll_btn" data-list-id="skills_compantancies-' + skills[0].parent_id + '" name="skills_compantancies[]" multiple="multiple"></select></div>');
+
+  //         $('.addAll_removeAll_btn').on('select2:open', function() {
+  //           var $dropdown = $(this);
+  //           var searchBoxHtml = `
+
+  //                   <div class="extra-buttons">
+  //                       <button class="select-all-button" type="button">Select All</button>
+  //                       <button class="remove-all-button" type="button">Remove All</button>
+  //                   </div>`;
+
+  //           // Remove any existing extra buttons before adding new ones
+  //           $('.select2-results .extra-search-container').remove();
+  //           $('.select2-results .extra-buttons').remove();
+
+  //           // Append the new extra buttons and search box
+  //           $('.select2-results').prepend(searchBoxHtml);
+
+  //           // Handle Select All button for the current dropdown
+  //           $('.select-all-button').on('click', function() {
+  //             var $currentDropdown = $dropdown;
+  //             var allValues = $currentDropdown.find('option').map(function() {
+  //               return $(this).val();
+  //             }).get();
+  //             $currentDropdown.val(allValues).trigger('change');
+  //           });
+
+  //           // Handle Remove All button for the current dropdown
+  //           $('.remove-all-button').on('click', function() {
+  //             var $currentDropdown = $dropdown;
+  //             $currentDropdown.val(null).trigger('change');
+  //           });
+  //         });
+
+  //         $('.js-example-basic-multiple1').on('select2:open', function() {
+  //           var searchBoxHtml = `
+  //                   <div class="extra-search-container">
+  //                       <input type="text" class="extra-search-box" placeholder="Search...">
+  //                       <button class="clear-button" type="button">&times;</button>
+  //                   </div>`;
+
+  //           if ($('.select2-results').find('.extra-search-container').length === 0) {
+  //             $('.select2-results').prepend(searchBoxHtml);
+  //           }
+
+  //           var $searchBox = $('.extra-search-box');
+  //           var $clearButton = $('.clear-button');
+
+  //           $searchBox.on('input', function() {
+
+  //             var searchTerm = $(this).val().toLowerCase();
+  //             $('.select2-results__option').each(function() {
+  //               var text = $(this).text().toLowerCase();
+  //               if (text.includes(searchTerm)) {
+  //                 $(this).show();
+  //               } else {
+  //                 $(this).hide();
+  //               }
+  //             });
+
+  //             $clearButton.toggle($searchBox.val().length > 0);
+  //           });
+
+  //           $clearButton.on('click', function() {
+  //             $searchBox.val('');
+  //             $searchBox.trigger('input');
+  //           });
+  //         });
+
+  //         $('.js-example-basic-multiple1').each(function() {
+  //           let listId = $(this).data('list-id');
+  //           //alert(listId);
+  //           let items = [];
+  //           console.log("listId1", listId);
+  //           $('#' + listId + ' li').each(function() {
+  //             console.log("value1", $(this).text());
+  //             items.push({
+  //               id: $(this).data('value'),
+  //               text: $(this).text()
+  //             });
+  //           });
+  //           console.log("items1", items);
+  //           $(this).select2({
+  //             data: items
+  //           });
+
+  //           //$("#type-of-nurse").select2({'val': 3});
+
+  //         });
+
+  //       }
+  //     });
+
+  //   }
+
+  // });
+
   $('.js-example-basic-multiple[data-list-id="skills_compantancies"]').on('change', function() {
-      
-      let selectedValues = $(this).val();
-      
-      $('.skills_compantancies_dropdowns').empty();
-      console.log("skills_data",selectedValues);
-      for(var i = 0;i<selectedValues.length;i++){
-          
-          $.ajax({
-            type: "POST",
-            url: "{{ url('/nurse') }}/getSkillsData",
-            data: {id:selectedValues[i],_token:"{{ csrf_token() }}"},
-            cache: false,
-            success: function(data){
-              
-              var skills = JSON.parse(data);
-              console.log("selectedValues",skills[0].parent_id);
-              var skills_data = '';
-              for(var j = 0;j<skills.length;j++){
-                skills_data += '<li data-value="'+skills[j]['id']+'">'+skills[j]['name']+'</li>';
-              }
-              console.log("skills_data",skills_data);
-              $(".skills_compantancies_dropdowns").append('<div class="form-group level-drp" ><label class="form-label" for="input-1">'+skills[0].parent_name+'</label><ul id="skills_compantancies-'+skills[0].parent_id+'" style="display:none;">'+skills_data+'</ul><select class="js-example-basic-multiple1 addAll_removeAll_btn" data-list-id="skills_compantancies-'+skills[0].parent_id+'" name="skills_compantancies[]" multiple="multiple"></select></div>');
+    // Get selected values from the main category dropdown
+    let selectedValues = $(this).val();
 
-              $('.addAll_removeAll_btn').on('select2:open', function() {
-                var $dropdown = $(this);
-                var searchBoxHtml = `
-                    
-                    <div class="extra-buttons">
-                        <button class="select-all-button" type="button">Select All</button>
-                        <button class="remove-all-button" type="button">Remove All</button>
-                    </div>`;
-
-                // Remove any existing extra buttons before adding new ones
-                $('.select2-results .extra-search-container').remove();
-                $('.select2-results .extra-buttons').remove();
-
-                // Append the new extra buttons and search box
-                $('.select2-results').prepend(searchBoxHtml);
-
-                // Handle Select All button for the current dropdown
-                $('.select-all-button').on('click', function() {
-                    var $currentDropdown = $dropdown;
-                    var allValues = $currentDropdown.find('option').map(function() {
-                        return $(this).val();
-                    }).get();
-                    $currentDropdown.val(allValues).trigger('change');
-                });
-
-                // Handle Remove All button for the current dropdown
-                $('.remove-all-button').on('click', function() {
-                    var $currentDropdown = $dropdown;
-                    $currentDropdown.val(null).trigger('change');
-                });
-            });
-
-              $('.js-example-basic-multiple1').on('select2:open', function() {
-                var searchBoxHtml = `
-                    <div class="extra-search-container">
-                        <input type="text" class="extra-search-box" placeholder="Search...">
-                        <button class="clear-button" type="button">&times;</button>
-                    </div>`;
-                
-                    if ($('.select2-results').find('.extra-search-container').length === 0) {
-                        $('.select2-results').prepend(searchBoxHtml);
-                    }
-
-                    var $searchBox = $('.extra-search-box');
-                    var $clearButton = $('.clear-button');
-
-                    $searchBox.on('input', function() {
-
-                        var searchTerm = $(this).val().toLowerCase();
-                        $('.select2-results__option').each(function() {
-                            var text = $(this).text().toLowerCase();
-                            if (text.includes(searchTerm)) {
-                                $(this).show();
-                            } else {
-                                $(this).hide();
-                            }
-                        });
-
-                        $clearButton.toggle($searchBox.val().length > 0);
-                    });
-
-                    $clearButton.on('click', function() {
-                        $searchBox.val('');
-                        $searchBox.trigger('input');
-                    });
-                });
-
-              $('.js-example-basic-multiple1').each(function() {
-                let listId = $(this).data('list-id');
-                //alert(listId);
-                let items = [];
-                console.log("listId1",listId);
-                $('#' + listId + ' li').each(function() {
-                    console.log("value1",$(this).text());
-                    items.push({ id: $(this).data('value'), text: $(this).text() });
-                });
-                console.log("items1",items);
-                $(this).select2({
-                    data: items
-                });
-
-                  //$("#type-of-nurse").select2({'val': 3});
-                  
-            });
-
-            }
-          });
-          
-      }
-
+    // Keep track of existing dropdowns
+    let existingDropdowns = [];
+    $('.skills_compantancies_dropdowns .js-example-basic-multiple1').each(function() {
+      existingDropdowns.push($(this).data('list-id'));
     });
+
+    // Loop through selected values
+    selectedValues.forEach(function(value) {
+      // Check if the dropdown for this ID already exists
+      if (!existingDropdowns.includes(`skills_compantancies-${value}`)) {
+        // Fetch submenu data for new IDs
+        $.ajax({
+          type: "POST",
+          url: "{{ url('/nurse') }}/getSkillsData",
+          data: {
+            id: value,
+            _token: "{{ csrf_token() }}"
+          },
+          cache: false,
+          success: function(data) {
+            var skills = JSON.parse(data);
+            var skills_data = '';
+            skills.forEach(function(skill) {
+              skills_data += '<li data-value="' + skill.id + '">' + skill.name + '</li>';
+            });
+
+            // Create submenu HTML
+            var dropdownHtml = `
+            <div class="form-group level-drp">
+              <label class="form-label" for="input-1">${skills[0].parent_name}</label>
+              <ul id="skills_compantancies-${skills[0].parent_id}" style="display:none;">
+                ${skills_data}
+              </ul>
+              <select class="js-example-basic-multiple1 addAll_removeAll_btn" 
+                      data-list-id="skills_compantancies-${skills[0].parent_id}" 
+                      name="skills_compantancies[]" multiple="multiple">
+              </select>
+            </div>
+          `;
+
+            // Append the new dropdown
+            $(".skills_compantancies_dropdowns").append(dropdownHtml);
+
+            // Populate the new dropdown with options
+            let listId = `skills_compantancies-${skills[0].parent_id}`;
+            let items = [];
+
+            $('#' + listId + ' li').each(function() {
+              items.push({
+                id: $(this).data('value'),
+                text: $(this).text()
+              });
+            });
+
+            let $newDropdown = $(`[data-list-id="${listId}"]`);
+            $newDropdown.select2({
+              data: items
+            });
+
+            // Add select all/remove all functionality
+            initializeSelect2($newDropdown);
+          }
+        });
+      }
+    });
+
+    // Remove dropdowns for deselected IDs
+    if (selectedValues && selectedValues.length > 0) {
+      $('.skills_compantancies_dropdowns .js-example-basic-multiple1').each(function() {
+        let listId = $(this).data('list-id');
+        let id = listId.replace('skills_compantancies-', '');
+        if (!selectedValues.includes(id)) {
+          $(this).closest('.form-group').remove();
+        }
+      });
+    }
+  });
+
+  // Function to initialize Select2 for dynamically created select elements
+  function initializeSelect2($dropdown) {
+    $dropdown.on('select2:open', function() {
+      var $currentDropdown = $(this);
+      var searchBoxHtml = `
+      <div class="extra-buttons">
+        <button class="select-all-button" type="button">Select All</button>
+        <button class="remove-all-button" type="button">Remove All</button>
+      </div>`;
+
+      // Add select all/remove all buttons
+      $('.select2-results').prepend(searchBoxHtml);
+
+      $('.select-all-button').on('click', function() {
+        var allValues = $currentDropdown.find('option').map(function() {
+          return $(this).val();
+        }).get();
+        $currentDropdown.val(allValues).trigger('change');
+      });
+
+      $('.remove-all-button').on('click', function() {
+        $currentDropdown.val(null).trigger('change');
+      });
+    });
+  }
 
   $('.js-example-basic-multiple[data-list-id="type-of-nurse-experience"]').on('change', function() {
 
