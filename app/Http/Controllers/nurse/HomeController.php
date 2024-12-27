@@ -1805,106 +1805,185 @@ class HomeController extends Controller
         echo json_encode($json);
     }
 
+    // public function updateExperience(Request $request)
+    // {
+    //     echo "<pre>";
+    //     print_r($request->all());
+    //     die;
+    //     $year_experience = $request->assistent_level;
+    //     $user_id = $request->user_id;
+    //     $previous_employer_name = $request->previous_employer_name;
+    //     $positions_held = json_encode($request->positions_held);
+    //     $start_date = $request->start_date;
+    //     $end_date = $request->end_date;
+    //     $present_box = $request->present_box;
+    //     $job_responeblities = $request->job_responeblities;
+    //     $achievements = $request->achievements;
+    //     $employeement_type = $request->employeement_type;
+    //     $skills_compantancies = json_encode($request->skills_compantancies);
+    //     $type_of_evidence = json_encode($request->type_of_evidence);
+    //     $i = 0;
+    //     $work_experience_array = array();
+    //     foreach ($previous_employer_name as $pname) {
+    //         $previous_employer_name1 = $pname;
+    //         $positions_held1 = $positions_held[$i];
+    //         $start_date1 = $start_date[$i];
+    //         $end_date1 = $end_date[$i];
+
+    //         if (isset($present_box[$i])) {
+    //             $p_box = 1;
+    //         } else {
+    //             $p_box = 0;
+    //         }
+    //         $employeement_type1 = $employeement_type[$i];
+    //         $job_responeblities1 = $job_responeblities[$i];
+    //         $achievements1 = $achievements[$i];
+
+    //         $work_experience_array[] = array("previous_employer_name1" => $previous_employer_name1, "positions_held1" => $positions_held1, "start_date1" => $start_date1, "end_date1" => $end_date1, "present_box1" => $p_box, "employeement_type1" => $employeement_type1, "job_responeblities1" => $job_responeblities1, "achievements1" => $achievements1);
+    //         $i++;
+    //     }
+
+    //     if (!empty($work_experience_array)) {
+    //         $work_experience_json = json_encode($work_experience_array);
+    //     } else {
+    //         $work_experience_json = '';
+    //     }
+
+    //     $file = $request->file('upload_evidence');
+
+
+
+    //     //$post = User::find($request->user_id);
+
+    //     if (!empty($file)) {
+    //         $destinationPath = public_path() . '/uploads/evidence';
+
+    //         $file->move($destinationPath, time() . $file->getClientOriginalName());
+    //         $upload_evidence = time() . $file->getClientOriginalName();
+    //     } else {
+    //         $upload_evidence = $getedudata->upload_evidence;
+    //     }
+
+
+    //     $getexperiencedata = DB::table("user_experience")->where("user_id", $user_id)->first();
+    //     //$post = User::find($request->user_id);
+
+    //     if (!empty($getexperiencedata) > 0) {
+    //         $post1 = User::find($user_id);
+    //         $post1->assistent_level = $year_experience;
+    //         $post1->save();
+
+    //         $run = ExperienceModel::where('user_id', $user_id)->update(['work_experience' => $work_experience_json, 'upload_evidence' => $upload_evidence, 'evidence_type' => $type_of_evidence, 'skills_compantancies' => $skills_compantancies, 'complete_status' => 1]);
+    //     } else {
+
+
+
+    //         $post = new ExperienceModel();
+    //         $post->user_id = $user_id;
+
+    //         //$post->year_experience = $year_experience;
+    //         $post->work_experience = $work_experience_json;
+    //         $post->skills_compantancies = $skills_compantancies;
+    //         $post->upload_evidence = $upload_evidence;
+    //         $post->evidence_type = $type_of_evidence;
+    //         $post->complete_status = 1;
+    //         $run = $post->save();
+
+    //         $post1 = User::find($user_id);
+    //         $post1->assistent_level = $year_experience;
+    //         $post1->save();
+    //     }
+
+    //     if ($run) {
+    //         $json['status'] = 1;
+    //         $json['url'] = url('nurse/my-profile');
+    //         $json['message'] = 'Education Information Updated Successfully';
+    //     } else {
+    //         $json['status'] = 0;
+    //         $json['message'] = 'Please Try Again';
+    //     }
+
+    //     echo json_encode($json);
+    // }
     public function updateExperience(Request $request)
     {
-        echo "<pre>";
-        print_r($request->all());
-        die;
-        $year_experience = $request->assistent_level;
-        $user_id = $request->user_id;
-        $previous_employer_name = $request->previous_employer_name;
-        $positions_held = json_encode($request->positions_held);
-        $start_date = $request->start_date;
-        $end_date = $request->end_date;
-        $present_box = $request->present_box;
-        $job_responeblities = $request->job_responeblities;
-        $achievements = $request->achievements;
-        $employeement_type = $request->employeement_type;
-        $skills_compantancies = json_encode($request->skills_compantancies);
-        $type_of_evidence = json_encode($request->type_of_evidence);
-        $i = 0;
-        $work_experience_array = array();
-        foreach ($previous_employer_name as $pname) {
-            $previous_employer_name1 = $pname;
-            $positions_held1 = $positions_held[$i];
-            $start_date1 = $start_date[$i];
-            $end_date1 = $end_date[$i];
+        // Retrieve input data
+        $nurseTypes = $request->input('nurseType', []);
+        $nursingType1 = $request->input('nursing_type_1', []);
+        $nursingType2 = $request->input('nursing_type_2', []);
+        $nursingType3 = $request->input('nursing_type_3', []);
+        $nurse_practitioner_menu = $request->input('nurse_practitioner_menu', []);
+        $specialties =  $request->input('specialties_experience', []);
 
-            if (isset($present_box[$i])) {
-                $p_box = 1;
-            } else {
-                $p_box = 0;
-            }
-            $employeement_type1 = $employeement_type[$i];
-            $job_responeblities1 = $job_responeblities[$i];
-            $achievements1 = $achievements[$i];
+        $speciality_entry_1 = $request->input('speciality_entry_experience_1', []);
+        $speciality_entry_2 = $request->input('speciality_entry_experience_2', []);
+        $speciality_entry_3 = $request->input('speciality_entry_experience_3', []);
+        $speciality_entry_4 = $request->input('speciality_entry_experience_4', []);
 
-            $work_experience_array[] = array("previous_employer_name1" => $previous_employer_name1, "positions_held1" => $positions_held1, "start_date1" => $start_date1, "end_date1" => $end_date1, "present_box1" => $p_box, "employeement_type1" => $employeement_type1, "job_responeblities1" => $job_responeblities1, "achievements1" => $achievements1);
-            $i++;
+        // $surgical_row_box = json_encode($request->surgical_row_box);
+        // $surgical_obs_care = json_encode($request->surgical_obs_care);
+        // $surgical_operative_care_1 = json_encode($request->surgical_operative_care_1);
+        // $surgical_operative_care_2 = json_encode($request->surgical_operative_care_2);
+        // $surgical_operative_care_3 = json_encode($request->surgical_operative_care_3);
+        // $neonatal_care = json_encode($request->neonatal_care);
+        // $surgical_rowpad_box = json_encode($request->surgical_rowpad_box);
+        // $surgical_operative_carep_1 = json_encode($request->surgical_operative_carep_1);
+        // $surgical_operative_carep_2 = json_encode($request->surgical_operative_carep_2);
+        // $surgical_operative_carep_3 = json_encode($request->surgical_operative_carep_3);
+
+        // die;
+        $userId = $request->input('user_id');
+
+        // Loop through nurse types and process them
+        foreach ($nurseTypes as $key => $nurseType) {
+            $entryLevel = $nursingType1[$key] ?? null;
+            $registered = $nursingType2[$key] ?? null;
+            $advanced = $nursingType3[$key] ?? null;
+            $specialties1 = $specialties[$key] ?? null;
+            $speciality_entry_adult = $speciality_entry_1[$key] ?? null;
+            $speciality_entry_maternity = $speciality_entry_2[$key] ?? null;
+            $speciality_entry_paediatrics = $speciality_entry_3[$key] ?? null;
+            $speciality_entry_community = $speciality_entry_4[$key] ?? null;
+
+
+            // Check if a record exists for this user and nurse type
+            // $existingExperience = DB::table('user_experience')
+            //     ->where('user_id', $userId)
+            //     ->where('nurseType', json_encode([$nurseType]))
+            //     ->first();
+
+            // if ($existingExperience) {
+            //     // Update existing record
+            //     DB::table('user_experience')
+            //         ->where('id', $existingExperience->id)
+            //         ->update([
+            //             'entry_level_nursing' => json_encode($entryLevel),
+            //             'registered_nurses' => json_encode($registered),
+            //             'advanced_practioner' => json_encode($advanced),
+            //             'updated_at' => now(),
+            //         ]);
+            // } else {
+            // Insert new record
+            $newExperience = new ExperienceModel();
+            $newExperience->user_id = $userId;
+            $newExperience->nurseType = json_encode($nurseType);
+            $newExperience->entry_level_nursing = json_encode($entryLevel);
+            $newExperience->registered_nurses = json_encode($registered);
+            $newExperience->advanced_practioner = json_encode($advanced);
+            $newExperience->nurse_prac = json_encode($nurse_practitioner_menu);
+            $newExperience->specialties = json_encode($specialties1);
+            $newExperience->adults = json_encode($speciality_entry_adult);
+            $newExperience->maternity = json_encode($speciality_entry_maternity);
+            $newExperience->paediatrics_neonatal = json_encode($speciality_entry_paediatrics);
+            $newExperience->community = json_encode($speciality_entry_community);
+            print_r($newExperience);
+            // $newExperience->save();
+            // }
         }
 
-        if (!empty($work_experience_array)) {
-            $work_experience_json = json_encode($work_experience_array);
-        } else {
-            $work_experience_json = '';
-        }
-
-        $file = $request->file('upload_evidence');
-
-
-
-        //$post = User::find($request->user_id);
-
-        if (!empty($file)) {
-            $destinationPath = public_path() . '/uploads/evidence';
-
-            $file->move($destinationPath, time() . $file->getClientOriginalName());
-            $upload_evidence = time() . $file->getClientOriginalName();
-        } else {
-            $upload_evidence = $getedudata->upload_evidence;
-        }
-
-
-        $getexperiencedata = DB::table("user_experience")->where("user_id", $user_id)->first();
-        //$post = User::find($request->user_id);
-
-        if (!empty($getexperiencedata) > 0) {
-            $post1 = User::find($user_id);
-            $post1->assistent_level = $year_experience;
-            $post1->save();
-
-            $run = ExperienceModel::where('user_id', $user_id)->update(['work_experience' => $work_experience_json, 'upload_evidence' => $upload_evidence, 'evidence_type' => $type_of_evidence, 'skills_compantancies' => $skills_compantancies, 'complete_status' => 1]);
-        } else {
-
-
-
-            $post = new ExperienceModel();
-            $post->user_id = $user_id;
-
-            //$post->year_experience = $year_experience;
-            $post->work_experience = $work_experience_json;
-            $post->skills_compantancies = $skills_compantancies;
-            $post->upload_evidence = $upload_evidence;
-            $post->evidence_type = $type_of_evidence;
-            $post->complete_status = 1;
-            $run = $post->save();
-
-            $post1 = User::find($user_id);
-            $post1->assistent_level = $year_experience;
-            $post1->save();
-        }
-
-        if ($run) {
-            $json['status'] = 1;
-            $json['url'] = url('nurse/my-profile');
-            $json['message'] = 'Education Information Updated Successfully';
-        } else {
-            $json['status'] = 0;
-            $json['message'] = 'Please Try Again';
-        }
-
-        echo json_encode($json);
+        return response()->json(['message' => 'Experience processed successfully']);
     }
+
 
     public function updateReference(Request $request)
     {
@@ -3227,14 +3306,14 @@ class HomeController extends Controller
         //print_r($gettransimg);
     }
 
-    public function getSkillsData(Request $request){
+    public function getSkillsData(Request $request)
+    {
         $id = $request->id;
-        $skills = DB::table("skills")->where("parent_id",$id)->get();
-        $skills_name = DB::table("skills")->where("id",$id)->first();
+        $skills = DB::table("skills")->where("parent_id", $id)->get();
+        $skills_name = DB::table("skills")->where("id", $id)->first();
         $skills_array = array();
         foreach ($skills as $skills1) {
-            $skills_array[] = array("parent_id"=>$id,"parent_name"=>$skills_name->name,"id"=>$skills1->id,"name"=>$skills1->name);
-
+            $skills_array[] = array("parent_id" => $id, "parent_name" => $skills_name->name, "id" => $skills1->id, "name" => $skills1->name);
         }
         //print_r($skills_array);
         return json_encode($skills_array);

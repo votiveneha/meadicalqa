@@ -2984,7 +2984,7 @@
                                 @endforeach
 
                               </ul>
-                              <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="nursing_entry_experience-{{ $i }}" name="nursing_type_{{ $i }}[]" multiple="multiple"></select>
+                              <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="nursing_entry_experience-{{ $i }}" name="nursing_type_{{ $i }}[1][]" multiple="multiple"></select>
                             </div>
                             <?php
                             $i++;
@@ -3008,7 +3008,7 @@
                             @endforeach
 
                           </ul>
-                          <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="nurse_practitioner_menu_experience" name="nurse_practitioner_menu_experience[]" multiple="multiple"></select>
+                          <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="nurse_practitioner_menu_experience" name="nurse_practitioner_menu_experience[1][]" multiple="multiple"></select>
 
                         </div>
 
@@ -3030,7 +3030,7 @@
                             @endforeach
 
                           </ul>
-                          <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="specialties_experience" name="specialties_experience[]" multiple="multiple"></select>
+                          <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="specialties_experience" name="specialties_experience[1][]" multiple="multiple"></select>
                         </div>
                         <span id="reqspecialties" class="reqError text-danger valley"></span>
                       </div>
@@ -3051,7 +3051,7 @@
 
                             @endforeach
                           </ul>
-                          <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="speciality_entry_experience-{{ $l }}" name="speciality_entry_experience_{{ $l }}[]" multiple="multiple"></select>
+                          <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="speciality_entry_experience-{{ $l }}" name="speciality_entry_experience_{{ $l }}[1][]" multiple="multiple"></select>
 
                         </div>
                         <?php
@@ -3362,6 +3362,10 @@
                         <img src="{{ url('/public/uploads/evidence') }}/{{ $experienceData->upload_evidence }}" style="width:100px;">
                         @endif
                         <!-- <span id="reqachievements" class="reqError text-danger valley"></span> -->
+                      </div>
+                      <div class="declaration_box">
+                        <input type="checkbox" name="exp_declare_information" class="exp_declare_information" value="1">
+                        <label for="declare_information">I declare that the information provided is true and correct</label>
                       </div>
                     </div>
                     <div class="add_new_certification_div awe mb-3 mt-4">

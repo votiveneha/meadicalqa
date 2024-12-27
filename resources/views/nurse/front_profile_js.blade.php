@@ -1335,7 +1335,7 @@
 
         previous_employeers_head++;
         $(".previous_employeers").append(`
-             <div class="work_exp_${previous_employeers_head}">
+            <div class="work_exp_${previous_employeers_head}">
             <h6 class="emergency_text previous_employeers_head">Work Experience ${previous_employeers_head}</h6>
             <div class="form-group drp--clr">
                 <label class="form-label" for="input-1">Type of Nurse?</label>
@@ -1352,9 +1352,7 @@
                 $j++;
                 ?>
                 @endforeach
-
                 </ul>
-
                 <select class="js-example-basic-multiple${previous_employeers_head} addAll_removeAll_btn" data-list-id="type-of-nurse-experience-${previous_employeers_head}" name="nurseType[${previous_employeers_head}][]" id="nurse_type_experience" multiple="multiple"></select>
             </div>
             <div class="result--show">
@@ -1375,11 +1373,9 @@
                         <ul id="nursing_entry_experience-${previous_employeers_head}-{{ $i }}" style="display:none;">
                         @foreach($nursing_data as $nd)
                         <li data-value="{{ $nd->id }}">{{ $nd->name }}</li>
-
                         @endforeach
-
                         </ul>
-                        <select class="js-example-basic-multiple${previous_employeers_head} addAll_removeAll_btn" data-list-id="nursing_entry_experience-${previous_employeers_head}-{{ $i }}" name="nursing_type_{{ $i }}[]" multiple="multiple"></select>
+                        <select class="js-example-basic-multiple${previous_employeers_head} addAll_removeAll_btn" data-list-id="nursing_entry_experience-${previous_employeers_head}-{{ $i }}" name="nursing_type_{{ $i }}[${previous_employeers_head}][]" multiple="multiple"></select>
                     </div>
                     <?php
                     $i++;
@@ -1400,7 +1396,7 @@
                     <li data-value="{{ $nd->id }}">{{ $nd->name }}</li>
                     @endforeach
                     </ul>
-                    <select class="js-example-basic-multiple${previous_employeers_head} addAll_removeAll_btn" data-list-id="nurse_practitioner_menu_experience-${previous_employeers_head}" name="nurse_practitioner_menu_experience[]" multiple="multiple"></select>
+                    <select class="js-example-basic-multiple${previous_employeers_head} addAll_removeAll_btn" data-list-id="nurse_practitioner_menu_experience-${previous_employeers_head}" name="nurse_practitioner_menu_experience[${previous_employeers_head}][]" multiple="multiple"></select>
                 </div>
             </div>
             <div class="condition_set">
@@ -1419,7 +1415,7 @@
                         ?>
                         @endforeach
                     </ul>
-                    <select class="js-example-basic-multiple${previous_employeers_head} addAll_removeAll_btn" data-list-id="specialties_experience-${previous_employeers_head}" name="specialties_experience[]" multiple="multiple"></select>
+                    <select class="js-example-basic-multiple${previous_employeers_head} addAll_removeAll_btn" data-list-id="specialties_experience-${previous_employeers_head}" name="specialties_experience[${previous_employeers_head}][]" multiple="multiple"></select>
                 </div>
                 <span id="reqspecialties" class="reqError text-danger valley"></span>
             </div>
@@ -1440,7 +1436,7 @@
 
                     @endforeach
                     </ul>
-                    <select class="js-example-basic-multiple${previous_employeers_head} addAll_removeAll_btn" data-list-id="speciality_entry_experience-${previous_employeers_head}-{{ $l }}" name="speciality_entry_experience_{{ $l }}[]" multiple="multiple"></select>
+                    <select class="js-example-basic-multiple${previous_employeers_head} addAll_removeAll_btn" data-list-id="speciality_entry_experience-${previous_employeers_head}-{{ $l }}" name="speciality_entry_experience_{{ $l }}[${previous_employeers_head}][]" multiple="multiple"></select>
 
                 </div>
                 <?php
@@ -1658,7 +1654,7 @@
             <div class="exp_temporary_${previous_employeers_head}" @if(Auth::guard('nurse_middle')->user()->temporary_status == NULL) style="display: none;" @endif>
             <div class="form-group col-md-12">
                 <label class="form-label" for="input-1">Temporary</label>
-                // <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
+               
                 <select class="form-control" name="temporary_status[]">
                 <option value="">Select</option>
                 <option value="Temporary" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Temporary") selected @endif>Temporary</option>
@@ -2122,123 +2118,71 @@
 
             // Keep track of existing dropdowns
             let existingDropdowns = [];
-            $('.skills_compantancies_dropdowns-' + previous_employeers_head + ' .js-example-basic-multiples' + previous_employeers_head).each(function() {
+            $('.skills_compantancies_dropdowns-' + previous_employeers_head + ' .js-example-basic-multiple' + previous_employeers_head).each(function() {
                 existingDropdowns.push($(this).data('list-id'));
             });
-            alert(existingDropdowns);
+
             // Loop through selected values
             selectedValues.forEach(function(value) {
-
                 // Check if the dropdown for this ID already exists
-                // if (!existingDropdowns.includes(`skills_compantancies-${value}`)) {
-                // Fetch submenu data for new IDs
-                $.ajax({
-                    type: "POST",
-                    url: "{{ url('/nurse') }}/getSkillsData",
-                    data: {
-                        id: value,
-                        _token: "{{ csrf_token() }}"
-                    },
-                    cache: false,
-                    success: function(data) {
-                        var skills = JSON.parse(data);
-                        var skills_data = '';
-                        skills.forEach(function(skill) {
-                            skills_data += '<li data-value="' + skill.id + '">' + skill.name + '</li>';
-                        });
+                if (!existingDropdowns.includes(`skills_compantancies-${previous_employeers_head}-${value}`)) {
+                    // Fetch submenu data for new IDs
+                    $.ajax({
+                        type: "POST",
+                        url: "{{ url('/nurse') }}/getSkillsData",
+                        data: {
+                            id: value,
+                            _token: "{{ csrf_token() }}"
+                        },
+                        cache: false,
+                        success: function(data) {
+                            var skills = JSON.parse(data);
+                            var skills_data = '';
+                            skills.forEach(function(skill) {
+                                skills_data += '<li data-value="' + skill.id + '">' + skill.name + '</li>';
+                            });
 
-                        // Create submenu HTML
-                        var dropdownHtml = `
+                            // Create submenu HTML
+                            var dropdownHtml = `
                                 <div class="form-group level-drp">
                                 <label class="form-label" for="input-1">${skills[0].parent_name}</label>
                                 <ul id="skills_compantancies-${previous_employeers_head}-${skills[0].parent_id}" style="display:none;">
                                     ${skills_data}
                                 </ul>
-                                <select class="js-example-basic-multiples${previous_employeers_head} addAll_removeAll_btn" 
+                                <select class="js-example-basic-multiple${previous_employeers_head} addAll_removeAll_btn" 
                                         data-list-id="skills_compantancies-${previous_employeers_head}-${skills[0].parent_id}" 
                                         name="skills_compantancies[]" multiple="multiple">
                                 </select>
                                 </div>
                             `;
 
-                        // Append the new dropdown
-                        $(".skills_compantancies_dropdowns-" + previous_employeers_head).append(dropdownHtml);
+                            // Append the new dropdown
+                            $(".skills_compantancies_dropdowns-" + previous_employeers_head).append(dropdownHtml);
 
 
-                        // Populate the new dropdown with options
-                        let listId1 = `skills_compantancies-${previous_employeers_head}-${skills[0].parent_id}`;
-                        let items1 = [];
+                            // Populate the new dropdown with options
+                            let listId1 = `skills_compantancies-${previous_employeers_head}-${skills[0].parent_id}`;
+                            let items1 = [];
 
-                        $('#' + listId1 + ' li').each(function() {
-                            items1.push({
-                                id: $(this).data('value'),
-                                text: $(this).text()
-                            });
-                        });
-
-                        let $newDropdown = $(`[data-list-id="${listId}"]`);
-                        $newDropdown.select2({
-                            data: items1
-                        });
-
-                        // Add select all/remove all functionality
-                        initializeSelect22($newDropdown);
-
-                        $('.js-example-basic-multiples' + previous_employeers_head).each(function() {
-                            let listId12 = $(this).data('list-id');
-                            //alert(listId);
-                            let items12 = [];
-                            console.log("listId1", listId12);
-                            $('#' + listId12 + ' li').each(function() {
-                                console.log("value1", $(this).text());
-                                items12.push({
+                            $('#' + listId1 + ' li').each(function() {
+                                items1.push({
                                     id: $(this).data('value'),
                                     text: $(this).text()
                                 });
                             });
-                            console.log("items1", items1);
-                            $(this).select2({
-                                data: items12
-                            });
-                        });
 
-                        $('.js-example-basic-multiple' + previous_employeers_head).on('select2:open', function() {
-                            var searchBoxHtml = `
-                            <div class="extra-search-container">
-                            <input type="text" class="extra-search-box" placeholder="Search...">
-                            <button class="clear-button" type="button">&times;</button>
-                            </div>`;
-
-                            if ($('.select2-results').find('.extra-search-container').length === 0) {
-                                $('.select2-results').prepend(searchBoxHtml);
-                            }
-
-                            var $searchBox = $('.extra-search-box');
-                            var $clearButton = $('.clear-button');
-
-                            $searchBox.on('input', function() {
-
-                                var searchTerm = $(this).val().toLowerCase();
-                                $('.select2-results__option').each(function() {
-                                    var text = $(this).text().toLowerCase();
-                                    if (text.includes(searchTerm)) {
-                                        $(this).show();
-                                    } else {
-                                        $(this).hide();
-                                    }
-                                });
-
-                                $clearButton.toggle($searchBox.val().length > 0);
+                            let $newDropdown = $(`[data-list-id="${listId1}"]`);
+                            $newDropdown.select2({
+                                data: items1
                             });
 
-                            $clearButton.on('click', function() {
-                                $searchBox.val('');
-                                $searchBox.trigger('input');
-                            });
-                        });
-                    }
-                });
-                // }
+
+
+                            // Add select all/remove all functionality
+                            initializeSelect22($newDropdown);
+                        }
+                    });
+                }
             });
 
             // Remove dropdowns for deselected IDs
