@@ -683,7 +683,7 @@
                           <li data-value="{{ $sssd->id }}">{{ $sssd->name }}</li>
                           @endforeach
                         </ul>
-                        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_operative_care-{{ $w }}" name="surgical_operative_care_{{ $w }}[]" multiple="multiple"></select>
+                        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_operative_care-{{ $w }}" name="surgical_operative_care{{ $w }}[]" multiple="multiple"></select>
                       </div>
                       <?php
                       $w++;
@@ -3073,7 +3073,7 @@
                             <li data-value="{{ $ssrd->id }}">{{ $ssrd->name }}</li>
                             @endforeach
                           </ul>
-                          <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_row_box_experience" name="surgical_row_box_experience[]" multiple="multiple"></select>
+                          <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_row_box_experience" name="surgical_row_box_experience[1][]" multiple="multiple"></select>
                         </div>
                       </div>
                       <div class="paediatric_surgical_div_experience">
@@ -3090,7 +3090,7 @@
                             <li data-value="{{ $ssrd->id }}">{{ $ssrd->name }}</li>
                             @endforeach
                           </ul>
-                          <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_rowpad_box_experience" name="surgical_rowpad_box_experience[]" multiple="multiple"></select>
+                          <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_rowpad_box_experience" name="surgical_rowpad_box_experience[1][]" multiple="multiple"></select>
                         </div>
                       </div>
                       <div class="specialty_sub_boxes_experience row">
@@ -3110,7 +3110,7 @@
                             <li data-value="{{ $sssd->id }}">{{ $sssd->name }}</li>
                             @endforeach
                           </ul>
-                          <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_operative_care_experience-{{ $w }}" name="surgical_operative_care_{{ $w }}[]" multiple="multiple"></select>
+                          <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_operative_care_experience-{{ $w }}" name="surgical_operative_care_exp_{{ $w }}[1][]" multiple="multiple"></select>
                           @foreach($speciality_surgicalsub_data as $sssd)
 
 
@@ -3119,7 +3119,7 @@
 
                             </label>
                             <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
-                            <select class="form-input mr-10 select-active" name="assistent_level">
+                            <select class="form-input mr-10 select-active" name="assistent_level[1][]">
 
                               @for($i = 1; $i <= 30; $i++) <option value="{{ $i }}" @if(Auth::guard('nurse_middle')->user()->assistent_level == $i) selected @endif>{{ $i }}{{ $i == 1 ? 'st' : ($i == 2 ? 'nd' : ($i == 3 ? 'rd' : 'th')) }} Year</option>
                                 @endfor
@@ -3149,7 +3149,7 @@
                             <li data-value="{{ $ssd->id }}">{{ $ssd->name }}</li>
                             @endforeach
                           </ul>
-                          <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgicalobs_row_data_experience" name="surgical_obs_care[]" multiple="multiple"></select>
+                          <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgicalobs_row_data_experience" name="surgical_obs_care_exp[1][]" multiple="multiple"></select>
                         </div>
                         <?php
                         $speciality_surgical_datamater = DB::table("speciality")->where('parent', '250')->get();
@@ -3163,7 +3163,7 @@
                             <li data-value="{{ $ssd->id }}">{{ $ssd->name }}</li>
                             @endforeach
                           </ul>
-                          <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="neonatal_care_experience" name="neonatal_care_experience[]" multiple="multiple"></select>
+                          <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="neonatal_care_experience" name="neonatal_care_experience[1][]" multiple="multiple"></select>
                         </div>
                         <div class="neonatal_care_experience_level"></div>
                         <?php
@@ -3182,7 +3182,7 @@
                             <li data-value="{{ $sssd->id }}">{{ $sssd->name }}</li>
                             @endforeach
                           </ul>
-                          <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_operative_carep_experience-{{ $q }}" name="surgical_operative_carep_experience_{{ $q }}[]" multiple="multiple"></select>
+                          <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_operative_carep_experience-{{ $q }}" name="surgical_operative_carep_experience_{{ $q }}[1][]" multiple="multiple"></select>
                         </div>
                         <?php
                         $q++;
@@ -3195,7 +3195,7 @@
                       <div class="form-group level-drp">
                         <label class="form-label" for="input-1">What is your Level of experience in this specialty?
                         </label>
-                        <select class="form-input mr-10 select-active" name="exper_assistent_level">
+                        <select class="form-input mr-10 select-active" name="exper_assistent_level[1][]">
 
                           @for($i = 1; $i <= 30; $i++) <option value="{{ $i }}">{{ $i }}{{ $i == 1 ? 'st' : ($i == 2 ? 'nd' : ($i == 3 ? 'rd' : 'th')) }} Year</option>
                             @endfor
@@ -3206,7 +3206,7 @@
 
                         <div class="form-group level-drp">
                           <label class="form-label" for="input-1">Position Held</label>
-                          <select class="form-control" name="positions_held[]">
+                          <select class="form-control" name="positions_held[1]">
                             <option value="">select</option>
                             <option value="Team Member">Team Member</option>
                             <option value="Team Leader">Team Leader</option>
@@ -3229,18 +3229,17 @@
                         <div class="col-md-6">
                           <div class="form-group level-drp">
                             <label class="form-label" for="input-1">Employment Start Date</label>
-                            <input class="form-control employeement_start_date employeement_start_date-1" type="date" name="start_date[]" onchange="changeEmployeementEndDate(1)" onkeydown="return false">
+                            <input class="form-control employeement_start_date employeement_start_date-1" type="date" name="start_date[1]" onchange="changeEmployeementEndDate(1)" onkeydown="return false">
                             <span id="reqempsdate" class="reqError text-danger valley"></span>
                           </div>
                           <div class="declaration_box">
-                            <input class="currently_position currently_position-1" type="checkbox" name="present_box[]" value="1" onclick="currently_position(1)">I am currently in this position at the moment
-
+                            <input class="currently_position currently_position-1" type="checkbox" name="present_box[1]" value="1" onclick="currently_position(1)">I am currently in this position at the moment
                           </div>
                         </div>
                         <div class="col-md-6 empl_end_date-1">
                           <div class="form-group level-drp">
                             <label class="form-label" for="input-1">Employment End Date</label>
-                            <input class="form-control employeement_end_date employeement_end_date-1" type="date" name="end_date[]" onkeydown="return false">
+                            <input class="form-control employeement_end_date employeement_end_date-1" type="date" name="end_date[1]" onkeydown="return false">
                             <span id="reqemployeementenddate-1" class="reqError text-danger valley"></span>
                           </div>
                         </div>
@@ -3250,7 +3249,7 @@
                         <div class="col-md-12">
                           <div class="form-group level-drp">
                             <label class="form-label" for="input-1">Employment type</label>
-                            <select class="form-control" name="employeement_type[]" onchange="ExpEmpStatus(this.value)">
+                            <select class="form-control" name="employeement_type[1]" onchange="ExpEmpStatus(this.value)">
                               <option value="">select</option>
                               <option value="Permanent" @if(Auth::guard('nurse_middle')->user()->current_employee_status == "Permanent") selected @endif>Permanent</option>
                               <option value="Temporary" @if(Auth::guard('nurse_middle')->user()->current_employee_status == "Temporary") selected @endif>Temporary</option>
@@ -3263,7 +3262,7 @@
                         <div class="form-group col-md-12">
                           <label class="form-label" for="input-1">Permanent</label>
                           <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
-                          <select class="form-input mr-10 select-active" name="permanent_status[]">
+                          <select class="form-input mr-10 select-active" name="permanent_status[1]">
                             <option value="">Select</option>
                             <option value="Full-time" @if(Auth::guard('nurse_middle')->user()->permanent_status == "Full-time") selected @endif>Full-time</option>
                             <option value="Part-time" @if(Auth::guard('nurse_middle')->user()->permanent_status == "Part-time") selected @endif>Part-time</option>
@@ -3280,7 +3279,7 @@
                         <div class="form-group col-md-12">
                           <label class="form-label" for="input-1">Temporary</label>
                           <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
-                          <select class="form-input mr-10 select-active" name="temporary_status[]">
+                          <select class="form-input mr-10 select-active" name="temporary_status[1]">
                             <option value="">Select</option>
                             <option value="Temporary" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Temporary") selected @endif>Temporary</option>
                             <option value="Contract" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Contract") selected @endif>Contract</option>
@@ -3310,12 +3309,12 @@
                       </h6>
                       <div class="form-group level-drp">
                         <label class="form-label" for="input-1">Responsibilities</label>
-                        <textarea class="form-control" name="job_responeblities[]"></textarea>
+                        <textarea class="form-control" name="job_responeblities[1]"></textarea>
                         <span id="reqresposiblities" class="reqError text-danger valley"></span>
                       </div>
                       <div class="form-group level-drp">
                         <label class="form-label" for="input-1">Achievements</label>
-                        <textarea class="form-control" name="achievements[]"></textarea>
+                        <textarea class="form-control" name="achievements[1]"></textarea>
                         <span id="reqachievements" class="reqError text-danger valley"></span>
                       </div>
                       @endif
@@ -3333,7 +3332,7 @@
                           <li data-value="{{ $cert->id }}">{{ $cert->name }}</li>
                           @endforeach
                         </ul>
-                        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="skills_compantancies" name="skills_compantancies[]" multiple="multiple"></select>
+                        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="skills_compantancies" name="skills_compantancies[1][]" multiple="multiple"></select>
                       </div>
                       <span id="reqexpertise" class="reqError text-danger valley"></span>
                       <div class="skills_compantancies_dropdowns"></div>
@@ -3351,7 +3350,7 @@
                           <li data-value="Transcript">Transcript</li>
                           <li data-value="Certificate">Certificate</li>
                         </ul>
-                        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="type_of_evidence" name="type_of_evidence[]" multiple="multiple"></select>
+                        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="type_of_evidence" name="type_of_evidence[1][]" multiple="multiple"></select>
                         <span id="reqtype_evidence" class="reqError text-danger valley"></span>
                       </div>
                       <div class="form-group level-drp">
@@ -7379,7 +7378,7 @@ if (!empty($interviewReferenceData)) {
               </ul>
               <select class="js-example-basic-multiple1 addAll_removeAll_btn" 
                       data-list-id="skills_compantancies-${skills[0].parent_id}" 
-                      name="skills_compantancies[]" multiple="multiple">
+                      name="sub_skills_compantancies[1][]" multiple="multiple">
               </select>
             </div>
           `;

@@ -1413,18 +1413,18 @@
       document.getElementById("reqemptype").innerHTML = "* Please select the employeement type";
       isValid = false;
     }
-    if ($.trim($('[name="job_responeblities[]"]').val()) == '') {
-      document.getElementById("reqresposiblities").innerHTML = "* Please enter the job responsiblities";
-      isValid = false;
-    }
-    if ($('[name="achievements"]').val() == '') {
-      document.getElementById("reqachievements").innerHTML = "* Please enter the achievements";
-      isValid = false;
-    }
-    if ($('[name="skills_compantancies[]"]').val() == '') {
-      document.getElementById("reqexpertise").innerHTML = "* Please select the skills and competencies";
-      isValid = false;
-    }
+    // if ($.trim($('[name="job_responeblities[]"]').val()) == '') {
+    //   document.getElementById("reqresposiblities").innerHTML = "* Please enter the job responsiblities";
+    //   isValid = false;
+    // }
+    // if ($('[name="achievements"]').val() == '') {
+    //   document.getElementById("reqachievements").innerHTML = "* Please enter the achievements";
+    //   isValid = false;
+    // }
+    // if ($('[name="skills_compantancies[]"]').val() == '') {
+    //   document.getElementById("reqexpertise").innerHTML = "* Please select the skills and competencies";
+    //   isValid = false;
+    // }
 
     if (isValid == true) {
       $('#experience_form').find('.text-danger').hide();

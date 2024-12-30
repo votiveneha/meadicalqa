@@ -1752,8 +1752,6 @@ class HomeController extends Controller
             $run = EducationModel::where('user_id', $user_id)->update(['institution' => $institution, 'graduate_start_date' => $graduation_start_date, 'professional_certifications' => $professional_certification, 'licence_number' => $license_number, 'country' => $country, 'state' => $state, 'expiration_date' => $expiration_date, 'training_courses' => $training_courses, 'training_workshops' => $training_workshop, 'complete_status' => 1, 'declaration_status' => $declare_information, 'acls_data' => $acls_data_json, 'bls_data' => $bls_data_json, 'cpr_data' => $cpr_data_json, 'nrp_data' => $nrp_data_json, 'pals_data' => $pls_data_json, 'rn_data' => $rn_data_json, 'np_data' => $np_data_json, 'cna_data' => $cn_data_json, 'lpn_data' => $lpn_data_json, 'crna_data' => $crna_data_json, 'cnm_data' => $cnm_data_json, 'ons_data' => $ons_data_json, 'msw_data' => $msw_data_json, 'ain_data' => $ain_data_json, 'rpn_data' => $rpn_data_json, 'nl_data' => $nl_data, 'additional_certification' => $new_certificate_json]);
         } else {
 
-
-
             $post = new EducationModel();
             $post->user_id = $user_id;
 
@@ -1905,6 +1903,7 @@ class HomeController extends Controller
 
     //     echo json_encode($json);
     // }
+
     public function updateExperience(Request $request)
     {
         // Retrieve input data
@@ -1912,26 +1911,36 @@ class HomeController extends Controller
         $nursingType1 = $request->input('nursing_type_1', []);
         $nursingType2 = $request->input('nursing_type_2', []);
         $nursingType3 = $request->input('nursing_type_3', []);
-        $nurse_practitioner_menu = $request->input('nurse_practitioner_menu', []);
+        $nurse_practitioner_menu = $request->input('nurse_practitioner_menu_experience', []);
         $specialties =  $request->input('specialties_experience', []);
-
         $speciality_entry_1 = $request->input('speciality_entry_experience_1', []);
         $speciality_entry_2 = $request->input('speciality_entry_experience_2', []);
         $speciality_entry_3 = $request->input('speciality_entry_experience_3', []);
         $speciality_entry_4 = $request->input('speciality_entry_experience_4', []);
+        $surgical_row_box = $request->input('surgical_row_box_experience', []);
+        $surgical_operative_care_1 = $request->input('surgical_operative_care_exp_1', []);
+        $surgical_operative_care_2 = $request->input('surgical_operative_care_exp_2', []);
+        $surgical_operative_care_3 = $request->input('surgical_operative_care_exp_3', []);
+        $surgical_obs_care = $request->input('surgical_obs_care_exp', []);
+        $neonatal_care = $request->input('neonatal_care_experience', []);
+        $surgical_rowpad_box = $request->input('surgical_rowpad_box_experience', []);
+        $surgical_operative_carep_1 =  $request->input('surgical_operative_carep_experience_1', []);
+        $surgical_operative_carep_2 = $request->input('surgical_operative_carep_experience_2', []);
+        $surgical_operative_carep_3 = $request->input('surgical_operative_carep_experience_3', []);
+        $positions_held = $request->input('positions_held', []);
+        $start_date =  $request->input('start_date');
+        $end_date = $request->input('end_date');
+        $present_box = $request->input('present_box', []);
+        $job_responeblities = $request->input('job_responeblities');
+        $achievements =   $request->input('achievements');
+        $employeement_type = $request->input('employeement_type');
+        $skills_compantancies = $request->input('skills_compantancies', []);
+        $type_of_evidence = $request->input('type_of_evidence', []);
+        $level_of_exp = $request->input('exper_assistent_level');
+        $permanent_status = $request->input('permanent_status');
+        $temporary_status = $request->input('temporary_status');
+        $sub_skills_compantancies = $request->input('sub_skills_compantancies', []);
 
-        // $surgical_row_box = json_encode($request->surgical_row_box);
-        // $surgical_obs_care = json_encode($request->surgical_obs_care);
-        // $surgical_operative_care_1 = json_encode($request->surgical_operative_care_1);
-        // $surgical_operative_care_2 = json_encode($request->surgical_operative_care_2);
-        // $surgical_operative_care_3 = json_encode($request->surgical_operative_care_3);
-        // $neonatal_care = json_encode($request->neonatal_care);
-        // $surgical_rowpad_box = json_encode($request->surgical_rowpad_box);
-        // $surgical_operative_carep_1 = json_encode($request->surgical_operative_carep_1);
-        // $surgical_operative_carep_2 = json_encode($request->surgical_operative_carep_2);
-        // $surgical_operative_carep_3 = json_encode($request->surgical_operative_carep_3);
-
-        // die;
         $userId = $request->input('user_id');
 
         // Loop through nurse types and process them
@@ -1940,10 +1949,34 @@ class HomeController extends Controller
             $registered = $nursingType2[$key] ?? null;
             $advanced = $nursingType3[$key] ?? null;
             $specialties1 = $specialties[$key] ?? null;
+            $nurse_practitioner_menu1 = $nurse_practitioner_menu[$key] ?? null;
             $speciality_entry_adult = $speciality_entry_1[$key] ?? null;
             $speciality_entry_maternity = $speciality_entry_2[$key] ?? null;
             $speciality_entry_paediatrics = $speciality_entry_3[$key] ?? null;
             $speciality_entry_community = $speciality_entry_4[$key] ?? null;
+            $surgical_row_box1 = $surgical_row_box[$key] ?? null;
+            $surgical_operative_care_1_1 = $surgical_operative_care_1[$key] ?? null;
+            $surgical_operative_care_2_1 = $surgical_operative_care_2[$key] ?? null;
+            $surgical_operative_care_3_1 = $surgical_operative_care_3[$key] ?? null;
+            $surgical_obs_care_1 = $surgical_obs_care[$key] ?? null;
+            $neonatal_care_1 = $neonatal_care[$key] ?? null;
+            $surgical_rowpad_box_1 = $surgical_rowpad_box[$key] ?? null;
+            $surgical_operative_carep_1_1 = $surgical_operative_carep_1[$key] ?? null;
+            $surgical_operative_carep_2_1 = $surgical_operative_carep_2[$key] ?? null;
+            $surgical_operative_carep_3_1 = $surgical_operative_carep_3[$key] ?? null;
+            $positions_held1 = $positions_held[$key] ?? null;
+            $start_date1 = $start_date[$key] ?? null;
+            $end_date1 = $end_date[$key] ?? null;
+            $present_box1 = $present_box[$key] ?? null;
+            $job_responeblities1 = $job_responeblities[$key] ?? null;
+            $achievements1 = $achievements[$key] ?? null;
+            $employeement_type1 = $employeement_type[$key] ?? null;
+            $skills_compantancies1 = $skills_compantancies[$key] ?? null;
+            $type_of_evidence1 = $type_of_evidence[$key] ?? null;
+            $level_of_exp1 = $level_of_exp[$key] ?? null;
+            $permanent_status1 = $permanent_status[$key] ?? null;
+            $temporary_status1 = $temporary_status[$key] ?? null;
+            $sub_skills_compantancies1 = $sub_skills_compantancies[$key] ?? null;
 
 
             // Check if a record exists for this user and nurse type
@@ -1970,18 +2003,54 @@ class HomeController extends Controller
             $newExperience->entry_level_nursing = json_encode($entryLevel);
             $newExperience->registered_nurses = json_encode($registered);
             $newExperience->advanced_practioner = json_encode($advanced);
-            $newExperience->nurse_prac = json_encode($nurse_practitioner_menu);
+            $newExperience->nurse_prac = json_encode($nurse_practitioner_menu1);
             $newExperience->specialties = json_encode($specialties1);
             $newExperience->adults = json_encode($speciality_entry_adult);
             $newExperience->maternity = json_encode($speciality_entry_maternity);
             $newExperience->paediatrics_neonatal = json_encode($speciality_entry_paediatrics);
             $newExperience->community = json_encode($speciality_entry_community);
-            print_r($newExperience);
-            // $newExperience->save();
+            $newExperience->surgical_preoperative = json_encode($surgical_row_box1);
+            $newExperience->operating_room = json_encode($surgical_operative_care_1_1);
+            $newExperience->operating_room_scout = json_encode($surgical_operative_care_2_1);
+            $newExperience->operating_room_scrub = json_encode($surgical_operative_care_3_1);
+            $newExperience->surgical_obstrics_gynacology = json_encode($surgical_obs_care_1);
+            $newExperience->pad_op_room = json_encode($surgical_operative_carep_1_1);
+            $newExperience->pad_qr_scout = json_encode($surgical_operative_carep_2_1);
+            $newExperience->pad_qr_scrub = json_encode($surgical_operative_carep_3_1);
+            $newExperience->neonatal_care = json_encode($neonatal_care_1);
+            $newExperience->paedia_surgical_preoperative = json_encode($surgical_rowpad_box_1);
+            // print_r($newExperience);
+            // // die;
+            $newExperience->position_held = $positions_held;
+            $newExperience->employeement_start_date = $start_date;
+            $newExperience->employeement_end_date = $end_date;
+            $newExperience->responsiblities = $job_responeblities1;
+            $newExperience->achievements = $achievements1;
+            $newExperience->employeement_type = $employeement_type1;
+            $newExperience->skills_compantancies = json_encode($skills_compantancies1);
+            $newExperience->evidence_type =  json_encode($type_of_evidence1);
+            $newExperience->paedia_surgical_preoperative = $level_of_exp1;
+            $newExperience->permanent_status = $permanent_status1;
+            $newExperience->temporary_status = $temporary_status1;
+            $newExperience->pre_box_status     = $present_box1;
+            $newExperience->sub_skills_compantancies = json_encode($sub_skills_compantancies1);
+
+            $run = $newExperience->save();
             // }
         }
 
-        return response()->json(['message' => 'Experience processed successfully']);
+
+        return response()->json(['message' => 'Experience processed successfully'],);
+        // if ($run) {
+        //     $json['status'] = 1;
+        //     $json['url'] = url('nurse/my-profile');
+        //     $json['message'] = 'Education Information Updated Successfully';
+        // } else {
+        //     $json['status'] = 0;
+        //     $json['message'] = 'Please Try Again';
+        // }
+
+        // echo json_encode($json);
     }
 
 
@@ -1989,7 +2058,6 @@ class HomeController extends Controller
     {
         $user_id = $request->user_id;
         $first_name = $request->first_name;
-
         $last_name = $request->last_name;
         $email = $request->email;
         $phone_no = $request->phone_no;
@@ -2279,8 +2347,6 @@ class HomeController extends Controller
 
     public function updateInterview(Request $request)
     {
-
-
 
         $user_id = $request->user_id;
         $interview_availablity = $request->interview_availablity;
