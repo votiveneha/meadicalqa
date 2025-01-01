@@ -1340,7 +1340,7 @@
             <div class="form-group drp--clr">
                 <label class="form-label" for="input-1">Type of Nurse?</label>
                 <input type="hidden" name="user_id" class="user_id" value="{{ Auth::guard('nurse_middle')->user()->id }}">
-                <input type="hidden" name="ntypeexperience" class="ntypeexperience" value="{{ Auth::guard('nurse_middle')->user()->nurseType }}">
+        
                 <ul id="type-of-nurse-experience-${previous_employeers_head}" style="display:none;">
                 @php $specialty = specialty();$spcl=$specialty[0]->id;@endphp
                 <?php
@@ -1577,6 +1577,14 @@
                 <div class="surgical_operative_carep_level_two"></div>
                 <div class="surgical_operative_carep_level_three"></div>
             </div>
+            <div class="form-group level-drp">
+                <label class="form-label" for="input-1">What is your Level of experience in this specialty?
+                </label>
+                <select class="form-control mr-10 select-active" name="exper_assistent_level[${previous_employeers_head}]">
+                    @for($i = 1; $i <= 30; $i++) <option value="{{ $i }}">{{ $i }}{{ $i == 1 ? 'st' : ($i == 2 ? 'nd' : ($i == 3 ? 'rd' : 'th')) }} Year</option>
+                    @endfor
+                </select>
+            </div>
             
             <div class="form-group level-drp">
                 <label class="form-label" for="positions_held">Position Held</label>
@@ -1602,7 +1610,7 @@
                         <span id="reqempsdate" class="reqError text-danger valley"></span>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6 empl_end_date-${previous_employeers_head}">
                     <div class="form-group level-drp">
                         <label class="form-label" for="end_date_${previous_employeers_head}">Employment End Date</label>
                         <input class="form-control employeement_end_date-${previous_employeers_head}" 
@@ -1612,7 +1620,7 @@
                         <span id="reqemployeementenddate" class="reqError text-danger valley"></span>
                     </div>
                     <div class="declaration_box">
-                        <input class="declare_information" type="checkbox" name="present_box[${previous_employeers_head}][]" value="1">
+                        <input class="currently_position currently_position-${previous_employeers_head}" type="checkbox" name="present_box[${previous_employeers_head}][]" value="1" onclick="currently_position(${previous_employeers_head})">
                         I am currently in this position at the moment
                     </div>
                 </div>
@@ -1623,7 +1631,7 @@
                         <label class="form-label" for="employment_type">Employment type</label>
                           <select
                                 class="form-control"
-                                name="employment_type[${previous_employeers_head}]"
+                                name="employeement_type[${previous_employeers_head}]"
                                 id="employment_type_${previous_employeers_head}"
                                 ">
                                 <option value="">select</option>
@@ -1656,23 +1664,23 @@
                 <label class="form-label" for="input-1">Temporary</label>               
                 <select class="form-control" name="temporary_status[${previous_employeers_head}]">
                 <option value="">Select</option>
-                <option value="Temporary" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Temporary") selected @endif>Temporary</option>
-                <option value="Contract" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Contract") selected @endif>Contract</option>
-                <option value="Term Contract" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Term Contract") selected @endif>Term Contract</option>
-                <option value="Travel" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Travel") selected @endif>Travel</option>
-                <option value="Per Diem" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Per Diem") selected @endif>Per Diem</option>
-                <option value="Local" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Local") selected @endif>Local</option>
-                <option value="On-Call" @if(Auth::guard('nurse_middle')->user()->temporary_status == "On-Call") selected @endif>On-Call</option>
-                <option value="PRN (Pro Re Nata)" @if(Auth::guard('nurse_middle')->user()->temporary_status == "PRN (Pro Re Nata)") selected @endif>PRN (Pro Re Nata)</option>
-                <option value="Casual" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Casual") selected @endif>Casual</option>
-                <option value="Locum tenens (temporary substitute)" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Locum tenens (temporary substitute)") selected @endif>Locum tenens (temporary substitute)</option>
-                <option value="Agency Nurse/Midwife" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Agency Nurse/Midwife") selected @endif>Agency Nurse/Midwife</option>
-                <option value="Seasonal" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Seasonal") selected @endif>Seasonal</option>
-                <option value="Freelance" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Freelance") selected @endif>Freelance</option>
-                <option value="Internship" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Internship") selected @endif>Internship</option>
-                <option value="Apprenticeship" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Apprenticeship") selected @endif>Apprenticeship</option>
-                <option value="Residency" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Residency") selected @endif>Residency</option>
-                <option value="Volunteer" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Volunteer") selected @endif>Volunteer</option>
+                <option value="Temporary">Temporary</option>
+                <option value="Contract">Contract</option>
+                <option value="Term Contract">Term Contract</option>
+                <option value="Travel">Travel</option>
+                <option value="Per Diem">Per Diem</option>
+                <option value="Local">Local</option>
+                <option value="On-Call">On-Call</option>
+                <option value="PRN (Pro Re Nata)">PRN (Pro Re Nata)</option>
+                <option value="Casual">Casual</option>
+                <option value="Locum tenens (temporary substitute)">Locum tenens (temporary substitute)</option>
+                <option value="Agency Nurse/Midwife">Agency Nurse/Midwife</option>
+                <option value="Seasonal" >Seasonal</option>
+                <option value="Freelance">Freelance</option>
+                <option value="Internship">Internship</option>
+                <option value="Apprenticeship">Apprenticeship</option>
+                <option value="Residency">Residency</option>
+                <option value="Volunteer">Volunteer</option>
                 </select>
             </div>
             <span id="reqemployee_status" class="reqError text-danger valley"></span>
@@ -1692,7 +1700,7 @@
             Areas of Expertise
             </h6>
             <div class="form-group level-drp">
-            <input type="hidden" name="skills_comp" class="skills_comp" value="@if(!empty($experienceData)) {{ $experienceData->skills_compantancies }}@endif">
+           
             <label class="form-label" for="input-1">Specific skills and competencies</label>
             <?php
             $skills = DB::table("skills")->where("parent_id", "1")->get();
@@ -1706,11 +1714,9 @@
             <select class="js-example-basic-multiple${previous_employeers_head} addAll_removeAll_btn" data-list-id="skills_compantancies-${previous_employeers_head}" name="skills_compantancies[${previous_employeers_head}][]" multiple="multiple"></select>
             </div>
             <span id="reqexpertise" class="reqError text-danger valley"></span>
-
-            <div class="skills_compantancies_dropdowns-${previous_employeers_head}"></div>
-            
+            <div class="skills_compantancies_dropdowns-${previous_employeers_head}"></div>        
             <div class="form-group level-drp">
-            <input type="hidden" name="evidence_type" class="evidence_type" value="@if(!empty($experienceData)) {{ $experienceData->evidence_type }}@endif">
+          
             <label class="form-label" for="input-1">Type of evidence</label>
             <?php
             $skills = DB::table("skills")->get();
@@ -1729,9 +1735,7 @@
             <label class="form-label" for="input-1">Upload evidence</label>
 
             <input class="form-control" type="file" name="upload_evidence">
-            @if(!empty($experienceData) && $experienceData->upload_evidence != NULL)
-            <img src="{{ url('/public/uploads/evidence') }}/{{ $experienceData->upload_evidence }}" style="width:100px;">
-            @endif
+            
             <!-- <span id="reqachievements" class="reqError text-danger valley"></span> -->
             </div>
 
@@ -2158,7 +2162,6 @@
                             // Append the new dropdown
                             $(".skills_compantancies_dropdowns-" + previous_employeers_head).append(dropdownHtml);
 
-
                             // Populate the new dropdown with options
                             let listId1 = `skills_compantancies-${previous_employeers_head}-${skills[0].parent_id}`;
                             let items1 = [];
@@ -2355,8 +2358,6 @@
             });
         });
 
-
-
         // Dynamically generated checkbox selectors based on adjusted index
         $(document).on('click', 'input[id^="evidence_re-1-0"]', function() {
             // Check the value of the clicked checkbox
@@ -2413,4 +2414,45 @@
             }
         }
     }
+
+    // exp tab changes
+    $(document).ready(function() {
+        // alert($(".type_nurse_ep").val());
+        var l = 1;
+        $(".nurse_exp_type").each(function() {
+            if ($(".nurse_exp_type-" + l).length > 0) {
+                if ($(".type_nurse_ep-" + l).val() != "") {
+                    // Initialize select2
+                    var nurse_type1 = JSON.parse($(".type_nurse_ep-" + l).val());
+                    $('#nurse_type_exp-' + l).select2().val(nurse_type1).trigger('change');
+                }
+            }
+            l++;
+        });
+
+
+
+        var i = 1;
+        $('.js-example-basic-multiple').each(function() {
+            let listId = $(this).data('list-id');
+            //alert(listId);
+            let items = [];
+            console.log("listId1", listId);
+            $('#' + listId + ' li').each(function() {
+                console.log("value1", $(this).text());
+                items.push({
+                    id: $(this).data('value'),
+                    text: $(this).text()
+                });
+            });
+            console.log("items1", items);
+            $(this).select2({
+                data: items
+            });
+            //$("#type-of-nurse").select2({'val': 3});  
+            $i++;
+        });
+
+
+    })
 </script>

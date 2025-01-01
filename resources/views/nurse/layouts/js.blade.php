@@ -2649,7 +2649,6 @@
   }
 
   function currently_position(i) {
-
     if ($(".currently_position-" + i).prop('checked') == true) {
       $(".empl_end_date-" + i).hide();
     } else {

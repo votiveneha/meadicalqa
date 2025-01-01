@@ -1936,11 +1936,10 @@ class HomeController extends Controller
         $employeement_type = $request->input('employeement_type');
         $skills_compantancies = $request->input('skills_compantancies', []);
         $type_of_evidence = $request->input('type_of_evidence', []);
-        $level_of_exp = $request->input('exper_assistent_level');
+        $level_of_exp = $request->input('exper_assistent_level', []);
         $permanent_status = $request->input('permanent_status');
         $temporary_status = $request->input('temporary_status');
         $sub_skills_compantancies = $request->input('sub_skills_compantancies', []);
-
         $userId = $request->input('user_id');
 
         // Loop through nurse types and process them
@@ -1965,8 +1964,8 @@ class HomeController extends Controller
             $surgical_operative_carep_2_1 = $surgical_operative_carep_2[$key] ?? null;
             $surgical_operative_carep_3_1 = $surgical_operative_carep_3[$key] ?? null;
             $positions_held1 = $positions_held[$key] ?? null;
-            $start_date1 = $start_date[$key] ?? null;
-            $end_date1 = $end_date[$key] ?? null;
+            $start_date1 = $start_date[$key] ?? '0000-00-00';
+            $end_date1 = $end_date[$key] ?? '0000-00-00';
             $present_box1 = $present_box[$key] ?? null;
             $job_responeblities1 = $job_responeblities[$key] ?? null;
             $achievements1 = $achievements[$key] ?? null;
@@ -1979,24 +1978,6 @@ class HomeController extends Controller
             $sub_skills_compantancies1 = $sub_skills_compantancies[$key] ?? null;
 
 
-            // Check if a record exists for this user and nurse type
-            // $existingExperience = DB::table('user_experience')
-            //     ->where('user_id', $userId)
-            //     ->where('nurseType', json_encode([$nurseType]))
-            //     ->first();
-
-            // if ($existingExperience) {
-            //     // Update existing record
-            //     DB::table('user_experience')
-            //         ->where('id', $existingExperience->id)
-            //         ->update([
-            //             'entry_level_nursing' => json_encode($entryLevel),
-            //             'registered_nurses' => json_encode($registered),
-            //             'advanced_practioner' => json_encode($advanced),
-            //             'updated_at' => now(),
-            //         ]);
-            // } else {
-            // Insert new record
             $newExperience = new ExperienceModel();
             $newExperience->user_id = $userId;
             $newExperience->nurseType = json_encode($nurseType);
@@ -2019,38 +2000,29 @@ class HomeController extends Controller
             $newExperience->pad_qr_scrub = json_encode($surgical_operative_carep_3_1);
             $newExperience->neonatal_care = json_encode($neonatal_care_1);
             $newExperience->paedia_surgical_preoperative = json_encode($surgical_rowpad_box_1);
-            // print_r($newExperience);
-            // // die;
-            $newExperience->position_held = $positions_held;
-            $newExperience->employeement_start_date = $start_date;
-            $newExperience->employeement_end_date = $end_date;
+            $newExperience->position_held = $positions_held1;
+            $newExperience->employeement_start_date = $start_date1;
+            $newExperience->employeement_end_date = $end_date1;
             $newExperience->responsiblities = $job_responeblities1;
             $newExperience->achievements = $achievements1;
             $newExperience->employeement_type = $employeement_type1;
             $newExperience->skills_compantancies = json_encode($skills_compantancies1);
             $newExperience->evidence_type =  json_encode($type_of_evidence1);
-            $newExperience->paedia_surgical_preoperative = $level_of_exp1;
             $newExperience->permanent_status = $permanent_status1;
             $newExperience->temporary_status = $temporary_status1;
-            $newExperience->pre_box_status     = $present_box1;
+            // $newExperience->pre_box_status  = $present_box1;
             $newExperience->sub_skills_compantancies = json_encode($sub_skills_compantancies1);
+            $newExperience->assistent_level = $level_of_exp1;
 
             $run = $newExperience->save();
-            // }
+        }
+        if ($run) {
+            $json['status'] = 1;
+        } else {
+            $json['status'] = 0;
         }
 
-
-        return response()->json(['message' => 'Experience processed successfully'],);
-        // if ($run) {
-        //     $json['status'] = 1;
-        //     $json['url'] = url('nurse/my-profile');
-        //     $json['message'] = 'Education Information Updated Successfully';
-        // } else {
-        //     $json['status'] = 0;
-        //     $json['message'] = 'Please Try Again';
-        // }
-
-        // echo json_encode($json);
+        echo json_encode($json);
     }
 
 

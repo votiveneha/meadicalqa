@@ -49,80 +49,76 @@ class HomeController extends Controller
     protected $specialityServices;
     protected $specialityRepository;
     protected $authServices;
-  
-    public function __construct(SpecialityServices $specialityServices , SpecialityRepository $specialityRepository,AuthServices $authServices){
+
+    public function __construct(SpecialityServices $specialityServices, SpecialityRepository $specialityRepository, AuthServices $authServices)
+    {
         $this->specialityServices = $specialityServices;
         $this->specialityRepository = $specialityRepository;
         $this->authServices = $authServices;
-       
     }
     public function index($message = '')
     {
-         if (!Auth::guard('nurse_middle')->check()) {
+        if (!Auth::guard('nurse_middle')->check()) {
             $title = "Login";
-            return view('nurse.home', compact( 'message'));
+            return view('nurse.home', compact('message'));
         } else {
-            
 
             return redirect()->route('nurse.dashboard');
         }
-        
     }
     public function contact($message = '')
     {
-        $phoneCode = CountryModel::orderBy('id','DESC')->get();
-        return view('nurse.contact', compact( 'message','phoneCode'));
+        $phoneCode = CountryModel::orderBy('id', 'DESC')->get();
+        return view('nurse.contact', compact('message', 'phoneCode'));
     }
     public function index_main($message = '')
     {
-         if (!Auth::guard('nurse_middle')->check()) {
+        if (!Auth::guard('nurse_middle')->check()) {
             $title = "Login";
-            
-            
-            $trendingData=$this->specialityRepository->getAll(['is_featured'=>1]);
-            $trendingData2=$this->specialityRepository->get_specialitiess(['is_featured'=>1]);
-         
-           return view('nurse.main-home', compact( 'message','trendingData','trendingData2'));
+
+
+            $trendingData = $this->specialityRepository->getAll(['is_featured' => 1]);
+            $trendingData2 = $this->specialityRepository->get_specialitiess(['is_featured' => 1]);
+
+            return view('nurse.main-home', compact('message', 'trendingData', 'trendingData2'));
         } else {
-            
+
 
             return redirect()->route('nurse.dashboard');
         }
-        
     }
     public function medical_facilities($message = '')
     {
-         if (!Auth::guard('nurse_middle')->check()) {
+        if (!Auth::guard('nurse_middle')->check()) {
             $title = "Login";
-           return view('nurse.medical-facilities', compact( 'message'));
+            return view('nurse.medical-facilities', compact('message'));
         } else {
-            
+
 
             return redirect()->route('nurse.dashboard');
         }
-        
     }
     public function login($message = '')
     {
-       
+
         if (!Auth::guard('nurse_middle')->check()) {
             $title = "Login";
             return view('nurse.login', compact('title', 'message'));
         } else {
-            
+
 
             return redirect()->route('nurse.dashboard');
         }
     }
     public function nurse_register($message = '')
     {
-         return view('nurse.nurseRegister', compact( 'message'));
+        return view('nurse.nurseRegister', compact('message'));
     }
     public function manage_profile($message = '')
     {
-         return view('nurse.profile', compact( 'message'));
+        return view('nurse.profile', compact('message'));
     }
-       public function upload_profile_image(Request $request)
+    public function upload_profile_image(Request $request)
     {
 
         if ($request->hasFile('image')) {
@@ -146,143 +142,142 @@ class HomeController extends Controller
         echo json_encode($output);
     }
     public function fetchSubspecialty(Request $request)
-        {
-            $data['subspecialty'] = SpecialityModel::where("parent", $request->specialty_id)
+    {
+        $data['subspecialty'] = SpecialityModel::where("parent", $request->specialty_id)
             ->get(["name", "id"]);
-      
-            return response()->json($data);
-        }
-        
-     public function do_nurse_register(Request $request)
+
+        return response()->json($data);
+    }
+
+    public function do_nurse_register(Request $request)
     {
         if (User::where("email", $request->email)->doesntExist()) {
-            
-            if(User::where("email", $request->email)->doesntExist()){
-                    
 
-            $password = $request->password;
-            
-            $orderform = rand(10000, 99999);
-            $lot = '#' . str_pad($orderform + 1, 4, "0", STR_PAD_LEFT);
-          
-            $to = $request->email;
-            $emailToken = Crypt::encryptString($request->email);
-
-            $verificationUrl = url('nurse/email-verification/' . $emailToken);
-
-            $mailData = [
-
-                'subject' => 'Registration successful!',
-
-                'email' => $to,
-
-                'verificationUrl' => $verificationUrl,
-
-                'password' => $password,
-
-                'body' => '<p>Hello  ' . $request->fullname .' '. $request->lastname. ', </p><p>Welcome and thank you for registering.</p>  <p>Click the link below to verify your account. </p><p><a href="' . $verificationUrl . '">Verify Now</a></p><p>If the above link doesn\'t work, copy and paste the link below into your browser.</p><p>' . $verificationUrl . '</p>',
+            if (User::where("email", $request->email)->doesntExist()) {
 
 
-            ];
-            
-            $randnum = rand(1111111111, 9999999999);
-            Mail::to($to)->send(new \App\Mail\DemoMail($mailData));
-            
-            $companyinsert['name'] = $request->fullname;
-            $companyinsert['lastname'] = $request->lastname;
-            $companyinsert['email'] = $request->email;
-            $companyinsert['country'] = country_id($request->countryCode);
-            $companyinsert['country_code'] = $request->countryCode;
-            $companyinsert['country_iso'] = $request->countryiso;
-            $companyinsert['phone'] = $request->contact;
-            $companyinsert['post_code'] = $request->post_code;
-            $companyinsert['password'] = Hash::make($password);
-            $companyinsert['ps'] = $password;
-            
-            
-            
-            
-            
-            $companyinsert['nursetype'] = json_encode($request->nurseType);
-            $companyinsert['nurseTypeJob'] = json_encode($request->nurseTypeJob);
-            $companyinsert['nurseTypeJob'] = json_encode($request->nurseTypeJob);
-            $companyinsert['nurse_practitioner_speciality'] = json_encode($request->nurse_practitioner_speciality);
-            $companyinsert['assistent_level'] = $request->assistent_level;
-            $companyinsert['specialties'] = json_encode($request->specialties);
-            $companyinsert['subSpecialties'] = json_encode($request->subSpecialties);
-            $companyinsert['Sub-Speciality-One'] = json_encode($request->surgicalsubSpecialties);
-            $companyinsert['Sub-Speciality-Two'] = json_encode($request->surgicalsuboneSpecialties);
-            $companyinsert['degree'] = json_encode($request->degree);
-            
-       
-           
-            $companyinsert['emailToken'] = $emailToken;
-            $companyinsert['type'] = '1';
-            $companyinsert['created_at'] = Carbon::now('Asia/Kolkata');
+                $password = $request->password;
 
-            $companyinsert['entry_level_nursing'] = json_encode($request->nursing_type_1);
-            $companyinsert['registered_nurses'] = json_encode($request->nursing_type_2);
-            $companyinsert['advanced_practioner'] = json_encode($request->nursing_type_3);
-            $companyinsert['nurse_prac'] = json_encode($request->nurse_practitioner_menu);
-            $companyinsert['adults'] = json_encode($request->speciality_entry_1);
-            $companyinsert['maternity'] = json_encode($request->speciality_entry_2);
-            $companyinsert['paediatrics_neonatal'] = json_encode($request->speciality_entry_3);
-            $companyinsert['community'] = json_encode($request->speciality_entry_4);
-            $companyinsert['surgical_preoperative'] = json_encode($request->surgical_row_box);
-            $companyinsert['operating_room'] = json_encode($request->surgical_operative_care_1);
-            $companyinsert['operating_room_scout'] = json_encode($request->surgical_operative_care_2);
-            $companyinsert['operating_room_scrub'] = json_encode($request->surgical_operative_care_3);
-            $companyinsert['surgical_obstrics_gynacology'] = json_encode($request->surgical_obs_care);
-            $companyinsert['neonatal_care'] = json_encode($request->neonatal_care);
-            $companyinsert['paedia_surgical_preoperative'] = json_encode($request->surgical_rowpad_box);
-            $companyinsert['pad_op_room'] = json_encode($request->surgical_operative_carep_1);
-            $companyinsert['pad_qr_scout'] = json_encode($request->surgical_operative_carep_2);
-            $companyinsert['pad_qr_scrub'] = json_encode($request->surgical_operative_carep_3);
+                $orderform = rand(10000, 99999);
+                $lot = '#' . str_pad($orderform + 1, 4, "0", STR_PAD_LEFT);
 
-            $run = User::insert($companyinsert);
-            $r = User::where("email", $request->email)->first();
-           
-            if ($run) {
-                Session::put('user_id', $r->id);
-               
-                $json['status'] = 1;
-                $json['url'] = url('nurse/email-verification-pending');
-                // $json['url'] = url('nurse/my-profile');
-                $json['message'] = 'Congratulations! Your registration was successful. Please check your email; we have sent you a verification email to your registered address!';
-             } else {
+                $to = $request->email;
+                $emailToken = Crypt::encryptString($request->email);
+
+                $verificationUrl = url('nurse/email-verification/' . $emailToken);
+
+                $mailData = [
+
+                    'subject' => 'Registration successful!',
+
+                    'email' => $to,
+
+                    'verificationUrl' => $verificationUrl,
+
+                    'password' => $password,
+
+                    'body' => '<p>Hello  ' . $request->fullname . ' ' . $request->lastname . ', </p><p>Welcome and thank you for registering.</p>  <p>Click the link below to verify your account. </p><p><a href="' . $verificationUrl . '">Verify Now</a></p><p>If the above link doesn\'t work, copy and paste the link below into your browser.</p><p>' . $verificationUrl . '</p>',
+
+
+                ];
+
+                $randnum = rand(1111111111, 9999999999);
+                Mail::to($to)->send(new \App\Mail\DemoMail($mailData));
+
+                $companyinsert['name'] = $request->fullname;
+                $companyinsert['lastname'] = $request->lastname;
+                $companyinsert['email'] = $request->email;
+                $companyinsert['country'] = country_id($request->countryCode);
+                $companyinsert['country_code'] = $request->countryCode;
+                $companyinsert['country_iso'] = $request->countryiso;
+                $companyinsert['phone'] = $request->contact;
+                $companyinsert['post_code'] = $request->post_code;
+                $companyinsert['password'] = Hash::make($password);
+                $companyinsert['ps'] = $password;
+
+
+
+
+
+                $companyinsert['nursetype'] = json_encode($request->nurseType);
+                $companyinsert['nurseTypeJob'] = json_encode($request->nurseTypeJob);
+                $companyinsert['nurseTypeJob'] = json_encode($request->nurseTypeJob);
+                $companyinsert['nurse_practitioner_speciality'] = json_encode($request->nurse_practitioner_speciality);
+                $companyinsert['assistent_level'] = $request->assistent_level;
+                $companyinsert['specialties'] = json_encode($request->specialties);
+                $companyinsert['subSpecialties'] = json_encode($request->subSpecialties);
+                $companyinsert['Sub-Speciality-One'] = json_encode($request->surgicalsubSpecialties);
+                $companyinsert['Sub-Speciality-Two'] = json_encode($request->surgicalsuboneSpecialties);
+                $companyinsert['degree'] = json_encode($request->degree);
+
+
+
+                $companyinsert['emailToken'] = $emailToken;
+                $companyinsert['type'] = '1';
+                $companyinsert['created_at'] = Carbon::now('Asia/Kolkata');
+
+                $companyinsert['entry_level_nursing'] = json_encode($request->nursing_type_1);
+                $companyinsert['registered_nurses'] = json_encode($request->nursing_type_2);
+                $companyinsert['advanced_practioner'] = json_encode($request->nursing_type_3);
+                $companyinsert['nurse_prac'] = json_encode($request->nurse_practitioner_menu);
+                $companyinsert['adults'] = json_encode($request->speciality_entry_1);
+                $companyinsert['maternity'] = json_encode($request->speciality_entry_2);
+                $companyinsert['paediatrics_neonatal'] = json_encode($request->speciality_entry_3);
+                $companyinsert['community'] = json_encode($request->speciality_entry_4);
+                $companyinsert['surgical_preoperative'] = json_encode($request->surgical_row_box);
+                $companyinsert['operating_room'] = json_encode($request->surgical_operative_care_1);
+                $companyinsert['operating_room_scout'] = json_encode($request->surgical_operative_care_2);
+                $companyinsert['operating_room_scrub'] = json_encode($request->surgical_operative_care_3);
+                $companyinsert['surgical_obstrics_gynacology'] = json_encode($request->surgical_obs_care);
+                $companyinsert['neonatal_care'] = json_encode($request->neonatal_care);
+                $companyinsert['paedia_surgical_preoperative'] = json_encode($request->surgical_rowpad_box);
+                $companyinsert['pad_op_room'] = json_encode($request->surgical_operative_carep_1);
+                $companyinsert['pad_qr_scout'] = json_encode($request->surgical_operative_carep_2);
+                $companyinsert['pad_qr_scrub'] = json_encode($request->surgical_operative_carep_3);
+
+                $run = User::insert($companyinsert);
+                $r = User::where("email", $request->email)->first();
+
+                if ($run) {
+                    Session::put('user_id', $r->id);
+
+                    $json['status'] = 1;
+                    $json['url'] = url('nurse/email-verification-pending');
+                    // $json['url'] = url('nurse/my-profile');
+                    $json['message'] = 'Congratulations! Your registration was successful. Please check your email; we have sent you a verification email to your registered address!';
+                } else {
+                    $json['status'] = 0;
+                    $json['message'] = 'Please Try Again';
+                }
+            } else {
                 $json['status'] = 0;
-                $json['message'] = 'Please Try Again';
+                $json['message'] = 'Email is already registered.!';
             }
-        }else
-        {
-        $json['status'] = 0;
-        $json['message'] = 'Email is already registered.!';
-    }
         } else {
             $json['status'] = 0;
             $json['message'] = ' Email address is already registered.!';
         }
         echo json_encode($json);
     }
-     public function emailVerificationPending()
+    public function emailVerificationPending()
     {
-       
+
         if (Auth::guard('nurse_middle')->user()) {
-           
+
             if (Auth::guard('nurse_middle')->user()->emailVerified == 1 &&  Auth::guard('nurse_middle')->user()->user_stage == 1 && Auth::guard('nurse_middle')->user()->type == 1) {
-               
+
                 return redirect()->route('nurse.profile-under-reviewed');
-            }elseif(Auth::guard('nurse_middle')->user()->emailVerified == 1 &&  Auth::guard('nurse_middle')->user()->type == 0){
-                 return redirect()->route('nurse.dashboard');
+            } elseif (Auth::guard('nurse_middle')->user()->emailVerified == 1 &&  Auth::guard('nurse_middle')->user()->type == 0) {
+                return redirect()->route('nurse.dashboard');
             } else {
                 $title = "";
                 $message = "";
-                
+
                 return view('auth.email-verification-pending', compact('title', 'message'));
             }
         } else if (Session::get('user_id')) {
             $user_id = Session::get('user_id');
-           
+
             $title = 'sa';
             $message = "";
             $r = User::where("id", $user_id)->first();
@@ -294,10 +289,10 @@ class HomeController extends Controller
             return redirect()->route('nurse.login');
         }
     }
-    
+
     public function indexs($message = '')
     {
-       
+
         if (!Auth::guard('nurse_middle')->check()) {
             $title = "Login";
             return view('Merchant.login', compact('title', 'message'));
@@ -312,12 +307,12 @@ class HomeController extends Controller
         $country_phone_code = CountryModel::where('status', '1')->select('phonecode')->groupBy('phonecode')->orderBy("phonecode", "asc")->get();
         return view('Merchant.signup', compact('country_phone_code'));
     }
-    
+
     public function mail_exist(Request $request)
     {
 
 
-        if (User::where('email',$request->email)->where('status', '!=', '0')->exists()) {
+        if (User::where('email', $request->email)->where('status', '!=', '0')->exists()) {
             return response()->json([
                 'status' => 1,
                 'message' => 'This email is already registered with us !'
@@ -333,7 +328,7 @@ class HomeController extends Controller
     {
 
 
-        if (User::where('email',$request->storeLicense)->where('status', '!=', '0')->exists()) {
+        if (User::where('email', $request->storeLicense)->where('status', '!=', '0')->exists()) {
             return response()->json([
                 'status' => 1,
                 'message' => 'This Store License is Already registered with us !'
@@ -357,7 +352,7 @@ class HomeController extends Controller
             'Ownercontact' => 'required',
             'countryCode' => 'required',
         ];
-        
+
         $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
 
@@ -365,92 +360,91 @@ class HomeController extends Controller
 
             $json['status'] = 0;
         } elseif (User::where("email", $request->email)->doesntExist()) {
-            
-            if(User::where("store_license", $request->storeLicense)->doesntExist()){
-                    
 
-            $password = $request->password;
-            
-            $orderform = rand(10000, 99999);
-            $lot = '#' . str_pad($orderform + 1, 4, "0", STR_PAD_LEFT);
-          
-            $to = $request->email;
-            $emailToken = Crypt::encryptString($request->email);
-
-            $verificationUrl = url('merchant/email-verification/' . $emailToken);
-
-            $mailData = [
-
-                'subject' => 'Registration successfully!',
-
-                'email' => $to,
-
-                'verificationUrl' => $verificationUrl,
-
-                'password' => $password,
-
-                'body' => '<p>Hello  ' . $request->ownerName . ', </p><p>Welcome and thank you for registering.</p>  <p>Click the link below to verify your account. </p><p><a href="' . $verificationUrl . '">Verify Now</a></p><p>If the above link doesn\'t work, copy and paste the link below into your browser.</p><p>' . $verificationUrl . '</p>',
+            if (User::where("store_license", $request->storeLicense)->doesntExist()) {
 
 
-            ];
-            $randnum = rand(1111111111, 9999999999);
-            Mail::to($to)->send(new \App\Mail\DemoMail($mailData));
+                $password = $request->password;
 
-            if ($request->file('store_logo')) {
-                $fileName = time() . '.' . $request->file('store_logo')->extension();
-                $path = '/assets/store_image/';
-                $request->file('store_logo')->move(public_path($path), $fileName);
-                $image = $path . $fileName;
-                $store_image = '/store_image/' . $fileName;
-                $companyinsert['store_logo'] = $store_image;
-            }
+                $orderform = rand(10000, 99999);
+                $lot = '#' . str_pad($orderform + 1, 4, "0", STR_PAD_LEFT);
 
-            $companyinsert['store_name'] = $request->companyName;
-            // $companyinsert['store_logo'] = $request->store_logo;
+                $to = $request->email;
+                $emailToken = Crypt::encryptString($request->email);
 
-            $companyinsert['store_country_code'] = $request->countryCode;
-            $companyinsert['store_phone'] = $request->contact;
-            $companyinsert['store_license'] = $request->storeLicense;
+                $verificationUrl = url('merchant/email-verification/' . $emailToken);
 
-            $companyinsert['email'] = $request->email;
-            $companyinsert['store_address'] = $request->address;
+                $mailData = [
 
-            $companyinsert['password'] = Hash::make($password);
-            $companyinsert['ps'] = $password;
+                    'subject' => 'Registration successfully!',
 
-            $companyinsert['name'] = $request->ownerName;
-            $companyinsert['owner_country_code'] = $request->ownercountryCode;
-            $companyinsert['owner_phone'] = $request->Ownercontact;
+                    'email' => $to,
 
-            $companyinsert['accountId'] = $lot;
-            $companyinsert['emailToken'] = $emailToken;
+                    'verificationUrl' => $verificationUrl,
 
-            // $companyinsert['companylogo'] = 'common/image/Unknown_person.jpg';
+                    'password' => $password,
 
-            $companyinsert['type'] = '1';
-            $companyinsert['emailToken'] = $emailToken;
+                    'body' => '<p>Hello  ' . $request->ownerName . ', </p><p>Welcome and thank you for registering.</p>  <p>Click the link below to verify your account. </p><p><a href="' . $verificationUrl . '">Verify Now</a></p><p>If the above link doesn\'t work, copy and paste the link below into your browser.</p><p>' . $verificationUrl . '</p>',
 
-            $companyinsert['ps'] = $password;
 
-            $companyinsert['created_at'] = Carbon::now('Asia/Kolkata');
+                ];
+                $randnum = rand(1111111111, 9999999999);
+                Mail::to($to)->send(new \App\Mail\DemoMail($mailData));
 
-            $run = User::insert($companyinsert);
-            $r = User::where("email", $request->email)->first();
-            if ($run) {
-                Session::put('user_id', $r->id);
+                if ($request->file('store_logo')) {
+                    $fileName = time() . '.' . $request->file('store_logo')->extension();
+                    $path = '/assets/store_image/';
+                    $request->file('store_logo')->move(public_path($path), $fileName);
+                    $image = $path . $fileName;
+                    $store_image = '/store_image/' . $fileName;
+                    $companyinsert['store_logo'] = $store_image;
+                }
 
-                $json['status'] = 1;
-                $json['url'] = url('merchant/email-verification-pending');
-                $json['message'] = 'Congratulations! Your registration was successful. Please check your email. We have sent email on your registered email address!';
-             } else {
+                $companyinsert['store_name'] = $request->companyName;
+                // $companyinsert['store_logo'] = $request->store_logo;
+
+                $companyinsert['store_country_code'] = $request->countryCode;
+                $companyinsert['store_phone'] = $request->contact;
+                $companyinsert['store_license'] = $request->storeLicense;
+
+                $companyinsert['email'] = $request->email;
+                $companyinsert['store_address'] = $request->address;
+
+                $companyinsert['password'] = Hash::make($password);
+                $companyinsert['ps'] = $password;
+
+                $companyinsert['name'] = $request->ownerName;
+                $companyinsert['owner_country_code'] = $request->ownercountryCode;
+                $companyinsert['owner_phone'] = $request->Ownercontact;
+
+                $companyinsert['accountId'] = $lot;
+                $companyinsert['emailToken'] = $emailToken;
+
+                // $companyinsert['companylogo'] = 'common/image/Unknown_person.jpg';
+
+                $companyinsert['type'] = '1';
+                $companyinsert['emailToken'] = $emailToken;
+
+                $companyinsert['ps'] = $password;
+
+                $companyinsert['created_at'] = Carbon::now('Asia/Kolkata');
+
+                $run = User::insert($companyinsert);
+                $r = User::where("email", $request->email)->first();
+                if ($run) {
+                    Session::put('user_id', $r->id);
+
+                    $json['status'] = 1;
+                    $json['url'] = url('merchant/email-verification-pending');
+                    $json['message'] = 'Congratulations! Your registration was successful. Please check your email. We have sent email on your registered email address!';
+                } else {
+                    $json['status'] = 0;
+                    $json['message'] = 'Please Try Again';
+                }
+            } else {
                 $json['status'] = 0;
-                $json['message'] = 'Please Try Again';
+                $json['message'] = 'Store License is already registered.!';
             }
-        }else
-        {
-        $json['status'] = 0;
-        $json['message'] = 'Store License is already registered.!';
-    }
         } else {
             $json['status'] = 0;
             $json['message'] = 'Store Email address is already registered.!';
@@ -458,23 +452,23 @@ class HomeController extends Controller
         echo json_encode($json);
     }
 
-   
-    
+
+
     public function profileUnderReviewed()
     {
         // die();
-       
+
         if (Auth::guard('nurse_middle')->user()) {
             if (Auth::guard('nurse_middle')->user()->user_stage == 2) {
-                
+
                 return redirect()->route('nurse.dashboard');
             } else {
                 $title = "";
                 $message = "";
                 return view('auth.profile-under-reviewed', compact('title', 'message'));
             }
-        }else {
-           
+        } else {
+
             return redirect()->route('nurse.login');
         }
     }
@@ -624,15 +618,15 @@ class HomeController extends Controller
                 ->where([
                     'email' => $email
                 ])->first();
-               
+
             if ($checklink == '') {
                 $token = Str::random(64);
                 DB::table('password_reset_tokens')
-                ->insert([
-                    'email' => $email,
-                    'token' => $token,
-                    'created_at' => Carbon::now()
-                ]);
+                    ->insert([
+                        'email' => $email,
+                        'token' => $token,
+                        'created_at' => Carbon::now()
+                    ]);
             } else {
                 $token = $checklink->token;
                 // $token = Str::random(64);
@@ -640,13 +634,13 @@ class HomeController extends Controller
                 //         ->where('email',$email)
                 //             ->update(['token'=>$token]);
             }
-            
+
             $emailToken = Crypt::encryptString($request->email);
 
 
             $verificationUrl = URL::to('/nurse/') . '/reset-password/' . $token . '/' . $emailToken;
 
-            $data['data'] = '<p>Hello ' . $user->name . ', </p><p>We\'ve received a password reset request for your '.env('APP_NAME').' account (' . $user->email . ').</p>';
+            $data['data'] = '<p>Hello ' . $user->name . ', </p><p>We\'ve received a password reset request for your ' . env('APP_NAME') . ' account (' . $user->email . ').</p>';
             $data['data'] .= '<p>If you initiated this request, please click the link below to reset your password.</p>';
             $data['data'] .= '<p><a href="' . $verificationUrl . '" target="_blank" style="font-size: 20px; font-family: Helvetica, Arial, sans-serif; color: #000000; text-decoration: none;  text-decoration: none; padding: 15px 25px; border-radius: 2px; border: 1px solid #000000; display: inline-block;">Reset Password</a></p>';
             $to = $user->email;
@@ -800,7 +794,7 @@ class HomeController extends Controller
         }
     }
 
-   
+
     public function resentVerification()
     {
 
@@ -844,12 +838,12 @@ class HomeController extends Controller
     {
         return view('nurse.dashboard');
     }
-     public function updateProfile(UserUpdateProfile $request)
+    public function updateProfile(UserUpdateProfile $request)
     {
         try {
             $run = $this->authServices->updateAdminProfile($request);
-             if ($run) {
-                return response()->json(['status' => '2', 'message' => __('message.statusTwo',['parameter' =>'Profile'])]);
+            if ($run) {
+                return response()->json(['status' => '2', 'message' => __('message.statusTwo', ['parameter' => 'Profile'])]);
             } else {
                 return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
             }
@@ -859,7 +853,8 @@ class HomeController extends Controller
         }
     }
 
-    public function updateProfession(Request $request){
+    public function updateProfession(Request $request)
+    {
         $nurse_type = json_encode($request->nurseType);
         $nursing_type_1 = json_encode($request->nursing_type_1);
         $nursing_type_2 = json_encode($request->nursing_type_2);
@@ -880,7 +875,7 @@ class HomeController extends Controller
         $surgical_operative_carep_1 = json_encode($request->surgical_operative_carep_1);
         $surgical_operative_carep_2 = json_encode($request->surgical_operative_carep_2);
         $surgical_operative_carep_3 = json_encode($request->surgical_operative_carep_3);
-        
+
         $assistent_level = $request->assistent_level;
         $bio = $request->bio;
         $degree = json_encode($request->degree);
@@ -907,7 +902,7 @@ class HomeController extends Controller
         $post->pad_op_room = $surgical_operative_carep_1;
         $post->pad_qr_scout = $surgical_operative_carep_2;
         $post->pad_qr_scrub = $surgical_operative_carep_3;
-        
+
         $post->assistent_level = $assistent_level;
         $post->bio = $bio;
         $post->degree = $degree;
@@ -920,65 +915,68 @@ class HomeController extends Controller
             $json['status'] = 1;
             $json['url'] = url('nurse/my-profile');
             $json['message'] = 'Professional Information Updated Successfully';
-         } else {
+        } else {
             $json['status'] = 0;
             $json['message'] = 'Please Try Again';
         }
-        
+
         echo json_encode($json);
     }
-    
+
     public function changepassword(UserChangePasswordRequest $request)
     {
         try {
             $data = $request->all();
             $run = $this->authServices->changePassword($data);
             if ($run) {
-                return response()->json(['status' => '2', 'message' => __('message.statusTwo',['parameter' =>'Password'])]);
+                return response()->json(['status' => '2', 'message' => __('message.statusTwo', ['parameter' => 'Password'])]);
             } else {
                 return response()->json(['status' => '0', 'message' => "old password doesn't match"]);
             }
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             log::error('Error in SettingController/changepassword :' . $e->getMessage() . 'in line' . $e->getLine());
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
         }
     }
-    
-     public function update_profession(Request $request)
-    {       
-          if ($request->hasFile('image_evidence')) {
+
+    public function update_profession(Request $request)
+    {
+        if ($request->hasFile('image_evidence')) {
             $profile_image = time() . '.' . $request->image_evidence->extension();
 
             if ($request->image_evidence->move(public_path('/nurse/assets/imgs/evidence_of_year_level/'), $profile_image)) {
                 $professioninsert['evidence_of_year_level'] = '/nurse/assets/imgs/evidence_of_year_level/' . $profile_image;
             }
         }
-        
-            $lastRecord =ProfessionModel::where('user_id', Auth::guard('nurse_middle')->user()->id)->first();
-            if ($lastRecord) { $lastRecord->delete(); }
-            $professioninsert['profession'] = $request->profession;
-            $professioninsert['practitioner_type'] = $request->practitioner_type;
-            $professioninsert['year_level'] = $request->assistent_level;
-            $professioninsert['evidence_type'] = $request->evidence_type;
-            $professioninsert['user_id'] =  Auth::guard('nurse_middle')->user()->id;
-           
-            $professioninsert['status'] = '0';
-            $professioninsert['created_at'] = Carbon::now('Asia/Kolkata');
 
-            $run = ProfessionModel::insert($professioninsert);
-            if ($run) {
-                $json['status'] = 1;
-                $json['url'] = url('nurse/my-profile');
-                $json['message'] = 'You have Successfully submitted the details.';
-             } else {
-                $json['status'] = 0;
-                $json['message'] = 'Please Try Again';
-            }
-        
+        $lastRecord = ProfessionModel::where('user_id', Auth::guard('nurse_middle')->user()->id)->first();
+        if ($lastRecord) {
+            $lastRecord->delete();
+        }
+        $professioninsert['profession'] = $request->profession;
+        $professioninsert['practitioner_type'] = $request->practitioner_type;
+        $professioninsert['year_level'] = $request->assistent_level;
+        $professioninsert['evidence_type'] = $request->evidence_type;
+        $professioninsert['user_id'] =  Auth::guard('nurse_middle')->user()->id;
+
+        $professioninsert['status'] = '0';
+        $professioninsert['created_at'] = Carbon::now('Asia/Kolkata');
+
+        $run = ProfessionModel::insert($professioninsert);
+        if ($run) {
+            $json['status'] = 1;
+            $json['url'] = url('nurse/my-profile');
+            $json['message'] = 'You have Successfully submitted the details.';
+        } else {
+            $json['status'] = 0;
+            $json['message'] = 'Please Try Again';
+        }
+
         echo json_encode($json);
     }
 
-    public function updateEducation(Request $request){
+    public function updateEducation(Request $request)
+    {
         $degree = json_encode($request->ndegree);
 
         $institution = $request->institution;
@@ -992,24 +990,24 @@ class HomeController extends Controller
         $expiration_date = $request->expiration_date;
         $training_courses = json_encode($request->training_courses);
         $training_workshop = json_encode($request->training_workshop);
-        
-        $getedudata = DB::table("user_education_cerification")->where("user_id",$user_id)->first();
+
+        $getedudata = DB::table("user_education_cerification")->where("user_id", $user_id)->first();
         //$post = User::find($request->user_id);
-        
-        if(!empty($getedudata)>0){
+
+        if (!empty($getedudata) > 0) {
 
             $post1 = User::find($user_id);
             $post1->degree = $degree;
             $post1->save();
-            
-            $run = EducationModel::where('user_id',$user_id)->update(['institution'=>$institution,'graduate_start_date'=>$graduation_start_date,'graduate_end_date'=>$graduation_end_date,'professional_certifications'=>$professional_certification,'licence_number'=>$license_number,'country'=>$country,'state'=>$state,'expiration_date'=>$expiration_date,'training_courses'=>$training_courses,'training_workshops'=>$training_workshop,'complete_status'=>1]);
-        }else{
 
-            
+            $run = EducationModel::where('user_id', $user_id)->update(['institution' => $institution, 'graduate_start_date' => $graduation_start_date, 'graduate_end_date' => $graduation_end_date, 'professional_certifications' => $professional_certification, 'licence_number' => $license_number, 'country' => $country, 'state' => $state, 'expiration_date' => $expiration_date, 'training_courses' => $training_courses, 'training_workshops' => $training_workshop, 'complete_status' => 1]);
+        } else {
+
+
 
             $post = new EducationModel();
             $post->user_id = $user_id;
-            
+
             $post->institution = $institution;
             $post->graduate_start_date = $graduation_start_date;
             $post->graduate_end_date = $graduation_end_date;
@@ -1032,16 +1030,17 @@ class HomeController extends Controller
             $json['status'] = 1;
             $json['url'] = url('nurse/my-profile');
             $json['message'] = 'Education Information Updated Successfully';
-         } else {
+        } else {
             $json['status'] = 0;
             $json['message'] = 'Please Try Again';
         }
-        
+
         echo json_encode($json);
     }
 
-    public function updateExperience(Request $request){
-        
+    public function updateExperience(Request $request)
+    {
+
 
         $year_experience = $request->assistent_level;
         $user_id = $request->user_id;
@@ -1053,24 +1052,24 @@ class HomeController extends Controller
         $job_responeblities = $request->job_responeblities;
         $achievements = $request->achievements;
         $skills_compantancies = json_encode($request->skills_compantancies);
-        
-        
-        $getexperiencedata = DB::table("user_experience")->where("user_id",$user_id)->first();
+
+
+        $getexperiencedata = DB::table("user_experience")->where("user_id", $user_id)->first();
         //$post = User::find($request->user_id);
-        
-        if(!empty($getexperiencedata)>0){
+
+        if (!empty($getexperiencedata) > 0) {
             $post1 = User::find($user_id);
             $post1->assistent_level = $year_experience;
             $post1->save();
-            
-            $run = ExperienceModel::where('user_id',$user_id)->update(['employer_name'=>$previous_employer_name,'position_held'=>$positions_held,'employeement_start_date'=>$start_date,'employeement_end_date'=>$end_date,'present_status'=>$present_box,'responsiblities'=>$job_responeblities,'achievements'=>$achievements,'skills_compantancies'=>$skills_compantancies,'complete_status'=>1]);
-        }else{
 
-            
+            $run = ExperienceModel::where('user_id', $user_id)->update(['employer_name' => $previous_employer_name, 'position_held' => $positions_held, 'employeement_start_date' => $start_date, 'employeement_end_date' => $end_date, 'present_status' => $present_box, 'responsiblities' => $job_responeblities, 'achievements' => $achievements, 'skills_compantancies' => $skills_compantancies, 'complete_status' => 1]);
+        } else {
+
+
 
             $post = new ExperienceModel();
             $post->user_id = $user_id;
-            
+
             //$post->year_experience = $year_experience;
             $post->employer_name = $previous_employer_name;
             $post->position_held = $positions_held;
@@ -1092,62 +1091,63 @@ class HomeController extends Controller
             $json['status'] = 1;
             $json['url'] = url('nurse/my-profile');
             $json['message'] = 'Education Information Updated Successfully';
-         } else {
+        } else {
             $json['status'] = 0;
             $json['message'] = 'Please Try Again';
         }
-        
+
         echo json_encode($json);
     }
 
-    public function vaccinationForm(Request $request){
-        
+    public function vaccinationForm(Request $request)
+    {
+
 
         $vaccination_record = json_encode($request->vaccination_record);
         $user_id = $request->user_id;
         $immunization_status = $request->immunization_status;
-        
-        
-        
-        $getvaccinationdata = DB::table("vaccination_front")->where("user_id",$user_id)->first();
-        //$post = User::find($request->user_id);
-        
-        if(!empty($getvaccinationdata)>0){
-            
-            
-            $run = VaccinationFrontModel::where('user_id',$user_id)->update(['vaccination_records'=>$vaccination_record,'immunization_status'=>$immunization_status,'complete_status'=>1]);
-        }else{
 
-            
+
+
+        $getvaccinationdata = DB::table("vaccination_front")->where("user_id", $user_id)->first();
+        //$post = User::find($request->user_id);
+
+        if (!empty($getvaccinationdata) > 0) {
+
+
+            $run = VaccinationFrontModel::where('user_id', $user_id)->update(['vaccination_records' => $vaccination_record, 'immunization_status' => $immunization_status, 'complete_status' => 1]);
+        } else {
+
+
 
             $post = new VaccinationFrontModel();
             $post->user_id = $user_id;
-            
+
             //$post->year_experience = $year_experience;
             $post->vaccination_records = $vaccination_record;
             $post->immunization_status = $immunization_status;
-            
+
             $post->complete_status = 1;
             $run = $post->save();
-
         }
 
         if ($run) {
             $json['status'] = 1;
             $json['url'] = url('nurse/my-profile');
             $json['message'] = 'Education Information Updated Successfully';
-         } else {
+        } else {
             $json['status'] = 0;
             $json['message'] = 'Please Try Again';
         }
-        
+
         echo json_encode($json);
     }
 
-    public function updateInterview(Request $request){
-        
+    public function updateInterview(Request $request)
+    {
 
-        
+
+
         $user_id = $request->user_id;
         $interview_availablity = $request->interview_availablity;
         $reference_name = $request->reference_name;
@@ -1156,22 +1156,22 @@ class HomeController extends Controller
         $reference_countryiso = $request->reference_countryiso;
         $reference_contact = $request->reference_contact;
         $reference_relationship = $request->reference_relationship;
-        
-        
-        $getinterviewdata = DB::table("interview_references")->where("user_id",$user_id)->first();
-        //$post = User::find($request->user_id);
-        
-        if(!empty($getinterviewdata)>0){
-            
-            
-            $run = InterviewModel::where('user_id',$user_id)->update(['interview_availablity'=>$interview_availablity,'reference_name'=>$reference_name,'reference_email'=>$reference_email,'contact_country_code'=>$reference_countryCode,'contact_country_iso'=>$reference_countryiso,'reference_contact'=>$reference_contact,'reference_relationship'=>$reference_relationship]);
-        }else{
 
-            
+
+        $getinterviewdata = DB::table("interview_references")->where("user_id", $user_id)->first();
+        //$post = User::find($request->user_id);
+
+        if (!empty($getinterviewdata) > 0) {
+
+
+            $run = InterviewModel::where('user_id', $user_id)->update(['interview_availablity' => $interview_availablity, 'reference_name' => $reference_name, 'reference_email' => $reference_email, 'contact_country_code' => $reference_countryCode, 'contact_country_iso' => $reference_countryiso, 'reference_contact' => $reference_contact, 'reference_relationship' => $reference_relationship]);
+        } else {
+
+
 
             $post = new InterviewModel();
             $post->user_id = $user_id;
-            
+
             //$post->year_experience = $year_experience;
             $post->interview_availablity = $interview_availablity;
             $post->reference_name = $reference_name;
@@ -1180,315 +1180,320 @@ class HomeController extends Controller
             $post->contact_country_iso = $reference_countryiso;
             $post->reference_contact = $reference_contact;
             $post->reference_relationship = $reference_relationship;
-            
-            
-            $run = $post->save();
 
+
+            $run = $post->save();
         }
 
         if ($run) {
             $json['status'] = 1;
             $json['url'] = url('nurse/my-profile');
             $json['message'] = 'Education Information Updated Successfully';
-         } else {
+        } else {
             $json['status'] = 0;
             $json['message'] = 'Please Try Again';
         }
-        
+
         echo json_encode($json);
     }
 
-    public function updatePreferences(Request $request){
+    public function updatePreferences(Request $request)
+    {
         $user_id = $request->user_id;
         $preferred_work_schedule = $request->preferred_work_schedule;
         $country = $request->country;
         $state = $request->state;
         $specific_facilities = $request->specific_facilities;
         $work_environment = $request->work_environment;
-        
-        $shift_preferences = $request->shift_preferences;
-        
-        
-        $getpreferencesdata = DB::table("personal_preferences")->where("user_id",$user_id)->first();
-        //$post = User::find($request->user_id);
-        
-        if(!empty($getpreferencesdata)>0){
-            
-            
-            $run = PreferencesModel::where('user_id',$user_id)->update(['preferred_work_schedule'=>$preferred_work_schedule,'country'=>$country,'state'=>$state,'specific_facilities'=>$specific_facilities,'work_environment'=>$work_environment,'shift_preferences'=>$shift_preferences]);
-        }else{
 
-            
+        $shift_preferences = $request->shift_preferences;
+
+
+        $getpreferencesdata = DB::table("personal_preferences")->where("user_id", $user_id)->first();
+        //$post = User::find($request->user_id);
+
+        if (!empty($getpreferencesdata) > 0) {
+
+
+            $run = PreferencesModel::where('user_id', $user_id)->update(['preferred_work_schedule' => $preferred_work_schedule, 'country' => $country, 'state' => $state, 'specific_facilities' => $specific_facilities, 'work_environment' => $work_environment, 'shift_preferences' => $shift_preferences]);
+        } else {
+
+
 
             $post = new PreferencesModel();
             $post->user_id = $user_id;
-            
+
             //$post->year_experience = $year_experience;
             $post->preferred_work_schedule = $preferred_work_schedule;
             $post->country = $country;
-           
+
             $post->state = $state;
             $post->specific_facilities = $specific_facilities;
             $post->work_environment = $work_environment;
             $post->shift_preferences = $shift_preferences;
-            
-            
-            $run = $post->save();
 
+
+            $run = $post->save();
         }
 
         if ($run) {
             $json['status'] = 1;
             $json['url'] = url('nurse/my-profile');
             $json['message'] = 'Education Information Updated Successfully';
-         } else {
+        } else {
             $json['status'] = 0;
             $json['message'] = 'Please Try Again';
         }
-        
+
         echo json_encode($json);
     }
 
-    public function updateWorkPreference(Request $request){
+    public function updateWorkPreference(Request $request)
+    {
         $user_id = $request->user_id;
         $des_job_role = json_encode($request->des_job_role);
         $salary_expectation = $request->salary_expectation;
         $benefit_prefer = json_encode($request->benefit_prefer);
-        
-        
-        
-        $getpreferencesdata = DB::table("work_preferences")->where("user_id",$user_id)->first();
-        //$post = User::find($request->user_id);
-        
-        if(!empty($getpreferencesdata)>0){
-            
-            
-            $run = WorkPreferencesModel::where('user_id',$user_id)->update(['desired_job_role'=>$des_job_role,'salary_expectations'=>$salary_expectations,'benefits_preferences'=>$benefit_prefer]);
-        }else{
 
-            
+
+
+        $getpreferencesdata = DB::table("work_preferences")->where("user_id", $user_id)->first();
+        //$post = User::find($request->user_id);
+
+        if (!empty($getpreferencesdata) > 0) {
+
+
+            $run = WorkPreferencesModel::where('user_id', $user_id)->update(['desired_job_role' => $des_job_role, 'salary_expectations' => $salary_expectations, 'benefits_preferences' => $benefit_prefer]);
+        } else {
+
+
 
             $post = new WorkPreferencesModel();
             $post->user_id = $user_id;
-            
+
             //$post->year_experience = $year_experience;
             $post->desired_job_role = $des_job_role;
             $post->salary_expectations = $salary_expectation;
-           
-            $post->benefits_preferences = $benefit_prefer;
-           
-            
-            
-            $run = $post->save();
 
+            $post->benefits_preferences = $benefit_prefer;
+
+
+
+            $run = $post->save();
         }
 
         if ($run) {
             $json['status'] = 1;
             $json['url'] = url('nurse/my-profile');
             $json['message'] = 'Education Information Updated Successfully';
-         } else {
+        } else {
             $json['status'] = 0;
             $json['message'] = 'Please Try Again';
         }
-        
+
         echo json_encode($json);
     }
-    public function updateTraining(Request $request){
+    public function updateTraining(Request $request)
+    {
         $user_id = $request->user_id;
         $start_date = $request->start_date;
         $end_date = $request->end_date;
         $institution = $request->institution;
         $mand_continue_education = $request->mand_continue_education;
-        
-        
-        
-        $gettrainingdata = DB::table("mandatory_training")->where("user_id",$user_id)->first();
-        //$post = User::find($request->user_id);
-        
-        if(!empty($gettrainingdata)>0){
-            
-            
-            $run = MandatoryTrainModel::where('user_id',$user_id)->update(['start_date'=>$start_date,'end_date'=>$end_date,'institutions'=>$institution,'continuing_education'=>$mand_continue_education]);
-        }else{
 
-            
+
+
+        $gettrainingdata = DB::table("mandatory_training")->where("user_id", $user_id)->first();
+        //$post = User::find($request->user_id);
+
+        if (!empty($gettrainingdata) > 0) {
+
+
+            $run = MandatoryTrainModel::where('user_id', $user_id)->update(['start_date' => $start_date, 'end_date' => $end_date, 'institutions' => $institution, 'continuing_education' => $mand_continue_education]);
+        } else {
+
+
 
             $post = new MandatoryTrainModel();
             $post->user_id = $user_id;
-            
+
             //$post->year_experience = $year_experience;
             $post->start_date = $start_date;
             $post->end_date = $end_date;
             $post->institutions = $institution;
             $post->continuing_education = $mand_continue_education;
-            
-            
-            $run = $post->save();
 
+
+            $run = $post->save();
         }
 
         if ($run) {
             $json['status'] = 1;
             $json['url'] = url('nurse/my-profile');
             $json['message'] = 'Education Information Updated Successfully';
-         } else {
+        } else {
             $json['status'] = 0;
             $json['message'] = 'Please Try Again';
         }
-        
+
         echo json_encode($json);
     }
-    
-     public function update_profession_ahpra_numberI(Request $request)
-    {      
-            $insert['ahpra_code'] = $request->ahpra_code;
-            $insert['ahpra_number'] = $request->ahpra_number;
-            $data = User::where('id', Auth::guard('nurse_middle')->user()->id)->update($insert);
-            if ($data) {
-                $json['status'] = 1;
-                $json['url'] = url('nurse/my-profile');
-                $json['message'] = 'You have Successfully submitted the details.';
-             } else {
-                $json['status'] = 0;
-                $json['message'] = 'Please Try Again';
-            }
-        
+
+    public function update_profession_ahpra_numberI(Request $request)
+    {
+        $insert['ahpra_code'] = $request->ahpra_code;
+        $insert['ahpra_number'] = $request->ahpra_number;
+        $data = User::where('id', Auth::guard('nurse_middle')->user()->id)->update($insert);
+        if ($data) {
+            $json['status'] = 1;
+            $json['url'] = url('nurse/my-profile');
+            $json['message'] = 'You have Successfully submitted the details.';
+        } else {
+            $json['status'] = 0;
+            $json['message'] = 'Please Try Again';
+        }
+
         echo json_encode($json);
     }
-     public function update_eligibility_to_work(Request $request)
-    {       
-          if ($request->hasFile('image_support_document')) {
+    public function update_eligibility_to_work(Request $request)
+    {
+        if ($request->hasFile('image_support_document')) {
             $profile_image = time() . '.' . $request->image_support_document->extension();
 
             if ($request->image_support_document->move(public_path('/nurse/assets/imgs/support_document/'), $profile_image)) {
                 $professioninsert['support_document'] = '/nurse/assets/imgs/support_document/' . $profile_image;
             }
         }
-        
-            $lastRecord =EligibilityToWorkModel::where('user_id', Auth::guard('nurse_middle')->user()->id)->first();
-            if ($lastRecord) { $lastRecord->delete(); }
-            $professioninsert['residency'] = $request->residency;
-           
-            $professioninsert['visa_subclass_number'] = $request->visa_subclass_number;
-            $professioninsert['passport_number'] = $request->passport_number;
-            $professioninsert['visa_grant_number'] = $request->visa_grant_number;
-            $professioninsert['passport_country_of_Issue'] = $request->passport_country_of_Issue;
-            $professioninsert['expiry_date'] = $request->expiry_date;
-            $professioninsert['user_id'] =  Auth::guard('nurse_middle')->user()->id;
-           
-            $professioninsert['status'] = '0';
-            $professioninsert['created_at'] = Carbon::now('Asia/Kolkata');
 
-            $run = EligibilityToWorkModel::insert($professioninsert);
-            if ($run) {
-                $json['status'] = 1;
-                $json['url'] = url('nurse/my-profile')."?page=work_clearances";
-                $json['message'] = 'You have Successfully submitted the details.';
-             } else {
-                $json['status'] = 0;
-                $json['message'] = 'Please Try Again';
-            }
-        
+        $lastRecord = EligibilityToWorkModel::where('user_id', Auth::guard('nurse_middle')->user()->id)->first();
+        if ($lastRecord) {
+            $lastRecord->delete();
+        }
+        $professioninsert['residency'] = $request->residency;
+
+        $professioninsert['visa_subclass_number'] = $request->visa_subclass_number;
+        $professioninsert['passport_number'] = $request->passport_number;
+        $professioninsert['visa_grant_number'] = $request->visa_grant_number;
+        $professioninsert['passport_country_of_Issue'] = $request->passport_country_of_Issue;
+        $professioninsert['expiry_date'] = $request->expiry_date;
+        $professioninsert['user_id'] =  Auth::guard('nurse_middle')->user()->id;
+
+        $professioninsert['status'] = '0';
+        $professioninsert['created_at'] = Carbon::now('Asia/Kolkata');
+
+        $run = EligibilityToWorkModel::insert($professioninsert);
+        if ($run) {
+            $json['status'] = 1;
+            $json['url'] = url('nurse/my-profile') . "?page=work_clearances";
+            $json['message'] = 'You have Successfully submitted the details.';
+        } else {
+            $json['status'] = 0;
+            $json['message'] = 'Please Try Again';
+        }
+
         echo json_encode($json);
     }
-     public function update_children_to_work(Request $request)
-    {       
-          
-        
-            $lastRecord =WorkingChildrenCheckModel::where('user_id', Auth::guard('nurse_middle')->user()->id)->first();
-            if ($lastRecord) { $lastRecord->delete(); }
-            $professioninsert['clearance_number'] = $request->clearance_number;
-           
-            $professioninsert['state'] = $request->clearance_state;
-            $professioninsert['expiry_date'] = $request->clearance_expiry_date;
-         
-            $professioninsert['user_id'] =  Auth::guard('nurse_middle')->user()->id;
-            $professioninsert['status'] = '1';
-            $professioninsert['created_at'] = Carbon::now('Asia/Kolkata');
+    public function update_children_to_work(Request $request)
+    {
 
-            $run = WorkingChildrenCheckModel::insert($professioninsert);
-            if ($run) {
-                $json['status'] = 1;
-                $json['url'] = url('nurse/my-profile')."?page=work_clearances";
-                $json['message'] = 'You have Successfully submitted the details.';
-             } else {
-                $json['status'] = 0;
-                $json['message'] = 'Please Try Again';
-            }
-        
+
+        $lastRecord = WorkingChildrenCheckModel::where('user_id', Auth::guard('nurse_middle')->user()->id)->first();
+        if ($lastRecord) {
+            $lastRecord->delete();
+        }
+        $professioninsert['clearance_number'] = $request->clearance_number;
+
+        $professioninsert['state'] = $request->clearance_state;
+        $professioninsert['expiry_date'] = $request->clearance_expiry_date;
+
+        $professioninsert['user_id'] =  Auth::guard('nurse_middle')->user()->id;
+        $professioninsert['status'] = '1';
+        $professioninsert['created_at'] = Carbon::now('Asia/Kolkata');
+
+        $run = WorkingChildrenCheckModel::insert($professioninsert);
+        if ($run) {
+            $json['status'] = 1;
+            $json['url'] = url('nurse/my-profile') . "?page=work_clearances";
+            $json['message'] = 'You have Successfully submitted the details.';
+        } else {
+            $json['status'] = 0;
+            $json['message'] = 'Please Try Again';
+        }
+
         echo json_encode($json);
     }
-      public function update_police_check_to_work(Request $request)
-    {       
-          if ($request->hasFile('image_support_document_police')) {
+    public function update_police_check_to_work(Request $request)
+    {
+        if ($request->hasFile('image_support_document_police')) {
             $profile_image = time() . '.' . $request->image_support_document_police->extension();
 
             if ($request->image_support_document_police->move(public_path('/nurse/assets/imgs/police_check/'), $profile_image)) {
                 $professioninsert['image'] = '/nurse/assets/imgs/police_check/' . $profile_image;
             }
         }
-        
-            $lastRecord =PoliceCheckModel::where('user_id', Auth::guard('nurse_middle')->user()->id)->first();
-            if ($lastRecord) { $lastRecord->delete(); }
-            $professioninsert['date'] = $request->date_acquired;
-           
-            $professioninsert['user_id'] =  Auth::guard('nurse_middle')->user()->id;
-           
-            $professioninsert['status'] = '0';
-            $professioninsert['created_at'] = Carbon::now('Asia/Kolkata');
 
-            $run = PoliceCheckModel::insert($professioninsert);
-            if ($run) {
-                $json['status'] = 1;
-                $json['url'] = url('nurse/my-profile')."?page=work_clearances";
-                // $json['url'] = url('nurse/my-profile#tab-myclearance-jobs');
-                $json['message'] = 'You have Successfully submitted the details.';
-             } else {
-                $json['status'] = 0;
-                $json['message'] = 'Please Try Again';
-            }
-        
+        $lastRecord = PoliceCheckModel::where('user_id', Auth::guard('nurse_middle')->user()->id)->first();
+        if ($lastRecord) {
+            $lastRecord->delete();
+        }
+        $professioninsert['date'] = $request->date_acquired;
+
+        $professioninsert['user_id'] =  Auth::guard('nurse_middle')->user()->id;
+
+        $professioninsert['status'] = '0';
+        $professioninsert['created_at'] = Carbon::now('Asia/Kolkata');
+
+        $run = PoliceCheckModel::insert($professioninsert);
+        if ($run) {
+            $json['status'] = 1;
+            $json['url'] = url('nurse/my-profile') . "?page=work_clearances";
+            // $json['url'] = url('nurse/my-profile#tab-myclearance-jobs');
+            $json['message'] = 'You have Successfully submitted the details.';
+        } else {
+            $json['status'] = 0;
+            $json['message'] = 'Please Try Again';
+        }
+
         echo json_encode($json);
     }
     public function update_profession_profile_setting(Request $request)
-    {       
-            $update['medical_facilities'] = isset($request->medical_facilities) ? 'Yes' : 'No';
-            $update['agencies'] = isset($request->agencies) ? 'Yes' : 'No';
-            $update['individuals'] = isset($request->individuals) ? 'Yes' : 'No';
-            $update['profile_status'] = isset($request->profile_status) ? 'Yes' : 'No';
-            $update['unavailable_profile_status'] = isset($request->profile_status_unavailable) ? 'Yes' : 'No';
-            $update['updated_at'] = Carbon::now('Asia/Kolkata');
-            $run = User::where('id', Auth::guard('nurse_middle')->user()->id)->update($update);
+    {
+        $update['medical_facilities'] = isset($request->medical_facilities) ? 'Yes' : 'No';
+        $update['agencies'] = isset($request->agencies) ? 'Yes' : 'No';
+        $update['individuals'] = isset($request->individuals) ? 'Yes' : 'No';
+        $update['profile_status'] = isset($request->profile_status) ? 'Yes' : 'No';
+        $update['unavailable_profile_status'] = isset($request->profile_status_unavailable) ? 'Yes' : 'No';
+        $update['updated_at'] = Carbon::now('Asia/Kolkata');
+        $run = User::where('id', Auth::guard('nurse_middle')->user()->id)->update($update);
 
-            if ($run) {
-                $json['status'] = 1;
-                $json['url'] = url('nurse/my-profile');
-                $json['message'] = 'You have Successfully submitted the details.';
-             } else {
-                $json['status'] = 0;
-                $json['message'] = 'Please Try Again';
-            }
-        
+        if ($run) {
+            $json['status'] = 1;
+            $json['url'] = url('nurse/my-profile');
+            $json['message'] = 'You have Successfully submitted the details.';
+        } else {
+            $json['status'] = 0;
+            $json['message'] = 'Please Try Again';
+        }
+
         echo json_encode($json);
     }
     public function term_and_condition($message = '')
     {
-           return view('nurse.term-&-condition', compact( 'message'));   
+        return view('nurse.term-&-condition', compact('message'));
     }
     public function about($message = '')
     {
-           return view('nurse.about-us', compact( 'message'));   
+        return view('nurse.about-us', compact('message'));
     }
-    
+
     public function privacy($message = '')
     {
-           return view('nurse.privacy', compact( 'message'));   
+        return view('nurse.privacy', compact('message'));
     }
     public function addnewsletters(AddnewsletterRequest $request)
     {
         try {
-           return $this->specialityServices->addnewsletters($request);
+            return $this->specialityServices->addnewsletters($request);
         } catch (\Exception $e) {
             log::error('Error in HomeController/addnewsletters :' . $e->getMessage() . 'in line' . $e->getLine());
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
