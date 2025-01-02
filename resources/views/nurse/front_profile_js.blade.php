@@ -2491,8 +2491,8 @@
 
         for (let i = 1; i <= nurseLen; i++) {
 
-            let nurseResultVal = $(`.nursing_result-${i}`).val();
-            // console.log($(`.nursing_result-${i}`));
+            let nurseResultVal = $(`.nursing_result_experience-${i}`).val();
+            // console.log($(`.nursing_result_experience-${i}`));
             if (selectedValues.includes(nurseResultVal)) {
                 console.log($(`#nursing_level_experience-${i}-${index}`));
                 // Show the corresponding section
@@ -2500,10 +2500,10 @@
             } else {
                 // Hide the section and clear associated select2 values
                 $(`#nursing_level_experience-${i}-${index}`).addClass('d-none');
-                $(`.js-example-basic-multiple[data-list-id="nursing_entry-${i}"]`)
-                    .select2()
-                    .val(null)
-                    .trigger('change');
+                // $(`.js-example-basic-multiple[data-list-id="nursing_entry-${i}"]`)
+                //     .select2()
+                //     .val(null)
+                //     .trigger('change');
             }
         }
 
