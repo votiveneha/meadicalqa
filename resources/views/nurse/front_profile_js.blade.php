@@ -2177,9 +2177,6 @@
                             $newDropdown.select2({
                                 data: items1
                             });
-
-
-
                             // Add select all/remove all functionality
                             initializeSelect22($newDropdown);
                         }
@@ -2417,7 +2414,7 @@
 
     // exp tab changes
     $(document).ready(function() {
-        // alert($(".type_nurse_ep").val());
+
         var l = 1;
         $(".nurse_exp_type").each(function() {
             if ($(".nurse_exp_type-" + l).length > 0) {
@@ -2430,29 +2427,90 @@
             l++;
         });
 
+        var a = 1;
+        var triggerCount = 0; // Initialize the counter
+        $(".nurse-res-rex").each(function() {
+            if ($(".nurse-res-rex-" + a).length > 0) {
+                if ($(".nursing_result_one_experience_" + a).val() != "") {
+                    // Initialize select2
+                    var nurse_res1 = JSON.parse($(".nursing_result_one_experience_" + a).val());
+                    $('.nur_exp_res_2_' + a).select2().val(nurse_res1).trigger('change');
+                }
 
-
-        var i = 1;
-        $('.js-example-basic-multiple').each(function() {
-            let listId = $(this).data('list-id');
-            //alert(listId);
-            let items = [];
-            console.log("listId1", listId);
-            $('#' + listId + ' li').each(function() {
-                console.log("value1", $(this).text());
-                items.push({
-                    id: $(this).data('value'),
-                    text: $(this).text()
-                });
-            });
-            console.log("items1", items);
-            $(this).select2({
-                data: items
-            });
-            //$("#type-of-nurse").select2({'val': 3});  
-            $i++;
+            }
+            a++;
         });
 
 
+        var b = 1;
+        $(".nurse-res-rex").each(function() {
+            if ($(".nurse-res-rex-" + b).length > 0) {
+                if ($(".nursing_result_two_experience_" + b).val() != "") {
+                    var nurse_res2 = JSON.parse($(".nursing_result_two_experience_" + b).val());
+                    $('.nur_exp_res_1_' + b).select2().val(nurse_res2).trigger('change');
+                }
+            }
+            b++;
+        });
+
+        var c = 1;
+        $(".nurse-res-rex").each(function() {
+            if ($(".nurse-res-rex-" + c).length > 0) {
+                if ($(".nursing_result_three_experience_" + c).val() != "") {
+                    var nurse_res3 = JSON.parse($(".nursing_result_three_experience_" + c).val());
+                    $('.nur_exp_res_3_' + c).select2().val(nurse_res3).trigger('change');
+                    if (nurse_res3.includes("179")) {
+                        if ($(".np_result_experience_" + c).val() != "") {
+                            var nurse_res4 = JSON.parse($(".np_result_experience_" + c).val());
+                            $('.nurse_prax_exp_' + c).select2().val(nurse_res4).trigger('change');
+                        }
+                        $('.np_submenu_experience').removeClass('d-none');
+                    } else {
+                        $('.np_submenu_experience').addClass('d-none');
+                    }
+                }
+            }
+            c++;
+        });
     })
+
+    function handleNurseTypeChange(index) {
+        // alert();
+        // Get the select element using the index
+        let selectElement = document.getElementById(`nurse_type_exp-${index}`);
+
+        // Get the associated `data-list-id` for the current dropdown
+        let listId = selectElement.getAttribute('data-list-id');
+
+        // Retrieve selected values from the dropdown
+        let selectedValues = $(selectElement).val() || []; // Ensure selectedValues is an array
+        console.log(`Selected values for index ${index}:`, selectedValues);
+
+        // Get the length of nursing result items
+        let nurseLen = $(`#${listId} li`).length;
+
+        for (let i = 1; i <= nurseLen; i++) {
+
+            let nurseResultVal = $(`.nursing_result-${i}`).val();
+            // console.log($(`.nursing_result-${i}`));
+            if (selectedValues.includes(nurseResultVal)) {
+                console.log($(`#nursing_level_experience-${i}-${index}`));
+                // Show the corresponding section
+                $(`#nursing_level_experience-${i}-${index}`).removeClass('d-none');
+            } else {
+                // Hide the section and clear associated select2 values
+                $(`#nursing_level_experience-${i}-${index}`).addClass('d-none');
+                $(`.js-example-basic-multiple[data-list-id="nursing_entry-${i}"]`)
+                    .select2()
+                    .val(null)
+                    .trigger('change');
+            }
+        }
+
+        if (selectedValues.includes("3") == false) {
+            $('.np_submenu_experience').addClass('d-none');
+            //$('.js-example-basic-multiple[data-list-id="nursing_entry-3"]').select2().val(null).trigger('change');
+            // $('.js-example-basic-multiple[data-list-id="nurse_practitioner_menu"]').select2().val(null).trigger('change');
+        }
+    }
 </script>

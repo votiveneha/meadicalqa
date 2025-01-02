@@ -548,8 +548,6 @@
                       </div>
                       <span id="reqnurseTypeId" class="reqError text-danger valley"></span>
                     </div>
-
-
                     <div class="result--show ">
                       <div class="container p-0">
                         <div class="row g-2">
