@@ -3356,4 +3356,10 @@ class HomeController extends Controller
         //print_r($skills_array);
         return json_encode($skills_array);
     }
+
+    public function profileVaccination(Request $request)
+    {
+        //This function is for profile vaccination
+        return view('nurse.profile_vaccination');
+    }
 }

@@ -109,5 +109,6 @@ Route::prefix('nurse')->name('nurse.')->namespace('App\Http\Controllers\nurse')-
     Route::post('/deleteotherImg', 'HomeController@deleteotherImg')->name('deleteotherImg');
     Route::post('/deletecertification_img', 'HomeController@deletecertification_img')->name('deletecertification_img');
     Route::post('/getSkillsData', 'HomeController@getSkillsData')->name('getSkillsData');
+    Route::any('/profileVaccination', 'HomeController@profileVaccination')->name('profileVaccination');
   });
 });

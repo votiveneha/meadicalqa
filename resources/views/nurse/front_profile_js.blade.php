@@ -1,11 +1,11 @@
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> -->
 <script>
     $(document).ready(function() {
         // Mandatory Training and Education
         $('.js-example-basic-multiple[data-list-id="mandatory_courses"]').on('change', function() {
             let selectedValues = $(this).val();
 
-            console.log("selectedValues", selectedValues);
+            //console.log("selectedValues", selectedValues);
             //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
             if (selectedValues.includes("419")) {
                 $('.mandatory_tr_div_1').removeClass('d-none');
@@ -80,7 +80,7 @@
 
                     let res = text.split(' ')[0];
                     let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-                    console.log("res_one", res_one);
+                    //console.log("res_one", res_one);
 
                     $(".well_self_care_" + res_one).remove();
                     var user_id = "{{ $user_id }}";
@@ -88,7 +88,7 @@
                 }
                 well_self_care.push(text);
             });
-            console.log("selectedValues", selectedValues);
+            //console.log("selectedValues", selectedValues);
 
             // $(".well_self_care_div").empty();
 
@@ -96,7 +96,7 @@
                 var selected_text = selectedValues[i].replace(/ .*/, '').replace(/[^\w\s]/gi, '').toLowerCase();
                 let res = selectedValues[i].split(' ')[0];
                 let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-                console.log("res_one", res_one);
+                //console.log("res_one", res_one);
 
                 if (well_self_care.includes(selectedValues[i]) == false) {
 
@@ -118,7 +118,7 @@
                 if (selectedValues.includes(text) == false) {
                     let res = text.split(' ')[0];
                     let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-                    console.log("res_one", res_one);
+                    //console.log("res_one", res_one);
 
                     $(".tech_innvo_health_" + res_one).remove();
                     var user_id = "{{ $user_id }}";
@@ -126,14 +126,14 @@
                 }
                 tech_innvo_health.push(text);
             });
-            console.log("selectedValues", selectedValues);
+            //console.log("selectedValues", selectedValues);
 
             // $(".tech_innvo_health_div").empty();
             for (var i = 0; i < selectedValues.length; i++) {
                 var selected_text = selectedValues[i].replace(/ .*/, '').replace(/[^\w\s]/gi, '').toLowerCase();
                 let res = selectedValues[i].split(' ')[0];
                 let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-                console.log("res_one", res_one);
+                //console.log("res_one", res_one);
 
                 if (tech_innvo_health.includes(selectedValues[i]) == false) {
                     var user_id = "{{ $user_id }}";
@@ -170,7 +170,7 @@
                 }
                 leader_pro_dev.push(text);
             });
-            console.log("selectedValues", selectedValues);
+            //console.log("selectedValues", selectedValues);
 
             // $(".leader_pro_dev_div").empty();
             for (var i = 0; i < selectedValues.length; i++) {
@@ -222,7 +222,7 @@
                 }
                 mid_spec_tra.push(text);
             });
-            console.log("selectedValues", selectedValues);
+            //console.log("selectedValues", selectedValues);
 
             // $(".mid_spec_tra_div").empty();
             for (var i = 0; i < selectedValues.length; i++) {
@@ -240,7 +240,7 @@
                 res_3 = res_3.substring(0, 4)
 
                 let res_one = res_1 + '_' + res_2 + '_' + res_3;
-                console.log("res_one", res_one);
+                //console.log("res_one", res_one);
 
                 if (mid_spec_tra.includes(selectedValues[i]) == false) {
 
@@ -263,7 +263,7 @@
                 let dataId = $('#clinic_skill_core_data li').filter(function() {
                     return $(this).text() === value;
                 }).data('id');
-                console.log('ggg', dataId);
+                //console.log('ggg', dataId);
                 // Add the found dataId to the selectedIds array if it exists
                 if (dataId !== undefined) {
                     selectedIds.push(dataId);
@@ -276,7 +276,7 @@
                 if (selectedValues.includes(text) == false) {
                     let res = text.split(' ')[0];
                     let res_1 = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-                    // console.log("res_one",res_one);
+                    // //console.log("res_one",res_one);
 
                     // Find the corresponding dataId for the text from the list
                     let dataId = $('#clinic_skill_core_data li').filter(function() {
@@ -291,7 +291,7 @@
                 }
                 clinic_skill_core.push(text);
             });
-            console.log("selectedValues", selectedValues);
+            //console.log("selectedValues", selectedValues);
 
             // $(".clinic_skill_core_div").empty();
             for (var i = 0; i < selectedValues.length; i++) {
@@ -316,7 +316,7 @@
         $('.js-example-basic-multiple[data-list-id="mandatory_education"]').on('change', function() {
             let selectedValues = $(this).val();
 
-            console.log("selectedValues", selectedValues);
+            //console.log("selectedValues", selectedValues);
             //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
             if (selectedValues.includes("440")) {
                 $('.mandatory_sub_edu_div_1').removeClass('d-none');
@@ -403,7 +403,7 @@
                 if (selectedValues.includes(text) == false) {
                     let res = text.split(' ')[0];
                     let res_1 = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-                    // console.log("res_one",res_one);
+                    // //console.log("res_one",res_one);
                     // Find the corresponding dataId for the text from the list
                     let dataId = $('#core_man_con_data li').filter(function() {
                         return $(this).text() === text;
@@ -417,7 +417,7 @@
                 }
                 core_man_con_data.push(text);
             });
-            console.log("selectedValues", selectedValues);
+            //console.log("selectedValues", selectedValues);
 
             // $(".core_man_con_data_div").empty();
 
@@ -505,14 +505,14 @@
                 if (selectedValues.includes(text) == false) {
                     let res = text.split(' ')[0];
                     let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-                    console.log("res_one", res_one);
+                    //console.log("res_one", res_one);
                     $(".mid_spe_" + res_one).remove();
                     var user_id = "{{ $user_id }}";
                     deleteDatabaseImgs(user_id, "mid_spe_imgs");
                 }
                 mid_spe_mandotry_data.push(text);
             });
-            console.log("selectedValues", selectedValues);
+            //console.log("selectedValues", selectedValues);
 
             // $(".mid_spe_mandotry_div").empty();
 
@@ -520,7 +520,7 @@
                 var selected_text = selectedValues[i].replace(/ .*/, '').replace(/[^\w\s]/gi, '').toLowerCase();
                 let res = selectedValues[i].split(' ')[0];
                 let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-                console.log("res_one", res_one);
+                //console.log("res_one", res_one);
 
                 if (mid_spe_mandotry_data.includes(selectedValues[i]) == false) {
                     var user_id = "{{ $user_id }}";
@@ -595,12 +595,12 @@
         //       if(selectedValues.includes(text) == false){
         //         let res = text.split(' ')[0];
         //         let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-        //         console.log("res_one",res_one);
+        //         //console.log("res_one",res_one);
         //         $(".spec_area_"+res_one).remove();
         //       }
         //       spec_area_data.push(text);
         //     });
-        //     console.log("selectedValues",selectedValues);
+        //     //console.log("selectedValues",selectedValues);
 
         //     // $(".spec_area_div").empty();
 
@@ -608,7 +608,7 @@
         //       var selected_text = selectedValues[i].replace(/ .*/,'').replace(/[^\w\s]/gi, '').toLowerCase();
         //       let res = selectedValues[i].split(' ')[0];
         //       let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-        //       console.log("res_one",res_one);
+        //       //console.log("res_one",res_one);
 
         //       if(spec_area_data.includes(selectedValues[i]) == false){            
         //         var user_id = "{{ $user_id }}";
@@ -693,7 +693,7 @@
                 spec_area_data.push(text);
             });
 
-            console.log("selectedValues", selectedValues);
+            //console.log("selectedValues", selectedValues);
 
             // Accumulate HTML in a variable
             var newContent = "";
@@ -704,7 +704,7 @@
                 let res = selectedValues[i].split(' ')[0];
                 let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
 
-                console.log("res_one", res_one);
+                //console.log("res_one", res_one);
 
                 if (spec_area_data.indexOf(selectedValues[i]) === -1) {
                     var user_id = "{{ $user_id }}";
@@ -784,14 +784,14 @@
                 if (selectedValues.includes(text) == false) {
                     let res = text.split(' ')[0];
                     let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-                    console.log("res_one", res_one);
+                    //console.log("res_one", res_one);
                     $(".safety_com_" + res_one).remove();
                     var user_id = "{{ $user_id }}";
                     deleteDatabaseImgs(user_id, "safety_com_imgs");
                 }
                 safety_com_data.push(text);
             });
-            console.log("selectedValues", selectedValues);
+            //console.log("selectedValues", selectedValues);
 
             // $(".safety_com_div").empty();
 
@@ -799,7 +799,7 @@
                 var selected_text = selectedValues[i].replace(/ .*/, '').replace(/[^\w\s]/gi, '').toLowerCase();
                 let res = selectedValues[i].split(' ')[0];
                 let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-                console.log("res_one", res_one);
+                //console.log("res_one", res_one);
 
                 if (safety_com_data.includes(selectedValues[i]) == false) {
                     var user_id = "{{ $user_id }}";
@@ -905,7 +905,7 @@
                 }
                 emerging_topic_data.push(text);
             });
-            console.log("selectedValues", selectedValues);
+            //console.log("selectedValues", selectedValues);
 
             // $(".emerging_topic_div").empty();
 
@@ -998,7 +998,7 @@
         }
         if ($(".safety_data").val() != "") {
             var safety_data = JSON.parse($(".safety_data").val());
-            console.log(safety_data);
+            //console.log(safety_data);
             $('.js-example-basic-multiple[data-list-id="safety_com_data"]').select2().val(safety_data).trigger('change');
         }
 
@@ -1046,7 +1046,7 @@
 
     function add_listtraining() {
         var training_div_count = $(".another_com_tra_div").length;
-        console.log("training_div_count", training_div_count);
+        //console.log("training_div_count", training_div_count);
         training_div_count++;
         var user_id = "{{ $user_id }}";
         // var ano_img_txt = "other_tran_img";
@@ -1135,7 +1135,7 @@
 
     // for education
 
-    // console.log("training_div_count",training_div_count);
+    // //console.log("training_div_count",training_div_count);
     function add_listeduction() {
         var education_div_count = $(".another_edu_div").length;
         education_div_count++;
@@ -1259,12 +1259,12 @@
             success: function(data) {
                 var image_array = JSON.parse(data);
                 var htmlData = '';
-                console.log("data", image_array);
+                //console.log("data", image_array);
                 for (var i = 0; i < image_array.length; i++) {
-                    console.log("degree_transcript", image_array[i]);
+                    //console.log("degree_transcript", image_array[i]);
                     var img_name = image_array[i];
                     var img_text = field_name;
-                    console.log("img_name", 'deleteImg(' + (i + 1) + ',' + user_id + ',"' + img_name + '")');
+                    //console.log("img_name", 'deleteImg(' + (i + 1) + ',' + user_id + ',"' + img_name + '")');
                     htmlData += '<div class="trans_img trans_img-' + (i + 1) + ' trans_img' + field_name + cat_name + i + '"><a href="{{ url("/public") }}/uploads/education_degree/' + img_name + '" target="_blank"><i class="fa fa-file" aria-hidden="true"></i>' + image_array[i] + '</a><div class="close_btn close_btn-' + i + '" onclick="deleteImg1(' + i + ',' + user_id + ',\'' + image_array[i] + '\',\'' + cat_name + '\',\'' + img_text + '\')" style="cursor: pointer;"><i class="fa fa-close" aria-hidden="true"></i></div></div>';
                 }
                 $("." + field_name + cat_name).html(htmlData);
@@ -1304,12 +1304,12 @@
             success: function(data) {
                 var image_array = JSON.parse(data);
                 var htmlData = '';
-                console.log("data", image_array);
+                //console.log("data", image_array);
                 for (var i = 0; i < image_array.length; i++) {
-                    console.log("degree_transcript", image_array[i]);
+                    //console.log("degree_transcript", image_array[i]);
                     var img_name = image_array[i];
                     var img_text = field_name;
-                    console.log("img_name", 'deleteanoImg(' + (i + 1) + ',' + user_id + ',"' + img_name + '")');
+                    //console.log("img_name", 'deleteanoImg(' + (i + 1) + ',' + user_id + ',"' + img_name + '")');
                     htmlData += '<div class="trans_img edu_img-' + (i + 1) + ' edu_img' + field_name + 'tran_' + (i) + '"><a href="{{ url("/public") }}/uploads/education_degree/' + img_name + '" target="_blank"><i class="fa fa-file" aria-hidden="true"></i>' + image_array[i] + '</a><div class="close_btn close_btn-' + i + '" onclick="deleteanoImg1(' + i + ',' + user_id + ',\'' + image_array[i] + '\',\'' + cat_name + '\',\'' + img_text + '\')" style="cursor: pointer;"><i class="fa fa-close" aria-hidden="true"></i></div></div>';
                 }
                 $("." + field_name + cat_name).html(htmlData);
@@ -1777,15 +1777,15 @@
             let listId1 = $(this).data('list-id');
             //alert(listId);
             let items1 = [];
-            console.log("listId1", listId1);
+            //console.log("listId1", listId1);
             $('#' + listId1 + ' li').each(function() {
-                console.log("value1", $(this).text());
+                //console.log("value1", $(this).text());
                 items1.push({
                     id: $(this).data('value'),
                     text: $(this).text()
                 });
             });
-            console.log("items1", items1);
+            //console.log("items1", items1);
             $(this).select2({
                 data: items1
             });
@@ -1868,11 +1868,11 @@
 
             var nurse_len = $("#type-of-nurse-experience-" + previous_employeers_head + " li").length;
 
-            console.log("nurse_len", nurse_len);
+            //console.log("nurse_len", nurse_len);
 
             //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
 
-            console.log("selectedValues", selectedValues);
+            //console.log("selectedValues", selectedValues);
             //$('.result--show .form-group').addClass('d-none');
 
             for (var i = 1; i <= nurse_len; i++) {
@@ -1896,12 +1896,12 @@
         $('.js-example-basic-multiple' + previous_employeers_head + '[data-list-id="nursing_entry_experience-' + previous_employeers_head + '-3"]').on('change', function() {
             let selectedValues = $(this).val();
             var nurse_len = $("#type-of-nurse-experience-" + previous_employeers_head + " li").length;
-            console.log("nurse_len", nurse_len);
+            //console.log("nurse_len", nurse_len);
 
             //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
             if (selectedValues.includes("179")) {
                 $('.np_submenu_experience_' + previous_employeers_head).removeClass('d-none');
-                console.log("selectedValues", selectedValues);
+                //console.log("selectedValues", selectedValues);
             } else {
                 $('.np_submenu_experience_' + previous_employeers_head).addClass('d-none');
                 $('.js-example-basic-multiple' + previous_employeers_head + '[data-list-id="nurse_practitioner_menu_experience-' + previous_employeers_head + '"]').select2().val(null).trigger('change');
@@ -1913,11 +1913,11 @@
             let selectedValues = $(this).val();
             var speciality_len = $("#specialties_experience-" + previous_employeers_head + " li").length;
 
-            console.log("speciality_len", speciality_len);
+            //console.log("speciality_len", speciality_len);
 
             //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
 
-            console.log("selectedValues", selectedValues);
+            //console.log("selectedValues", selectedValues);
             //$('.result--show .form-group').addClass('d-none');
 
             for (var k = 1; k <= speciality_len; k++) {
@@ -1959,12 +1959,12 @@
         $('.js-example-basic-multiple' + previous_employeers_head + '[data-list-id="speciality_entry_experience-' + previous_employeers_head + '-1"]').on('change', function() {
             let selectedValues = $(this).val();
             var speciality_entry = $("#speciality_entry_experience-" + previous_employeers_head + "-1 li").length;
-            console.log("speciality_entry", speciality_entry);
+            //console.log("speciality_entry", speciality_entry);
             // $(".surgical_row").wrapAll("<div class='col-md-12 row surgical_row_data'>");
             $(".surgical_row_data_experience-" + previous_employeers_head + "").insertAfter("#specility_level_experience-" + previous_employeers_head + "-1");
             //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
 
-            console.log("selectedValues", selectedValues.includes("96"));
+            //console.log("selectedValues", selectedValues.includes("96"));
             //$('.result--show .form-group').addClass('d-none');
 
             if (selectedValues.includes("96")) {
@@ -1998,12 +1998,12 @@
             let selectedValues = $(this).val();
             var speciality_entry = $("#surgical_row_box_experience-" + previous_employeers_head + " li").length;
 
-            console.log("surgical_row_data_experience-", previous_employeers_head);
+            //console.log("surgical_row_data_experience-", previous_employeers_head);
             // $(".surgical_row").wrapAll("<div class='col-md-12 row surgical_row_data'>");
             $(".specialty_sub_boxes_experience-" + previous_employeers_head).insertAfter(".surgical_row_data_experience-" + previous_employeers_head);
             //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
 
-            console.log("selectedValues", selectedValues);
+            //console.log("selectedValues", selectedValues);
             //$('.result--show .form-group').addClass('d-none');
 
             // if(selectedValues.includes("97")){
@@ -2014,7 +2014,7 @@
 
             for (var k = 1; k <= speciality_entry; k++) {
                 var speciality_result_val = $(".speciality_surgical_result_experience-" + previous_employeers_head + '-' + k).val();
-                console.log("speciality_result_val", speciality_result_val);
+                //console.log("speciality_result_val", speciality_result_val);
                 if (selectedValues.includes(speciality_result_val)) {
                     $('.surgical_row_experience-' + previous_employeers_head + '-' + k).removeClass('d-none');
                 } else {
@@ -2029,13 +2029,13 @@
 
             var speciality_entry = $("#speciality_entry_experience-" + previous_employeers_head + "-2 li").length;
 
-            console.log("speciality_entry", speciality_entry);
+            //console.log("speciality_entry", speciality_entry);
             // $(".surgicalobs_row").wrapAll("<div class='col-md-12 row surgicalobs_row_data'>");
             $(".surgicalobs_row_experience-" + previous_employeers_head).insertAfter("#specility_level_experience-" + previous_employeers_head + "-2");
 
             //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
 
-            console.log("selectedValues", selectedValues);
+            //console.log("selectedValues", selectedValues);
             //$('.result--show .form-group').addClass('d-none');
 
             if (selectedValues.includes("233")) {
@@ -2050,7 +2050,7 @@
             let selectedValues = $(this).val();
 
             var speciality_entry = $("#speciality_entry_experience-" + previous_employeers_head + "-2 li").length;
-            console.log("speciality_entry", speciality_entry);
+            //console.log("speciality_entry", speciality_entry);
             $(".surgical_rowp_experience-" + previous_employeers_head).wrapAll("<div class='col-md-12 row surgical_rowp_data_experience-" + previous_employeers_head + "'>");
             $(".paediatric_surgical_div_experience-" + previous_employeers_head).insertAfter("#specility_level_experience-" + previous_employeers_head + "-3");
 
@@ -2060,7 +2060,7 @@
 
             //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
 
-            console.log("selectedValues", selectedValues);
+
             //$('.result--show .form-group').addClass('d-none');
 
             if (selectedValues.includes('250')) {
@@ -2088,7 +2088,7 @@
             let selectedValues = $(this).val();
 
             var speciality_entry = $("#surgical_rowpad_box_experience-" + previous_employeers_head + " li").length;
-            console.log("speciality_entry", speciality_entry);
+            //console.log("speciality_entry", speciality_entry);
             // $(".surgical_rowp").wrapAll("<div class='col-md-12 row surgical_rowp_data'>");
             $(".surgical_rowp_data_experience-" + previous_employeers_head).insertAfter(".surgicalpad_row_data_experience-" + previous_employeers_head);
 
@@ -2098,7 +2098,6 @@
 
             //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
 
-            console.log("selectedValues", selectedValues);
             //$('.result--show .form-group').addClass('d-none');
 
 
@@ -2242,7 +2241,6 @@
     $(document).ready(function() {
         $('.js-example-basic-multiple[data-list-id="vaccination_record"]').on('change', function() {
             let selectedValues = $(this).val(); // Get selected values (IDs)
-            console.log('selectedValues', selectedValues);
 
             let processedIds = new Set(); // Track already processed IDs
             $(".vacc_rec_div").empty(); // Clear the current contents of the vaccination record container
@@ -2349,7 +2347,7 @@
                     </div>
                 `);
                     } else {
-                        console.log(`No matching text found for ID: ${id}`);
+                        //console.log(`No matching text found for ID: ${id}`);
                     }
                 }
             });
@@ -2436,7 +2434,6 @@
                     var nurse_res1 = JSON.parse($(".nursing_result_one_experience_" + a).val());
                     $('.nur_exp_res_2_' + a).select2().val(nurse_res1).trigger('change');
                 }
-
             }
             a++;
         });
@@ -2459,7 +2456,7 @@
                 if ($(".nursing_result_three_experience_" + c).val() != "") {
                     var nurse_res3 = JSON.parse($(".nursing_result_three_experience_" + c).val());
                     $('.nur_exp_res_3_' + c).select2().val(nurse_res3).trigger('change');
-                    if (nurse_res3.includes("179")) {
+                    if (Array.isArray(nurse_res3) && nurse_res3.includes("179")) {
                         if ($(".np_result_experience_" + c).val() != "") {
                             var nurse_res4 = JSON.parse($(".np_result_experience_" + c).val());
                             $('.nurse_prax_exp_' + c).select2().val(nurse_res4).trigger('change');
@@ -2472,38 +2469,164 @@
             }
             c++;
         });
+
+
+        var d = 1;
+        $(".condition_set").each(function() {
+            if ($(".exp_tab-" + d).length > 0) {
+                if ($(".speciality_exp_value-" + d).val() != "") {
+                    var spec_type = JSON.parse($(".speciality_exp_value-" + d).val());
+                    $('.exp_spe_type_' + d).select2().val(spec_type).trigger('change');
+                }
+            }
+            d++;
+        });
+
+
+        var e = 1;
+        $(".exp_tab").each(function() {
+            if ($(".exp_tab-" + e).length > 0) {
+                if ($(".adults_result_experience_" + e).val() != "") {
+                    var adult_type = JSON.parse($(".adults_result_experience_" + e).val());
+                    $('.specility_sub_type_1_' + e).select2().val(adult_type).trigger('change');
+                    $('.specility_sub_type_2_' + e).select2().val(adult_type).trigger('change');
+                    $('.specility_sub_type_3_' + e).select2().val(adult_type).trigger('change');
+                    $('.specility_sub_type_4_' + e).select2().val(adult_type).trigger('change');
+                }
+            }
+            e++;
+        });
+
+        var e = 1;
+        $(".exp_tab").each(function() {
+            if ($(".exp_tab-" + e).length > 0) {
+                if ($(".adults_result_experience_" + e).val() != "") {
+                    var adult_type = JSON.parse($(".adults_result_experience_" + e).val());
+                    $('.specility_sub_type_1_' + e).select2().val(adult_type).trigger('change');
+                    $('.specility_sub_type_2_' + e).select2().val(adult_type).trigger('change');
+                    $('.specility_sub_type_3_' + e).select2().val(adult_type).trigger('change');
+                    $('.specility_sub_type_4_' + e).select2().val(adult_type).trigger('change');
+                }
+            }
+            e++;
+        });
+
+        var e = 1;
+        $(".exp_tab").each(function() {
+            if ($(".exp_tab-" + e).length > 0) {
+                if ($(".adults_result_experience_" + e).val() != "") {
+                    var adult_type = JSON.parse($(".adults_result_experience_" + e).val());
+                    $('.specility_sub_type_1_' + e).select2().val(adult_type).trigger('change');
+                    $('.specility_sub_type_2_' + e).select2().val(adult_type).trigger('change');
+                    $('.specility_sub_type_3_' + e).select2().val(adult_type).trigger('change');
+                    $('.specility_sub_type_4_' + e).select2().val(adult_type).trigger('change');
+                }
+            }
+            e++;
+        });
+
+        var e = 1; // Initialize the counter
+        $(".exp_tab").each(function(index) {
+            if ($(".exp_tab-" + e).length > 0) {
+                if ($(".adults_result_experience_" + e).val() != "") {
+                    var adult_type = JSON.parse($(".adults_result_experience_" + e).val());
+                    $('.specility_sub_type_1_' + e).select2().val(adult_type).trigger('change');
+
+                    if (adult_type.includes("96")) {
+                        $('.surgical_row_data_experience_' + e).removeClass('d-none');
+                        var sur_type = JSON.parse($(".surgical_preoperative_result_experience-" + e).val());
+                        $('.sur_exp_' + e).select2().val(sur_type).trigger('change');
+                    } else {
+                        $('.surgical_row_data_experience_' + e).addClass('d-none');
+                    }
+                } else {
+                    $('.surgical_row_data_experience_' + e).addClass('d-none');
+                    // Optional: Uncomment this line if you want to clear the select2 values
+                    // $('.js-example-basic-multiple[data-list-id="surgical_obs_care"]').select2().val(null).trigger('change');
+                }
+            }
+            e++; // Increment the counter inside the loop
+        });
+
+
+        var f = 1; // Initialize the counter
+        $(".exp_tab").each(function(index) {
+            if ($(".exp_tab-" + f).length > 0) {
+                var surgicalResult = $(".surgical_preoperative_result_experience-" + f).val();
+                if (surgicalResult != "") {
+                    var sur_opr_type = JSON.parse(surgicalResult);
+
+                    if (sur_opr_type.includes("97")) {
+                        $('.sur_sub_type_97_' + f).removeClass('d-none');
+                        var surgicalsubvalue = $(".operatingroom_result_experience-" + f).val();
+                        if (surgicalsubvalue != "") {
+                            var getvalue1 = JSON.parse($(".operatingroom_result_experience-" + f).val());
+
+                            $('.spec_sub_value_97_' + f).select2().val(getvalue1).trigger('change');
+                        }
+                    }
+
+                    if (sur_opr_type.includes("98")) {
+                        $('.sur_sub_type_98_' + f).removeClass('d-none');
+                        var surgicalsubvalue1 = $(".operatingscout_result_experience-" + f).val();
+                        if (surgicalsubvalue1 != "") {
+                            var getvalue2 = JSON.parse($(".operatingscout_result_experience-" + f).val());
+
+                            $('.spec_sub_value_98_' + f).select2().val(getvalue2).trigger('change');
+                        }
+                    }
+                    if (sur_opr_type.includes("99")) {
+                        $('.sur_sub_type_99_' + f).removeClass('d-none');
+                        var surgicalsubvalue2 = $(".operatingscrub_result_experience-" + f).val();
+                        if (surgicalsubvalue2 != "") {
+                            var getvalue3 = JSON.parse($(".operatingscrub_result_experience-" + f).val());
+
+                            $('.spec_sub_value_99_' + f).select2().val(getvalue3).trigger('change');
+                        }
+                    }
+                } else {
+                    // Optional: Handle case when the value is empty
+                    // $('.surgical_row_data_experience_' + f).addClass('d-none');
+                    // $('.js-example-basic-multiple[data-list-id="surgical_obs_care"]').select2().val(null).trigger('change');
+                }
+            }
+            f++; // Increment the counter inside the loop
+        });
+
+
+
+
+
+
+
+
     })
 
     function handleNurseTypeChange(index) {
         // alert();
         // Get the select element using the index
         let selectElement = document.getElementById(`nurse_type_exp-${index}`);
-
         // Get the associated `data-list-id` for the current dropdown
         let listId = selectElement.getAttribute('data-list-id');
-
         // Retrieve selected values from the dropdown
         let selectedValues = $(selectElement).val() || []; // Ensure selectedValues is an array
-        console.log(`Selected values for index ${index}:`, selectedValues);
-
         // Get the length of nursing result items
         let nurseLen = $(`#${listId} li`).length;
 
         for (let i = 1; i <= nurseLen; i++) {
-
             let nurseResultVal = $(`.nursing_result_experience-${i}`).val();
-            // console.log($(`.nursing_result_experience-${i}`));
-            if (selectedValues.includes(nurseResultVal)) {
-                console.log($(`#nursing_level_experience-${i}-${index}`));
+
+            if (Array.isArray(selectedValues) && selectedValues.includes(nurseResultVal)) {
+
                 // Show the corresponding section
                 $(`#nursing_level_experience-${i}-${index}`).removeClass('d-none');
             } else {
                 // Hide the section and clear associated select2 values
                 $(`#nursing_level_experience-${i}-${index}`).addClass('d-none');
-                // $(`.js-example-basic-multiple[data-list-id="nursing_entry-${i}"]`)
-                //     .select2()
-                //     .val(null)
-                //     .trigger('change');
+                $(`.js-example-basic-multiple[data-list-id="nursing_entry_experience-${i}"]`)
+                    .select2()
+                    .val(null)
+                    .trigger('change');
             }
         }
 

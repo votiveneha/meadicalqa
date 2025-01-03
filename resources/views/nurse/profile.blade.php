@@ -186,7 +186,8 @@
                 <li><a href="#reference" id="reference_info" class="btn btn-border aboutus-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true"><i class="fi fi-rr-suitcase-alt"></i> References</a></li>
                 <!-- <li><a href="#experience" id="experience_info" class="btn btn-border aboutus-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true"><i class="fi fi-rr-chart-histogram"></i>  Financial Details</a></li> -->
 
-                <li><a href="#vaccinations" id="vaccinations" class="btn btn-border aboutus-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true"><i class="fi fi-rr-chart-user"></i> Vaccinations</a></li>
+                <!-- <li><a href="#vaccinations" id="vaccinations" class="btn btn-border aboutus-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true"><i class="fi fi-rr-chart-user"></i> Vaccinations</a></li> -->
+                <li><a href="{{ route('nurse.profileVaccination', ['page' => 'vaccinations']) }}" class="btn btn-border aboutus-icon mb-20" aria-controls="tab-my-menu4" aria-selected="true"><i class="fi fi-rr-chart-user"></i> Vaccinations</a></li>
                 <li><a href="#work_clearances" id="work_clearances" class="btn btn-border recruitment-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-myclearance-jobs" aria-selected="false"><i class="fi fi-rr-briefcase-arrow-right"></i> Work Clearances</a></li>
                 <li><a href="#professional_membership" id="professional_membership" class="btn btn-border recruitment-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-myclearance-jobs" aria-selected="false"><i class="fi fi-rr-membership-vip"></i> Professional Memberships</a></li>
                 <li><a href="#interview_references" id="interview_references" class="btn btn-border recruitment-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-myclearance-jobs" aria-selected="false"><i class="fi fi-rr-refer-arrow"></i> Interview</a></li>
@@ -2599,7 +2600,6 @@
                     <script type="text/javascript">
                       function add_listcertfication() {
                         var licence_div_count = $(".license_number_anothercertifications").length;
-                        console.log("licence_div_count", licence_div_count);
                         licence_div_count++;
                         var user_id = "{{ $user_id }}";
                         var ano_cer_img_txt = 'ano_certifi_imgs'
@@ -2725,7 +2725,7 @@
                           </div>
                           <script type="text/javascript">
                             var licence_div_count = $(".license_number_additional").length;
-                            console.log("licence_div_count",licence_div_count);
+                 
                             function add_certfication(){
                               licence_div_count++;
                               $(".certification_box").append('<h6>Certification/Licence '+licence_div_count+'</h6><div class="license_number_div row license_number_additional"><div class="form-group col-md-6"><label class="form-label" for="input-1">Courses/workshops</label><input class="form-control" type="text" name="training_courses[]"></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control" type="text" name="additional_license_number[]"></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control" type="date" name="additional_expiry[]"></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control" type="file" name="additional_upload_certification[]"></div></div>');
@@ -2812,25 +2812,15 @@
                   <h6>Please add your full nursing work experience to strengthen your profile and get hired faster. Please keep update as your experience grows:</h6>
                   <?php
                   $experienceData = DB::table("user_experience")->where("user_id", Auth::guard('nurse_middle')->user()->id)->get();
-                  $d1 = 'test';
-                  // print_r($experienceData);
-                  // die;
                   ?>
                   <form id="experience_form" method="POST" novalidate onsubmit="return updateExperience()">
                     @csrf
                     <div class="form-group level-drp">
                       <!-- <label class="form-label" for="input-1">Total Year of Experience</label> -->
                       <input type="hidden" name="user_id" value="{{ Auth::guard('nurse_middle')->user()->id }}">
-                      <!-- <input class="form-control" type="text" required="" name="year_experience" value="@if(!empty($educationData))@endif"> -->
-                      <input type="hidden" name="specialties_result_experience" class="specialties_result_experience" value="{{ Auth::guard('nurse_middle')->user()->specialties }}">
-                      <input type="hidden" name="adults_result_experience" class="adults_result_experience" value="{{ Auth::guard('nurse_middle')->user()->adults }}">
                       <input type="hidden" name="maternity_result_experience" class="maternity_result_experience" value="{{ Auth::guard('nurse_middle')->user()->maternity }}">
                       <input type="hidden" name="padneonatal_result_experience" class="padneonatal_result_experience" value="{{ Auth::guard('nurse_middle')->user()->paediatrics_neonatal }}">
                       <input type="hidden" name="community_result_experience" class="community_result_experience" value="{{ Auth::guard('nurse_middle')->user()->community }}">
-                      <input type="hidden" name="surgical_preoperative_result_experience" class="surgical_preoperative_result_experience" value="{{ Auth::guard('nurse_middle')->user()->surgical_preoperative }}">
-                      <input type="hidden" name="operatingroom_result_experience" class="operatingroom_result_experience" value="{{ Auth::guard('nurse_middle')->user()->operating_room }}">
-                      <input type="hidden" name="operatingscout_result_experience" class="operatingscout_result_experience" value="{{ Auth::guard('nurse_middle')->user()->operating_room_scout }}">
-                      <input type="hidden" name="operatingscrub_result_experience" class="operatingscrub_result_experience" value="{{ Auth::guard('nurse_middle')->user()->operating_room_scrub }}">
                       <input type="hidden" name="surgical_ob_result_experience" class="surgical_ob_result_experience" value="{{ Auth::guard('nurse_middle')->user()->surgical_obstrics_gynacology }}">
                       <input type="hidden" name="neonatal_care_result_experience" class="neonatal_care_result_experience" value="{{ Auth::guard('nurse_middle')->user()->neonatal_care }}">
                       <input type="hidden" name="paedia_surgical_result_experience" class="paedia_surgical_result_experience" value="{{ Auth::guard('nurse_middle')->user()->paedia_surgical_preoperative }}">
@@ -2905,7 +2895,6 @@
                         </div>
                         <div class="np_submenu_experience d-none">
                           <input type="hidden" name="np_result_experience" class="np_result_experience_{{$i}}" value="{{ $data->nurse_prac }}">
-
                           <div class="form-group drp--clr">
                             <?php
                             $np_data = DB::table("practitioner_type")->where('parent', '179')->get();
@@ -2919,6 +2908,105 @@
                             <select class="js-example-basic-multiple addAll_removeAll_btn nurse_prax_exp_{{$i}}" data-list-id="nurse_practitioner_menu_experience" name="nurse_practitioner_menu_experience[1][]" multiple="multiple"></select>
                           </div>
                         </div>
+                        <div class="condition_set">
+                          <div class="form-group drp--clr">
+                            <input type="hidden" name="speciality_exp_value-{{$i}}" class="speciality_exp_value-{{$i}}" value="{{ $data->specialties }}">
+                            <label class="form-label" for="input-1">Specialties</label>
+                            <ul id="specialties_type_experience-1" style="display:none;">
+                              @php $JobSpecialties = JobSpecialties(); @endphp
+                              <?php
+                              $k = 1;
+                              ?>
+                              @foreach($JobSpecialties as $ptl)
+                              <li id="nursing_menus-{{ $k }}" data-value="{{ $ptl->id }}">{{ $ptl->name }}</li>
+                              <?php
+                              $k++;
+                              ?>
+                              @endforeach
+
+                            </ul>
+                            <select class="js-example-basic-multiple addAll_removeAll_btn exp_spe_type_{{$i}}" data-list-id="specialties_type_experience-1" name="specialties_experience[1][]" multiple="multiple"></select>
+                          </div>
+                          <span id="reqspecialties" class="reqError text-danger valley"></span>
+                        </div>
+                        <div class="speciality_boxes row result--show">
+                          <input type="hidden" name="adults_result_experience" class="adults_result_experience_{{$i}}" value="{{ $data->adults }}">
+                          <?php
+                          $l = 1;
+                          ?>
+                          @foreach($JobSpecialties as $ptl)
+                          <?php
+                          $speciality_data = DB::table("speciality")->where('parent', $ptl->id)->get();
+                          ?>
+                          <input type="hidden" name="speciality_exp_result" class="speciality_exp_result-{{ $l }}" value="{{ $ptl->id }}">
+                          <div class="speciality_data form-group drp--clr drpdown-set {{ in_array($ptl->id, json_decode($data->specialties)) ? '' : 'd-none' }}  col-md-6 speciality_{{ $ptl->id }}" id="specility_level_experience-{{ $l }}">
+                            <label class="form-label" for="input-2">{{ $ptl->name }}</label>
+                            <ul id="speciality_entry_experience-{{ $l }}" style="display:none;">
+                              @foreach($speciality_data as $sd)
+                              <li data-value="{{ $sd->id }}">{{ $sd->name }}</li>
+
+                              @endforeach
+                            </ul>
+                            <select class="js-example-basic-multiple addAll_removeAll_btn specility_sub_type_{{ $ptl->id }}_{{$i}}" data-list-id="speciality_entry_experience-{{ $l }}" name="speciality_entry_experience_{{ $l }}[1][]" multiple="multiple"></select>
+
+                          </div>
+                          <?php
+                          $l++;
+                          ?>
+                          @endforeach
+                        </div>
+                        <div class="surgical_div_experience">
+                          <input type="hidden" name="surgical_preoperative_result_experience" class="surgical_preoperative_result_experience-{{$i}}" value="{{ $data->surgical_preoperative }}">
+                          <div class="surgical_row_data_experience_{{$i}} form-group drp--clr d-none col-md-12">
+                            <label class="form-label" for="input-1">Surgical Preoperative and Postoperative Care:</label>
+                            <?php
+                            $speciality_surgicalrow_data = DB::table("speciality")->where('parent', '96')->get();
+                            $r = 1;
+                            ?>
+                            <ul id="surgical_row_box_experience" style="display:none;">
+                              @foreach($speciality_surgicalrow_data as $ssrd)
+                              <li data-value="{{ $ssrd->id }}">{{ $ssrd->name }}</li>
+                              @endforeach
+                            </ul>
+                            <select class="js-example-basic-multiple addAll_removeAll_btn sur_exp_{{ $i }}" data-list-id="surgical_row_box_experience" name="surgical_row_box_experience[1][]" multiple="multiple"></select>
+                          </div>
+                        </div>
+                        <div class="specialty_sub_boxes_experience-{{$i}} row">
+                          <input type="hidden" name="operatingroom_result_experience" class="operatingroom_result_experience-{{ $i }}" value="{{ $data->operating_room }}">
+                          <input type="hidden" name="operatingscout_result_experience" class="operatingscout_result_experience-{{$i}}" value="{{  $data->operating_room_scout }}">
+                          <input type="hidden" name="operatingscrub_result_experience" class="operatingscrub_result_experience-{{$i}}" value="{{  $data->operating_room_scrub }}">
+                          <?php
+                          $speciality_surgical_data = DB::table("speciality")->where('parent', '96')->get();
+                          $w = 1;
+                          ?>
+                          @foreach($speciality_surgical_data as $ssd)
+                          <input type="hidden" name="speciality_result" class="speciality_surgical_result_experience-{{$i}}-{{ $w }}" value="{{ $ssd->id }}">
+                          <div class="surgical_row_exp-{{ $w }} sur_sub_type_{{ $ssd->id }}_{{ $i }} d-none surgicalopcboxes-{{ $ssd->id }} form-group drp--clr drpdown-set">
+                            <label class="form-label" for="input-1">{{ $ssd->name }}</label>
+                            <?php
+                            $speciality_surgicalsub_data = DB::table("speciality")->where('parent', $ssd->id)->get();
+                            ?>
+                            <ul id="surgical_operative_care_experience-{{ $w }}" style="display:none;">
+                              @foreach($speciality_surgicalsub_data as $sssd)
+                              <li data-value="{{ $sssd->id }}">{{ $sssd->name }}</li>
+                              @endforeach
+                            </ul>
+                            <select class="js-example-basic-multiple addAll_removeAll_btn spec_sub_value_{{ $ssd->id }}_{{$i}}" data-list-id="surgical_operative_care_experience-{{ $w }}" name="surgical_operative_care_exp_{{ $w }}[1][]" multiple="multiple"></select>
+
+                          </div>
+                          <?php
+                          $w++;
+                          ?>
+
+                          @endforeach
+
+
+
+                        </div>
+
+
+
+
 
                         <?php
                         $i++;
@@ -2992,7 +3080,6 @@
                         </div>
                         <div class="condition_set">
                           <div class="form-group drp--clr">
-                            <input type="hidden" name="sub_speciality_value" class="sub_speciality_value" value="">
                             <label class="form-label" for="input-1">Specialties</label>
                             <ul id="specialties_experience" style="display:none;">
                               @php $JobSpecialties = JobSpecialties(); @endphp
@@ -3352,7 +3439,7 @@
                   function changeEmployeementEndDate(i) {
                     //alert(i);
                     var start_date = $(".employeement_start_date-" + i).val();
-                    console.log("start_date", $(".employeement_start_date-" + i).val());
+
                     var date = new Date(start_date);
 
                     date.setDate(date.getDate() + 1);
@@ -3378,13 +3465,11 @@
                     }
                     var year = start_date1.getFullYear();
                     var new_date = year + "-" + month1 + "-" + day1;
-                    console.log("refree_start_date", new_date);
                     document.getElementsByClassName("employeement_end_date-" + i)[0].setAttribute('min', new_date);
                   }
 
                   var i = 1;
                   $(".employeement_start_date").each(function() {
-                    console.log("employeement_start_date", $(".employeement_start_date-" + i).val());
                     var start_date = $(".employeement_start_date-" + i).val();
 
                     var date = new Date(start_date);
@@ -3412,7 +3497,7 @@
                     }
                     var year = start_date1.getFullYear();
                     var new_date = year + "-" + month1 + "-" + day1;
-                    console.log("refree_start_date", new_date);
+                    ////console.log("refree_start_date", new_date);
                     document.getElementsByClassName("employeement_end_date-" + i)[0].setAttribute('min', new_date);
                     i++;
                   });
@@ -3692,7 +3777,7 @@
                 function startDate(i) {
                   //alert(i);
                   var start_date = $(".start_date-" + i).val();
-                  console.log("start_date", $(".start_date-" + i).val());
+                  ////console.log("start_date", $(".start_date-" + i).val());
                   var date = new Date(start_date);
 
                   date.setDate(date.getDate() + 1);
@@ -3718,13 +3803,13 @@
                   }
                   var year = start_date1.getFullYear();
                   var new_date = year + "-" + month1 + "-" + day1;
-                  console.log("refree_start_date", new_date);
+                  ////console.log("refree_start_date", new_date);
                   document.getElementsByClassName("end_date-" + i)[0].setAttribute('min', new_date);
                 }
 
                 var i = 1;
                 $(".referee_start_date").each(function() {
-                  console.log("start_date", $(".referee_start_date-" + i).val());
+                  ////console.log("start_date", $(".referee_start_date-" + i).val());
                   var start_date = $(".referee_start_date-" + i).val();
 
                   var date = new Date(start_date);
@@ -3752,7 +3837,7 @@
                   }
                   var year = start_date1.getFullYear();
                   var new_date = year + "-" + month1 + "-" + day1;
-                  console.log("refree_start_date", $('.working-' + i).is(':visible'));
+                  ////console.log("refree_start_date", $('.working-' + i).is(':visible'));
                   if ($('.working-' + i).is(':visible')) {
                     document.getElementsByClassName("end_date-" + i)[0].setAttribute('min', new_date);
                   }
@@ -3763,7 +3848,7 @@
 
                 function add_another_referee() {
                   var referee_div_count = $(".referee_no").length;
-                  console.log("licence_div_count", referee_div_count);
+                  ////console.log("licence_div_count", referee_div_count);
                   referee_div_count++;
                   $(".reference_form").append('<div class="referee_data referee_data-' + referee_div_count + '"><h6 class="mt-0 color-brand-1 mb-20 referee_no">REFEREE ' + referee_div_count + '</h6><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">First name</label><input class="form-control first_name first_name-' + referee_div_count + '" type="text" name="first_name[]"><span id="reqfname-' + referee_div_count + '" class="reqError text-danger valley"></span></div></div><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Last name</label><input class="form-control last_name last_name-' + referee_div_count + '" type="text" name="last_name[]"><span id="reqlname-' + referee_div_count + '" class="reqError text-danger valley"></span></div></div></div><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Email</label><input class="form-control reference_email reference_email-' + referee_div_count + '" type="text" name="email[]"><span id="reqemail-' + referee_div_count + '" class="reqError text-danger valley"></span></div></div><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Phone number</label><input class="form-control phone_no phone_no-' + referee_div_count + '" type="text" name="phone_no[]"><span id="reqphoneno-' + referee_div_count + '" class="reqError text-danger valley"></span></div></div></div><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Referee relationship to you</label><select class="form-input reference_relationship reference_relationship-' + referee_div_count + '" name="reference_relationship[]"><option value="" data-select2-id="9">select</option><option value="Worked in Same Group">Worked in Same Group</option><option value="Referee Managed Me">Referee Managed Me</option><option value="I Managed Referee">I Managed Referee</option><option value="Worked Together on a Project">Worked Together on a Project</option><option value="Worked Together in Different Departments">Worked Together in Different Departments</option><option value="Colleague">Colleague</option><option value="Peer Mentor">Peer Mentor</option><option value="Clinical Supervisor">Clinical Supervisor</option><option value="Educational Supervisor">Educational Supervisor</option><option value="Preceptor">Preceptor</option><option value="Instructor or Teacher">Instructor or Teacher</option><option value="Collaborated on Research">Collaborated on Research</option><option value="Clinical Educator">Clinical Educator</option><option value="Patient Advocate">Patient Advocate</option><option value="Coordinated Care Together">Coordinated Care Together</option><option value="Advisory Role">Advisory Role</option><option value="Worked Together on Committees">Worked Together on Committees</option><option value="Consultant Relationship">Consultant Relationship</option><option value="Professional Mentor">Professional Mentor</option><option value="Team Leader">Team Leader</option><option value="Subordinate in a Leadership Role">Subordinate in a Leadership Role</option><option value="Provided Professional Development Support">Provided Professional Development Support</option><option value="Oversaw my Certification Process">Oversaw my Certification Process</option><option value="External Collaborator">External Collaborator</option><option value="Other">Other</option></select><span id="reqreferencerel-' + referee_div_count + '" class="reqError text-danger valley"></span></div></div><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">You worked together at:</label><input class="form-control worked_together worked_together-' + referee_div_count + '" type="text" name="worked_together[]"><span id="reqworked_together-' + referee_div_count + '" class="reqError text-danger valley"></span></div></div></div><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">What was your position when you worked with this referee?</label><input class="form-control position_with_referee position_with_referee-' + referee_div_count + '" type="text" name="position_with_referee[]"><span id="reqpositionreferee-' + referee_div_count + '" class="reqError text-danger valley"></span></div></div></div><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Start Date</label><input class="form-control start_date start_date-' + referee_div_count + '" type="date" name="start_date[]" onchange="startDate(' + referee_div_count + ')" onkeydown="return false"><span id="reqrefereesdate-' + referee_div_count + '" class="reqError text-danger valley"></span><div class="declaration_box"><input class="still_working still_working-' + referee_div_count + '" type="checkbox" name="still_working[]" onclick="stillWorking(' + referee_div_count + ')">I am still working with this referee<span id="reqstillworking-' + referee_div_count + '" class="reqError text-danger valley"></span></div></div></div><div class="col-md-6"><div class="form-group level-drp working-' + referee_div_count + '"><label class="form-label" for="input-1">End Date</label><input class="form-control end_date end_date-' + referee_div_count + '" type="date" name="end_date[]" onkeydown="return false"><span id="reqrefereeedate-' + referee_div_count + '" class="reqError text-danger valley"></span></div></div><div class="row"><div class="col-md-6"><div class="add_new_certification_div mb-3 mt-3"><a style="cursor: pointer;" onclick="delete_reference1(' + referee_div_count + ')">- Delete Referee</a></div></div></div></div>');
 
@@ -3961,7 +4046,7 @@
                           var show_month = month_val;
                         }
                         const formattedDate2 = year_val+"-"+show_month+"-"+date_val;
-                        console.log("month_val",formattedDate);
+                        ////console.log("month_val",formattedDate);
                         
                         document.getElementsClassByName("training_end_date")[0].setAttribute('min', formattedDate2);
                         function trainingStartDate(e){
@@ -3984,7 +4069,7 @@
                             var show_month = month_val
                           }
                           const formattedDate = year_val+"-"+show_month+"-"+date_val;
-                          console.log("month_val",formattedDate);
+                          ////console.log("month_val",formattedDate);
                           
                           document.getElementsByClassName("training_end_date")[0].setAttribute('min', formattedDate);
                         }
@@ -6507,14 +6592,16 @@ if (!empty($interviewReferenceData)) {
 ?>
 @endsection
 @section('js')
-@include('nurse.front_profile_js');
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.12/js/intlTelInput.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.js"></script>
 <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
 <script src="{{ url('/public') }}/nurse/assets/js/jquery.ui.datepicker.monthyearpicker.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/select2.min.js"></script>
+@include('nurse.front_profile_js');
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/select2.min.js">
-</script>
+
+
 <script>
   $(document).ready(function() {
 
@@ -6663,11 +6750,11 @@ if (!empty($interviewReferenceData)) {
   $('.js-example-basic-multiple').each(function() {
     let listId = $(this).data('list-id');
     let items = [];
-    console.log("listId1", listId);
+    ////console.log("listId1", listId);
     $('#' + listId + ' li').each(function() {
       let itemId = $(this).data('value');
       let itemText = $(this).text();
-      console.log("value1", $(this).text());
+      ////console.log("value1", $(this).text());
       if (!items.some(item => item.id === itemId)) {
         items.push({
           id: $(this).data('value'),
@@ -6675,7 +6762,7 @@ if (!empty($interviewReferenceData)) {
         });
       }
     });
-    console.log("items1", items);
+    ////console.log("items1", items);
     $(this).select2({
       data: items
     });
@@ -6729,11 +6816,6 @@ if (!empty($interviewReferenceData)) {
     $('.js-example-basic-multiple[data-list-id="specialties"]').select2().val(specialties).trigger('change');
   }
 
-  if ($(".specialties_result_experience").val() != "") {
-    var specialties = JSON.parse($(".specialties_result_experience").val());
-    $('.js-example-basic-multiple[data-list-id="specialties_experience"]').select2().val(specialties).trigger('change');
-  }
-
   if ($(".adults_result").val() != "") {
     var adults = JSON.parse($(".adults_result").val());
     $('.js-example-basic-multiple[data-list-id="speciality_entry-1"]').select2().val(adults).trigger('change');
@@ -6754,10 +6836,10 @@ if (!empty($interviewReferenceData)) {
     $('.js-example-basic-multiple[data-list-id="speciality_entry-4"]').select2().val(community).trigger('change');
   }
 
-  if ($(".adults_result_experience").val() != "") {
-    var adults = JSON.parse($(".adults_result_experience").val());
-    $('.js-example-basic-multiple[data-list-id="speciality_entry_experience-1"]').select2().val(adults).trigger('change');
-  }
+  // if ($(".adults_result_experience").val() != "") {
+  //   var adults = JSON.parse($(".adults_result_experience").val());
+  //   $('.js-example-basic-multiple[data-list-id="speciality_entry_experience-1"]').select2().val(adults).trigger('change');
+  // }
 
   if ($(".maternity_result_experience").val() != "") {
     var maternity = JSON.parse($(".maternity_result_experience").val());
@@ -6779,40 +6861,24 @@ if (!empty($interviewReferenceData)) {
     $('.js-example-basic-multiple[data-list-id="surgical_row_box"]').select2().val(surgical_preoperative).trigger('change');
   }
 
-  if ($(".surgical_preoperative_result_experience").val() != "") {
-    var surgical_preoperative = JSON.parse($(".surgical_preoperative_result_experience").val());
-    $('.js-example-basic-multiple[data-list-id="surgical_row_box_experience"]').select2().val(surgical_preoperative).trigger('change');
-  }
-
   if ($(".operatingroom_result").val() != "") {
     var operating_room = JSON.parse($(".operatingroom_result").val());
     $('.js-example-basic-multiple[data-list-id="surgical_operative_care-1"]').select2().val(operating_room).trigger('change');
   }
 
-  if ($(".operatingroom_result_experience").val() != "") {
-    var operating_room = JSON.parse($(".operatingroom_result_experience").val());
-    $('.js-example-basic-multiple[data-list-id="surgical_operative_care_experience-1"]').select2().val(operating_room).trigger('change');
-  }
+
 
   if ($(".operatingscout_result").val() != "") {
     var operating_room_scout = JSON.parse($(".operatingscout_result").val());
     $('.js-example-basic-multiple[data-list-id="surgical_operative_care-2"]').select2().val(operating_room_scout).trigger('change');
   }
 
-  if ($(".operatingscout_result_experience").val() != "") {
-    var operating_room_scout = JSON.parse($(".operatingscout_result_experience").val());
-    $('.js-example-basic-multiple[data-list-id="surgical_operative_care_experience-2"]').select2().val(operating_room_scout).trigger('change');
-  }
 
   if ($(".operatingscrub_result").val() != "") {
     var operating_room_scrub = JSON.parse($(".operatingscrub_result").val());
     $('.js-example-basic-multiple[data-list-id="surgical_operative_care-3"]').select2().val(operating_room_scrub).trigger('change');
   }
 
-  if ($(".operatingscrub_result_experience").val() != "") {
-    var operating_room_scrub = JSON.parse($(".operatingscrub_result_experience").val());
-    $('.js-example-basic-multiple[data-list-id="surgical_operative_care_experience-3"]').select2().val(operating_room_scrub).trigger('change');
-  }
 
   if ($(".surgical_ob_result").val() != "") {
     var surgical_obstrics_gynacology = JSON.parse($(".surgical_ob_result").val());
@@ -6856,13 +6922,13 @@ if (!empty($interviewReferenceData)) {
 
   if ($(".pad_op_room_result_experience").val() != "") {
     var pad_op_room = JSON.parse($(".pad_op_room_result_experience").val());
-    console.log("pad_op_room", pad_op_room);
+    ////console.log("pad_op_room", pad_op_room);
     $('.js-example-basic-multiple[data-list-id="surgical_operative_carep_experience-1"]').select2().val(pad_op_room).trigger('change');
   }
 
   if ($(".pad_qr_scout_result_experience").val() != "") {
     var pad_qr_scout = JSON.parse($(".pad_qr_scout_result_experience").val());
-    console.log("pad_qr_scout", pad_qr_scout);
+    ////console.log("pad_qr_scout", pad_qr_scout);
     $('.js-example-basic-multiple[data-list-id="surgical_operative_carep_experience-2"]').select2().val(pad_qr_scout).trigger('change');
   }
 
@@ -6923,103 +6989,103 @@ if (!empty($interviewReferenceData)) {
 
   if ($(".pro_cert_acls").val() != "") {
     var pro_cert_acls = JSON.parse($(".pro_cert_acls").val());
-    console.log("pro_cert_acls", pro_cert_acls);
+    ////console.log("pro_cert_acls", pro_cert_acls);
     $('.js-example-basic-multiple[data-list-id="acls_data"]').select2().val(pro_cert_acls).trigger('change');
   }
 
   if ($(".pro_cert_bls").val() != "") {
     var pro_cert_bls = JSON.parse($(".pro_cert_bls").val());
-    console.log("pro_cert_bls", pro_cert_bls);
+    ////console.log("pro_cert_bls", pro_cert_bls);
     $('.js-example-basic-multiple[data-list-id="bls_data"]').select2().val(pro_cert_bls).trigger('change');
   }
 
   if ($(".pro_cert_cpr").val() != "") {
     var pro_cert_cpr = JSON.parse($(".pro_cert_cpr").val());
-    console.log("pro_cert_bls", pro_cert_cpr);
+    ////console.log("pro_cert_bls", pro_cert_cpr);
     $('.js-example-basic-multiple[data-list-id="cpr_data"]').select2().val(pro_cert_cpr).trigger('change');
   }
 
   if ($(".pro_cert_nrp").val() != "") {
     var pro_cert_nrp = JSON.parse($(".pro_cert_nrp").val());
-    console.log("pro_cert_bls", pro_cert_nrp);
+    ////console.log("pro_cert_bls", pro_cert_nrp);
     $('.js-example-basic-multiple[data-list-id="nrp_data"]').select2().val(pro_cert_nrp).trigger('change');
   }
 
   if ($(".pro_cert_pals").val() != "") {
     var pro_cert_pals = JSON.parse($(".pro_cert_pals").val());
-    console.log("pro_cert_bls", pro_cert_pals);
+    ////console.log("pro_cert_bls", pro_cert_pals);
     $('.js-example-basic-multiple[data-list-id="pls_data"]').select2().val(pro_cert_pals).trigger('change');
   }
 
   if ($(".pro_cert_rn").val() != "") {
     var pro_cert_rn = JSON.parse($(".pro_cert_rn").val());
-    console.log("pro_cert_bls", pro_cert_rn);
+    ////console.log("pro_cert_bls", pro_cert_rn);
     $('.js-example-basic-multiple[data-list-id="rn_data"]').select2().val(pro_cert_rn).trigger('change');
   }
 
   if ($(".pro_cert_np").val() != "") {
     var pro_cert_np = JSON.parse($(".pro_cert_np").val());
-    console.log("pro_cert_bls", pro_cert_np);
+    ////console.log("pro_cert_bls", pro_cert_np);
     $('.js-example-basic-multiple[data-list-id="np_data"]').select2().val(pro_cert_np).trigger('change');
   }
 
   if ($(".pro_cert_cna").val() != "") {
     var pro_cert_cna = JSON.parse($(".pro_cert_cna").val());
-    console.log("pro_cert_bls", pro_cert_cna);
+    ////console.log("pro_cert_bls", pro_cert_cna);
     $('.js-example-basic-multiple[data-list-id="cn_data"]').select2().val(pro_cert_cna).trigger('change');
   }
 
   if ($(".pro_cert_lpn").val() != "") {
     var pro_cert_lpn = JSON.parse($(".pro_cert_lpn").val());
-    console.log("pro_cert_bls", pro_cert_lpn);
+    ////console.log("pro_cert_bls", pro_cert_lpn);
     $('.js-example-basic-multiple[data-list-id="lpn_data"]').select2().val(pro_cert_lpn).trigger('change');
   }
 
   if ($(".pro_cert_crna").val() != "") {
     var pro_cert_crna = JSON.parse($(".pro_cert_crna").val());
-    console.log("pro_cert_bls", pro_cert_crna);
+    ////console.log("pro_cert_bls", pro_cert_crna);
     $('.js-example-basic-multiple[data-list-id="crn_data"]').select2().val(pro_cert_crna).trigger('change');
   }
 
   if ($(".pro_cert_cnm").val() != "") {
     var pro_cert_cnm = JSON.parse($(".pro_cert_cnm").val());
-    console.log("pro_cert_bls", pro_cert_cnm);
+    ////console.log("pro_cert_bls", pro_cert_cnm);
     $('.js-example-basic-multiple[data-list-id="cnm_data"]').select2().val(pro_cert_cnm).trigger('change');
   }
 
   if ($(".pro_cert_ons").val() != "") {
     var pro_cert_ons = JSON.parse($(".pro_cert_ons").val());
-    console.log("pro_cert_bls", pro_cert_ons);
+    ////console.log("pro_cert_bls", pro_cert_ons);
     $('.js-example-basic-multiple[data-list-id="ons_data"]').select2().val(pro_cert_ons).trigger('change');
   }
 
   if ($(".pro_cert_msw").val() != "") {
     var pro_cert_msw = JSON.parse($(".pro_cert_msw").val());
-    console.log("pro_cert_bls", pro_cert_msw);
+    ////console.log("pro_cert_bls", pro_cert_msw);
     $('.js-example-basic-multiple[data-list-id="msw_data"]').select2().val(pro_cert_msw).trigger('change');
   }
 
   if ($(".pro_cert_ain").val() != "") {
     var pro_cert_ain = JSON.parse($(".pro_cert_ain").val());
-    console.log("pro_cert_bls", pro_cert_ain);
+    ////console.log("pro_cert_bls", pro_cert_ain);
     $('.js-example-basic-multiple[data-list-id="ain_data"]').select2().val(pro_cert_ain).trigger('change');
   }
 
   if ($(".pro_cert_rpn").val() != "") {
     var pro_cert_rpn = JSON.parse($(".pro_cert_rpn").val());
-    console.log("pro_cert_bls", pro_cert_rpn);
+    ////console.log("pro_cert_bls", pro_cert_rpn);
     $('.js-example-basic-multiple[data-list-id="rpn_data"]').select2().val(pro_cert_rpn).trigger('change');
   }
 
   if ($(".pro_cert_nl").val() != "") {
     var pro_cert_nl = JSON.parse($(".pro_cert_nl").val());
-    console.log("pro_cert_bls", pro_cert_nl);
+    ////console.log("pro_cert_bls", pro_cert_nl);
     $('.js-example-basic-multiple[data-list-id="nlc_data"]').select2().val(pro_cert_nl).trigger('change');
   }
 
   if ($(".professional_as").val() != "") {
     var professional_as = JSON.parse($(".professional_as").val());
-    console.log("professional_as", professional_as);
+    ////console.log("professional_as", professional_as);
     $('.js-example-basic-multiple[data-list-id="des_profession_association"]').select2().val(professional_as).trigger('change');
   }
 
@@ -7031,19 +7097,19 @@ if (!empty($interviewReferenceData)) {
   $(".neonatal_row").insertAfter("#specility_level-3");
   $(".surgical_rowp_data").insertAfter(".surgicalpad_row_data");
 
-  console.log("nurse_type1", $('#nurse_type').select2("data"));
+  ////console.log("nurse_type1", $('#nurse_type').select2("data"));
 
   var nurse_type_list = $('#nurse_type').select2("data");
 
   for (var x = 0; x < nurse_type_list.length; x++) {
-    console.log('gtyht', nurse_type_list[x]);
+    ////console.log('gtyht', nurse_type_list[x]);
     $(".nursing_" + nurse_type_list[x].id).removeClass('d-none');
   }
 
 
 
   var advancedpractioner_list = $('.js-example-basic-multiple[data-list-id="nursing_entry-3"]').select2("data");
-  console.log("advancedpractioner_list", advancedpractioner_list);
+  ////console.log("advancedpractioner_list", advancedpractioner_list);
   for (var a = 0; a < advancedpractioner_list.length; a++) {
     if (advancedpractioner_list[a].id == "179") {
       $(".np_submenu").removeClass('d-none');
@@ -7101,7 +7167,7 @@ if (!empty($interviewReferenceData)) {
 
 
   var surgicalpcare_list = $('.js-example-basic-multiple[data-list-id="surgical_row_box"]').select2("data");
-  console.log("surgicalpcare_list", surgicalpcare_list);
+  ////console.log("surgicalpcare_list", surgicalpcare_list);
   for (var k = 0; k < surgicalpcare_list.length; k++) {
     $(".surgicalopcboxes-" + surgicalpcare_list[k].id).removeClass('d-none');
   }
@@ -7126,7 +7192,7 @@ if (!empty($interviewReferenceData)) {
   //       var courses_len = $("#mandatory_courses li").length;
 
   //       $(".mandatory_training_value").each(function(){
-  //         console.log("mandatory_training_value",$(this).val());
+  //         ////console.log("mandatory_training_value",$(this).val());
   //         var training_val = $(this).val();
   //         if(selectedValues.includes(training_val)){
   //           $(".mandatory_courses_div_"+training_val).show();
@@ -7143,11 +7209,11 @@ if (!empty($interviewReferenceData)) {
     let selectedValues = $(this).val();
     //alert("hello");
     var nurse_len = $("#type-of-nurse li").length;
-    console.log("nurse_len", nurse_len);
+    ////console.log("nurse_len", nurse_len);
 
     //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
 
-    console.log("selectedValues", selectedValues);
+    ////console.log("selectedValues", selectedValues);
     //$('.result--show .form-group').addClass('d-none');
 
     for (var i = 1; i <= nurse_len; i++) {
@@ -7186,7 +7252,7 @@ if (!empty($interviewReferenceData)) {
   //   let selectedValues = $(this).val();
 
   //   $('.skills_compantancies_dropdowns').empty();
-  //   console.log("skills_data", selectedValues);
+  //   ////console.log("skills_data", selectedValues);
   //   for (var i = 0; i < selectedValues.length; i++) {
 
   //     $.ajax({
@@ -7200,12 +7266,12 @@ if (!empty($interviewReferenceData)) {
   //       success: function(data) {
 
   //         var skills = JSON.parse(data);
-  //         console.log("selectedValues", skills[0].parent_id);
+  //         ////console.log("selectedValues", skills[0].parent_id);
   //         var skills_data = '';
   //         for (var j = 0; j < skills.length; j++) {
   //           skills_data += '<li data-value="' + skills[j]['id'] + '">' + skills[j]['name'] + '</li>';
   //         }
-  //         console.log("skills_data", skills_data);
+  //         ////console.log("skills_data", skills_data);
   //         $(".skills_compantancies_dropdowns").append('<div class="form-group level-drp" ><label class="form-label" for="input-1">' + skills[0].parent_name + '</label><ul id="skills_compantancies-' + skills[0].parent_id + '" style="display:none;">' + skills_data + '</ul><select class="js-example-basic-multiple1 addAll_removeAll_btn" data-list-id="skills_compantancies-' + skills[0].parent_id + '" name="skills_compantancies[]" multiple="multiple"></select></div>');
 
   //         $('.addAll_removeAll_btn').on('select2:open', function() {
@@ -7279,15 +7345,15 @@ if (!empty($interviewReferenceData)) {
   //           let listId = $(this).data('list-id');
   //           //alert(listId);
   //           let items = [];
-  //           console.log("listId1", listId);
+  //           ////console.log("listId1", listId);
   //           $('#' + listId + ' li').each(function() {
-  //             console.log("value1", $(this).text());
+  //             ////console.log("value1", $(this).text());
   //             items.push({
   //               id: $(this).data('value'),
   //               text: $(this).text()
   //             });
   //           });
-  //           console.log("items1", items);
+  //           ////console.log("items1", items);
   //           $(this).select2({
   //             data: items
   //           });
@@ -7416,11 +7482,11 @@ if (!empty($interviewReferenceData)) {
     let selectedValues = $(this).val();
 
     var nurse_len = $("#type-of-nurse-experience li").length;
-    console.log("nurse_len", nurse_len);
+    ////console.log("nurse_len", nurse_len);
 
     //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
 
-    console.log("selectedValues", selectedValues);
+    ////console.log("selectedValues", selectedValues);
     //$('.result--show .form-group').addClass('d-none');
 
     for (var i = 1; i <= nurse_len; i++) {
@@ -7457,12 +7523,12 @@ if (!empty($interviewReferenceData)) {
     let selectedValues = $(this).val();
     //alert("hello");
     var nurse_len = $("#type-of-nurse li").length;
-    console.log("nurse_len", nurse_len);
+    ////console.log("nurse_len", nurse_len);
 
     //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
     if (selectedValues.includes("179")) {
       $('.np_submenu').removeClass('d-none');
-      console.log("selectedValues", selectedValues);
+      ////console.log("selectedValues", selectedValues);
     } else {
       $('.np_submenu').addClass('d-none');
       $('.js-example-basic-multiple[data-list-id="nurse_practitioner_menu"]').select2().val(null).trigger('change');
@@ -7476,11 +7542,11 @@ if (!empty($interviewReferenceData)) {
     let selectedValues = $(this).val();
     //alert("hello");
     var speciality_len = $("#specialties li").length;
-    console.log("speciality_len", speciality_len);
+    ////console.log("speciality_len", speciality_len);
 
     //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
 
-    console.log("selectedValues", selectedValues);
+    ////console.log("selectedValues", selectedValues);
     //$('.result--show .form-group').addClass('d-none');
 
     for (var k = 1; k <= speciality_len; k++) {
@@ -7522,10 +7588,10 @@ if (!empty($interviewReferenceData)) {
   $('.js-example-basic-multiple[data-list-id="specialties_experience"]').on('change', function() {
     let selectedValues = $(this).val();
     var speciality_len = $("#specialties_experience li").length;
-    console.log("speciality_len", speciality_len);
+    ////console.log("speciality_len", speciality_len);
 
     //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
-    console.log("selectedValues", selectedValues);
+    ////console.log("selectedValues", selectedValues);
     //$('.result--show .form-group').addClass('d-none');
 
     for (var k = 1; k <= speciality_len; k++) {
@@ -7535,9 +7601,9 @@ if (!empty($interviewReferenceData)) {
 
         $('#specility_level_experience-' + k).removeClass('d-none');
         //$(".sub_speciality_value").val(k);
-        console.log('1');
+        ////console.log('1');
       } else {
-        console.log('2');
+        ////console.log('2');
         $('#specility_level_experience-' + k).addClass('d-none');
         $('.js-example-basic-multiple[data-list-id="speciality_entry_experience-' + k + '"]').select2().val(null).trigger('change');
       }
@@ -7556,7 +7622,7 @@ if (!empty($interviewReferenceData)) {
     }
 
     if (selectedValues.includes("3") == false) {
-      console.log('5');
+      ////console.log('5');
       $('.surgicalpad_row_data_experience').addClass('d-none');
       $('.surgical_rowp_data_experience').addClass('d-none');
       $('.neonatal_row_experience').addClass('d-none');
@@ -7570,12 +7636,12 @@ if (!empty($interviewReferenceData)) {
     let selectedValues = $(this).val();
     //alert("hello");
     var nurse_len = $("#type-of-nurse li").length;
-    console.log("nurse_len", nurse_len);
+    ////console.log("nurse_len", nurse_len);
 
     //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
     if (selectedValues.includes("179")) {
       $('.np_submenu_experience').removeClass('d-none');
-      console.log("selectedValues", selectedValues);
+      ////console.log("selectedValues", selectedValues);
     } else {
       $('.np_submenu_experience').addClass('d-none');
       $('.js-example-basic-multiple[data-list-id="nurse_practitioner_menu_experience"]').select2().val(null).trigger('change');
@@ -7586,18 +7652,17 @@ if (!empty($interviewReferenceData)) {
   });
 
   var sub_specialty_data_val = $(".sub_speciality_value").val();
-  console.log("specialty_data_len", sub_specialty_data_val);
 
   $('.js-example-basic-multiple[data-list-id="speciality_entry-1"]').on('change', function() {
     let selectedValues = $(this).val();
     //alert("hello");
     var speciality_entry = $("#speciality_entry-1 li").length;
-    console.log("speciality_entry", speciality_entry);
+    ////console.log("speciality_entry", speciality_entry);
     // $(".surgical_row").wrapAll("<div class='col-md-12 row surgical_row_data'>");
     $(".surgical_row_data").insertAfter("#specility_level-1");
     //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
 
-    console.log("selectedValues", selectedValues.includes("96"));
+    ////console.log("selectedValues", selectedValues.includes("96"));
     //$('.result--show .form-group').addClass('d-none');
 
     if (selectedValues.includes("96")) {
@@ -7631,12 +7696,12 @@ if (!empty($interviewReferenceData)) {
     let selectedValues = $(this).val();
     //alert("hello");
     var speciality_entry = $("#speciality_entry_experience-1 li").length;
-    console.log("speciality_entry", speciality_entry);
+    ////console.log("speciality_entry", speciality_entry);
     // $(".surgical_row").wrapAll("<div class='col-md-12 row surgical_row_data'>");
     $(".surgical_row_data_experience").insertAfter("#specility_level_experience-1");
     //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
 
-    console.log("selectedValues", selectedValues.includes("96"));
+    ////console.log("selectedValues", selectedValues.includes("96"));
     //$('.result--show .form-group').addClass('d-none');
 
     if (selectedValues.includes("96")) {
@@ -7670,13 +7735,13 @@ if (!empty($interviewReferenceData)) {
     let selectedValues = $(this).val();
 
     var speciality_entry = $("#speciality_entry-1 li").length;
-    console.log("speciality_entry", speciality_entry);
+    ////console.log("speciality_entry", speciality_entry);
     // $(".surgicalobs_row").wrapAll("<div class='col-md-12 row surgicalobs_row_data'>");
     $(".surgicalobs_row_experience").insertAfter("#specility_level_experience-2");
 
     //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
 
-    console.log("selectedValues", selectedValues);
+    ////console.log("selectedValues", selectedValues);
     //$('.result--show .form-group').addClass('d-none');
 
     if (selectedValues.includes("233")) {
@@ -7691,12 +7756,12 @@ if (!empty($interviewReferenceData)) {
     let selectedValues = $(this).val();
     //alert("hello");
     var speciality_entry = $("#surgical_row_box li").length;
-    console.log("speciality_entry", speciality_entry);
+    ////console.log("speciality_entry", speciality_entry);
     // $(".surgical_row").wrapAll("<div class='col-md-12 row surgical_row_data'>");
     $(".specialty_sub_boxes").insertAfter(".surgical_row_data");
     //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
 
-    console.log("selectedValues", selectedValues);
+    ////console.log("selectedValues", selectedValues);
     //$('.result--show .form-group').addClass('d-none');
 
     // if(selectedValues.includes("97")){
@@ -7726,12 +7791,12 @@ if (!empty($interviewReferenceData)) {
     let selectedValues = $(this).val();
     //alert("hello");
     var speciality_entry = $("#surgical_row_box_experience li").length;
-    console.log("speciality_entry", speciality_entry);
+    ////console.log("speciality_entry", speciality_entry);
     // $(".surgical_row").wrapAll("<div class='col-md-12 row surgical_row_data'>");
     $(".specialty_sub_boxes_experience").insertAfter(".surgical_row_data_experience");
     //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
 
-    console.log("selectedValues", selectedValues);
+    ////console.log("selectedValues", selectedValues);
     //$('.result--show .form-group').addClass('d-none');
 
     // if(selectedValues.includes("97")){
@@ -7744,7 +7809,7 @@ if (!empty($interviewReferenceData)) {
 
     for (var k = 1; k <= speciality_entry; k++) {
       var speciality_result_val = $(".speciality_surgical_result_experience-" + k).val();
-      console.log("speciality_result_val", speciality_result_val);
+      ////console.log("speciality_result_val", speciality_result_val);
       if (selectedValues.includes(speciality_result_val)) {
 
         $('.surgical_row_experience-' + k).removeClass('d-none');
@@ -7760,7 +7825,7 @@ if (!empty($interviewReferenceData)) {
     let selectedValues = $(this).val();
     //alert("hello");
     var speciality_entry = $("#speciality_entry-3 li").length;
-    console.log("speciality_entry", speciality_entry);
+    ////console.log("speciality_entry", speciality_entry);
     $(".surgical_rowp").wrapAll("<div class='col-md-12 row surgical_rowp_data'>");
     $(".paediatric_surgical_div").insertAfter("#specility_level-3");
 
@@ -7770,7 +7835,7 @@ if (!empty($interviewReferenceData)) {
 
     //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
 
-    console.log("selectedValues", selectedValues);
+    ////console.log("selectedValues", selectedValues);
     //$('.result--show .form-group').addClass('d-none');
 
     if (selectedValues.includes('250')) {
@@ -7809,7 +7874,7 @@ if (!empty($interviewReferenceData)) {
     let selectedValues = $(this).val();
     //alert("hello");
     var speciality_entry = $("#speciality_entry_experience-3 li").length;
-    console.log("speciality_entry", speciality_entry);
+    ////console.log("speciality_entry", speciality_entry);
     $(".surgical_rowp_experience").wrapAll("<div class='col-md-12 row surgical_rowp_data_experience'>");
     $(".paediatric_surgical_div_experience").insertAfter("#specility_level_experience-3");
 
@@ -7819,7 +7884,7 @@ if (!empty($interviewReferenceData)) {
 
     //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
 
-    console.log("selectedValues", selectedValues);
+    ////console.log("selectedValues", selectedValues);
     //$('.result--show .form-group').addClass('d-none');
 
     if (selectedValues.includes('250')) {
@@ -7847,7 +7912,7 @@ if (!empty($interviewReferenceData)) {
     let selectedValues = $(this).val();
     //alert("hello");
     var speciality_entry = $("#surgical_rowpad_box li").length;
-    console.log("speciality_entry", speciality_entry);
+    ////console.log("speciality_entry", speciality_entry);
     // $(".surgical_rowp").wrapAll("<div class='col-md-12 row surgical_rowp_data'>");
     $(".surgical_rowp_data").insertAfter(".surgicalpad_row_data");
 
@@ -7857,7 +7922,7 @@ if (!empty($interviewReferenceData)) {
 
     //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
 
-    console.log("selectedValues", selectedValues);
+    ////console.log("selectedValues", selectedValues);
     //$('.result--show .form-group').addClass('d-none');
 
 
@@ -7880,7 +7945,7 @@ if (!empty($interviewReferenceData)) {
     let selectedValues = $(this).val();
     //alert("hello");
     var speciality_entry = $("#surgical_rowpad_box_experience li").length;
-    console.log("speciality_entry", speciality_entry);
+    ////console.log("speciality_entry", speciality_entry);
     // $(".surgical_rowp").wrapAll("<div class='col-md-12 row surgical_rowp_data'>");
     $(".surgical_rowp_data_experience").insertAfter(".surgicalpad_row_data_experience");
 
@@ -7890,7 +7955,7 @@ if (!empty($interviewReferenceData)) {
 
     //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
 
-    console.log("selectedValues", selectedValues);
+    ////console.log("selectedValues", selectedValues);
     //$('.result--show .form-group').addClass('d-none');
 
 
@@ -7913,13 +7978,13 @@ if (!empty($interviewReferenceData)) {
     let selectedValues = $(this).val();
     //alert("hello");
     var speciality_entry = $("#speciality_entry-1 li").length;
-    console.log("speciality_entry", speciality_entry);
+    ////console.log("speciality_entry", speciality_entry);
     // $(".surgicalobs_row").wrapAll("<div class='col-md-12 row surgicalobs_row_data'>");
     $(".surgicalobs_row").insertAfter("#specility_level-2");
 
     //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
 
-    console.log("selectedValues", selectedValues);
+    ////console.log("selectedValues", selectedValues);
     //$('.result--show .form-group').addClass('d-none');
 
     if (selectedValues.includes("233")) {
@@ -7944,7 +8009,7 @@ if (!empty($interviewReferenceData)) {
   $('.js-example-basic-multiple[data-list-id="profess_cert"]').on('change', function() {
     let selectedValues = $(this).val();
 
-    console.log("selectedValues", selectedValues);
+    ////console.log("selectedValues", selectedValues);
     //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
     if (selectedValues.includes("6")) {
       $('.procertdiv').removeClass('d-none');
@@ -8140,7 +8205,7 @@ if (!empty($interviewReferenceData)) {
       if (selectedValues.includes(text) == false) {
         let res = text.split(' ')[0];
         let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-        console.log("res_one", res_one);
+        ////console.log("res_one", res_one);
 
         $(".acls_" + res_one).remove();
         var user_id = "{{ $user_id }}";
@@ -8148,14 +8213,14 @@ if (!empty($interviewReferenceData)) {
       }
       acls_certification_array.push(text);
     });
-    console.log("selectedValues", selectedValues);
+    ////console.log("selectedValues", selectedValues);
 
     //$(".bls_certification_div").empty();
     for (var i = 0; i < selectedValues.length; i++) {
       var selected_text = selectedValues[i].replace(/ .*/, '').replace(/[^\w\s]/gi, '').toLowerCase();
       let res = selectedValues[i].split(' ')[0];
       let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-      console.log("res_one", res_one);
+      ////console.log("res_one", res_one);
 
       if (acls_certification_array.includes(selectedValues[i]) == false) {
 
@@ -8178,7 +8243,7 @@ if (!empty($interviewReferenceData)) {
       if (selectedValues.includes(text) == false) {
         let res = text.split(' ')[0];
         let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-        console.log("res_one2", res_one);
+        ////console.log("res_one2", res_one);
 
         $(".bls_" + res_one).remove();
         var user_id = "{{ $user_id }}";
@@ -8186,14 +8251,14 @@ if (!empty($interviewReferenceData)) {
       }
       bls_certification_array.push(text);
     });
-    console.log("selectedValues", selectedValues);
+    ////console.log("selectedValues", selectedValues);
 
     //$(".bls_certification_div").empty();
     for (var i = 0; i < selectedValues.length; i++) {
       var selected_text = selectedValues[i].replace(/ .*/, '').replace(/[^\w\s]/gi, '').toLowerCase();
       let res = selectedValues[i].split(' ')[0];
       let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-      console.log("res_one", res_one);
+      ////console.log("res_one", res_one);
       if (bls_certification_array.includes(selectedValues[i]) == false) {
         var user_id = "{{ $user_id }}";
         var img_text = "bls_imgs";
@@ -8212,7 +8277,7 @@ if (!empty($interviewReferenceData)) {
       if (selectedValues.includes(text) == false) {
         let res = text.split(' ')[0];
         let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-        console.log("res_one", res_one);
+        ////console.log("res_one", res_one);
 
         $(".cpr_" + res_one).remove();
         var user_id = "{{ $user_id }}";
@@ -8221,14 +8286,14 @@ if (!empty($interviewReferenceData)) {
 
       cpr_certification_array.push(text);
     });
-    console.log("selectedValues", selectedValues);
+    ////console.log("selectedValues", selectedValues);
 
     //$(".bls_certification_div").empty();
     for (var i = 0; i < selectedValues.length; i++) {
       var selected_text = selectedValues[i].replace(/ .*/, '').replace(/[^\w\s]/gi, '').toLowerCase();
       let res = selectedValues[i].split(' ')[0];
       let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-      console.log("res_one", res_one);
+      ////console.log("res_one", res_one);
       if (cpr_certification_array.includes(selectedValues[i]) == false) {
         var user_id = "{{ $user_id }}";
         var img_text = "cpr_imgs";
@@ -8251,7 +8316,7 @@ if (!empty($interviewReferenceData)) {
       if (selectedValues.includes(text) == false) {
         let res = text.split(' ')[0];
         let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-        console.log("res_one", res_one);
+        ////console.log("res_one", res_one);
 
         $(".nrp_" + res_one).remove();
         var user_id = "{{ $user_id }}";
@@ -8260,14 +8325,14 @@ if (!empty($interviewReferenceData)) {
 
       nrp_certification_array.push(text);
     });
-    console.log("selectedValues", selectedValues);
+    ////console.log("selectedValues", selectedValues);
 
     //$(".bls_certification_div").empty();
     for (var i = 0; i < selectedValues.length; i++) {
       var selected_text = selectedValues[i].replace(/ .*/, '').replace(/[^\w\s]/gi, '').toLowerCase();
       let res = selectedValues[i].split(' ')[0];
       let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-      console.log("res_one", res_one);
+      ////console.log("res_one", res_one);
       if (nrp_certification_array.includes(selectedValues[i]) == false) {
         var user_id = "{{ $user_id }}";
         var img_text = "nrp_imgs";
@@ -8291,7 +8356,7 @@ if (!empty($interviewReferenceData)) {
       if (selectedValues.includes(text) == false) {
         let res = text.split(' ')[0];
         let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-        console.log("res_one", res_one);
+        ////console.log("res_one", res_one);
 
         $(".pls_" + res_one).remove();
         var user_id = "{{ $user_id }}";
@@ -8300,14 +8365,14 @@ if (!empty($interviewReferenceData)) {
 
       pls_certification_array.push(text);
     });
-    console.log("selectedValues", selectedValues);
+    ////console.log("selectedValues", selectedValues);
 
     //$(".bls_certification_div").empty();
     for (var i = 0; i < selectedValues.length; i++) {
       var selected_text = selectedValues[i].replace(/ .*/, '').replace(/[^\w\s]/gi, '').toLowerCase();
       let res = selectedValues[i].split(' ')[0];
       let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-      console.log("res_one", res_one);
+      ////console.log("res_one", res_one);
       if (pls_certification_array.includes(selectedValues[i]) == false) {
         var user_id = "{{ $user_id }}";
         var img_text = "pls_imgs";
@@ -8331,7 +8396,7 @@ if (!empty($interviewReferenceData)) {
 
         let res = text.split(' ')[0];
         let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-        console.log("res_one", ".rn_" + res_one);
+        ////console.log("res_one", ".rn_" + res_one);
 
         $(".rn_" + res_one).remove();
         var user_id = "{{ $user_id }}";
@@ -8340,14 +8405,14 @@ if (!empty($interviewReferenceData)) {
 
       rn_certification_array.push(text);
     });
-    console.log("selectedValues", selectedValues);
+    ////console.log("selectedValues", selectedValues);
 
     //$(".bls_certification_div").empty();
     for (var i = 0; i < selectedValues.length; i++) {
       var selected_text = selectedValues[i].replace(/ .*/, '').replace(/[^\w\s]/gi, '').toLowerCase();
       let res = selectedValues[i].split(' ')[0];
       let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-      console.log("res_one", res_one);
+      ////console.log("res_one", res_one);
 
       if (rn_certification_array.includes(selectedValues[i]) == false) {
         var user_id = "{{ $user_id }}";
@@ -8371,7 +8436,7 @@ if (!empty($interviewReferenceData)) {
       if (selectedValues.includes(text) == false) {
         let res = text.split(' ')[0];
         let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-        console.log("res_one", res_one);
+        ////console.log("res_one", res_one);
 
         $(".np_" + res_one).remove();
         var user_id = "{{ $user_id }}";
@@ -8380,14 +8445,14 @@ if (!empty($interviewReferenceData)) {
 
       np_certification_array.push(text);
     });
-    console.log("selectedValues", selectedValues);
+    ////console.log("selectedValues", selectedValues);
 
     //$(".bls_certification_div").empty();
     for (var i = 0; i < selectedValues.length; i++) {
       var selected_text = selectedValues[i].replace(/ .*/, '').replace(/[^\w\s]/gi, '').toLowerCase();
       let res = selectedValues[i].split(' ')[0];
       let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-      console.log("res_one", res_one);
+      ////console.log("res_one", res_one);
       if (np_certification_array.includes(selectedValues[i]) == false) {
         var user_id = "{{ $user_id }}";
         var img_text = "np_imgs";
@@ -8410,7 +8475,7 @@ if (!empty($interviewReferenceData)) {
       if (selectedValues.includes(text) == false) {
         let res = text.split(' ')[0];
         let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-        console.log("res_one", res_one);
+        ////console.log("res_one", res_one);
 
         $(".cna_" + res_one).remove();
         var user_id = "{{ $user_id }}";
@@ -8419,14 +8484,14 @@ if (!empty($interviewReferenceData)) {
 
       cn_certification_array.push(text);
     });
-    console.log("selectedValues", selectedValues);
+    ////console.log("selectedValues", selectedValues);
 
     //$(".bls_certification_div").empty();
     for (var i = 0; i < selectedValues.length; i++) {
       var selected_text = selectedValues[i].replace(/ .*/, '').replace(/[^\w\s]/gi, '').toLowerCase();
       let res = selectedValues[i].split(' ')[0];
       let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-      console.log("res_one", res_one);
+      ////console.log("res_one", res_one);
       if (cn_certification_array.includes(selectedValues[i]) == false) {
         var user_id = "{{ $user_id }}";
         var img_text = "cn_imgs";
@@ -8449,7 +8514,7 @@ if (!empty($interviewReferenceData)) {
       if (selectedValues.includes(text) == false) {
         let res = text.split(' ')[0];
         let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-        console.log("res_one", res_one);
+        ////console.log("res_one", res_one);
 
         $(".lpn_" + res_one).remove();
         var user_id = "{{ $user_id }}";
@@ -8458,14 +8523,14 @@ if (!empty($interviewReferenceData)) {
 
       lpn_certification_array.push(text);
     });
-    console.log("selectedValues", selectedValues);
+    ////console.log("selectedValues", selectedValues);
 
     //$(".bls_certification_div").empty();
     for (var i = 0; i < selectedValues.length; i++) {
       var selected_text = selectedValues[i].replace(/ .*/, '').replace(/[^\w\s]/gi, '').toLowerCase();
       let res = selectedValues[i].split(' ')[0];
       let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-      console.log("res_one", res_one);
+      ////console.log("res_one", res_one);
       if (lpn_certification_array.includes(selectedValues[i]) == false) {
         var user_id = "{{ $user_id }}";
         var img_text = "lpn_imgs";
@@ -8488,7 +8553,7 @@ if (!empty($interviewReferenceData)) {
       if (selectedValues.includes(text) == false) {
         let res = text.split(' ')[0];
         let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-        console.log("res_one", res_one);
+        ////console.log("res_one", res_one);
 
         $(".crna_" + res_one).remove();
         var user_id = "{{ $user_id }}";
@@ -8498,14 +8563,14 @@ if (!empty($interviewReferenceData)) {
 
       crna_certification_array.push(text);
     });
-    console.log("selectedValues", selectedValues);
+    ////console.log("selectedValues", selectedValues);
 
     //$(".bls_certification_div").empty();
     for (var i = 0; i < selectedValues.length; i++) {
       var selected_text = selectedValues[i].replace(/ .*/, '').replace(/[^\w\s]/gi, '').toLowerCase();
       let res = selectedValues[i].split(' ')[0];
       let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-      console.log("res_one", res_one);
+      ////console.log("res_one", res_one);
       if (crna_certification_array.includes(selectedValues[i]) == false) {
         var user_id = "{{ $user_id }}";
         var img_text = "crna_imgs";
@@ -8529,7 +8594,7 @@ if (!empty($interviewReferenceData)) {
       if (selectedValues.includes(text) == false) {
         let res = text.split(' ')[0];
         let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-        console.log("res_one", res_one);
+        ////console.log("res_one", res_one);
 
         $(".cnm_" + res_one).remove();
         var user_id = "{{ $user_id }}";
@@ -8538,14 +8603,14 @@ if (!empty($interviewReferenceData)) {
 
       cnm_certification_array.push(text);
     });
-    console.log("selectedValues", selectedValues);
+    ////console.log("selectedValues", selectedValues);
 
     //$(".bls_certification_div").empty();
     for (var i = 0; i < selectedValues.length; i++) {
       var selected_text = selectedValues[i].replace(/ .*/, '').replace(/[^\w\s]/gi, '').toLowerCase();
       let res = selectedValues[i].split(' ')[0];
       let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-      console.log("res_one", res_one);
+      ////console.log("res_one", res_one);
       if (cnm_certification_array.includes(selectedValues[i]) == false) {
         var user_id = "{{ $user_id }}";
         var img_text = "cnm_imgs";
@@ -8569,7 +8634,7 @@ if (!empty($interviewReferenceData)) {
       if (selectedValues.includes(text) == false) {
         let res = text.split(' ')[0];
         let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-        console.log("res_one", res_one);
+        ////console.log("res_one", res_one);
 
         $(".ons_" + res_one).remove();
         var user_id = "{{ $user_id }}";
@@ -8578,14 +8643,14 @@ if (!empty($interviewReferenceData)) {
 
       ons_certification_array.push(text);
     });
-    console.log("selectedValues", selectedValues);
+    ////console.log("selectedValues", selectedValues);
 
     //$(".bls_certification_div").empty();
     for (var i = 0; i < selectedValues.length; i++) {
       var selected_text = selectedValues[i].replace(/ .*/, '').replace(/[^\w\s]/gi, '').toLowerCase();
       let res = selectedValues[i].split(' ')[0];
       let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-      console.log("res_one", res_one);
+      ////console.log("res_one", res_one);
       if (ons_certification_array.includes(selectedValues[i]) == false) {
         var user_id = "{{ $user_id }}";
         var img_text = "ons_imgs";
@@ -8609,8 +8674,6 @@ if (!empty($interviewReferenceData)) {
       if (selectedValues.includes(text) == false) {
         let res = text.split(' ')[0];
         let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-        console.log("res_one", res_one);
-
         $(".msw_" + res_one).remove();
         var user_id = "{{ $user_id }}";
         deleteDatabaseImgs(user_id, "msw_imgs");
@@ -8618,14 +8681,14 @@ if (!empty($interviewReferenceData)) {
 
       msw_certification_array.push(text);
     });
-    console.log("selectedValues", selectedValues);
+
 
     //$(".bls_certification_div").empty();
     for (var i = 0; i < selectedValues.length; i++) {
       var selected_text = selectedValues[i].replace(/ .*/, '').replace(/[^\w\s]/gi, '').toLowerCase();
       let res = selectedValues[i].split(' ')[0];
       let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-      console.log("res_one", res_one);
+
 
       if (msw_certification_array.includes(selectedValues[i]) == false) {
         var user_id = "{{ $user_id }}";
@@ -8650,7 +8713,7 @@ if (!empty($interviewReferenceData)) {
       if (selectedValues.includes(text) == false) {
         let res = text.split(' ')[0];
         let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-        console.log("res_one", res_one);
+
 
         $(".ain_" + res_one).remove();
         var user_id = "{{ $user_id }}";
@@ -8659,14 +8722,14 @@ if (!empty($interviewReferenceData)) {
 
       ain_certification_array.push(text);
     });
-    console.log("selectedValues", selectedValues);
+
 
     //$(".bls_certification_div").empty();
     for (var i = 0; i < selectedValues.length; i++) {
       var selected_text = selectedValues[i].replace(/ .*/, '').replace(/[^\w\s]/gi, '').toLowerCase();
       let res = selectedValues[i].split(' ')[0];
       let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-      console.log("res_one", res_one);
+
       if (ain_certification_array.includes(selectedValues[i]) == false) {
         var user_id = "{{ $user_id }}";
         var img_text = "ain_imgs";
@@ -8690,7 +8753,7 @@ if (!empty($interviewReferenceData)) {
       if (selectedValues.includes(text) == false) {
         let res = text.split(' ')[0];
         let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-        console.log("res_one", res_one);
+
 
         $(".rpn_" + res_one).remove();
         var user_id = "{{ $user_id }}";
@@ -8699,14 +8762,14 @@ if (!empty($interviewReferenceData)) {
 
       rpn_certification_array.push(text);
     });
-    console.log("selectedValues", selectedValues);
+
 
     //$(".bls_certification_div").empty();
     for (var i = 0; i < selectedValues.length; i++) {
       var selected_text = selectedValues[i].replace(/ .*/, '').replace(/[^\w\s]/gi, '').toLowerCase();
       let res = selectedValues[i].split(' ')[0];
       let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-      console.log("res_one", res_one);
+
       if (rpn_certification_array.includes(selectedValues[i]) == false) {
         var user_id = "{{ $user_id }}";
         var img_text = "rpn_imgs";
@@ -8727,7 +8790,6 @@ if (!empty($interviewReferenceData)) {
     var url_string = window.location.href;
     var url = new URL(url_string);
     var c = url.searchParams.get("page");
-    console.log(c);
 
     if (c == "change_password") {
       $(".upload_image").addClass("hide_profile_image");
@@ -8740,7 +8802,6 @@ if (!empty($interviewReferenceData)) {
   var url_string = window.location.href;
   var url = new URL(url_string);
   var c = url.searchParams.get("page");
-  console.log(c);
 
   if (c == "change_password") {
     $(".upload_image").addClass("hide_profile_image");
@@ -8759,7 +8820,6 @@ if (!empty($interviewReferenceData)) {
     var url_string = window.location.href;
     var url = new URL(url_string);
     var c = url.searchParams.get("page");
-    console.log(c);
 
     if (c == "profession") {
       $(".tab-pane").hide();
@@ -8777,7 +8837,6 @@ if (!empty($interviewReferenceData)) {
     var url_string = window.location.href;
     var url = new URL(url_string);
     var c = url.searchParams.get("page");
-    console.log(c);
 
     if (c == "my_profile") {
       $(".tab-pane").hide();
@@ -8794,8 +8853,6 @@ if (!empty($interviewReferenceData)) {
     var url_string = window.location.href;
     var url = new URL(url_string);
     var c = url.searchParams.get("page");
-    console.log(c);
-
     if (c == "settings") {
       $(".tab-pane").hide();
       $("#tab-my-profile-setting").css("opacity", "1");
@@ -8810,7 +8867,6 @@ if (!empty($interviewReferenceData)) {
     var url_string = window.location.href;
     var url = new URL(url_string);
     var c = url.searchParams.get("page");
-    console.log(c);
 
     if (c == "experience_info") {
       $(".tab-pane").hide();
@@ -8826,8 +8882,6 @@ if (!empty($interviewReferenceData)) {
     var url_string = window.location.href;
     var url = new URL(url_string);
     var c = url.searchParams.get("page");
-    console.log(c);
-
     if (c == "additional_info") {
       $(".tab-pane").hide();
       $("#tab-addition-information").css("opacity", "1");
@@ -8842,8 +8896,6 @@ if (!empty($interviewReferenceData)) {
     var url_string = window.location.href;
     var url = new URL(url_string);
     var c = url.searchParams.get("page");
-    console.log(c);
-
     if (c == "educert") {
       $(".tab-pane").hide();
       $("#tab-educert").css("opacity", "1");
@@ -8859,8 +8911,6 @@ if (!empty($interviewReferenceData)) {
     var url_string = window.location.href;
     var url = new URL(url_string);
     var c = url.searchParams.get("page");
-    console.log(c);
-
     if (c == "mandatory_training") {
       $(".tab-pane").hide();
       $("#tab-mandtraining").css("opacity", "1");
@@ -8876,8 +8926,6 @@ if (!empty($interviewReferenceData)) {
     var url_string = window.location.href;
     var url = new URL(url_string);
     var c = url.searchParams.get("page");
-    console.log(c);
-
     if (c == "reference_info") {
       $(".tab-pane").hide();
       $("#tab-references").css("opacity", "1");
@@ -8893,8 +8941,6 @@ if (!empty($interviewReferenceData)) {
     var url_string = window.location.href;
     var url = new URL(url_string);
     var c = url.searchParams.get("page");
-    console.log(c);
-
     if (c == "work_clearances") {
       $(".tab-pane").hide();
       $("#tab-myclearance-jobs").css("opacity", "1");
@@ -8909,7 +8955,6 @@ if (!empty($interviewReferenceData)) {
     var url_string = window.location.href;
     var url = new URL(url_string);
     var c = url.searchParams.get("page");
-    console.log(c);
 
     if (c == "interview_references") {
 
@@ -8927,8 +8972,6 @@ if (!empty($interviewReferenceData)) {
     var url_string = window.location.href;
     var url = new URL(url_string);
     var c = url.searchParams.get("page");
-    console.log(c);
-
     if (c == "personal_preferences") {
 
       $(".tab-pane").hide();
@@ -8944,7 +8987,7 @@ if (!empty($interviewReferenceData)) {
     var url_string = window.location.href;
     var url = new URL(url_string);
     var c = url.searchParams.get("page");
-    console.log(c);
+
 
     if (c == "work_preferences") {
 
@@ -8962,8 +9005,6 @@ if (!empty($interviewReferenceData)) {
     var url_string = window.location.href;
     var url = new URL(url_string);
     var c = url.searchParams.get("page");
-    console.log(c);
-
     if (c == "vaccinations") {
 
       $(".tab-pane").hide();
@@ -8980,7 +9021,6 @@ if (!empty($interviewReferenceData)) {
     var url_string = window.location.href;
     var url = new URL(url_string);
     var c = url.searchParams.get("page");
-    console.log(c);
 
     if (c == "professional_membership") {
 
@@ -8994,7 +9034,6 @@ if (!empty($interviewReferenceData)) {
   var url_string = window.location.href;
   var url = new URL(url_string);
   var c = url.searchParams.get("page");
-  console.log(c);
 
   if (c == "profession") {
     $("#tab-my-profile").hide();
@@ -9165,7 +9204,6 @@ if (!empty($interviewReferenceData)) {
 
     // Get the selected country data to know which country is selected.
     var selectedCountryData = iti.getSelectedCountryData();
-    console.log("selectedCountryData", selectedCountryData.dialCode);
     $("#emergency_countryCode").val(selectedCountryData.dialCode);
     $("#emergency_country_iso").val(selectedCountryData.iso2);
     //alert($("#contactI").intlTelInput("getSelectedCountryData").dialCode);
@@ -9221,7 +9259,6 @@ if (!empty($interviewReferenceData)) {
 
     // Get the selected country data to know which country is selected.
     var selectedCountryData = iti1.getSelectedCountryData();
-    console.log("selectedCountryData", selectedCountryData.dialCode);
     $("#countryCode").val(selectedCountryData.dialCode);
     $("#country_iso").val(selectedCountryData.iso2);
     //alert($("#contactI").intlTelInput("getSelectedCountryData").dialCode);
@@ -9277,7 +9314,6 @@ if (!empty($interviewReferenceData)) {
 
     // Get the selected country data to know which country is selected.
     var selectedCountryData = iti2.getSelectedCountryData();
-    console.log("selectedCountryData", selectedCountryData.dialCode);
     $("#reference_countryCode").val(selectedCountryData.dialCode);
     $("#reference_countryiso").val(selectedCountryData.iso2);
     //alert($("#contactI").intlTelInput("getSelectedCountryData").dialCode);
