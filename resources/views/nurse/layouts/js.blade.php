@@ -732,6 +732,54 @@
   }
 
   function vaccinationForm() {
+    let isValid = true;
+
+    // Validate Vaccination Name
+    $('.vaccination-name').each(function() {
+      if ($(this).val().trim() === '') {
+        isValid = false;
+        $(this).next('.reqError').text('Vaccination name is required');
+      } else {
+        $(this).next('.reqError').text('');
+      }
+    });
+
+    // Validate Immunization Status
+    $('.immunization-status').each(function() {
+      if ($(this).val() === null || $(this).val().trim() === '') {
+        isValid = false;
+        $(this).next('.reqError').text('Please select an immunization status');
+      } else {
+        $(this).next('.reqError').text('');
+      }
+    });
+
+    // Validate Evidence Type
+    $('.evidence-type').each(function() {
+      if ($(this).val() === null || $(this).val().trim() === '') {
+        isValid = false;
+        $(this).next('.reqError').text('Please select an evidence type');
+      } else {
+        $(this).next('.reqError').text('');
+      }
+    });
+
+    $('.evidence-file').each(function() {
+      if ($(this).val().trim() === '') {
+        isValid = false;
+        $(this).next('.reqError').text('Please upload an evidence file');
+      } else {
+        $(this).next('.reqError').text('');
+      }
+    });
+
+    // If validation fails, return false to prevent form submission
+    if (!isValid) {
+      return false;
+    }
+
+    //return true;
+
     $.ajax({
       url: "{{ route('nurse.vaccinationForm') }}",
       type: "POST",
@@ -746,7 +794,7 @@
       },
       success: function(res) {
         $('#submitVaccination').prop('disabled', false);
-        $('#submitVaccination').text('Update Profile');
+        $('#submitVaccination').text('Save Changes');
 
         if (res.status == '1') {
           Swal.fire({
@@ -754,7 +802,7 @@
             title: 'Success',
             text: 'Vaccination Information Updated Successfully',
           }).then(function() {
-            window.location.href = "{{ route('nurse.my-profile') }}?page=vaccinations";
+            window.location.href = "{{ route('nurse.profileVaccination') }}?page=vaccinations";
           });
         } else {
           Swal.fire({

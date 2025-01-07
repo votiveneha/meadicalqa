@@ -47,6 +47,9 @@ use App\Models\AdditionalInfo;
 use App\Models\ProfessionalAssocialtionModel;
 use App\Models\AddReferee;
 use App\Repository\Eloquent\SpecialityRepository;
+use App\Models\OtherVaccineModel;
+use Illuminate\Support\Facades\Storage;
+
 
 class HomeController extends Controller
 {
@@ -67,8 +70,6 @@ class HomeController extends Controller
             $title = "Login";
             return view('nurse.home', compact('message'));
         } else {
-
-
             return redirect()->route('nurse.dashboard');
         }
     }
@@ -99,8 +100,6 @@ class HomeController extends Controller
             $title = "Login";
             return view('nurse.medical-facilities', compact('message'));
         } else {
-
-
             return redirect()->route('nurse.dashboard');
         }
     }
@@ -201,10 +200,6 @@ class HomeController extends Controller
                 $companyinsert['password'] = Hash::make($password);
                 $companyinsert['ps'] = $password;
 
-
-
-
-
                 $companyinsert['nursetype'] = json_encode($request->nurseType);
                 $companyinsert['nurseTypeJob'] = json_encode($request->nurseTypeJob);
                 $companyinsert['nurseTypeJob'] = json_encode($request->nurseTypeJob);
@@ -215,8 +210,6 @@ class HomeController extends Controller
                 $companyinsert['Sub-Speciality-One'] = json_encode($request->surgicalsubSpecialties);
                 $companyinsert['Sub-Speciality-Two'] = json_encode($request->surgicalsuboneSpecialties);
                 $companyinsert['degree'] = json_encode($request->degree);
-
-
 
                 $companyinsert['emailToken'] = $emailToken;
                 $companyinsert['type'] = '1';
@@ -265,6 +258,7 @@ class HomeController extends Controller
         }
         echo json_encode($json);
     }
+
     public function emailVerificationPending()
     {
 
@@ -666,13 +660,7 @@ class HomeController extends Controller
 
                 'body' => $data['data'],
 
-
             ];
-
-
-
-
-
 
             try {
                 Mail::to($to)->send(new \App\Mail\DemoMail($mailData));
@@ -733,9 +721,7 @@ class HomeController extends Controller
 
             $hide_form = true;
 
-
             session()->flash('message', '<div class="alert alert-danger">Link has been expired.!</div>');
-
 
             return redirect('nurse/login')->with(['hide_form' => $hide_form, 'title' => $title]);
             if (Auth::guard('user')->user()) {
@@ -1906,6 +1892,10 @@ class HomeController extends Controller
 
     public function updateExperience(Request $request)
     {
+        $file = $request->file('upload_evidence');
+        // echo '<pre>';
+        // print_r($file);
+        // die;
         // Retrieve input data
         $nurseTypes = $request->input('nurseType', []);
         $nursingType1 = $request->input('nursing_type_1', []);
@@ -2275,13 +2265,51 @@ class HomeController extends Controller
 
     public function vaccinationForm(Request $request)
     {
-
-
         $vaccination_record = json_encode($request->vaccination_record);
+        $state_record = json_encode($request->state_record);
         $user_id = $request->user_id;
         $immunization_status = $request->immunization_status;
 
+        /**[Other Vaccine Start]**/
+        $other_ids = $request->input('other_id', []);
+        $vaccination_names = $request->input('vaccination_name', []);
+        $immunization_statuses = $request->input('immunization_status', []);
+        $evidence_types = $request->input('evidence_type', []);
+        $evidence_files = $request->file('evidence_file', []);
 
+        for ($i = 0; $i < count($vaccination_names); $i++) {
+            if (isset($other_ids[$i])) {
+                $vaccine = OtherVaccineModel::find($other_ids[$i]);
+                if ($vaccine) {
+                    $vaccine->vaccination_name = $vaccination_names[$i];
+                    $vaccine->immunization_status = $immunization_statuses[$i];
+                    $vaccine->evidence_type = $evidence_types[$i];
+
+
+                    if (isset($evidence_files[$i]) && $evidence_files[$i]->isValid()) {
+                        $filename = time() . '_' . $evidence_files[$i]->getClientOriginalName();
+                        $filePath = $evidence_files[$i]->storeAs('uploads/evidence', $filename, 'public');
+                        $vaccine->evidence_file = $filePath;
+                    }
+                    $vaccine->save();
+                }
+            } else {
+                $vaccine = new OtherVaccineModel();
+                $vaccine->user_id = $user_id;
+                $vaccine->vaccination_name = $vaccination_names[$i];
+                $vaccine->immunization_status = $immunization_statuses[$i];
+                $vaccine->evidence_type = $evidence_types[$i];
+
+
+                if (isset($evidence_files[$i]) && $evidence_files[$i]->isValid()) {
+                    $filename = time() . '_' . $evidence_files[$i]->getClientOriginalName();
+                    $filePath = $evidence_files[$i]->storeAs('uploads/evidence', $filename, 'public');
+                    $vaccine->evidence_file = $filePath;
+                }
+                $vaccine->save();
+            }
+        }
+        /**[Other Vaccine End]**/
 
         $getvaccinationdata = DB::table("vaccination_front")->where("user_id", $user_id)->first();
         //$post = User::find($request->user_id);
@@ -2289,7 +2317,7 @@ class HomeController extends Controller
         if (!empty($getvaccinationdata) > 0) {
 
 
-            $run = VaccinationFrontModel::where('user_id', $user_id)->update(['vaccination_records' => $vaccination_record, 'immunization_status' => $immunization_status, 'complete_status' => 1]);
+            $run = VaccinationFrontModel::where('user_id', $user_id)->update(['vaccination_records' => $vaccination_record, 'immunization_status' => $immunization_status, 'complete_status' => 1, 'state_record' => $state_record]);
         } else {
 
 
@@ -2297,10 +2325,10 @@ class HomeController extends Controller
             $post = new VaccinationFrontModel();
             $post->user_id = $user_id;
 
-            //$post->year_experience = $year_experience;
+
             $post->vaccination_records = $vaccination_record;
             $post->immunization_status = $immunization_status;
-
+            $post->state_record        = $state_record;
             $post->complete_status = 1;
             $run = $post->save();
         }
@@ -3360,6 +3388,25 @@ class HomeController extends Controller
     public function profileVaccination(Request $request)
     {
         //This function is for profile vaccination
-        return view('nurse.profile_vaccination');
+        $user_id = Auth::guard('nurse_middle')->user()->id;
+        $other_vaccine = DB::table("other_vaccine")->where("user_id", $user_id)->get();
+        return view('nurse.profile_vaccination', compact('other_vaccine'));
+    }
+    public function removeVaccine(Request $request)
+    {
+        //This function is for remove vaccine from other vaccine
+        $id = $request->id;
+
+        $vaccine = OtherVaccineModel::find($id);
+
+        if ($vaccine) {
+            $filePath = 'uploads/evidence/' . $vaccine->evidence_file;
+            if (Storage::exists($filePath)) {
+                Storage::delete($filePath);
+            }
+            $vaccine->delete();
+            return response()->json(['success' => true]);
+        }
+        return response()->json(['success' => false, 'message' => 'Vaccine not found']);
     }
 }

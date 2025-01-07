@@ -350,8 +350,6 @@
                               @foreach ($country_data as $data)
                               <option value="{{$data->iso2}}" <?= isset(Auth::guard('nurse_middle')->user()->country) &&  Auth::guard('nurse_middle')->user()->country == $data->iso2 ? 'selected' : '' ?>> {{$data->name}} </option>
                               @endforeach
-
-
                             </select>
                           </div>
 
@@ -2818,14 +2816,7 @@
                     <div class="form-group level-drp">
                       <!-- <label class="form-label" for="input-1">Total Year of Experience</label> -->
                       <input type="hidden" name="user_id" value="{{ Auth::guard('nurse_middle')->user()->id }}">
-                      <input type="hidden" name="padneonatal_result_experience" class="padneonatal_result_experience" value="{{ Auth::guard('nurse_middle')->user()->paediatrics_neonatal }}">
 
-
-                      <input type="hidden" name="neonatal_care_result_experience" class="neonatal_care_result_experience" value="{{ Auth::guard('nurse_middle')->user()->neonatal_care }}">
-                      <input type="hidden" name="paedia_surgical_result_experience" class="paedia_surgical_result_experience" value="{{ Auth::guard('nurse_middle')->user()->paedia_surgical_preoperative }}">
-                      <input type="hidden" name="pad_op_room_result_experience" class="pad_op_room_result_experience" value="{{ Auth::guard('nurse_middle')->user()->pad_op_room }}">
-                      <input type="hidden" name="pad_qr_scout_result_experience" class="pad_qr_scout_result_experience" value="{{ Auth::guard('nurse_middle')->user()->pad_qr_scout }}">
-                      <input type="hidden" name="pad_qr_scrub_result_experience" class="pad_qr_scrub_result_experience" value="{{ Auth::guard('nurse_middle')->user()->pad_qr_scrub }}">
                       <input type="hidden" name="nursing_result_two_experience" class="nursing_result_two_experience" value="{{ Auth::guard('nurse_middle')->user()->registered_nurses }}">
                       <input type="hidden" name="nursing_result_three_experience" class="nursing_result_three_experience" value="{{ Auth::guard('nurse_middle')->user()->advanced_practioner }}">
 
@@ -2874,9 +2865,18 @@
                               @foreach($specialty as $spl)
                               <?php
                               $nursing_data = DB::table("practitioner_type")->where('parent', $spl->id)->orderBy('name')->get();
+                              if ($data->nurseType != 'null') {
+                                if (in_array((string)$spl->id, json_decode($data->nurseType, true))) {
+                                  $getn = '';
+                                } else {
+                                  $getn = 'd-none';
+                                }
+                              } else {
+                                $getn = 'd-none';
+                              }
                               ?>
                               <input type="hidden" name="nursing_result_experience" class="nursing_result_experience-{{ $a }}" value="{{ $spl->id }}">
-                              <div class="nursing_data form-group drp--clr col-md-12 {{ in_array($spl->id, json_decode($data->nurseType)) ? '' : 'd-none' }} drpdown-set nursing_exp_{{ $spl->id }}" id="nursing_level_experience-{{ $a }}-{{$i}}">
+                              <div class="nursing_data form-group drp--clr col-md-12 {{ $getn }} drpdown-set nursing_exp_{{ $spl->id }}" id="nursing_level_experience-{{ $a }}-{{$i}}">
                                 <label class="form-label" for="input-2">{{ $spl->name }}</label>
                                 <ul id="nursing_entry_experience-{{ $a }}" style="display:none;">
                                   @foreach($nursing_data as $nd)
@@ -2932,20 +2932,30 @@
                           <input type="hidden" name="adults_result_experience" class="adults_result_experience_{{$i}}" value="{{ $data->adults }}">
                           <input type="hidden" name="maternity_result_experience" class="maternity_result_experience_{{$i}}" value="{{ $data->maternity }}">
                           <input type="hidden" name="community_result_experience" class="community_result_experience_{{$i}}" value="{{ $data->community }}">
+                          <input type="hidden" name="neonatal_care_result_experience" class="neonatal_care_result_experience_{{ $i }}" value="{{ $data->neonatal_care }}">
+                          <input type="hidden" name="paediatrics_neonatal" class="paediatrics_neonatal_{{$i}}" value="{{ $data->paediatrics_neonatal }}">
+                          <input type="hidden" name="paedia_surgical_preoperative" class="paedia_surgical_{{$i}}" value="{{ $data->paedia_surgical_preoperative }}">
+                          <input type="hidden" name="pad_op_room_result_experience" class="pad_op_room_result_experience_{{ $i }}" value="{{ $data->pad_op_room }}">
+                          <input type="hidden" name="pad_qr_scout_result_experience" class="pad_qr_scout_result_experience_{{ $i }}" value="{{ $data->pad_qr_scout }}">
+                          <input type="hidden" name="pad_qr_scrub_result_experience" class="pad_qr_scrub_result_experience_{{ $i }}" value="{{ $data->pad_qr_scrub }}">
                           <?php
                           $l = 1;
                           ?>
                           @foreach($JobSpecialties as $ptl)
                           <?php
                           $speciality_data = DB::table("speciality")->where('parent', $ptl->id)->get();
-                          if (in_array((string)$ptl->id, json_decode($data->specialties, true))) {
-                            $d = '';
+                          if ($data->specialties != 'NULL') {
+                            if (in_array((string)$ptl->id, json_decode($data->specialties, true))) {
+                              $d = '';
+                            } else {
+                              $d = 'd-none';
+                            }
                           } else {
                             $d = 'd-none';
                           }
                           ?>
                           <input type="hidden" value1="{{$data->specialties}}" name="speciality_exp_result" class="speciality_exp_result-{{ $l }}" value="{{ $ptl->id }}">
-                          <div class="speciality_data_exp form-group drp--clr drpdown-set {{ $d }} col-md-6 speciality_exp_{{ $ptl->id }}" id="specility_level_exp-{{ $l }}">
+                          <div class="speciality_data_exp form-group drp--clr drpdown-set {{ $d }} col-md-6 speciality_exp_{{ $ptl->id }}" id="specility_level_exp-{{ $l }}-{{$i}}">
                             <label class="form-label" for="input-2">{{ $ptl->name }}</label>
                             <ul id="speciality_entry_exp-{{ $l }}" style="display:none;">
                               @foreach($speciality_data as $sd)
@@ -2960,7 +2970,7 @@
                           ?>
                           @endforeach
                         </div>
-                        <div class="surgical_div_experience">
+                        <div class="surgical_div_experience_{{$i}}">
                           <input type="hidden" name="surgical_preoperative_result_experience" class="surgical_preoperative_result_experience-{{$i}}" value="{{ $data->surgical_preoperative }}">
                           <div class="surgical_row_data_experience_{{$i}} form-group drp--clr d-none col-md-12">
                             <label class="form-label" for="input-1">Surgical Preoperative and Postoperative Care:</label>
@@ -2968,15 +2978,30 @@
                             $speciality_surgicalrow_data = DB::table("speciality")->where('parent', '96')->get();
                             $r = 1;
                             ?>
-                            <ul id="surgical_row_box_experience" style="display:none;">
+                            <ul id="surgical_row_box_exp" style="display:none;">
                               @foreach($speciality_surgicalrow_data as $ssrd)
                               <li data-value="{{ $ssrd->id }}">{{ $ssrd->name }}</li>
                               @endforeach
                             </ul>
-                            <select class="js-example-basic-multiple addAll_removeAll_btn sur_exp_{{ $i }}" data-list-id="surgical_row_box_experience" name="surgical_row_box_experience[1][]" multiple="multiple"></select>
+                            <select class="js-example-basic-multiple addAll_removeAll_btn sur_exp_{{ $i }}" data-list-id="surgical_row_box_exp" name="surgical_row_box_experience[1][]" multiple="multiple"></select>
                           </div>
                         </div>
-                        <div class="specialty_sub_boxes_experience-{{$i}} row">
+                        <div class="paediatric_surgical_div_expe_{{$i}}">
+                          <div class="surgicalpad_row_data_exp_{{$i}} form-group drp--clr d-none col-md-12">
+                            <label class="form-label" for="input-1">Paediatric Surgical Preop. and Postop. Care:</label>
+                            <?php
+                            $speciality_padsurgicalrow_data = DB::table("speciality")->where('parent', '285')->get();
+                            $r = 1;
+                            ?>
+                            <ul id="surgical_rowpad_box_exp" style="display:none;">
+                              @foreach($speciality_padsurgicalrow_data as $ssrd)
+                              <li data-value="{{ $ssrd->id }}">{{ $ssrd->name }}</li>
+                              @endforeach
+                            </ul>
+                            <select class="js-example-basic-multiple addAll_removeAll_btn pae_sur_preop_{{$i}}" data-list-id="surgical_rowpad_box_exp" name="surgical_rowpad_box_experience[1][]" multiple="multiple"></select>
+                          </div>
+                        </div>
+                        <div class="specialty_sub_boxes_experience row">
                           <input type="hidden" name="operatingroom_result_experience" class="operatingroom_result_experience-{{ $i }}" value="{{ $data->operating_room }}">
                           <input type="hidden" name="operatingscout_result_experience" class="operatingscout_result_experience-{{$i}}" value="{{  $data->operating_room_scout }}">
                           <input type="hidden" name="operatingscrub_result_experience" class="operatingscrub_result_experience-{{$i}}" value="{{  $data->operating_room_scrub }}">
@@ -2986,7 +3011,7 @@
                           ?>
                           @foreach($speciality_surgical_data as $ssd)
                           <input type="hidden" name="speciality_result" class="speciality_surgical_result_experience-{{$i}}-{{ $w }}" value="{{ $ssd->id }}">
-                          <div class="surgical_row_exp-{{ $w }} sur_sub_type_{{ $ssd->id }}_{{ $i }} d-none surgicalopcboxes-{{ $ssd->id }} form-group drp--clr drpdown-set">
+                          <div class="subvaluedata_{{$i}} surgical_row_exp-{{ $w }} sur_sub_type_{{ $ssd->id }}_{{ $i }} d-none surgicalopcboxes-{{ $ssd->id }} form-group drp--clr drpdown-set">
                             <label class="form-label" for="input-1">{{ $ssd->name }}</label>
                             <?php
                             $speciality_surgicalsub_data = DB::table("speciality")->where('parent', $ssd->id)->get();
@@ -3007,9 +3032,8 @@
                           $p = 1;
                           ?>
                           <input type="hidden" name="surgical_ob_result_experience" class="surgical_ob_result_experience_{{$i}}" value="{{ $data->surgical_obstrics_gynacology }}">
-                          <div class="surgicalobs_row_exp_{{$i}} form-group drp--clr d-none drpdown-set col-md-12">
+                          <div class="surgicalobs_div surgicalobs_row_exp_{{$i}} form-group drp--clr d-none drpdown-set col-md-12">
                             <label class="form-label" for="input-1">Surgical Obstetrics and Gynecology (OB/GYN):</label>
-
                             <ul id="surgicalobs_row_data_experience" style="display:none;">
                               @foreach($speciality_surgical_datamater as $ssd)
                               <li data-value="{{ $ssd->id }}">{{ $ssd->name }}</li>
@@ -3017,6 +3041,54 @@
                             </ul>
                             <select class="js-example-basic-multiple addAll_removeAll_btn surgicalobs_row_{{$i}}" data-list-id="surgicalobs_row_data_experience" name="surgical_obs_care_exp[1][]" multiple="multiple"></select>
                           </div>
+                          <?php
+                          $speciality_surgical_datamater = DB::table("speciality")->where('parent', '250')->get();
+
+                          ?>
+                          <div class="neonatal_row_exp_{{$i}} form-group drp--clr drpdown-set d-none col-md-12">
+                            <label class="form-label" for="input-1">Neonatal Care:</label>
+
+                            <ul id="neonatal_care_expe" style="display:none;">
+                              @foreach($speciality_surgical_datamater as $ssd)
+                              <li data-value="{{ $ssd->id }}">{{ $ssd->name }}</li>
+                              @endforeach
+                            </ul>
+                            <select class="js-example-basic-multiple addAll_removeAll_btn neonatal_exp_{{ $i }}" data-list-id="neonatal_care_expe" name="neonatal_care_experience[1][]" multiple="multiple"></select>
+                          </div>
+                          <?php
+                          $speciality_surgical_datap = DB::table("speciality")->where('parent', '285')->get();
+                          $q = 1;
+
+                          ?>
+                          @foreach($speciality_surgical_datap as $ssd)
+                          <?php
+                          if ($data->paedia_surgical_preoperative != 'null') {
+                            if (in_array((string)$ssd->id, json_decode($data->paedia_surgical_preoperative, true))) {
+                              $getd = '';
+                            } else {
+                              $getd = 'd-none';
+                            }
+                          } else {
+                            $getd = 'd-none';
+                          }
+                          ?>
+                          <input type="hidden" name="speciality_result" class="surgical_rowp_result_experience-{{ $q }}" value="{{ $ssd->id }}">
+                          <div class="surgical_rowp_exp_{{$i}} surgicalpad_row_experience-{{ $ssd->id }} surgical_rowp_exp-{{ $q }} form-group drp--clr {{$getd}} drpdown-set col-md-4">
+                            <label class="form-label" for="input-1">{{ $ssd->name }}</label>
+                            <?php
+                            $speciality_surgicalsub_data = DB::table("speciality")->where('parent', $ssd->id)->orderBy('name')->get();
+                            ?>
+                            <ul id="surgical_operative_carep_exp-{{ $q }}" style="display:none;">
+                              @foreach($speciality_surgicalsub_data as $sssd)
+                              <li data-value="{{ $sssd->id }}">{{ $sssd->name }}</li>
+                              @endforeach
+                            </ul>
+                            <select class="js-example-basic-multiple addAll_removeAll_btn surgi_{{$ssd->id}}_{{$i}}" data-list-id="surgical_operative_carep_exp-{{ $q }}" name="surgical_operative_carep_experience_{{ $q }}[1][]" multiple="multiple"></select>
+                          </div>
+                          <?php
+                          $q++;
+                          ?>
+                          @endforeach
                         </div>
                         <?php
                         $i++;
@@ -3117,7 +3189,7 @@
                           $speciality_data = DB::table("speciality")->where('parent', $ptl->id)->get();
                           ?>
                           <input type="hidden" name="speciality_result" class="speciality_result_experience-{{ $l }}" value="{{ $ptl->id }}">
-                          <div class="speciality_data form-group drp--clr drpdown-set d-none col-md-6 speciality_{{ $ptl->id }}" id="specility_level_experience-{{ $l }}">
+                          <div class="speciality_data form-group drp--clr drpdown-set d-none col-md-6 speciality_y_{{ $ptl->id }}" id="specility_level_experience-{{ $l }}">
                             <label class="form-label" for="input-2">{{ $ptl->name }}</label>
                             <ul id="speciality_entry_experience-{{ $l }}" style="display:none;">
                               @foreach($speciality_data as $sd)
@@ -3424,13 +3496,23 @@
                           <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="type_of_evidence" name="type_of_evidence[1][]" multiple="multiple"></select>
                           <span id="reqtype_evidence" class="reqError text-danger valley"></span>
                         </div>
-                        <div class="form-group level-drp">
+                        <!-- <div class="form-group level-drp">
+                          <?php
+                          $user_id = Auth::guard('nurse_middle')->user()->id;
+                          ?>
                           <label class="form-label" for="input-1">Upload evidence</label>
+                          <input class="form-control" type="file" name="upload_evidence[1][]" onchange="changeEviImg('{{ $user_id }}')" multiple="">
+                        </div> -->
 
-                          <input class="form-control" type="file" name="upload_evidence">
-
-                          <!-- <span id="reqachievements" class="reqError text-danger valley"></span> -->
+                        <div class="form-group level-drp">
+                          <?php
+                          $user_id = Auth::guard('nurse_middle')->user()->id;
+                          ?>
+                          <label class="form-label" for="input-1">Upload evidence</label>
+                          <input class="form-control change_evi" type="file" name="upload_evidence[1][]" multiple="" id="1">
+                          <div class="fileNamesPreview_1"></div>
                         </div>
+
                       </div>
                       <div class="add_new_certification_div awe mb-3 mt-4">
                         <a style="cursor: pointer;" onclick="add_work_experience()">+ Add another work experience</a>
@@ -6617,6 +6699,7 @@ if (!empty($interviewReferenceData)) {
 
     // Add an additional search box and extra buttons to the dropdown
     $('.addAll_removeAll_btn').on('select2:open', function() {
+      console.log('6e6yyy');
       var $dropdown = $(this);
       var searchBoxHtml = `
                 
@@ -6634,6 +6717,7 @@ if (!empty($interviewReferenceData)) {
 
       // Handle Select All button for the current dropdown
       $('.select-all-button').on('click', function() {
+        console.log('6e6yyyhj');
         var $currentDropdown = $dropdown;
         var allValues = $currentDropdown.find('option').map(function() {
           return $(this).val();
@@ -6846,10 +6930,6 @@ if (!empty($interviewReferenceData)) {
     $('.js-example-basic-multiple[data-list-id="speciality_entry-4"]').select2().val(community).trigger('change');
   }
 
-  if ($(".padneonatal_result_experience").val() != "") {
-    var paediatrics_neonatal = JSON.parse($(".padneonatal_result_experience").val());
-    $('.js-example-basic-multiple[data-list-id="speciality_entry_experience-3"]').select2().val(paediatrics_neonatal).trigger('change');
-  }
 
   if ($(".surgical_preoperative_result").val() != "") {
     var surgical_preoperative = JSON.parse($(".surgical_preoperative_result").val());
@@ -6885,19 +6965,9 @@ if (!empty($interviewReferenceData)) {
     $('.js-example-basic-multiple[data-list-id="neonatal_care"]').select2().val(neonatal_care).trigger('change');
   }
 
-  if ($(".neonatal_care_result_experience").val() != "") {
-    var neonatal_care = JSON.parse($(".neonatal_care_result_experience").val());
-    $('.js-example-basic-multiple[data-list-id="neonatal_care_experience"]').select2().val(neonatal_care).trigger('change');
-  }
-
   if ($(".paedia_surgical_result").val() != "") {
     var paedia_surgical_preoperative = JSON.parse($(".paedia_surgical_result").val());
     $('.js-example-basic-multiple[data-list-id="surgical_rowpad_box"]').select2().val(paedia_surgical_preoperative).trigger('change');
-  }
-
-  if ($(".paedia_surgical_result_experience").val() != "") {
-    var paedia_surgical_preoperative = JSON.parse($(".paedia_surgical_result_experience").val());
-    $('.js-example-basic-multiple[data-list-id="surgical_rowpad_box_experience"]').select2().val(paedia_surgical_preoperative).trigger('change');
   }
 
   if ($(".pad_op_room_result").val() != "") {
@@ -6913,23 +6983,6 @@ if (!empty($interviewReferenceData)) {
   if ($(".pad_qr_scrub_result").val() != "") {
     var pad_qr_scrub = JSON.parse($(".pad_qr_scrub_result").val());
     $('.js-example-basic-multiple[data-list-id="surgical_operative_carep-3"]').select2().val(pad_qr_scrub).trigger('change');
-  }
-
-  if ($(".pad_op_room_result_experience").val() != "") {
-    var pad_op_room = JSON.parse($(".pad_op_room_result_experience").val());
-    ////console.log("pad_op_room", pad_op_room);
-    $('.js-example-basic-multiple[data-list-id="surgical_operative_carep_experience-1"]').select2().val(pad_op_room).trigger('change');
-  }
-
-  if ($(".pad_qr_scout_result_experience").val() != "") {
-    var pad_qr_scout = JSON.parse($(".pad_qr_scout_result_experience").val());
-    ////console.log("pad_qr_scout", pad_qr_scout);
-    $('.js-example-basic-multiple[data-list-id="surgical_operative_carep_experience-2"]').select2().val(pad_qr_scout).trigger('change');
-  }
-
-  if ($(".pad_qr_scrub_result_experience").val() != "") {
-    var pad_qr_scrub = JSON.parse($(".pad_qr_scrub_result_experience").val());
-    $('.js-example-basic-multiple[data-list-id="surgical_operative_carep_experience-3"]').select2().val(pad_qr_scrub).trigger('change');
   }
 
   if ($(".nurse_degree_one").val() != "") {
@@ -7450,27 +7503,35 @@ if (!empty($interviewReferenceData)) {
   function initializeSelect2($dropdown) {
     $dropdown.on('select2:open', function() {
       var $currentDropdown = $(this);
-      var searchBoxHtml = `
-      <div class="extra-buttons">
-        <button class="select-all-button" type="button">Select All</button>
-        <button class="remove-all-button" type="button">Remove All</button>
-      </div>`;
 
-      // Add select all/remove all buttons
-      $('.select2-results').prepend(searchBoxHtml);
+      // Check if buttons already exist for this dropdown
+      if ($('.extra-buttons').length === 0) {
+        // Create the buttons HTML
+        var searchBoxHtml = `
+                <div class="extra-buttons">
+                    <button class="select-all-button" type="button">Select All</button>
+                    <button class="remove-all-button" type="button">Remove All</button>
+                </div>
+            `;
 
-      $('.select-all-button').on('click', function() {
-        var allValues = $currentDropdown.find('option').map(function() {
-          return $(this).val();
-        }).get();
-        $currentDropdown.val(allValues).trigger('change');
-      });
+        // Add select all/remove all buttons
+        $('.select2-results').prepend(searchBoxHtml);
 
-      $('.remove-all-button').on('click', function() {
-        $currentDropdown.val(null).trigger('change');
-      });
+        // Attach event listeners to the buttons
+        $('.select-all-button').off('click').on('click', function() {
+          var allValues = $currentDropdown.find('option').map(function() {
+            return $(this).val();
+          }).get();
+          $currentDropdown.val(allValues).trigger('change');
+        });
+
+        $('.remove-all-button').off('click').on('click', function() {
+          $currentDropdown.val(null).trigger('change');
+        });
+      }
     });
   }
+
 
   $('.js-example-basic-multiple[data-list-id="type-of-nurse-experience"]').on('change', function() {
     // alert();

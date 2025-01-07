@@ -1734,7 +1734,8 @@
             <div class="form-group level-drp">
             <label class="form-label" for="input-1">Upload evidence</label>
 
-            <input class="form-control" type="file" name="upload_evidence">
+            <input class="form-control change_evi" type="file" name="upload_evidence[{previous_employeers_head}][]" id="${previous_employeers_head}">
+              <div class="fileNamesPreview_${previous_employeers_head}"></div>
             
             <!-- <span id="reqachievements" class="reqError text-danger valley"></span> -->
             </div>
@@ -2128,6 +2129,7 @@
             selectedValues.forEach(function(value) {
                 // Check if the dropdown for this ID already exists
                 if (!existingDropdowns.includes(`skills_compantancies-${previous_employeers_head}-${value}`)) {
+
                     // Fetch submenu data for new IDs
                     $.ajax({
                         type: "POST",
@@ -2199,27 +2201,33 @@
         function initializeSelect22($dropdown) {
             $dropdown.on('select2:open', function() {
                 var $currentDropdown = $(this);
-                var searchBoxHtml = `
+
+                // Check if buttons already exist
+                if (!$('.extra-buttons').length) {
+                    var searchBoxHtml = `
                 <div class="extra-buttons">
                     <button class="select-all-button" type="button">Select All</button>
                     <button class="remove-all-button" type="button">Remove All</button>
                 </div>`;
 
-                // Add select all/remove all buttons
-                $('.select2-results').prepend(searchBoxHtml);
+                    // Add select all/remove all buttons
+                    $('.select2-results').prepend(searchBoxHtml);
 
-                $('.select-all-button').on('click', function() {
-                    var allValues = $currentDropdown.find('option').map(function() {
-                        return $(this).val();
-                    }).get();
-                    $currentDropdown.val(allValues).trigger('change');
-                });
+                    // Attach event listeners to the buttons
+                    $('.select-all-button').on('click', function() {
+                        var allValues = $currentDropdown.find('option').map(function() {
+                            return $(this).val();
+                        }).get();
+                        $currentDropdown.val(allValues).trigger('change');
+                    });
 
-                $('.remove-all-button').on('click', function() {
-                    $currentDropdown.val(null).trigger('change');
-                });
+                    $('.remove-all-button').on('click', function() {
+                        $currentDropdown.val(null).trigger('change');
+                    });
+                }
             });
         }
+
 
 
         $(document).on('click', '.delete-work-experience_' + previous_employeers_head, function() {
@@ -2324,10 +2332,12 @@
             if ($(".exp_tab-" + g).length > 0) {
                 // Check if the value is not empty
                 if ($(".maternity_result_experience_" + g).val() != "") {
+
+                    $(".surgicalobs_row_exp_" + g).insertAfter("#specility_level_exp-2");
+                    // (".surgicalobs_row_exp_" + g).insertAfter("#specility_level_exp-2");
                     var maternityt_type = JSON.parse($(".maternity_result_experience_" + g).val());
                     $('.specility_sub_type_2_' + g).select2().val(maternityt_type).trigger('change');
                     if (Array.isArray(maternityt_type) && maternityt_type.includes("233")) {
-
                         if ($(".surgical_ob_result_experience_" + g).val() != "") {
                             var surgical_ob = JSON.parse($(".surgical_ob_result_experience_" + g).val());
                             $('.surgicalobs_row_' + g).select2().val(surgical_ob).trigger('change');
@@ -2345,44 +2355,120 @@
         $(".exp_tab").each(function() {
             if ($(".exp_tab-" + h).length > 0) {
                 if ($(".community_result_experience_" + h).val() != "") {
-                    var community_result = JSON.parse($(".community_result_experience_" + e).val());
+                    var community_result = JSON.parse($(".community_result_experience_" + h).val());
                     $('.specility_sub_type_4_' + h).select2().val(community_result).trigger('change');
                 }
             }
             h++;
         });
 
+        var i = 1;
+        $(".exp_tab").each(function() {
+            if ($(".exp_tab-" + i).length > 0) {
+                if ($(".paediatrics_neonatal_" + i).val() != "") {
 
+                    var paedia_result = JSON.parse($(".paediatrics_neonatal_" + i).val());
 
+                    $(".paediatric_surgical_div_expe_" + i).insertAfter("#specility_level_exp-3-" + i);
+                    $(".neonatal_row_exp_" + i).insertAfter("#specility_level_exp-3-" + i);
+                    $(".surgical_rowp_exp_" + i).insertAfter(".surgicalpad_row_data_exp_" + i);
 
-        // var e = 1;
-        // $(".exp_tab").each(function() {
-        //     if ($(".exp_tab-" + e).length > 0) {
-        //         if ($(".adults_result_experience_" + e).val() != "") {
-        //             var adult_type = JSON.parse($(".adults_result_experience_" + e).val());
-        //             $('.specility_sub_type_1_' + e).select2().val(adult_type).trigger('change');
-        //             $('.specility_sub_type_2_' + e).select2().val(adult_type).trigger('change');
-        //             $('.specility_sub_type_3_' + e).select2().val(adult_type).trigger('change');
-        //             $('.specility_sub_type_4_' + e).select2().val(adult_type).trigger('change');
-        //         }
-        //     }
-        //     e++;
-        // });
+                    $('.specility_sub_type_3_' + i).select2().val(paedia_result).trigger('change');
+                    if (Array.isArray(paedia_result) && paedia_result.includes("250")) {
+                        $('.neonatal_row_exp_' + i).removeClass('d-none');
+                    } else {
+                        $('.neonatal_row_exp_' + i).addClass('d-none');
+                    }
+
+                    if (Array.isArray(paedia_result) && paedia_result.includes("285")) {
+                        $('.surgicalpad_row_data_exp_' + i).removeClass('d-none');
+                    } else {
+                        $('.surgicalpad_row_data_exp_' + i).addClass('d-none');
+                    }
+                }
+            }
+            i++;
+        });
+        var j = 1;
+        $(".exp_tab").each(function() {
+            if ($(".exp_tab-" + j).length > 0) {
+                if ($(".neonatal_care_result_experience_" + j).val() != "") {
+                    var neonatal_care_result = JSON.parse($(".neonatal_care_result_experience_" + j).val());
+                    $('.neonatal_exp_' + j).select2().val(neonatal_care_result).trigger('change');
+                }
+            }
+            j++;
+        });
+
+        var k = 1;
+        $(".exp_tab").each(function() {
+            if ($(".exp_tab-" + k).length > 0) {
+                if ($(".paedia_surgical_" + k).val() != "") {
+                    var paedia_result = JSON.parse($(".paedia_surgical_" + k).val());
+                    $('.pae_sur_preop_' + k).select2().val(paedia_result).trigger('change');
+                }
+            }
+            k++;
+        });
+
+        var l = 1; // Initialize the counter
+        $(".exp_tab").each(function(index) {
+            if ($(".exp_tab-" + l).length > 0) {
+                var paediaResult = $(".paedia_surgical_" + l).val();
+                if (paediaResult != "") {
+                    var paedia_type = JSON.parse(paediaResult);
+
+                    if (Array.isArray(paedia_type) && paedia_type.includes("286")) {
+                        var paediasubvalue = $(".pad_op_room_result_experience_" + l).val();
+                        if (paediasubvalue != "") {
+                            var paediavalue1 = JSON.parse($(".pad_op_room_result_experience_" + l).val());
+                            $('.surgi_286_' + l).select2().val(paediavalue1).trigger('change');
+                        }
+                    }
+
+                    if (Array.isArray(paedia_type) && paedia_type.includes("287")) {
+
+                        var scoutvalue1 = $(".pad_qr_scout_result_experience_" + l).val();
+                        if (scoutvalue1 != "") {
+                            var scoutvalue2 = JSON.parse($(".pad_qr_scout_result_experience_" + l).val());
+
+                            $('.surgi_287_' + l).select2().val(scoutvalue2).trigger('change');
+                        }
+                    }
+                    if (Array.isArray(paedia_type) && paedia_type.includes("288")) {
+                        var scrubvalue = $(".pad_qr_scrub_result_experience_" + l).val();
+                        if (scrubvalue != "") {
+                            var scrubvalue3 = JSON.parse($(".pad_qr_scrub_result_experience_" + l).val());
+                            $('.surgi_288_' + l).select2().val(scrubvalue3).trigger('change');
+                        }
+                    }
+                } else {
+                    // Optional: Handle case when the value is empty
+                    // $('.surgical_row_data_experience_' + f).addClass('d-none');
+                    // $('.js-example-basic-multiple[data-list-id="surgical_obs_care"]').select2().val(null).trigger('change');
+                }
+            }
+            l++; // Increment the counter inside the loop
+        });
 
         var e = 1; // Initialize the counter
         $(".exp_tab").each(function(index) {
             if ($(".exp_tab-" + e).length > 0) {
                 if ($(".adults_result_experience_" + e).val() != "") {
+                    $(".surgical_div_experience_" + e).insertAfter("#specility_level_exp-1-" + e);
+                    $(".subvaluedata_" + e).insertAfter(".surgical_div_experience_" + e);
                     var adult_type = JSON.parse($(".adults_result_experience_" + e).val());
+                    // if (adult_type) {
                     $('.specility_sub_type_1_' + e).select2().val(adult_type).trigger('change');
 
-                    if (adult_type.includes("96")) {
+                    if (Array.isArray(adult_type) && adult_type.includes("96")) {
                         $('.surgical_row_data_experience_' + e).removeClass('d-none');
                         var sur_type = JSON.parse($(".surgical_preoperative_result_experience-" + e).val());
                         $('.sur_exp_' + e).select2().val(sur_type).trigger('change');
                     } else {
                         $('.surgical_row_data_experience_' + e).addClass('d-none');
                     }
+                    // }
                 } else {
                     $('.surgical_row_data_experience_' + e).addClass('d-none');
                     // Optional: Uncomment this line if you want to clear the select2 values
@@ -2400,7 +2486,7 @@
                 if (surgicalResult != "") {
                     var sur_opr_type = JSON.parse(surgicalResult);
 
-                    if (sur_opr_type.includes("97")) {
+                    if (Array.isArray(sur_opr_type) && sur_opr_type.includes("97")) {
                         $('.sur_sub_type_97_' + f).removeClass('d-none');
                         var surgicalsubvalue = $(".operatingroom_result_experience-" + f).val();
                         if (surgicalsubvalue != "") {
@@ -2410,7 +2496,7 @@
                         }
                     }
 
-                    if (sur_opr_type.includes("98")) {
+                    if (Array.isArray(sur_opr_type) && sur_opr_type.includes("98")) {
                         $('.sur_sub_type_98_' + f).removeClass('d-none');
                         var surgicalsubvalue1 = $(".operatingscout_result_experience-" + f).val();
                         if (surgicalsubvalue1 != "") {
@@ -2419,7 +2505,7 @@
                             $('.spec_sub_value_98_' + f).select2().val(getvalue2).trigger('change');
                         }
                     }
-                    if (sur_opr_type.includes("99")) {
+                    if (Array.isArray(sur_opr_type) && sur_opr_type.includes("99")) {
                         $('.sur_sub_type_99_' + f).removeClass('d-none');
                         var surgicalsubvalue2 = $(".operatingscrub_result_experience-" + f).val();
                         if (surgicalsubvalue2 != "") {
@@ -2470,5 +2556,98 @@
             //$('.js-example-basic-multiple[data-list-id="nursing_entry-3"]').select2().val(null).trigger('change');
             // $('.js-example-basic-multiple[data-list-id="nurse_practitioner_menu"]').select2().val(null).trigger('change');
         }
+    }
+
+    $(document).ready(function() {
+        // Initial file input section count
+        let sectionCount = 0;
+
+        // Handle the change event for each file input (multiple file selection)
+        $(document).on('change', '.change_evi', function() {
+            const files = this.files; // Get the selected files
+            const fileNames = [];
+            var id = this.id;
+            const uploadedFiles = [];
+            const inputElement = this;
+
+            // Loop through the selected files and create the HTML for previews
+            for (let i = 0; i < files.length; i++) {
+                const fileName = files[i].name;
+
+                // Check if the file is already uploaded
+                if (uploadedFiles.includes(fileName)) {
+                    continue; // Skip adding this file if it's a duplicate
+                }
+
+                // If it's a unique file, add it to the uploaded files list
+                uploadedFiles.push(fileName);
+                const fileUrl = URL.createObjectURL(files[i]);
+
+                // Create preview HTML structure
+                const previewHtml = `
+                <div class="trans_img trans_img-${sectionCount}">
+                    <a href="${fileUrl}" target="_blank"><i class="fa fa-file"></i>${fileName}</a>
+                    <div class="close_btn close_btn-${i}" onclick="deleteevImg(${sectionCount}, '${fileName}')" style="cursor: pointer;">
+                        <i class="fa fa-close"></i>
+                    </div>
+                </div>
+            `;
+
+                // Append the preview HTML to the fileNamesPreview div
+                $(this).next('.fileNamesPreview_' + id).append(previewHtml);
+                uploadfileCount(i, fileName);
+                sectionCount++;
+
+            }
+            // Merge new files with the previous ones
+            mergeFiles(inputElement, files);
+        });
+
+        // Delete image preview
+        window.deleteevImg = function(sectionId, fileName) {
+            // Remove the preview element of the selected file
+            $(`.trans_img-${sectionId}`).remove();
+            // Get the file input element and update the count
+            const inputElement = $('.change_evi');
+            const newFileCount = inputElement[0].files.length - 1; // Decrease the count
+            inputElement[0].files = new FileListItems([...inputElement[0].files].slice(0, newFileCount));
+
+            console.log(`File ${fileName} deleted from section ${sectionId}`);
+        };
+
+        function mergeFiles(inputElement, newFiles) {
+            // Convert newFiles (FileList) to an array
+            const newFilesArray = Array.from(newFiles);
+
+            const previousFiles = Array.from(inputElement.files);
+            const combinedFiles = [
+                ...previousFiles,
+                ...newFilesArray.filter(file => !previousFiles.some(f => f.name === file.name))
+            ];
+
+            // Update the file input element with the combined files
+            inputElement.files = FileListItems(combinedFiles);
+        }
+
+
+
+    });
+
+    function uploadfileCount(i, fileName) {
+        // const fileCount = inputElement.files.length;
+        console.log('fileName', fileName);
+
+        const inputElement1 = $('.change_evi');
+        const newFileCount1 = inputElement1[0].files.length; // Decrease the count
+        console.log('newFileCount', newFileCount1);
+
+    }
+
+
+    // Helper function to create a new FileList from an array of File objects
+    function FileListItems(files) {
+        const dataTransfer = new DataTransfer();
+        files.forEach(file => dataTransfer.items.add(file));
+        return dataTransfer.files;
     }
 </script>

@@ -18,7 +18,6 @@
     width: 100% !important;
   }
 
-
   .select2-container--default .select2-selection--multiple {
     background-color: white !important;
     border: 1px solid #0000 !important;
@@ -73,21 +72,15 @@
 @endsection
 
 @section('content')
-
-
 <main class="main">
-
   <section class="section-box mt-0">
     <div class="">
       <div class="row m-0 profile-wrapper">
         <div class="col-lg-3 col-md-4 col-sm-12 p-0 left_menu">
           <!--<div id="preloader-active" style="display:none;"> <div class="preloader d-flex align-items-center justify-content-center"> <div class="preloader-inner position-relative"> <div class="text-center"><img src="https://nextjs.webwiders.in/mediqa/public/nurse/assets/imgs/template/loading.gif" alt="jobBox"></div> </div> </div> </div>-->
-
           <div class="sidebar_profile">
-
             <div class="box-company-profile mb-20">
               <div class="image-compay-rel">
-
                 <img alt="{{  Auth::guard('nurse_middle')->user()->lastname }}" src="{{ asset( Auth::guard('nurse_middle')->user()->profile_img)}}">
               </div>
               <div class="row mt-10">
@@ -103,7 +96,6 @@
 
             <div class="profile-chklst">
               <span>Profile basics</span>
-
               <?php
               $get_myprofile_status = DB::table("users")->where("id", Auth::guard('nurse_middle')->user()->id)->first();
               $get_educert_status = DB::table("user_education_cerification")->where("user_id", Auth::guard('nurse_middle')->user()->id)->first();
@@ -189,12 +181,13 @@
                 <li><a href="#tab-my-jobs" id="my_profession" class="btn btn-border recruitment-icon mb-20 profile_tabs" data-bs-toggle="tab" role="tab" aria-controls="tab-my-jobs" aria-selected="false"><i class="fi fi-rr-employee-man"></i> Profession</a></li>
 
                 <li><a class="btn btn-border people-icon mb-20" id="educert" data-bs-toggle="tab" role="tab" aria-controls="tab-saved-jobs" aria-selected="false"><i class="fi fi-rr-graduation-cap"></i> Education and Certifications</a></li>
-                <li><a href="#mand_training" id="mand_training" class="btn btn-border aboutus-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true"><i class="fi fi-rr-chart-user"></i> Mandatory Training and Education</a></li>
+                <li><a href="#mand_training" id="mand_training" class="btn btn-border aboutus-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true"><i class="fi fi-rr-chart-user"></i>Mandatory Training and Continuing Education</a></li>
                 <li><a href="#experience" id="experience_info" class="btn btn-border aboutus-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true"><i class="fi fi-rr-suitcase-alt"></i> Experience</a></li>
                 <li><a href="#reference" id="reference_info" class="btn btn-border aboutus-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true"><i class="fi fi-rr-suitcase-alt"></i> References</a></li>
                 <!-- <li><a href="#experience" id="experience_info" class="btn btn-border aboutus-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true"><i class="fi fi-rr-chart-histogram"></i>  Financial Details</a></li> -->
 
-                <li><a href="#vaccinations" id="vaccinations" class="btn btn-border aboutus-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true"><i class="fi fi-rr-chart-user"></i> Vaccinations</a></li>
+                <!-- <li><a href="#vaccinations" id="vaccinations" class="btn btn-border aboutus-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true"><i class="fi fi-rr-chart-user"></i> Vaccinations</a></li> -->
+                <li><a href="{{ route('nurse.profileVaccination', ['page' => 'vaccinations']) }}" class="btn btn-border aboutus-icon mb-20" aria-controls="tab-my-menu4" aria-selected="true"><i class="fi fi-rr-chart-user"></i> Vaccinations</a></li>
                 <li><a href="#work_clearances" id="work_clearances" class="btn btn-border recruitment-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-myclearance-jobs" aria-selected="false"><i class="fi fi-rr-briefcase-arrow-right"></i> Work Clearances</a></li>
                 <li><a href="#professional_membership" id="professional_membership" class="btn btn-border recruitment-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-myclearance-jobs" aria-selected="false"><i class="fi fi-rr-membership-vip"></i> Professional Memberships</a></li>
                 <li><a href="#interview_references" id="interview_references" class="btn btn-border recruitment-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-myclearance-jobs" aria-selected="false"><i class="fi fi-rr-refer-arrow"></i> Interview</a></li>
@@ -204,31 +197,34 @@
                 <li><a href="#additional_info" id="additional_info" class="btn btn-border recruitment-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-myclearance-jobs" aria-selected="false"><i class="fi fi-rr-guide-alt"></i> Additional Information</a></li>
                 <div class="mt-0 mb-20 logout-line"><a class="link-red font-md" href="{{ route("nurse.logout") }}"><i class="fa-solid fa-arrow-right-from-bracket me-2"></i> Log Out</a></div>
               </ul>
-
-
             </div>
-
           </div>
-
-
         </div>
-
-
-
-
-
         <div class="col-lg-9 col-md-8 col-sm-12 col-12 right_content">
           <div class="content-single content_profile">
             @if(!email_verified())
-
+            <div class="container-fluid">
+              <div class="alert alert-warning mt-2" role="alert">
+                <span class="d-flex align-items-center justify-content-center "><img src="{{ asset('nurse/assets/imgs/info.png') }}" width="25px;" alt="info" class="mx-2"> Thank you for signing up with us. To get full access, please verify your email first. If you didn't receive the email, <a href="javascript:void(0);" class="link-opacity-100 mx-1" style="color: black;text-decoration-line: underline;
+                  text-decoration-style: straight;" onclick="return resendEmailLink()"><b> click here to resend it.</b></a></span>
+              </div>
+            </div>
+            @endif
+            @if(!account_verified())
+            <div class="container-fluid">
+              <div class="alert alert-warning mt-2" role="alert">
+                <span class="d-flex align-items-center justify-content-center "><img src="{{ asset('nurse/assets/imgs/info.png') }}" width="25px;" alt="info" class="mx-2">Thank you for verifying your email!<br>Please complete your profile, and once approved, you will be able to apply for jobs and make your profile visible.
+                </span>
+              </div>
+            </div>
+            @endif
+            @if(!email_verified())
             <div class="alert alert-success mt-2" role="alert">
               <span class="d-flex align-items-center justify-content-center ">Please verify your email first to access your account </span>
             </div>
             @endif
 
             <div class="tab-content">
-
-
               <div class="tab-pane fade show active" id="tab-my-profile" role="tabpanel" aria-labelledby="tab-my-profile" style="display: none">
                 <div class="card shadow-sm border-0 p-4 mt-30">
                   <h3 class="mt-0 mb-15 color-brand-1">My Account</h3>
@@ -242,8 +238,6 @@
 
                       <form id="upload_profileimage" method="post" onsubmit="return upload_profileimage(event)">
                         <img alt="{{  Auth::guard('nurse_middle')->user()->name }}" style="object-fit:cover;border-radius: 16px;display: block;width: 85px;height: 85px;" src="{{ asset( Auth::guard('nurse_middle')->user()->profile_img)}}">
-
-
                     </div>
                     <div class="position-relative overflow-hidden">
                       <a class="btn btn-apply">Upload Avatar </a>
@@ -275,7 +269,6 @@
                           </div>
                           <div class="form-group col-md-6">
                             <label class="form-label" for="input-3">Mobile Number *</label>
-
                             <div class="row">
                               <!-- <div class="col-md-3">
                               <select name="countryCode" id="countryCode" class="form-control" placeholder="C. Code" aria-label="Default select example">
@@ -296,9 +289,6 @@
                                 <span id="reqTxtcontactI" class="reqError text-danger valley"></span>
                               </div>
                             </div>
-
-
-
                           </div>
                           <div class="col-lg-6">
                             <div class="form-group">
@@ -344,8 +334,6 @@
                         </div>
 
 
-
-
                         <div class="row">
                           <!--<div class="col-lg-6">-->
                           <!--  <div class="form-group">-->
@@ -362,8 +350,6 @@
                               @foreach ($country_data as $data)
                               <option value="{{$data->iso2}}" <?= isset(Auth::guard('nurse_middle')->user()->country) &&  Auth::guard('nurse_middle')->user()->country == $data->iso2 ? 'selected' : '' ?>> {{$data->name}} </option>
                               @endforeach
-
-
                             </select>
                           </div>
 
@@ -453,16 +439,10 @@
                       <form class="" id="ChangePassword" onsubmit="return ChangePassword()" method="POST">
                         @csrf
                         <div class="row">
-
                           <div class="form-group mb-3">
-
                             <label for="exampleInputEmail1" class="form-label">Old Password *</label>
-
                             <input type="password" name="old_password" id="old_password" class="form-control readonly-field" placeholder="">
-
                           </div>
-
-
                           <div class="col-lg-6">
                             <div class="form-group">
                               <label class="form-label">New Password *</label>
@@ -527,7 +507,6 @@
                           $j++;
                           ?>
                           @endforeach
-
                         </ul>
 
                         <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="type-of-nurse" name="nurseType[]" id="nurse_type" multiple="multiple"></select>
@@ -702,7 +681,7 @@
                           <li data-value="{{ $sssd->id }}">{{ $sssd->name }}</li>
                           @endforeach
                         </ul>
-                        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_operative_care-{{ $w }}" name="surgical_operative_care_{{ $w }}[]" multiple="multiple"></select>
+                        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_operative_care-{{ $w }}" name="surgical_operative_care{{ $w }}[]" multiple="multiple"></select>
                       </div>
                       <?php
                       $w++;
@@ -1212,7 +1191,7 @@
                               <label class="form-label" for="input-1">Certification/Licence Number</label>
                               <input type="hidden" name="aclsnamearr[]" class="acls_input_{{ $a_data->acls_certification_id }}" value="{{ $a_data->acls_certification_id }}">
                               <input class="form-control acls_license_number acls_license_number-{{ $i }}" type="text" name="acls_license_number[]" value="{{ $a_data->acls_license_number }}">
-                              <span id="wellinstitutionvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                              <span id="reqaclslicencevalid-{{ $i }}" class="reqError text-danger valley"></span>
                             </div>
                             <div class="form-group col-md-6">
                               <label class="form-label" for="input-1">Expiry</label>
@@ -1221,7 +1200,7 @@
                             </div>
                             <div class="form-group col-md-6">
                               <label class="form-label" for="input-1">Upload your certification/Licence</label>
-                              <input class="form-control acls_imgs_{{ $acls_first_word_one }} acls_upload_certification-{{ $i }}" type="file" name="acls_upload_certification[{{ $i }}][]" onchange="changeImg1('{{ $user_id }}','{{ $i }}','acls_imgs','{{ $acls_first_word_one }}',)" multiple="">
+                              <input class="form-control acls_imgs_{{ $acls_first_word_one }} acls_upload_certification-{{ $i }}" type="file" name="acls_upload_certification[{{ $i }}][]" onchange="changeImg1('{{ $user_id }}','{{ $i }}','acls_imgs','{{ $acls_first_word_one }}')" multiple="">
                               <span id="reqaclsuploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
                               <?php
                               $getedufieldsdata = DB::table("edu_fields")->where("user_id", $user_id)->first();
@@ -2365,7 +2344,6 @@
                         <div class="ain_{{ $ain_first_word_one }}">
                           <h6>{{ $ain_data->ain_certification_id }}</h6>
                           <div class="license_number_div row license_number_ain">
-
                             <div class="form-group col-md-6">
                               <label class="form-label" for="input-1">Certification/Licence Number</label>
                               <input type="hidden" name="ainnamearr[]" class="ain_input_{{ $ain_data->ain_certification_id }}" value="{{ $ain_data->ain_certification_id }}">
@@ -2486,7 +2464,6 @@
                               }
                               //print_r($acls_img[$acls_first_word_one]);
 
-
                               //print_r($dtran_img);
                               $l = 1;
                               $user_id = Auth::guard('nurse_middle')->user()->id;
@@ -2523,7 +2500,6 @@
                           @foreach($nlc_data as $data)
                           <li data-value="{{ $data->professionalcert_id }}">{{ $data->name }}</li>
                           @endforeach
-
                         </ul>
                         <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="nlc_data" name="nl_data[]" multiple="multiple"></select>
                       </div>
@@ -2539,6 +2515,7 @@
                         $additional_certificate = "";
                       }
                       $i = 1;
+                      $l = 0;
                       ?>
 
                       @if(!empty($additional_certificate))
@@ -2566,14 +2543,43 @@
                         </div>
                         <div class="form-group col-md-6">
                           <label class="form-label" for="input-1">Upload your certification/Licence</label>
-                          <input class="form-control" type="file" name="certificate_upload_certification[]" onchange="changeImg2('{{ $user_id }}','{{ $i }}')" multiple="">
-                          @if($c_data->certificate_upload_certification)
-                          <img src="{{ url('/public/uploads/certificates') }}/{{ $c_data->certificate_upload_certification }}" style="width:100px;">
-                          @endif
+                          <input class="form-control ano_certifi_imgs_certifi_{{$i}}" type="file" name="certificate_upload_certification[]" onchange="changeAnoImg('{{ $user_id }}','{{ $l }}','ano_certifi_imgs','certifi_{{$i}}')" multiple="">
+                          <?php
+                          $getedufieldsdata = DB::table("edu_fields")->where("user_id", $user_id)->first();
+
+                          if (!empty($getedufieldsdata)) {
+                            $ano_certifi_img = (array)json_decode($getedufieldsdata->ano_certifi_imgs);
+                          } else {
+                            $ano_certifi_img = '';
+                          }
+
+
+                          if (!empty($ano_certifi_img)) {
+                            // $ano_certifi_img_data = json_decode($ano_certifi_img["certifi_$i"]);
+                            $key = "certifi_$i";
+                            $ano_certifi_img_data = isset($ano_certifi_img[$key]) ? json_decode($ano_certifi_img[$key], true) : [];
+                          } else {
+                            $ano_certifi_img_data = "";
+                          }
+                          //print_r($acls_img[$acls_first_word_one]);
+                          //print_r($dtran_img);
+                          $user_id = Auth::guard('nurse_middle')->user()->id;
+                          ?>
+                          <div class="ano_certifi_imgscertifi_{{ $i }}">
+                            @if(!empty($ano_certifi_img_data))
+                            @foreach($ano_certifi_img_data as $ano_img)
+                            <div class="trans_img edu_img-{{ $i }} edu_imgano_certifi_imgscertifi_{{ $l }}">
+                              <a href="{{ url('/public/uploads/education_degree') }}/{{ $ano_img }}"><i class="fa fa-file"></i>{{ $ano_img }}</a>
+                              <div class="close_btn close_btn-{{ $i }}" onclick="deleteanoImg1('{{ $l }}','{{ $user_id }}','{{ $ano_img }}','certifi_{{$i}}','ano_certifi_imgs')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
+                            </div>
+                            <?php
+                            $l++;
+                            ?>
+                            @endforeach
+                            @endif
+                          </div>
                         </div>
-                        <?php
-                        $user_id = Auth::guard('nurse_middle')->user()->id;
-                        ?>
+
                         <div class="col-md-12">
                           <div class="add_new_certification_div mb-3 mt-3"><a style="cursor: pointer;" onclick="delete_certification('{{ $i }}','{{ $user_id }}','{{ $c_data->certificate_id }}')">- Delete certification/Licence</a></div>
                         </div>
@@ -2592,11 +2598,49 @@
                     <script type="text/javascript">
                       function add_listcertfication() {
                         var licence_div_count = $(".license_number_anothercertifications").length;
-                        console.log("licence_div_count", licence_div_count);
                         licence_div_count++;
                         var user_id = "{{ $user_id }}";
-                        $(".another_certifications").append('<div class="license_number_div license_number_div_' + licence_div_count + ' row license_number_anothercertifications"><div class="form-group col-md-6"><label class="form-label" for="input-1">Certificate ' + licence_div_count + '</label><input class="form-control additional_certificate_field additional_certificate_field-' + licence_div_count + '" type="text" name="training_certificate[]"><span id="reqcertname-' + licence_div_count + '" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control cert_licence_num cert_licence_num-' + licence_div_count + '" type="text" name="certificate_license_number[]"><span id="reqcertlicense-' + licence_div_count + '" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control cert_expiry cert_expiry-' + licence_div_count + '" type="date" name="certificate_expiry[]"><span id="reqcertexpiry-{{ $i }}" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Regulating Body</label><input class="form-control additional_regulating_body additional_regulating_body-' + licence_div_count + '" type="text" name="regulating_body[]"><span id="reqcertregulating_body-' + licence_div_count + '" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control additional_certifications-' + licence_div_count + '" type="file" name="certificate_upload_certification[' + licence_div_count + '][]" onchange="changeImg2(' + user_id + ',' + licence_div_count + ')" multiple></div><div class="col-md-12"><div class="add_new_certification_div mb-3 mt-3"><a style="cursor: pointer;" onclick="delete_certification1(' + licence_div_count + ')">- Delete certification/Licence</a></div></div></div>');
-
+                        var ano_cer_img_txt = 'ano_certifi_imgs'
+                        var name = 'certifi' + '_' + licence_div_count;
+                        // $(".another_certifications").append('<div class="license_number_div license_number_div_'+licence_div_count+' row license_number_anothercertifications"><div class="form-group col-md-6"><label class="form-label" for="input-1">Certificate '+licence_div_count+'</label><input class="form-control additional_certificate_field additional_certificate_field-'+licence_div_count+'" type="text" name="training_certificate[]"><span id="reqcertname-'+licence_div_count+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control cert_licence_num cert_licence_num-'+licence_div_count+'" type="text" name="certificate_license_number[]"><span id="reqcertlicense-'+licence_div_count+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control cert_expiry cert_expiry-'+licence_div_count+'" type="date" name="certificate_expiry[]"><span id="reqcertexpiry-{{ $i }}" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Regulating Body</label><input class="form-control additional_regulating_body additional_regulating_body-'+licence_div_count+'" type="text" name="regulating_body[]"><span id="reqcertregulating_body-'+licence_div_count+'" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control  ano_certifi_imgs_'+name+' additional_certifications-'+licence_div_count+'" type="file" name="certificate_upload_certification['+licence_div_count+'][]" onchange="changeAnoImg('+user_id+','+licence_div_count+',ano_certifi_imgs,'+name+')" multiple></div><div class="ano_certifi_imgs'+name+'" ></div><div class="col-md-12"><div class="add_new_certification_div mb-3 mt-3"><a style="cursor: pointer;" onclick="delete_certification1('+licence_div_count+')">- Delete certification/Licence</a></div></div></div>');
+                        $(".another_certifications").append(`
+                                <div class="license_number_div license_number_div_${licence_div_count} row license_number_anothercertifications">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="input-1">Certificate ${licence_div_count}</label>
+                                        <input class="form-control additional_certificate_field additional_certificate_field-${licence_div_count}" type="text" name="training_certificate[]">
+                                        <span id="reqcertname-${licence_div_count}" class="reqError text-danger valley"></span>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="input-1">Certification/Licence Number</label>
+                                        <input class="form-control cert_licence_num cert_licence_num-${licence_div_count}" type="text" name="certificate_license_number[]">
+                                        <span id="reqcertlicense-${licence_div_count}" class="reqError text-danger valley"></span>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="input-1">Expiry</label>
+                                        <input class="form-control cert_expiry cert_expiry-${licence_div_count}" type="date" name="certificate_expiry[]">
+                                        <span id="reqcertexpiry-${licence_div_count}" class="reqError text-danger valley"></span>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="input-1">Regulating Body</label>
+                                        <input class="form-control additional_regulating_body additional_regulating_body-${licence_div_count}" type="text" name="regulating_body[]">
+                                        <span id="reqcertregulating_body-${licence_div_count}" class="reqError text-danger valley"></span>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                                        <input class="form-control ano_certifi_imgs_${name} additional_certifications-${licence_div_count}" 
+                                              type="file" 
+                                              name="certificate_upload_certification[${licence_div_count}][]" 
+                                              onchange="changeAnoImg(${user_id}, ${licence_div_count}, 'ano_certifi_imgs', '${name}')" 
+                                              multiple>
+                                    </div>
+                                    <div class="ano_certifi_imgs${name}"></div>
+                                    <div class="col-md-12">
+                                        <div class="add_new_certification_div mb-3 mt-3">
+                                            <a style="cursor: pointer;" onclick="delete_certification1(${licence_div_count})">- Delete certification/Licence</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            `);
                       }
                     </script>
 
@@ -2679,7 +2723,7 @@
                           </div>
                           <script type="text/javascript">
                             var licence_div_count = $(".license_number_additional").length;
-                            console.log("licence_div_count",licence_div_count);
+                 
                             function add_certfication(){
                               licence_div_count++;
                               $(".certification_box").append('<h6>Certification/Licence '+licence_div_count+'</h6><div class="license_number_div row license_number_additional"><div class="form-group col-md-6"><label class="form-label" for="input-1">Courses/workshops</label><input class="form-control" type="text" name="training_courses[]"></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control" type="text" name="additional_license_number[]"></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control" type="date" name="additional_expiry[]"></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control" type="file" name="additional_upload_certification[]"></div></div>');
@@ -2765,497 +2809,699 @@
                   <h3 class="mt-0 color-brand-1 mb-2">Experience</h3>
                   <h6>Please add your full nursing work experience to strengthen your profile and get hired faster. Please keep update as your experience grows:</h6>
                   <?php
-                  $experienceData = DB::table("user_experience")->where("user_id", Auth::guard('nurse_middle')->user()->id)->first();
+                  $experienceData = DB::table("user_experience")->where("user_id", Auth::guard('nurse_middle')->user()->id)->get();
                   ?>
                   <form id="experience_form" method="POST" novalidate onsubmit="return updateExperience()">
                     @csrf
                     <div class="form-group level-drp">
                       <!-- <label class="form-label" for="input-1">Total Year of Experience</label> -->
                       <input type="hidden" name="user_id" value="{{ Auth::guard('nurse_middle')->user()->id }}">
-                      <!-- <input class="form-control" type="text" required="" name="year_experience" value="@if(!empty($educationData))@endif"> -->
+
+                      <input type="hidden" name="nursing_result_two_experience" class="nursing_result_two_experience" value="{{ Auth::guard('nurse_middle')->user()->registered_nurses }}">
+                      <input type="hidden" name="nursing_result_three_experience" class="nursing_result_three_experience" value="{{ Auth::guard('nurse_middle')->user()->advanced_practioner }}">
 
                     </div>
-                    <div class="form-group level-drp">
-                      <label class="form-label" for="input-1">Healthcare facility:</label>
-                      <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
-                      <input class="form-control" type="text" name="healthcare_facility" value="">
-                      <span id="reqnames" class="reqError text-danger valley"></span>
-                    </div>
-                    <div class="condition_set">
-                      <div class="form-group drp--clr">
-                        <label class="form-label" for="input-1">Type of Nurse?</label>
-                        <input type="hidden" name="user_id" class="user_id" value="{{ Auth::guard('nurse_middle')->user()->id }}">
-                        <input type="hidden" name="ntypeexperience" class="ntypeexperience" value="{{ Auth::guard('nurse_middle')->user()->nurseType }}">
-                        <ul id="type-of-nurse-experience" style="display:none;">
-                          @php $specialty = specialty();$spcl=$specialty[0]->id;@endphp
-                          <?php
-                          $j = 1;
-                          ?>
-                          @foreach($specialty as $spl)
-                          <li id="nursing_menus-{{ $j }}" data-value="{{ $spl->id }}">{{ $spl->name }}</li>
-                          <?php
-                          $j++;
-                          ?>
-                          @endforeach
-
-                        </ul>
-
-                        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="type-of-nurse-experience" name="nurseType[]" id="nurse_type_experience" multiple="multiple"></select>
-                      </div>
-                      <span id="reqnurseTypeId" class="reqError text-danger valley"></span>
-                    </div>
-                    <div class="result--show ">
-                      <div class="container p-0">
-                        <div class="row g-2">
-                          @php $specialty = specialty();$spcl=$specialty[0]->id;@endphp
-                          <?php
-                          $i = 1;
-                          ?>
-
-                          @foreach($specialty as $spl)
-                          <?php
-                          $nursing_data = DB::table("practitioner_type")->where('parent', $spl->id)->orderBy('name')->get();
-                          ?>
-                          <input type="hidden" name="nursing_result" class="nursing_result-{{ $i }}" value="{{ $spl->id }}">
-                          <div class="nursing_data form-group drp--clr col-md-4 d-none drpdown-set nursing_{{ $spl->id }}" id="nursing_level_experience-{{ $i }}">
-                            <label class="form-label" for="input-2">{{ $spl->name }}</label>
-                            <ul id="nursing_entry_experience-{{ $i }}" style="display:none;">
-                              @foreach($nursing_data as $nd)
-                              <li data-value="{{ $nd->id }}">{{ $nd->name }}</li>
-
-                              @endforeach
-                              <!-- Add more list items as needed -->
-                            </ul>
-                            <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="nursing_entry_experience-{{ $i }}" name="nursing_type_{{ $i }}[]" multiple="multiple"></select>
-                          </div>
-                          <?php
-                          $i++;
-                          ?>
-                          @endforeach
-                        </div>
-
-                      </div>
-                    </div>
-                    <div class="np_submenu_experience d-none">
-
-                      <div class="form-group drp--clr">
-                        <?php
-                        $np_data = DB::table("practitioner_type")->where('parent', '179')->get();
-                        ?>
-
-                        <label class="form-label" for="input-1">Nurse Practitioner (NP):</label>
-                        <ul id="nurse_practitioner_menu_experience" style="display:none;">
-                          @foreach($np_data as $nd)
-                          <li data-value="{{ $nd->id }}">{{ $nd->name }}</li>
-                          @endforeach
-
-                        </ul>
-                        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="nurse_practitioner_menu_experience" name="nurse_practitioner_menu_experience[]" multiple="multiple"></select>
-
-                      </div>
-
-                    </div>
-                    <div class="condition_set">
-                      <div class="form-group drp--clr">
-                        <input type="hidden" name="sub_speciality_value" class="sub_speciality_value" value="">
-                        <label class="form-label" for="input-1">Specialties</label>
-                        <ul id="specialties_experience" style="display:none;">
-                          @php $JobSpecialties = JobSpecialties(); @endphp
-                          <?php
-                          $k = 1;
-                          ?>
-                          @foreach($JobSpecialties as $ptl)
-                          <li id="nursing_menus-{{ $k }}" data-value="{{ $ptl->id }}">{{ $ptl->name }}</li>
-                          <?php
-                          $k++;
-                          ?>
-                          @endforeach
-
-                        </ul>
-                        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="specialties_experience" name="specialties_experience[]" multiple="multiple"></select>
-                      </div>
-                      <span id="reqspecialties" class="reqError text-danger valley"></span>
-                    </div>
-                    <div class="speciality_boxes row result--show">
-                      <?php
-                      $l = 1;
-                      ?>
-                      @foreach($JobSpecialties as $ptl)
-                      <?php
-                      $speciality_data = DB::table("speciality")->where('parent', $ptl->id)->get();
-                      ?>
-                      <input type="hidden" name="speciality_result" class="speciality_result-{{ $l }}" value="{{ $ptl->id }}">
-                      <div class="speciality_data form-group drp--clr drpdown-set d-none col-md-6 speciality_{{ $ptl->id }}" id="specility_level_experience-{{ $l }}">
-                        <label class="form-label" for="input-2">{{ $ptl->name }}</label>
-                        <ul id="speciality_entry_experience-{{ $l }}" style="display:none;">
-                          @foreach($speciality_data as $sd)
-                          <li data-value="{{ $sd->id }}">{{ $sd->name }}</li>
-
-                          @endforeach
-                          <!-- Add more list items as needed -->
-                        </ul>
-                        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="speciality_entry_experience-{{ $l }}" name="speciality_entry_experience_{{ $l }}[]" multiple="multiple"></select>
-                      </div>
-                      <?php
-                      $l++;
-                      ?>
-                      @endforeach
-                    </div>
-                    <div class="specialty_entry_one_experience"></div>
-                    <div class="specialty_entry_two_experience"></div>
-                    <div class="surgical_div_experience">
-
-                      <div class="surgical_row_data_experience form-group drp--clr d-none col-md-12">
-                        <label class="form-label" for="input-1">Surgical Preoperative and Postoperative Care:</label>
-                        <?php
-                        $speciality_surgicalrow_data = DB::table("speciality")->where('parent', '96')->get();
-                        $r = 1;
-                        ?>
-                        <ul id="surgical_row_box_experience" style="display:none;">
-                          @foreach($speciality_surgicalrow_data as $ssrd)
-                          <li data-value="{{ $ssrd->id }}">{{ $ssrd->name }}</li>
-                          @endforeach
-                        </ul>
-                        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_row_box_experience" name="surgical_row_box_experience[]" multiple="multiple"></select>
-                      </div>
-                    </div>
-                    <div class="paediatric_surgical_div_experience">
-
-                      <div class="surgicalpad_row_data_experience form-group drp--clr d-none col-md-12">
-                        <label class="form-label" for="input-1">Paediatric Surgical Preop. and Postop. Care:
-                        </label>
-                        <?php
-                        $speciality_padsurgicalrow_data = DB::table("speciality")->where('parent', '285')->get();
-                        $r = 1;
-                        ?>
-                        <ul id="surgical_rowpad_box_experience" style="display:none;">
-                          @foreach($speciality_padsurgicalrow_data as $ssrd)
-                          <li data-value="{{ $ssrd->id }}">{{ $ssrd->name }}</li>
-                          @endforeach
-                        </ul>
-                        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_rowpad_box_experience" name="surgical_rowpad_box_experience[]" multiple="multiple"></select>
-                      </div>
-                    </div>
-                    <div class="specialty_sub_boxes_experience row">
-                      <?php
-                      $speciality_surgical_data = DB::table("speciality")->where('parent', '96')->get();
-                      $w = 1;
-                      ?>
-                      @foreach($speciality_surgical_data as $ssd)
-                      <input type="hidden" name="speciality_result" class="speciality_surgical_result-{{ $w }}" value="{{ $ssd->id }}">
-                      <div class="surgical_row_experience-{{ $w }} surgicalopcboxes-{{ $ssd->id }} form-group drp--clr d-none drpdown-set col-md-4">
-                        <label class="form-label" for="input-1">{{ $ssd->name }}</label>
-                        <?php
-                        $speciality_surgicalsub_data = DB::table("speciality")->where('parent', $ssd->id)->get();
-                        ?>
-                        <ul id="surgical_operative_care_experience-{{ $w }}" style="display:none;">
-                          @foreach($speciality_surgicalsub_data as $sssd)
-                          <li data-value="{{ $sssd->id }}">{{ $sssd->name }}</li>
-                          @endforeach
-                        </ul>
-                        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_operative_care_experience-{{ $w }}" name="surgical_operative_care_{{ $w }}[]" multiple="multiple"></select>
-                      </div>
-                      <?php
-                      $w++;
-                      ?>
-
-                      @endforeach
-                      <div class="surgical_operative_care_level_experience"></div>
-                      <div class="surgical_operative_care_level_experience_two"></div>
-                      <div class="surgical_operative_care_level_experience_three"></div>
-                      <?php
-                      $speciality_surgical_datamater = DB::table("speciality")->where('parent', '233')->get();
-                      $p = 1;
-                      ?>
-
-                      <div class="surgicalobs_row form-group drp--clr d-none drpdown-set col-md-12">
-                        <label class="form-label" for="input-1">Surgical Obstetrics and Gynecology (OB/GYN):</label>
-
-                        <ul id="surgical_obs_care" style="display:none;">
-                          @foreach($speciality_surgical_datamater as $ssd)
-                          <li data-value="{{ $ssd->id }}">{{ $ssd->name }}</li>
-                          @endforeach
-                        </ul>
-                        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_obs_care" name="surgical_obs_care[]" multiple="multiple"></select>
-                      </div>
-                      <?php
-                      $speciality_surgical_datamater = DB::table("speciality")->where('parent', '250')->get();
-
-                      ?>
-                      <div class="neonatal_row_experience form-group drp--clr drpdown-set d-none col-md-12">
-                        <label class="form-label" for="input-1">Neonatal Care:</label>
-
-                        <ul id="neonatal_care_experience" style="display:none;">
-                          @foreach($speciality_surgical_datamater as $ssd)
-                          <li data-value="{{ $ssd->id }}">{{ $ssd->name }}</li>
-                          @endforeach
-                        </ul>
-                        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="neonatal_care_experience" name="neonatal_care_experience[]" multiple="multiple"></select>
-                      </div>
-                      <div class="neonatal_care_experience_level"></div>
-                      <?php
-                      $speciality_surgical_datap = DB::table("speciality")->where('parent', '285')->get();
-                      $q = 1;
-                      ?>
-                      @foreach($speciality_surgical_datap as $ssd)
-                      <input type="hidden" name="speciality_result" class="surgical_rowp_result-{{ $q }}" value="{{ $ssd->id }}">
-                      <div class="surgical_rowp_experience surgicalpad_row_experience-{{ $ssd->id }} surgical_rowp_experience-{{ $q }} form-group drp--clr d-none drpdown-set col-md-4">
-                        <label class="form-label" for="input-1">{{ $ssd->name }}</label>
-                        <?php
-                        $speciality_surgicalsub_data = DB::table("speciality")->where('parent', $ssd->id)->orderBy('name')->get();
-                        ?>
-                        <ul id="surgical_operative_carep-{{ $q }}" style="display:none;">
-                          @foreach($speciality_surgicalsub_data as $sssd)
-                          <li data-value="{{ $sssd->id }}">{{ $sssd->name }}</li>
-                          @endforeach
-                        </ul>
-                        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_operative_carep_experience-{{ $q }}" name="surgical_operative_carep_experience_{{ $q }}[]" multiple="multiple"></select>
-                      </div>
-                      <?php
-                      $q++;
-                      ?>
-                      @endforeach
-                      <div class="surgical_operative_carep_level_one"></div>
-                      <div class="surgical_operative_carep_level_two"></div>
-                      <div class="surgical_operative_carep_level_three"></div>
-                    </div>
-                    <!-- <div class="form-group level-drp">
-                    <label class="form-label" for="input-1">What is your level of experience?</label>
-                    <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job">
-                    <select class="form-input mr-10 select-active" name="assistent_level">
-                      
-                      @for($i = 1; $i <= 30; $i++) <option value="{{ $i }}" @if(Auth::guard('nurse_middle')->user()->assistent_level == $i) selected @endif>{{ $i }}{{ $i == 1 ? 'st' : ($i == 2 ? 'nd' : ($i == 3 ? 'rd' : 'th')) }} Year</option>
-                        @endfor
-                    </select>
-                  </div> -->
                     <span id="reqlevelexpereience" class="reqError text-danger valley"></span>
-
                     <?php
-                    if (!empty($experienceData)) {
-                      $work_experience_data = json_decode($experienceData->work_experience);
-                    } else {
-                      $work_experience_data = "";
-                    }
-
                     ?>
-
                     <div class="previous_employeers">
                       <?php
                       $i = 1;
                       ?>
-                      @if(!empty($work_experience_data))
-                      @foreach($work_experience_data as $w_data)
-                      <h6 class="emergency_text previous_employeers_head">
-                        Previous Employers {{ $i }}
-                      </h6>
-
-                      <div class="form-group level-drp">
-
-
-
-                        <label class="form-label" for="input-1">Position Held</label>
-                        <select class="form-control" name="positions_held[]">
-                          <option value="">Position Held</option>
-                          <option value="Team Member" @if($w_data->positions_held1 == "Team Member") selected @endif>Team Member</option>
-                          <option value="Team Leader" @if($w_data->positions_held1 == "Team Leader") selected @endif>Team Leader</option>
-                          <option value="Educator" @if($w_data->positions_held1 == "Educator") selected @endif>Educator</option>
-                          <option value="Manager" @if($w_data->positions_held1 == "Manager") selected @endif>Manager</option>
-                          <option value="Clinical Specialist" @if($w_data->positions_held1 == "Clinical Specialist") selected @endif>Clinical Specialist</option>
-                        </select>
-                        <span id="reqpositionheld" class="reqError text-danger valley"></span>
-
-                      </div>
-                      <span id="reqpositionheld" class="reqError text-danger valley"></span>
-                      <div class="row">
-                        <div class="col-md-6">
-                          <div class="form-group level-drp">
-                            <label class="form-label" for="input-1">Employment Start Date</label>
-                            <input class="form-control employeement_start_date employeement_start_date-{{ $i }}" type="date" name="start_date[]" value="{{ $w_data->start_date1 }}" onchange="changeEmployeementEndDate('{{ $i }}');" onkeydown="return false">
-                            <span id="reqempsdate" class="reqError text-danger valley"></span>
-                          </div>
-                          <div class="declaration_box mb-3">
-                            <input class="currently_position currently_position-{{ $i }}" type="checkbox" name="present_box[]" onclick="currently_position('{{ $i }}')" value="1" @if(!empty($w_data->present_box1 == 1 )) checked @endif>I am currently in this position at the moment
-
+                      @if($experienceData->isNotEmpty())
+                      @foreach($experienceData as $data)
+                      <div class="exp_tab exp_tab-{{$i}}">
+                        <h6 class="emergency_text">
+                          Work Experience {{ $i }}
+                        </h6>
+                        <div class="form-group drp--clr nurse_exp_type nurse_exp_type-{{ $i }}">
+                          <label class="form-label" for="input-1">Type of Nurse?</label>
+                          <input type="hidden" name="user_id" class="user_id" value="{{ Auth::guard('nurse_middle')->user()->id }}">
+                          <input type="hidden" name="type_nurse" class="type_nurse_ep-{{ $i }}" value="{{ $data->nurseType }}">
+                          <ul id="type-of-nurse-experience-{{$i}}" style="display:none;">
+                            @php $specialty = specialty();$spcl=$specialty[0]->id;@endphp
+                            <?php
+                            $j = 1;
+                            ?>
+                            @foreach($specialty as $spl)
+                            <li id="nursing_menus-{{ $j }}" data-value="{{ $spl->id }}">{{ $spl->name }}</li>
+                            <?php
+                            $j++;
+                            ?>
+                            @endforeach
+                          </ul>
+                          <select class="js-example-basic-multiple addAll_removeAll_btn nurse_level_ep" data-list-id="type-of-nurse-experience-{{$i}}" name="nurseType[$i][]" id="nurse_type_exp-{{ $i }}" multiple="multiple" onchange="handleNurseTypeChange('{{$i}}')"></select>
+                        </div>
+                        <div class="result--show nurse-res-rex nurse-res-rex-{{ $i }}">
+                          <input type="hidden" name="nursing_result_one_experience" class="nursing_result_one_experience_{{$i}}" value="{{$data->entry_level_nursing }}">
+                          <input type="hidden" name="nursing_result_two_experience" class="nursing_result_two_experience_{{$i}}" value="{{ $data->registered_nurses }}">
+                          <input type="hidden" name="nursing_result_three_experience" class="nursing_result_three_experience_{{$i}}" value="{{$data->advanced_practioner}}">
+                          <div class="container p-0">
+                            <div class="row g-2">
+                              @php $specialty = specialty();$spcl=$specialty[0]->id;@endphp
+                              <?php
+                              $a = 1;
+                              ?>
+                              @foreach($specialty as $spl)
+                              <?php
+                              $nursing_data = DB::table("practitioner_type")->where('parent', $spl->id)->orderBy('name')->get();
+                              ?>
+                              <input type="hidden" name="nursing_result_experience" class="nursing_result_experience-{{ $a }}" value="{{ $spl->id }}">
+                              <div class="nursing_data form-group drp--clr col-md-12 {{ in_array($spl->id, json_decode($data->nurseType)) ? '' : 'd-none' }} drpdown-set nursing_exp_{{ $spl->id }}" id="nursing_level_experience-{{ $a }}-{{$i}}">
+                                <label class="form-label" for="input-2">{{ $spl->name }}</label>
+                                <ul id="nursing_entry_experience-{{ $a }}" style="display:none;">
+                                  @foreach($nursing_data as $nd)
+                                  <li data-value="{{ $nd->id }}">{{ $nd->name }}</li>
+                                  @endforeach
+                                </ul>
+                                <select class="js-example-basic-multiple addAll_removeAll_btn nur_exp_res_{{ $spl->id }}_{{$i}}" data-list-id="nursing_entry_experience-{{ $a }}" name="nursing_type_{{ $a }}[1][]" multiple="multiple"></select>
+                              </div>
+                              <?php
+                              $a++;
+                              ?>
+                              @endforeach
+                            </div>
                           </div>
                         </div>
-                        <div class="col-md-6 empl_end_date-{{ $i }}" @if($w_data->present_box1 == 1) style="display:none;" @endif>
-                          <div class="form-group level-drp">
-                            <label class="form-label" for="input-1">Employment End Date</label>
-                            <input class="form-control employeement_end_date employeement_end_date-{{ $i }}" type="date" name="end_date[]" value="{{ $w_data->end_date1 }}" onkeydown="return false">
-                            <span id="reqemployeementenddate" class="reqError text-danger valley"></span>
-                          </div>
-
-                        </div>
-
-                      </div>
-                      <div class="row">
-                        <div class="col-md-6">
-                          <div class="form-group level-drp">
-                            <label class="form-label" for="input-1">Employment type</label>
-                            <select class="form-control" name="employeement_type[]">
-                              <option value="">Employment type</option>
-                              <option value="Agency" @if($w_data->employeement_type1 == "Agency") selected @endif>Agency</option>
-                              <option value="Staffing Agency" @if($w_data->employeement_type1 == "Staffing Agency") selected @endif>Staffing Agency</option>
-                            </select>
-                            <span id="reqemptype" class="reqError text-danger valley"></span>
+                        <div class="np_submenu_experience d-none">
+                          <input type="hidden" name="np_result_experience" class="np_result_experience_{{$i}}" value="{{ $data->nurse_prac }}">
+                          <div class="form-group drp--clr">
+                            <?php
+                            $np_data = DB::table("practitioner_type")->where('parent', '179')->get();
+                            ?>
+                            <label class="form-label" for="input-1">Nurse Practitioner (NP):</label>
+                            <ul id="nurse_practitioner_menu_experience" style="display:none;">
+                              @foreach($np_data as $nd)
+                              <li data-value="{{ $nd->id }}">{{ $nd->name }}</li>
+                              @endforeach
+                            </ul>
+                            <select class="js-example-basic-multiple addAll_removeAll_btn nurse_prax_exp_{{$i}}" data-list-id="nurse_practitioner_menu_experience" name="nurse_practitioner_menu_experience[1][]" multiple="multiple"></select>
                           </div>
                         </div>
-                      </div>
-                      <h6 class="emergency_text">
-                        Detailed Job Descriptions
-                      </h6>
-                      <div class="form-group level-drp">
-                        <label class="form-label" for="input-1">Responsibilities</label>
-                        <textarea class="form-control" name="job_responeblities[]">{{ $w_data->job_responeblities1 }}</textarea>
-                        <span id="reqresposiblities" class="reqError text-danger valley"></span>
-                      </div>
-                      <div class="form-group level-drp">
-                        <label class="form-label" for="input-1">Achievements</label>
-                        <textarea class="form-control" name="achievements[]">{{ $w_data->achievements1 }}</textarea>
-                        <span id="reqachievements" class="reqError text-danger valley"></span>
-                      </div>
-                      <?php
-                      $i++;
-                      ?>
-                      @endforeach
-                      @else
-                      <h6 class="emergency_text">
-                        Previous Employers
-                      </h6>
+                        <div class="condition_set">
+                          <div class="form-group drp--clr">
+                            <input type="hidden" name="speciality_exp_value-{{$i}}" class="speciality_exp_value-{{$i}}" value="{{ $data->specialties }}">
+                            <label class="form-label" for="input-1">Specialties</label>
+                            <ul id="specialties_type_experience-1" style="display:none;">
+                              @php $JobSpecialties = JobSpecialties(); @endphp
+                              <?php
+                              $k = 1;
+                              ?>
+                              @foreach($JobSpecialties as $ptl)
+                              <li id="nursing_menus-{{ $k }}" data-value="{{ $ptl->id }}">{{ $ptl->name }}</li>
+                              <?php
+                              $k++;
+                              ?>
+                              @endforeach
 
-                      <div class="form-group level-drp">
-
-
-                        <div class="form-group level-drp">
-                          <label class="form-label" for="input-1">Position Held</label>
-                          <select class="form-control" name="positions_held[]">
-                            <option value="">select</option>
-                            <option value="Team Member">Team Member</option>
-                            <option value="Team Leader">Team Leader</option>
-                            <option value="Educator">Educator</option>
-                            <option value="Manager">Manager</option>
-                            <option value="Clinical Specialist">Clinical Specialist</option>
-                            <option value="Charge Nurse">Charge Nurse</option>
-                            <option value="Nurse Supervisor">Nurse Supervisor</option>
-                            <option value="Nursing Director">Nursing Director</option>
-                            <option value="Assistant Director of Nursing">Assistant Director of Nursing</option>
-                            <option value="Head Nurse">Head Nurse</option>
-                            <option value="Nurse Coordinator">Nurse Coordinator</option>
-                            <option value="Staff Nurse">Staff Nurse</option>
-                          </select>
-                          <span id="reqpositionheld" class="reqError text-danger valley"></span>
-                        </div>
-                      </div>
-                      <span id="reqpositionheld" class="reqError text-danger valley"></span>
-                      <div class="row">
-                        <div class="col-md-6">
-                          <div class="form-group level-drp">
-                            <label class="form-label" for="input-1">Employment Start Date</label>
-                            <input class="form-control employeement_start_date employeement_start_date-1" type="date" name="start_date[]" onchange="changeEmployeementEndDate(1)" onkeydown="return false">
-                            <span id="reqempsdate" class="reqError text-danger valley"></span>
+                            </ul>
+                            <select class="js-example-basic-multiple addAll_removeAll_btn exp_spe_type_{{$i}}" data-list-id="specialties_type_experience-1" name="specialties_experience[1][]" multiple="multiple"></select>
                           </div>
-                          <div class="declaration_box">
-                            <input class="currently_position currently_position-1" type="checkbox" name="present_box[]" value="1" onclick="currently_position(1)">I am currently in this position at the moment
+                          <span id="reqspecialties" class="reqError text-danger valley"></span>
+                        </div>
+                        <div class="speciality_boxes row result--show">
+                          <input type="hidden" name="adults_result_experience" class="adults_result_experience_{{$i}}" value="{{ $data->adults }}">
+                          <input type="hidden" name="maternity_result_experience" class="maternity_result_experience_{{$i}}" value="{{ $data->maternity }}">
+                          <input type="hidden" name="community_result_experience" class="community_result_experience_{{$i}}" value="{{ $data->community }}">
+                          <input type="hidden" name="neonatal_care_result_experience" class="neonatal_care_result_experience_{{ $i }}" value="{{ $data->neonatal_care }}">
+                          <input type="hidden" name="paediatrics_neonatal" class="paediatrics_neonatal_{{$i}}" value="{{ $data->paediatrics_neonatal }}">
+                          <input type="hidden" name="paedia_surgical_preoperative" class="paedia_surgical_{{$i}}" value="{{ $data->paedia_surgical_preoperative }}">
+                          <input type="hidden" name="pad_op_room_result_experience" class="pad_op_room_result_experience_{{ $i }}" value="{{ $data->pad_op_room }}">
+                          <input type="hidden" name="pad_qr_scout_result_experience" class="pad_qr_scout_result_experience_{{ $i }}" value="{{ $data->pad_qr_scout }}">
+                          <input type="hidden" name="pad_qr_scrub_result_experience" class="pad_qr_scrub_result_experience_{{ $i }}" value="{{ $data->pad_qr_scrub }}">
+                          <?php
+                          $l = 1;
+                          ?>
+                          @foreach($JobSpecialties as $ptl)
+                          <?php
+                          $speciality_data = DB::table("speciality")->where('parent', $ptl->id)->get();
+                          if (in_array((string)$ptl->id, json_decode($data->specialties, true))) {
+                            $d = '';
+                          } else {
+                            $d = 'd-none';
+                          }
+                          ?>
+                          <input type="hidden" value1="{{$data->specialties}}" name="speciality_exp_result" class="speciality_exp_result-{{ $l }}" value="{{ $ptl->id }}">
+                          <div class="speciality_data_exp form-group drp--clr drpdown-set {{ $d }} col-md-6 speciality_exp_{{ $ptl->id }}" id="specility_level_exp-{{ $l }}">
+                            <label class="form-label" for="input-2">{{ $ptl->name }}</label>
+                            <ul id="speciality_entry_exp-{{ $l }}" style="display:none;">
+                              @foreach($speciality_data as $sd)
+                              <li data-value="{{ $sd->id }}">{{ $sd->name }}</li>
+                              @endforeach
+                            </ul>
+                            <select class="js-example-basic-multiple addAll_removeAll_btn specility_sub_type_{{ $ptl->id }}_{{$i}}" data-list-id="speciality_entry_exp-{{ $l }}" name="speciality_entry_expe_{{ $l }}[1][]" multiple="multiple"></select>
 
                           </div>
+                          <?php
+                          $l++;
+                          ?>
+                          @endforeach
                         </div>
-                        <div class="col-md-6 empl_end_date-1">
-                          <div class="form-group level-drp">
-                            <label class="form-label" for="input-1">Employment End Date</label>
-                            <input class="form-control employeement_end_date employeement_end_date-1" type="date" name="end_date[]" onkeydown="return false">
-                            <span id="reqemployeementenddate-1" class="reqError text-danger valley"></span>
-                          </div>
-
-                        </div>
-
-                      </div>
-                      <br>
-                      <div class="row">
-                        <div class="col-md-6">
-                          <div class="form-group level-drp">
-                            <label class="form-label" for="input-1">Employment type</label>
-                            <select class="form-control" name="employeement_type[]">
-                              <option value="">select</option>
-                              <option value="Permanent" @if(Auth::guard('nurse_middle')->user()->current_employee_status == "Permanent") selected @endif>Permanent</option>
-                              <option value="Temporary" @if(Auth::guard('nurse_middle')->user()->current_employee_status == "Temporary") selected @endif>Temporary</option>
-                            </select>
-                            <span id="reqemptype" class="reqError text-danger valley"></span>
+                        <div class="surgical_div_experience">
+                          <input type="hidden" name="surgical_preoperative_result_experience" class="surgical_preoperative_result_experience-{{$i}}" value="{{ $data->surgical_preoperative }}">
+                          <div class="surgical_row_data_experience_{{$i}} form-group drp--clr d-none col-md-12">
+                            <label class="form-label" for="input-1">Surgical Preoperative and Postoperative Care:</label>
+                            <?php
+                            $speciality_surgicalrow_data = DB::table("speciality")->where('parent', '96')->get();
+                            $r = 1;
+                            ?>
+                            <ul id="surgical_row_box_exp" style="display:none;">
+                              @foreach($speciality_surgicalrow_data as $ssrd)
+                              <li data-value="{{ $ssrd->id }}">{{ $ssrd->name }}</li>
+                              @endforeach
+                            </ul>
+                            <select class="js-example-basic-multiple addAll_removeAll_btn sur_exp_{{ $i }}" data-list-id="surgical_row_box_exp" name="surgical_row_box_experience[1][]" multiple="multiple"></select>
                           </div>
                         </div>
-                      </div>
-                      <h6 class="emergency_text">
-                        Detailed Job Descriptions
-                      </h6>
-                      <div class="form-group level-drp">
-                        <label class="form-label" for="input-1">Responsibilities</label>
-                        <textarea class="form-control" name="job_responeblities[]"></textarea>
-                        <span id="reqresposiblities" class="reqError text-danger valley"></span>
-                      </div>
-                      <div class="form-group level-drp">
-                        <label class="form-label" for="input-1">Achievements</label>
-                        <textarea class="form-control" name="achievements[]"></textarea>
-                        <span id="reqachievements" class="reqError text-danger valley"></span>
-                      </div>
+                        <div class="paediatric_surgical_div_expe">
+                          <div class="surgicalpad_row_data_exp_{{$i}} form-group drp--clr d-none col-md-12">
+                            <label class="form-label" for="input-1">Paediatric Surgical Preop. and Postop. Care:
+                            </label>
+                            <?php
+                            $speciality_padsurgicalrow_data = DB::table("speciality")->where('parent', '285')->get();
+                            $r = 1;
+                            ?>
+                            <ul id="surgical_rowpad_box_exp" style="display:none;">
+                              @foreach($speciality_padsurgicalrow_data as $ssrd)
+                              <li data-value="{{ $ssrd->id }}">{{ $ssrd->name }}</li>
+                              @endforeach
+                            </ul>
+                            <select class="js-example-basic-multiple addAll_removeAll_btn pae_sur_preop_{{$i}}" data-list-id="surgical_rowpad_box_exp" name="surgical_rowpad_box_experience[1][]" multiple="multiple"></select>
+                          </div>
+                        </div>
+                        <div class="specialty_sub_boxes_experience-{{$i}} row">
+                          <input type="hidden" name="operatingroom_result_experience" class="operatingroom_result_experience-{{ $i }}" value="{{ $data->operating_room }}">
+                          <input type="hidden" name="operatingscout_result_experience" class="operatingscout_result_experience-{{$i}}" value="{{  $data->operating_room_scout }}">
+                          <input type="hidden" name="operatingscrub_result_experience" class="operatingscrub_result_experience-{{$i}}" value="{{  $data->operating_room_scrub }}">
+                          <?php
+                          $speciality_surgical_data = DB::table("speciality")->where('parent', '96')->get();
+                          $w = 1;
+                          ?>
+                          @foreach($speciality_surgical_data as $ssd)
+                          <input type="hidden" name="speciality_result" class="speciality_surgical_result_experience-{{$i}}-{{ $w }}" value="{{ $ssd->id }}">
+                          <div class="surgical_row_exp-{{ $w }} sur_sub_type_{{ $ssd->id }}_{{ $i }} d-none surgicalopcboxes-{{ $ssd->id }} form-group drp--clr drpdown-set">
+                            <label class="form-label" for="input-1">{{ $ssd->name }}</label>
+                            <?php
+                            $speciality_surgicalsub_data = DB::table("speciality")->where('parent', $ssd->id)->get();
+                            ?>
+                            <ul id="surgical_operative_care_experience-{{ $w }}" style="display:none;">
+                              @foreach($speciality_surgicalsub_data as $sssd)
+                              <li data-value="{{ $sssd->id }}">{{ $sssd->name }}</li>
+                              @endforeach
+                            </ul>
+                            <select class="js-example-basic-multiple addAll_removeAll_btn spec_sub_value_{{ $ssd->id }}_{{$i}}" data-list-id="surgical_operative_care_experience-{{ $w }}" name="surgical_operative_care_exp_{{ $w }}[1][]" multiple="multiple"></select>
+                          </div>
+                          <?php
+                          $w++;
+                          ?>
+                          @endforeach
+                          <?php
+                          $speciality_surgical_datamater = DB::table("speciality")->where('parent', '233')->get();
+                          $p = 1;
+                          ?>
+                          <input type="hidden" name="surgical_ob_result_experience" class="surgical_ob_result_experience_{{$i}}" value="{{ $data->surgical_obstrics_gynacology }}">
+                          <div class="surgicalobs_row_exp_{{$i}} form-group drp--clr d-none drpdown-set col-md-12">
+                            <label class="form-label" for="input-1">Surgical Obstetrics and Gynecology (OB/GYN):</label>
+                            <ul id="surgicalobs_row_data_experience" style="display:none;">
+                              @foreach($speciality_surgical_datamater as $ssd)
+                              <li data-value="{{ $ssd->id }}">{{ $ssd->name }}</li>
+                              @endforeach
+                            </ul>
+                            <select class="js-example-basic-multiple addAll_removeAll_btn surgicalobs_row_{{$i}}" data-list-id="surgicalobs_row_data_experience" name="surgical_obs_care_exp[1][]" multiple="multiple"></select>
+                          </div>
+                          <div class="neonatal_row_exp_{{$i}} form-group drp--clr drpdown-set d-none col-md-12">
+                            <label class="form-label" for="input-1">Neonatal Care:</label>
 
-                      @endif
-                    </div>
-                    <div class="add_new_certification_div awe mb-3 mt-4">
-                      <a style="cursor: pointer;" onclick="add_work_experience()">+ Add another work experience</a>
-                    </div>
-                    <h6 class="emergency_text">
-                      Areas of Expertise
-                    </h6>
-                    <div class="form-group level-drp">
-                      <input type="hidden" name="skills_comp" class="skills_comp" value="@if(!empty($experienceData)) {{ $experienceData->skills_compantancies }}@endif">
-                      <label class="form-label" for="input-1">Specific skills and competencies</label>
-                      <?php
-                      $skills = DB::table("skills")->get();
-                      ?>
-                      <ul id="skills_compantancies" style="display:none;">
-                        @foreach($skills as $cert)
-                        <li data-value="{{ $cert->id }}">{{ $cert->name }}</li>
+                            <ul id="neonatal_care_expe" style="display:none;">
+                              @foreach($speciality_surgical_datamater as $ssd)
+                              <li data-value="{{ $ssd->id }}">{{ $ssd->name }}</li>
+                              @endforeach
+                            </ul>
+                            <select class="js-example-basic-multiple addAll_removeAll_btn neonatal_exp_{{ $i }}" data-list-id="neonatal_care_expe" name="neonatal_care_experience[1][]" multiple="multiple"></select>
+                          </div>
+                          <?php
+                          $speciality_surgical_datap = DB::table("speciality")->where('parent', '285')->get();
+                          $q = 1;
+
+                          ?>
+                          @foreach($speciality_surgical_datap as $ssd)
+                          <?php
+                          if (in_array((string)$ssd->id, json_decode($data->paedia_surgical_preoperative, true))) {
+                            $getd = '';
+                          } else {
+                            $getd = 'd-none';
+                          }
+                          ?>
+                          <input type="hidden" name="speciality_result" class="surgical_rowp_result_experience-{{ $q }}" value="{{ $ssd->id }}">
+                          <div class="surgical_rowp_exp surgicalpad_row_experience-{{ $ssd->id }} surgical_rowp_exp-{{ $q }} form-group drp--clr {{$getd}} drpdown-set col-md-4">
+                            <label class="form-label" for="input-1">{{ $ssd->name }}</label>
+                            <?php
+                            $speciality_surgicalsub_data = DB::table("speciality")->where('parent', $ssd->id)->orderBy('name')->get();
+                            ?>
+                            <ul id="surgical_operative_carep_exp-{{ $q }}" style="display:none;">
+                              @foreach($speciality_surgicalsub_data as $sssd)
+                              <li data-value="{{ $sssd->id }}">{{ $sssd->name }}</li>
+                              @endforeach
+                            </ul>
+                            <select class="js-example-basic-multiple addAll_removeAll_btn surgi_{{$ssd->id}}_{{$i}}" data-list-id="surgical_operative_carep_exp-{{ $q }}" name="surgical_operative_carep_experience_{{ $q }}[1][]" multiple="multiple"></select>
+                          </div>
+                          <?php
+                          $q++;
+                          ?>
+                          @endforeach
+                        </div>
+                        <?php
+                        $i++;
+                        ?>
                         @endforeach
+                        @else
+                        <div class="condition_set">
+                          <h6 class="emergency_text previous_employeers_head">
+                            Work Experience 1
+                          </h6>
+                          <div class="form-group drp--clr">
+                            <label class="form-label" for="input-1">Type of Nurse?</label>
+                            <input type="hidden" name="user_id" class="user_id" value="{{ Auth::guard('nurse_middle')->user()->id }}">
+                            <ul id="type-of-nurse-experience" style="display:none;">
+                              @php $specialty = specialty();$spcl=$specialty[0]->id;@endphp
+                              <?php
+                              $j = 1;
+                              ?>
+                              @foreach($specialty as $spl)
+                              <li id="nursing_menus-{{ $j }}" data-value="{{ $spl->id }}">{{ $spl->name }}</li>
+                              <?php
+                              $j++;
+                              ?>
+                              @endforeach
+                            </ul>
+                            <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="type-of-nurse-experience" name="nurseType[1][]" id="nurse_type_experience" multiple="multiple"></select>
+                          </div>
+                          <span id="reqnurseTypeId" class="reqError text-danger valley"></span>
+                        </div>
+                        <div class="result--show">
+                          <div class="container p-0">
+                            <div class="row g-2">
+                              @php $specialty = specialty();$spcl=$specialty[0]->id;@endphp
+                              <?php
+                              $i = 1;
+                              ?>
+                              @foreach($specialty as $spl)
+                              <?php
+                              $nursing_data = DB::table("practitioner_type")->where('parent', $spl->id)->orderBy('name')->get();
+                              ?>
+                              <input type="hidden" name="nursing_result_experience2" class="nursing_result_experience-{{ $i }}" value="{{ $spl->id }}">
+                              <div class="nursing_data form-group drp--clr col-md-12 d-none drpdown-set nursing_exp_{{ $spl->id }}" id="nursing_level_experience-{{ $i }}">
+                                <label class="form-label" for="input-2">{{ $spl->name }}</label>
+                                <ul id="nursing_entry_experience-{{ $i }}" style="display:none;">
+                                  @foreach($nursing_data as $nd)
+                                  <li data-value="{{ $nd->id }}">{{ $nd->name }}</li>
+                                  @endforeach
+                                </ul>
+                                <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="nursing_entry_experience-{{ $i }}" name="nursing_type_{{ $i }}[1][]" multiple="multiple"></select>
+                              </div>
+                              <?php
+                              $i++;
+                              ?>
+                              @endforeach
+                            </div>
+                          </div>
+                        </div>
+                        <div class="np_submenu_experience d-none">
+                          <div class="form-group drp--clr">
+                            <?php
+                            $np_data = DB::table("practitioner_type")->where('parent', '179')->get();
+                            ?>
+                            <label class="form-label" for="input-1">Nurse Practitioner (NP):</label>
+                            <ul id="nurse_practitioner_menu_experience" style="display:none;">
+                              @foreach($np_data as $nd)
+                              <li data-value="{{ $nd->id }}">{{ $nd->name }}</li>
+                              @endforeach
+                            </ul>
+                            <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="nurse_practitioner_menu_experience" name="nurse_practitioner_menu_experience[1][]" multiple="multiple"></select>
+                          </div>
+                        </div>
+                        <div class="condition_set">
+                          <div class="form-group drp--clr">
+                            <label class="form-label" for="input-1">Specialties</label>
+                            <ul id="specialties_experience" style="display:none;">
+                              @php $JobSpecialties = JobSpecialties(); @endphp
+                              <?php
+                              $k = 1;
+                              ?>
+                              @foreach($JobSpecialties as $ptl)
+                              <li id="nursing_menus-{{ $k }}" data-value="{{ $ptl->id }}">{{ $ptl->name }}</li>
+                              <?php
+                              $k++;
+                              ?>
+                              @endforeach
 
-                      </ul>
-                      <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="skills_compantancies" name="skills_compantancies[]" multiple="multiple"></select>
-                    </div>
-                    <span id="reqexpertise" class="reqError text-danger valley"></span>
-                    <div class="form-group level-drp">
-                      <input type="hidden" name="evidence_type" class="evidence_type" value="@if(!empty($experienceData)) {{ $experienceData->evidence_type }}@endif">
-                      <label class="form-label" for="input-1">Type of evidence</label>
-                      <?php
-                      $skills = DB::table("skills")->get();
-                      ?>
-                      <ul id="type_of_evidence" style="display:none;">
+                            </ul>
+                            <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="specialties_experience" name="specialties_experience[1][]" multiple="multiple"></select>
+                          </div>
+                          <span id="reqspecialties" class="reqError text-danger valley"></span>
+                        </div>
+                        <div class="speciality_boxes row result--show">
+                          <?php
+                          $l = 1;
+                          ?>
+                          @foreach($JobSpecialties as $ptl)
+                          <?php
+                          $speciality_data = DB::table("speciality")->where('parent', $ptl->id)->get();
+                          ?>
+                          <input type="hidden" name="speciality_result" class="speciality_result_experience-{{ $l }}" value="{{ $ptl->id }}">
+                          <div class="speciality_data form-group drp--clr drpdown-set d-none col-md-6 speciality_y_{{ $ptl->id }}" id="specility_level_experience-{{ $l }}">
+                            <label class="form-label" for="input-2">{{ $ptl->name }}</label>
+                            <ul id="speciality_entry_experience-{{ $l }}" style="display:none;">
+                              @foreach($speciality_data as $sd)
+                              <li data-value="{{ $sd->id }}">{{ $sd->name }}</li>
 
-                        <li data-value="Statement of Service">Statement of Service</li>
-                        <li data-value="Statutory Declaration">Statutory Declaration</li>
-                        <li data-value="Award">Award</li>
-                        <li data-value="Transcript">Transcript</li>
-                        <li data-value="Certificate">Certificate</li>
-                      </ul>
-                      <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="type_of_evidence" name="type_of_evidence[]" multiple="multiple"></select>
-                      <span id="reqtype_evidence" class="reqError text-danger valley"></span>
-                    </div>
-                    <div class="form-group level-drp">
-                      <label class="form-label" for="input-1">Upload evidence</label>
+                              @endforeach
+                            </ul>
+                            <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="speciality_entry_experience-{{ $l }}" name="speciality_entry_experience_{{ $l }}[1][]" multiple="multiple"></select>
 
-                      <input class="form-control" type="file" name="upload_evidence">
-                      @if(!empty($experienceData) && $experienceData->upload_evidence != NULL)
-                      <img src="{{ url('/public/uploads/evidence') }}/{{ $experienceData->upload_evidence }}" style="width:100px;">
-                      @endif
-                      <!-- <span id="reqachievements" class="reqError text-danger valley"></span> -->
-                    </div>
-                    <div class="box-button mt-15">
-                      <button class="btn btn-apply-big font-md font-bold" type="submit" id="submitExperience">Save Changes</button>
-                    </div>
+                          </div>
+                          <?php
+                          $l++;
+                          ?>
+                          @endforeach
+                        </div>
+                        <div class="specialty_entry_one_experience"></div>
+                        <div class="specialty_entry_two_experience"></div>
+                        <div class="surgical_div_experience">
+                          <div class="surgical_row_data_experience form-group drp--clr d-none col-md-12">
+                            <label class="form-label" for="input-1">Surgical Preoperative and Postoperative Care:</label>
+                            <?php
+                            $speciality_surgicalrow_data = DB::table("speciality")->where('parent', '96')->get();
+                            $r = 1;
+                            ?>
+                            <ul id="surgical_row_box_experience" style="display:none;">
+                              @foreach($speciality_surgicalrow_data as $ssrd)
+                              <li data-value="{{ $ssrd->id }}">{{ $ssrd->name }}</li>
+                              @endforeach
+                            </ul>
+                            <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_row_box_experience" name="surgical_row_box_experience[1][]" multiple="multiple"></select>
+                          </div>
+                        </div>
+                        <div class="paediatric_surgical_div_experience">
+                          <div class="surgicalpad_row_data_experience form-group drp--clr d-none col-md-12">
+                            <label class="form-label" for="input-1">Paediatric Surgical Preop. and Postop. Care:
+                            </label>
+                            <?php
+                            $speciality_padsurgicalrow_data = DB::table("speciality")->where('parent', '285')->get();
+                            $r = 1;
+                            ?>
+                            <ul id="surgical_rowpad_box_experience" style="display:none;">
+                              @foreach($speciality_padsurgicalrow_data as $ssrd)
+                              <li data-value="{{ $ssrd->id }}">{{ $ssrd->name }}</li>
+                              @endforeach
+                            </ul>
+                            <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_rowpad_box_experience" name="surgical_rowpad_box_experience[1][]" multiple="multiple"></select>
+                          </div>
+                        </div>
+                        <div class="specialty_sub_boxes_experience row">
+                          <?php
+                          $speciality_surgical_data = DB::table("speciality")->where('parent', '96')->get();
+                          $w = 1;
+                          ?>
+                          @foreach($speciality_surgical_data as $ssd)
+                          <input type="hidden" name="speciality_result" class="speciality_surgical_result_experience-{{ $w }}" value="{{ $ssd->id }}">
+                          <div class="surgical_row_experience-{{ $w }} surgicalopcboxes-{{ $ssd->id }} form-group drp--clr d-none drpdown-set">
+                            <label class="form-label" for="input-1">{{ $ssd->name }}</label>
+                            <?php
+                            $speciality_surgicalsub_data = DB::table("speciality")->where('parent', $ssd->id)->get();
+                            ?>
+                            <ul id="surgical_operative_care_experience-{{ $w }}" style="display:none;">
+                              @foreach($speciality_surgicalsub_data as $sssd)
+                              <li data-value="{{ $sssd->id }}">{{ $sssd->name }}</li>
+                              @endforeach
+                            </ul>
+                            <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_operative_care_experience-{{ $w }}" name="surgical_operative_care_exp_{{ $w }}[1][]" multiple="multiple"></select>
+                            @foreach($speciality_surgicalsub_data as $sssd)
+
+
+                            <div class="d-none form-group level-drp level_id-{{ $sssd->id }}">
+                              <label class="form-label" for="input-1">What is your Level of experience in {{ $sssd->name }}:
+
+                              </label>
+                              <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
+                              <select class="form-input mr-10 select-active" name="assistent_level[1][]">
+
+                                @for($i = 1; $i <= 30; $i++) <option value="{{ $i }}" @if(Auth::guard('nurse_middle')->user()->assistent_level == $i) selected @endif>{{ $i }}{{ $i == 1 ? 'st' : ($i == 2 ? 'nd' : ($i == 3 ? 'rd' : 'th')) }} Year</option>
+                                  @endfor
+                              </select>
+                            </div>
+
+                            @endforeach
+                          </div>
+                          <?php
+                          $w++;
+                          ?>
+
+                          @endforeach
+                          <div class="surgical_operative_care_level_experience"></div>
+                          <div class="surgical_operative_care_level_experience_two"></div>
+                          <div class="surgical_operative_care_level_experience_three"></div>
+                          <?php
+                          $speciality_surgical_datamater = DB::table("speciality")->where('parent', '233')->get();
+                          $p = 1;
+                          ?>
+                          <div class="surgicalobs_row_experience form-group drp--clr d-none drpdown-set col-md-12">
+                            <label class="form-label" for="input-1">Surgical Obstetrics and Gynecology (OB/GYN):</label>
+
+                            <ul id="surgicalobs_row_data_experience" style="display:none;">
+                              @foreach($speciality_surgical_datamater as $ssd)
+                              <li data-value="{{ $ssd->id }}">{{ $ssd->name }}</li>
+                              @endforeach
+                            </ul>
+                            <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgicalobs_row_data_experience" name="surgical_obs_care_exp[1][]" multiple="multiple"></select>
+                          </div>
+                          <?php
+                          $speciality_surgical_datamater = DB::table("speciality")->where('parent', '250')->get();
+
+                          ?>
+                          <div class="neonatal_row_experience form-group drp--clr drpdown-set d-none col-md-12">
+                            <label class="form-label" for="input-1">Neonatal Care:</label>
+
+                            <ul id="neonatal_care_experience" style="display:none;">
+                              @foreach($speciality_surgical_datamater as $ssd)
+                              <li data-value="{{ $ssd->id }}">{{ $ssd->name }}</li>
+                              @endforeach
+                            </ul>
+                            <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="neonatal_care_experience" name="neonatal_care_experience[1][]" multiple="multiple"></select>
+                          </div>
+                          <div class="neonatal_care_experience_level"></div>
+                          <?php
+                          $speciality_surgical_datap = DB::table("speciality")->where('parent', '285')->get();
+                          $q = 1;
+                          ?>
+                          @foreach($speciality_surgical_datap as $ssd)
+                          <input type="hidden" name="speciality_result" class="surgical_rowp_result_experience-{{ $q }}" value="{{ $ssd->id }}">
+                          <div class="surgical_rowp_experience surgicalpad_row_experience-{{ $ssd->id }} surgical_rowp_experience-{{ $q }} form-group drp--clr d-none drpdown-set col-md-4">
+                            <label class="form-label" for="input-1">{{ $ssd->name }}</label>
+                            <?php
+                            $speciality_surgicalsub_data = DB::table("speciality")->where('parent', $ssd->id)->orderBy('name')->get();
+                            ?>
+                            <ul id="surgical_operative_carep_experience-{{ $q }}" style="display:none;">
+                              @foreach($speciality_surgicalsub_data as $sssd)
+                              <li data-value="{{ $sssd->id }}">{{ $sssd->name }}</li>
+                              @endforeach
+                            </ul>
+                            <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_operative_carep_experience-{{ $q }}" name="surgical_operative_carep_experience_{{ $q }}[1][]" multiple="multiple"></select>
+                          </div>
+                          <?php
+                          $q++;
+                          ?>
+                          @endforeach
+                          <div class="surgical_operative_carep_level_one"></div>
+                          <div class="surgical_operative_carep_level_two"></div>
+                          <div class="surgical_operative_carep_level_three"></div>
+                        </div>
+                        <div class="form-group level-drp">
+                          <label class="form-label" for="input-1">What is your Level of experience in this specialty?
+                          </label>
+                          <select class="form-input mr-10 select-active" name="exper_assistent_level[1]">
+
+                            @for($i = 1; $i <= 30; $i++) <option value="{{ $i }}">{{ $i }}{{ $i == 1 ? 'st' : ($i == 2 ? 'nd' : ($i == 3 ? 'rd' : 'th')) }} Year</option>
+                              @endfor
+                          </select>
+                        </div>
+                        <div class="form-group level-drp">
+
+
+                          <div class="form-group level-drp">
+                            <label class="form-label" for="input-1">Position Held</label>
+                            <select class="form-control" name="positions_held[1]">
+                              <option value="">select</option>
+                              <option value="Team Member">Team Member</option>
+                              <option value="Team Leader">Team Leader</option>
+                              <option value="Educator">Educator</option>
+                              <option value="Manager">Manager</option>
+                              <option value="Clinical Specialist">Clinical Specialist</option>
+                              <option value="Charge Nurse">Charge Nurse</option>
+                              <option value="Nurse Supervisor">Nurse Supervisor</option>
+                              <option value="Nursing Director">Nursing Director</option>
+                              <option value="Assistant Director of Nursing">Assistant Director of Nursing</option>
+                              <option value="Head Nurse">Head Nurse</option>
+                              <option value="Nurse Coordinator">Nurse Coordinator</option>
+                              <option value="Staff Nurse">Staff Nurse</option>
+                            </select>
+                            <span id="reqpositionheld" class="reqError text-danger valley"></span>
+                          </div>
+                        </div>
+                        <span id="reqpositionheld" class="reqError text-danger valley"></span>
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group level-drp">
+                              <label class="form-label" for="input-1">Employment Start Date</label>
+                              <input class="form-control employeement_start_date employeement_start_date-1" type="date" name="start_date[1]" onchange="changeEmployeementEndDate(1)" onkeydown="return false">
+                              <span id="reqempsdate" class="reqError text-danger valley"></span>
+                            </div>
+                            <div class="declaration_box">
+                              <input class="currently_position currently_position-1" type="checkbox" name="present_box[1]" value="1" onclick="currently_position(1)">I am currently in this position at the moment
+                            </div>
+                          </div>
+                          <div class="col-md-6 empl_end_date-1">
+                            <div class="form-group level-drp">
+                              <label class="form-label" for="input-1">Employment End Date</label>
+                              <input class="form-control employeement_end_date employeement_end_date-1" type="date" name="end_date[1]" onkeydown="return false">
+                              <span id="reqemployeementenddate-1" class="reqError text-danger valley"></span>
+                            </div>
+                          </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                          <div class="col-md-12">
+                            <div class="form-group level-drp">
+                              <label class="form-label" for="input-1">Employment type</label>
+                              <select class="form-control" name="employeement_type[1]" onchange="ExpEmpStatus(this.value)">
+                                <option value="">select</option>
+                                <option value="Permanent" @if(Auth::guard('nurse_middle')->user()->current_employee_status == "Permanent") selected @endif>Permanent</option>
+                                <option value="Temporary" @if(Auth::guard('nurse_middle')->user()->current_employee_status == "Temporary") selected @endif>Temporary</option>
+                              </select>
+                              <span id="reqemptype" class="reqError text-danger valley"></span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="exp_permanent" @if(Auth::guard('nurse_middle')->user()->permanent_status == NULL) style="display: none;" @endif>
+                          <div class="form-group col-md-12">
+                            <label class="form-label" for="input-1">Permanent</label>
+                            <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
+                            <select class="form-input mr-10 select-active" name="permanent_status[1]">
+                              <option value="">Select</option>
+                              <option value="Full-time" @if(Auth::guard('nurse_middle')->user()->permanent_status == "Full-time") selected @endif>Full-time</option>
+                              <option value="Part-time" @if(Auth::guard('nurse_middle')->user()->permanent_status == "Part-time") selected @endif>Part-time</option>
+                              <option value="Agency Nurse/Midwife" @if(Auth::guard('nurse_middle')->user()->permanent_status == "Agency Nurse/Midwife") selected @endif>Agency Nurse/Midwife</option>
+                              <option value="Freelance" @if(Auth::guard('nurse_middle')->user()->permanent_status == "Freelance") selected @endif>Freelance</option>
+                              <option value="Local" @if(Auth::guard('nurse_middle')->user()->permanent_status == "Local") selected @endif>Local</option>
+                              <option value="Volunteer" @if(Auth::guard('nurse_middle')->user()->permanent_status == "Volunteer") selected @endif>Volunteer</option>
+
+                            </select>
+                          </div>
+                          <span id="reqemployee_status" class="reqError text-danger valley"></span>
+                        </div>
+                        <div class="exp_temporary" @if(Auth::guard('nurse_middle')->user()->temporary_status == NULL) style="display: none;" @endif>
+                          <div class="form-group col-md-12">
+                            <label class="form-label" for="input-1">Temporary</label>
+                            <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
+                            <select class="form-input mr-10 select-active" name="temporary_status[1]">
+                              <option value="">Select</option>
+                              <option value="Temporary" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Temporary") selected @endif>Temporary</option>
+                              <option value="Contract" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Contract") selected @endif>Contract</option>
+                              <option value="Term Contract" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Term Contract") selected @endif>Term Contract</option>
+                              <option value="Travel" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Travel") selected @endif>Travel</option>
+                              <option value="Per Diem" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Per Diem") selected @endif>Per Diem</option>
+                              <option value="Local" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Local") selected @endif>Local</option>
+                              <option value="On-Call" @if(Auth::guard('nurse_middle')->user()->temporary_status == "On-Call") selected @endif>On-Call</option>
+                              <option value="PRN (Pro Re Nata)" @if(Auth::guard('nurse_middle')->user()->temporary_status == "PRN (Pro Re Nata)") selected @endif>PRN (Pro Re Nata)</option>
+                              <option value="Casual" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Casual") selected @endif>Casual</option>
+                              <option value="Locum tenens (temporary substitute)" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Locum tenens (temporary substitute)") selected @endif>Locum tenens (temporary substitute)</option>
+                              <option value="Agency Nurse/Midwife" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Agency Nurse/Midwife") selected @endif>Agency Nurse/Midwife</option>
+                              <option value="Seasonal" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Seasonal") selected @endif>Seasonal</option>
+                              <option value="Freelance" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Freelance") selected @endif>Freelance</option>
+                              <option value="Internship" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Internship") selected @endif>Internship</option>
+                              <option value="Apprenticeship" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Apprenticeship") selected @endif>Apprenticeship</option>
+                              <option value="Residency" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Residency") selected @endif>Residency</option>
+                              <option value="Volunteer" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Volunteer") selected @endif>Volunteer</option>
+
+
+                            </select>
+                          </div>
+                          <span id="reqemployee_status" class="reqError text-danger valley"></span>
+                        </div>
+                        <h6 class="emergency_text">
+                          Detailed Job Descriptions
+                        </h6>
+                        <div class="form-group level-drp">
+                          <label class="form-label" for="input-1">Responsibilities</label>
+                          <textarea class="form-control" name="job_responeblities[1]"></textarea>
+                          <span id="reqresposiblities" class="reqError text-danger valley"></span>
+                        </div>
+                        <div class="form-group level-drp">
+                          <label class="form-label" for="input-1">Achievements</label>
+                          <textarea class="form-control" name="achievements[1]"></textarea>
+                          <span id="reqachievements" class="reqError text-danger valley"></span>
+                        </div>
+
+                        <h6 class="emergency_text">
+                          Areas of Expertise
+                        </h6>
+                        <div class="form-group level-drp">
+
+                          <label class="form-label" for="input-1">Specific skills and competencies</label>
+                          <?php
+                          $skills = DB::table("skills")->where("parent_id", "1")->get();
+                          ?>
+                          <ul id="skills_compantancies" style="display:none;">
+                            @foreach($skills as $cert)
+                            <li data-value="{{ $cert->id }}">{{ $cert->name }}</li>
+                            @endforeach
+                          </ul>
+                          <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="skills_compantancies" name="skills_compantancies[1][]" multiple="multiple"></select>
+                        </div>
+                        <span id="reqexpertise" class="reqError text-danger valley"></span>
+                        <div class="skills_compantancies_dropdowns"></div>
+                        <div class="form-group level-drp">
+                          <label class="form-label" for="input-1">Type of evidence</label>
+                          <?php
+                          $skills = DB::table("skills")->get();
+                          ?>
+                          <ul id="type_of_evidence" style="display:none;">
+
+                            <li data-value="Statement of Service">Statement of Service</li>
+                            <li data-value="Statutory Declaration">Statutory Declaration</li>
+                            <li data-value="Award">Award</li>
+                            <li data-value="Transcript">Transcript</li>
+                            <li data-value="Certificate">Certificate</li>
+                          </ul>
+                          <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="type_of_evidence" name="type_of_evidence[1][]" multiple="multiple"></select>
+                          <span id="reqtype_evidence" class="reqError text-danger valley"></span>
+                        </div>
+                        <div class="form-group level-drp">
+                          <label class="form-label" for="input-1">Upload evidence</label>
+
+                          <input class="form-control" type="file" name="upload_evidence">
+
+                          <!-- <span id="reqachievements" class="reqError text-danger valley"></span> -->
+                        </div>
+                      </div>
+                      <div class="add_new_certification_div awe mb-3 mt-4">
+                        <a style="cursor: pointer;" onclick="add_work_experience()">+ Add another work experience</a>
+                      </div>
+                      <div class="declaration_box">
+                        <input type="checkbox" name="exp_declare_information" class="exp_declare_information" value="1">
+                        <label for="declare_information">I declare that the information provided is true and correct</label>
+                      </div>
+                      <div class="box-button mt-15">
+                        <button class="btn btn-apply-big font-md font-bold" type="submit" id="submitExperience">Save Changes</button>
+                      </div>
                   </form>
                 </div>
+                @endif
                 <script type="text/javascript">
                   function changeEmployeementEndDate(i) {
                     //alert(i);
                     var start_date = $(".employeement_start_date-" + i).val();
-                    console.log("start_date", $(".employeement_start_date-" + i).val());
+
                     var date = new Date(start_date);
 
                     date.setDate(date.getDate() + 1);
@@ -3281,13 +3527,11 @@
                     }
                     var year = start_date1.getFullYear();
                     var new_date = year + "-" + month1 + "-" + day1;
-                    console.log("refree_start_date", new_date);
                     document.getElementsByClassName("employeement_end_date-" + i)[0].setAttribute('min', new_date);
                   }
 
                   var i = 1;
                   $(".employeement_start_date").each(function() {
-                    console.log("employeement_start_date", $(".employeement_start_date-" + i).val());
                     var start_date = $(".employeement_start_date-" + i).val();
 
                     var date = new Date(start_date);
@@ -3315,26 +3559,16 @@
                     }
                     var year = start_date1.getFullYear();
                     var new_date = year + "-" + month1 + "-" + day1;
-                    console.log("refree_start_date", new_date);
+                    ////console.log("refree_start_date", new_date);
                     document.getElementsByClassName("employeement_end_date-" + i)[0].setAttribute('min', new_date);
                     i++;
                   });
-
-                  var previous_employeers_head = $(".previous_employeers_head").length;
-
-                  function add_work_experience() {
-                    previous_employeers_head++;
-                    $(".previous_employeers").append('<h6 class="emergency_text">Previous Employers ' + previous_employeers_head + '</h6><div class="form-group level-drp"><label class="form-label" for="input-1">Organisation Name</label><input class="form-control" type="text" name="previous_employer_name[]"><span id="reqnames" class="reqError text-danger valley"></span></div><div class="form-group level-drp"><div class="form-group level-drp"><label class="form-label" for="input-1">Position Held</label><select class="form-control" name="positions_held[]"><option value="">Position Held</option><option value="Team Member">Team Member</option><option value="Team Leader">Team Leader</option><option value="Educator">Educator</option><option value="Manager">Manager</option><option value="Clinical Specialist">Clinical Specialist</option></select><span id="reqpositionheld" class="reqError text-danger valley"></span></div></div><span id="reqpositionheld" class="reqError text-danger valley"></span><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Employment Start Date</label><input class="form-control employeement_start_date employeement_start_date-' + previous_employeers_head + '" type="date" name="start_date[]" onchange="changeEmployeementEndDate(' + previous_employeers_head + ')"><span id="reqempsdate" class="reqError text-danger valley"></span></div></div><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Employment End Date</label><input class="form-control employeement_end_date-' + previous_employeers_head + '" type="date" name="end_date[]"><span id="reqemployeementenddate" class="reqError text-danger valley"></span></div><div class="declaration_box"><input class="declare_information" type="checkbox" name="present_box[]" value="1">I am currently in this position at the moment</div></div><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Employment type</label><select class="form-control" name="employeement_type[]"><option value="">Employment type</option><option value="Agency">Agency</option><option value="Staffing Agency">Staffing Agency</option></select><span id="reqemptype" class="reqError text-danger valley"></span></div></div></div><h6 class="emergency_text">Detailed Job Descriptions</h6><div class="form-group level-drp"><label class="form-label" for="input-1">Responsibilities</label><textarea class="form-control" name="job_responeblities[]"></textarea><span id="reqresposiblities" class="reqError text-danger valley"></span></div><div class="form-group level-drp"><label class="form-label" for="input-1">Achievements</label><textarea class="form-control" name="achievements[]"></textarea><span id="reqachievements" class="reqError text-danger valley"></span></div>');
-
-                  }
                 </script>
               </div>
               <div class="tab-pane fade" id="tab-references" role="tabpanel" aria-labelledby="tab-references" style="display: none"><br>
                 <h3 class="mt-0 color-brand-1 mb-20">References</h3>
                 <h6 class="emergency_text">
                   Please Add your professional References:
-
-
                 </h6>
 
                 <form id="reference_form" method="POST" onsubmit="return updateReference()">
@@ -3605,7 +3839,7 @@
                 function startDate(i) {
                   //alert(i);
                   var start_date = $(".start_date-" + i).val();
-                  console.log("start_date", $(".start_date-" + i).val());
+                  ////console.log("start_date", $(".start_date-" + i).val());
                   var date = new Date(start_date);
 
                   date.setDate(date.getDate() + 1);
@@ -3631,13 +3865,13 @@
                   }
                   var year = start_date1.getFullYear();
                   var new_date = year + "-" + month1 + "-" + day1;
-                  console.log("refree_start_date", new_date);
+                  ////console.log("refree_start_date", new_date);
                   document.getElementsByClassName("end_date-" + i)[0].setAttribute('min', new_date);
                 }
 
                 var i = 1;
                 $(".referee_start_date").each(function() {
-                  console.log("start_date", $(".referee_start_date-" + i).val());
+                  ////console.log("start_date", $(".referee_start_date-" + i).val());
                   var start_date = $(".referee_start_date-" + i).val();
 
                   var date = new Date(start_date);
@@ -3665,7 +3899,7 @@
                   }
                   var year = start_date1.getFullYear();
                   var new_date = year + "-" + month1 + "-" + day1;
-                  console.log("refree_start_date", $('.working-' + i).is(':visible'));
+                  ////console.log("refree_start_date", $('.working-' + i).is(':visible'));
                   if ($('.working-' + i).is(':visible')) {
                     document.getElementsByClassName("end_date-" + i)[0].setAttribute('min', new_date);
                   }
@@ -3673,10 +3907,10 @@
                 });
 
 
-                var referee_div_count = $(".referee_no").length;
-                console.log("licence_div_count", referee_div_count);
 
                 function add_another_referee() {
+                  var referee_div_count = $(".referee_no").length;
+                  ////console.log("licence_div_count", referee_div_count);
                   referee_div_count++;
                   $(".reference_form").append('<div class="referee_data referee_data-' + referee_div_count + '"><h6 class="mt-0 color-brand-1 mb-20 referee_no">REFEREE ' + referee_div_count + '</h6><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">First name</label><input class="form-control first_name first_name-' + referee_div_count + '" type="text" name="first_name[]"><span id="reqfname-' + referee_div_count + '" class="reqError text-danger valley"></span></div></div><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Last name</label><input class="form-control last_name last_name-' + referee_div_count + '" type="text" name="last_name[]"><span id="reqlname-' + referee_div_count + '" class="reqError text-danger valley"></span></div></div></div><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Email</label><input class="form-control reference_email reference_email-' + referee_div_count + '" type="text" name="email[]"><span id="reqemail-' + referee_div_count + '" class="reqError text-danger valley"></span></div></div><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Phone number</label><input class="form-control phone_no phone_no-' + referee_div_count + '" type="text" name="phone_no[]"><span id="reqphoneno-' + referee_div_count + '" class="reqError text-danger valley"></span></div></div></div><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Referee relationship to you</label><select class="form-input reference_relationship reference_relationship-' + referee_div_count + '" name="reference_relationship[]"><option value="" data-select2-id="9">select</option><option value="Worked in Same Group">Worked in Same Group</option><option value="Referee Managed Me">Referee Managed Me</option><option value="I Managed Referee">I Managed Referee</option><option value="Worked Together on a Project">Worked Together on a Project</option><option value="Worked Together in Different Departments">Worked Together in Different Departments</option><option value="Colleague">Colleague</option><option value="Peer Mentor">Peer Mentor</option><option value="Clinical Supervisor">Clinical Supervisor</option><option value="Educational Supervisor">Educational Supervisor</option><option value="Preceptor">Preceptor</option><option value="Instructor or Teacher">Instructor or Teacher</option><option value="Collaborated on Research">Collaborated on Research</option><option value="Clinical Educator">Clinical Educator</option><option value="Patient Advocate">Patient Advocate</option><option value="Coordinated Care Together">Coordinated Care Together</option><option value="Advisory Role">Advisory Role</option><option value="Worked Together on Committees">Worked Together on Committees</option><option value="Consultant Relationship">Consultant Relationship</option><option value="Professional Mentor">Professional Mentor</option><option value="Team Leader">Team Leader</option><option value="Subordinate in a Leadership Role">Subordinate in a Leadership Role</option><option value="Provided Professional Development Support">Provided Professional Development Support</option><option value="Oversaw my Certification Process">Oversaw my Certification Process</option><option value="External Collaborator">External Collaborator</option><option value="Other">Other</option></select><span id="reqreferencerel-' + referee_div_count + '" class="reqError text-danger valley"></span></div></div><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">You worked together at:</label><input class="form-control worked_together worked_together-' + referee_div_count + '" type="text" name="worked_together[]"><span id="reqworked_together-' + referee_div_count + '" class="reqError text-danger valley"></span></div></div></div><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">What was your position when you worked with this referee?</label><input class="form-control position_with_referee position_with_referee-' + referee_div_count + '" type="text" name="position_with_referee[]"><span id="reqpositionreferee-' + referee_div_count + '" class="reqError text-danger valley"></span></div></div></div><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Start Date</label><input class="form-control start_date start_date-' + referee_div_count + '" type="date" name="start_date[]" onchange="startDate(' + referee_div_count + ')" onkeydown="return false"><span id="reqrefereesdate-' + referee_div_count + '" class="reqError text-danger valley"></span><div class="declaration_box"><input class="still_working still_working-' + referee_div_count + '" type="checkbox" name="still_working[]" onclick="stillWorking(' + referee_div_count + ')">I am still working with this referee<span id="reqstillworking-' + referee_div_count + '" class="reqError text-danger valley"></span></div></div></div><div class="col-md-6"><div class="form-group level-drp working-' + referee_div_count + '"><label class="form-label" for="input-1">End Date</label><input class="form-control end_date end_date-' + referee_div_count + '" type="date" name="end_date[]" onkeydown="return false"><span id="reqrefereeedate-' + referee_div_count + '" class="reqError text-danger valley"></span></div></div><div class="row"><div class="col-md-6"><div class="add_new_certification_div mb-3 mt-3"><a style="cursor: pointer;" onclick="delete_reference1(' + referee_div_count + ')">- Delete Referee</a></div></div></div></div>');
 
@@ -3684,11 +3918,133 @@
               </script>
               <div class="tab-pane fade" id="tab-mandtraining" role="tabpanel" aria-labelledby="tab-educert" style="display: none">
                 <div class="card shadow-sm border-0 p-4 mt-30">
-                  <h3 class="mt-0 color-brand-1 mb-20">Mandatory Training and Education</h3>
+                  <h3 class="mt-0 color-brand-1 mb-20">Mandatory Training and Continuing Education</h3>
                   <p>Mandatory Training and Continuing Education are vital for many nursing and midwifery roles. Keeping them up to date is crucial to maintaining your eligibility for employment opportunities</p>
+
 
                   <?php
                   $trainingData = DB::table("mandatory_training")->where("user_id", Auth::guard('nurse_middle')->user()->id)->first();
+                  if ($trainingData && $trainingData->well_sel_data) {
+                    $well_data1 = json_decode($trainingData->well_sel_data);
+                    $well_data_arr = array();
+                    foreach ($well_data1 as $w_data) {
+                      $well_data_arr[] = $w_data->well_tra_id;
+                    }
+                    $well_data_json = json_encode($well_data_arr);
+                  } else {
+                    $well_data1 = "";
+                    $well_data_json = "";
+                  }
+
+                  if ($trainingData && $trainingData->tech_innvo_data) {
+                    $tech_data1 = json_decode($trainingData->tech_innvo_data);
+                    $tech_data_arr = array();
+                    foreach ($tech_data1 as $t_data) {
+                      $tech_data_arr[] = $t_data->tech_tra_id;
+                    }
+                    $tech_data_json = json_encode($tech_data_arr);
+                  } else {
+                    $tech_data1 = "";
+                    $tech_data_json = "";
+                  }
+
+
+                  if ($trainingData && $trainingData->leader_pro_data) {
+                    $lead_data1 = json_decode($trainingData->leader_pro_data);
+                    $lead_data_arr = array();
+                    foreach ($lead_data1 as $l_data) {
+                      $lead_data_arr[] = $l_data->lead_pro_tra_id;
+                    }
+                    $lead_data_json = json_encode($lead_data_arr);
+                  } else {
+                    $lead_data1 = "";
+                    $lead_data_json = "";
+                  }
+
+                  if ($trainingData && $trainingData->mid_spec_data) {
+                    $mid_data1 = json_decode($trainingData->mid_spec_data);
+                    $mid_data_arr = array();
+                    foreach ($mid_data1 as $m_data) {
+                      $mid_data_arr[] = $m_data->mid_spec_tra_id;
+                    }
+                    $mid_data_json = json_encode($mid_data_arr);
+                  } else {
+                    $mid_data1 = "";
+                    $mid_data_json = "";
+                  }
+
+                  if ($trainingData && $trainingData->clinic_skill_data) {
+                    $cli_data1 = json_decode($trainingData->clinic_skill_data);
+                    $cli_data_arr = array();
+                    foreach ($cli_data1 as $c_data) {
+                      $cli_data_arr[] = $c_data->cli_skill_tra_id;
+                    }
+                    $cli_data_json = json_encode($cli_data_arr);
+                  } else {
+                    $cli_data1 = "";
+                    $cli_data_json = "";
+                  }
+
+                  if ($trainingData && $trainingData->emerg_topic_data) {
+                    $emr_data1 = json_decode($trainingData->emerg_topic_data);
+                    $emr_data_arr = array();
+                    foreach ($emr_data1 as $emr_data) {
+                      $emr_data_arr[] = $emr_data->emr_edu_id;
+                    }
+                    $emr_data_json = json_encode($emr_data_arr);
+                  } else {
+                    $emr_data1 = "";
+                    $emr_data_json = "";
+                  }
+
+                  if ($trainingData && $trainingData->safety_com_data) {
+                    $safety_data1 = json_decode($trainingData->safety_com_data);
+                    $safety_data_arr = array();
+                    foreach ($safety_data1 as $safety_data) {
+                      $safety_data_arr[] = $safety_data->saf_edu_id;
+                    }
+                    $safety_data_json = json_encode($safety_data_arr);
+                  } else {
+                    $safety_data1 = "";
+                    $safety_data_json = "";
+                  }
+
+                  if ($trainingData && $trainingData->spec_area_data) {
+                    $spec_area_data1 = json_decode($trainingData->spec_area_data);
+                    $spec_area_data_arr = array();
+                    foreach ($spec_area_data1 as $spec_area_data) {
+                      $spec_area_data_arr[] = $spec_area_data->spec_edu_id;
+                    }
+                    $spec_area_json = json_encode($spec_area_data_arr);
+                  } else {
+                    $spec_area_data1 = "";
+                    $spec_area_json = "";
+                  }
+
+                  if ($trainingData && $trainingData->mid_spe_data) {
+                    $mid_spe_data1 = json_decode($trainingData->mid_spe_data);
+                    $mid_spe_data_arr = array();
+                    foreach ($mid_spe_data1 as $mid_spe_data) {
+                      $mid_spe_data_arr[] = $mid_spe_data->mid_spe_edu_id;
+                    }
+                    $mid_spe_json = json_encode($mid_spe_data_arr);
+                  } else {
+                    $mid_spe_data1 = "";
+                    $mid_spe_json = "";
+                  }
+
+                  if ($trainingData && $trainingData->core_man_data) {
+                    $core_man_data1 = json_decode($trainingData->core_man_data);
+                    $core_man_data_arr = array();
+                    foreach ($core_man_data1 as $core_man_data) {
+                      $core_man_data_arr[] = $core_man_data->core_man_edu_id;
+                    }
+                    $core_man_json = json_encode($core_man_data_arr);
+                  } else {
+                    $core_man_data1 = "";
+                    $core_man_json = "";
+                  }
+
                   ?>
                   <form id="training_form" method="POST" onsubmit="return updateTraining()">
                     @csrf
@@ -3697,98 +4053,97 @@
                     <h6 class="emergency_text">
                       Completed Mandatory Training
                     </h6>
-                    <div class="row">
-                      <div class="col-md-6">
+                    <!-- <div class="row"> -->
+                    <!-- <div class="col-md-6">
                         <div class="form-group level-drp">
                           <label class="form-label" for="input-1">Training Start Date</label>
                           <input class="form-control training_start_date" type="date" name="start_date" value="@if(!empty($trainingData)){{ $trainingData->start_date }}@endif" onchange="trainingStartDate(event);">
                           <span id="reqempsdate" class="reqError text-danger valley"></span>
                         </div>
-                      </div>
-                      <div class="col-md-6">
+                      </div> -->
+                    <!-- <div class="col-md-6">
                         <div class="form-group level-drp">
                           <label class="form-label" for="input-1">Training End Date</label>
                           <input class="form-control training_end_date" type="date" name="end_date" value="@if(!empty($trainingData)){{ $trainingData->end_date }}@endif" onchange="trainingEndDate(event);">
                           <span id="reqtrainingenddate" class="reqError text-danger valley"></span>
                         </div>
-
-                      </div>
-                      <script type="text/javascript">
-                        function trainingEndDate(e) {
+                        
+                      </div> -->
+                    <!-- <script type="text/javascript">
+                        function trainingEndDate(e){
                           var end_date = e.target.value;
                           var start_date = $('.training_start_date').val();
 
-                          if (end_date < start_date) {
+                          if(end_date < start_date){
                             $("#reqtrainingenddate").html("End date should not less than start date");
-                          } else {
-                            if (end_date == start_date) {
+                          }else{
+                            if(end_date == start_date){
                               $("#reqtrainingenddate").html("End date should not equal to start date");
-                            } else {
+                            }else{
                               $("#reqtrainingenddate").html("");
                             }
-
+                            
                           }
-
+                          
                         }
                         var start_date = $('.training_start_date').val();
-
+                        
                         var date = new Date(start_date);
-
 
 
                         // Add five days to current date
                         date.setDate(date.getDate() + 1);
                         var date1 = new Date(date);
 
-
+                        
                         //var str = date1.toLocaleDateString();
                         var year_val = `${date1.getFullYear()}`;
                         var month_val = `${date1.getMonth() + 1}`;
                         var date_val = `${date1.getDate()}`;
 
                         var month_len = month_val.length;
-                        if (month_len < 2) {
-                          var show_month = 0 + month_val;
-                        } else {
+                        if(month_len<2){
+                          var show_month = 0+month_val;
+                        }else{
                           var show_month = month_val;
                         }
-                        const formattedDate2 = year_val + "-" + show_month + "-" + date_val;
-                        console.log("month_val", formattedDate);
-
+                        const formattedDate2 = year_val+"-"+show_month+"-"+date_val;
+                        ////console.log("month_val",formattedDate);
+                        
                         document.getElementsClassByName("training_end_date")[0].setAttribute('min', formattedDate2);
-
-                        function trainingStartDate(e) {
+                        function trainingStartDate(e){
                           var start_date = e.target.value;
                           var date = new Date(start_date);
                           // Add five days to current date
                           date.setDate(date.getDate() + 1);
                           var date1 = new Date(date);
 
-
+                          
                           //var str = date1.toLocaleDateString();
                           var year_val = `${date1.getFullYear()}`;
                           var month_val = `${date1.getMonth() + 1}`;
                           var date_val = `${date1.getDate()}`;
 
                           var month_len = month_val.length;
-                          if (month_len < 2) {
-                            var show_month = 0 + month_val;
-                          } else {
+                          if(month_len<2){
+                            var show_month = 0+month_val;
+                          }else{
                             var show_month = month_val
                           }
-                          const formattedDate = year_val + "-" + show_month + "-" + date_val;
-                          console.log("month_val", formattedDate);
-
+                          const formattedDate = year_val+"-"+show_month+"-"+date_val;
+                          ////console.log("month_val",formattedDate);
+                          
                           document.getElementsByClassName("training_end_date")[0].setAttribute('min', formattedDate);
                         }
-                      </script>
-                      <div class="form-group level-drp">
-                        <label class="form-label" for="input-1">Institution</label>
-                        <input class="form-control" type="text" name="institution" value="@if(!empty($trainingData)){{ $trainingData->institutions }}@endif">
 
-                      </div>
+                      </script> -->
+                    <!-- <div class="form-group level-drp">
+                          <label class="form-label" for="input-1">Institution</label>
+                          <input class="form-control" type="text" name="institution" value="@if(!empty($trainingData)){{ $trainingData->institutions }}@endif">
+                          
+                        </div> -->
 
-                      <!-- <div class="form-group level-drp">
+                    <!-- <div class="form-group level-drp">
                            <label class="form-label" for="input-1">Mandatory Continuing Education</label>
                            <select class="form-control form-select ps-5" name="mand_continue_education" id="mand_continue_education">
                             <option value="">Select mandatory continuing education</option>
@@ -3800,13 +4155,14 @@
 
                           </select>          
                         </div> -->
-                    </div>
+                    <!-- </div> -->
                     <p>Please add required courses or certifications completed for compliance or safety</p>
+
                     <h6 class="emergency_text">
-                      Mandatory Training
+                      <!-- Mandatory Training -->
                     </h6>
                     <div class="form-group level-drp">
-                      <!-- <input type="hidden" name="skills_comp" class="skills_comp" value="@if(!empty($experienceData)) {{ $experienceData->skills_compantancies }}@endif"> -->
+                      <input type="hidden" name="man_training" class="man_training" value="@if(!empty($trainingData)) {{ $trainingData->man_training }}@endif">
 
                       <label class="form-label" for="input-1">Please select all that apply</label>
                       <?php
@@ -3818,7 +4174,9 @@
                         @endforeach
                       </ul>
                       <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="mandatory_courses" name="mandatory_courses[]" multiple="multiple"></select>
+                      <span id="reqmantra" class="reqError text-danger valley"></span>
                     </div>
+
                     <div class="mandatory_sub_courses">
                       <!-- cat-1 -->
                       <?php
@@ -3828,8 +4186,8 @@
                         ->get();
 
                       ?>
-                      <div class="form-group level-drp mandatory_courses_div  mandatory_tr_div_1 d-none">
-                        <!-- <input type="hidden" name="mandatory_training_value" class="mandatory_training_value mandatory_training_value-{{ $m_courses->id }}" value="{{ $m_courses->id }}"> -->
+                      <div class="form-group level-drp mandatory_courses_div  mandatory_tr_div_1 @if($trainingData && $trainingData->well_sel_data == NULL) d-none @endif @if(empty($trainingData)) d-none @endif">
+                        <input type="hidden" name="well_sel_data" class="well_sel_data" value="@if(!empty($trainingData)){{ $well_data_json }}@endif">
                         <label class="form-label" for="input-1">Wellness And Self-Care </label>
 
                         <ul id="well_self_care_data" style="display:none;">
@@ -3839,13 +4197,100 @@
                         </ul>
                         <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="well_self_care_data" name="well_self_care_data[]" multiple="multiple"></select>
                       </div>
+                      <span id="reqwellself" class="reqError text-danger valley"></span>
 
-                      <div class="well_self_care_div"></div>
+                      <div class="well_self_care_div">
+                        <?php
+                        $i = 0;
+                        ?>
+                        @if(!empty($well_data1))
+                        @foreach($well_data1 as $well_data)
+
+                        <?php
+                        $well_first_word = strtok($well_data->well_tra_id, " ");
+
+                        $well_first_word  = strtolower(preg_replace('/[^A-Za-z0-9\-]/', '', $well_first_word));
+
+                        ?>
+                        <div class="well_self_care_{{ $well_first_word }} well_div_{{ $well_first_word }}">
+
+                          <h6>{{ $well_data->well_tra_id }}</h6>
+                          <div class="row">
+                            <div class="form-group col-md-12">
+                              <label class="form-label" for="input-1">Institution/Regulating Body</label>
+                              <input type="hidden" name="wellnamearr[]" class="wellness_input_{{ $well_data->well_tra_id }}" value="{{ $well_data->well_tra_id }}">
+                              <input class="form-control well_institution well_institution-{{ $i }}" type="text" name="well_institution[]" value="{{ $well_data->well_institution }}">
+                              <span id="wellinstitutionvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label class="form-label" for="input-1">Training Start Date</label>
+                              <input class="form-control well_tra_start_date well_tra_start_date-{{ $i }}" type="date" name="well_tra_start_date[]" value="{{ $well_data->well_tra_start_date }}">
+                              <span id="well_tra_start_datevalid-{{ $i }}" class="reqError text-danger valley"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label class="form-label" for="input-1">Training End Date</label>
+                              <input class="form-control well_tra_end_date well_tra_end_date-{{ $i }}" type="date" name="well_tra_end_date[]" value="{{ $well_data->well_tra_end_date }}">
+                              <span id="well_tra_end_datevalid-{{ $i }}" class="reqError text-danger valley"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label class="form-label" for="input-1">Expiry</label>
+                              <input class="form-control well_expiry well_expiry-{{ $i }}" type="date" name="well_expiry[]" value="{{ $well_data->well_expiry }}">
+                              <span id="wellexpiryvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label class="form-label" for="input-1">Upload Certificate</label>
+                              <input class="form-control well_upload_certification well_imgs_{{ $well_first_word }} well_upload_certification-{{ $i }}" type="file" name="well_upload_certification[{{ $i }}][]" onchange="changetraImg1({{ $user_id }},{{ $i }},'well_imgs','{{ $well_first_word }}')" multiple>
+                              <span id="reqwelluploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
+
+                              <?php
+                              $getedufieldsdata = DB::table("edu_fields")->where("user_id", $user_id)->first();
+
+                              if (!empty($getedufieldsdata)) {
+                                $well_img = (array)json_decode($getedufieldsdata->well_imgs);
+                              } else {
+                                $well_img = '';
+                              }
+
+
+                              if (!empty($well_img)) {
+                                $well_img_data = json_decode($well_img[$well_first_word]);
+                              } else {
+                                $well_img_data = "";
+                              }
+                              //print_r($acls_img[$acls_first_word_one]);
+
+
+                              //print_r($dtran_img);
+                              $l = 1;
+                              $user_id = Auth::guard('nurse_middle')->user()->id;
+                              ?>
+                              <div class="well_imgs{{ $well_first_word }}">
+                                @if(!empty($well_img_data))
+                                @foreach($well_img_data as $w_img)
+                                <div class="trans_img trans_img-{{ $i }} trans_imgwell_imgs{{ $well_first_word }}{{ $l }}">
+                                  <a href="{{ url('/public/uploads/education_degree') }}/{{ $w_img }}"><i class="fa fa-file"></i>{{ $w_img }}</a>
+                                  <div class="close_btn close_btn-{{ $i }}" onclick="deleteImg1('{{ $l }}','{{ $user_id }}','{{ $w_img }}','{{ $well_first_word }}','well_imgs')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
+                                </div>
+                                <?php
+                                $l++;
+                                ?>
+
+                                @endforeach
+                                @endif
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                        @endforeach
+                        @endif
+
+                      </div>
 
 
                       <!-- cat-2 -->
-                      <div class="form-group level-drp mandatory_courses_div mandatory_courses_div_{{ $m_courses->id }} mandatory_tr_div_2 d-none">
-                        <input type="hidden" name="mandatory_training_value" class="mandatory_training_value mandatory_training_value-{{ $m_courses->id }}" value="{{ $m_courses->id }}">
+                      <div class="form-group level-drp mandatory_courses_div mandatory_courses_div_{{ $m_courses->id }} mandatory_tr_div_2 @if($trainingData && $trainingData->tech_innvo_data == NULL) d-none @endif @if(empty($trainingData)) d-none @endif">
+                        <input type="hidden" name="tech_innvo_data" class="tech_innvo_data" value="@if(!empty($trainingData)){{ $tech_data_json }}@endif">
                         <label class="form-label" for="input-1">Technology and Innovation in Healthcare </label>
                         <?php $mandatory_sub_courses = DB::table('man_training_category')
                           ->where('parent', 418)
@@ -3858,15 +4303,103 @@
                           @endforeach
 
                         </ul>
-                        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="tech_innvo_health_data" name="tech_innvo_health[]" multiple="multiple"></select>
+                        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="tech_innvo_health_data" name="tech_innvo_health_data[]" multiple="multiple"></select>
+                      </div>
+                      <span id="reqtechinno" class="reqError text-danger valley"></span>
+
+                      <div class="tech_innvo_health_div">
+                        <?php
+                        $i = 0;
+                        ?>
+                        @if(!empty($tech_data1))
+                        @foreach($tech_data1 as $tech_data)
+
+                        <?php
+                        $tech_first_word = strtok($tech_data->tech_tra_id, " ");
+
+                        $tech_first_word  = strtolower(preg_replace('/[^A-Za-z0-9\-]/', '', $tech_first_word));
+
+                        ?>
+                        <div class="tech_innvo_health_{{ $tech_first_word }} tech_innvo_div_{{ $tech_first_word }}">
+
+                          <h6>{{ $tech_data->tech_tra_id }}</h6>
+                          <div class="tech_innvo_div row tech_innvo_institution">
+                            <div class="form-group col-md-12">
+                              <label class="form-label" for="input-1">Institution/Regulating Body</label>
+                              <input type="hidden" name="techinnvonamearr[]" class="tech_innvo_input_{{ $tech_data->tech_tra_id }}" value="{{ $tech_data->tech_tra_id }}">
+                              <input class="form-control tech_innvo_institution tech_innvo-{{ $i }}" type="text" name="tech_innvo_institution[]" value="{{ $tech_data->tech_institution }}">
+                              <span id="techinnvoinstitutionvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label class="form-label" for="input-1">Training Start Date</label>
+                              <input class="form-control tech_innvo_tra_start_date tech_innvo_tra_start_date-{{ $i }}" type="date" name="tech_innvo_tra_start_date[]" value="{{ $tech_data->tech_start_date }}">
+                              <span id="tech_innvo_tra_start_datevalid-{{ $i }}" class="reqError text-danger valley"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label class="form-label" for="input-1">Training End Date</label>
+                              <input class="form-control tech_innvo_tra_end_date tech_innvo_tra_end_date-{{ $i }}" type="date" name="tech_innvo_tra_end_date[]" value="{{ $tech_data->tech_end_date }}">
+                              <span id="tech_innvo_tra_end_datevalid-{{ $i }}" class="reqError text-danger valley"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label class="form-label" for="input-1">Expiry</label>
+                              <input class="form-control tech_innvo_expiry tech_innvo_expiry-{{ $i }}" type="date" name="tech_innvo_expiry[]" value="{{ $tech_data->tech_expiry }}">
+                              <span id="wellexpiryvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label class="form-label" for="input-1">Upload Certificate</label>
+                              <input class="form-control tech_innvo_upload_certification tech_innvo_imgs_{{ $tech_first_word }} tech_innvo_upload_certification-{{ $i }}" type="file" name="tech_innvo_upload_certification[{{ $i }}][]" onchange="changetraImg1({{ $user_id }},{{ $i }},'tech_innvo_imgs','{{ $tech_first_word }}')">
+                              <span id="reqtechinnvouploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
+
+                              <?php
+                              $getedufieldsdata = DB::table("edu_fields")->where("user_id", $user_id)->first();
+
+                              if (!empty($getedufieldsdata)) {
+                                $tech_img = (array)json_decode($getedufieldsdata->tech_innvo_imgs);
+                              } else {
+                                $tech_img = '';
+                              }
+
+
+                              if (!empty($tech_img)) {
+                                $tech_img_data = json_decode($tech_img[$tech_first_word]);
+                              } else {
+                                $tech_img_data = "";
+                              }
+                              //print_r($acls_img[$acls_first_word_one]);
+
+
+                              //print_r($dtran_img);
+                              $l = 1;
+                              $user_id = Auth::guard('nurse_middle')->user()->id;
+                              ?>
+                              <div class="tech_innvo_imgs{{ $tech_first_word }}">
+                                @if(!empty($tech_img_data))
+                                @foreach($tech_img_data as $t_img)
+                                <div class="trans_img trans_img-{{ $i }} trans_imgtech_innvo_imgs{{ $tech_first_word }}{{ $l }}">
+                                  <a href="{{ url('/public/uploads/education_degree') }}/{{ $t_img }}"><i class="fa fa-file"></i>{{ $t_img }}</a>
+                                  <div class="close_btn close_btn-{{ $i }}" onclick="deleteImg1('{{ $l }}','{{ $user_id }}','{{ $t_img }}','{{ $tech_first_word }}','tech_innvo_imgs')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
+                                </div>
+                                <?php
+                                $l++;
+                                ?>
+
+                                @endforeach
+                                @endif
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                        @endforeach
+                        @endif
+
+
                       </div>
 
-                      <div class="tech_innvo_health_div"></div>
-
                       <!-- cat-3 -->
-                      <div class="form-group level-drp mandatory_courses_div mandatory_courses_div_{{ $m_courses->id }} mandatory_tr_div_3 d-none">
-                        <input type="hidden" name="mandatory_training_value" class="mandatory_training_value mandatory_training_value-{{ $m_courses->id }}" value="{{ $m_courses->id }}">
-                        <label class="form-label" for="input-1">Leadership and Professional Development </label>
+                      <div class="form-group level-drp mandatory_courses_div mandatory_courses_div_{{ $m_courses->id }} mandatory_tr_div_3 @if($trainingData && $trainingData->leader_pro_data == NULL) d-none @endif @if(empty($trainingData)) d-none @endif">
+                        <input type="hidden" name="lead_data" class="lead_data" value="@if(!empty($trainingData)){{ $lead_data_json }}@endif">
+                        <label class="form-label" for="input-1">Leadership and Professional Development</label>
                         <?php $mandatory_sub_courses = DB::table('man_training_category')
                           ->where('parent', 417)
                           ->where('type', 'Training')
@@ -3876,16 +4409,112 @@
                           @foreach($mandatory_sub_courses as $ms_courses)
                           <li data-value="{{ $ms_courses->name }}">{{ $ms_courses->name }}</li>
                           @endforeach
-
                         </ul>
                         <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="leader_pro_dev_data" name="leader_pro_dev_data[]" multiple="multiple"></select>
                       </div>
+                      <span id="reqeaderpro" class="reqError text-danger valley"></span>
 
-                      <div class="leader_pro_dev_div"></div>
+                      <div class="leader_pro_dev_div">
+                        <?php
+                        $i = 0;
+                        ?>
+                        @if(!empty($lead_data1))
+                        @foreach($lead_data1 as $lead_data)
+
+                        <?php
+                        $first_word = strtok($lead_data->lead_pro_tra_id, " ");
+
+                        $first_word  = strtolower(preg_replace('/[^A-Za-z0-9\-]/', '', $first_word));
+
+
+                        $second_word = strtolower(preg_replace('/[^A-Za-z0-9]/', '', explode(' ', $lead_data->lead_pro_tra_id)[1] ?? ''));
+
+                        // Get the first four characters of the second word
+                        $second_word = substr($second_word, 0, 4);
+
+
+                        $lead_first_word = $first_word . '_' . $second_word;
+
+                        ?>
+                        <div class="leader_pro_dev_{{ $lead_first_word }} leader_pro_div_{{ $lead_first_word }}">
+
+                          <h6>{{ $lead_data->lead_pro_tra_id }}</h6>
+                          <div class="leader_pro_div row leader_pro_institution">
+                            <div class="form-group col-md-12">
+                              <label class="form-label" for="input-1">Institution/Regulating Body</label>
+                              <input type="hidden" name="leaderpronamearr[]" class="leader_pro_input_{{ $lead_data->lead_pro_tra_id }}" value="{{ $lead_data->lead_pro_tra_id }}">
+                              <input class="form-control leader_pro_institution leader_pro-{{ $i }}" type="text" name="leader_pro_institution[]" value="{{ $lead_data->lead_pro_institution }}">
+                              <span id="leaderproinstivalid-{{ $i }}" class="reqError text-danger valley"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label class="form-label" for="input-1">Training Start Date</label>
+                              <input class="form-control leader_pro_tra_start_date leader_pro_tra_start_date-{{ $i }}" type="date" name="leader_pro_tra_start_date[]" value="{{ $lead_data->lead_start_date }}">
+                              <span id="leader_pro_tra_start_datevalid-{{ $i }}" class="reqError text-danger valley"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label class="form-label" for="input-1">Training End Date</label>
+                              <input class="form-control leader_pro_tra_end_date leader_pro_tra_end_date-{{ $i }}" type="date" name="leader_pro_tra_end_date[]" value="{{ $lead_data->lead_end_date }}">
+                              <span id="tech_innvo_tra_end_datevalid-{{ $i }}" class="reqError text-danger valley"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label class="form-label" for="input-1">Expiry</label>
+                              <input class="form-control leader_pro_expiry leader_pro_expiry-{{ $i }}" type="date" name="leader_pro_expiry[]" value="{{ $lead_data->lead_expiry }}">
+                              <span id="wellexpiryvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label class="form-label" for="input-1">Upload Certificate</label>
+                              <input class="form-control leader_pro_upload_certification leader_pro_imgs_{{ $lead_first_word }} leader_pro_upload_certification-{{ $i }}" type="file" name="leader_pro_upload_certification[{{ $i }}][]" onchange="changetraImg1({{ $user_id }},{{ $i }},'leader_pro_imgs','{{ $lead_first_word }}')" multiple>
+                              <span id="reqleaderprouploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
+
+                              <?php
+                              $getedufieldsdata = DB::table("edu_fields")->where("user_id", $user_id)->first();
+
+                              if (!empty($getedufieldsdata)) {
+                                $lead_img = (array)json_decode($getedufieldsdata->leader_pro_imgs);
+                              } else {
+                                $lead_img = '';
+                              }
+
+
+                              if (!empty($lead_img)) {
+                                $lead_img_data = json_decode($lead_img[$lead_first_word]);
+                              } else {
+                                $lead_img_data = "";
+                              }
+                              //print_r($acls_img[$acls_first_word_one]);
+
+
+                              //print_r($dtran_img);
+                              $l = 1;
+                              $user_id = Auth::guard('nurse_middle')->user()->id;
+                              ?>
+                              <div class="leader_pro_imgs{{ $lead_first_word }}">
+                                @if(!empty($lead_img_data))
+                                @foreach($lead_img_data as $l_img)
+                                <div class="trans_img trans_img-{{ $i }} trans_imgleader_pro_imgs{{ $lead_first_word }}{{ $l }}">
+                                  <a href="{{ url('/public/uploads/education_degree') }}/{{ $l_img }}"><i class="fa fa-file"></i>{{ $l_img }}</a>
+                                  <div class="close_btn close_btn-{{ $i }}" onclick="deleteImg1('{{ $l }}','{{ $user_id }}','{{ $l_img }}','{{ $lead_first_word }}','leader_pro_imgs')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
+                                </div>
+                                <?php
+                                $l++;
+                                ?>
+
+                                @endforeach
+                                @endif
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                        @endforeach
+                        @endif
+
+
+                      </div>
 
                       <!-- cat-4 -->
-                      <div class="form-group level-drp mandatory_courses_div mandatory_courses_div_{{ $m_courses->id }} mandatory_tr_div_4 d-none">
-                        <input type="hidden" name="mandatory_training_value" class="mandatory_training_value mandatory_training_value-{{ $m_courses->id }}" value="{{ $m_courses->id }}">
+                      <div class="form-group level-drp mandatory_courses_div mandatory_courses_div_{{ $m_courses->id }} mandatory_tr_div_4 @if($trainingData && $trainingData->mid_spec_data == NULL) d-none @endif @if(empty($trainingData)) d-none @endif">
+                        <input type="hidden" name="mid_data" class="mid_data" value="@if(!empty($trainingData)){{ $mid_data_json }}@endif">
                         <label class="form-label" for="input-1">Midwifery-Specific Training </label>
                         <?php $mandatory_sub_courses = DB::table('man_training_category')
                           ->where('parent', 416)
@@ -3900,12 +4529,110 @@
                         </ul>
                         <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="mid_spec_tra_data" name="mid_spec_tra_data[]" multiple="multiple"></select>
                       </div>
+                      <span id="reqmidwifespe" class="reqError text-danger valley"></span>
 
-                      <div class="mid_spec_tra_div"></div>
+                      <div class="mid_spec_tra_div">
+                        <?php
+                        $i = 0;
+                        ?>
+                        @if(!empty($mid_data1))
+                        @foreach($mid_data1 as $mid_data)
+
+                        <?php
+                        $first_word = strtok($mid_data->mid_spec_tra_id, " ");
+
+                        $first_word  = strtolower(preg_replace('/[^A-Za-z0-9\-]/', '', $first_word));
+
+
+                        $second_word = strtolower(preg_replace('/[^A-Za-z0-9]/', '', explode(' ', $mid_data->mid_spec_tra_id)[1] ?? ''));
+
+                        // Get the first four characters of the second word
+                        $second_word = substr($second_word, 0, 2);
+
+                        $thired_word = strtolower(preg_replace('/[^A-Za-z0-9]/', '', explode(' ', $mid_data->mid_spec_tra_id)[1] ?? ''));
+
+                        // Get the first four characters of the second word
+                        $thired_word = substr($thired_word, 0, 4);
+                        $mid_first_word = $first_word . '_' . $second_word . '_' . $thired_word;
+                        ?>
+                        <div class="mid_spec_tra_{{ $mid_first_word }} mid_spec_tra_{{ $mid_first_word }}">
+
+                          <h6>{{ $mid_data->mid_spec_tra_id }}</h6>
+                          <div class="mid_spec_div row mid_spec_institution">
+                            <div class="form-group col-md-12">
+                              <label class="form-label" for="input-1">Institution/Regulating Body</label>
+                              <input type="hidden" name="midspecnamearr[]" class="mid_spec_input_{{ $mid_data->mid_spec_tra_id }}" value="{{ $mid_data->mid_spec_tra_id }}">
+                              <input class="form-control mid_spec_institution mid_spec-{{ $i }}" type="text" name="mid_spec_institution[]" value="{{ $mid_data->mid_spec_institution }}">
+                              <span id="midspecinstivalid-{{ $i }}" class="reqError text-danger valley"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label class="form-label" for="input-1">Training Start Date</label>
+                              <input class="form-control mid_spec_tra_start_date mid_spec_tra_start_date-{{ $i }}" type="date" name="mid_spec_tra_start_date[]" value="{{ $mid_data->mid_spec_start_date }}">
+                              <span id="mid_spec_tra_start_datevalid-{{ $i }}" class="reqError text-danger valley"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label class="form-label" for="input-1">Training End Date</label>
+                              <input class="form-control mid_spec_tra_end_date mid_spec_tra_end_date-{{ $i }}" type="date" name="mid_spec_tra_end_date[]" value="{{ $mid_data->mid_spec_end_date }}">
+                              <span id="mid_spec_tra_end_datevalid-{{ $i }}" class="reqError text-danger valley"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label class="form-label" for="input-1">Expiry</label>
+                              <input class="form-control mid_spec_expiry mid_spec_expiry-{{ $i }}" type="date" name="mid_spec_expiry[]" value="{{ $mid_data->mis_spec_expiry }}">
+                              <span id="midspecexpiryvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label class="form-label" for="input-1">Upload Certificate</label>
+                              <input class="form-control mid_spec_upload_certification mid_spec_imgs_{{ $mid_first_word }} mid_spec_upload_certification-{{ $i }}" type="file" name="mid_spec_upload_certification[{{ $i }}][]" onchange="changetraImg1({{ $user_id }},{{ $i }},'mid_spec_imgs','{{ $mid_first_word }}')">
+                              <span id="reqmidspecuploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
+
+                              <?php
+                              $getedufieldsdata = DB::table("edu_fields")->where("user_id", $user_id)->first();
+
+                              if (!empty($getedufieldsdata)) {
+                                $mid_img = (array)json_decode($getedufieldsdata->mid_spec_imgs);
+                              } else {
+                                $mid_img = '';
+                              }
+
+
+                              if (!empty($mid_img)) {
+                                $mid_img_data = json_decode($mid_img[$mid_first_word]);
+                              } else {
+                                $mid_img_data = "";
+                              }
+                              //print_r($acls_img[$acls_first_word_one]);
+
+
+                              //print_r($dtran_img);
+                              $l = 1;
+                              $user_id = Auth::guard('nurse_middle')->user()->id;
+                              ?>
+                              <div class="mid_spec_imgs{{ $mid_first_word }}">
+                                @if(!empty($mid_img_data))
+                                @foreach($mid_img_data as $m_img)
+                                <div class="trans_img trans_img-{{ $i }} trans_imgmid_spec_img{{ $mid_first_word }}{{ $l }}">
+                                  <a href="{{ url('/public/uploads/education_degree') }}/{{ $m_img }}"><i class="fa fa-file"></i>{{ $m_img }}</a>
+                                  <div class="close_btn close_btn-{{ $i }}" onclick="deleteImg1('{{ $i }}','{{ $user_id }}','{{ $m_img }}','{{ $mid_first_word }}','mid_spec_imgs')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
+                                </div>
+                                <?php
+                                $l++;
+                                ?>
+                                @endforeach
+                                @endif
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                        @endforeach
+                        @endif
+
+
+                      </div>
 
                       <!-- cat-5-->
-                      <div class="form-group level-drp mandatory_courses_div mandatory_courses_div_{{ $m_courses->id }} mandatory_tr_div_5 d-none">
-                        <input type="hidden" name="mandatory_training_value" class="mandatory_training_value mandatory_training_value-{{ $m_courses->id }}" value="{{ $m_courses->id }}">
+                      <div class="form-group level-drp mandatory_courses_div mandatory_courses_div_{{ $m_courses->id }} mandatory_tr_div_5 @if($trainingData && $trainingData->clinic_skill_data == NULL) d-none @endif @if(empty($trainingData)) d-none @endif">
+                        <input type="hidden" name="cli_data" class="cli_data" value="@if(!empty($trainingData)){{ $cli_data_json }}@endif">
                         <label class="form-label" for="input-1">Clinical Skills and Core Competencies </label>
                         <?php $mandatory_sub_courses = DB::table('man_training_category')
                           ->where('parent', 415)
@@ -3914,20 +4641,203 @@
 
                         <ul id="clinic_skill_core_data" style="display:none;">
                           @foreach($mandatory_sub_courses as $ms_courses)
-                          <li data-value="{{ $ms_courses->name }}" data-id='{{ $ms_courses->id }}'>{{ $ms_courses->name }}</li>
+                          <li data-value="{{ $ms_courses->name }}" data-id="{{ $ms_courses->id }}">{{ $ms_courses->name }}</li>
                           @endforeach
 
                         </ul>
                         <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="clinic_skill_core_data" name="clinic_skill_core_data[]" multiple="multiple"></select>
                       </div>
+                      <span id="reqcliniskill" class="reqError text-danger valley"></span>
 
-                      <div class="clinic_skill_core_div"></div>
+                      <div class="clinic_skill_core_div">
+                        <?php
+                        $i = 0;
+                        ?>
+                        @if(!empty($cli_data1))
+                        @foreach($cli_data1 as $cli_data)
+
+                        <?php
+                        $get_id = DB::table('man_training_category')
+                          ->where('parent', 415)
+                          ->where('type', 'Training')
+                          ->where('name', '=', $cli_data->cli_skill_tra_id)
+                          ->first();
+
+
+                        $cli_first = strtok($cli_data->cli_skill_tra_id, " ");
+
+                        $cli_first  = strtolower(preg_replace('/[^A-Za-z0-9\-]/', '', $cli_first));
+
+                        $cli_first_word =  $cli_first . '_' . $get_id->id;
+                        ?>
+                        <div class="clinic_skill_{{ $cli_first_word }} clinic_skill_div_{{ $cli_first_word }}">
+
+                          <h6>{{ $cli_data->cli_skill_tra_id }}</h6>
+                          <div class="clinic_skill_div row clinic_skill_institution">
+                            <div class="form-group col-md-12">
+                              <label class="form-label" for="input-1">Institution/Regulating Body</label>
+                              <input type="hidden" name="clinicskillnamearr[]" class="clinic_skill_{{ $cli_data->cli_skill_tra_id }}" value="{{ $cli_data->cli_skill_tra_id }}">
+                              <input class="form-control clinic_skill_institution clinic_skill-{{ $i }}" type="text" name="clinic_skill_institution[]" value="{{ $cli_data->clinic_skill_institution }}">
+                              <span id="cliskillinstivalid-{{ $i }}" class="reqError text-danger valley"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label class="form-label" for="input-1">Training Start Date</label>
+                              <input class="form-control clinic_skill_tra_start_date clinic_skill_tra_start_date-0-{{ $i }}" type="date" name="clinic_skill_tra_start_date[]" value="{{ $cli_data->cli_skill_start_date }}">
+                              <span id="clinic_skill_tra_start_datevalid-{{ $i }}" class="reqError text-danger valley"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label class="form-label" for="input-1">Training End Date</label>
+                              <input class="form-control clinic_skill_tra_end_date clinic_skill_tra_end_date-{{ $i }}" type="date" name="clinic_skill_tra_end_date[]" value="{{ $cli_data->cli_skill_end_date }}">
+                              <span id="clinic_skill_tra_end_datevalid-{{ $i }}" class="reqError text-danger valley"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label class="form-label" for="input-1">Expiry</label>
+                              <input class="form-control clinic_skill_expiry clinic_skill_expiry-{{ $i }}" type="date" name="clinic_skill_expiry[]" value="{{ $cli_data->cli_skill_expiry }}">
+                              <span id="clinicskillexpiryvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label class="form-label" for="input-1">Upload Certificate</label>
+                              <input class="form-control clinic_skill_upload_certification clinic_skill_imgs_{{ $cli_first_word }} clinic_skill_upload_certification-{{ $i }}" type="file" name="clinic_skill_upload_certification[{{ $i }}][]" onchange="changetraImg1({{ $user_id }},{{ $i }},'clinic_skill_imgs','{{ $cli_first_word }}')">
+                              <span id="reqtechinnvouploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
+
+                              <?php
+                              $getedufieldsdata = DB::table("edu_fields")->where("user_id", $user_id)->first();
+
+                              if (!empty($getedufieldsdata)) {
+                                $cli_img = (array)json_decode($getedufieldsdata->clinic_skill_imgs);
+                              } else {
+                                $cli_img = '';
+                              }
+
+
+                              if (!empty($cli_img)) {
+                                $cli_img_data = json_decode($cli_img[$cli_first_word]);
+                              } else {
+                                $cli_img_data = "";
+                              }
+                              //print_r($acls_img[$acls_first_word_one]);
+
+
+                              //print_r($dtran_img);
+                              $l = 1;
+                              $user_id = Auth::guard('nurse_middle')->user()->id;
+                              ?>
+                              <div class="clinic_skill_imgs{{ $cli_first_word }}">
+                                @if(!empty($cli_img_data))
+                                @foreach($cli_img_data as $cli_img)
+                                <div class="trans_img trans_img-{{ $i }} trans_imgclinic_skill_img{{ $cli_first_word }}{{ $l }}">
+                                  <a href="{{ url('/public/uploads/education_degree') }}/{{ $cli_img }}"><i class="fa fa-file"></i>{{ $cli_img }}</a>
+                                  <div class="close_btn close_btn-{{ $i }}" onclick="deleteImg1('{{ $i }}','{{ $user_id }}','{{ $cli_img }}','{{ $cli_first_word }}','clinic_skill_imgs')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
+                                </div>
+                                <?php
+                                $l++;
+                                ?>
+                                @endforeach
+                                @endif
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                        @endforeach
+                        @endif
+                      </div>
                     </div>
                     <div class="another_com_training">
                       <h6 class="emergency_text mt-2">Other Trainings
                       </h6>
+                      <?php
+                      if (!empty($trainingData)) {
+                        $additional_tra_data = json_decode($trainingData->other_tra_data);
+                      } else {
+                        $additional_tra_data = "";
+                      }
+                      $i = 1;
+                      $l = 0;
+                      ?>
+
+                      @if(!empty($additional_tra_data))
+                      @foreach($additional_tra_data as $a_data)
+                      <div class="training_div training_div_{{ $i }} row another_com_tra_div">
+                        <div class="form-group col-md-6">
+                          <label class="form-label" for="input-1">Training {{ $i }}</label>
+                          <input class="form-control additional_tra_field additional_tra_field-{{ $i }}" type="text" name="training[]" value="@if(!empty($trainingData)){{ $a_data->training_name }}@endif">
+                          <span id="reqtraname-{{ $i }}" class="reqError text-danger valley"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label class="form-label" for="input-1">Institution/Regulating Body</label>
+                          <input class="form-control institution institution--{{ $i }}" type="text" name="institution[]" value="@if(!empty($trainingData)){{ $a_data->training_ins }}@endif">
+                          <span id="reqinstitution-{{ $i }}" class="reqError text-danger valley"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label class="form-label" for="input-1">Training Start Date</label>
+                          <input class="form-control tra_start_date tra_start_date-1" type="date" name="tra_start_date[]" value="@if(!empty($trainingData)){{ $a_data->training_end_date }}@endif">
+                          <span id="reqtrastartdate-{{ $i }}" class="reqError text-danger valley"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label class="form-label" for="input-1">Training End Date</label>
+                          <input class="form-control tra_end_date tra_end_date-{{ $i }}" type="date" name="tra_end_date[]" value="@if(!empty($trainingData)){{ $a_data->training_start_date }}@endif">
+                          <span id="reqtraenddate-{{ $i }}" class="reqError text-danger valley"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label class="form-label" for="input-1">Expiry</label>
+                          <input class="form-control tra_expiry tra_expiry-{{ $i }}" type="date" name="tra_expiry[]" value="@if(!empty($trainingData)){{$a_data->tra_exp}}@endif">
+                          <span id="reqtraenddate-{{ $i }}" class="reqError text-danger valley"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                          <input class="form-control other_tran_img_tran_{{ $i }} additional_certifications-{{ $i }}" type="file" name="certificate_upload_certification[]" onchange="changeAnoImg('{{ $user_id }}','{{ $l }}','other_tran_img','tran_{{ $i}}')" multiple="">
+                          <?php
+                          $getedufieldsdata = DB::table("edu_fields")->where("user_id", $user_id)->first();
+
+                          if (!empty($getedufieldsdata)) {
+                            $other_tra_img = (array)json_decode($getedufieldsdata->other_tran_img);
+                          } else {
+                            $other_tra_img = '';
+                          }
+
+
+                          if (!empty($other_tra_img)) {
+                            $other_tra_img_data = json_decode($other_tra_img["tran_$i"]);
+                          } else {
+                            $other_tra_img_data = "";
+                          }
+                          //print_r($acls_img[$acls_first_word_one]);
+
+
+                          //print_r($dtran_img);
+
+                          $user_id = Auth::guard('nurse_middle')->user()->id;
+                          ?>
+                          <div class="other_tran_imgtran_{{ $i }}">
+                            @if(!empty($other_tra_img_data))
+                            @foreach($other_tra_img_data as $other_img)
+                            <div class="trans_img edu_img-{{ $i }} edu_imgother_tran_imgtran_{{ $l }}">
+                              <a href="{{ url('/public/uploads/education_degree') }}/{{ $other_img }}"><i class="fa fa-file"></i>{{ $other_img }}</a>
+                              <div class="close_btn close_btn-{{ $i }}" onclick="deleteanoImg1('{{ $l }}','{{ $user_id }}','{{ $other_img }}','tran_{{$i  }}','other_tran_img')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
+                            </div>
+                            <?php
+                            $l++;
+                            ?>
+                            @endforeach
+                            @endif
+                          </div>
+                        </div>
+                        <?php
+                        $user_id = Auth::guard('nurse_middle')->user()->id;
+                        ?>
+                        <div class="col-md-12">
+                          <div class="add_new_cmp_training_div mb-3 mt-3"><a style="cursor: pointer;" onclick="delete_training('{{ $i }}','{{ $user_id }}','{{ $a_data->other_tra_id }}')">- Delete Training</a></div>
+                        </div>
+                      </div>
+                      <?php
+                      $i++;
+                      ?>
+                      @endforeach
+
+                      @endif
                     </div>
-                    <div class="add_new_cmp_training_div mb-3 mt-3">
+                    <div class="add_new_cmp_training_div  mt-3" style="margin-bottom: 3rem !important;margin-top: 2rem !important;">
                       <a style="cursor: pointer;" onclick="add_listtraining()">+ Add another Completed Training</a>
                     </div>
 
@@ -3935,7 +4845,7 @@
                     <p>Continuing Professional Development (CPD) for Australian nurses and midwives involves annual training that covers ethics, infection control, and clinical skills updates</p>
 
                     <div class="form-group level-drp">
-                      <!-- <input type="hidden" name="skills_comp" class="skills_comp" value="@if(!empty($experienceData)) {{ $experienceData->skills_compantancies }}@endif"> -->
+                      <input type="hidden" name="man_education" class="man_education" value="@if(!empty($trainingData)) {{ $trainingData->man_education }}@endif">
                       <p>Please add required ongoing education to stay updated in your field and maintain licensure</p>
                       <label class="form-label" for="input-1">Please select all that apply</label>
                       <?php
@@ -3945,9 +4855,9 @@
                         @foreach($mandatory_courses as $m_courses)
                         <li data-value="{{ $m_courses->id }}">{{ $m_courses->name }}</li>
                         @endforeach
-
                       </ul>
                       <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="mandatory_education" name="mandatory_education[]" multiple="multiple"></select>
+                      <span id="reqmanedu" class="reqError text-danger valley"></span>
                     </div>
 
                     <div class="mandatory_sub_education">
@@ -3960,24 +4870,127 @@
 
                       ?>
                       <div class="form-group level-drp mandatory_sub_edu_div  mandatory_sub_edu_div_1 d-none">
-                        <input type="hidden" name="mandatory_training_value" class="mandatory_training_value mandatory_training_value-{{ $m_courses->id }}" value="{{ $m_courses->id }}">
+                        <input type="hidden" name="cli_data" class="cli_data" value="@if(!empty($trainingData)){{ $emr_data_json }}@endif">
                         <label class="form-label" for="input-1">Core Mandatory Continuing Education </label>
 
                         <ul id="core_man_con_data" style="display:none;">
                           @foreach($mandatory_sub_education as $ms_education)
-                          <li data-value="{{ $ms_education->name }}">{{ $ms_education->name }}</li>
+                          <li data-value="{{ $ms_education->name }}" data-id="{{ $ms_education->id }}">{{ $ms_education->name }}</li>
                           @endforeach
                         </ul>
                         <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="core_man_con_data" name="core_man_con_data[]" multiple="multiple"></select>
                       </div>
+                      <span id="reqcoreman" class="reqError text-danger valley"></span>
 
-                      <div class="core_man_con_data_div"></div>
+                      <div class="core_man_con_data_div">
+
+                        <?php
+                        $i = 0;
+                        ?>
+                        @if(!empty($core_man_data1))
+                        @foreach($core_man_data1 as $core_man_data)
+                        <?php
+                        $first_word = strtok($core_man_data->core_man_edu_id, " ");
+
+                        $first_word  = strtolower(preg_replace('/[^A-Za-z0-9\-]/', '', $first_word));
+
+                        $getname = DB::table('man_training_category')
+                          ->where('parent', 440)
+                          ->where('type', 'Education')
+                          ->where('name', '=', $core_man_data->core_man_edu_id)
+                          ->first();
+
+
+
+                        $core_man_first_word = $first_word . '_' . $getname->id;
+                        ?>
+                        <div class="core_man_{{ $core_man_first_word }} core_man_{{ $core_man_first_word }}">
+                          <h6>{{ $core_man_data->core_man_edu_id }}</h6>
+                          <div class="core_man_div row core_man_institution">
+                            <div class="form-group col-md-12">
+                              <label class="form-label" for="input-1">Institution/Regulating Body</label>
+                              <input type="hidden" name="coremanarr[]" class="coreman_input_{{ $core_man_data->core_man_edu_id }}" value="{{ $core_man_data->core_man_edu_id }}">
+                              <input class="form-control core_man_institution core_man_institution-{{ $i }}" type="text" name="core_man_institution[]" value="{{ $core_man_data->core_man_institution }}">
+                              <span id="coreinstitutionvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label class="form-label" for="input-1">Start Date</label>
+                              <input class="form-control coreman_start_date coreman_start_date-{{ $i }}" type="date" name="coreman_start_date[]" value="{{ $core_man_data->coreman_start_date }}">
+                              <span id="coreman_start_datevalid-{{ $i }}" class="reqError text-danger valley"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label class="form-label" for="input-1">End Date</label>
+                              <input class="form-control coreman_end_date coreman_end_date-{{ $i }}" type="date" name="coreman_end_date[]" value="{{ $core_man_data->coreman_end_date }}">
+                              <span id="coreman_end_datevalid-{{ $i }}" class="reqError text-danger valley"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label class="form-label" for="input-1">Status</label>
+                              <select class="form-control coreman_status coreman_status-{{ $i }}" name="coreman_status[]">
+                                <option value="Completed" @if($core_man_data->coreman_status == 'Completed') selected @endif>Completed</option>
+                                <option value="Ongoing" @if($core_man_data->coreman_status == 'Ongoing') selected @endif>Ongoing</option>
+                                <option value="Pending" @if($core_man_data->coreman_status == 'Pending') selected @endif>Pending</option>
+                              </select>
+                              <span id="coreman_statusvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label class="form-label" for="input-1">Expiry</label>
+                              <input class="form-control core_man_expiry core_man_expiry-{{ $i }}" type="date" name="core_man_expiry[]" value="{{ $core_man_data->core_man_expiry }}">
+                              <span id="coremanexpiryvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                            </div>
+                            <div class="form-group col-md-12">
+                              <label class="form-label" for="input-1">Upload Certificate</label>
+                              <input class="form-control coreman_upload_certification core_man_imgs_{{ $core_man_first_word }} coreman_upload_certification-{{ $i }}" type="file" name="coreman_upload_certification[{{ $i }}][]" onchange="changetraImg1({{ $user_id }},{{ $i }},'core_man_imgs','{{ $core_man_first_word }}')">
+                              <span id="reqmidspecuploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
+
+                              <?php
+                              $getedufieldsdata = DB::table("edu_fields")->where("user_id", $user_id)->first();
+
+                              if (!empty($getedufieldsdata)) {
+                                $core_man_img = (array)json_decode($getedufieldsdata->core_man_imgs);
+                              } else {
+                                $core_man_img = '';
+                              }
+
+
+
+                              if (!empty($core_man_img)) {
+                                $core_man_img_data = json_decode($core_man_img[$core_man_first_word]);
+                              } else {
+                                $core_man_img_data = "";
+                              }
+                              //print_r($acls_img[$acls_first_word_one]);
+
+
+                              // //print_r($dtran_img);
+                              $l = 1;
+                              $user_id = Auth::guard('nurse_middle')->user()->id;
+                              ?>
+                              <div class="core_man_imgs{{ $core_man_first_word }}">
+                                @if(!empty($core_man_img_data))
+                                @foreach($core_man_img_data as $core_man_img)
+                                <div class="trans_img trans_img-{{ $i }} trans_imgcore_man_imgs{{ $core_man_first_word }}{{ $i }}">
+                                  <a href="{{ url('/public/uploads/education_degree') }}/{{ $core_man_img }}"><i class="fa fa-file"></i>{{ $core_man_img }}</a>
+                                  <div class="close_btn close_btn-{{ $i }}" onclick="deleteImg1('{{ $i }}','{{ $user_id }}','{{ $core_man_img }}','{{ $core_man_first_word  }}','core_man_imgs')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
+                                </div>
+                                <?php
+                                $l++;
+                                ?>
+                                @endforeach
+                                @endif
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        @endforeach
+                        @endif
+
+                      </div>
 
                       <!-- cat-2 -->
-                      <div class="form-group level-drp mandatory_sub_edu_div  mandatory_sub_edu_div_2 d-none">
-                        <input type="hidden" name="mandatory_training_value" class="mandatory_training_value mandatory_training_value-{{ $m_courses->id }}" value="{{ $m_courses->id }}">
+                      <div class="form-group level-drp mandatory_sub_edu_div  mandatory_sub_edu_div_2 @if($trainingData && $trainingData->mid_spe_data == NULL) d-none @endif @if(empty($trainingData)) d-none @endif">
+                        <input type="hidden" name="mid_spe_data" class="mid_spe_data" value="@if(!empty($trainingData)){{ $mid_spe_json }}@endif">
                         <label class="form-label" for="input-1">Midwifery-Specific Mandatory Continuing Education </label>
-                        <?php $mandatory_sub_courses = DB::table('man_training_category')
+                        <?php $mandatory_sub_education = DB::table('man_training_category')
                           ->where('parent', 441)
                           ->where('type', 'Education')
                           ->get(); ?>
@@ -3990,14 +5003,110 @@
                         </ul>
                         <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="mid_spe_mandotry_data" name="mid_spe_mandotry[]" multiple="multiple"></select>
                       </div>
+                      <span id="reqmidspe" class="reqError text-danger valley"></span>
 
-                      <div class="mid_spe_mandotry_div"></div>
+                      <div class="mid_spe_mandotry_div">
+                        <?php
+                        $i = 0;
+                        ?>
+                        @if(!empty($mid_spe_data1))
+                        @foreach($mid_spe_data1 as $mid_spe_data)
+                        <?php
+                        $first_word = strtok($mid_spe_data->mid_spe_edu_id, " ");
+
+                        $first_word  = strtolower(preg_replace('/[^A-Za-z0-9\-]/', '', $first_word));
+
+
+
+                        $mid_spe_first_word = $first_word;
+                        ?>
+                        <div class="mid_spe_{{ $mid_spe_first_word }} mid_spe_{{ $mid_spe_first_word }}">
+                          <h6>{{ $mid_spe_data->mid_spe_edu_id }}</h6>
+                          <div class="mid_spe_div row mid_spe_institution">
+                            <div class="form-group col-md-12">
+                              <label class="form-label" for="input-1">Institution/Regulating Body</label>
+                              <input type="hidden" name="midspearr[]" class="midspe_input_{{ $mid_spe_data->mid_spe_edu_id }}" value="{{ $mid_spe_data->mid_spe_edu_id }}">
+                              <input class="form-control mid_spe_institution mid_spe_institution-{{ $i }}" type="text" name="mid_spe_institution[]" value="{{ $mid_spe_data->mid_spe_institution }}">
+                              <span id="midspeinstitutionvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label class="form-label" for="input-1">Start Date</label>
+                              <input class="form-control mid_spe_start_date mid_spe_start_date-{{ $i }}" type="date" name="mid_spe_start_date[]" value="{{ $mid_spe_data->mid_spe_start_date }}">
+                              <span id="mid_spe_start_datevalid-{{ $i }}" class="reqError text-danger valley"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label class="form-label" for="input-1">End Date</label>
+                              <input class="form-control mid_spe_end_date mid_spe_end_date-{{ $i }}" type="date" name="mid_spe_end_date[]" value="{{ $mid_spe_data->mid_spe_end_date }}">
+                              <span id="mid_spe_end_datevalid-{{ $i }}" class="reqError text-danger valley"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label class="form-label" for="input-1">Status</label>
+                              <select class="form-control mid_spe_status mid_spe_status-{{ $i }}" name="mid_spe_status[]">
+                                <option value="Completed" @if($mid_spe_data->mid_spe_status == 'Completed') selected @endif>Completed</option>
+                                <option value="Ongoing" @if($mid_spe_data->mid_spe_status == 'Ongoing') selected @endif>Ongoing</option>
+                                <option value="Pending" @if($mid_spe_data->mid_spe_status == 'Pending') selected @endif>Pending</option>
+                              </select>
+                              <span id="mid_spe_statusvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label class="form-label" for="input-1">Expiry</label>
+                              <input class="form-control mid_spe_expiry mid_spe_expiry-{{ $i }}" type="date" name="mid_spe_expiry[]" value="{{ $mid_spe_data->mid_spe_expiry }}">
+                              <span id="midspeexpiryvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                            </div>
+                            <div class="form-group col-md-12">
+                              <label class="form-label" for="input-1">Upload Certificate</label>
+                              <input class="form-control midspe_upload_certification mid_spe_imgs_{{ $mid_spe_first_word }} midspe_upload_certification-{{ $i }}" type="file" name="midspe_upload_certification[{{ $i }}][]" onchange="changetraImg1({{ $user_id }},{{ $i }},'mid_spe_imgs','{{ $mid_spe_first_word }}')">
+                              <span id="reqmidspecuploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
+
+                              <?php
+                              $getedufieldsdata = DB::table("edu_fields")->where("user_id", $user_id)->first();
+
+                              if (!empty($getedufieldsdata)) {
+                                $mid_spe_img = (array)json_decode($getedufieldsdata->mid_spe_imgs);
+                              } else {
+                                $mid_spe_img = '';
+                              }
+
+
+
+                              if (!empty($mid_spe_img)) {
+                                $mid_spe_img_data = json_decode($mid_spe_img[$mid_spe_first_word]);
+                              } else {
+                                $mid_spe_img_data = "";
+                              }
+                              //print_r($acls_img[$acls_first_word_one]);
+
+
+                              // //print_r($dtran_img);
+                              $l = 1;
+                              $user_id = Auth::guard('nurse_middle')->user()->id;
+                              ?>
+                              <div class="mid_spe_imgs{{ $mid_spe_first_word }}">
+                                @if(!empty($mid_spe_img_data))
+                                @foreach($mid_spe_img_data as $mid_spe_img)
+                                <div class="trans_img trans_img-{{ $i }} trans_imgmid_spe_imgs{{ $mid_spe_first_word }}{{ $i }}">
+                                  <a href="{{ url('/public/uploads/education_degree') }}/{{ $mid_spe_img }}"><i class="fa fa-file"></i>{{ $mid_spe_img }}</a>
+                                  <div class="close_btn close_btn-{{ $i }}" onclick="deleteImg1('{{ $i }}','{{ $user_id }}','{{ $mid_spe_img }}','{{ $mid_spe_first_word }}','mid_spe_imgs')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
+                                </div>
+                                <?php
+                                $l++;
+                                ?>
+                                @endforeach
+                                @endif
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        @endforeach
+                        @endif
+
+                      </div>
 
                       <!-- cat-3 -->
-                      <div class="form-group level-drp mandatory_sub_edu_div  mandatory_sub_edu_div_3 d-none">
-                        <input type="hidden" name="mandatory_training_value" class="mandatory_training_value mandatory_training_value-{{ $m_courses->id }}" value="{{ $m_courses->id }}">
+                      <div class="form-group level-drp mandatory_sub_edu_div  mandatory_sub_edu_div_3 @if($trainingData && $trainingData->spec_area_data == NULL) d-none @endif @if(empty($trainingData)) d-none @endif">
+                        <input type="hidden" name="spec_area_data" class="spec_area_data" value="@if(!empty($trainingData)){{ $spec_area_json }}@endif">
                         <label class="form-label" for="input-1">Specialized Areas</label>
-                        <?php $mandatory_sub_courses = DB::table('man_training_category')
+                        <?php $mandatory_sub_education = DB::table('man_training_category')
                           ->where('parent', 442)
                           ->where('type', 'Education')
                           ->get(); ?>
@@ -4009,14 +5118,111 @@
                         </ul>
                         <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="spec_area_data" name="spec_area[]" multiple="multiple"></select>
                       </div>
+                      <span id="reqspecarea" class="reqError text-danger valley"></span>
 
-                      <div class="spec_area_div"></div>
+                      <div class="spec_area_div">
+                        <?php
+                        $i = 0;
+                        ?>
+                        @if(!empty($spec_area_data1))
+                        @foreach($spec_area_data1 as $spec_area_data)
+                        <?php
+                        $first_word = strtok($spec_area_data->spec_edu_id, " ");
+
+                        $first_word  = strtolower(preg_replace('/[^A-Za-z0-9\-]/', '', $first_word));
+
+
+
+                        $spec_area_first_word = $first_word;
+                        ?>
+                        <div class="spec_area_{{ $spec_area_first_word }} spec_area_{{ $spec_area_first_word }}">
+                          <h6>{{ $spec_area_data->spec_edu_id }}</h6>
+                          <div class="spec_area_div row spec_area_institution">
+                            <div class="form-group col-md-12">
+                              <label class="form-label" for="input-1">Institution/Regulating Body</label>
+                              <input type="hidden" name="specareaarr[]" class="spec_area_input_{{ $spec_area_data->spec_edu_id }}" value="{{ $spec_area_data->spec_edu_id }}">
+                              <input class="form-control spec_area_institution spec_area_institution-{{ $i }}" type="text" name="spec_area_institution[]" value="{{ $spec_area_data->spec_edu_id }}">
+                              <span id="specareainstitutionvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label class="form-label" for="input-1">Start Date</label>
+                              <input class="form-control spec_area_start_date spec_area_start_date-{{ $i }}" type="date" name="spec_area_start_date[]" value="{{ $spec_area_data->spec_area_start_date }}">
+                              <span id="spec_area_start_datevalid-{{ $i }}" class="reqError text-danger valley"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label class="form-label" for="input-1">End Date</label>
+                              <input class="form-control spec_area_end_date spec_area_end_date-{{ $i }}" type="date" name="spec_area_end_date[]" value="{{ $spec_area_data->spec_area_end_date }}">
+                              <span id="spec_area_end_datevalid-{{ $i }}" class="reqError text-danger valley"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label class="form-label" for="input-1">Status</label>
+                              <select class="form-control spec_area_status spec_area_status-{{ $i }}" name="spec_area_status[]">
+                                <option value="Completed" @if($spec_area_data->spec_area_status == 'Completed') selected @endif>Completed</option>
+                                <option value="Ongoing" @if($spec_area_data->spec_area_status == 'Ongoing') selected @endif>Ongoing</option>
+                                <option value="Pending" @if($spec_area_data->spec_area_status == 'Pending') selected @endif>Pending</option>
+                              </select>
+                              <span id="spec_area_statusvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label class="form-label" for="input-1">Expiry</label>
+                              <input class="form-control spec_area_expiry spec_area_expiry-{{ $i }}" type="date" name="spec_area_expiry[]" value="{{ $spec_area_data->spec_area_expiry }}">
+                              <span id="specareaexpiryvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                            </div>
+                            <div class="form-group col-md-12">
+                              <label class="form-label" for="input-1">Upload Certificate</label>
+                              <input class="form-control specarea_upload_certification spec_area_imgs_{{ $spec_area_first_word }} specarea_upload_certification-{{ $i }}" type="file" name="specarea_upload_certification[{{ $i }}][]" onchange="changetraImg1({{ $user_id }},{{ $i }},'spec_area_imgs','{{ $spec_area_first_word }}')">
+                              <span id="reqmidspecuploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
+
+                              <?php
+                              $getedufieldsdata = DB::table("edu_fields")->where("user_id", $user_id)->first();
+
+                              if (!empty($getedufieldsdata)) {
+                                $spec_area_img = (array)json_decode($getedufieldsdata->spec_area_imgs);
+                              } else {
+                                $spec_area_img = '';
+                              }
+
+
+
+                              if (!empty($spec_area_img)) {
+                                $spec_area_img_data = json_decode($spec_area_img[$spec_area_first_word]);
+                              } else {
+                                $spec_area_img_data = "";
+                              }
+                              //print_r($acls_img[$acls_first_word_one]);
+
+
+                              // //print_r($dtran_img);
+                              $l = 1;
+                              $user_id = Auth::guard('nurse_middle')->user()->id;
+                              ?>
+                              <div class="spec_area_imgs{{ $spec_area_first_word }}">
+                                @if(!empty($spec_area_img_data))
+                                @foreach($spec_area_img_data as $spec_area_img)
+                                <div class="trans_img trans_img-{{ $i }} trans_imgspec_area_imgs{{ $spec_area_first_word }}{{ $i }}">
+                                  <a href="{{ url('/public/uploads/education_degree') }}/{{ $spec_area_img }}"><i class="fa fa-file"></i>{{ $spec_area_img }}</a>
+                                  <div class="close_btn close_btn-{{ $i }}" onclick="deleteImg1('{{ $i }}','{{ $user_id }}','{{ $spec_area_img }}','{{ $spec_area_first_word }}','spec_area_imgs')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
+                                </div>
+                                <?php
+                                $l++;
+                                ?>
+                                @endforeach
+                                @endif
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        @endforeach
+                        @endif
+
+
+                      </div>
 
                       <!-- cat-4 -->
-                      <div class="form-group level-drp mandatory_sub_edu_div  mandatory_sub_edu_div_4 d-none">
-                        <input type="hidden" name="mandatory_training_value" class="mandatory_training_value mandatory_training_value-{{ $m_courses->id }}" value="{{ $m_courses->id }}">
+                      <div class="form-group level-drp mandatory_sub_edu_div  mandatory_sub_edu_div_4 @if($trainingData && $trainingData->safety_com_data == NULL) d-none @endif @if(empty($trainingData)) d-none @endif">
+                        <input type="hidden" name="safety_data" class="safety_data" value="@if(!empty($trainingData)){{ $safety_data_json }}@endif">
                         <label class="form-label" for="input-1">Safety and Compliance Training</label>
-                        <?php $mandatory_sub_courses = DB::table('man_training_category')
+                        <?php $mandatory_sub_education = DB::table('man_training_category')
                           ->where('parent', 443)
                           ->where('type', 'Education')
                           ->get(); ?>
@@ -4028,37 +5234,346 @@
                         </ul>
                         <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="safety_com_data" name="safety_com[]" multiple="multiple"></select>
                       </div>
+                      <span id="reqsafety" class="reqError text-danger valley"></span>
 
-                      <div class="safety_com_div"></div>
+                      <div class="safety_com_div">
+                        <?php
+                        $i = 0;
+                        ?>
+                        @if(!empty($safety_data1))
+                        @foreach($safety_data1 as $safe_data)
+                        <?php
+                        $first_word = strtok($safe_data->saf_edu_id, " ");
 
-                      <div class="form-group level-drp mandatory_sub_edu_div  mandatory_sub_edu_div_5 d-none">
-                        <input type="hidden" name="mandatory_training_value" class="mandatory_training_value mandatory_training_value-{{ $m_courses->id }}" value="{{ $m_courses->id }}">
+                        $first_word  = strtolower(preg_replace('/[^A-Za-z0-9\-]/', '', $first_word));
+
+
+
+                        $safe_first_word = $first_word;
+                        ?>
+                        <div class="safety_com_{{ $safe_first_word }} safety_com_{{ $safe_first_word }}">
+                          <h6>{{ $safe_data->saf_edu_id }}</h6>
+                          <div class="safety_com_institution  row safety_com_institution">
+                            <div class="form-group col-md-12">
+                              <label class="form-label" for="input-1">Institution/Regulating Body</label>
+                              <input type="hidden" name="safetycomaarr[]" class="safety_com_input_{{ $safe_data->saf_edu_id }}" value="{{ $safe_data->saf_edu_id }}">
+                              <input class="form-control safety_com_institution safety_com_institution-{{ $i }}" type="text" name="safety_com_institution[]" value="{{ $safe_data->safety_com_institution }}">
+                              <span id="safetycominstitutionvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label class="form-label" for="input-1">Start Date</label>
+                              <input class="form-control safety_com_start_date safety_com_start_date-{{ $i }}" type="date" name="safety_com_start_date[]" value="{{ $safe_data->safety_com_start_date }}">
+                              <span id="safety_com_start_datevalid-{{ $i }}" class="reqError text-danger valley"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label class="form-label" for="input-1">End Date</label>
+                              <input class="form-control safety_com_end_date safety_com_end_date-{{ $i }}" type="date" name="safety_com_end_date[]" value="{{ $safe_data->safety_com_end_date }}">
+                              <span id="safety_com_end_datevalid-{{ $i }}" class="reqError text-danger valley"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label class="form-label" for="input-1">Status</label>
+                              <select class="form-control safety_com_status safety_com_status-{{ $i }}" name="safety_com_status[]">
+                                <option value="Completed" @if($safe_data->safety_com_status == 'Completed') selected @endif>Completed</option>
+                                <option value="Ongoing" @if($safe_data->safety_com_status == 'Ongoing') selected @endif>Ongoing</option>
+                                <option value="Pending" @if($safe_data->safety_com_status == 'Pending') selected @endif>Pending</option>
+                              </select>
+                              <span id="safety_com_statusvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label class="form-label" for="input-1">Expiry</label>
+                              <input class="form-control safety_com_expiry safety_com_expiry-{{ $i }}" type="date" name="safety_com_expiry[]" value="{{ $safe_data->safety_com_expiry }}">
+                              <span id="safetycomexpiryvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                            </div>
+                            <div class="form-group col-md-12">
+                              <label class="form-label" for="input-1">Upload Certificate</label>
+                              <input class="form-controlsafetycome_upload_certification safety_com_imgs_{{ $safe_first_word }} safetycome_upload_certification-{{ $i }}" type="file" name="safetycome_upload_certification[{{ $i }}][]" onchange="changetraImg1({{ $user_id }},{{ $i }},'safety_com_imgs','{{ $safe_first_word }}')">
+                              <span id="reqmidspecuploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
+
+                              <?php
+                              $getedufieldsdata = DB::table("edu_fields")->where("user_id", $user_id)->first();
+
+                              if (!empty($getedufieldsdata)) {
+                                $spec_img = (array)json_decode($getedufieldsdata->safety_com_imgs);
+                              } else {
+                                $spec_img = '';
+                              }
+
+
+
+                              if (!empty($spec_img)) {
+                                $spec_img_data = json_decode($spec_img[$safe_first_word]);
+                              } else {
+                                $spec_img_data = "";
+                              }
+                              //print_r($acls_img[$acls_first_word_one]);
+
+
+                              // //print_r($dtran_img);
+                              $l = 1;
+                              $user_id = Auth::guard('nurse_middle')->user()->id;
+                              ?>
+                              <div class="safety_com_imgs{{ $safe_first_word }}">
+                                @if(!empty($spec_img_data))
+                                @foreach($spec_img_data as $spec_img)
+                                <div class="trans_img trans_img-{{ $i }} trans_imgsafety_com_imgs{{ $safe_first_word }}{{ $i }}">
+                                  <a href="{{ url('/public/uploads/education_degree') }}/{{ $spec_img }}"><i class="fa fa-file"></i>{{ $spec_img }}</a>
+                                  <div class="close_btn close_btn-{{ $i }}" onclick="deleteImg1('{{ $i }}','{{ $user_id }}','{{ $spec_img }}','{{ $safe_first_word }}','safety_com_imgs')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
+                                </div>
+                                <?php
+                                $l++;
+                                ?>
+                                @endforeach
+                                @endif
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        @endforeach
+                        @endif
+                      </div>
+
+                      <div class="form-group level-drp mandatory_sub_edu_div  mandatory_sub_edu_div_5 @if($trainingData && $trainingData->emerg_topic_data == NULL) d-none @endif @if(empty($trainingData)) d-none @endif ">
+                        <input type="hidden" name="emr_data" class="emr_data" value="@if(!empty($trainingData)){{ $emr_data_json }}@endif">
+
                         <label class="form-label" for="input-1">Emerging Topics and Continuing Education</label>
-                        <?php $mandatory_sub_courses = DB::table('man_training_category')
+                        <?php $mandatory_sub_education = DB::table('man_training_category')
                           ->where('parent', 444)
                           ->where('type', 'Education')
                           ->get(); ?>
 
                         <ul id="emerging_topic_data" style="display:none;">
                           @foreach($mandatory_sub_education as $ms_education)
-                          <li data-value="{{ $ms_education->name }}">{{ $ms_education->name }}</li>
+                          <li data-value="{{ $ms_education->name }}" data-id="{{ $ms_education->id }}">{{ $ms_education->name }}</li>
                           @endforeach
                         </ul>
                         <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="emerging_topic_data" name="emerging_topic[]" multiple="multiple"></select>
                       </div>
+                      <span id="reqemrtopic" class="reqError text-danger valley"></span>
 
-                      <div class="emerging_topic_div"></div>
+                      <div class="emerging_topic_div">
+                        <?php
+                        $i = 0;
+                        ?>
+                        @if(!empty($emr_data1))
+                        @foreach($emr_data1 as $emr_data)
+
+                        <?php
+                        $first_word = strtok($emr_data->emr_edu_id, " ");
+
+                        $first_word  = strtolower(preg_replace('/[^A-Za-z0-9\-]/', '', $first_word));
+
+
+                        // $second_word = strtolower(preg_replace('/[^A-Za-z0-9]/', '', explode(' ', $mid_data->mid_spec_tra_id)[1] ?? ''));
+
+                        // // Get the first four characters of the second word
+                        // $second_word = substr($second_word, 0, 2);
+
+                        // $thired_word = strtolower(preg_replace('/[^A-Za-z0-9]/', '', explode(' ', $mid_data->mid_spec_tra_id)[1] ?? ''));
+
+                        // // Get the first four characters of the second word
+                        // $thired_word = substr($thired_word, 0, 4);
+                        $emr_first_word = $first_word;
+                        ?>
+                        <div class="eme_topic_{{ $emr_first_word }} eme_topic_{{ $emr_first_word }}">
+
+                          <h6>{{ $emr_data->emr_edu_id }}</h6>
+                          <div class="eme_topic_div row eme_topic_institution">
+                            <div class="form-group col-md-12">
+                              <label class="form-label" for="input-1">Institution/Regulating Body</label>
+                              <input type="hidden" name="emetopicarr[]" class="eme_topic_input_{{ $emr_data->emr_edu_id }}" value="{{ $emr_data->emr_edu_id }}">
+                              <input class="form-control eme_topic_institution eme_topic_institution-{{ $i }}" type="text" name="eme_topic_institution[]" value="{{ $emr_data->eme_topic_institution }}">
+                              <span id="emetopicinstitutionvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label class="form-label" for="input-1">Training Start Date</label>
+                              <input class="form-control eme_topic_start_date eme_topic_start_date-{{ $i }}" type="date" name="eme_topic_start_date[]" value="{{ $emr_data->eme_topic_start_date }}">
+                              <span id="eme_topic_start_datevalid-{{ $i }}" class="reqError text-danger valley"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label class="form-label" for="input-1">Training End Date</label>
+                              <input class="form-control eme_topic_end_date eme_topic_end_date-{{ $i }}" type="date" name="eme_topic_end_date[]" value="{{ $emr_data->eme_topic_end_date }}">
+                              <span id="eme_topic_end_datevalid-{{ $i }}" class="reqError text-danger valley"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label class="form-label" for="input-1">Status</label>
+                              <select class="form-control eme_topic_status eme_topic_status-{{ $i }}" name="eme_topic_status[]">
+                                <option value="Completed" @if($emr_data->eme_topic_status == 'Completed') selected @endif>Completed</option>
+                                <option value="Ongoing" @if($emr_data->eme_topic_status == 'Ongoing') selected @endif>Ongoing</option>
+                                <option value="Pending" @if($emr_data->eme_topic_status == 'Pending') selected @endif>Pending</option>
+                              </select>
+                              <span id="eme_topic_statusvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label class="form-label" for="input-1">Expiry</label>
+                              <input class="form-control eme_topic_expiry eme_topic_expiry-{{ $i }}" type="date" name="eme_topic_expiry[]" value="{{ $emr_data->eme_topic_expiry }}">
+                              <span id="emetopicexpiryvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                            </div>
+                            <div class="form-group col-md-12">
+                              <label class="form-label" for="input-1">Upload Certificate</label>
+                              <input class="form-control emetopic_upload_certification eme_topic_imgs_{{ $emr_first_word }} emetopic_upload_certification-{{ $i }}" type="file" name="emetopic_upload_certification[{{ $i }}][]" onchange="changetraImg1({{ $user_id }},{{ $i }},'eme_topic_imgs','{{ $emr_first_word }}')">
+                              <span id="reqmidspecuploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
+
+                              <?php
+                              $getedufieldsdata = DB::table("edu_fields")->where("user_id", $user_id)->first();
+
+                              if (!empty($getedufieldsdata)) {
+                                $eme_img = (array)json_decode($getedufieldsdata->eme_topic_imgs);
+                              } else {
+                                $eme_img = '';
+                              }
+
+
+                              if (!empty($eme_img)) {
+                                $eme_img_data = json_decode($eme_img[$emr_first_word]);
+                              } else {
+                                $eme_img_data = "";
+                              }
+                              //print_r($acls_img[$acls_first_word_one]);
+
+
+                              //print_r($dtran_img);
+                              $l = 1;
+                              $user_id = Auth::guard('nurse_middle')->user()->id;
+                              ?>
+                              <div class="eme_topic_imgs{{ $emr_first_word }}">
+                                @if(!empty($eme_img_data))
+                                @foreach($eme_img_data as $eme_img)
+                                <div class="trans_img trans_img-{{ $i }} trans_imgeme_topic_imgs{{ $emr_first_word }}{{ $i }}">
+                                  <a href="{{ url('/public/uploads/education_degree') }}/{{ $eme_img }}"><i class="fa fa-file"></i>{{ $eme_img }}</a>
+                                  <div class="close_btn close_btn-{{ $i }}" onclick="deleteImg1('{{ $i }}','{{ $user_id }}','{{ $eme_img }}','{{ $emr_first_word }}','eme_topic_imgs')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
+                                </div>
+                                <?php
+                                $l++;
+                                ?>
+                                @endforeach
+                                @endif
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                        @endforeach
+                        @endif
+                      </div>
                     </div>
                     <div class="another_education">
-                      <h6 class="emergency_text mt-2">Other Educations
+                      <h6 class="emergency_text mt-2">Other Continuing Education
                       </h6>
+                      <?php
+                      if (!empty($trainingData)) {
+                        $additional_edu_data = json_decode($trainingData->other_edu_data);
+                      } else {
+                        $additional_edu_data = "";
+                      }
+                      $i = 1;
+                      $l = 0;
+                      ?>
+
+                      @if(!empty($additional_edu_data))
+                      @foreach($additional_edu_data as $edu_data)
+                      <div class="eductiondiv eduction_div_{{ $i }} row another_edu_div">
+                        <div class="form-group col-md-6">
+                          <label class="form-label" for="input-1">Course/Workshop {{ $i }}</label>
+                          <input class="form-control additional_course_field additional_course_field-{{ $i }}" type="text" name="education[]" value="@if(!empty($trainingData)){{ $edu_data->education_name }}@endif">
+                          <span id="reqeduname-{{ $i }}" class="reqError text-danger valley"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label class="form-label" for="input-1">Institution/Regulating Body</label>
+                          <input class="form-control institution institution--{{ $i }}" type="text" name="institution[]" value="@if(!empty($trainingData)){{ $edu_data->education_ins }}@endif">
+                          <span id="reqinstitution-{{ $i }}" class="reqError text-danger valley"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label class="form-label" for="input-1">Start Date</label>
+                          <input class="form-control start_date start_date-1" type="date" name="start_date[]" value="@if(!empty($trainingData)){{ $edu_data->education_start_date }}@endif">
+                          <span id="reqstartdate--{{ $i }}" class="reqError text-danger valley"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label class="form-label" for="input-1">End Date</label>
+                          <input class="form-control end_date end_date-{{ $i }}" type="date" name="end_date[]" value="@if(!empty($trainingData)){{ $edu_data->education_end_date }}@endif">
+                          <span id="reqenddate-{{ $i }}" class="reqError text-danger valley"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label class="form-label" for="input-{{ $i }}">Status</label>
+                          <select class="form-control edu_status edu_status-{{ $i }}" name="edu_status[]">
+                            <option value="Completed" @if($edu_data->education_status == 'Completed')selected @endif>Completed</option>
+                            <option value="Ongoing" @if($edu_data->education_status == 'Ongoing') selected @endif>Ongoing</option>
+                            <option value="Pending" @if($edu_data->education_status == 'Pending') selected @endif>Pending</option>
+                          </select>
+                          <span id="edu_statusvalid-{{ $i }}" class="reqError text-danger valley"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label class="form-label" for="input-1">Expiry</label>
+                          <input class="form-control edu_expiry edu_expiry-{{ $i }}" type="date" name="edu_expiry[]" value="@if(!empty($trainingData)){{$edu_data->education_exp}}@endif">
+                          <span id="reqedu_expiry{{ $i }}" class="reqError text-danger valley"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                          <input class="form-control ano_education_imgs_edu_{{ $i }} additional_cour_certifications-{{ $i }}" type="file" name="cour_certificate_upload_certification[]" onchange="changeAnoImg('{{ $user_id }}','{{ $i }}','ano_education_imgs','edu_{{ $i}}')" multiple="">
+                          <?php
+                          $getedufieldsdata = DB::table("edu_fields")->where("user_id", $user_id)->first();
+
+                          if (!empty($getedufieldsdata)) {
+                            $ano_education_img = (array)json_decode($getedufieldsdata->ano_education_imgs);
+                          } else {
+                            $ano_education_img = '';
+                          }
+
+
+                          if (!empty($ano_education_img)) {
+                            $ano_education_img_data = json_decode($ano_education_img["edu_$i"]);
+                          } else {
+                            $ano_education_img_data = "";
+                          }
+                          //print_r($acls_img[$acls_first_word_one]);
+
+                          //print_r($dtran_img);
+
+                          $user_id = Auth::guard('nurse_middle')->user()->id;
+                          ?>
+                          <div class="ano_education_imgsedu_{{ $i }}">
+                            @if(!empty($ano_education_img_data))
+                            @foreach($ano_education_img_data as $edu_img)
+                            <div class="trans_img edu_img-{{ $i }} edu_imgano_education_imgsedu_{{ $l }}">
+                              <a href="{{ url('/public/uploads/education_degree') }}/{{ $edu_img }}"><i class="fa fa-file"></i>{{ $edu_img }}</a>
+                              <div class="close_btn close_btn-{{ $i}}" onclick="deleteanoImg1('{{ $l }}','{{ $user_id }}','{{ $edu_img }}','edu_{{$i  }}','ano_education_imgs')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
+                            </div>
+                            <?php
+                            $l++;
+                            ?>
+                            @endforeach
+                            @endif
+                          </div>
+                        </div>
+                        <?php
+                        $user_id = Auth::guard('nurse_middle')->user()->id;
+                        ?>
+                        <div class="col-md-12">
+                          <div class="add_new_cmp_training_div mb-3 mt-3"><a style="cursor: pointer;" onclick="delete_edu('{{ $i }}','{{ $user_id }}','{{ $edu_data->other_edu_id }}')">- Delete Continuing Education</a></div>
+                        </div>
+                      </div>
+                      <?php
+                      $i++;
+                      ?>
+                      @endforeach
+
+                      @endif
+
                     </div>
-                    <div class="add_new_education_div mb-3 mt-3">
-                      <a style="cursor: pointer;" onclick="add_listeduction()">+ Add another Education</a>
+                    <div class="add_new_education_div mt-3" style="margin-bottom: 3rem !important;margin-top: 2rem !important;">
+                      <a style="cursor: pointer;" onclick="add_listeduction()">+Add another Continuing Education</a>
                     </div>
+                    <div class="declaration_box mt-2">
+                      <input type="checkbox" name="declare_information_man" class="declare_information_man" value="1" @if(!empty($trainingData)) @if($trainingData->declaration_status == 1) checked onclick="return false;" @endif @endif>
+                      <!-- Hidden Input to Ensure Value is Sent -->
+                      @if(!empty($trainingData) && $trainingData->declaration_status == 1)
+                      <input type="hidden" name="declare_information_man" value="1">
+                      @endif
+                      <label for="declare_information">I declare that the information provided is true and correct</label>
+                    </div>
+                    <span id="reqmantradeclare_information" class="reqError text-danger valley"></span>
 
                     <div class="box-button mt-15">
-                      <button class="btn btn-apply-big font-md font-bold" type="submitTraining" id="submitTraining">Save Changes</button>
+                      <button class="btn btn-apply-big font-md font-bold" type="submit" id="submitTraining">Save Changes</button>
                     </div>
 
                   </form>
@@ -4097,7 +5612,6 @@
                       <label class="form-label" for="input-3">Mobile Number *</label>
 
                       <div class="row">
-
                         <div class="col-md-12 mob-adj">
                           <input type="hidden" name="reference_countryCode" id="reference_countryCode">
                           <input type="hidden" name="reference_countryiso" id="reference_countryiso" value="">
@@ -4111,8 +5625,6 @@
                     <label class="form-label" for="input-1">Relationship</label>
                     <select class="form-control form-select" name="reference_relationship" id="reference_relationship">
                       <option value="">Select Relationship</option>
-
-
                       <option value="Mother" @if(!empty($interviewReferenceData)) @if(!empty($interviewReferenceData->reference_relationship == "Mother")) selected @endif @endif>Mother</option>
                       <option value="Father" @if(!empty($interviewReferenceData)) @if(!empty($interviewReferenceData->reference_relationship == "Father")) selected @endif @endif>Father</option>
                       <option value="Brother" @if(!empty($interviewReferenceData)) @if(!empty($interviewReferenceData->reference_relationship == "Brother")) selected @endif @endif>Brother</option>
@@ -4257,11 +5769,8 @@
                     <input type="hidden" name="benefit_preferences" class="benefit_preferences" value="@if(!empty($workpreferenceData)){{ $workpreferenceData->benefits_preferences }}@endif">
 
                     <ul id="benefit_prefer" style="display:none;">
-
                       <li data-value="Health insurance">Health insurance</li>
                       <li data-value="Retirement plans">Retirement plans</li>
-
-
                     </ul>
                     <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="benefit_prefer" name="benefit_prefer[]" multiple="multiple"></select>
 
@@ -4441,7 +5950,6 @@
               <div class="tab-pane fade" id="tab-vaccination" role="tabpanel" aria-labelledby="tab-educert" style="display: none">
                 <div class="card shadow-sm border-0 p-4 mt-30">
                   <h3 class="mt-0 color-brand-1 mb-20">Vaccinations</h3>
-
                   <?php
                   $vaccinationData = DB::table("vaccination_front")->where("user_id", Auth::guard('nurse_middle')->user()->id)->first();
                   //print_r($vaccinationData);
@@ -4451,8 +5959,9 @@
                     <input type="hidden" name="user_id" value="{{ Auth::guard('nurse_middle')->user()->id }}">
                     <div class="row">
                       <div class="col-md-12">
+                        <p class="">Please upload all your vaccination records as required for your desired roles and state. You may also add non-mandatory vaccines and any additional vaccinations not listed. Keeping your vaccinations up to date will help maintain your eligibility for your role.</p>
+                        <p class="mt-2">To ensure your evidence is compliant, please refer to our guide Vaccination Compliance and Evidence Requirements by State.</p>
                         <div class="form-group level-drp">
-
                           <label class="form-label" for="input-1">Vaccination Records</label>
                           <input type="hidden" name="vaccination_r" class="vaccination_r" value="@if(!empty($vaccinationData)){{ $vaccinationData->vaccination_records }}@endif">
                           <?php
@@ -4460,13 +5969,13 @@
                           ?>
                           <ul id="vaccination_record" style="display:none;">
                             @foreach($vaccination_record as $v_record)
-                            <li data-value="{{ $v_record->id }}">{{ $v_record->name }}</li>
+                            <li data-value="{{ $v_record->id }}" data-id="{{ $v_record->name }}">{{ $v_record->name }}</li>
                             @endforeach
                           </ul>
                           <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="vaccination_record" name="vaccination_record[]" multiple="multiple"></select>
-
                           <span id="reqempsdate" class="reqError text-danger valley"></span>
                         </div>
+                        <div class="vacc_rec_div"></div>
                         <div class="form-group level-drp">
                           <label class="form-label" for="input-1">Immunization Status </label>
                           <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
@@ -4477,7 +5986,7 @@
                           </select>
                         </div>
                         <div class="box-button mt-15">
-                          <button class="btn btn-apply-big font-md font-bold" type="submitVaccination" id="submitVaccination" @if(!empty($experienceData)) @if($experienceData->complete_status != 1) disabled @endif @endif>Save Changes</button>
+                          <button class="btn btn-apply-big font-md font-bold" type="submitVaccination" id="submitVaccination">Save Changes</button>
                         </div>
                       </div>
                     </div>
@@ -4485,10 +5994,7 @@
                 </div>
               </div>
               <div class="tab-pane fade" id="tab-myclearance-jobs" role="tabpanel" aria-labelledby="tab-myclearance-jobs" style="display: none">
-
-
                 <div class="card shadow-sm border-0 p-4 mt-30">
-
                   <h3 class="mt-2 color-brand-1 mb-2">Work Clearances</h3>
                   <a class="font-md color-text-paragraph-2" href="#">Please provide your work clearances, as required for the roles you want to apply to. Find work you want, to learn what’s required. Keep your work clearances up-to-date to maintain your eligibility for jobs</a>
                   <h6 class="mt-2 color-brand-1 mb-2">Eligibility To Work</h6>
@@ -4509,7 +6015,6 @@
                         <option value="Citizen" {{ $valesidency == "Citizen" ? 'selected' : '' }}>Citizen</option>
                         <option value="Permanent Resident" {{ $valesidency == "Permanent Resident" ? 'selected' : '' }}>Permanent Resident</option>
                         <option value="Visa Holder" {{ $valesidency == "Visa Holder" ? 'selected' : '' }}>Visa Holder</option>
-
                       </select>
                     </div>
                     <span id="reqTxtresidencyId" class="reqError text-danger valley"></span>
@@ -5149,13 +6654,16 @@ if (!empty($interviewReferenceData)) {
 ?>
 @endsection
 @section('js')
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.12/js/intlTelInput.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.js"></script>
 <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
 <script src="{{ url('/public') }}/nurse/assets/js/jquery.ui.datepicker.monthyearpicker.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/select2.min.js"></script>
 @include('nurse.front_profile_js');
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/select2.min.js">
-</script>
+
+
+
 <script>
   $(document).ready(function() {
 
@@ -5300,28 +6808,30 @@ if (!empty($interviewReferenceData)) {
       return false;
 
   });
+
   $('.js-example-basic-multiple').each(function() {
     let listId = $(this).data('list-id');
-    //alert(listId);
     let items = [];
-    console.log("listId1", listId);
+    ////console.log("listId1", listId);
     $('#' + listId + ' li').each(function() {
-      console.log("value1", $(this).text());
-      items.push({
-        id: $(this).data('value'),
-        text: $(this).text()
-      });
+      let itemId = $(this).data('value');
+      let itemText = $(this).text();
+      ////console.log("value1", $(this).text());
+      if (!items.some(item => item.id === itemId)) {
+        items.push({
+          id: $(this).data('value'),
+          text: $(this).text()
+        });
+      }
     });
-    console.log("items1", items);
+    ////console.log("items1", items);
     $(this).select2({
       data: items
     });
-
-    //$("#type-of-nurse").select2({'val': 3});
-
+    //$("#type-of-nurse").select2({'val': 3});          
   });
-  //$("#type-of-nurse").val([1,2,3], null, false);
-  //$("#type-of-nurse").select2().select 2("val", [1,2,3]);
+
+
   if ($(".ntype").val() != "") {
     var nurse_type = JSON.parse($(".ntype").val());
     $('#nurse_type').select2().val(nurse_type).trigger('change');
@@ -5332,20 +6842,36 @@ if (!empty($interviewReferenceData)) {
     $('.js-example-basic-multiple[data-list-id="nursing_entry-1"]').select2().val(entry_level).trigger('change');
   }
 
+
   if ($(".nursing_result_two").val() != "") {
     var registered_nurses = JSON.parse($(".nursing_result_two").val());
     $('.js-example-basic-multiple[data-list-id="nursing_entry-2"]').select2().val(registered_nurses).trigger('change');
   }
+
+  // if ($(".nursing_result_two_experience").val() != "") {
+  //   var registered_nurses = JSON.parse($(".nursing_result_two_experience").val());
+  //   $('.js-example-basic-multiple[data-list-id="nursing_entry_experience-2"]').select2().val(registered_nurses).trigger('change');
+  // }
 
   if ($(".nursing_result_three").val() != "") {
     var advanced_practioner = JSON.parse($(".nursing_result_three").val());
     $('.js-example-basic-multiple[data-list-id="nursing_entry-3"]').select2().val(advanced_practioner).trigger('change');
   }
 
+  // if ($(".nursing_result_three_experience").val() != "") {
+  //   var advanced_practioner = JSON.parse($(".nursing_result_three_experience").val());
+  //   $('.js-example-basic-multiple[data-list-id="nursing_entry_experience-3"]').select2().val(advanced_practioner).trigger('change');
+  // }
+
   if ($(".np_result").val() != "") {
     var nurse_prac = JSON.parse($(".np_result").val());
     $('.js-example-basic-multiple[data-list-id="nurse_practitioner_menu"]').select2().val(nurse_prac).trigger('change');
   }
+
+  // if ($(".np_result_experience").val() != "") {
+  //   var nurse_prac = JSON.parse($(".np_result_experience").val());
+  //   $('.js-example-basic-multiple[data-list-id="nurse_practitioner_menu_experience"]').select2().val(nurse_prac).trigger('change');
+  // }
 
   if ($(".specialties_result").val() != "") {
     var specialties = JSON.parse($(".specialties_result").val());
@@ -5372,6 +6898,7 @@ if (!empty($interviewReferenceData)) {
     $('.js-example-basic-multiple[data-list-id="speciality_entry-4"]').select2().val(community).trigger('change');
   }
 
+
   if ($(".surgical_preoperative_result").val() != "") {
     var surgical_preoperative = JSON.parse($(".surgical_preoperative_result").val());
     $('.js-example-basic-multiple[data-list-id="surgical_row_box"]').select2().val(surgical_preoperative).trigger('change');
@@ -5382,15 +6909,19 @@ if (!empty($interviewReferenceData)) {
     $('.js-example-basic-multiple[data-list-id="surgical_operative_care-1"]').select2().val(operating_room).trigger('change');
   }
 
+
+
   if ($(".operatingscout_result").val() != "") {
     var operating_room_scout = JSON.parse($(".operatingscout_result").val());
     $('.js-example-basic-multiple[data-list-id="surgical_operative_care-2"]').select2().val(operating_room_scout).trigger('change');
   }
 
+
   if ($(".operatingscrub_result").val() != "") {
     var operating_room_scrub = JSON.parse($(".operatingscrub_result").val());
     $('.js-example-basic-multiple[data-list-id="surgical_operative_care-3"]').select2().val(operating_room_scrub).trigger('change');
   }
+
 
   if ($(".surgical_ob_result").val() != "") {
     var surgical_obstrics_gynacology = JSON.parse($(".surgical_ob_result").val());
@@ -5447,15 +6978,15 @@ if (!empty($interviewReferenceData)) {
   //   $('.js-example-basic-multiple[data-list-id="positions_held"]').select2().val(position_held).trigger('change');
   // }
 
-  if ($(".skills_comp").val() != "") {
-    var skills_comp = JSON.parse($(".skills_comp").val());
-    $('.js-example-basic-multiple[data-list-id="skills_compantancies"]').select2().val(skills_comp).trigger('change');
-  }
+  // if ($(".skills_comp").val() != "") {
+  //   var skills_comp = JSON.parse($(".skills_comp").val());
+  //   $('.js-example-basic-multiple[data-list-id="skills_compantancies"]').select2().val(skills_comp).trigger('change');
+  // }
 
-  if ($(".evidence_type").val() != "") {
-    var evidence_type = JSON.parse($(".evidence_type").val());
-    $('.js-example-basic-multiple[data-list-id="type_of_evidence"]').select2().val(evidence_type).trigger('change');
-  }
+  // if ($(".evidence_type").val() != "") {
+  //   var evidence_type = JSON.parse($(".evidence_type").val());
+  //   $('.js-example-basic-multiple[data-list-id="type_of_evidence"]').select2().val(evidence_type).trigger('change');
+  // }
 
   if ($(".desired_job_roles").val() != "") {
     var desired_job_roles = JSON.parse($(".desired_job_roles").val());
@@ -5474,103 +7005,103 @@ if (!empty($interviewReferenceData)) {
 
   if ($(".pro_cert_acls").val() != "") {
     var pro_cert_acls = JSON.parse($(".pro_cert_acls").val());
-    console.log("pro_cert_acls", pro_cert_acls);
+    ////console.log("pro_cert_acls", pro_cert_acls);
     $('.js-example-basic-multiple[data-list-id="acls_data"]').select2().val(pro_cert_acls).trigger('change');
   }
 
   if ($(".pro_cert_bls").val() != "") {
     var pro_cert_bls = JSON.parse($(".pro_cert_bls").val());
-    console.log("pro_cert_bls", pro_cert_bls);
+    ////console.log("pro_cert_bls", pro_cert_bls);
     $('.js-example-basic-multiple[data-list-id="bls_data"]').select2().val(pro_cert_bls).trigger('change');
   }
 
   if ($(".pro_cert_cpr").val() != "") {
     var pro_cert_cpr = JSON.parse($(".pro_cert_cpr").val());
-    console.log("pro_cert_bls", pro_cert_cpr);
+    ////console.log("pro_cert_bls", pro_cert_cpr);
     $('.js-example-basic-multiple[data-list-id="cpr_data"]').select2().val(pro_cert_cpr).trigger('change');
   }
 
   if ($(".pro_cert_nrp").val() != "") {
     var pro_cert_nrp = JSON.parse($(".pro_cert_nrp").val());
-    console.log("pro_cert_bls", pro_cert_nrp);
+    ////console.log("pro_cert_bls", pro_cert_nrp);
     $('.js-example-basic-multiple[data-list-id="nrp_data"]').select2().val(pro_cert_nrp).trigger('change');
   }
 
   if ($(".pro_cert_pals").val() != "") {
     var pro_cert_pals = JSON.parse($(".pro_cert_pals").val());
-    console.log("pro_cert_bls", pro_cert_pals);
+    ////console.log("pro_cert_bls", pro_cert_pals);
     $('.js-example-basic-multiple[data-list-id="pls_data"]').select2().val(pro_cert_pals).trigger('change');
   }
 
   if ($(".pro_cert_rn").val() != "") {
     var pro_cert_rn = JSON.parse($(".pro_cert_rn").val());
-    console.log("pro_cert_bls", pro_cert_rn);
+    ////console.log("pro_cert_bls", pro_cert_rn);
     $('.js-example-basic-multiple[data-list-id="rn_data"]').select2().val(pro_cert_rn).trigger('change');
   }
 
   if ($(".pro_cert_np").val() != "") {
     var pro_cert_np = JSON.parse($(".pro_cert_np").val());
-    console.log("pro_cert_bls", pro_cert_np);
+    ////console.log("pro_cert_bls", pro_cert_np);
     $('.js-example-basic-multiple[data-list-id="np_data"]').select2().val(pro_cert_np).trigger('change');
   }
 
   if ($(".pro_cert_cna").val() != "") {
     var pro_cert_cna = JSON.parse($(".pro_cert_cna").val());
-    console.log("pro_cert_bls", pro_cert_cna);
+    ////console.log("pro_cert_bls", pro_cert_cna);
     $('.js-example-basic-multiple[data-list-id="cn_data"]').select2().val(pro_cert_cna).trigger('change');
   }
 
   if ($(".pro_cert_lpn").val() != "") {
     var pro_cert_lpn = JSON.parse($(".pro_cert_lpn").val());
-    console.log("pro_cert_bls", pro_cert_lpn);
+    ////console.log("pro_cert_bls", pro_cert_lpn);
     $('.js-example-basic-multiple[data-list-id="lpn_data"]').select2().val(pro_cert_lpn).trigger('change');
   }
 
   if ($(".pro_cert_crna").val() != "") {
     var pro_cert_crna = JSON.parse($(".pro_cert_crna").val());
-    console.log("pro_cert_bls", pro_cert_crna);
+    ////console.log("pro_cert_bls", pro_cert_crna);
     $('.js-example-basic-multiple[data-list-id="crn_data"]').select2().val(pro_cert_crna).trigger('change');
   }
 
   if ($(".pro_cert_cnm").val() != "") {
     var pro_cert_cnm = JSON.parse($(".pro_cert_cnm").val());
-    console.log("pro_cert_bls", pro_cert_cnm);
+    ////console.log("pro_cert_bls", pro_cert_cnm);
     $('.js-example-basic-multiple[data-list-id="cnm_data"]').select2().val(pro_cert_cnm).trigger('change');
   }
 
   if ($(".pro_cert_ons").val() != "") {
     var pro_cert_ons = JSON.parse($(".pro_cert_ons").val());
-    console.log("pro_cert_bls", pro_cert_ons);
+    ////console.log("pro_cert_bls", pro_cert_ons);
     $('.js-example-basic-multiple[data-list-id="ons_data"]').select2().val(pro_cert_ons).trigger('change');
   }
 
   if ($(".pro_cert_msw").val() != "") {
     var pro_cert_msw = JSON.parse($(".pro_cert_msw").val());
-    console.log("pro_cert_bls", pro_cert_msw);
+    ////console.log("pro_cert_bls", pro_cert_msw);
     $('.js-example-basic-multiple[data-list-id="msw_data"]').select2().val(pro_cert_msw).trigger('change');
   }
 
   if ($(".pro_cert_ain").val() != "") {
     var pro_cert_ain = JSON.parse($(".pro_cert_ain").val());
-    console.log("pro_cert_bls", pro_cert_ain);
+    ////console.log("pro_cert_bls", pro_cert_ain);
     $('.js-example-basic-multiple[data-list-id="ain_data"]').select2().val(pro_cert_ain).trigger('change');
   }
 
   if ($(".pro_cert_rpn").val() != "") {
     var pro_cert_rpn = JSON.parse($(".pro_cert_rpn").val());
-    console.log("pro_cert_bls", pro_cert_rpn);
+    ////console.log("pro_cert_bls", pro_cert_rpn);
     $('.js-example-basic-multiple[data-list-id="rpn_data"]').select2().val(pro_cert_rpn).trigger('change');
   }
 
   if ($(".pro_cert_nl").val() != "") {
     var pro_cert_nl = JSON.parse($(".pro_cert_nl").val());
-    console.log("pro_cert_bls", pro_cert_nl);
+    ////console.log("pro_cert_bls", pro_cert_nl);
     $('.js-example-basic-multiple[data-list-id="nlc_data"]').select2().val(pro_cert_nl).trigger('change');
   }
 
   if ($(".professional_as").val() != "") {
     var professional_as = JSON.parse($(".professional_as").val());
-    console.log("professional_as", professional_as);
+    ////console.log("professional_as", professional_as);
     $('.js-example-basic-multiple[data-list-id="des_profession_association"]').select2().val(professional_as).trigger('change');
   }
 
@@ -5582,16 +7113,19 @@ if (!empty($interviewReferenceData)) {
   $(".neonatal_row").insertAfter("#specility_level-3");
   $(".surgical_rowp_data").insertAfter(".surgicalpad_row_data");
 
-  console.log("nurse_type1", $('#nurse_type').select2("data"));
+  ////console.log("nurse_type1", $('#nurse_type').select2("data"));
 
   var nurse_type_list = $('#nurse_type').select2("data");
 
   for (var x = 0; x < nurse_type_list.length; x++) {
+    ////console.log('gtyht', nurse_type_list[x]);
     $(".nursing_" + nurse_type_list[x].id).removeClass('d-none');
   }
 
+
+
   var advancedpractioner_list = $('.js-example-basic-multiple[data-list-id="nursing_entry-3"]').select2("data");
-  console.log("advancedpractioner_list", advancedpractioner_list);
+  ////console.log("advancedpractioner_list", advancedpractioner_list);
   for (var a = 0; a < advancedpractioner_list.length; a++) {
     if (advancedpractioner_list[a].id == "179") {
       $(".np_submenu").removeClass('d-none');
@@ -5635,8 +7169,6 @@ if (!empty($interviewReferenceData)) {
   }
 
 
-
-
   var padneonatalsurgical_list = $('.js-example-basic-multiple[data-list-id="surgical_rowpad_box"]').select2("data");
 
   for (var l = 0; l < padneonatalsurgical_list.length; l++) {
@@ -5644,12 +7176,8 @@ if (!empty($interviewReferenceData)) {
   }
 
 
-
-
-
-
   var surgicalpcare_list = $('.js-example-basic-multiple[data-list-id="surgical_row_box"]').select2("data");
-  console.log("surgicalpcare_list", surgicalpcare_list);
+  ////console.log("surgicalpcare_list", surgicalpcare_list);
   for (var k = 0; k < surgicalpcare_list.length; k++) {
     $(".surgicalopcboxes-" + surgicalpcare_list[k].id).removeClass('d-none');
   }
@@ -5674,7 +7202,7 @@ if (!empty($interviewReferenceData)) {
   //       var courses_len = $("#mandatory_courses li").length;
 
   //       $(".mandatory_training_value").each(function(){
-  //         console.log("mandatory_training_value",$(this).val());
+  //         ////console.log("mandatory_training_value",$(this).val());
   //         var training_val = $(this).val();
   //         if(selectedValues.includes(training_val)){
   //           $(".mandatory_courses_div_"+training_val).show();
@@ -5691,11 +7219,11 @@ if (!empty($interviewReferenceData)) {
     let selectedValues = $(this).val();
     //alert("hello");
     var nurse_len = $("#type-of-nurse li").length;
-    console.log("nurse_len", nurse_len);
+    ////console.log("nurse_len", nurse_len);
 
     //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
 
-    console.log("selectedValues", selectedValues);
+    ////console.log("selectedValues", selectedValues);
     //$('.result--show .form-group').addClass('d-none');
 
     for (var i = 1; i <= nurse_len; i++) {
@@ -5717,7 +7245,6 @@ if (!empty($interviewReferenceData)) {
     }
 
 
-
     // if (selectedValues.includes("Entry level nursing")) {
     //     $('#elnj').removeClass('d-none');
     // }
@@ -5729,33 +7256,262 @@ if (!empty($interviewReferenceData)) {
     // }
   });
 
+  // $('.js-example-basic-multiple[data-list-id="skills_compantancies"]').on('change', function() {
+
+  //   let selectedValues = $(this).val();
+
+  //   $('.skills_compantancies_dropdowns').empty();
+  //   ////console.log("skills_data", selectedValues);
+  //   for (var i = 0; i < selectedValues.length; i++) {
+
+  //     $.ajax({
+  //       type: "POST",
+  //       url: "{{ url('/nurse') }}/getSkillsData",
+  //       data: {
+  //         id: selectedValues[i],
+  //         _token: "{{ csrf_token() }}"
+  //       },
+  //       cache: false,
+  //       success: function(data) {
+
+  //         var skills = JSON.parse(data);
+  //         ////console.log("selectedValues", skills[0].parent_id);
+  //         var skills_data = '';
+  //         for (var j = 0; j < skills.length; j++) {
+  //           skills_data += '<li data-value="' + skills[j]['id'] + '">' + skills[j]['name'] + '</li>';
+  //         }
+  //         ////console.log("skills_data", skills_data);
+  //         $(".skills_compantancies_dropdowns").append('<div class="form-group level-drp" ><label class="form-label" for="input-1">' + skills[0].parent_name + '</label><ul id="skills_compantancies-' + skills[0].parent_id + '" style="display:none;">' + skills_data + '</ul><select class="js-example-basic-multiple1 addAll_removeAll_btn" data-list-id="skills_compantancies-' + skills[0].parent_id + '" name="skills_compantancies[]" multiple="multiple"></select></div>');
+
+  //         $('.addAll_removeAll_btn').on('select2:open', function() {
+  //           var $dropdown = $(this);
+  //           var searchBoxHtml = `
+
+  //                   <div class="extra-buttons">
+  //                       <button class="select-all-button" type="button">Select All</button>
+  //                       <button class="remove-all-button" type="button">Remove All</button>
+  //                   </div>`;
+
+  //           // Remove any existing extra buttons before adding new ones
+  //           $('.select2-results .extra-search-container').remove();
+  //           $('.select2-results .extra-buttons').remove();
+
+  //           // Append the new extra buttons and search box
+  //           $('.select2-results').prepend(searchBoxHtml);
+
+  //           // Handle Select All button for the current dropdown
+  //           $('.select-all-button').on('click', function() {
+  //             var $currentDropdown = $dropdown;
+  //             var allValues = $currentDropdown.find('option').map(function() {
+  //               return $(this).val();
+  //             }).get();
+  //             $currentDropdown.val(allValues).trigger('change');
+  //           });
+
+  //           // Handle Remove All button for the current dropdown
+  //           $('.remove-all-button').on('click', function() {
+  //             var $currentDropdown = $dropdown;
+  //             $currentDropdown.val(null).trigger('change');
+  //           });
+  //         });
+
+  //         $('.js-example-basic-multiple1').on('select2:open', function() {
+  //           var searchBoxHtml = `
+  //                   <div class="extra-search-container">
+  //                       <input type="text" class="extra-search-box" placeholder="Search...">
+  //                       <button class="clear-button" type="button">&times;</button>
+  //                   </div>`;
+
+  //           if ($('.select2-results').find('.extra-search-container').length === 0) {
+  //             $('.select2-results').prepend(searchBoxHtml);
+  //           }
+
+  //           var $searchBox = $('.extra-search-box');
+  //           var $clearButton = $('.clear-button');
+
+  //           $searchBox.on('input', function() {
+
+  //             var searchTerm = $(this).val().toLowerCase();
+  //             $('.select2-results__option').each(function() {
+  //               var text = $(this).text().toLowerCase();
+  //               if (text.includes(searchTerm)) {
+  //                 $(this).show();
+  //               } else {
+  //                 $(this).hide();
+  //               }
+  //             });
+
+  //             $clearButton.toggle($searchBox.val().length > 0);
+  //           });
+
+  //           $clearButton.on('click', function() {
+  //             $searchBox.val('');
+  //             $searchBox.trigger('input');
+  //           });
+  //         });
+
+  //         $('.js-example-basic-multiple1').each(function() {
+  //           let listId = $(this).data('list-id');
+  //           //alert(listId);
+  //           let items = [];
+  //           ////console.log("listId1", listId);
+  //           $('#' + listId + ' li').each(function() {
+  //             ////console.log("value1", $(this).text());
+  //             items.push({
+  //               id: $(this).data('value'),
+  //               text: $(this).text()
+  //             });
+  //           });
+  //           ////console.log("items1", items);
+  //           $(this).select2({
+  //             data: items
+  //           });
+
+  //           //$("#type-of-nurse").select2({'val': 3});
+
+  //         });
+
+  //       }
+  //     });
+
+  //   }
+
+  // });
+
+  $('.js-example-basic-multiple[data-list-id="skills_compantancies"]').on('change', function() {
+    // Get selected values from the main category dropdown
+    let selectedValues = $(this).val();
+
+    // Keep track of existing dropdowns
+    let existingDropdowns = [];
+    $('.skills_compantancies_dropdowns .js-example-basic-multiple1').each(function() {
+      existingDropdowns.push($(this).data('list-id'));
+    });
+
+    // Loop through selected values
+    selectedValues.forEach(function(value) {
+      // Check if the dropdown for this ID already exists
+      if (!existingDropdowns.includes(`skills_compantancies-${value}`)) {
+        // Fetch submenu data for new IDs
+        $.ajax({
+          type: "POST",
+          url: "{{ url('/nurse') }}/getSkillsData",
+          data: {
+            id: value,
+            _token: "{{ csrf_token() }}"
+          },
+          cache: false,
+          success: function(data) {
+            var skills = JSON.parse(data);
+            var skills_data = '';
+            skills.forEach(function(skill) {
+              skills_data += '<li data-value="' + skill.id + '">' + skill.name + '</li>';
+            });
+
+            // Create submenu HTML
+            var dropdownHtml = `
+            <div class="form-group level-drp">
+              <label class="form-label" for="input-1">${skills[0].parent_name}</label>
+              <ul id="skills_compantancies-${skills[0].parent_id}" style="display:none;">
+                ${skills_data}
+              </ul>
+              <select class="js-example-basic-multiple1 addAll_removeAll_btn" 
+                      data-list-id="skills_compantancies-${skills[0].parent_id}" 
+                      name="sub_skills_compantancies[1][]" multiple="multiple">
+              </select>
+            </div>
+          `;
+
+            // Append the new dropdown
+            $(".skills_compantancies_dropdowns").append(dropdownHtml);
+
+            // Populate the new dropdown with options
+            let listId = `skills_compantancies-${skills[0].parent_id}`;
+            let items = [];
+
+            $('#' + listId + ' li').each(function() {
+              items.push({
+                id: $(this).data('value'),
+                text: $(this).text()
+              });
+            });
+
+            let $newDropdown = $(`[data-list-id="${listId}"]`);
+            $newDropdown.select2({
+              data: items
+            });
+
+            // Add select all/remove all functionality
+            initializeSelect2($newDropdown);
+          }
+        });
+      }
+    });
+
+    // Remove dropdowns for deselected IDs
+    if (selectedValues && selectedValues.length > 0) {
+      $('.skills_compantancies_dropdowns .js-example-basic-multiple1').each(function() {
+        let listId = $(this).data('list-id');
+        let id = listId.replace('skills_compantancies-', '');
+        if (!selectedValues.includes(id)) {
+          $(this).closest('.form-group').remove();
+        }
+      });
+    }
+  });
+
+  // Function to initialize Select2 for dynamically created select elements
+  function initializeSelect2($dropdown) {
+    $dropdown.on('select2:open', function() {
+      var $currentDropdown = $(this);
+      var searchBoxHtml = `
+      <div class="extra-buttons">
+        <button class="select-all-button" type="button">Select All</button>
+        <button class="remove-all-button" type="button">Remove All</button>
+      </div>`;
+
+      // Add select all/remove all buttons
+      $('.select2-results').prepend(searchBoxHtml);
+
+      $('.select-all-button').on('click', function() {
+        var allValues = $currentDropdown.find('option').map(function() {
+          return $(this).val();
+        }).get();
+        $currentDropdown.val(allValues).trigger('change');
+      });
+
+      $('.remove-all-button').on('click', function() {
+        $currentDropdown.val(null).trigger('change');
+      });
+    });
+  }
+
   $('.js-example-basic-multiple[data-list-id="type-of-nurse-experience"]').on('change', function() {
     let selectedValues = $(this).val();
-    alert();
+
     var nurse_len = $("#type-of-nurse-experience li").length;
-    console.log("nurse_len", nurse_len);
+    ////console.log("nurse_len", nurse_len);
 
     //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
 
-    console.log("selectedValues", selectedValues);
+    ////console.log("selectedValues", selectedValues);
     //$('.result--show .form-group').addClass('d-none');
 
     for (var i = 1; i <= nurse_len; i++) {
-      var nurse_result_val = $(".nursing_result-" + i).val();
+      var nurse_result_val = $(".nursing_result_experience-" + i).val();
       //alert(nurse_result_val);
       if (selectedValues.includes(nurse_result_val)) {
-
         $('#nursing_level_experience-' + i).removeClass('d-none');
       } else {
         $('#nursing_level_experience-' + i).addClass('d-none');
-        $('.js-example-basic-multiple[data-list-id="nursing_entry-' + i + '"]').select2().val(null).trigger('change');
+        $('.js-example-basic-multiple[data-list-id="nursing_entry_experience-' + i + '"]').select2().val(null).trigger('change');
       }
     }
 
     if (selectedValues.includes("3") == false) {
-      $('.np_submenu').addClass('d-none');
+      $('.np_submenu_experience').addClass('d-none');
       //$('.js-example-basic-multiple[data-list-id="nursing_entry-3"]').select2().val(null).trigger('change');
-      $('.js-example-basic-multiple[data-list-id="nurse_practitioner_menu"]').select2().val(null).trigger('change');
+      $('.js-example-basic-multiple[data-list-id="nurse_practitioner_menu_experience"]').select2().val(null).trigger('change');
     }
 
 
@@ -5775,12 +7531,12 @@ if (!empty($interviewReferenceData)) {
     let selectedValues = $(this).val();
     //alert("hello");
     var nurse_len = $("#type-of-nurse li").length;
-    console.log("nurse_len", nurse_len);
+    ////console.log("nurse_len", nurse_len);
 
     //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
     if (selectedValues.includes("179")) {
       $('.np_submenu').removeClass('d-none');
-      console.log("selectedValues", selectedValues);
+      ////console.log("selectedValues", selectedValues);
     } else {
       $('.np_submenu').addClass('d-none');
       $('.js-example-basic-multiple[data-list-id="nurse_practitioner_menu"]').select2().val(null).trigger('change');
@@ -5794,11 +7550,11 @@ if (!empty($interviewReferenceData)) {
     let selectedValues = $(this).val();
     //alert("hello");
     var speciality_len = $("#specialties li").length;
-    console.log("speciality_len", speciality_len);
+    ////console.log("speciality_len", speciality_len);
 
     //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
 
-    console.log("selectedValues", selectedValues);
+    ////console.log("selectedValues", selectedValues);
     //$('.result--show .form-group').addClass('d-none');
 
     for (var k = 1; k <= speciality_len; k++) {
@@ -5837,35 +7593,84 @@ if (!empty($interviewReferenceData)) {
 
   });
 
+  $('.js-example-basic-multiple[data-list-id="specialties_experience"]').on('change', function() {
+    let selectedValues = $(this).val();
+    var speciality_len = $("#specialties_experience li").length;
+    ////console.log("speciality_len", speciality_len);
+
+    //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
+    ////console.log("selectedValues", selectedValues);
+    //$('.result--show .form-group').addClass('d-none');
+
+    for (var k = 1; k <= speciality_len; k++) {
+      var speciality_result_val = $(".speciality_result_experience-" + k).val();
+      //alert(speciality_result_val);
+      if (selectedValues.includes(speciality_result_val)) {
+
+        $('#specility_level_experience-' + k).removeClass('d-none');
+        //$(".sub_speciality_value").val(k);
+        ////console.log('1');
+      } else {
+        ////console.log('2');
+        $('#specility_level_experience-' + k).addClass('d-none');
+        $('.js-example-basic-multiple[data-list-id="speciality_entry_experience-' + k + '"]').select2().val(null).trigger('change');
+      }
+    }
+
+    if (selectedValues.includes("1") == false) {
+
+      $('.surgical_row_experience').addClass('d-none');
+      $('.surgical_row_data_experience').addClass('d-none');
+      $('.js-example-basic-multiple[data-list-id="surgical_row_box_experience"]').select2().val(null).trigger('change');
+    }
+    if (selectedValues.includes("2") == false) {
+
+      $('.surgicalobs_row_experience').addClass('d-none');
+      $('.js-example-basic-multiple[data-list-id="surgicalobs_row_data_experience"]').select2().val(null).trigger('change');
+    }
+
+    if (selectedValues.includes("3") == false) {
+      ////console.log('5');
+      $('.surgicalpad_row_data_experience').addClass('d-none');
+      $('.surgical_rowp_data_experience').addClass('d-none');
+      $('.neonatal_row_experience').addClass('d-none');
+      //$('.js-example-basic-multiple[data-list-id="surgicalobs_row_data"]').select2().val(null).trigger('change');
+    }
+
+
+  });
+
   $('.js-example-basic-multiple[data-list-id="nursing_entry_experience-3"]').on('change', function() {
     let selectedValues = $(this).val();
     //alert("hello");
     var nurse_len = $("#type-of-nurse li").length;
-    console.log("nurse_len", nurse_len);
+    ////console.log("nurse_len", nurse_len);
 
     //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
     if (selectedValues.includes("179")) {
       $('.np_submenu_experience').removeClass('d-none');
-      console.log("selectedValues", selectedValues);
+      ////console.log("selectedValues", selectedValues);
     } else {
       $('.np_submenu_experience').addClass('d-none');
       $('.js-example-basic-multiple[data-list-id="nurse_practitioner_menu_experience"]').select2().val(null).trigger('change');
     }
+
+
+
   });
 
   var sub_specialty_data_val = $(".sub_speciality_value").val();
-  console.log("specialty_data_len", sub_specialty_data_val);
 
   $('.js-example-basic-multiple[data-list-id="speciality_entry-1"]').on('change', function() {
     let selectedValues = $(this).val();
     //alert("hello");
     var speciality_entry = $("#speciality_entry-1 li").length;
-    console.log("speciality_entry", speciality_entry);
+    ////console.log("speciality_entry", speciality_entry);
     // $(".surgical_row").wrapAll("<div class='col-md-12 row surgical_row_data'>");
     $(".surgical_row_data").insertAfter("#specility_level-1");
     //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
 
-    console.log("selectedValues", selectedValues.includes("96"));
+    ////console.log("selectedValues", selectedValues.includes("96"));
     //$('.result--show .form-group').addClass('d-none');
 
     if (selectedValues.includes("96")) {
@@ -5894,16 +7699,77 @@ if (!empty($interviewReferenceData)) {
     //     }
     // }
   });
+
+  $('.js-example-basic-multiple[data-list-id="speciality_entry_experience-1"]').on('change', function() {
+    let selectedValues = $(this).val();
+    //alert("hello");
+    var speciality_entry = $("#speciality_entry_experience-1 li").length;
+    ////console.log("speciality_entry", speciality_entry);
+    // $(".surgical_row").wrapAll("<div class='col-md-12 row surgical_row_data'>");
+    $(".surgical_row_data_experience").insertAfter("#specility_level_experience-1");
+    //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
+
+    ////console.log("selectedValues", selectedValues.includes("96"));
+    //$('.result--show .form-group').addClass('d-none');
+
+    if (selectedValues.includes("96")) {
+      $('.surgical_row_data_experience').removeClass('d-none');
+    } else {
+      $('.surgical_row_data_experience').addClass('d-none');
+      $('.js-example-basic-multiple[data-list-id="surgical_row_box_experience"]').select2().val(null).trigger('change');
+    }
+
+    if (selectedValues.includes("96") == false) {
+      $('.surgical_row_experience').addClass('d-none');
+      $('.js-example-basic-multiple[data-list-id="surgical_row_box_experience"]').select2().val(null).trigger('change');
+    }
+
+
+
+    // for(var k = 1;k<=speciality_entry;k++){
+    //     var speciality_result_val = $(".speciality_result-"+k).val();
+    //     //alert(speciality_result_val);
+    //     if(selectedValues.includes(speciality_result_val)){
+
+    //         $('#specility_level-'+k).removeClass('d-none');
+
+    //     }else{
+    //         $('#specility_level-'+k).addClass('d-none');
+    //     }
+    // }
+  });
+
+  $('.js-example-basic-multiple[data-list-id="speciality_entry_experience-2"]').on('change', function() {
+    let selectedValues = $(this).val();
+
+    var speciality_entry = $("#speciality_entry-1 li").length;
+    ////console.log("speciality_entry", speciality_entry);
+    // $(".surgicalobs_row").wrapAll("<div class='col-md-12 row surgicalobs_row_data'>");
+    $(".surgicalobs_row_experience").insertAfter("#specility_level_experience-2");
+
+    //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
+
+    ////console.log("selectedValues", selectedValues);
+    //$('.result--show .form-group').addClass('d-none');
+
+    if (selectedValues.includes("233")) {
+      $('.surgicalobs_row_experience').removeClass('d-none');
+    } else {
+      $('.surgicalobs_row_experience').addClass('d-none');
+      $('.js-example-basic-multiple[data-list-id="surgicalobs_row_data_experience"]').select2().val(null).trigger('change');
+    }
+  });
+
   $('.js-example-basic-multiple[data-list-id="surgical_row_box"]').on('change', function() {
     let selectedValues = $(this).val();
     //alert("hello");
     var speciality_entry = $("#surgical_row_box li").length;
-    console.log("speciality_entry", speciality_entry);
+    ////console.log("speciality_entry", speciality_entry);
     // $(".surgical_row").wrapAll("<div class='col-md-12 row surgical_row_data'>");
     $(".specialty_sub_boxes").insertAfter(".surgical_row_data");
     //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
 
-    console.log("selectedValues", selectedValues);
+    ////console.log("selectedValues", selectedValues);
     //$('.result--show .form-group').addClass('d-none');
 
     // if(selectedValues.includes("97")){
@@ -5928,21 +7794,56 @@ if (!empty($interviewReferenceData)) {
     }
   });
 
+  $('.js-example-basic-multiple[data-list-id="surgical_row_box_experience"]').on('change', function() {
+
+    let selectedValues = $(this).val();
+    //alert("hello");
+    var speciality_entry = $("#surgical_row_box_experience li").length;
+    ////console.log("speciality_entry", speciality_entry);
+    // $(".surgical_row").wrapAll("<div class='col-md-12 row surgical_row_data'>");
+    $(".specialty_sub_boxes_experience").insertAfter(".surgical_row_data_experience");
+    //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
+
+    ////console.log("selectedValues", selectedValues);
+    //$('.result--show .form-group').addClass('d-none');
+
+    // if(selectedValues.includes("97")){
+    //     $('.surgical_row').removeClass('d-none');
+    // }else{
+    //     $('.surgical_row').addClass('d-none');
+    // }
+
+
+
+    for (var k = 1; k <= speciality_entry; k++) {
+      var speciality_result_val = $(".speciality_surgical_result_experience-" + k).val();
+      ////console.log("speciality_result_val", speciality_result_val);
+      if (selectedValues.includes(speciality_result_val)) {
+
+        $('.surgical_row_experience-' + k).removeClass('d-none');
+
+      } else {
+        $('.surgical_row_experience-' + k).addClass('d-none');
+        $('.js-example-basic-multiple[data-list-id="surgical_operative_care_experience-' + k + '"]').select2().val(null).trigger('change');
+      }
+    }
+  });
+
   $('.js-example-basic-multiple[data-list-id="speciality_entry-3"]').on('change', function() {
     let selectedValues = $(this).val();
     //alert("hello");
     var speciality_entry = $("#speciality_entry-3 li").length;
-    console.log("speciality_entry", speciality_entry);
+    ////console.log("speciality_entry", speciality_entry);
     $(".surgical_rowp").wrapAll("<div class='col-md-12 row surgical_rowp_data'>");
     $(".paediatric_surgical_div").insertAfter("#specility_level-3");
 
 
-    //     $(".neonatal_row").wrapAll("<div class='col-md-12 row neonatal_row_data'>");
+    //$(".neonatal_row").wrapAll("<div class='col-md-12 row neonatal_row_data'>");
     $(".neonatal_row").insertAfter("#specility_level-3");
 
     //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
 
-    console.log("selectedValues", selectedValues);
+    ////console.log("selectedValues", selectedValues);
     //$('.result--show .form-group').addClass('d-none');
 
     if (selectedValues.includes('250')) {
@@ -5977,11 +7878,49 @@ if (!empty($interviewReferenceData)) {
     // }
   });
 
+  $('.js-example-basic-multiple[data-list-id="speciality_entry_experience-3"]').on('change', function() {
+    let selectedValues = $(this).val();
+    //alert("hello");
+    var speciality_entry = $("#speciality_entry_experience-3 li").length;
+    ////console.log("speciality_entry", speciality_entry);
+    $(".surgical_rowp_experience").wrapAll("<div class='col-md-12 row surgical_rowp_data_experience'>");
+    $(".paediatric_surgical_div_experience").insertAfter("#specility_level_experience-3");
+
+
+    //     $(".neonatal_row").wrapAll("<div class='col-md-12 row neonatal_row_data'>");
+    $(".neonatal_row_experience").insertAfter("#specility_level_experience-3");
+
+    //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
+
+    ////console.log("selectedValues", selectedValues);
+    //$('.result--show .form-group').addClass('d-none');
+
+    if (selectedValues.includes('250')) {
+      $('.neonatal_row_experience').removeClass('d-none');
+    } else {
+      $('.neonatal_row_experience').addClass('d-none');
+      $('.js-example-basic-multiple[data-list-id="neonatal_care_experience"]').select2().val(null).trigger('change');
+    }
+
+    if (selectedValues.includes('285')) {
+      $('.surgicalpad_row_data_experience').removeClass('d-none');
+    } else {
+      $('.surgicalpad_row_data_experience').addClass('d-none');
+      $('.js-example-basic-multiple[data-list-id="surgical_rowpad_box_experience"]').select2().val(null).trigger('change');
+    }
+
+    if (selectedValues.includes("285") == false) {
+      $('.surgical_rowp_data_experience').addClass('d-none');
+      $('.js-example-basic-multiple[data-list-id="surgical_row_box_experience"]').select2().val(null).trigger('change');
+    }
+
+  });
+
   $('.js-example-basic-multiple[data-list-id="surgical_rowpad_box"]').on('change', function() {
     let selectedValues = $(this).val();
     //alert("hello");
     var speciality_entry = $("#surgical_rowpad_box li").length;
-    console.log("speciality_entry", speciality_entry);
+    ////console.log("speciality_entry", speciality_entry);
     // $(".surgical_rowp").wrapAll("<div class='col-md-12 row surgical_rowp_data'>");
     $(".surgical_rowp_data").insertAfter(".surgicalpad_row_data");
 
@@ -5991,7 +7930,7 @@ if (!empty($interviewReferenceData)) {
 
     //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
 
-    console.log("selectedValues", selectedValues);
+    ////console.log("selectedValues", selectedValues);
     //$('.result--show .form-group').addClass('d-none');
 
 
@@ -6010,17 +7949,50 @@ if (!empty($interviewReferenceData)) {
     }
   });
 
+  $('.js-example-basic-multiple[data-list-id="surgical_rowpad_box_experience"]').on('change', function() {
+    let selectedValues = $(this).val();
+    //alert("hello");
+    var speciality_entry = $("#surgical_rowpad_box_experience li").length;
+    ////console.log("speciality_entry", speciality_entry);
+    // $(".surgical_rowp").wrapAll("<div class='col-md-12 row surgical_rowp_data'>");
+    $(".surgical_rowp_data_experience").insertAfter(".surgicalpad_row_data_experience");
+
+
+    //     $(".neonatal_row").wrapAll("<div class='col-md-12 row neonatal_row_data'>");
+    //     $(".neonatal_row_data").insertAfter("#specility_level-3");
+
+    //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
+
+    ////console.log("selectedValues", selectedValues);
+    //$('.result--show .form-group').addClass('d-none');
+
+
+
+    for (var k = 1; k <= speciality_entry; k++) {
+      var speciality_result_val = $(".surgical_rowp_result_experience-" + k).val();
+      //alert(speciality_result_val);
+      if (selectedValues.includes(speciality_result_val)) {
+
+        $('.surgical_rowp_experience-' + k).removeClass('d-none');
+
+      } else {
+        $('.surgical_rowp_experience-' + k).addClass('d-none');
+        $('.js-example-basic-multiple[data-list-id="surgical_operative_carep_experience-' + k + '"]').select2().val(null).trigger('change');
+      }
+    }
+  });
+
   $('.js-example-basic-multiple[data-list-id="speciality_entry-2"]').on('change', function() {
     let selectedValues = $(this).val();
     //alert("hello");
     var speciality_entry = $("#speciality_entry-1 li").length;
-    console.log("speciality_entry", speciality_entry);
+    ////console.log("speciality_entry", speciality_entry);
     // $(".surgicalobs_row").wrapAll("<div class='col-md-12 row surgicalobs_row_data'>");
     $(".surgicalobs_row").insertAfter("#specility_level-2");
 
     //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
 
-    console.log("selectedValues", selectedValues);
+    ////console.log("selectedValues", selectedValues);
     //$('.result--show .form-group').addClass('d-none');
 
     if (selectedValues.includes("233")) {
@@ -6045,7 +8017,7 @@ if (!empty($interviewReferenceData)) {
   $('.js-example-basic-multiple[data-list-id="profess_cert"]').on('change', function() {
     let selectedValues = $(this).val();
 
-    console.log("selectedValues", selectedValues);
+    ////console.log("selectedValues", selectedValues);
     //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
     if (selectedValues.includes("6")) {
       $('.procertdiv').removeClass('d-none');
@@ -6055,6 +8027,8 @@ if (!empty($interviewReferenceData)) {
       $('.license_number_acls').addClass('d-none');
       $('.acls_certification_div').addClass('d-none');
       $('.js-example-basic-multiple[data-list-id="acls_data"]').select2().val(null).trigger('change');
+      var user_id = "{{ $user_id }}";
+      deleteDatabaseImgs(user_id, "acls_imgs");
     }
     if (selectedValues.includes("7")) {
       $('.procertdivone').removeClass('d-none');
@@ -6064,6 +8038,8 @@ if (!empty($interviewReferenceData)) {
       $('.license_number_bls').addClass('d-none');
       $('.bls_certification_div').addClass('d-none');
       $('.js-example-basic-multiple[data-list-id="bls_data"]').select2().val(null).trigger('change');
+      var user_id = "{{ $user_id }}";
+      deleteDatabaseImgs(user_id, "bls_imgs");
     }
     if (selectedValues.includes("8")) {
       $('.procertdivtwo').removeClass('d-none');
@@ -6073,6 +8049,8 @@ if (!empty($interviewReferenceData)) {
       $('.license_number_cpr').addClass('d-none');
       $('.cpr_certification_div').addClass('d-none');
       $('.js-example-basic-multiple[data-list-id="cpr_data"]').select2().val(null).trigger('change');
+      var user_id = "{{ $user_id }}";
+      deleteDatabaseImgs(user_id, "cpr_imgs");
     }
     if (selectedValues.includes("9")) {
       $('.procertdivthree').removeClass('d-none');
@@ -6083,6 +8061,8 @@ if (!empty($interviewReferenceData)) {
       $('.license_number_nrp').addClass('d-none');
       $('.nrp_certification_div').addClass('d-none');
       $('.js-example-basic-multiple[data-list-id="nrp_data"]').select2().val(null).trigger('change');
+      var user_id = "{{ $user_id }}";
+      deleteDatabaseImgs(user_id, "nrp_imgs");
 
     }
     if (selectedValues.includes("10")) {
@@ -6095,6 +8075,8 @@ if (!empty($interviewReferenceData)) {
       $('.license_number_pals').addClass('d-none');
       $('.pls_certification_div').addClass('d-none');
       $('.js-example-basic-multiple[data-list-id="pls_data"]').select2().val(null).trigger('change');
+      var user_id = "{{ $user_id }}";
+      deleteDatabaseImgs(user_id, "pls_imgs");
     }
     if (selectedValues.includes("11")) {
       $('.procertdivfive').removeClass('d-none');
@@ -6105,6 +8087,8 @@ if (!empty($interviewReferenceData)) {
       $('.license_number_rn').addClass('d-none');
       $('.rn_certification_div').addClass('d-none');
       $('.js-example-basic-multiple[data-list-id="rn_data"]').select2().val(null).trigger('change');
+      var user_id = "{{ $user_id }}";
+      deleteDatabaseImgs(user_id, "rn_imgs");
     }
     if (selectedValues.includes("12")) {
       $('.procertdivsix').removeClass('d-none');
@@ -6115,6 +8099,8 @@ if (!empty($interviewReferenceData)) {
       $('.license_number_cn').addClass('d-none');
       $('.cna_certification_div').addClass('d-none');
       $('.js-example-basic-multiple[data-list-id="cn_data"]').select2().val(null).trigger('change');
+      var user_id = "{{ $user_id }}";
+      deleteDatabaseImgs(user_id, "cn_imgs");
     }
 
     if (selectedValues.includes("13")) {
@@ -6126,6 +8112,8 @@ if (!empty($interviewReferenceData)) {
       $('.license_number_lpn').addClass('d-none');
       $('.lpn_certification_div').addClass('d-none');
       $('.js-example-basic-multiple[data-list-id="lpn_data"]').select2().val(null).trigger('change');
+      var user_id = "{{ $user_id }}";
+      deleteDatabaseImgs(user_id, "lpn_imgs");
     }
     if (selectedValues.includes("14")) {
       $('.procertdiveight').removeClass('d-none');
@@ -6135,6 +8123,8 @@ if (!empty($interviewReferenceData)) {
       $('.license_number_crn').addClass('d-none');
       $('.crn_certification_div').addClass('d-none');
       $('.js-example-basic-multiple[data-list-id="crn_data"]').select2().val(null).trigger('change');
+      var user_id = "{{ $user_id }}";
+      deleteDatabaseImgs(user_id, "crna_imgs");
     }
     if (selectedValues.includes("15")) {
       $('.procertdivnine').removeClass('d-none');
@@ -6144,6 +8134,8 @@ if (!empty($interviewReferenceData)) {
       $('.license_number_cnm').addClass('d-none');
       $('.cnm_certification_div').addClass('d-none');
       $('.js-example-basic-multiple[data-list-id="cnm_data"]').select2().val(null).trigger('change');
+      var user_id = "{{ $user_id }}";
+      deleteDatabaseImgs(user_id, "cnm_imgs");
     }
     if (selectedValues.includes("16")) {
       $('.procertdivten').removeClass('d-none');
@@ -6153,6 +8145,8 @@ if (!empty($interviewReferenceData)) {
       $('.license_number_ons').addClass('d-none');
       $('.ons_certification_div').addClass('d-none');
       $('.js-example-basic-multiple[data-list-id="ons_data"]').select2().val(null).trigger('change');
+      var user_id = "{{ $user_id }}";
+      deleteDatabaseImgs(user_id, "ons_imgs");
     }
     if (selectedValues.includes("17")) {
       $('.procertdiveleven').removeClass('d-none');
@@ -6162,6 +8156,8 @@ if (!empty($interviewReferenceData)) {
       $('.license_number_msw').addClass('d-none');
       $('.msw_certification_div').addClass('d-none');
       $('.js-example-basic-multiple[data-list-id="msw_data"]').select2().val(null).trigger('change');
+      var user_id = "{{ $user_id }}";
+      deleteDatabaseImgs(user_id, "msw_imgs");
     }
     if (selectedValues.includes("18")) {
       $('.procertdivtwelfth').removeClass('d-none');
@@ -6171,6 +8167,8 @@ if (!empty($interviewReferenceData)) {
       $('.license_number_np').addClass('d-none');
       $('.np_certification_div').addClass('d-none');
       $('.js-example-basic-multiple[data-list-id="np_data"]').select2().val(null).trigger('change');
+      var user_id = "{{ $user_id }}";
+      deleteDatabaseImgs(user_id, "np_imgs");
     }
     if (selectedValues.includes("19")) {
       $('.procertdivthirteen').removeClass('d-none');
@@ -6180,6 +8178,8 @@ if (!empty($interviewReferenceData)) {
       $('.license_number_ain').addClass('d-none');
       $('.ain_certification_div').addClass('d-none');
       $('.js-example-basic-multiple[data-list-id="ain_data"]').select2().val(null).trigger('change');
+      var user_id = "{{ $user_id }}";
+      deleteDatabaseImgs(user_id, "ain_imgs");
     }
     if (selectedValues.includes("20")) {
       $('.procertdivfourteen').removeClass('d-none');
@@ -6189,6 +8189,7 @@ if (!empty($interviewReferenceData)) {
       $('.license_number_rpn').addClass('d-none');
       $('.rpn_certification_div').addClass('d-none');
       $('.js-example-basic-multiple[data-list-id="rpn_data"]').select2().val(null).trigger('change');
+
     }
     if (selectedValues.includes("21")) {
       $('.procertdivfiveteen').removeClass('d-none');
@@ -6212,20 +8213,22 @@ if (!empty($interviewReferenceData)) {
       if (selectedValues.includes(text) == false) {
         let res = text.split(' ')[0];
         let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-        console.log("res_one", res_one);
+        ////console.log("res_one", res_one);
 
         $(".acls_" + res_one).remove();
+        var user_id = "{{ $user_id }}";
+        deleteDatabaseImgs(user_id, "acls_imgs");
       }
       acls_certification_array.push(text);
     });
-    console.log("selectedValues", selectedValues);
+    ////console.log("selectedValues", selectedValues);
 
     //$(".bls_certification_div").empty();
     for (var i = 0; i < selectedValues.length; i++) {
       var selected_text = selectedValues[i].replace(/ .*/, '').replace(/[^\w\s]/gi, '').toLowerCase();
       let res = selectedValues[i].split(' ')[0];
       let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-      console.log("res_one", res_one);
+      ////console.log("res_one", res_one);
 
       if (acls_certification_array.includes(selectedValues[i]) == false) {
 
@@ -6248,20 +8251,22 @@ if (!empty($interviewReferenceData)) {
       if (selectedValues.includes(text) == false) {
         let res = text.split(' ')[0];
         let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-        console.log("res_one2", res_one);
+        ////console.log("res_one2", res_one);
 
         $(".bls_" + res_one).remove();
+        var user_id = "{{ $user_id }}";
+        deleteDatabaseImgs(user_id, "bls_imgs");
       }
       bls_certification_array.push(text);
     });
-    console.log("selectedValues", selectedValues);
+    ////console.log("selectedValues", selectedValues);
 
     //$(".bls_certification_div").empty();
     for (var i = 0; i < selectedValues.length; i++) {
       var selected_text = selectedValues[i].replace(/ .*/, '').replace(/[^\w\s]/gi, '').toLowerCase();
       let res = selectedValues[i].split(' ')[0];
       let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-      console.log("res_one", res_one);
+      ////console.log("res_one", res_one);
       if (bls_certification_array.includes(selectedValues[i]) == false) {
         var user_id = "{{ $user_id }}";
         var img_text = "bls_imgs";
@@ -6280,21 +8285,23 @@ if (!empty($interviewReferenceData)) {
       if (selectedValues.includes(text) == false) {
         let res = text.split(' ')[0];
         let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-        console.log("res_one", res_one);
+        ////console.log("res_one", res_one);
 
         $(".cpr_" + res_one).remove();
+        var user_id = "{{ $user_id }}";
+        deleteDatabaseImgs(user_id, "cpr_imgs")
       }
 
       cpr_certification_array.push(text);
     });
-    console.log("selectedValues", selectedValues);
+    ////console.log("selectedValues", selectedValues);
 
     //$(".bls_certification_div").empty();
     for (var i = 0; i < selectedValues.length; i++) {
       var selected_text = selectedValues[i].replace(/ .*/, '').replace(/[^\w\s]/gi, '').toLowerCase();
       let res = selectedValues[i].split(' ')[0];
       let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-      console.log("res_one", res_one);
+      ////console.log("res_one", res_one);
       if (cpr_certification_array.includes(selectedValues[i]) == false) {
         var user_id = "{{ $user_id }}";
         var img_text = "cpr_imgs";
@@ -6317,21 +8324,23 @@ if (!empty($interviewReferenceData)) {
       if (selectedValues.includes(text) == false) {
         let res = text.split(' ')[0];
         let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-        console.log("res_one", res_one);
+        ////console.log("res_one", res_one);
 
         $(".nrp_" + res_one).remove();
+        var user_id = "{{ $user_id }}";
+        deleteDatabaseImgs(user_id, "nrp_imgs");
       }
 
       nrp_certification_array.push(text);
     });
-    console.log("selectedValues", selectedValues);
+    ////console.log("selectedValues", selectedValues);
 
     //$(".bls_certification_div").empty();
     for (var i = 0; i < selectedValues.length; i++) {
       var selected_text = selectedValues[i].replace(/ .*/, '').replace(/[^\w\s]/gi, '').toLowerCase();
       let res = selectedValues[i].split(' ')[0];
       let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-      console.log("res_one", res_one);
+      ////console.log("res_one", res_one);
       if (nrp_certification_array.includes(selectedValues[i]) == false) {
         var user_id = "{{ $user_id }}";
         var img_text = "nrp_imgs";
@@ -6355,21 +8364,23 @@ if (!empty($interviewReferenceData)) {
       if (selectedValues.includes(text) == false) {
         let res = text.split(' ')[0];
         let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-        console.log("res_one", res_one);
+        ////console.log("res_one", res_one);
 
         $(".pls_" + res_one).remove();
+        var user_id = "{{ $user_id }}";
+        deleteDatabaseImgs(user_id, "pls_imgs");
       }
 
       pls_certification_array.push(text);
     });
-    console.log("selectedValues", selectedValues);
+    ////console.log("selectedValues", selectedValues);
 
     //$(".bls_certification_div").empty();
     for (var i = 0; i < selectedValues.length; i++) {
       var selected_text = selectedValues[i].replace(/ .*/, '').replace(/[^\w\s]/gi, '').toLowerCase();
       let res = selectedValues[i].split(' ')[0];
       let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-      console.log("res_one", res_one);
+      ////console.log("res_one", res_one);
       if (pls_certification_array.includes(selectedValues[i]) == false) {
         var user_id = "{{ $user_id }}";
         var img_text = "pls_imgs";
@@ -6393,21 +8404,23 @@ if (!empty($interviewReferenceData)) {
 
         let res = text.split(' ')[0];
         let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-        console.log("res_one", ".rn_" + res_one);
+        ////console.log("res_one", ".rn_" + res_one);
 
         $(".rn_" + res_one).remove();
+        var user_id = "{{ $user_id }}";
+        deleteDatabaseImgs(user_id, "rn_imgs");
       }
 
       rn_certification_array.push(text);
     });
-    console.log("selectedValues", selectedValues);
+    ////console.log("selectedValues", selectedValues);
 
     //$(".bls_certification_div").empty();
     for (var i = 0; i < selectedValues.length; i++) {
       var selected_text = selectedValues[i].replace(/ .*/, '').replace(/[^\w\s]/gi, '').toLowerCase();
       let res = selectedValues[i].split(' ')[0];
       let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-      console.log("res_one", res_one);
+      ////console.log("res_one", res_one);
 
       if (rn_certification_array.includes(selectedValues[i]) == false) {
         var user_id = "{{ $user_id }}";
@@ -6431,21 +8444,23 @@ if (!empty($interviewReferenceData)) {
       if (selectedValues.includes(text) == false) {
         let res = text.split(' ')[0];
         let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-        console.log("res_one", res_one);
+        ////console.log("res_one", res_one);
 
         $(".np_" + res_one).remove();
+        var user_id = "{{ $user_id }}";
+        deleteDatabaseImgs(user_id, "np_imgs");
       }
 
       np_certification_array.push(text);
     });
-    console.log("selectedValues", selectedValues);
+    ////console.log("selectedValues", selectedValues);
 
     //$(".bls_certification_div").empty();
     for (var i = 0; i < selectedValues.length; i++) {
       var selected_text = selectedValues[i].replace(/ .*/, '').replace(/[^\w\s]/gi, '').toLowerCase();
       let res = selectedValues[i].split(' ')[0];
       let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-      console.log("res_one", res_one);
+      ////console.log("res_one", res_one);
       if (np_certification_array.includes(selectedValues[i]) == false) {
         var user_id = "{{ $user_id }}";
         var img_text = "np_imgs";
@@ -6468,21 +8483,23 @@ if (!empty($interviewReferenceData)) {
       if (selectedValues.includes(text) == false) {
         let res = text.split(' ')[0];
         let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-        console.log("res_one", res_one);
+        ////console.log("res_one", res_one);
 
         $(".cna_" + res_one).remove();
+        var user_id = "{{ $user_id }}";
+        deleteDatabaseImgs(user_id, "cn_imgs");
       }
 
       cn_certification_array.push(text);
     });
-    console.log("selectedValues", selectedValues);
+    ////console.log("selectedValues", selectedValues);
 
     //$(".bls_certification_div").empty();
     for (var i = 0; i < selectedValues.length; i++) {
       var selected_text = selectedValues[i].replace(/ .*/, '').replace(/[^\w\s]/gi, '').toLowerCase();
       let res = selectedValues[i].split(' ')[0];
       let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-      console.log("res_one", res_one);
+      ////console.log("res_one", res_one);
       if (cn_certification_array.includes(selectedValues[i]) == false) {
         var user_id = "{{ $user_id }}";
         var img_text = "cn_imgs";
@@ -6505,21 +8522,23 @@ if (!empty($interviewReferenceData)) {
       if (selectedValues.includes(text) == false) {
         let res = text.split(' ')[0];
         let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-        console.log("res_one", res_one);
+        ////console.log("res_one", res_one);
 
         $(".lpn_" + res_one).remove();
+        var user_id = "{{ $user_id }}";
+        deleteDatabaseImgs(user_id, "lpn_imgs");
       }
 
       lpn_certification_array.push(text);
     });
-    console.log("selectedValues", selectedValues);
+    ////console.log("selectedValues", selectedValues);
 
     //$(".bls_certification_div").empty();
     for (var i = 0; i < selectedValues.length; i++) {
       var selected_text = selectedValues[i].replace(/ .*/, '').replace(/[^\w\s]/gi, '').toLowerCase();
       let res = selectedValues[i].split(' ')[0];
       let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-      console.log("res_one", res_one);
+      ////console.log("res_one", res_one);
       if (lpn_certification_array.includes(selectedValues[i]) == false) {
         var user_id = "{{ $user_id }}";
         var img_text = "lpn_imgs";
@@ -6542,23 +8561,31 @@ if (!empty($interviewReferenceData)) {
       if (selectedValues.includes(text) == false) {
         let res = text.split(' ')[0];
         let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-        console.log("res_one", res_one);
+        ////console.log("res_one", res_one);
+
         $(".crna_" + res_one).remove();
+        var user_id = "{{ $user_id }}";
+        deleteDatabaseImgs(user_id, "crna_imgs");
+
       }
+
       crna_certification_array.push(text);
     });
-    console.log("selectedValues", selectedValues);
+    ////console.log("selectedValues", selectedValues);
 
     //$(".bls_certification_div").empty();
     for (var i = 0; i < selectedValues.length; i++) {
       var selected_text = selectedValues[i].replace(/ .*/, '').replace(/[^\w\s]/gi, '').toLowerCase();
       let res = selectedValues[i].split(' ')[0];
       let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-      console.log("res_one", res_one);
+      ////console.log("res_one", res_one);
       if (crna_certification_array.includes(selectedValues[i]) == false) {
         var user_id = "{{ $user_id }}";
         var img_text = "crna_imgs";
+
         $(".crna_certification_div").append('<div class="crna_' + res_one + ' cert_div_' + selected_text + '"><h6 class="cert_head_' + selected_text + '">' + selectedValues[i] + '</h6><input type="hidden" name="crnanamearr[]" class="lpn_input_' + selectedValues[i] + '" value="' + selectedValues[i] + '"><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control crna_license_number crna_license_number-' + i + '" type="text" name="crna_license_number[]"><span id="reqcrnalicencevalid-' + i + '" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control crnaexpiry crnaexpiry-' + i + '" type="date" name="crna_expiry[]"><span id="reqcrnaexpiryvalid-' + i + '" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control degree_transcript crna_imgs_' + res_one + ' crna_upload_certification crna_upload_certification-' + i + '" type="file" name="crna_upload_certification[' + i + '][]" onchange="changeImg1(' + user_id + ',' + i + ',\'' + img_text + '\',\'' + res_one + '\')" multiple><div class="crna_imgs' + res_one + '"></div><span id="reqcrnauploadvalid-' + i + '" class="reqError text-danger valley"></span></div></div></div>');
+
+
       }
     }
 
@@ -6571,26 +8598,34 @@ if (!empty($interviewReferenceData)) {
     $('.cnm_certification_div').removeClass('d-none');
     $(".cnm_certification_div h6").each(function() {
       var text = $(this).text();
+
       if (selectedValues.includes(text) == false) {
         let res = text.split(' ')[0];
         let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-        console.log("res_one", res_one);
+        ////console.log("res_one", res_one);
+
         $(".cnm_" + res_one).remove();
+        var user_id = "{{ $user_id }}";
+        deleteDatabaseImgs(user_id, "cnm_imgs");
       }
+
       cnm_certification_array.push(text);
     });
-    console.log("selectedValues", selectedValues);
+    ////console.log("selectedValues", selectedValues);
 
     //$(".bls_certification_div").empty();
     for (var i = 0; i < selectedValues.length; i++) {
       var selected_text = selectedValues[i].replace(/ .*/, '').replace(/[^\w\s]/gi, '').toLowerCase();
       let res = selectedValues[i].split(' ')[0];
       let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-      console.log("res_one", res_one);
+      ////console.log("res_one", res_one);
       if (cnm_certification_array.includes(selectedValues[i]) == false) {
         var user_id = "{{ $user_id }}";
         var img_text = "cnm_imgs";
+
         $(".cnm_certification_div").append('<div class="cnm_' + res_one + ' cert_div_' + selected_text + '"><h6 class="cert_head_' + selected_text + '">' + selectedValues[i] + '</h6><input type="hidden" name="cnmnamearr[]" class="cnm_input_' + selectedValues[i] + '" value="' + selectedValues[i] + '"><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control cnm_license_number cnm_license_number-' + i + '" type="text" name="cnm_license_number[]"><span id="reqcnmlicencevalid-' + i + '" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control cnmexpiry cnmexpiry-' + i + '" type="date" name="cnm_expiry[]"><span id="reqcnmexpiryvalid-' + i + '" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control degree_transcript cnm_imgs_' + res_one + '" type="file" name="cnm_upload_certification[' + i + '][]" onchange="changeImg1(' + user_id + ',' + i + ',\'' + img_text + '\',\'' + res_one + '\')" multiple><div class="cnm_imgs' + res_one + '"></div><span id="reqcnmuploadvalid-' + i + '" class="reqError text-danger valley"></span></div></div></div>');
+
+
       }
     }
 
@@ -6607,28 +8642,33 @@ if (!empty($interviewReferenceData)) {
       if (selectedValues.includes(text) == false) {
         let res = text.split(' ')[0];
         let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-        console.log("res_one", res_one);
+        ////console.log("res_one", res_one);
 
         $(".ons_" + res_one).remove();
+        var user_id = "{{ $user_id }}";
+        deleteDatabaseImgs(user_id, "ons_imgs");
       }
 
       ons_certification_array.push(text);
     });
-    console.log("selectedValues", selectedValues);
+    ////console.log("selectedValues", selectedValues);
 
     //$(".bls_certification_div").empty();
     for (var i = 0; i < selectedValues.length; i++) {
       var selected_text = selectedValues[i].replace(/ .*/, '').replace(/[^\w\s]/gi, '').toLowerCase();
       let res = selectedValues[i].split(' ')[0];
       let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-      console.log("res_one", res_one);
+      ////console.log("res_one", res_one);
       if (ons_certification_array.includes(selectedValues[i]) == false) {
         var user_id = "{{ $user_id }}";
         var img_text = "ons_imgs";
+
         $(".ons_certification_div").append('<div class="ons_' + res_one + ' cert_div_' + selected_text + '"><h6 class="cert_head_' + selected_text + '">' + selectedValues[i] + '</h6><input type="hidden" name="onsnamearr[]" class="ons_input_' + selectedValues[i] + '" value="' + selectedValues[i] + '"><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control ons_license_number ons_license_number-' + i + '" type="text" name="ons_license_number[]"><span id="reqonslicencevalid-' + i + '" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control onsexpiry onsexpiry-' + i + '" type="date" name="ons_expiry[]"><span id="reqonsexpiryvalid-' + i + '" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control degree_transcript ons_imgs_' + res_one + '" type="file" name="ons_upload_certification[' + i + '][]" onchange="changeImg1(' + user_id + ',' + i + ',\'' + img_text + '\',\'' + res_one + '\')" multiple><div class="ons_imgs' + res_one + '"></div><span id="reqonsuploadvalid-' + i + '" class="reqError text-danger valley"></span></div></div></div>');
+
 
       }
     }
+
 
   });
 
@@ -6638,29 +8678,32 @@ if (!empty($interviewReferenceData)) {
     $('.msw_certification_div').removeClass('d-none');
     $(".msw_certification_div h6").each(function() {
       var text = $(this).text();
+
       if (selectedValues.includes(text) == false) {
         let res = text.split(' ')[0];
         let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-        console.log("res_one", res_one);
-
         $(".msw_" + res_one).remove();
+        var user_id = "{{ $user_id }}";
+        deleteDatabaseImgs(user_id, "msw_imgs");
       }
 
       msw_certification_array.push(text);
     });
-    console.log("selectedValues", selectedValues);
+
 
     //$(".bls_certification_div").empty();
     for (var i = 0; i < selectedValues.length; i++) {
       var selected_text = selectedValues[i].replace(/ .*/, '').replace(/[^\w\s]/gi, '').toLowerCase();
       let res = selectedValues[i].split(' ')[0];
       let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-      console.log("res_one", res_one);
+
 
       if (msw_certification_array.includes(selectedValues[i]) == false) {
         var user_id = "{{ $user_id }}";
         var img_text = "msw_imgs";
+
         $(".msw_certification_div").append('<div class="msw_' + res_one + ' cert_div_' + selected_text + '"><h6 class="cert_head_' + selected_text + '">' + selectedValues[i] + '</h6><input type="hidden" name="mswnamearr[]" class="msw_input_' + selectedValues[i] + '" value="' + selectedValues[i] + '"><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control msw_license_number msw_license_number-' + i + '" type="text" name="msw_license_number[]"><span id="reqmswlicencevalid-' + i + '" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control mswexpiry mswexpiry-' + i + '" type="date" name="msw_expiry[]"><span id="reqmswexpiryvalid-' + i + '" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control degree_transcript msw_imgs_' + res_one + ' msw_upload_certification msw_upload_certification-' + i + '" type="file" name="msw_upload_certification[' + i + '][]" onchange="changeImg1(' + user_id + ',' + i + ',\'' + img_text + '\',\'' + res_one + '\')" multiple><div class="msw_imgs' + res_one + '"></div><span id="reqmswuploadvalid-' + i + '" class="reqError text-danger valley"></span></div></div></div>');
+
 
       }
     }
@@ -6678,25 +8721,30 @@ if (!empty($interviewReferenceData)) {
       if (selectedValues.includes(text) == false) {
         let res = text.split(' ')[0];
         let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-        console.log("res_one", res_one);
+
 
         $(".ain_" + res_one).remove();
+        var user_id = "{{ $user_id }}";
+        deleteDatabaseImgs(user_id, "ain_imgs");
       }
 
       ain_certification_array.push(text);
     });
-    console.log("selectedValues", selectedValues);
+
 
     //$(".bls_certification_div").empty();
     for (var i = 0; i < selectedValues.length; i++) {
       var selected_text = selectedValues[i].replace(/ .*/, '').replace(/[^\w\s]/gi, '').toLowerCase();
       let res = selectedValues[i].split(' ')[0];
       let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-      console.log("res_one", res_one);
+
       if (ain_certification_array.includes(selectedValues[i]) == false) {
         var user_id = "{{ $user_id }}";
         var img_text = "ain_imgs";
+
         $(".ain_certification_div").append('<div class="ain_' + res_one + ' cert_div_' + selected_text + '"><h6 class="cert_head_' + selected_text + '">' + selectedValues[i] + '</h6><input type="hidden" name="ainnamearr[]" class="ain_input_' + selectedValues[i] + '" value="' + selectedValues[i] + '"><div class="license_number_div row license_number_additional"><div class="form-group col-md-12"><label class="form-label" for="input-1">Certification/Licence Number</label><input class="form-control ain_license_number ain_license_number-' + i + '" type="text" name="ain_license_number[]"><span id="reqainlicencevalid-' + i + '" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Expiry</label><input class="form-control ainexpiry ainexpiry-' + i + '" type="date" name="ain_expiry[]"><span id="reqainexpiryvalid-' + i + '" class="reqError text-danger valley"></span></div><div class="form-group col-md-6"><label class="form-label" for="input-1">Upload your certification/Licence</label><input class="form-control degree_transcript ain_imgs_' + res_one + ' ain_upload_certification ain_upload_certification-' + i + '" type="file" name="ain_upload_certification[' + i + '][]" onchange="changeImg1(' + user_id + ',' + i + ',\'' + img_text + '\',\'' + res_one + '\')" multiple><div class="ain_imgs' + res_one + '"></div><span id="reqainuploadvalid-' + i + '" class="reqError text-danger valley"></span></div></div></div>');
+
+
       }
     }
 
@@ -6713,21 +8761,23 @@ if (!empty($interviewReferenceData)) {
       if (selectedValues.includes(text) == false) {
         let res = text.split(' ')[0];
         let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-        console.log("res_one", res_one);
+
 
         $(".rpn_" + res_one).remove();
+        var user_id = "{{ $user_id }}";
+        deleteDatabaseImgs(user_id, "rpn_imgs");
       }
 
       rpn_certification_array.push(text);
     });
-    console.log("selectedValues", selectedValues);
+
 
     //$(".bls_certification_div").empty();
     for (var i = 0; i < selectedValues.length; i++) {
       var selected_text = selectedValues[i].replace(/ .*/, '').replace(/[^\w\s]/gi, '').toLowerCase();
       let res = selectedValues[i].split(' ')[0];
       let res_one = res.replace(/[\s~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, '').toLowerCase();
-      console.log("res_one", res_one);
+
       if (rpn_certification_array.includes(selectedValues[i]) == false) {
         var user_id = "{{ $user_id }}";
         var img_text = "rpn_imgs";
@@ -6748,7 +8798,6 @@ if (!empty($interviewReferenceData)) {
     var url_string = window.location.href;
     var url = new URL(url_string);
     var c = url.searchParams.get("page");
-    console.log(c);
 
     if (c == "change_password") {
       $(".upload_image").addClass("hide_profile_image");
@@ -6761,7 +8810,6 @@ if (!empty($interviewReferenceData)) {
   var url_string = window.location.href;
   var url = new URL(url_string);
   var c = url.searchParams.get("page");
-  console.log(c);
 
   if (c == "change_password") {
     $(".upload_image").addClass("hide_profile_image");
@@ -6780,7 +8828,6 @@ if (!empty($interviewReferenceData)) {
     var url_string = window.location.href;
     var url = new URL(url_string);
     var c = url.searchParams.get("page");
-    console.log(c);
 
     if (c == "profession") {
       $(".tab-pane").hide();
@@ -6798,7 +8845,6 @@ if (!empty($interviewReferenceData)) {
     var url_string = window.location.href;
     var url = new URL(url_string);
     var c = url.searchParams.get("page");
-    console.log(c);
 
     if (c == "my_profile") {
       $(".tab-pane").hide();
@@ -6815,8 +8861,6 @@ if (!empty($interviewReferenceData)) {
     var url_string = window.location.href;
     var url = new URL(url_string);
     var c = url.searchParams.get("page");
-    console.log(c);
-
     if (c == "settings") {
       $(".tab-pane").hide();
       $("#tab-my-profile-setting").css("opacity", "1");
@@ -6831,7 +8875,6 @@ if (!empty($interviewReferenceData)) {
     var url_string = window.location.href;
     var url = new URL(url_string);
     var c = url.searchParams.get("page");
-    console.log(c);
 
     if (c == "experience_info") {
       $(".tab-pane").hide();
@@ -6847,8 +8890,6 @@ if (!empty($interviewReferenceData)) {
     var url_string = window.location.href;
     var url = new URL(url_string);
     var c = url.searchParams.get("page");
-    console.log(c);
-
     if (c == "additional_info") {
       $(".tab-pane").hide();
       $("#tab-addition-information").css("opacity", "1");
@@ -6863,8 +8904,6 @@ if (!empty($interviewReferenceData)) {
     var url_string = window.location.href;
     var url = new URL(url_string);
     var c = url.searchParams.get("page");
-    console.log(c);
-
     if (c == "educert") {
       $(".tab-pane").hide();
       $("#tab-educert").css("opacity", "1");
@@ -6880,8 +8919,6 @@ if (!empty($interviewReferenceData)) {
     var url_string = window.location.href;
     var url = new URL(url_string);
     var c = url.searchParams.get("page");
-    console.log(c);
-
     if (c == "mandatory_training") {
       $(".tab-pane").hide();
       $("#tab-mandtraining").css("opacity", "1");
@@ -6897,8 +8934,6 @@ if (!empty($interviewReferenceData)) {
     var url_string = window.location.href;
     var url = new URL(url_string);
     var c = url.searchParams.get("page");
-    console.log(c);
-
     if (c == "reference_info") {
       $(".tab-pane").hide();
       $("#tab-references").css("opacity", "1");
@@ -6914,8 +8949,6 @@ if (!empty($interviewReferenceData)) {
     var url_string = window.location.href;
     var url = new URL(url_string);
     var c = url.searchParams.get("page");
-    console.log(c);
-
     if (c == "work_clearances") {
       $(".tab-pane").hide();
       $("#tab-myclearance-jobs").css("opacity", "1");
@@ -6930,7 +8963,6 @@ if (!empty($interviewReferenceData)) {
     var url_string = window.location.href;
     var url = new URL(url_string);
     var c = url.searchParams.get("page");
-    console.log(c);
 
     if (c == "interview_references") {
 
@@ -6948,8 +8980,6 @@ if (!empty($interviewReferenceData)) {
     var url_string = window.location.href;
     var url = new URL(url_string);
     var c = url.searchParams.get("page");
-    console.log(c);
-
     if (c == "personal_preferences") {
 
       $(".tab-pane").hide();
@@ -6965,7 +8995,7 @@ if (!empty($interviewReferenceData)) {
     var url_string = window.location.href;
     var url = new URL(url_string);
     var c = url.searchParams.get("page");
-    console.log(c);
+
 
     if (c == "work_preferences") {
 
@@ -6983,8 +9013,6 @@ if (!empty($interviewReferenceData)) {
     var url_string = window.location.href;
     var url = new URL(url_string);
     var c = url.searchParams.get("page");
-    console.log(c);
-
     if (c == "vaccinations") {
 
       $(".tab-pane").hide();
@@ -7001,7 +9029,6 @@ if (!empty($interviewReferenceData)) {
     var url_string = window.location.href;
     var url = new URL(url_string);
     var c = url.searchParams.get("page");
-    console.log(c);
 
     if (c == "professional_membership") {
 
@@ -7015,7 +9042,6 @@ if (!empty($interviewReferenceData)) {
   var url_string = window.location.href;
   var url = new URL(url_string);
   var c = url.searchParams.get("page");
-  console.log(c);
 
   if (c == "profession") {
     $("#tab-my-profile").hide();
@@ -7073,6 +9099,8 @@ if (!empty($interviewReferenceData)) {
     $(".tab-pane").hide();
     $("#tab-mandtraining").css("opacity", "1");
     $("#tab-mandtraining").show();
+    $(".profile_tabs").removeClass("active");
+    $("#mand_training").addClass("active");
     $(".prof-profile .dropdown").addClass("show");
     $(".prof-profile .dropdown-menu").addClass("show");
   }
@@ -7184,7 +9212,6 @@ if (!empty($interviewReferenceData)) {
 
     // Get the selected country data to know which country is selected.
     var selectedCountryData = iti.getSelectedCountryData();
-    console.log("selectedCountryData", selectedCountryData.dialCode);
     $("#emergency_countryCode").val(selectedCountryData.dialCode);
     $("#emergency_country_iso").val(selectedCountryData.iso2);
     //alert($("#contactI").intlTelInput("getSelectedCountryData").dialCode);
@@ -7240,7 +9267,6 @@ if (!empty($interviewReferenceData)) {
 
     // Get the selected country data to know which country is selected.
     var selectedCountryData = iti1.getSelectedCountryData();
-    console.log("selectedCountryData", selectedCountryData.dialCode);
     $("#countryCode").val(selectedCountryData.dialCode);
     $("#country_iso").val(selectedCountryData.iso2);
     //alert($("#contactI").intlTelInput("getSelectedCountryData").dialCode);
@@ -7296,7 +9322,6 @@ if (!empty($interviewReferenceData)) {
 
     // Get the selected country data to know which country is selected.
     var selectedCountryData = iti2.getSelectedCountryData();
-    console.log("selectedCountryData", selectedCountryData.dialCode);
     $("#reference_countryCode").val(selectedCountryData.dialCode);
     $("#reference_countryiso").val(selectedCountryData.iso2);
     //alert($("#contactI").intlTelInput("getSelectedCountryData").dialCode);
@@ -7712,7 +9737,6 @@ if (!empty($interviewReferenceData)) {
   }
 
   function doeligibility_to_work() {
-
     event.preventDefault();
 
     $(".valley").html("");
@@ -7789,30 +9813,20 @@ if (!empty($interviewReferenceData)) {
 
 
     if (image_support_documentI.trim() == "") {
-
       document.getElementById("reqasupport_document").innerHTML = "* Please Upload the Support Document.";
-
       returnValue = false;
-
     }
 
     if (returnValue == false) {
-
       $('.submit-btn-120').prop('disabled', false);
-
       $('.submit-btn-1').hide();
-
       $('.resetpassword').show();
-
     }
 
 
 
     if (returnValue == true) {
-
       let formData = new FormData($('#multi-step-form-eligibility')[0]);
-
-
 
       $.ajax({
 
@@ -7844,13 +9858,9 @@ if (!empty($interviewReferenceData)) {
 
           $('.resetpassword').hide();
 
-
-
         },
 
         success: function(resp) {
-
-
 
           if (resp.status == 1) {
 
@@ -7861,8 +9871,6 @@ if (!empty($interviewReferenceData)) {
             $('.resetpassword').show();
 
             $('#multi-step-form-eligibility')[0].reset();
-
-
 
             Swal.fire({
 
@@ -7877,8 +9885,6 @@ if (!empty($interviewReferenceData)) {
               window.location = resp.url;
 
             });
-
-
 
           } else {
 
@@ -8165,10 +10171,6 @@ if (!empty($interviewReferenceData)) {
 
     return false;
 
-
-
-
-
   }
 
   function doprofession() {
@@ -8190,9 +10192,6 @@ if (!empty($interviewReferenceData)) {
     var assistent_level = document.getElementById("assistent_level").value;
     var evidence_type = document.getElementById("evidence_type").value;
     var image_evidenceI = document.getElementById("image_evidenceI").value;
-
-
-
 
 
     returnValue = true;
@@ -8242,12 +10241,9 @@ if (!empty($interviewReferenceData)) {
     }
 
 
-
     if (returnValue == true) {
 
       let formData = new FormData($('#multi-step-form')[0]);
-
-
 
       $.ajax({
 
@@ -8285,8 +10281,6 @@ if (!empty($interviewReferenceData)) {
 
         success: function(resp) {
 
-
-
           if (resp.status == 1) {
 
             $('.submit-btn-120').prop('disabled', false);
@@ -8296,8 +10290,6 @@ if (!empty($interviewReferenceData)) {
             $('.resetpassword').show();
 
             $('#multi-step-form')[0].reset();
-
-
 
             Swal.fire({
 
@@ -8312,8 +10304,6 @@ if (!empty($interviewReferenceData)) {
               window.location = resp.url;
 
             });
-
-
 
           } else {
 
@@ -8345,15 +10335,10 @@ if (!empty($interviewReferenceData)) {
 
     }
 
-
-
   }
 
   function printErrorMsg(msg) {
-
     $(".print-error-msg").find("ul").html('');
-
-
 
     $(".print-error-msg").css('display', 'block');
 
@@ -8364,10 +10349,6 @@ if (!empty($interviewReferenceData)) {
       $('#district_id').after('<span class="error">' + value + '</span>');
 
       $(".print-error-msg").find("ul").append('<li>' + value + '</li>');
-
-
-
-
 
     });
 
@@ -8439,87 +10420,84 @@ if (!empty($interviewReferenceData)) {
 
     };
     drawNewGraph('graph1');
-
-
-
   });
-  let autocomplete;
-  let address1Field;
-  let address2Field;
-  let postalField;
+  // let autocomplete;
+  // let address1Field;
+  // let address2Field;
+  // let postalField;
 
-  function initAutocomplete() {
-    address1Field = document.querySelector("#home_address");
-    address2Field = document.querySelector("#address2");
-    postalField = document.querySelector("#postcode");
-    // Create the autocomplete object, restricting the search predictions to
-    // addresses in the US and Canada.
-    autocomplete = new google.maps.places.Autocomplete(address1Field, {
+  // function initAutocomplete() {
+  //   address1Field = document.querySelector("#home_address");
+  //   address2Field = document.querySelector("#address2");
+  //   postalField = document.querySelector("#postcode");
+  //   // Create the autocomplete object, restricting the search predictions to
+  //   // addresses in the US and Canada.
+  //   autocomplete = new google.maps.places.Autocomplete(address1Field, {
 
-      types: ["address"],
-    });
-    address1Field.focus();
-    // When the user selects an address from the drop-down, populate the
-    // address fields in the form.
-    autocomplete.addListener("place_changed", fillInAddress);
-  }
+  //     types: ["address"],
+  //   });
+  //   address1Field.focus();
+  //   // When the user selects an address from the drop-down, populate the
+  //   // address fields in the form.
+  //   autocomplete.addListener("place_changed", fillInAddress);
+  // }
 
-  function fillInAddress() {
-    // Get the place details from the autocomplete object.
-    const place = autocomplete.getPlace();
-    let address1 = "";
-    let postcode = "";
+  // function fillInAddress() {
+  //   // Get the place details from the autocomplete object.
+  //   const place = autocomplete.getPlace();
+  //   let address1 = "";
+  //   let postcode = "";
 
-    // Get each component of the address from the place details,
-    // and then fill-in the corresponding field on the form.
-    // place.address_components are google.maps.GeocoderAddressComponent objects
-    // which are documented at http://goo.gle/3l5i5Mr
-    for (const component of place.address_components) {
-      // @ts-ignore remove once typings fixed
-      const componentType = component.types[0];
+  //   // Get each component of the address from the place details,
+  //   // and then fill-in the corresponding field on the form.
+  //   // place.address_components are google.maps.GeocoderAddressComponent objects
+  //   // which are documented at http://goo.gle/3l5i5Mr
+  //   for (const component of place.address_components) {
+  //     // @ts-ignore remove once typings fixed
+  //     const componentType = component.types[0];
 
-      switch (componentType) {
-        case "street_number": {
-          address1 = `${component.long_name} ${address1}`;
-          break;
-        }
+  //     switch (componentType) {
+  //       case "street_number": {
+  //         address1 = `${component.long_name} ${address1}`;
+  //         break;
+  //       }
 
-        case "route": {
-          address1 += component.short_name;
-          break;
-        }
+  //       case "route": {
+  //         address1 += component.short_name;
+  //         break;
+  //       }
 
-        case "postal_code": {
-          postcode = `${component.long_name}${postcode}`;
-          break;
-        }
+  //       case "postal_code": {
+  //         postcode = `${component.long_name}${postcode}`;
+  //         break;
+  //       }
 
-        case "postal_code_suffix": {
-          postcode = `${postcode}-${component.long_name}`;
-          break;
-        }
-        case "locality":
-          document.querySelector("#locality").value = component.long_name;
-          break;
-        case "administrative_area_level_1": {
-          document.querySelector("#state").value = component.short_name;
-          break;
-        }
-        case "country":
-          document.querySelector("#country").value = component.long_name;
-          break;
-      }
-    }
+  //       case "postal_code_suffix": {
+  //         postcode = `${postcode}-${component.long_name}`;
+  //         break;
+  //       }
+  //       case "locality":
+  //         document.querySelector("#locality").value = component.long_name;
+  //         break;
+  //       case "administrative_area_level_1": {
+  //         document.querySelector("#state").value = component.short_name;
+  //         break;
+  //       }
+  //       case "country":
+  //         document.querySelector("#country").value = component.long_name;
+  //         break;
+  //     }
+  //   }
 
-    address1Field.value = address1;
-    postalField.value = postcode;
-    // After filling the form with address components from the Autocomplete
-    // prediction, set cursor focus on the second address line to encourage
-    // entry of subpremise information such as apartment, unit, or floor number.
-    address2Field.focus();
-  }
+  //   address1Field.value = address1;
+  //   postalField.value = postcode;
+  //   // After filling the form with address components from the Autocomplete
+  //   // prediction, set cursor focus on the second address line to encourage
+  //   // entry of subpremise information such as apartment, unit, or floor number.
+  //   address2Field.focus();
+  // }
 
-  window.initAutocomplete = initAutocomplete;
+  // window.initAutocomplete = initAutocomplete;
 </script>
 
 @endsection
