@@ -1892,10 +1892,7 @@ class HomeController extends Controller
 
     public function updateExperience(Request $request)
     {
-        $file = $request->file('upload_evidence');
-        // echo '<pre>';
-        // print_r($file);
-        // die;
+
         // Retrieve input data
         $nurseTypes = $request->input('nurseType', []);
         $nursingType1 = $request->input('nursing_type_1', []);
@@ -1928,12 +1925,28 @@ class HomeController extends Controller
         $type_of_evidence = $request->input('type_of_evidence', []);
         $level_of_exp = $request->input('exper_assistent_level', []);
         $permanent_status = $request->input('permanent_status');
-        $temporary_status = $request->input('temporary_status');
-        $sub_skills_compantancies = $request->input('sub_skills_compantancies', []);
+        $evdience = $request->file('upload_evidence');
+
+
         $userId = $request->input('user_id');
 
         // Loop through nurse types and process them
         foreach ($nurseTypes as $key => $nurseType) {
+            $evi1 = $evdience[$key] ?? null;
+
+            $dtran = array();
+            if (!empty($evi1)) {
+
+                foreach ($evi1 as $dtrans) {
+                    $destinationPath = public_path() . '/uploads/evidence';
+                    $dtrans->move($destinationPath, $dtrans->getClientOriginalName());
+                    $degree_transcript = $dtrans->getClientOriginalName();
+
+                    $dtran[] = $degree_transcript;
+                }
+            }
+
+
             $entryLevel = $nursingType1[$key] ?? null;
             $registered = $nursingType2[$key] ?? null;
             $advanced = $nursingType3[$key] ?? null;
@@ -1997,15 +2010,16 @@ class HomeController extends Controller
             $newExperience->achievements = $achievements1;
             $newExperience->employeement_type = $employeement_type1;
             $newExperience->skills_compantancies = json_encode($skills_compantancies1);
-            $newExperience->evidence_type =  json_encode($type_of_evidence1);
+            $newExperience->evidence_type =  json_encode($evi1);
             $newExperience->permanent_status = $permanent_status1;
             $newExperience->temporary_status = $temporary_status1;
-            // $newExperience->pre_box_status  = $present_box1;
+            $newExperience->upload_evidence  = json_encode($dtran);
             $newExperience->sub_skills_compantancies = json_encode($sub_skills_compantancies1);
             $newExperience->assistent_level = $level_of_exp1;
 
             $run = $newExperience->save();
         }
+
         if ($run) {
             $json['status'] = 1;
         } else {
@@ -2287,9 +2301,9 @@ class HomeController extends Controller
 
 
                     if (isset($evidence_files[$i]) && $evidence_files[$i]->isValid()) {
-                        $filename = time() . '_' . $evidence_files[$i]->getClientOriginalName();
+                        $filename = 'evidence_file_' . time() . '.' . $evidence_files[$i]->getClientOriginalExtension();
                         $filePath = $evidence_files[$i]->storeAs('uploads/evidence', $filename, 'public');
-                        $vaccine->evidence_file = $filePath;
+                        $vaccine->evidence_file = $filename;
                     }
                     $vaccine->save();
                 }
@@ -2302,9 +2316,9 @@ class HomeController extends Controller
 
 
                 if (isset($evidence_files[$i]) && $evidence_files[$i]->isValid()) {
-                    $filename = time() . '_' . $evidence_files[$i]->getClientOriginalName();
+                    $filename = 'evidence_file_' . time() . '.' . $evidence_files[$i]->getClientOriginalExtension();
                     $filePath = $evidence_files[$i]->storeAs('uploads/evidence', $filename, 'public');
-                    $vaccine->evidence_file = $filePath;
+                    $vaccine->evidence_file = $filename;
                 }
                 $vaccine->save();
             }
@@ -3390,7 +3404,29 @@ class HomeController extends Controller
         //This function is for profile vaccination
         $user_id = Auth::guard('nurse_middle')->user()->id;
         $other_vaccine = DB::table("other_vaccine")->where("user_id", $user_id)->get();
-        return view('nurse.profile_vaccination', compact('other_vaccine'));
+        $state_record = DB::table("vcc_state")->get();
+        return view('nurse.profile_vaccination', compact('other_vaccine', 'state_record'));
+    }
+    public function getContent(Request $request)
+    {
+        //This function is for vaccinations compliance by state
+        $states = $request->input('states');
+        $vaccines = $request->input('vaccines');
+
+        $content = DB::table('vaccine_compliances')
+            ->join('vcc_state', 'vaccine_compliances.state_id', '=', 'vcc_state.id')
+            ->join('vaccination', 'vaccine_compliances.vaccination_id', '=', 'vaccination.id')
+            ->whereIn('vaccine_compliances.state_id', $states)
+            ->whereIn('vaccine_compliances.vaccination_id', $vaccines)
+            ->select(
+                'vaccine_compliances.*',
+                'vcc_state.state_name',
+                'vaccination.name as vaccine_name'
+            )
+            ->get();
+
+        // Render content or return a JSON response
+        return view('nurse.compliance_content', ['data' => $content])->render();
     }
     public function removeVaccine(Request $request)
     {

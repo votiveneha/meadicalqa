@@ -1734,8 +1734,8 @@
             <div class="form-group level-drp">
             <label class="form-label" for="input-1">Upload evidence</label>
 
-            <input class="form-control change_evi" type="file" name="upload_evidence[{previous_employeers_head}][]" id="${previous_employeers_head}">
-              <div class="fileNamesPreview_${previous_employeers_head}"></div>
+            <input class="form-control change_evi" type="file" name="upload_evidence[${previous_employeers_head}][]" id="${previous_employeers_head}">
+              <div class="fileList  fileList_${previous_employeers_head}"></div>
             
             <!-- <span id="reqachievements" class="reqError text-danger valley"></span> -->
             </div>
@@ -2558,93 +2558,261 @@
         }
     }
 
-    $(document).ready(function() {
-        // Initial file input section count
-        let sectionCount = 0;
+    // $(document).ready(function() {
+    //     // Initial file input section count
+    //     let sectionCount = 0;
 
-        // Handle the change event for each file input (multiple file selection)
-        $(document).on('change', '.change_evi', function() {
-            const files = this.files; // Get the selected files
-            const fileNames = [];
-            var id = this.id;
-            const uploadedFiles = [];
-            const inputElement = this;
+    //     // Handle the change event for each file input (multiple file selection)
+    //     $(document).on('change', '.change_evi', function() {
+    //         const files = this.files; // Get the selected files
+    //         const fileNames = [];
+    //         var id = this.id;
+    //         const uploadedFiles = [];
+    //         const inputElement = this;
 
-            // Loop through the selected files and create the HTML for previews
-            for (let i = 0; i < files.length; i++) {
-                const fileName = files[i].name;
+    //         // Loop through the selected files and create the HTML for previews
+    //         for (let i = 0; i < files.length; i++) {
+    //             const fileName = files[i].name;
 
-                // Check if the file is already uploaded
-                if (uploadedFiles.includes(fileName)) {
-                    continue; // Skip adding this file if it's a duplicate
-                }
+    //             // Check if the file is already uploaded
+    //             if (uploadedFiles.includes(fileName)) {
+    //                 continue; // Skip adding this file if it's a duplicate
+    //             }
 
-                // If it's a unique file, add it to the uploaded files list
-                uploadedFiles.push(fileName);
-                const fileUrl = URL.createObjectURL(files[i]);
+    //             // If it's a unique file, add it to the uploaded files list
+    //             uploadedFiles.push(fileName);
+    //             const fileUrl = URL.createObjectURL(files[i]);
 
-                // Create preview HTML structure
-                const previewHtml = `
-                <div class="trans_img trans_img-${sectionCount}">
-                    <a href="${fileUrl}" target="_blank"><i class="fa fa-file"></i>${fileName}</a>
-                    <div class="close_btn close_btn-${i}" onclick="deleteevImg(${sectionCount}, '${fileName}')" style="cursor: pointer;">
+    //             // Create preview HTML structure
+    //             const previewHtml = `
+    //             <div class="trans_img trans_img-${sectionCount}">
+    //                 <a href="${fileUrl}" target="_blank"><i class="fa fa-file"></i>${fileName}</a>
+    //                 <div class="close_btn close_btn-${i}" onclick="deleteevImg(${sectionCount}, '${fileName}')" style="cursor: pointer;">
+    //                     <i class="fa fa-close"></i>
+    //                 </div>
+    //             </div>
+    //         `;
+
+    //             // Append the preview HTML to the fileNamesPreview div
+    //             $(this).next('.fileNamesPreview_' + id).append(previewHtml);
+    //             uploadfileCount(i, fileName);
+    //             sectionCount++;
+
+    //         }
+    //         // Merge new files with the previous ones
+    //         mergeFiles(inputElement, files);
+    //     });
+
+    //     // Delete image preview
+    //     window.deleteevImg = function(sectionId, fileName) {
+    //         // Remove the preview element of the selected file
+    //         $(`.trans_img-${sectionId}`).remove();
+    //         // Get the file input element and update the count
+    //         const inputElement = $('.change_evi');
+    //         const newFileCount = inputElement[0].files.length - 1; // Decrease the count
+    //         inputElement[0].files = new FileListItems([...inputElement[0].files].slice(0, newFileCount));
+
+    //         console.log(`File ${fileName} deleted from section ${sectionId}`);
+    //     };
+
+    //     function mergeFiles(inputElement, newFiles) {
+    //         // Convert newFiles (FileList) to an array
+    //         const newFilesArray = Array.from(newFiles);
+
+    //         const previousFiles = Array.from(inputElement.files);
+    //         const combinedFiles = [
+    //             ...previousFiles,
+    //             ...newFilesArray.filter(file => !previousFiles.some(f => f.name === file.name))
+    //         ];
+
+    //         // Update the file input element with the combined files
+    //         inputElement.files = FileListItems(combinedFiles);
+    //     }
+
+
+
+    // });
+
+    // function uploadfileCount(i, fileName) {
+    //     // const fileCount = inputElement.files.length;
+    //     console.log('fileName', fileName);
+
+    //     const inputElement1 = $('.change_evi');
+    //     const newFileCount1 = inputElement1[0].files.length; // Decrease the count
+    //     console.log('newFileCount', newFileCount1);
+
+    // }
+
+
+    // // Helper function to create a new FileList from an array of File objects
+    // function FileListItems(files) {
+    //     const dataTransfer = new DataTransfer();
+    //     files.forEach(file => dataTransfer.items.add(file));
+    //     return dataTransfer.files;
+    // }
+    // $('#fileInput').on('change', function() {
+    //     const fileInput = this;
+    //     const fileList = $('#fileList');
+    //     const selectedFiles = new DataTransfer();
+
+    //     Array.from(fileInput.files).forEach((file, index) => {
+    //         // Add file to selectedFiles
+    //         selectedFiles.items.add(file);
+
+    //         // Generate file URL for preview
+    //         const fileUrl = URL.createObjectURL(file);
+    //         const fileName = file.name;
+    //         const sectionCount = index + 1;
+
+    //         // Create preview HTML
+    //         const previewHtml = `
+    //         <div class="trans_img trans_img-${sectionCount}">
+    //             <a href="${fileUrl}" target="_blank">
+    //                 <i class="fa fa-file"></i> ${fileName}
+    //             </a>
+    //             <div class="close_btn close_btn-${index}" style="cursor: pointer;">
+    //                 <i class="fa fa-close"></i>
+    //             </div>
+    //         </div>
+    //     `;
+
+    //         // Append preview to fileList container
+    //         fileList.append(previewHtml);
+
+    //         // Add remove functionality to the close button
+    //         $(`.close_btn-${index}`).on('click', function() {
+    //             // Remove file from selectedFiles
+    //             for (let i = 0; i < selectedFiles.items.length; i++) {
+    //                 if (selectedFiles.items[i].getAsFile().name === fileName) {
+    //                     selectedFiles.items.remove(i);
+    //                     break;
+    //                 }
+    //             }
+
+    //             // Update the file input
+    //             fileInput.files = selectedFiles.files;
+
+    //             // Remove preview element
+    //             $(`.trans_img-${sectionCount}`).remove();
+    //         });
+    //     });
+
+    //     // Update the file input with the modified FileList
+    //     fileInput.files = selectedFiles.files;
+    // });
+</script>
+<!-- 
+<script>
+    const fileList = $('.fileList_1'); // jQuery selector for the file list
+    const selectedFiles = new DataTransfer();
+    let count = 1;
+
+    // Using event delegation to handle 'change' event
+    $(document).on('change', '.change_evi', function(event) {
+
+        id = this.id;
+        console.log(id);
+        Array.from(event.target.files).forEach((file) => {
+            // Add file to selectedFiles
+            selectedFiles.items.add(file);
+
+            const fileUrl = URL.createObjectURL(file);
+            const fileName = file.name;
+
+            // Create preview HTML
+            const previewHtml = `
+                <div class="trans_img trans_img-${count}" data-file="${fileName}">
+                    <a href="${fileUrl}" target="_blank">
+                        <i class="fa fa-file"></i> ${fileName}
+                    </a>
+                    <div class="close_btn" style="cursor: pointer;">
                         <i class="fa fa-close"></i>
                     </div>
                 </div>
             `;
 
-                // Append the preview HTML to the fileNamesPreview div
-                $(this).next('.fileNamesPreview_' + id).append(previewHtml);
-                uploadfileCount(i, fileName);
-                sectionCount++;
-
-            }
-            // Merge new files with the previous ones
-            mergeFiles(inputElement, files);
+            $('.fileList_' + id).append(previewHtml);
+            count++;
         });
 
-        // Delete image preview
-        window.deleteevImg = function(sectionId, fileName) {
-            // Remove the preview element of the selected file
-            $(`.trans_img-${sectionId}`).remove();
-            // Get the file input element and update the count
-            const inputElement = $('.change_evi');
-            const newFileCount = inputElement[0].files.length - 1; // Decrease the count
-            inputElement[0].files = new FileListItems([...inputElement[0].files].slice(0, newFileCount));
-
-            console.log(`File ${fileName} deleted from section ${sectionId}`);
-        };
-
-        function mergeFiles(inputElement, newFiles) {
-            // Convert newFiles (FileList) to an array
-            const newFilesArray = Array.from(newFiles);
-
-            const previousFiles = Array.from(inputElement.files);
-            const combinedFiles = [
-                ...previousFiles,
-                ...newFilesArray.filter(file => !previousFiles.some(f => f.name === file.name))
-            ];
-
-            // Update the file input element with the combined files
-            inputElement.files = FileListItems(combinedFiles);
-        }
-
-
-
+        // Update the file input with the modified FileList
+        $('#' + inputId)[0].files = selectedFiles.files;
     });
 
-    function uploadfileCount(i, fileName) {
-        // const fileCount = inputElement.files.length;
-        console.log('fileName', fileName);
+    // Event delegation to handle dynamically added close buttons
+    $(document).on('click', '.close_btn', function() {
+        const parentDiv = $(this).closest('.trans_img');
+        const fileNameToRemove = parentDiv.data('file');
 
-        const inputElement1 = $('.change_evi');
-        const newFileCount1 = inputElement1[0].files.length; // Decrease the count
-        console.log('newFileCount', newFileCount1);
+        // Remove the file from selectedFiles
+        for (let i = 0; i < selectedFiles.items.length; i++) {
+            if (selectedFiles.items[i].getAsFile().name === fileNameToRemove) {
+                selectedFiles.items.remove(i);
+                break;
+            }
+        }
 
-    }
+        // Remove the preview element
+        parentDiv.remove();
+
+        // Update the file input with the modified FileList
+        $('#' + id)[0].files = selectedFiles.files;
+    });
+</script> -->
+<script>
+    const selectedFilesMap = {}; // This will hold selected files for each input by ID
+    let count = 1;
+
+    // Using event delegation to handle 'change' event for multiple inputs
+    $(document).on('change', '.change_evi', function(event) {
+        const id = this.id; // Get the ID of the input element
+        console.log(id);
+
+        // Initialize or retrieve the selectedFiles for this input
+        if (!selectedFilesMap[id]) {
+            selectedFilesMap[id] = new DataTransfer();
+        }
+
+        // Add selected files to the DataTransfer for this input
+        Array.from(event.target.files).forEach((file) => {
+            selectedFilesMap[id].items.add(file);
+
+            const fileUrl = URL.createObjectURL(file);
+            const fileName = file.name;
+
+            // Create preview HTML
+            const previewHtml = `
+                <div class="trans_img trans_img-${count}" data-file="${fileName}">
+                    <a href="${fileUrl}" target="_blank">
+                        <i class="fa fa-file"></i> ${fileName}
+                    </a>
+                    <div class="close_btn" style="cursor: pointer;">
+                        <i class="fa fa-close" onclick="deleteevImg(${count}, '${fileName}',${id})"></i>
+                    </div>
+                </div>
+            `;
+
+            $('.fileList_' + id).append(previewHtml);
+            count++;
+        });
+
+        // Update the file input with the modified FileList for this specific input
+        $('#' + id)[0].files = selectedFilesMap[id].files;
+        // console.log(selectedFilesMap);
+    });
 
 
-    // Helper function to create a new FileList from an array of File objects
+    window.deleteevImg = function(sectionId, fileName, id) {
+        // Remove the preview element of the selected file
+        $(`.trans_img-${sectionId}`).remove();
+        // Get the file input element and update the count
+        const inputElement = $('.change_evi');
+        const newFileCount = inputElement[0].files.length - 1; // Decrease the count
+        $('#' + id)[0].files = new FileListItems([...inputElement[0].files].slice(0, newFileCount));
+
+        console.log(`File ${fileName} deleted from section ${sectionId}`);
+    };
+
     function FileListItems(files) {
         const dataTransfer = new DataTransfer();
         files.forEach(file => dataTransfer.items.add(file));

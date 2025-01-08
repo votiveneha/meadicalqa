@@ -3442,8 +3442,6 @@
                               <option value="Apprenticeship" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Apprenticeship") selected @endif>Apprenticeship</option>
                               <option value="Residency" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Residency") selected @endif>Residency</option>
                               <option value="Volunteer" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Volunteer") selected @endif>Volunteer</option>
-
-
                             </select>
                           </div>
                           <span id="reqemployee_status" class="reqError text-danger valley"></span>
@@ -3461,12 +3459,10 @@
                           <textarea class="form-control" name="achievements[1]"></textarea>
                           <span id="reqachievements" class="reqError text-danger valley"></span>
                         </div>
-
                         <h6 class="emergency_text">
                           Areas of Expertise
                         </h6>
                         <div class="form-group level-drp">
-
                           <label class="form-label" for="input-1">Specific skills and competencies</label>
                           <?php
                           $skills = DB::table("skills")->where("parent_id", "1")->get();
@@ -3503,14 +3499,13 @@
                           <label class="form-label" for="input-1">Upload evidence</label>
                           <input class="form-control" type="file" name="upload_evidence[1][]" onchange="changeEviImg('{{ $user_id }}')" multiple="">
                         </div> -->
-
                         <div class="form-group level-drp">
                           <?php
                           $user_id = Auth::guard('nurse_middle')->user()->id;
                           ?>
                           <label class="form-label" for="input-1">Upload evidence</label>
                           <input class="form-control change_evi" type="file" name="upload_evidence[1][]" multiple="" id="1">
-                          <div class="fileNamesPreview_1"></div>
+                          <div class="fileList  fileList_1"></div>
                         </div>
 
                       </div>
@@ -3589,7 +3584,6 @@
                     }
                     var year = start_date1.getFullYear();
                     var new_date = year + "-" + month1 + "-" + day1;
-                    ////console.log("refree_start_date", new_date);
                     document.getElementsByClassName("employeement_end_date-" + i)[0].setAttribute('min', new_date);
                     i++;
                   });

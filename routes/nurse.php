@@ -111,5 +111,6 @@ Route::prefix('nurse')->name('nurse.')->namespace('App\Http\Controllers\nurse')-
     Route::post('/getSkillsData', 'HomeController@getSkillsData')->name('getSkillsData');
     Route::any('/profileVaccination', 'HomeController@profileVaccination')->name('profileVaccination');
     Route::post('/removeVaccine', 'HomeController@removeVaccine')->name('removeVaccine');
+    Route::post('/getContent', 'HomeController@getContent')->name('getContent');
   });
 });
