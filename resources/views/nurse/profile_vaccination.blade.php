@@ -9,6 +9,49 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"></script>
 
 <style type="text/css">
+  .file-item {
+    display: flex;
+    align-items: unset;
+    margin-bottom: 10px;
+  }
+
+  .file-item a {
+    text-decoration: none;
+    color: #333;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+  }
+
+  .file-item .fa-file {
+    margin-right: 5px;
+  }
+
+  .file-item .close_btn.close_btn-0 {
+    margin-left: 0;
+  }
+
+  i.fa.fa-file {
+    position: relative;
+    left: 0px;
+    font-size: 14px;
+    line-height: 25px;
+    margin-right: 5px;
+    color: #000000;
+  }
+
+  .close_btn i {
+    display: block;
+    position: relative;
+    left: 0px;
+    font-size: 14px;
+    line-height: 25px;
+    margin-right: 5px;
+    color: #000000;
+    top: 14px;
+  }
+
+
   .change_clr option:hover {
     background-color: black !important;
     color: white !important;
@@ -200,13 +243,9 @@
               <div class="tab-pane fade" id="tab-vaccination">
                 <div class="card shadow-sm border-0 p-4 mt-30">
                   <h3 class="mt-0 color-brand-1 mb-20">Vaccinations</h3>
-                  <?php
-                  $vaccinationData = DB::table("vaccination_front")->where("user_id", Auth::guard('nurse_middle')->user()->id)->first();
-                  $stateData = DB::table("vaccination_front")->where("user_id", Auth::guard('nurse_middle')->user()->id)->first();
-                  ?>
+
                   <form id="vaccination_form" method="POST" onsubmit="return vaccinationForm()" enctype="multipart/form-data">
                     @csrf
-                    <input type="hidden" name="user_id" value="{{ Auth::guard('nurse_middle')->user()->id }}">
                     <div class="row">
                       <div class="col-md-12">
                         <p class="">Please upload all your vaccination records as required for your desired roles and state. You may also add non-mandatory vaccines and any additional vaccinations not listed. Keeping your vaccinations up to date will help maintain your eligibility for your role.</p>
@@ -214,10 +253,18 @@
 
                         <div class="form-group level-drp">
                           <label class="form-label" for="input-1">Vaccination Records</label>
-                          <input type="hidden" name="vaccination_r" class="vaccination_r" value="@if(!empty($vaccinationData)){{ $vaccinationData->vaccination_records }}@endif">
-                          <?php
-                          $vaccination_record = DB::table("vaccination")->get();
-                          ?>
+                          @php
+                          $vacc = [];
+                          @endphp
+
+                          @if(!empty($vaccinationData))
+                          @foreach($vaccinationData as $vcdata)
+                          @php $vacc[] = $vcdata->vaccination_id; @endphp
+                          @endforeach
+                          @endif
+                          <input type="hidden" name="vaccination_r" class="vaccination_r" value="{{ json_encode($vacc) }}">
+
+
                           <ul id="vaccination_record" style="display:none;">
                             @foreach($vaccination_record as $v_record)
                             <li data-value="{{ $v_record->id }}" data-id="{{ $v_record->name }}">{{ $v_record->name }}</li>
@@ -226,15 +273,9 @@
                           <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="vaccination_record" name="vaccination_record[]" multiple="multiple"></select>
                           <span id="reqempsdate" class="reqError text-danger valley"></span>
                         </div>
+
                         <div class="vacc_rec_div"></div>
-                        <div class="form-group level-drp">
-                          <label class="form-label" for="input-1">Immunization Status </label>
-                          <select class="form-input mr-10 select-active" name="immunization_status">
-                            <option value="">Immunization Status</option>
-                            <option value="Up-to-date" @if(!empty($vaccinationData)) @if($vaccinationData->immunization_status == "Up-to-date") selected @endif @endif>Up-to-date</option>
-                            <option value="Pending" @if(!empty($vaccinationData)) @if($vaccinationData->immunization_status == "Pending") selected @endif @endif>Pending</option>
-                          </select>
-                        </div>
+
 
                         <!--[ADD OTHER VACCINE START]-->
                         <div class="row" id="vaccine-section-container">
@@ -287,7 +328,7 @@
                               </div>
                             </div>
                             <div class="add_new_certification_div mb-3 mt-3">
-                              <a style="cursor: pointer;" class="remove-vaccine" other_id="{{$other->id}}">Remove</a>
+                              <a style="cursor: pointer;" class="remove-vaccine" other_id="{{$other->id}}">- Delete Vaccine</a>
                             </div>
                           </div>
                           @php $ci++; @endphp
@@ -391,7 +432,7 @@
                                   <div class="form-group level-drp">
                                       <label class="form-label" for="input-1">Immunization Status</label>
                                       <select class="form-input mr-10 change_clr immunization-status" name="immunization_status[]">
-                                          <option value="" disabled selected>Immunization Status</option>
+                                          <option value="" disabled selected>Select Immunization Status</option>
                                           <?php
                                           $get_imm_status = DB::table("imm_status")->get();
                                           foreach ($get_imm_status as $status) { ?>
@@ -404,7 +445,7 @@
                                   <div class="form-group level-drp">
                                       <label class="form-label" for="input-1">Evidence Type</label>
                                       <select class="form-input mr-10 change_clr evidence-type" name="evidence_type[]">
-                                          <option value="" disabled selected>Evidence type</option>
+                                          <option value="" disabled selected>Select Evidence type</option>
                                           <option value="Immunization Certificate" >Immunization Certificate</option>
                                           <option value="Vaccination Card/Record" >Vaccination Card/Record</option>
                                           <option value="Medical Letter or Certificate from GP" >Medical Letter or Certificate from GP</option>
@@ -423,7 +464,7 @@
                                   </div>
                               </div>
                               <div class="add_new_certification_div mb-3 mt-3">
-                                <a style="cursor: pointer;" class="remove-vaccine">Remove</a>
+                                <a style="cursor: pointer;" class="remove-vaccine">- Delete Vaccine</a>
                               </div>
                               
                           </div>`);
@@ -730,7 +771,9 @@
     $('.js-example-basic-multiple[data-list-id="state_record"], .js-example-basic-multiple[data-list-id="vaccination_record"]').on('change', updateContent);
   });
 </script>
+
 <script>
+  //This will add vaccination record 
   $(document).ready(function() {
     $('.js-example-basic-multiple[data-list-id="vaccination_record"]').on('change', function() {
       let selectedValues = $(this).val(); // Get selected values (IDs)
@@ -754,7 +797,7 @@
             $(".vacc_rec_div").append(`
                     <div class="vacc_rec_${id}">
                         <h6 class="vacc_rec_head_${id}" data-id="${id}">${datatext}</h6>
-                        <input type="hidden" name="vaccrecarr[]" class="vacc_rec_input_${id}" value="${id}">
+                        <input type="hidden" name="vaccination_id[]" class="vacc_rec_input_${id}" value="${id}">
 
                         <div class="row vacc_rec_institution">
                             <!-- Level of Requirement -->
@@ -777,11 +820,12 @@
                             <!-- Immunization Status -->
                             <div class="form-group col-md-12">
                                 <label class="form-label" for="imm_status_status-${i}">Immunization Status</label>
-                                <select class="form-control mid_spe_status imm_status_status-${i}" name="imm_status_status[]">
+                                <select class="form-control mid_spe_status imm_status_status-${i}" name="imm_status_status[${id}][]">
+                                  <option value="">Select Immunization Status</option>
                                     <?php
                                     $get_imm_status = DB::table("imm_status")->get();
                                     foreach ($get_imm_status as $status) { ?>
-                                        <option value="<?= htmlspecialchars($status->name) ?>"><?= htmlspecialchars($status->name) ?></option>
+                                        <option value="<?= htmlspecialchars($status->id) ?>"><?= htmlspecialchars($status->name) ?></option>
                                     <?php } ?>
                                 </select>
                                 <span id="imm_status_statusvalid-${i}" class="reqError text-danger valley"></span>
@@ -790,7 +834,7 @@
                             <!-- Dose -->
                             <div class="form-group col-md-12" style="display: ${id == 12 ? 'block' : 'none'}">
                                 <label class="form-label" for="dose-${i}">How many doses of a TGA-recognised COVID-19 vaccine have you received?</label>
-                                <select class="form-control mid_spe_status covid_dose-${i}" name="covid_dose[]"  onchange="handleDoseChange(this, ${id})">
+                                <select class="form-control mid_spe_status covid_dose-${i}" name="covid_dose[${id}]"  onchange="handleDoseChange(this, ${id})">
                                     <option value="None">None</option>
                                     <option value="1">1 dose</option>
                                     <option value="2">2 dose</option>
@@ -810,7 +854,7 @@
                                   const adjustedIndex = 1; 
                                 if (data.type === id) {
                                     return `
-                                        <input type="radio" id="evidence_re-${adjustedIndex}-${i}" name="evidence_required[]" value="${data.name}">
+                                        <input type="radio" id="evidence_re-${adjustedIndex}-${i}" name="evidence_required[${id}][]" value="${data.id}">
                                         <label for="evidence_re-${adjustedIndex}-${i}">${data.name}</label><br>
                                     `;
                                     }
@@ -838,9 +882,9 @@
                             <!-- Evidence Upload required --> 
                             <div class="form-group col-md-12">
                              <label class="form-label" for="input-1">Upload Evidence</label>
-                             <input class="form-control clinic_skill_upload_certification clinic_skill_imgs_' + res_one + ' clinic_skill_upload_certification-' + i + '" type="file" name="clinic_skill_upload_certification[' + i + '][]" onchange="changeImg1(' + user_id + ',' + i + ',\'' + img_text + '\',\'' + res_one + '\')" multiple>
-                             <span id="reqclinskilluploadvalid-' + i + '" class="reqError text-danger valley"></span>
-                             <div class="clinic_skill_imgs' + res_one + '"></div>
+                             <input class="form-control fileInput" type="file" id="fileInput${id}" name="evidancefile${id}[]" multiple>
+                             <span class="reqError text-danger valley"></span>
+                             <div id="fileList${id}" class="file-list"></div>
                             </div>
                         </div>
                     </div>
@@ -850,6 +894,7 @@
           }
         }
       });
+      initializeFileUpload();
     });
 
     // Dynamically generated checkbox selectors based on adjusted index
@@ -860,7 +905,7 @@
       var checkboxValue = $(this).val();
 
       // If the checkbox is checked, show the hep-b message
-      if (checkboxValue == 'NSW Health Hepatitis B Vaccination Declaration formclaration' && $(this).prop('checked')) {
+      if (checkboxValue == 'NSW Health Hepatitis B Vaccination Declaration form' && $(this).prop('checked')) {
         $(".hep-b").show();
       } else {
         $(".hep-b").hide(); // Hide the .hep-b element if not checked
@@ -896,7 +941,7 @@
         // Ensure that data.dose exists and matches the selected dose
         if (data.dose == selectedDose) { // Use '==' to compare as strings and numbers might differ
           evidenceRequiredDiv.append(`
-                    <input type="radio" id="evidence_re-${index}-${i}" name="evidence_required[]" value="${data.name}">
+                    <input type="radio" id="evidence_re-${index}-${i}" name="evidence_required[${data.type}][]" value="${data.id}">
                     <label for="evidence_re-${index}-${i}">${data.name}</label><br>
                 `);
         }
@@ -908,7 +953,64 @@
       }
     }
   }
+  //add remove file in the list of view
+  function initializeFileUpload() {
+    $(".fileInput").each(function() {
+      const fileInput = $(this);
+      const fileList = $(`#fileList${fileInput.attr("id").replace("fileInput", "")}`);
+      const selectedFiles = new DataTransfer();
 
+      fileInput.off("change").on("change", function(event) {
+        Array.from(event.target.files).forEach((file) => {
+          selectedFiles.items.add(file);
+
+          // Create a file item container
+          const fileDiv = $("<div>").addClass("file-item");
+
+          // Create a link to the file with the file name
+          const fileLink = $("<a>")
+            .attr("href", URL.createObjectURL(file)) // Use Blob URL to link the file
+            .attr("target", "_blank")
+            .html(`<i class="fa fa-file" aria-hidden="true"></i> ${file.name}`);
+
+          // Create the close button
+          const closeButton = $("<div>").addClass("close_btn close_btn-0").css("cursor", "pointer");
+          const closeIcon = $("<i>").addClass("fa fa-close").attr("aria-hidden", "true");
+
+          // Append the close icon to the close button
+          closeButton.append(closeIcon);
+
+          // Add event listener to remove the file item when clicked
+          closeButton.on("click", function() {
+            for (let i = 0; i < selectedFiles.items.length; i++) {
+              if (selectedFiles.items[i].getAsFile().name === file.name) {
+                selectedFiles.items.remove(i);
+                break;
+              }
+            }
+            fileInput[0].files = selectedFiles.files;
+
+            // Remove the file div from the list
+            fileDiv.remove();
+          });
+
+          // Append the link and close button to the file div
+          fileDiv.append(fileLink).append(closeButton);
+
+          // Append the file div to the file list container
+          fileList.append(fileDiv);
+        });
+
+        // Update the file input with the modified FileList
+        fileInput[0].files = selectedFiles.files;
+      });
+    });
+  }
+
+
+
+
+  //This will submmit the complete vaccination form
   function vaccinationForm() {
     let isValid = true;
 

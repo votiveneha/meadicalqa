@@ -49,6 +49,7 @@ use App\Models\AddReferee;
 use App\Repository\Eloquent\SpecialityRepository;
 use App\Models\OtherVaccineModel;
 use Illuminate\Support\Facades\Storage;
+use App\Models\EvidanceFileModel;
 
 
 class HomeController extends Controller
@@ -1892,7 +1893,6 @@ class HomeController extends Controller
 
     public function updateExperience(Request $request)
     {
-
         // Retrieve input data
         $nurseTypes = $request->input('nurseType', []);
         $nursingType1 = $request->input('nursing_type_1', []);
@@ -1926,27 +1926,31 @@ class HomeController extends Controller
         $level_of_exp = $request->input('exper_assistent_level', []);
         $permanent_status = $request->input('permanent_status');
         $evdience = $request->file('upload_evidence');
-
-
-        $userId = $request->input('user_id');
+        $sub_skills_compantancies1 = $request->input('sub_skills_compantancies-8', []);
+        $sub_skills_compantancies2 = $request->input('sub_skills_compantancies-9', []);
+        $sub_skills_compantancies3 = $request->input('sub_skills_compantancies-10', []);
+        $sub_skills_compantancies4 = $request->input('sub_skills_compantancies-11', []);
+        $userId = $request->user_id;
 
         // Loop through nurse types and process them
         foreach ($nurseTypes as $key => $nurseType) {
             $evi1 = $evdience[$key] ?? null;
-
+            $present_box1 = $present_box[$key] ?? null;
             $dtran = array();
             if (!empty($evi1)) {
-
                 foreach ($evi1 as $dtrans) {
                     $destinationPath = public_path() . '/uploads/evidence';
                     $dtrans->move($destinationPath, $dtrans->getClientOriginalName());
                     $degree_transcript = $dtrans->getClientOriginalName();
-
                     $dtran[] = $degree_transcript;
                 }
             }
 
-
+            if (isset($present_box1)) {
+                $p_box = 1;
+            } else {
+                $p_box = 0;
+            }
             $entryLevel = $nursingType1[$key] ?? null;
             $registered = $nursingType2[$key] ?? null;
             $advanced = $nursingType3[$key] ?? null;
@@ -1969,7 +1973,6 @@ class HomeController extends Controller
             $positions_held1 = $positions_held[$key] ?? null;
             $start_date1 = $start_date[$key] ?? '0000-00-00';
             $end_date1 = $end_date[$key] ?? '0000-00-00';
-            $present_box1 = $present_box[$key] ?? null;
             $job_responeblities1 = $job_responeblities[$key] ?? null;
             $achievements1 = $achievements[$key] ?? null;
             $employeement_type1 = $employeement_type[$key] ?? null;
@@ -1978,9 +1981,10 @@ class HomeController extends Controller
             $level_of_exp1 = $level_of_exp[$key] ?? null;
             $permanent_status1 = $permanent_status[$key] ?? null;
             $temporary_status1 = $temporary_status[$key] ?? null;
-            $sub_skills_compantancies1 = $sub_skills_compantancies[$key] ?? null;
-
-
+            $sub_skills_compantancies1_1 = $sub_skills_compantancies1[$key] ?? null;
+            $sub_skills_compantancies2_1 = $sub_skills_compantancies2[$key] ?? null;
+            $sub_skills_compantancies3_1 = $sub_skills_compantancies3[$key] ?? null;
+            $sub_skills_compantancies4_1 = $sub_skills_compantancies4[$key] ?? null;
             $newExperience = new ExperienceModel();
             $newExperience->user_id = $userId;
             $newExperience->nurseType = json_encode($nurseType);
@@ -2010,12 +2014,18 @@ class HomeController extends Controller
             $newExperience->achievements = $achievements1;
             $newExperience->employeement_type = $employeement_type1;
             $newExperience->skills_compantancies = json_encode($skills_compantancies1);
-            $newExperience->evidence_type =  json_encode($evi1);
+            $newExperience->evidence_type =  json_encode($type_of_evidence1);
             $newExperience->permanent_status = $permanent_status1;
             $newExperience->temporary_status = $temporary_status1;
             $newExperience->upload_evidence  = json_encode($dtran);
             $newExperience->sub_skills_compantancies = json_encode($sub_skills_compantancies1);
             $newExperience->assistent_level = $level_of_exp1;
+            $newExperience->pre_box_status = $p_box;
+            $newExperience->complete_status = 1;
+            $newExperience->inter_and_em_skill = json_encode($sub_skills_compantancies1_1);
+            $newExperience->org_and_any_skill = json_encode($sub_skills_compantancies2_1);
+            $newExperience->lead_and_ment_skill = json_encode($sub_skills_compantancies3_1);
+            $newExperience->tech_and_soft_pro = json_encode($sub_skills_compantancies4_1);
 
             $run = $newExperience->save();
         }
@@ -2279,17 +2289,15 @@ class HomeController extends Controller
 
     public function vaccinationForm(Request $request)
     {
-        $vaccination_record = json_encode($request->vaccination_record);
-        $state_record = json_encode($request->state_record);
-        $user_id = $request->user_id;
-        $immunization_status = $request->immunization_status;
+        //This function is for add /update the vaccination record for user
+        $user_id = Auth::guard('nurse_middle')->user()->id;
 
         /**[Other Vaccine Start]**/
-        $other_ids = $request->input('other_id', []);
-        $vaccination_names = $request->input('vaccination_name', []);
-        $immunization_statuses = $request->input('immunization_status', []);
-        $evidence_types = $request->input('evidence_type', []);
-        $evidence_files = $request->file('evidence_file', []);
+        $other_ids              = $request->input('other_id', []);
+        $vaccination_names      = $request->input('vaccination_name', []);
+        $immunization_statuses  = $request->input('immunization_status', []);
+        $evidence_types         = $request->input('evidence_type', []);
+        $evidence_files         = $request->file('evidence_file', []);
 
         for ($i = 0; $i < count($vaccination_names); $i++) {
             if (isset($other_ids[$i])) {
@@ -2302,7 +2310,8 @@ class HomeController extends Controller
 
                     if (isset($evidence_files[$i]) && $evidence_files[$i]->isValid()) {
                         $filename = 'evidence_file_' . time() . '.' . $evidence_files[$i]->getClientOriginalExtension();
-                        $filePath = $evidence_files[$i]->storeAs('uploads/evidence', $filename, 'public');
+                        $destinationPath = public_path() . '/uploads/evidence';
+                        $evidence_files[$i]->move($destinationPath, $filename);
                         $vaccine->evidence_file = $filename;
                     }
                     $vaccine->save();
@@ -2317,7 +2326,9 @@ class HomeController extends Controller
 
                 if (isset($evidence_files[$i]) && $evidence_files[$i]->isValid()) {
                     $filename = 'evidence_file_' . time() . '.' . $evidence_files[$i]->getClientOriginalExtension();
-                    $filePath = $evidence_files[$i]->storeAs('uploads/evidence', $filename, 'public');
+                    $destinationPath = public_path() . '/uploads/evidence';
+                    $evidence_files[$i]->move($destinationPath, $filename);
+
                     $vaccine->evidence_file = $filename;
                 }
                 $vaccine->save();
@@ -2325,13 +2336,54 @@ class HomeController extends Controller
         }
         /**[Other Vaccine End]**/
 
+        /**********[Vaccination Record Start]*************/
+        $vaccination_record = $request->vaccination_id;
+        $imm_status_status  = $request->imm_status_status;
+        $covid_dose         = $request->covid_dose;
+        $evidence_required  = $request->evidence_required;
+        $evidancefile       = $request->evidancefile;
+
+        //echo "<pre>";print_r($evidence_required);die();
+        if (!empty($vaccination_record)) {
+            if (count($vaccination_record) > 0) {
+                foreach ($vaccination_record as $vaccination) {
+                    $fvcc = new VaccinationFrontModel();
+                    $fvcc->user_id = $user_id;
+
+
+                    $fvcc->vaccination_id       = $vaccination;
+                    $fvcc->immunization_status  = $imm_status_status[$vaccination][0];
+                    $fvcc->evidance_type        = $evidence_required[$vaccination][0];
+                    $fvcc->covid_dose           = $covid_dose[$vaccination] ?? null;
+
+                    $fvcc->save();
+                    $vcc_id = $fvcc->id;
+
+                    if ($request->hasFile('evidancefile' . $vaccination)) {
+                        foreach ($request->file('evidancefile' . $vaccination) as $file) {
+                            $filename = 'evidence_file_' . time() . '.' . $file->getClientOriginalExtension();
+                            $destinationPath = public_path() . '/uploads/evidence';
+                            $file->move($destinationPath, $filename);
+
+                            $evid               = new EvidanceFileModel();
+                            $evid->vcc_front_id = $vcc_id;
+                            $evid->file_name    = $filename;
+                            $evid->created_at   = date('Y-m-d H:i:s');
+                            $evid->save();
+                        }
+                    }
+                }
+            }
+        }
+
+
         $getvaccinationdata = DB::table("vaccination_front")->where("user_id", $user_id)->first();
         //$post = User::find($request->user_id);
-
+        /*
         if (!empty($getvaccinationdata) > 0) {
 
 
-            $run = VaccinationFrontModel::where('user_id', $user_id)->update(['vaccination_records' => $vaccination_record, 'immunization_status' => $immunization_status, 'complete_status' => 1, 'state_record' => $state_record]);
+            $run = VaccinationFrontModel::where('user_id', $user_id)->update(['vaccination_records' => $vaccination_record, 'immunization_status' => $immunization_status, 'complete_status' => 1,'state_record'=>$state_record]);
         } else {
 
 
@@ -2339,22 +2391,18 @@ class HomeController extends Controller
             $post = new VaccinationFrontModel();
             $post->user_id = $user_id;
 
-
+            
             $post->vaccination_records = $vaccination_record;
             $post->immunization_status = $immunization_status;
-            $post->state_record        = $state_record;
+            $post->state_record        = $state_record;    
             $post->complete_status = 1;
             $run = $post->save();
-        }
+        }*/
+        /**********[Vaccination Record End]*************/
 
-        if ($run) {
-            $json['status'] = 1;
-            $json['url'] = url('nurse/my-profile');
-            $json['message'] = 'Education Information Updated Successfully';
-        } else {
-            $json['status'] = 0;
-            $json['message'] = 'Please Try Again';
-        }
+        $json['status'] = 1;
+        $json['url'] = url('nurse/my-profile');
+        $json['message'] = 'Education Information Updated Successfully';
 
         echo json_encode($json);
     }

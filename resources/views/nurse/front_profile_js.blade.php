@@ -2125,6 +2125,7 @@
                 existingDropdowns.push($(this).data('list-id'));
             });
 
+            var skcount = 1;
             // Loop through selected values
             selectedValues.forEach(function(value) {
                 // Check if the dropdown for this ID already exists
@@ -2155,7 +2156,7 @@
                                 </ul>
                                 <select class="js-example-basic-multiple${previous_employeers_head} addAll_removeAll_btn" 
                                         data-list-id="skills_compantancies-${previous_employeers_head}-${skills[0].parent_id}" 
-                                        name="sub_skills_compantancies[${previous_employeers_head}][]" multiple="multiple">
+                                        name="sub_skills_compantancies-${skills[0].parent_id}[${previous_employeers_head}][]" multiple="multiple">
                                 </select>
                                 </div>
                             `;
@@ -2332,8 +2333,7 @@
             if ($(".exp_tab-" + g).length > 0) {
                 // Check if the value is not empty
                 if ($(".maternity_result_experience_" + g).val() != "") {
-
-                    $(".surgicalobs_row_exp_" + g).insertAfter("#specility_level_exp-2");
+                    $(".surgicalobs_row_exp_" + g).insertAfter("#specility_level_exp-2-" + g);
                     // (".surgicalobs_row_exp_" + g).insertAfter("#specility_level_exp-2");
                     var maternityt_type = JSON.parse($(".maternity_result_experience_" + g).val());
                     $('.specility_sub_type_2_' + g).select2().val(maternityt_type).trigger('change');
@@ -2427,7 +2427,6 @@
                     }
 
                     if (Array.isArray(paedia_type) && paedia_type.includes("287")) {
-
                         var scoutvalue1 = $(".pad_qr_scout_result_experience_" + l).val();
                         if (scoutvalue1 != "") {
                             var scoutvalue2 = JSON.parse($(".pad_qr_scout_result_experience_" + l).val());
@@ -2478,7 +2477,6 @@
             e++; // Increment the counter inside the loop
         });
 
-
         var f = 1; // Initialize the counter
         $(".exp_tab").each(function(index) {
             if ($(".exp_tab-" + f).length > 0) {
@@ -2522,6 +2520,19 @@
             f++; // Increment the counter inside the loop
         });
 
+        var m = 1; // Initialize the counter
+        $(".exp_tab").each(function(index) {
+            if ($(".exp_tab-" + m).length > 0) {
+                var skillResult = $("#spe_skill_" + m).val();
+                if (skillResult != "") {
+
+                    var getskillw = JSON.parse($("#spe_skill_" + m).val());
+                    // alert(getskillw);
+                    $('.skill_com_' + m).select2().val(getskillw).trigger('change');
+                }
+            }
+            m++; // Increment the counter inside the loop
+        });
     })
 
     function handleNurseTypeChange(index) {
@@ -2557,217 +2568,14 @@
             // $('.js-example-basic-multiple[data-list-id="nurse_practitioner_menu"]').select2().val(null).trigger('change');
         }
     }
-
-    // $(document).ready(function() {
-    //     // Initial file input section count
-    //     let sectionCount = 0;
-
-    //     // Handle the change event for each file input (multiple file selection)
-    //     $(document).on('change', '.change_evi', function() {
-    //         const files = this.files; // Get the selected files
-    //         const fileNames = [];
-    //         var id = this.id;
-    //         const uploadedFiles = [];
-    //         const inputElement = this;
-
-    //         // Loop through the selected files and create the HTML for previews
-    //         for (let i = 0; i < files.length; i++) {
-    //             const fileName = files[i].name;
-
-    //             // Check if the file is already uploaded
-    //             if (uploadedFiles.includes(fileName)) {
-    //                 continue; // Skip adding this file if it's a duplicate
-    //             }
-
-    //             // If it's a unique file, add it to the uploaded files list
-    //             uploadedFiles.push(fileName);
-    //             const fileUrl = URL.createObjectURL(files[i]);
-
-    //             // Create preview HTML structure
-    //             const previewHtml = `
-    //             <div class="trans_img trans_img-${sectionCount}">
-    //                 <a href="${fileUrl}" target="_blank"><i class="fa fa-file"></i>${fileName}</a>
-    //                 <div class="close_btn close_btn-${i}" onclick="deleteevImg(${sectionCount}, '${fileName}')" style="cursor: pointer;">
-    //                     <i class="fa fa-close"></i>
-    //                 </div>
-    //             </div>
-    //         `;
-
-    //             // Append the preview HTML to the fileNamesPreview div
-    //             $(this).next('.fileNamesPreview_' + id).append(previewHtml);
-    //             uploadfileCount(i, fileName);
-    //             sectionCount++;
-
-    //         }
-    //         // Merge new files with the previous ones
-    //         mergeFiles(inputElement, files);
-    //     });
-
-    //     // Delete image preview
-    //     window.deleteevImg = function(sectionId, fileName) {
-    //         // Remove the preview element of the selected file
-    //         $(`.trans_img-${sectionId}`).remove();
-    //         // Get the file input element and update the count
-    //         const inputElement = $('.change_evi');
-    //         const newFileCount = inputElement[0].files.length - 1; // Decrease the count
-    //         inputElement[0].files = new FileListItems([...inputElement[0].files].slice(0, newFileCount));
-
-    //         console.log(`File ${fileName} deleted from section ${sectionId}`);
-    //     };
-
-    //     function mergeFiles(inputElement, newFiles) {
-    //         // Convert newFiles (FileList) to an array
-    //         const newFilesArray = Array.from(newFiles);
-
-    //         const previousFiles = Array.from(inputElement.files);
-    //         const combinedFiles = [
-    //             ...previousFiles,
-    //             ...newFilesArray.filter(file => !previousFiles.some(f => f.name === file.name))
-    //         ];
-
-    //         // Update the file input element with the combined files
-    //         inputElement.files = FileListItems(combinedFiles);
-    //     }
-
-
-
-    // });
-
-    // function uploadfileCount(i, fileName) {
-    //     // const fileCount = inputElement.files.length;
-    //     console.log('fileName', fileName);
-
-    //     const inputElement1 = $('.change_evi');
-    //     const newFileCount1 = inputElement1[0].files.length; // Decrease the count
-    //     console.log('newFileCount', newFileCount1);
-
-    // }
-
-
-    // // Helper function to create a new FileList from an array of File objects
-    // function FileListItems(files) {
-    //     const dataTransfer = new DataTransfer();
-    //     files.forEach(file => dataTransfer.items.add(file));
-    //     return dataTransfer.files;
-    // }
-    // $('#fileInput').on('change', function() {
-    //     const fileInput = this;
-    //     const fileList = $('#fileList');
-    //     const selectedFiles = new DataTransfer();
-
-    //     Array.from(fileInput.files).forEach((file, index) => {
-    //         // Add file to selectedFiles
-    //         selectedFiles.items.add(file);
-
-    //         // Generate file URL for preview
-    //         const fileUrl = URL.createObjectURL(file);
-    //         const fileName = file.name;
-    //         const sectionCount = index + 1;
-
-    //         // Create preview HTML
-    //         const previewHtml = `
-    //         <div class="trans_img trans_img-${sectionCount}">
-    //             <a href="${fileUrl}" target="_blank">
-    //                 <i class="fa fa-file"></i> ${fileName}
-    //             </a>
-    //             <div class="close_btn close_btn-${index}" style="cursor: pointer;">
-    //                 <i class="fa fa-close"></i>
-    //             </div>
-    //         </div>
-    //     `;
-
-    //         // Append preview to fileList container
-    //         fileList.append(previewHtml);
-
-    //         // Add remove functionality to the close button
-    //         $(`.close_btn-${index}`).on('click', function() {
-    //             // Remove file from selectedFiles
-    //             for (let i = 0; i < selectedFiles.items.length; i++) {
-    //                 if (selectedFiles.items[i].getAsFile().name === fileName) {
-    //                     selectedFiles.items.remove(i);
-    //                     break;
-    //                 }
-    //             }
-
-    //             // Update the file input
-    //             fileInput.files = selectedFiles.files;
-
-    //             // Remove preview element
-    //             $(`.trans_img-${sectionCount}`).remove();
-    //         });
-    //     });
-
-    //     // Update the file input with the modified FileList
-    //     fileInput.files = selectedFiles.files;
-    // });
 </script>
-<!-- 
-<script>
-    const fileList = $('.fileList_1'); // jQuery selector for the file list
-    const selectedFiles = new DataTransfer();
-    let count = 1;
 
-    // Using event delegation to handle 'change' event
-    $(document).on('change', '.change_evi', function(event) {
-
-        id = this.id;
-        console.log(id);
-        Array.from(event.target.files).forEach((file) => {
-            // Add file to selectedFiles
-            selectedFiles.items.add(file);
-
-            const fileUrl = URL.createObjectURL(file);
-            const fileName = file.name;
-
-            // Create preview HTML
-            const previewHtml = `
-                <div class="trans_img trans_img-${count}" data-file="${fileName}">
-                    <a href="${fileUrl}" target="_blank">
-                        <i class="fa fa-file"></i> ${fileName}
-                    </a>
-                    <div class="close_btn" style="cursor: pointer;">
-                        <i class="fa fa-close"></i>
-                    </div>
-                </div>
-            `;
-
-            $('.fileList_' + id).append(previewHtml);
-            count++;
-        });
-
-        // Update the file input with the modified FileList
-        $('#' + inputId)[0].files = selectedFiles.files;
-    });
-
-    // Event delegation to handle dynamically added close buttons
-    $(document).on('click', '.close_btn', function() {
-        const parentDiv = $(this).closest('.trans_img');
-        const fileNameToRemove = parentDiv.data('file');
-
-        // Remove the file from selectedFiles
-        for (let i = 0; i < selectedFiles.items.length; i++) {
-            if (selectedFiles.items[i].getAsFile().name === fileNameToRemove) {
-                selectedFiles.items.remove(i);
-                break;
-            }
-        }
-
-        // Remove the preview element
-        parentDiv.remove();
-
-        // Update the file input with the modified FileList
-        $('#' + id)[0].files = selectedFiles.files;
-    });
-</script> -->
 <script>
     const selectedFilesMap = {}; // This will hold selected files for each input by ID
     let count = 1;
-
     // Using event delegation to handle 'change' event for multiple inputs
     $(document).on('change', '.change_evi', function(event) {
         const id = this.id; // Get the ID of the input element
-        console.log(id);
-
         // Initialize or retrieve the selectedFiles for this input
         if (!selectedFilesMap[id]) {
             selectedFilesMap[id] = new DataTransfer();

@@ -2103,6 +2103,7 @@
   }
 
   function updateReference() {
+    alert();
     isValid = true;
     var i = 1;
     $(".first_name").each(function() {
@@ -2614,9 +2615,16 @@
     }
   }
 
+  function currently_position_1(i) {
+    if ($(".currently_position-" + i).prop('checked') == true) {
+      $(".empl_end_date-" + i).addClass('d-none');
+    } else {
+      $(".empl_end_date-" + i).removeClass('d-none');
+      $(".employeement_end_date-" + i).val("");
+    }
+  }
+
   function delete_reference(i, user_id, referee_id) {
-
-
     $.ajax({
       type: "post",
       url: "{{ route('nurse.deleteReferee') }}",
@@ -2633,15 +2641,11 @@
 
       }
     });
-
-
   }
 
   function delete_reference1(i) {
     $(".referee_data-" + i).remove();
-
   }
-
 
   function delete_certification(i, user_id, certificate_id) {
     $.ajax({
@@ -2662,7 +2666,6 @@
   }
 
   function deleteImg(i, user_id, img) {
-    // alert(img);
     $.ajax({
       type: "post",
       url: "{{ route('nurse.deleteImg') }}",
@@ -2681,7 +2684,6 @@
   }
 
   function deleteImg1(i, user_id, img, country_name, img_text) {
-    //alert(".trans_img"+img_text+country_name+i);
     $.ajax({
       type: "post",
       url: "{{ route('nurse.deleteImg1') }}",
