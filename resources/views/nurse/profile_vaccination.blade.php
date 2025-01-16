@@ -9,38 +9,37 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"></script>
 
 <style type="text/css">
-  .file-item {
+.file-item {
     display: flex;
     align-items: unset;
     margin-bottom: 10px;
-  }
+}
 
-  .file-item a {
+.file-item a {
     text-decoration: none;
     color: #333;
     margin-right: 10px;
     display: flex;
     align-items: center;
-  }
+}
 
-  .file-item .fa-file {
+.file-item .fa-file {
     margin-right: 5px;
-  }
+}
 
-  .file-item .close_btn.close_btn-0 {
+.file-item .close_btn.close_btn-0 {
     margin-left: 0;
-  }
+}
 
-  i.fa.fa-file {
+i.fa.fa-file {
     position: relative;
     left: 0px;
     font-size: 14px;
     line-height: 25px;
     margin-right: 5px;
     color: #000000;
-  }
-
-  .close_btn i {
+}
+.close_btn i {
     display: block;
     position: relative;
     left: 0px;
@@ -49,14 +48,13 @@
     margin-right: 5px;
     color: #000000;
     top: 14px;
-  }
+}
 
 
-  .change_clr option:hover {
-    background-color: black !important;
-    color: white !important;
-  }
-
+.change_clr option:hover {
+        background-color: black !important; 
+        color: white !important; 
+    }
   .hide_profile_image {
     display: none !important;
   }
@@ -159,13 +157,13 @@
               <div class="chart" id="graph1" data-percent="<?php echo $get_progress_status; ?>" data-color="#000"></div>
             </div>
 
-
+            
 
             <div class="box-nav-tabs nav-tavs-profile mb-5 p-0 profile-icns">
               <ul class="nav" role="tablist">
                 <li><a class="btn btn-border aboutus-icon mb-20 active profile_tabs" href="{{ route('nurse.my-profile', ['page' => 'my_profile']) }}" aria-controls="tab-my-profile" aria-selected="true"><i class="fi fi-rr-user"></i> My Profile</a></li>
                 <li><a class="btn btn-border recruitment-icon mb-20 profile_tabs" href="{{ route('nurse.my-profile', ['page' => 'settings']) }}" aria-controls="tab-my-profile-setting" aria-selected="false"><i class="fi fi-rr-settings"></i> Setting</a></li>
-                <li><a href="{{ route('nurse.my-profile', ['page' => 'profession']) }}" class="btn btn-border recruitment-icon mb-20 profile_tabs" aria-controls="tab-my-jobs" aria-selected="false"><i class="fi fi-rr-employee-man"></i> Profession</a></li>
+                <li><a href="{{ route('nurse.my-profile', ['page' => 'profession']) }}"  class="btn btn-border recruitment-icon mb-20 profile_tabs" aria-controls="tab-my-jobs" aria-selected="false"><i class="fi fi-rr-employee-man"></i> Profession</a></li>
 
                 <li><a href="{{ route('nurse.my-profile', ['page' => 'educert']) }}" class="btn btn-border people-icon mb-20" aria-controls="tab-saved-jobs" aria-selected="false"><i class="fi fi-rr-graduation-cap"></i> Education and Certifications</a></li>
                 <li><a href="{{ route('nurse.my-profile', ['page' => 'mandatory_training']) }}" class="btn btn-border aboutus-icon mb-20" aria-controls="tab-my-menu4" aria-selected="true"><i class="fi fi-rr-chart-user"></i>Mandatory Training and Continuing Education</a></li>
@@ -178,7 +176,7 @@
                 <li><a href="{{ route('nurse.my-profile', ['page' => 'professional_membership']) }}" class="btn btn-border recruitment-icon mb-20" aria-controls="tab-myclearance-jobs" aria-selected="false"><i class="fi fi-rr-membership-vip"></i> Professional Memberships</a></li>
                 <li><a href="{{ route('nurse.my-profile', ['page' => 'interview_references']) }}" class="btn btn-border recruitment-icon mb-20" aria-controls="tab-myclearance-jobs" aria-selected="false"><i class="fi fi-rr-refer-arrow"></i> Interview</a></li>
                 <li><a href="{{ route('nurse.my-profile', ['page' => 'personal_preferences']) }}" class="btn btn-border recruitment-icon mb-20" aria-controls="tab-myclearance-jobs" aria-selected="false"><i class="fi fi-rr-id-badge"></i> Personal Preferences</a></li>
-
+                
                 <li><a href="{{ route('nurse.my-profile', ['page' => 'work_preferences']) }}" id="work_preferences" class="btn btn-border recruitment-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-myclearance-jobs" aria-selected="false"><i class="fi fi-rr-magnifying-glass-wave"></i>Job Search Preferences</a></li>
                 <li><a href="{{ route('nurse.my-profile', ['page' => 'testimonial_reviews']) }}" id="testimonial_reviews" class="btn btn-border recruitment-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-myclearance-jobs" aria-selected="false"><i class="fi fi-rr-feedback-review"></i> Testimonials and Reviews</a></li>
                 <li><a href="{{ route('nurse.my-profile', ['page' => 'additional_info']) }}" id="additional_info" class="btn btn-border recruitment-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-myclearance-jobs" aria-selected="false"><i class="fi fi-rr-guide-alt"></i> Additional Information</a></li>
@@ -212,10 +210,10 @@
             @endif
 
             <div class="bbb">
-
+              
               <div class="tab-pane fade" id="tab-my-jobs" role="tabpanel" aria-labelledby="tab-my-jobs" style="display: none">
                 <div class="card shadow-sm border-0 p-4 mt-30">
-                  <form id="profession_form" method="POST">
+                  <form id="profession_form" method="POST" >
                     <div class="condition_set">
                       <div class="form-group drp--clr">
                         <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="specialties" name="specialties[]" multiple="multiple"></select>
@@ -225,8 +223,8 @@
                 </div>
               </div>
               <?php
-              $user_id = Auth::guard('nurse_middle')->user()->id;
-              $i = 1;
+                $user_id = Auth::guard('nurse_middle')->user()->id;
+                $i = 1;
               ?>
               <div class="tab-pane fade" id="tab-educert" role="tabpanel" aria-labelledby="tab-educert" style="display: none">
                 <div class="card shadow-sm border-0 p-4 mt-30">
@@ -234,37 +232,37 @@
                   <h6 class="emergency_text">
                     Educational Background
                   </h6>
-
+                  
                 </div>
               </div>
-
-
+            
+            
               <!--vaccinaion start-->
               <div class="tab-pane fade" id="tab-vaccination">
                 <div class="card shadow-sm border-0 p-4 mt-30">
                   <h3 class="mt-0 color-brand-1 mb-20">Vaccinations</h3>
-
+                  
                   <form id="vaccination_form" method="POST" onsubmit="return vaccinationForm()" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                       <div class="col-md-12">
                         <p class="">Please upload all your vaccination records as required for your desired roles and state. You may also add non-mandatory vaccines and any additional vaccinations not listed. Keeping your vaccinations up to date will help maintain your eligibility for your role.</p>
                         <p class="mt-2">To ensure your evidence is compliant, please refer to our guide <strong>Vaccination Compliance and Evidence Requirements by State.</strong></p>
-
+                        
                         <div class="form-group level-drp">
                           <label class="form-label" for="input-1">Vaccination Records</label>
                           @php
-                          $vacc = [];
+                            $vacc = []; 
                           @endphp
 
                           @if(!empty($vaccinationData))
-                          @foreach($vaccinationData as $vcdata)
-                          @php $vacc[] = $vcdata->vaccination_id; @endphp
-                          @endforeach
+                              @foreach($vaccinationData as $vcdata)
+                                  @php $vacc[] = $vcdata->vaccination_id; @endphp
+                              @endforeach
                           @endif
                           <input type="hidden" name="vaccination_r" class="vaccination_r" value="{{ json_encode($vacc) }}">
 
-
+                          
                           <ul id="vaccination_record" style="display:none;">
                             @foreach($vaccination_record as $v_record)
                             <li data-value="{{ $v_record->id }}" data-id="{{ $v_record->name }}">{{ $v_record->name }}</li>
@@ -275,90 +273,90 @@
                         </div>
 
                         <div class="vacc_rec_div"></div>
-
+                        
 
                         <!--[ADD OTHER VACCINE START]-->
                         <div class="row" id="vaccine-section-container">
-                          <h6>Other Vaccination </h6>
-                          @php $ci = 1; @endphp
-                          @if($other_vaccine)
-                          @foreach($other_vaccine as $other)
-                          <div class="vaccine-section">
-                            <div class="col-md-12">
-                              <input type="hidden" name="other_id[]" value="{{$other->id}}">
-                              <h6>Vaccination {{$ci}}</h6>
-                              <div class="form-group level-drp">
-                                <label class="form-label" for="input-1">Vaccination Name </label>
-                                <input class="form-control  vaccination-name" type="text" name="vaccination_name[]" value="{{$other->vaccination_name}}">
-                                <span class="reqError text-danger valley"></span>
-                              </div>
+                        <h6>Other Vaccination </h6>
+                        @php $ci = 1; @endphp
+                              @if($other_vaccine)
+                              @foreach($other_vaccine as $other)  
+                            <div class="vaccine-section">
+                              <div class="col-md-12">
+                                <input type="hidden" name="other_id[]" value="{{$other->id}}">
+                                <h6>Vaccination {{$ci}}</h6>
+                                  <div class="form-group level-drp">
+                                      <label class="form-label" for="input-1">Vaccination Name </label>
+                                      <input class="form-control  vaccination-name" type="text" name="vaccination_name[]" value="{{$other->vaccination_name}}">
+                                      <span class="reqError text-danger valley"></span>
+                                  </div>
 
-                              <div class="form-group level-drp">
-                                <label class="form-label" for="input-1">Immunization Status</label>
-                                <select class="form-input mr-10 change_clr select-active immunization-status" name="immunization_status[]">
-                                  <option value="" disabled selected>Immunization Status</option>
-                                  <?php
-                                  $get_imm_status = DB::table("imm_status")->get();
-                                  foreach ($get_imm_status as $status) { ?>
-                                    <option value="<?= $status->id ?>" {{$other->immunization_status==$status->id?'selected':''}}><?= htmlspecialchars($status->name) ?></option>
-                                  <?php } ?>
-                                </select>
-                                <span class="reqError text-danger valley"></span>
-                              </div>
+                                  <div class="form-group level-drp">
+                                      <label class="form-label" for="input-1">Immunization Status</label>
+                                      <select class="form-input mr-10 change_clr select-active immunization-status" name="immunization_status[]">
+                                          <option value="" disabled selected>Immunization Status</option>
+                                          <?php
+                                          $get_imm_status = DB::table("imm_status")->get();
+                                          foreach ($get_imm_status as $status) { ?>
+                                              <option value="<?= $status->id ?>" {{$other->immunization_status==$status->id?'selected':''}}><?= htmlspecialchars($status->name) ?></option>
+                                          <?php } ?>
+                                      </select>
+                                      <span class="reqError text-danger valley"></span>
+                                  </div>
 
-                              <div class="form-group level-drp">
-                                <label class="form-label" for="input-1">Evidence Type</label>
-                                <select class="form-input mr-10 change_clr select-active evidence-type" name="evidence_type[]">
-                                  <option value="" disabled selected>Evidence type</option>
-                                  <option value="Immunization Certificate" {{$other->evidence_type=='Immunization Certificate'?'selected':''}}>Immunization Certificate</option>
-                                  <option value="Vaccination Card/Record" {{$other->evidence_type=='Vaccination Card/Record'?'selected':''}}>Vaccination Card/Record</option>
-                                  <option value="Medical Letter or Certificate from GP" {{$other->evidence_type=='Medical Letter or Certificate from GP'?'selected':''}}>Medical Letter or Certificate from GP</option>
-                                  <option value="Vaccination Record from My Health Record" {{$other->evidence_type=='Vaccination Record from My Health Record'?'selected':''}}>Vaccination Record from My Health Record</option>
-                                  <option value="Serology Test Results" {{$other->evidence_type=='Serology Test Results'?'selected':''}}>Serology Test Results</option>
-                                  <option value="Immunization History Statement from the Australian Immunisation Register (AIR)" {{$other->evidence_type=='Immunization History Statement from the Australian Immunisation Register (AIR)'?'selected':''}}>Immunization History Statement from the Australian Immunisation Register (AIR)</option>
-                                  <option value="Employer or Facility Letter" {{$other->evidence_type=='Employer or Facility Letter'?'selected':''}}>Employer or Facility Letter</option>
-                                </select>
-                                <span class="reqError text-danger valley"></span>
-                              </div>
+                                  <div class="form-group level-drp">
+                                      <label class="form-label" for="input-1">Evidence Type</label>
+                                      <select class="form-input mr-10 change_clr select-active evidence-type" name="evidence_type[]">
+                                          <option value="" disabled selected>Evidence type</option>
+                                          <option value="Immunization Certificate" {{$other->evidence_type=='Immunization Certificate'?'selected':''}}>Immunization Certificate</option>
+                                          <option value="Vaccination Card/Record" {{$other->evidence_type=='Vaccination Card/Record'?'selected':''}}>Vaccination Card/Record</option>
+                                          <option value="Medical Letter or Certificate from GP" {{$other->evidence_type=='Medical Letter or Certificate from GP'?'selected':''}}>Medical Letter or Certificate from GP</option>
+                                          <option value="Vaccination Record from My Health Record" {{$other->evidence_type=='Vaccination Record from My Health Record'?'selected':''}}>Vaccination Record from My Health Record</option>
+                                          <option value="Serology Test Results" {{$other->evidence_type=='Serology Test Results'?'selected':''}}>Serology Test Results</option>
+                                          <option value="Immunization History Statement from the Australian Immunisation Register (AIR)" {{$other->evidence_type=='Immunization History Statement from the Australian Immunisation Register (AIR)'?'selected':''}}>Immunization History Statement from the Australian Immunisation Register (AIR)</option>
+                                          <option value="Employer or Facility Letter" {{$other->evidence_type=='Employer or Facility Letter'?'selected':''}}>Employer or Facility Letter</option>
+                                      </select>
+                                      <span class="reqError text-danger valley"></span>
+                                  </div>
 
-                              <div class="form-group level-drp">
-                                <label class="form-label" for="input-1">Upload Evidence</label>
-                                <input class="form-control" type="file" name="evidence_file[]">
-                                <span class="reqError text-danger valley"></span>
+                                  <div class="form-group level-drp">
+                                      <label class="form-label" for="input-1">Upload Evidence</label>
+                                      <input class="form-control" type="file" name="evidence_file[]">
+                                      <span class="reqError text-danger valley"></span>
+                                  </div>
                               </div>
-                            </div>
-                            <div class="add_new_certification_div mb-3 mt-3">
-                              <a style="cursor: pointer;" class="remove-vaccine" other_id="{{$other->id}}">- Delete Vaccine</a>
-                            </div>
+                              <div class="add_new_certification_div mb-3 mt-3">
+                                <a style="cursor: pointer;" class="remove-vaccine" other_id="{{$other->id}}">- Delete Vaccine</a>
+                              </div>
                           </div>
                           @php $ci++; @endphp
                           @endforeach
                           @endif
-                        </div>
-                        <div class="add_new_certification_div mb-3 mt-3">
-                          <a style="cursor: pointer;" id="add-vaccine">+ Add Another Vaccine</a>
-                        </div>
-                        <!--[ADD OTHER VACCINE END]-->
-
-                        <!----[Vaccination Compliance Start]---->
-                        <div class="row">
-                          <h6>Vaccination Compliance and Evidence Requirements by State:</h6>
-                          <span>Please select States and Territories that you are looking to work to check vaccination compliance: </span>
-
-                          <div class="form-group level-drp">
-                            <label class="form-label" for="input-1">States</label>
-                            <ul id="state_record" style="display:none;">
-                              @foreach($state_record as $s_record)
-                              <li data-value="{{ $s_record->id }}" data-id="{{ $s_record->state_name }}">{{ $s_record->state_name }}</li>
-                              @endforeach
-                            </ul>
-                            <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="state_record" name="state_record[]" multiple="multiple"></select>
-                            <span id="reqempsdate" class="reqError text-danger valley"></span>
                           </div>
-                          <div id="contentDisplay" class="content-display">
-
+                          <div class="add_new_certification_div mb-3 mt-3">
+                            <a style="cursor: pointer;" id="add-vaccine">+ Add Another Vaccine</a>
                           </div>
-                        </div>
+                          <!--[ADD OTHER VACCINE END]-->
+
+                          <!----[Vaccination Compliance Start]---->
+                          <div class="row" >
+                            <h6>Vaccination Compliance and Evidence Requirements by State:</h6>
+                            <span>Please select States and Territories that you are looking to work to check vaccination compliance: </span>
+
+                            <div class="form-group level-drp">
+                              <label class="form-label" for="input-1">States</label>
+                                <ul id="state_record" style="display:none;">
+                                  @foreach($state_record as $s_record)
+                                  <li data-value="{{ $s_record->id }}" data-id="{{ $s_record->state_name }}">{{ $s_record->state_name }}</li>
+                                  @endforeach
+                                </ul>
+                              <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="state_record" name="state_record[]" multiple="multiple"></select>
+                              <span id="reqempsdate" class="reqError text-danger valley"></span>
+                            </div>
+                            <div id="contentDisplay" class="content-display">
+                                              
+                            </div>
+                          </div>
                         <!----[Vaccination Compliance End]---->
                         <div class="box-button mt-15">
                           <button class="btn btn-apply-big font-md font-bold" type="submitVaccination" id="submitVaccination">Save Changes</button>
@@ -389,38 +387,38 @@
 </main>
 
 <script>
-  $(document).ready(function() {
+  $(document).ready(function () {
     // Function to remove error on user interaction
-    $(document).on('input', '.vaccination-name', function() {
-      if ($(this).val().trim() !== '') {
-        $(this).next('.reqError').text('');
-      }
+    $(document).on('input', '.vaccination-name', function () {
+        if ($(this).val().trim() !== '') {
+            $(this).next('.reqError').text('');
+        }
     });
 
-    $(document).on('change', '.immunization-status', function() {
-      if ($(this).val().trim() !== '') {
-        $(this).next('.reqError').text('');
-      }
+    $(document).on('change', '.immunization-status', function () {
+        if ($(this).val().trim() !== '') {
+            $(this).next('.reqError').text('');
+        }
     });
 
-    $(document).on('change', '.evidence-type', function() {
-      if ($(this).val().trim() !== '') {
-        $(this).next('.reqError').text('');
-      }
+    $(document).on('change', '.evidence-type', function () {
+        if ($(this).val().trim() !== '') {
+            $(this).next('.reqError').text('');
+        }
     });
 
-    $(document).on('change', '.evidence-file', function() {
-      if ($(this).val().trim() !== '') {
-        $(this).next('.reqError').text('');
-      }
+    $(document).on('change', '.evidence-file', function () {
+        if ($(this).val().trim() !== '') {
+            $(this).next('.reqError').text('');
+        }
     });
-  });
-  $(document).ready(function() {
-    // Function to add a new vaccine section
-    let i = <?php echo count($other_vaccine) + 1 ?>;
-    $('#add-vaccine').click(function() {
-
-      $('#vaccine-section-container').append(`<div class="vaccine-section">
+});
+    $(document).ready(function () {
+        // Function to add a new vaccine section
+        let i = <?php echo count($other_vaccine)+1 ?>;
+        $('#add-vaccine').click(function () {
+          
+            $('#vaccine-section-container').append(`<div class="vaccine-section">
                               <div class="col-md-12">
                               <h6>Vaccination ${i}</h6>
                                   <div class="form-group level-drp">
@@ -468,43 +466,45 @@
                               </div>
                               
                           </div>`);
-      i++;
-    });
-
-    // Function to remove a vaccine section
-    $(document).on('click', '.remove-vaccine', function() {
-
-      const otherId = $(this).attr('other_id');
-
-      if (otherId) {
-
-        $.ajax({
-          url: "{{ url('/nurse') }}/removeVaccine",
-          type: 'POST',
-          data: {
-            _token: "{{ csrf_token() }}",
-            id: otherId
-          },
-          success: function(response) {
-            if (response.success) {
-              // On successful deletion from the database, remove the HTML
-              alert('Vaccine removed successfully!');
-              $(this).closest('.vaccine-section').remove();
-            } else {
-              alert('Failed to remove vaccine. Please try again.');
-            }
-          }.bind(this), // Bind `this` to refer to the button element
-          error: function() {
-            alert('An error occurred. Please try again.');
-          }
+                          i++;
         });
-      } else {
-        // If `other_id` is not present, just remove the HTML
-        $(this).closest('.vaccine-section').remove();
-      }
-    });
 
-  });
+        // Function to remove a vaccine section
+        $(document).on('click', '.remove-vaccine', function () {
+          
+          const otherId = $(this).attr('other_id');
+
+          if (otherId) 
+          {
+        
+            $.ajax({
+              url: "{{ url('/nurse') }}/removeVaccine", 
+                type: 'POST',
+                data: {
+                  _token: "{{ csrf_token() }}", 
+                    id: otherId 
+                },
+                success: function (response) 
+                {
+                    if (response.success) {
+                        // On successful deletion from the database, remove the HTML
+                        alert('Vaccine removed successfully!');
+                        $(this).closest('.vaccine-section').remove();
+                    } else {
+                        alert('Failed to remove vaccine. Please try again.');
+                    }
+                }.bind(this), // Bind `this` to refer to the button element
+                error: function () {
+                    alert('An error occurred. Please try again.');
+                }
+            });
+        } else {
+            // If `other_id` is not present, just remove the HTML
+            $(this).closest('.vaccine-section').remove();
+        }
+  });    
+        
+    });
 </script>
 @endsection
 @section('js')
@@ -556,35 +556,36 @@
 </script>
 
 <script type="text/javascript">
-  $('.js-example-basic-multiple').each(function() {
+
+$('.js-example-basic-multiple').each(function() {
     let listId = $(this).data('list-id');
-
+    
     let items = [];
-
+    
     $('#' + listId + ' li').each(function() {
-
+      
       items.push({
         id: $(this).data('value'),
         text: $(this).text()
       });
     });
-
+    
     $(this).select2({
       data: items
     });
-
+    
   });
-  /*
-   if ($(".state_r").val() != "") {
-     var state_record = JSON.parse($(".state_r").val());
-     $('.js-example-basic-multiple[data-list-id="state_record"]').select2().val(state_record).trigger('change');
-   } */
-  if ($(".vaccination_r").val() != "") {
+ /*
+  if ($(".state_r").val() != "") {
+    var state_record = JSON.parse($(".state_r").val());
+    $('.js-example-basic-multiple[data-list-id="state_record"]').select2().val(state_record).trigger('change');
+  } */
+    if ($(".vaccination_r").val() != "") {
     var vaccination_record = JSON.parse($(".vaccination_r").val());
     $('.js-example-basic-multiple[data-list-id="vaccination_record"]').select2().val(vaccination_record).trigger('change');
   }
-
-  $("#tab-vaccination").insertAfter("#tab-educert");
+  
+   $("#tab-vaccination").insertAfter("#tab-educert");
 
   // Function to initialize Select2 for dynamically created select elements
   function initializeSelect2($dropdown) {
@@ -620,7 +621,7 @@
     var url_string = window.location.href;
     var url = new URL(url_string);
     var c = url.searchParams.get("page");
-
+    
 
     if (c == "change_password") {
       $(".upload_image").addClass("hide_profile_image");
@@ -633,7 +634,7 @@
   var url_string = window.location.href;
   var url = new URL(url_string);
   var c = url.searchParams.get("page");
-
+  
 
   if (c == "change_password") {
     $(".upload_image").addClass("hide_profile_image");
@@ -645,7 +646,7 @@
   var url_string = window.location.href;
   var url = new URL(url_string);
   var c = url.searchParams.get("page");
-
+  
 
   if (c == "vaccinations") {
 
@@ -657,8 +658,11 @@
     $(".prof-profile .dropdown").addClass("show");
     $(".prof-profile .dropdown-menu").addClass("show");
   }
+
 </script>
 <script>
+  
+  
   function printErrorMsg(msg) {
     $(".print-error-msg").find("ul").html('');
     $(".print-error-msg").css('display', 'block');
@@ -733,10 +737,11 @@
     };
     drawNewGraph('graph1');
   });
+  
 </script>
 
 <script>
-  $(document).ready(function() {
+  $(document).ready(function () {
     // Listen to changes in State and Vaccine dropdowns
     const updateContent = () => {
       let selectedStates = $('.js-example-basic-multiple[data-list-id="state_record"]').val();
@@ -753,11 +758,11 @@
             vaccines: selectedVaccines,
             _token: '{{ csrf_token() }}', // Include CSRF token for Laravel
           },
-          success: function(response) {
+          success: function (response) {
             // Populate the content in the `#contentDisplay` div
             $('#contentDisplay').html(response);
           },
-          error: function() {
+          error: function () {
             console.error("Error fetching content.");
           },
         });
@@ -773,28 +778,130 @@
 </script>
 
 <script>
+  $(document).ready(function () {
+    function initializeVaccinationRecords() {
+        let selectedValues = $('.js-example-basic-multiple[data-list-id="vaccination_record"]').val() || []; // Get initially selected values
+        console.log('Initial selectedValues:', selectedValues);
+
+        // Sort selectedValues to ensure ascending order
+        selectedValues.sort((a, b) => a - b);
+
+        // Loop through sorted selected values and make AJAX calls for each ID
+        selectedValues.forEach(function (id) {
+            // Check if the div for this ID already exists
+            if ($(`.vacc_rec_${id}`).length === 0) {
+                // Make an AJAX call to fetch the HTML content for this ID
+                $.ajax({
+                    url: "{{ url('/nurse') }}/getVaccinationData",
+                    type: 'GET',
+                    data: { id: id }, // Pass the ID as a parameter
+                    success: function (response) {
+                        // Check if the response contains valid content
+                        if (response.html) {
+                            // Append the new HTML to the vaccination record container
+                            let appended = false;
+                            $(".vacc_rec_div > div").each(function () {
+                                let existingId = $(this).find("h6").data("id");
+                                if (parseInt(existingId) > parseInt(id)) {
+                                    $(this).before(response.html); // Insert before the first larger ID
+                                    appended = true;
+                                    return false; // Break the loop
+                                }
+                            });
+                            if (!appended) {
+                                $(".vacc_rec_div").append(response.html); // Append to the end if no larger ID found
+                            }
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(`Failed to fetch data for ID: ${id}`, error);
+                    },
+                });
+            }
+        });
+    }
+
+    // Call the initialization function on page load
+    initializeVaccinationRecords();
+
+
+    // Bind change event on select element
+    $('.js-example-basic-multiple[data-list-id="vaccination_record"]').on('change', function () {
+        let selectedValues = $(this).val() || []; // Get selected values (IDs)
+        console.log('selectedValues : ', selectedValues);
+
+        // Sort selectedValues to ensure ascending order
+        selectedValues.sort((a, b) => a - b);
+
+        // Remove divs for deselected IDs
+        $(".vacc_rec_div > div").each(function () {
+            let id = $(this).find("h6").data("id");
+            if (!selectedValues.includes(String(id))) {
+                $(this).remove(); // Remove div for deselected ID
+            }
+        });
+
+        // Loop through sorted selected values and make AJAX calls for new IDs
+        selectedValues.forEach(function (id) {
+            // Check if the div for this ID already exists
+            if ($(`.vacc_rec_${id}`).length === 0) {
+                // Make an AJAX call to fetch the HTML content for this ID
+                $.ajax({
+                    url: "{{ url('/nurse') }}/getVaccinationData", 
+                    type: 'GET',
+                    data: { id: id }, // Pass the ID as a parameter
+                    success: function (response) {
+                        // Check if the response contains valid content
+                        if (response.html) {
+                            // Append the new HTML to the vaccination record container
+                            let appended = false;
+                            $(".vacc_rec_div > div").each(function () {
+                                let existingId = $(this).find("h6").data("id");
+                                if (parseInt(existingId) > parseInt(id)) {
+                                    $(this).before(response.html); // Insert before the first larger ID
+                                    appended = true;
+                                    return false; // Break the loop
+                                }
+                            });
+                            if (!appended) {
+                                $(".vacc_rec_div").append(response.html); // Append to the end if no larger ID found
+                            }
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(`Failed to fetch data for ID: ${id}`, error);
+                    },
+                });
+            }
+        });
+    });
+});
+
+
+
+
   //This will add vaccination record 
-  $(document).ready(function() {
-    $('.js-example-basic-multiple[data-list-id="vaccination_record"]').on('change', function() {
-      let selectedValues = $(this).val(); // Get selected values (IDs)
-      console.log('selectedValues', selectedValues);
+   $(document).ready(function() {
+       /* $('.js-example-basic-multiple[data-list-id="vaccination_record"]').on('change', function() {
+            let selectedValues = $(this).val(); // Get selected values (IDs)
+            console.log('selectedValues', selectedValues);
 
-      let processedIds = new Set(); // Track already processed IDs
-      $(".vacc_rec_div").empty(); // Clear the current contents of the vaccination record container
+            let processedIds = new Set(); // Track already processed IDs
+            $(".vacc_rec_div").empty(); // Clear the current contents of the vaccination record container
 
-      // Add new <h6> elements for IDs in selectedValues
-      selectedValues.forEach(function(id, i) {
-        if (!processedIds.has(id)) {
-          processedIds.add(id); // Mark this ID as processed
+            // Add new <h6> elements for IDs in selectedValues
+            selectedValues.forEach(function(id, i) {
+                if (!processedIds.has(id)) {
+                    processedIds.add(id); // Mark this ID as processed
 
-          // Find the associated text using the `data-value` attribute
-          let datatext = $('#vaccination_record li').filter(function() {
-            return $(this).data('value') == id; // Compare the current `data-value` with the ID
-          }).text(); // Get the text content of the matched element
+                    // Find the associated text using the `data-value` attribute
+                    let datatext = $('#vaccination_record li').filter(function() {
+                        return $(this).data('value') == id; // Compare the current `data-value` with the ID
+                    }).text(); // Get the text content of the matched element
 
-          // Check if datatext is valid before appending
-          if (datatext) {
-            $(".vacc_rec_div").append(`
+                    // Check if datatext is valid before appending
+                    if (datatext) {
+                        $(".vacc_rec_div").append(`
                     <div class="vacc_rec_${id}">
                         <h6 class="vacc_rec_head_${id}" data-id="${id}">${datatext}</h6>
                         <input type="hidden" name="vaccination_id[]" class="vacc_rec_input_${id}" value="${id}">
@@ -889,177 +996,141 @@
                         </div>
                     </div>
                 `);
-          } else {
-            console.log(`No matching text found for ID: ${id}`);
-          }
-        }
-      });
-      initializeFileUpload();
-    });
+                    } else {
+                        console.log(`No matching text found for ID: ${id}`);
+                    }
+                }
+            });
+            initializeFileUpload();
+        });
+*/
+        // Dynamically generated checkbox selectors based on adjusted index
+        $(document).on('click', 'input[id^="evidence_re-1-0"]', function() {
+            // Check the value of the clicked checkbox
+            const checkboxId = $(this).attr('id');
+            const adjustedIndex = checkboxId.split('-')[1]; // Extract the index from the ID
+            var checkboxValue = $(this).val();
 
-    // Dynamically generated checkbox selectors based on adjusted index
-    $(document).on('click', 'input[id^="evidence_re-1-0"]', function() {
-      // Check the value of the clicked checkbox
-      const checkboxId = $(this).attr('id');
-      const adjustedIndex = checkboxId.split('-')[1]; // Extract the index from the ID
-      var checkboxValue = $(this).val();
-
-      // If the checkbox is checked, show the hep-b message
-      if (checkboxValue == 'NSW Health Hepatitis B Vaccination Declaration form' && $(this).prop('checked')) {
-        $(".hep-b").show();
-      } else {
-        $(".hep-b").hide(); // Hide the .hep-b element if not checked
-      }
-
-    });
-
-  })
-
-  // Handle change event for dose selection
-  function handleDoseChange(selectElement, i) {
-
-    const selectedDose = selectElement.value; // Get selected dose value
-    const evidenceRequiredContainer = $(`#evidence_required_container-${i}`);
-    const evidenceRequiredDiv = $(`#evidence_div_${i}`);
-
-    // If selected dose is "None", hide evidence section
-    if (selectedDose === "None") {
-      evidenceRequiredContainer.hide(); // Hide the evidence section
-      evidenceRequiredDiv.html(''); // Clear the evidence options
-    } else {
-      // Show the evidence section
-      evidenceRequiredContainer.show();
-
-      // Get the evidence types related to the selected dose
-      const evidenceTypes = <?php echo json_encode(DB::table("evidence_type")->where('type', 12)->get()); ?>;
-
-      // Clear previous evidence before appending new ones
-      evidenceRequiredDiv.html('');
-
-      // Populate the evidence section dynamically based on the selected dose
-      $.each(evidenceTypes, function(index, data) {
-        // Ensure that data.dose exists and matches the selected dose
-        if (data.dose == selectedDose) { // Use '==' to compare as strings and numbers might differ
-          evidenceRequiredDiv.append(`
-                    <input type="radio" id="evidence_re-${index}-${i}" name="evidence_required[${data.type}][]" value="${data.id}">
-                    <label for="evidence_re-${index}-${i}">${data.name}</label><br>
-                `);
-        }
-      });
-
-      // If no evidence found, add a message
-      if (evidenceRequiredDiv.html() === '') {
-        evidenceRequiredDiv.append('<p>No evidence required for this dose.</p>');
-      }
-    }
-  }
-  //add remove file in the list of view
-  function initializeFileUpload() {
-    $(".fileInput").each(function() {
-      const fileInput = $(this);
-      const fileList = $(`#fileList${fileInput.attr("id").replace("fileInput", "")}`);
-      const selectedFiles = new DataTransfer();
-
-      fileInput.off("change").on("change", function(event) {
-        Array.from(event.target.files).forEach((file) => {
-          selectedFiles.items.add(file);
-
-          // Create a file item container
-          const fileDiv = $("<div>").addClass("file-item");
-
-          // Create a link to the file with the file name
-          const fileLink = $("<a>")
-            .attr("href", URL.createObjectURL(file)) // Use Blob URL to link the file
-            .attr("target", "_blank")
-            .html(`<i class="fa fa-file" aria-hidden="true"></i> ${file.name}`);
-
-          // Create the close button
-          const closeButton = $("<div>").addClass("close_btn close_btn-0").css("cursor", "pointer");
-          const closeIcon = $("<i>").addClass("fa fa-close").attr("aria-hidden", "true");
-
-          // Append the close icon to the close button
-          closeButton.append(closeIcon);
-
-          // Add event listener to remove the file item when clicked
-          closeButton.on("click", function() {
-            for (let i = 0; i < selectedFiles.items.length; i++) {
-              if (selectedFiles.items[i].getAsFile().name === file.name) {
-                selectedFiles.items.remove(i);
-                break;
-              }
+            // If the checkbox is checked, show the hep-b message
+            if (checkboxValue == 'NSW Health Hepatitis B Vaccination Declaration form' && $(this).prop('checked')) {
+                $(".hep-b").show();
+            } else {
+                $(".hep-b").hide(); // Hide the .hep-b element if not checked
             }
-            fileInput[0].files = selectedFiles.files;
 
-            // Remove the file div from the list
-            fileDiv.remove();
-          });
-
-          // Append the link and close button to the file div
-          fileDiv.append(fileLink).append(closeButton);
-
-          // Append the file div to the file list container
-          fileList.append(fileDiv);
         });
 
-        // Update the file input with the modified FileList
-        fileInput[0].files = selectedFiles.files;
-      });
-    });
-  }
+    })
+
+    
+    //add remove file in the list of view
+//     function initializeFileUpload() {
+//     $(".fileInput").each(function () {
+//         const fileInput = $(this);
+//         const fileList = $(`#fileList${fileInput.attr("id").replace("fileInput", "")}`);
+//         const selectedFiles = new DataTransfer();
+
+//         fileInput.off("change").on("change", function (event) {
+//             Array.from(event.target.files).forEach((file) => {
+//                 selectedFiles.items.add(file);
+
+//                 // Create a file item container
+//                 const fileDiv = $("<div>").addClass("file-item");
+
+//                 // Create a link to the file with the file name
+//                 const fileLink = $("<a>")
+//                     .attr("href", URL.createObjectURL(file))  // Use Blob URL to link the file
+//                     .attr("target", "_blank")
+//                     .html(`<i class="fa fa-file" aria-hidden="true"></i> ${file.name}`);
+
+//                 // Create the close button
+//                 const closeButton = $("<div>").addClass("close_btn close_btn-0").css("cursor", "pointer");
+//                 const closeIcon = $("<i>").addClass("fa fa-close").attr("aria-hidden", "true");
+
+//                 // Append the close icon to the close button
+//                 closeButton.append(closeIcon);
+
+//                 // Add event listener to remove the file item when clicked
+//                 closeButton.on("click", function () {
+//                     for (let i = 0; i < selectedFiles.items.length; i++) {
+//                         if (selectedFiles.items[i].getAsFile().name === file.name) {
+//                             selectedFiles.items.remove(i);
+//                             break;
+//                         }
+//                     }
+//                     fileInput[0].files = selectedFiles.files;
+
+//                     // Remove the file div from the list
+//                     fileDiv.remove();
+//                 });
+
+//                 // Append the link and close button to the file div
+//                 fileDiv.append(fileLink).append(closeButton);
+
+//                 // Append the file div to the file list container
+//                 fileList.append(fileDiv);
+//             });
+
+//             // Update the file input with the modified FileList
+//             fileInput[0].files = selectedFiles.files;
+//         });
+//     });
+// }
 
 
 
 
-  //This will submmit the complete vaccination form
-  function vaccinationForm() {
+    //This will submmit the complete vaccination form
+    function vaccinationForm() 
+    {
     let isValid = true;
 
     // Validate Vaccination Name
-    $('.vaccination-name').each(function() {
-      if ($(this).val().trim() === '') {
-        isValid = false;
-        $(this).next('.reqError').text('Vaccination name is required');
-      } else {
-        $(this).next('.reqError').text('');
-      }
+    $('.vaccination-name').each(function () {
+        if ($(this).val().trim() === '') {
+            isValid = false;
+            $(this).next('.reqError').text('Vaccination name is required');
+        } else {
+            $(this).next('.reqError').text('');
+        }
     });
 
     // Validate Immunization Status
-    $('.immunization-status').each(function() {
-      if ($(this).val() === null || $(this).val().trim() === '') {
-        isValid = false;
-        $(this).next('.reqError').text('Please select an immunization status');
-      } else {
-        $(this).next('.reqError').text('');
-      }
+    $('.immunization-status').each(function () {
+        if ($(this).val() === null || $(this).val().trim() === '') {
+            isValid = false;
+            $(this).next('.reqError').text('Please select an immunization status');
+        } else {
+            $(this).next('.reqError').text('');
+        }
     });
 
     // Validate Evidence Type
-    $('.evidence-type').each(function() {
-      if ($(this).val() === null || $(this).val().trim() === '') {
-        isValid = false;
-        $(this).next('.reqError').text('Please select an evidence type');
-      } else {
-        $(this).next('.reqError').text('');
-      }
+    $('.evidence-type').each(function () {
+        if ($(this).val() === null || $(this).val().trim() === '') {
+            isValid = false;
+            $(this).next('.reqError').text('Please select an evidence type');
+        } else {
+            $(this).next('.reqError').text('');
+        }
     });
-
-    $('.evidence-file').each(function() {
-      if ($(this).val().trim() === '') {
-        isValid = false;
-        $(this).next('.reqError').text('Please upload an evidence file');
-      } else {
-        $(this).next('.reqError').text('');
-      }
+    
+    $('.evidence-file').each(function () {
+        if ($(this).val().trim() === '') {
+            isValid = false;
+            $(this).next('.reqError').text('Please upload an evidence file');
+        } else {
+            $(this).next('.reqError').text('');
+        }
     });
 
     // If validation fails, return false to prevent form submission
     if (!isValid) {
-      return false;
+        return false;
     }
 
     //return true;
-
+//console.log(new FormData($('#vaccination_form')[0]));
     $.ajax({
       url: "{{ route('nurse.vaccinationForm') }}",
       type: "POST",
@@ -1103,5 +1174,6 @@
     });
     return false;
   }
-</script>
+
+  </script>
 @endsection

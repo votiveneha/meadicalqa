@@ -10,6 +10,8 @@ use App\Models\WorkingChildrenCheckModel;
 use App\Models\PoliceCheckModel;
 
 
+
+
 use App\Http\Requests\AddnewsletterRequest;
 
 use App\Http\Controllers\Controller;
@@ -1893,7 +1895,9 @@ class HomeController extends Controller
 
     public function updateExperience(Request $request)
     {
-        // Retrieve input data
+        $userId = $request->user_id;
+
+        $getexperiencedata = DB::table("user_experience")->where("user_id", $userId)->first();
         $nurseTypes = $request->input('nurseType', []);
         $nursingType1 = $request->input('nursing_type_1', []);
         $nursingType2 = $request->input('nursing_type_2', []);
@@ -1930,10 +1934,12 @@ class HomeController extends Controller
         $sub_skills_compantancies2 = $request->input('sub_skills_compantancies-9', []);
         $sub_skills_compantancies3 = $request->input('sub_skills_compantancies-10', []);
         $sub_skills_compantancies4 = $request->input('sub_skills_compantancies-11', []);
-        $userId = $request->user_id;
+        $exp_id = $request->input('exp_id', []);
+
 
         // Loop through nurse types and process them
         foreach ($nurseTypes as $key => $nurseType) {
+
             $evi1 = $evdience[$key] ?? null;
             $present_box1 = $present_box[$key] ?? null;
             $dtran = array();
@@ -1985,49 +1991,94 @@ class HomeController extends Controller
             $sub_skills_compantancies2_1 = $sub_skills_compantancies2[$key] ?? null;
             $sub_skills_compantancies3_1 = $sub_skills_compantancies3[$key] ?? null;
             $sub_skills_compantancies4_1 = $sub_skills_compantancies4[$key] ?? null;
-            $newExperience = new ExperienceModel();
-            $newExperience->user_id = $userId;
-            $newExperience->nurseType = json_encode($nurseType);
-            $newExperience->entry_level_nursing = json_encode($entryLevel);
-            $newExperience->registered_nurses = json_encode($registered);
-            $newExperience->advanced_practioner = json_encode($advanced);
-            $newExperience->nurse_prac = json_encode($nurse_practitioner_menu1);
-            $newExperience->specialties = json_encode($specialties1);
-            $newExperience->adults = json_encode($speciality_entry_adult);
-            $newExperience->maternity = json_encode($speciality_entry_maternity);
-            $newExperience->paediatrics_neonatal = json_encode($speciality_entry_paediatrics);
-            $newExperience->community = json_encode($speciality_entry_community);
-            $newExperience->surgical_preoperative = json_encode($surgical_row_box1);
-            $newExperience->operating_room = json_encode($surgical_operative_care_1_1);
-            $newExperience->operating_room_scout = json_encode($surgical_operative_care_2_1);
-            $newExperience->operating_room_scrub = json_encode($surgical_operative_care_3_1);
-            $newExperience->surgical_obstrics_gynacology = json_encode($surgical_obs_care_1);
-            $newExperience->pad_op_room = json_encode($surgical_operative_carep_1_1);
-            $newExperience->pad_qr_scout = json_encode($surgical_operative_carep_2_1);
-            $newExperience->pad_qr_scrub = json_encode($surgical_operative_carep_3_1);
-            $newExperience->neonatal_care = json_encode($neonatal_care_1);
-            $newExperience->paedia_surgical_preoperative = json_encode($surgical_rowpad_box_1);
-            $newExperience->position_held = $positions_held1;
-            $newExperience->employeement_start_date = $start_date1;
-            $newExperience->employeement_end_date = $end_date1;
-            $newExperience->responsiblities = $job_responeblities1;
-            $newExperience->achievements = $achievements1;
-            $newExperience->employeement_type = $employeement_type1;
-            $newExperience->skills_compantancies = json_encode($skills_compantancies1);
-            $newExperience->evidence_type =  json_encode($type_of_evidence1);
-            $newExperience->permanent_status = $permanent_status1;
-            $newExperience->temporary_status = $temporary_status1;
-            $newExperience->upload_evidence  = json_encode($dtran);
-            $newExperience->sub_skills_compantancies = json_encode($sub_skills_compantancies1);
-            $newExperience->assistent_level = $level_of_exp1;
-            $newExperience->pre_box_status = $p_box;
-            $newExperience->complete_status = 1;
-            $newExperience->inter_and_em_skill = json_encode($sub_skills_compantancies1_1);
-            $newExperience->org_and_any_skill = json_encode($sub_skills_compantancies2_1);
-            $newExperience->lead_and_ment_skill = json_encode($sub_skills_compantancies3_1);
-            $newExperience->tech_and_soft_pro = json_encode($sub_skills_compantancies4_1);
+            $exp_id_1 = $exp_id[$key] ?? null;
 
-            $run = $newExperience->save();
+            if (!empty($getexperiencedata)) {
+                $run = ExperienceModel::where('experience_id', $exp_id_1)->update([
+                    'nurseType' => json_encode($nurseType),
+                    'entry_level_nursing' => json_encode($entryLevel),
+                    'registered_nurses' => json_encode($registered),
+                    'advanced_practioner' => json_encode($advanced),
+                    'nurse_prac' => json_encode($nurse_practitioner_menu1),
+                    'specialties' => json_encode($specialties1),
+                    'adults' => json_encode($speciality_entry_adult),
+                    'maternity' => json_encode($speciality_entry_maternity),
+                    'paediatrics_neonatal' => json_encode($speciality_entry_paediatrics),
+                    'community' => json_encode($speciality_entry_community),
+                    'surgical_preoperative' => json_encode($surgical_row_box1),
+                    'operating_room' => json_encode($surgical_operative_care_1_1),
+                    'operating_room_scout' => json_encode($surgical_operative_care_2_1),
+                    'operating_room_scrub' => json_encode($surgical_operative_care_3_1),
+                    'surgical_obstrics_gynacology' => json_encode($surgical_obs_care_1),
+                    'pad_op_room' => json_encode($surgical_operative_carep_1_1),
+                    'pad_qr_scout' => json_encode($surgical_operative_carep_2_1),
+                    'pad_qr_scrub' => json_encode($surgical_operative_carep_3_1),
+                    'neonatal_care' => json_encode($neonatal_care_1),
+                    'paedia_surgical_preoperative' => json_encode($surgical_rowpad_box_1),
+                    'position_held' => $positions_held1,
+                    'employeement_start_date' => $start_date1,
+                    'employeement_end_date' => $end_date1,
+                    'responsiblities' => $job_responeblities1,
+                    'achievements' => $achievements1,
+                    'employeement_type' => $employeement_type1,
+                    'skills_compantancies' => json_encode($skills_compantancies1),
+                    'evidence_type' => json_encode($type_of_evidence1),
+                    'permanent_status' => $permanent_status1,
+                    'temporary_status' => $temporary_status1,
+                    'upload_evidence' => json_encode($dtran),
+                    'sub_skills_compantancies' => json_encode($sub_skills_compantancies1),
+                    'assistent_level' => $level_of_exp1,
+                    'pre_box_status' => $p_box,
+                    'inter_and_em_skill' => json_encode($sub_skills_compantancies1_1),
+                    'lead_and_ment_skill' => json_encode($sub_skills_compantancies3_1),
+                    'org_and_any_skill' => json_encode($sub_skills_compantancies2_1),
+                    'tech_and_soft_pro' => json_encode($sub_skills_compantancies4_1),
+                ]);
+            } else {
+                $newExperience = new ExperienceModel();
+                $newExperience->user_id = $userId;
+                $newExperience->nurseType = json_encode($nurseType);
+                $newExperience->entry_level_nursing = json_encode($entryLevel);
+                $newExperience->registered_nurses = json_encode($registered);
+                $newExperience->advanced_practioner = json_encode($advanced);
+                $newExperience->nurse_prac = json_encode($nurse_practitioner_menu1);
+                $newExperience->specialties = json_encode($specialties1);
+                $newExperience->adults = json_encode($speciality_entry_adult);
+                $newExperience->maternity = json_encode($speciality_entry_maternity);
+                $newExperience->paediatrics_neonatal = json_encode($speciality_entry_paediatrics);
+                $newExperience->community = json_encode($speciality_entry_community);
+                $newExperience->surgical_preoperative = json_encode($surgical_row_box1);
+                $newExperience->operating_room = json_encode($surgical_operative_care_1_1);
+                $newExperience->operating_room_scout = json_encode($surgical_operative_care_2_1);
+                $newExperience->operating_room_scrub = json_encode($surgical_operative_care_3_1);
+                $newExperience->surgical_obstrics_gynacology = json_encode($surgical_obs_care_1);
+                $newExperience->pad_op_room = json_encode($surgical_operative_carep_1_1);
+                $newExperience->pad_qr_scout = json_encode($surgical_operative_carep_2_1);
+                $newExperience->pad_qr_scrub = json_encode($surgical_operative_carep_3_1);
+                $newExperience->neonatal_care = json_encode($neonatal_care_1);
+                $newExperience->paedia_surgical_preoperative = json_encode($surgical_rowpad_box_1);
+                $newExperience->position_held = $positions_held1;
+                $newExperience->employeement_start_date = $start_date1;
+                $newExperience->employeement_end_date = $end_date1;
+                $newExperience->responsiblities = $job_responeblities1;
+                $newExperience->achievements = $achievements1;
+                $newExperience->employeement_type = $employeement_type1;
+                $newExperience->skills_compantancies = json_encode($skills_compantancies1);
+                $newExperience->evidence_type =  json_encode($type_of_evidence1);
+                $newExperience->permanent_status = $permanent_status1;
+                $newExperience->temporary_status = $temporary_status1;
+                $newExperience->upload_evidence  = json_encode($dtran);
+                $newExperience->sub_skills_compantancies = json_encode($sub_skills_compantancies1);
+                $newExperience->assistent_level = $level_of_exp1;
+                $newExperience->pre_box_status = $p_box;
+                $newExperience->complete_status = 1;
+                $newExperience->inter_and_em_skill = json_encode($sub_skills_compantancies1_1);
+                $newExperience->org_and_any_skill = json_encode($sub_skills_compantancies2_1);
+                $newExperience->lead_and_ment_skill = json_encode($sub_skills_compantancies3_1);
+                $newExperience->tech_and_soft_pro = json_encode($sub_skills_compantancies4_1);
+
+                $run = $newExperience->save();
+            }
         }
 
         if ($run) {
@@ -2286,7 +2337,6 @@ class HomeController extends Controller
         //print_r($gettransimg);
 
     }
-
     public function vaccinationForm(Request $request)
     {
         //This function is for add /update the vaccination record for user
@@ -2342,69 +2392,162 @@ class HomeController extends Controller
         $covid_dose         = $request->covid_dose;
         $evidence_required  = $request->evidence_required;
         $evidancefile       = $request->evidancefile;
+        $record_id          = $request->record_id;
 
-        //echo "<pre>";print_r($evidence_required);die();
+
         if (!empty($vaccination_record)) {
+            //Now delete the vaccination record which is not for update or add 
+            $selectedVaccinationIds = $request->input('vaccination_id', []);
+            $selectedVaccinationIds = array_map('intval', $selectedVaccinationIds);
+
+            $old_vals = DB::table('vaccination_front')
+                ->where('user_id', $user_id)
+                ->whereNotIn('vaccination_id', $selectedVaccinationIds)
+                ->get();
+
+            if (!empty($old_vals)) {
+                foreach ($old_vals as $values) {
+                    // Now remove the evidence for the old vaccination record
+                    $id = $values->id;
+
+                    // Get all evidence records with vcc_front_id matching the old vaccination record
+                    $evidence = EvidanceFileModel::where('vcc_front_id', $id)->get();
+
+                    if ($evidence->isNotEmpty()) {
+                        foreach ($evidence as $ev_files) {
+                            $filePath = 'uploads/evidence/' . $ev_files->file_name;
+
+                            if (Storage::exists($filePath)) {
+                                Storage::delete($filePath);
+                            }
+                            $ev_files->delete();
+                        }
+                    }
+                }
+
+                //Now remove the vaccination record     
+                DB::table('vaccination_front')
+                    ->where('user_id', $user_id)
+                    ->whereNotIn('vaccination_id', $selectedVaccinationIds)
+                    ->delete();
+            }
+
+            //Now add / update the vaccinaion record
+
             if (count($vaccination_record) > 0) {
                 foreach ($vaccination_record as $vaccination) {
-                    $fvcc = new VaccinationFrontModel();
-                    $fvcc->user_id = $user_id;
+                    if ($record_id[$vaccination][0] != '') {
+                        VaccinationFrontModel::where('id', $record_id[$vaccination][0])
+                            ->update([
+                                'immunization_status' => $imm_status_status[$vaccination][0],
+                                'evidance_type' => $evidence_required[$vaccination][0],
+                                'covid_dose' => $covid_dose[$vaccination] ?? null
+                            ]);
+
+                        if ($request->hasFile('evidancefile' . $vaccination)) {
+                            foreach ($request->file('evidancefile' . $vaccination) as $file) {
+                                $originalName = $file->getClientOriginalName();
+                                $filename = 'evidence_file_' . time() . '.' . $file->getClientOriginalExtension();
+                                $destinationPath = public_path() . '/uploads/evidence';
+                                $file->move($destinationPath, $filename);
+
+                                $evid                   = new EvidanceFileModel();
+                                $evid->vcc_front_id     = $record_id[$vaccination][0];
+                                $evid->original_name    = $originalName;
+                                $evid->file_name        = $filename;
+                                $evid->created_at       = date('Y-m-d H:i:s');
+                                $evid->save();
+                            }
+                        }
+                    } else {
+
+                        $fvcc = new VaccinationFrontModel();
+                        $fvcc->user_id = $user_id;
 
 
-                    $fvcc->vaccination_id       = $vaccination;
-                    $fvcc->immunization_status  = $imm_status_status[$vaccination][0];
-                    $fvcc->evidance_type        = $evidence_required[$vaccination][0];
-                    $fvcc->covid_dose           = $covid_dose[$vaccination] ?? null;
+                        $fvcc->vaccination_id       = $vaccination;
+                        $fvcc->immunization_status  = $imm_status_status[$vaccination][0];
+                        $fvcc->evidance_type        = $evidence_required[$vaccination][0];
+                        $fvcc->covid_dose           = $covid_dose[$vaccination] ?? null;
 
-                    $fvcc->save();
-                    $vcc_id = $fvcc->id;
+                        $fvcc->save();
+                        $vcc_id = $fvcc->id;
 
-                    if ($request->hasFile('evidancefile' . $vaccination)) {
-                        foreach ($request->file('evidancefile' . $vaccination) as $file) {
-                            $filename = 'evidence_file_' . time() . '.' . $file->getClientOriginalExtension();
-                            $destinationPath = public_path() . '/uploads/evidence';
-                            $file->move($destinationPath, $filename);
+                        if ($request->hasFile('evidancefile' . $vaccination)) {
+                            foreach ($request->file('evidancefile' . $vaccination) as $file) {
+                                $originalName = $file->getClientOriginalName();
+                                $filename = 'evidence_file_' . time() . '.' . $file->getClientOriginalExtension();
+                                $destinationPath = public_path() . '/uploads/evidence';
+                                $file->move($destinationPath, $filename);
 
-                            $evid               = new EvidanceFileModel();
-                            $evid->vcc_front_id = $vcc_id;
-                            $evid->file_name    = $filename;
-                            $evid->created_at   = date('Y-m-d H:i:s');
-                            $evid->save();
+                                $evid                   = new EvidanceFileModel();
+                                $evid->vcc_front_id     = $vcc_id;
+                                $evid->original_name    = $originalName;
+                                $evid->file_name        = $filename;
+                                $evid->created_at       = date('Y-m-d H:i:s');
+                                $evid->save();
+                            }
                         }
                     }
                 }
             }
         }
 
-
-        $getvaccinationdata = DB::table("vaccination_front")->where("user_id", $user_id)->first();
-        //$post = User::find($request->user_id);
-        /*
-        if (!empty($getvaccinationdata) > 0) {
-
-
-            $run = VaccinationFrontModel::where('user_id', $user_id)->update(['vaccination_records' => $vaccination_record, 'immunization_status' => $immunization_status, 'complete_status' => 1,'state_record'=>$state_record]);
-        } else {
-
-
-
-            $post = new VaccinationFrontModel();
-            $post->user_id = $user_id;
-
-            
-            $post->vaccination_records = $vaccination_record;
-            $post->immunization_status = $immunization_status;
-            $post->state_record        = $state_record;    
-            $post->complete_status = 1;
-            $run = $post->save();
-        }*/
         /**********[Vaccination Record End]*************/
 
         $json['status'] = 1;
-        $json['url'] = url('nurse/my-profile');
+        $json['url'] = url('nurse/profileVaccination');
         $json['message'] = 'Education Information Updated Successfully';
 
         echo json_encode($json);
+    }
+
+    public function removeEvidanceFile(Request $request)
+    {
+        //This function is for remove the vaccination file only
+        $id = $request->id;
+
+        $vaccine = EvidanceFileModel::find($id);
+
+        if ($vaccine) {
+            $filePath = 'uploads/evidence/' . $vaccine->file_name;
+            if (Storage::exists($filePath)) {
+                Storage::delete($filePath);
+            }
+            $vaccine->delete();
+            return response()->json(['success' => true]);
+        }
+        return response()->json(['success' => false, 'message' => 'Vaccine not found']);
+    }
+    public function getVaccinationData(Request $request)
+    {
+        //This function is for getting the vaccination data
+        $user_id = Auth::guard('nurse_middle')->user()->id;
+        $id = $request->id;
+
+        $vaccination = DB::table('vaccination')->where('id', $id)->first();
+        $vcc_level_req = DB::table("vcc_level_req")->where('type', $id)->get();
+        $imm_status = DB::table("imm_status")->get();
+        $evidence_types = DB::table("evidence_type")->where('type', $id)->get();
+
+        $getvaccinationdata = DB::table("vaccination_front")->where("user_id", $user_id)->where("vaccination_id", $id)->first();
+
+        // If no data is found, return an empty response
+        if (!$vaccination) {
+            return response()->json(['html' => '']);
+        }
+
+        // Generate the HTML content for the vaccination record
+        $html = view('nurse.vaccination_record', [
+            'id' => $id,
+            'vaccination' => $vaccination,
+            'vcc_level_req' => $vcc_level_req,
+            'imm_status' => $imm_status,
+            'evidence_types' => $evidence_types,
+            'vaccination_data' => $getvaccinationdata
+        ])->render();
+
+        return response()->json(['html' => $html]);
     }
 
     public function updateInterview(Request $request)
@@ -3436,6 +3579,7 @@ class HomeController extends Controller
 
     public function getSkillsData(Request $request)
     {
+
         $id = $request->id;
         $skills = DB::table("skills")->where("parent_id", $id)->get();
         $skills_name = DB::table("skills")->where("id", $id)->first();
@@ -3443,7 +3587,6 @@ class HomeController extends Controller
         foreach ($skills as $skills1) {
             $skills_array[] = array("parent_id" => $id, "parent_name" => $skills_name->name, "id" => $skills1->id, "name" => $skills1->name);
         }
-        //print_r($skills_array);
         return json_encode($skills_array);
     }
 
@@ -3453,14 +3596,17 @@ class HomeController extends Controller
         $user_id = Auth::guard('nurse_middle')->user()->id;
         $other_vaccine = DB::table("other_vaccine")->where("user_id", $user_id)->get();
         $state_record = DB::table("vcc_state")->get();
-        return view('nurse.profile_vaccination', compact('other_vaccine', 'state_record'));
+
+        $vaccinationData = DB::table("vaccination_front")->where("user_id", $user_id)->get();
+        $vaccination_record = DB::table("vaccination")->get();
+
+        return view('nurse.profile_vaccination', compact('other_vaccine', 'state_record', 'vaccinationData', 'vaccination_record'));
     }
     public function getContent(Request $request)
     {
         //This function is for vaccinations compliance by state
         $states = $request->input('states');
         $vaccines = $request->input('vaccines');
-
         $content = DB::table('vaccine_compliances')
             ->join('vcc_state', 'vaccine_compliances.state_id', '=', 'vcc_state.id')
             ->join('vaccination', 'vaccine_compliances.vaccination_id', '=', 'vaccination.id')
@@ -3472,7 +3618,6 @@ class HomeController extends Controller
                 'vaccination.name as vaccine_name'
             )
             ->get();
-
         // Render content or return a JSON response
         return view('nurse.compliance_content', ['data' => $content])->render();
     }
@@ -3480,7 +3625,6 @@ class HomeController extends Controller
     {
         //This function is for remove vaccine from other vaccine
         $id = $request->id;
-
         $vaccine = OtherVaccineModel::find($id);
 
         if ($vaccine) {
@@ -3492,5 +3636,34 @@ class HomeController extends Controller
             return response()->json(['success' => true]);
         }
         return response()->json(['success' => false, 'message' => 'Vaccine not found']);
+    }
+
+    public function deleteEvidence(Request $request)
+    {
+        $user_id = $request->user_id;
+        $img = $request->img;
+        $imgid = $request->imgid;
+        $getEXPDATA  = DB::table("user_experience")->where("user_id", $user_id)->where('experience_id', $imgid)->first();
+        $getimgData = json_decode($getEXPDATA->upload_evidence);
+        $evi_id_array = array();
+        foreach ($getimgData as $ev_id) {
+            $evi_id_array[] = $getimgData;
+        }
+        $evi_index = array_search($getimgData, $evi_id_array);
+        array_splice($getimgData, $evi_index, 1);
+        unset($getimgData[$evi_index]);
+        if (!empty($getimgData)) {
+            $evidenceData = json_encode($getimgData);
+        } else {
+            $evidenceData = '';
+        }
+        $filePath = 'uploads/evidence/' . $img;
+        if (Storage::exists($filePath)) {
+            Storage::delete($filePath);
+        }
+        $deleteData = DB::table("user_experience")->where("user_id", $user_id)->update(['upload_evidence' => $evidenceData]);
+        if ($deleteData) {
+            return 1;
+        }
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 use Carbon\Carbon;
 
 use App\Models\SpecialityModel;
@@ -42,12 +43,12 @@ function sub_specialty($specialty_id)
 
 function JobSpecialties()
 {
-        $JobSpecialties =  PractitionerTypeModel::where('status', '1')->where('parent','0')->orderBy('id', 'asc')->get();
+        $JobSpecialties =  PractitionerTypeModel::where('status', '1')->where('parent', '0')->orderBy('id', 'asc')->get();
         return $JobSpecialties;
 }
 function SubJobSpecialties()
 {
-        $SubJobSpecialties =  PractitionerTypeModel::where('status', '1')->where('parent','!=','0')->orderBy('id', 'desc')->get();
+        $SubJobSpecialties =  PractitionerTypeModel::where('status', '1')->where('parent', '!=', '0')->orderBy('id', 'desc')->get();
         return $SubJobSpecialties;
 }
 function practitioner_type()
@@ -72,13 +73,13 @@ function practitioner_type_by_id($practitioner)
 }
 function country_phone_code()
 {
-    $country_phone_code = CountryModel::where('status', '1')->select('phonecode','name')->groupBy('phonecode')->orderBy("phonecode", "asc")->get();
-    return $country_phone_code;
+        $country_phone_code = CountryModel::where('status', '1')->select('phonecode', 'name')->groupBy('phonecode')->orderBy("phonecode", "asc")->get();
+        return $country_phone_code;
 }
 function country_id($country_phone_code)
 {
-    $country = CountryModel::where('status', '1')->where('phonecode', $country_phone_code)->first();
-    return $country->iso2;
+        $country = CountryModel::where('status', '1')->where('phonecode', $country_phone_code)->first();
+        return $country->iso2;
 }
 function country_name_from_db()
 {
@@ -99,7 +100,7 @@ function state_name($state_id)
 function state_list()
 {
         $lastRecord = StateModel::all();
-        
+
         return $lastRecord;
 }
 function country_name($country_id)
@@ -116,79 +117,79 @@ function country_name_new($country_id)
 }
 function year_level()
 {
-        $lastRecord = LevelYearModel::where('status','1')->get();
+        $lastRecord = LevelYearModel::where('status', '1')->get();
         return $lastRecord;
 }
 function evidence_list()
 {
-        $lastRecord = EvidenceModel::where('status','1')->get();
+        $lastRecord = EvidenceModel::where('status', '1')->get();
         return $lastRecord;
 }
 function profession_data()
 {
         $lastRecord = ProfessionModel::where('user_id', Auth::guard('nurse_middle')->user()->id)->first();
-        if($lastRecord){
-            $lastRecord=$lastRecord;
-        }else{
-            $lastRecord='null';
+        if ($lastRecord) {
+                $lastRecord = $lastRecord;
+        } else {
+                $lastRecord = 'null';
         }
         return $lastRecord;
 }
 function emergency_contact_data()
 {
         $lastRecord = EmergencyContactModel::where('user_id', Auth::guard('nurse_middle')->user()->id)->first();
-        if($lastRecord){
-            $lastRecord=$lastRecord;
-        }else{
-            $lastRecord='null';
+        if ($lastRecord) {
+                $lastRecord = $lastRecord;
+        } else {
+                $lastRecord = 'null';
         }
         return $lastRecord;
 }
 function clearances_data()
 {
         $lastRecord = EligibilityToWorkModel::where('user_id', Auth::guard('nurse_middle')->user()->id)->first();
-        if($lastRecord){
-            $lastRecord=$lastRecord;
-        }else{
-            $lastRecord='null';
+        if ($lastRecord) {
+                $lastRecord = $lastRecord;
+        } else {
+                $lastRecord = 'null';
         }
         return $lastRecord;
 }
 function working_data()
 {
         $lastRecord = WorkingChildrenCheckModel::where('user_id', Auth::guard('nurse_middle')->user()->id)->first();
-        if($lastRecord){
-            $lastRecord=$lastRecord;
-        }else{
-            $lastRecord='null';
+        if ($lastRecord) {
+                $lastRecord = $lastRecord;
+        } else {
+                $lastRecord = 'null';
         }
         return $lastRecord;
 }
 function police_check_data()
 {
         $lastRecord = PoliceCheckModel::where('user_id', Auth::guard('nurse_middle')->user()->id)->first();
-        if($lastRecord){
-            $lastRecord=$lastRecord;
-        }else{
-            $lastRecord='null';
+        if ($lastRecord) {
+                $lastRecord = $lastRecord;
+        } else {
+                $lastRecord = 'null';
         }
         return $lastRecord;
 }
 
 function getUserDataById($id)
 {
-        $lastRecord = User::where('id',$id)->first();
+        $lastRecord = User::where('id', $id)->first();
         return $lastRecord;
 }
 
 function getLevelYearNameById($id)
 {
-        $lastRecord = LevelYearModel::where('id',$id)->first();
+        $lastRecord = LevelYearModel::where('id', $id)->first();
         return $lastRecord->name;
 }
 function getEvidenceTypeNameById($id)
 {
-        $lastRecord = EvidenceModel::where('id',$id)->first();
+        $lastRecord = EvidenceModel::where('id', $id)->first();
         return $lastRecord->name;
 }
 
@@ -204,28 +205,27 @@ function nurse_Type_header()
 }
 function email_verified()
 {
-       
-        if(Auth::guard('nurse_middle')->user()->user_stage=='0'){
+
+        if (Auth::guard('nurse_middle')->user()->user_stage == '0') {
                 return false;
-        }else{
+        } else {
                 return true;
         }
 }
 function account_verified()
 {
-        if(Auth::guard('nurse_middle')->user()->user_stage=='1'){
+        if (Auth::guard('nurse_middle')->user()->user_stage == '1') {
                 return false;
-        }else{
+        } else {
                 return true;
         }
 }
 function getUserNameById($id)
 {
-        $lastRecord = User::where('id',$id)->first();
-        if($lastRecord){
+        $lastRecord = User::where('id', $id)->first();
+        if ($lastRecord) {
                 return $lastRecord->name . ' ' . $lastRecord->lastname;
         }
-        
 }
 function professional_certificate_by_id($id)
 {
@@ -247,5 +247,3 @@ function vaccination_name_by_id($id)
         $vaccination_data =  VaccinationModel::where('id', $id)->first();
         return $vaccination_data->name;
 }
-
-

@@ -2601,6 +2601,7 @@
             let nurseResultVal = $(`.nursing_result_experience-${i}`).val();
 
             if (Array.isArray(selectedValues) && selectedValues.includes(nurseResultVal)) {
+
                 // Show the corresponding section
                 $(`#nursing_level_experience-${i}-${index}`).removeClass('d-none');
             } else {
@@ -2620,140 +2621,94 @@
         }
     }
 
-    $(document).on('change', '.specialties_experience', function() {
-        let selectedValues = $(this).val();
-        let index = $(this).attr('index_value'); // 
+    function handleSpecialtiesChange(index) {
+        // Get the select element by class name
+        let selectElement = document.getElementsByClassName(`exp_spe_type_${index}`)[0];
+        if (!selectElement) return; // Exit if the element is not found
 
-        var speciality_len = $("#specialties_type_experience-1 li").length;
+        // Retrieve the `data-list-id` attribute and selected values
+        let listId = selectElement.getAttribute('data-list-id');
+        let selectedValues1 = $(selectElement).val() || []; // Ensure it's always an array
 
-        for (var k = 1; k <= speciality_len; k++) {
-            var speciality_result_val = $(".speciality_exp_result-" + k + '-' + index).val();
+        // Get the number of list items within the container
+        let speciality_len = $(`#${listId} li`).length;
+
+        // Loop through each specialty item
+        for (let k = 1; k <= speciality_len; k++) {
+            let speciality_result_val = $(`.speciality_exp_result-${k}-${index}`).val();
+
+            if (Array.isArray(selectedValues1) && selectedValues1.includes(speciality_result_val)) {
+                // Show the element if the value is selected
+                $(`#specility_level_exp-${k}-${index}`).removeClass('d-none');
+            } else {
+                // Hide the element and reset the child select2 dropdown
+                $(`#specility_level_exp-${k}-${index}`).addClass('d-none');
+                let childSelect = $(`.js-example-basic-multiple[data-list-id="speciality_entry_exp-${k}-${index}"]`);
+                if (childSelect.length && childSelect.data('select2')) {
+                    childSelect.select2('destroy').val(null).trigger('change');
+                }
+            }
+        }
+
+        // Additional conditions for specific selections
+        if (!selectedValues1.includes("1")) {
+            // Hide elements if value "1" is not selected
+            $(`.subvaluedata_${index}, .surgical_row_data_experience_${index}`).addClass('d-none');
+            let surgicalSelect = $(`.js-example-basic-multiple[data-list-id="surgical_row_box"]`);
+            if (surgicalSelect.length && surgicalSelect.data('select2')) {
+                surgicalSelect.select2('destroy').val(null).trigger('change');
+            }
+        }
+
+        // Uncomment and refine these blocks as needed based on your logic
+        /*
+        if (!selectedValues1.includes("2")) {
+            $(`.surgicalobs_row_exp_${index}`).addClass('d-none');
+            let surgicalObsSelect = $(`.js-example-basic-multiple[data-list-id="surgical_row_box_exp_${index}"]`);
+            if (surgicalObsSelect.length && surgicalObsSelect.data('select2')) {
+                surgicalObsSelect.select2('destroy').val(null).trigger('change');
+            }
+        }
+
+        if (!selectedValues1.includes("3")) {
+            $(`.surgicalpad_row_data_exp_${index}, .surgical_rowp_exp_${index}, .neonatal_row_exp_${index}`).addClass('d-none');
+        }
+        */
+    }
+
+    // Example of attaching the function to a change event
+    $(document).on('change', '.exp_spe_type', function() {
+        let index = $(this).data('index'); // Assuming `data-index` is set on the element
+        handleSpecialtiesChange(index);
+    });
+
+
+
+
+
+    function handleSurgicalChange(index) {
+        let selectElement = document.getElementsByClassName(`sur_exp_${index}`)[0]; // Access the first element
+
+        let listId = selectElement.getAttribute('data-list-id'); // Get the `data-list-id` attribute
+
+        // Retrieve selected values from the dropdown
+        let selectedValues = $(selectElement).val() || []; // Ensure selectedValues is an array
+
+        // Get the lengspeciality_lenth of nursing result items
+        let speciality_entry = $(`#${listId} li`).length;
+
+        for (var k = 1; k <= speciality_entry; k++) {
+            var speciality_result_val = $(".speciality_surgical_result_experience-" + index + "-" + k).val();
+            // console.log("speciality_result_val", speciality_result_val);
             if (selectedValues.includes(speciality_result_val)) {
-                $('#specility_level_exp-' + k + '-' + index).removeClass('d-none');
+                $('.surgical_row_exp-' + k + "-" + index).removeClass('d-none');
             } else {
-                $('#specility_level_exp-' + k + '-' + index).addClass('d-none');
-                $('.js-example-basic-multiple[data-list-id="speciality_entry_exp-' + k + '-' + index + '"]').select2().val(null).trigger('change');
+                $('.surgical_row_exp-' + k + "-" + index).addClass('d-none');
+                $('.js-example-basic-multiple[data-list-id="surgical_row_box_exp_' + k + '"]').select2().val(null).trigger('change');
             }
         }
 
-        if (!selectedValues.includes("1")) {
-            $('.subvaluedata_' + index).addClass('d-none');
-            $('.surgical_row_data_experience_' + index).addClass('d-none');
-            $('.sur_exp_' + index).select2().val(null).trigger('change');
-        }
-
-        if (selectedValues.includes("2") == false) {
-            $('.surgicalobs_row_exp_' + index).addClass('d-none');
-            $('.js-example-basic-multiple[data-list-id="surgicalobs_row_data_experience_' + index + '"]').select2().val(null).trigger('change');
-        }
-
-        if (selectedValues.includes("3") == false) {
-            $('.surgicalpad_row_data_exp_' + index).addClass('d-none');
-            $('.surgical_rowp_exp_' + index).addClass('d-none');
-            $('.neonatal_row_exp_' + index).addClass('d-none');
-            $('.js-example-basic-multiple[data-list-id="surgical_rowpad_box_exp_' + index + '"]').select2().val(null).trigger('change');
-            $('.js-example-basic-multiple[data-list-id="surgical_operative_care_experience-' + k + '-' + index + '"]').select2().val(null).trigger('change');
-            //$('.js-example-basic-multiple[data-list-id="surgicalobs_row_data"]').select2().val(null).trigger('change');
-        }
-
-
-    });
-
-    $(document).on('change', '.surgical_subtype', function() {
-        let selectedValues = $(this).val(); // Get selected values
-        let index = $(this).attr('index_name'); // Get the index name
-        let liCount = $("#surgical_row_box_exp_" + index).children("li").length; // Count <li> elements
-
-        for (let k = 1; k <= liCount; k++) {
-            // Get the value for the current surgical subtype
-            let speciality_result_val = $(".speciality_surgical_result_experience-" + index + "-" + k).val();
-
-            if (selectedValues.includes(speciality_result_val)) {
-                // Show the row if the value is included
-                $('.surgical_row_exp-' + k + '-' + index).removeClass('d-none');
-            } else {
-                // Hide the row if the value is not included
-                $('.surgical_row_exp-' + k + '-' + index).addClass('d-none');
-            }
-        }
-    });
-
-    $(document).on('change', '.specilitysubtype', function() {
-        let index = $(this).attr('index_name');
-        let data_list_id = $(this).attr('data-list-id');
-
-        if (data_list_id === 'speciality_entry_exp-2-' + index) {
-            let selectedValues = $(this).val(); // Gets the selected value(s)
-            let liCount = $("#speciality_entry_exp-2-" + index).children("li").length; // Number of child `li` elements
-            console.log(selectedValues);
-            // Check if selected value is '233'
-            if (selectedValues.includes('233')) {
-                $('.surgicalobs_row_exp_' + index).removeClass('d-none');
-            } else {
-                $('.surgicalobs_row_exp_' + index).addClass('d-none');
-                $('.js-example-basic-multiple[data-list-id="surgicalobs_row_data_experience_' + index + '"]')
-                    .select2()
-                    .val(null)
-                    .trigger('change');
-            }
-        }
-
-        if (data_list_id === 'speciality_entry_exp-1-' + index) {
-            let selectedValues = $(this).val(); // Gets the selected value(s)
-            if (selectedValues.includes('96')) {
-                $('.surgical_row_data_experience_' + index).removeClass('d-none');
-            } else {
-                $('.surgical_row_data_experience_' + index).addClass('d-none');
-                $('.js-example-basic-multiple[data-list-id="surgical_row_box_exp_' + index + '"]')
-                    .select2()
-                    .val(null)
-                    .trigger('change');
-            }
-        }
-
-        if (data_list_id === 'speciality_entry_exp-3-' + index) {
-            let selectedValues = $(this).val();
-            if (selectedValues.includes('285')) {
-                $('.surgicalpad_row_data_exp_' + index).removeClass('d-none');
-            } else {
-                $('.surgicalpad_row_data_exp_' + index).addClass('d-none');
-                $('.js-example-basic-multiple[data-list-id="surgical_rowpad_box_exp_' + index + '"]')
-                    .select2()
-                    .val(null)
-                    .trigger('change');
-            }
-
-            if (selectedValues.includes("285") == false) {
-                $('.surgical_rowp_exp_' + index).addClass('d-none');
-                $('.js-example-basic-multiple[data-list-id="surgical_operative_carep_exp-' + index + '"]')
-                    .select2()
-                    .val(null)
-                    .trigger('change');
-            }
-        }
-    });
-
-
-    $(document).on('change', '.pae_sur_pre', function() {
-        let selectedValues = $(this).val(); // Get selected values
-        let index = $(this).attr('index_name'); // Get the index name
-        let liCount = $("#ssurgical_rowpad_box_exp_" + index).children("li").length; // Count <li> elements
-
-        for (let k = 1; k <= liCount; k++) {
-            //     // Get the value for the current surgical subtype
-            let surgical_rowp_val = $(".surgical_rowp_result_experience-" + index + "-" + k).val();
-
-            console.log(surgical_rowp_val);
-
-            if (selectedValues.includes(speciality_result_val)) {
-                //         // Show the row if the value is included
-                $('.surgical_rowp_exp-' + k + '-' + index).removeClass('d-none');
-            } else {
-                //         // Hide the row if the value is not included
-                $('.surgical_rowp_exp-' + k + '-' + index).addClass('d-none');
-            }
-        }
-    });
+    }
 </script>
 
 <script>

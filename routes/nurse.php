@@ -96,6 +96,7 @@ Route::prefix('nurse')->name('nurse.')->namespace('App\Http\Controllers\nurse')-
     Route::post('/updateProfessionalMembership', 'HomeController@updateProfessionalMembership')->name('updateProfessionalMembership');
     Route::post('/deleteReferee', 'HomeController@deleteReferee')->name('deleteReferee');
     Route::post('/deleteCertification', 'HomeController@deleteCertification')->name('deleteCertification');
+    Route::post('/deleteevidence', 'HomeController@deleteEvidence')->name('deleteEvidence');
     Route::post('/deleteImg', 'HomeController@deleteImg')->name('deleteImg');
     Route::post('/deleteImg1', 'HomeController@deleteImg1')->name('deleteImg1');
     Route::post('/deleteImgCert', 'HomeController@deleteImgCert')->name('deleteImgCert');
@@ -112,5 +113,7 @@ Route::prefix('nurse')->name('nurse.')->namespace('App\Http\Controllers\nurse')-
     Route::any('/profileVaccination', 'HomeController@profileVaccination')->name('profileVaccination');
     Route::post('/removeVaccine', 'HomeController@removeVaccine')->name('removeVaccine');
     Route::post('/getContent', 'HomeController@getContent')->name('getContent');
+    Route::any('/removeEvidanceFile', 'HomeController@removeEvidanceFile')->name('removeEvidanceFile');
+    Route::any('/getVaccinationData', 'HomeController@getVaccinationData')->name('getVaccinationData');
   });
 });
