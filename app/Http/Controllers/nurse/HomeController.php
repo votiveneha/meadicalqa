@@ -1792,112 +1792,13 @@ class HomeController extends Controller
         echo json_encode($json);
     }
 
-    // public function updateExperience(Request $request)
-    // {
-    //     echo "<pre>";
-    //     print_r($request->all());
-    //     die;
-    //     $year_experience = $request->assistent_level;
-    //     $user_id = $request->user_id;
-    //     $previous_employer_name = $request->previous_employer_name;
-    //     $positions_held = json_encode($request->positions_held);
-    //     $start_date = $request->start_date;
-    //     $end_date = $request->end_date;
-    //     $present_box = $request->present_box;
-    //     $job_responeblities = $request->job_responeblities;
-    //     $achievements = $request->achievements;
-    //     $employeement_type = $request->employeement_type;
-    //     $skills_compantancies = json_encode($request->skills_compantancies);
-    //     $type_of_evidence = json_encode($request->type_of_evidence);
-    //     $i = 0;
-    //     $work_experience_array = array();
-    //     foreach ($previous_employer_name as $pname) {
-    //         $previous_employer_name1 = $pname;
-    //         $positions_held1 = $positions_held[$i];
-    //         $start_date1 = $start_date[$i];
-    //         $end_date1 = $end_date[$i];
 
-    //         if (isset($present_box[$i])) {
-    //             $p_box = 1;
-    //         } else {
-    //             $p_box = 0;
-    //         }
-    //         $employeement_type1 = $employeement_type[$i];
-    //         $job_responeblities1 = $job_responeblities[$i];
-    //         $achievements1 = $achievements[$i];
-
-    //         $work_experience_array[] = array("previous_employer_name1" => $previous_employer_name1, "positions_held1" => $positions_held1, "start_date1" => $start_date1, "end_date1" => $end_date1, "present_box1" => $p_box, "employeement_type1" => $employeement_type1, "job_responeblities1" => $job_responeblities1, "achievements1" => $achievements1);
-    //         $i++;
-    //     }
-
-    //     if (!empty($work_experience_array)) {
-    //         $work_experience_json = json_encode($work_experience_array);
-    //     } else {
-    //         $work_experience_json = '';
-    //     }
-
-    //     $file = $request->file('upload_evidence');
-
-
-
-    //     //$post = User::find($request->user_id);
-
-    //     if (!empty($file)) {
-    //         $destinationPath = public_path() . '/uploads/evidence';
-
-    //         $file->move($destinationPath, time() . $file->getClientOriginalName());
-    //         $upload_evidence = time() . $file->getClientOriginalName();
-    //     } else {
-    //         $upload_evidence = $getedudata->upload_evidence;
-    //     }
-
-
-    //     $getexperiencedata = DB::table("user_experience")->where("user_id", $user_id)->first();
-    //     //$post = User::find($request->user_id);
-
-    //     if (!empty($getexperiencedata) > 0) {
-    //         $post1 = User::find($user_id);
-    //         $post1->assistent_level = $year_experience;
-    //         $post1->save();
-
-    //         $run = ExperienceModel::where('user_id', $user_id)->update(['work_experience' => $work_experience_json, 'upload_evidence' => $upload_evidence, 'evidence_type' => $type_of_evidence, 'skills_compantancies' => $skills_compantancies, 'complete_status' => 1]);
-    //     } else {
-
-
-
-    //         $post = new ExperienceModel();
-    //         $post->user_id = $user_id;
-
-    //         //$post->year_experience = $year_experience;
-    //         $post->work_experience = $work_experience_json;
-    //         $post->skills_compantancies = $skills_compantancies;
-    //         $post->upload_evidence = $upload_evidence;
-    //         $post->evidence_type = $type_of_evidence;
-    //         $post->complete_status = 1;
-    //         $run = $post->save();
-
-    //         $post1 = User::find($user_id);
-    //         $post1->assistent_level = $year_experience;
-    //         $post1->save();
-    //     }
-
-    //     if ($run) {
-    //         $json['status'] = 1;
-    //         $json['url'] = url('nurse/my-profile');
-    //         $json['message'] = 'Education Information Updated Successfully';
-    //     } else {
-    //         $json['status'] = 0;
-    //         $json['message'] = 'Please Try Again';
-    //     }
-
-    //     echo json_encode($json);
-    // }
 
     public function updateExperience(Request $request)
     {
         $userId = $request->user_id;
 
-        $getexperiencedata = DB::table("user_experience")->where("user_id", $userId)->first();
+
         $nurseTypes = $request->input('nurseType', []);
         $nursingType1 = $request->input('nursing_type_1', []);
         $nursingType2 = $request->input('nursing_type_2', []);
@@ -1934,23 +1835,24 @@ class HomeController extends Controller
         $sub_skills_compantancies2 = $request->input('sub_skills_compantancies-9', []);
         $sub_skills_compantancies3 = $request->input('sub_skills_compantancies-10', []);
         $sub_skills_compantancies4 = $request->input('sub_skills_compantancies-11', []);
-        $exp_id = $request->input('exp_id', []);
+        $exp_id = $request->input('exp_id');
+        $dec_status = $request->input('exp_declare_information');
+        $oldfile = $request->input('old_file');
+
+        // print_r($request->all());
+        // die;
+
+
 
 
         // Loop through nurse types and process them
         foreach ($nurseTypes as $key => $nurseType) {
-
+            // $getexperiencedata = DB::table("user_experience")->where("user_id", $userId)->where("experience_id", $exp_id[$key])->get();
             $evi1 = $evdience[$key] ?? null;
+            $oldfile1 = $oldfile[$key] ?? null;
             $present_box1 = $present_box[$key] ?? null;
-            $dtran = array();
-            if (!empty($evi1)) {
-                foreach ($evi1 as $dtrans) {
-                    $destinationPath = public_path() . '/uploads/evidence';
-                    $dtrans->move($destinationPath, $dtrans->getClientOriginalName());
-                    $degree_transcript = $dtrans->getClientOriginalName();
-                    $dtran[] = $degree_transcript;
-                }
-            }
+
+
 
             if (isset($present_box1)) {
                 $p_box = 1;
@@ -1993,7 +1895,41 @@ class HomeController extends Controller
             $sub_skills_compantancies4_1 = $sub_skills_compantancies4[$key] ?? null;
             $exp_id_1 = $exp_id[$key] ?? null;
 
-            if (!empty($getexperiencedata)) {
+            if ($exp_id_1) {
+                // echo "test";
+                // die;
+                $dtran = []; // Initialize the array to hold files
+
+                // Check if evidence files exist and are valid
+                if (isset($evi1) && !empty($evi1)) {
+                    $oldfile2 = json_decode($oldfile1, true);
+                    // Add old files if they exist
+                    if (isset($oldfile1) && $oldfile1 != "") {
+                        if (is_array($oldfile2)) {
+                            $dtran = array_merge($dtran, $oldfile2); // Merge existing old files
+                        } else {
+                            $dtran[] = $oldfile1; // Add single old file if not in an array
+                        }
+                    }
+
+
+                    // Process new evidence files
+                    foreach ($evi1 as $dtrans) {
+                        $destinationPath = public_path() . '/uploads/evidence';
+                        $dtrans->move($destinationPath, $dtrans->getClientOriginalName());
+                        $degree_transcript = $dtrans->getClientOriginalName();
+                        $dtran[] = $degree_transcript;
+                    }
+                }
+
+                // If no files were added to $dtran, set it to null
+                if (empty($dtran)) {
+                    $dtran = "";
+                }
+
+                // print_r($dtran);
+                // die;
+
                 $run = ExperienceModel::where('experience_id', $exp_id_1)->update([
                     'nurseType' => json_encode($nurseType),
                     'entry_level_nursing' => json_encode($entryLevel),
@@ -2033,8 +1969,23 @@ class HomeController extends Controller
                     'lead_and_ment_skill' => json_encode($sub_skills_compantancies3_1),
                     'org_and_any_skill' => json_encode($sub_skills_compantancies2_1),
                     'tech_and_soft_pro' => json_encode($sub_skills_compantancies4_1),
+                    'declaration_status' => $dec_status
                 ]);
             } else {
+
+                if (isset($evi1) && is_iterable($evi1)) {
+                    $dtran = []; // Initialize the array to hold file names
+
+                    foreach ($evi1 as $dtrans) {
+                        // Check if the individual file is valid
+                        if ($dtrans->isValid()) {
+                            $destinationPath = public_path() . '/uploads/evidence';
+                            $dtrans->move($destinationPath, $dtrans->getClientOriginalName());
+                            $degree_transcript = $dtrans->getClientOriginalName();
+                            $dtran[] = $degree_transcript; // Add the file name to the array
+                        }
+                    }
+                }
                 $newExperience = new ExperienceModel();
                 $newExperience->user_id = $userId;
                 $newExperience->nurseType = json_encode($nurseType);
@@ -2076,6 +2027,7 @@ class HomeController extends Controller
                 $newExperience->org_and_any_skill = json_encode($sub_skills_compantancies2_1);
                 $newExperience->lead_and_ment_skill = json_encode($sub_skills_compantancies3_1);
                 $newExperience->tech_and_soft_pro = json_encode($sub_skills_compantancies4_1);
+                $newExperience->declaration_status = $dec_status;
 
                 $run = $newExperience->save();
             }
@@ -2122,7 +2074,7 @@ class HomeController extends Controller
                 } else {
                     $working = 0;
                 }
-                $run = AddReferee::where('user_id', $user_id)->where('referee_no', $i + 1)->update(['first_name' => $first_name[$i], 'last_name' => $last_name[$i], 'email' => $email[$i], 'phone_no' => $phone_no[$i], 'relationship' => $reference_relationship[$i], 'worked_together' => $worked_together[$i], 'position_with_referee' => $position_with_referee[$i], 'start_date' => $start_date[$i], 'end_date' => $end_date[$i], 'still_working' => $working]);
+                $run = AddReferee::where('user_id', $user_id)->where('referee_no', $i + 1)->update(['first_name' => $first_name[$i], 'last_name' => $last_name[$i], 'email' => $email[$i], 'phone_no' => $phone_no[$i], 'relationship' => $reference_relationship[$i], 'worked_together' => $worked_together[$i], 'position_with_referee' => $position_with_referee[$i], 'start_date' => $start_date[$i], 'end_date' => $end_date[$i], 'still_working' => $working, 'still_working' => $working, 'is_declare' => 1]);
             } else {
                 if (isset($still_working[$i])) {
                     $working = 1;
@@ -2142,6 +2094,7 @@ class HomeController extends Controller
                 $referee->start_date = $start_date[$i];
                 $referee->end_date = $end_date[$i];
                 $referee->still_working = $working;
+                $referee->is_declare = 1;
                 $referee->save();
             }
         }
@@ -3638,32 +3591,63 @@ class HomeController extends Controller
         return response()->json(['success' => false, 'message' => 'Vaccine not found']);
     }
 
+
     public function deleteEvidence(Request $request)
     {
         $user_id = $request->user_id;
         $img = $request->img;
         $imgid = $request->imgid;
-        $getEXPDATA  = DB::table("user_experience")->where("user_id", $user_id)->where('experience_id', $imgid)->first();
-        $getimgData = json_decode($getEXPDATA->upload_evidence);
-        $evi_id_array = array();
-        foreach ($getimgData as $ev_id) {
-            $evi_id_array[] = $getimgData;
+
+        // Retrieve experience data
+        $getEXPDATA = DB::table("user_experience")
+            ->where("user_id", $user_id)
+            ->where("experience_id", $imgid)
+            ->first();
+
+        if (!$getEXPDATA) {
+            return response()->json(['error' => 'Experience data not found'], 404);
         }
-        $evi_index = array_search($getimgData, $evi_id_array);
-        array_splice($getimgData, $evi_index, 1);
-        unset($getimgData[$evi_index]);
-        if (!empty($getimgData)) {
-            $evidenceData = json_encode($getimgData);
-        } else {
-            $evidenceData = '';
+
+        // Convert the object to an array
+        $getEXPDATA = (array) $getEXPDATA;
+
+        // Decode the 'upload_evidence' field if it's JSON-encoded
+        $getimgData = json_decode($getEXPDATA['upload_evidence'], true);
+
+        if (!is_array($getimgData)) {
+            $getimgData = [];
         }
+
+        // Find and remove the specified image
+        $evi_index = array_search($img, $getimgData);
+        if ($evi_index !== false) {
+            unset($getimgData[$evi_index]);
+            $getimgData = array_values($getimgData); // Reindex the array
+        }
+
+        // Update the database with the remaining evidence or an empty string
+        $evidenceData = empty($getimgData) ? "" : json_encode($getimgData);
+
+        $deleteData = DB::table("user_experience")
+            ->where("user_id", $user_id)
+            ->where("experience_id", $imgid)
+            ->update(['upload_evidence' => $evidenceData]);
+
+        // Delete the file if it exists
         $filePath = 'uploads/evidence/' . $img;
         if (Storage::exists($filePath)) {
             Storage::delete($filePath);
         }
-        $deleteData = DB::table("user_experience")->where("user_id", $user_id)->update(['upload_evidence' => $evidenceData]);
+
         if ($deleteData) {
             return 1;
         }
+
+        // Return success response
+        // if ($deleteData) {
+        //     return response()->json(['success' => true, 'message' => 'Evidence deleted successfully']);
+        // }
+
+        // return response()->json(['error' => 'Failed to delete evidence'], 500);
     }
 }

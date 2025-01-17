@@ -1348,28 +1348,38 @@
 
   function updateExperience() {
     var isValid = true;
-    if ($('[name="assistent_level"]').val() == '') {
-      document.getElementById("reqlevelexpereience").innerHTML = "* Please select the experience level";
-      isValid = false;
-    }
+    var a = 1;
+    $(".nurse_type_exp").each(function() {
+      if ($(".nurse_type_exp_" + a).length > 0) {
+        if ($(".nurse_type_exp_" + a).val() == '') {
+          document.getElementById("reqnurseTypeexpId-" + a).innerHTML = "* Please select the type of nurse";
+          isValid = false;
+        }
+      }
+      a++;
+    });
+    // if ($('[name="assistent_level"]').val() == '') {
+    //   document.getElementById("reqlevelexpereience").innerHTML = "* Please select the experience level";
+    //   isValid = false;
+    // }
 
-    if ($('[name="previous_employer_name"]').val() == '') {
+    // if ($('[name="previous_employer_name"]').val() == '') {
 
-      document.getElementById("reqnames").innerHTML = "* Please enter the name";
-      isValid = false;
-    }
-    if ($('[name="position_held[]"]').val() == '') {
-      document.getElementById("reqpositionheld").innerHTML = "* Please select the position";
-      isValid = false;
-    }
-    if ($('[name="start_date"]').val() == '') {
-      document.getElementById("reqempsdate").innerHTML = "* Please enter the employement start date";
-      isValid = false;
-    }
-    if ($('[name="employeement_type"]').val() == '') {
-      document.getElementById("reqemptype").innerHTML = "* Please select the employeement type";
-      isValid = false;
-    }
+    //   document.getElementById("reqnames").innerHTML = "* Please enter the name";
+    //   isValid = false;
+    // }
+    // if ($('[name="position_held[]"]').val() == '') {
+    //   document.getElementById("reqpositionheld").innerHTML = "* Please select the position";
+    //   isValid = false;
+    // }
+    // if ($('[name="start_date"]').val() == '') {
+    //   document.getElementById("reqempsdate").innerHTML = "* Please enter the employement start date";
+    //   isValid = false;
+    // }
+    // if ($('[name="employeement_type"]').val() == '') {
+    //   document.getElementById("reqemptype").innerHTML = "* Please select the employeement type";
+    //   isValid = false;
+    // }
     // if ($.trim($('[name="job_responeblities[]"]').val()) == '') {
     //   document.getElementById("reqresposiblities").innerHTML = "* Please enter the job responsiblities";
     //   isValid = false;
@@ -1399,7 +1409,7 @@
         },
         success: function(res) {
           $('#submitExperience').prop('disabled', false);
-          $('#submitExperience').text('Update Profile');
+          $('#submitExperience').text('Update Experience');
 
           if (res.status == '1') {
             Swal.fire({
@@ -1410,6 +1420,7 @@
               window.location.href = "{{ route('nurse.my-profile') }}?page=experience_info";
             });
           } else {
+            console.log(res);
             Swal.fire({
               icon: 'error',
               title: 'Error',
@@ -2103,7 +2114,7 @@
   }
 
   function updateReference() {
-    alert();
+
     isValid = true;
     var i = 1;
     $(".first_name").each(function() {
@@ -2181,10 +2192,15 @@
       n++;
 
     });
-    // if ($('[name="position_held[]"]').val() == '') {
-    //   document.getElementById("reqpositionheld").innerHTML = "* Please select the position";
-    //   isValid = false;
-    // }
+    const isChecked = $('.declare').prop('checked');
+    if (!isChecked) {
+      // If not checked, show an error message
+      $('.declaration_bottom').find('.reqError').text('You must declare that the information is true and correct.');
+      isValid = false;
+    } else {
+      // Clear the error message if checked
+      $('.declaration_bottom').find('.reqError').text('');
+    }
     if (isValid == true) {
       $('#reference_form').find('.text-danger').hide();
       $.ajax({

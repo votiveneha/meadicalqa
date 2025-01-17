@@ -2826,7 +2826,7 @@
                       ?>
                       @if($experienceData->isNotEmpty())
                       @foreach($experienceData as $data)
-                      <input type="hidden" name="exp_id[1][]" value="{{ $data->experience_id }}">
+                      <input type="hidden" name="exp_id[{{$i}}]" value="{{ $data->experience_id }}">
                       <div class="exp_tab exp_tab-{{$i}}">
                         <h6 class="emergency_text previous_employeers_head">
                           Work Experience {{ $i }}
@@ -2847,8 +2847,9 @@
                             ?>
                             @endforeach
                           </ul>
-                          <select class="js-example-basic-multiple addAll_removeAll_btn nurse_level_ep" data-list-id="type-of-nurse-experience-{{$i}}" name="nurseType[{{$i}}][]" id="nurse_type_exp-{{ $i }}" multiple="multiple" onchange="handleNurseTypeChange('{{$i}}')"></select>
+                          <select class="js-example-basic-multiple addAll_removeAll_btn nurse_level_ep nurse_type_exp nurse_type_exp_{{$i}}" data-list-id="type-of-nurse-experience-{{$i}}" name="nurseType[{{$i}}][]" id="nurse_type_exp-{{ $i }}" multiple="multiple" onchange="handleNurseTypeChange('{{$i}}')"></select>
                         </div>
+                        <span id="reqnurseTypeexpId-{{$i}}" class="reqError text-danger valley"></span>
                         <div class="result--show nurse-res-rex nurse-res-rex-{{ $i }}">
                           <input type="hidden" name="nursing_result_one_experience" class="nursing_result_one_experience_{{$i}}" value="{{$data->entry_level_nursing }}">
                           <input type="hidden" name="nursing_result_two_experience" class="nursing_result_two_experience_{{$i}}" value="{{ $data->registered_nurses }}">
@@ -2880,7 +2881,7 @@
                                   <li data-value="{{ $nd->id }}">{{ $nd->name }}</li>
                                   @endforeach
                                 </ul>
-                                <select class="js-example-basic-multiple addAll_removeAll_btn nur_exp_res_{{ $spl->id }}_{{$i}}" data-list-id="nursing_entry_experience-{{ $a }}" name="nursing_type_{{ $a }}[1][]" multiple="multiple"></select>
+                                <select class="js-example-basic-multiple addAll_removeAll_btn nur_exp_res_{{ $spl->id }}_{{$i}}" data-list-id="nursing_entry_experience-{{ $a }}" name="nursing_type_{{ $a }}[{{ $i }}][]" multiple="multiple"></select>
                               </div>
                               <?php
                               $a++;
@@ -2921,7 +2922,7 @@
                               @endforeach
 
                             </ul>
-                            <select id="specialties_experienceID" class="js-example-basic-multiple specialties_experience addAll_removeAll_btn exp_spe_type_{{$i}}" index_value="{{ $i}}" data-list-id="specialties_type_experience-1" name="specialties_experience[1][]" multiple="multiple"></select>
+                            <select id="specialties_experienceID" class="js-example-basic-multiple specialties_experience addAll_removeAll_btn exp_spe_type_{{$i}}" index_value="{{ $i}}" data-list-id="specialties_type_experience-1" name="specialties_experience[{{ $i }}][]" multiple="multiple"></select>
                           </div>
                           <span id="reqspecialties" class="reqError text-danger valley"></span>
                         </div>
@@ -2959,7 +2960,7 @@
                               <li data-value="{{ $sd->id }}">{{ $sd->name }}</li>
                               @endforeach
                             </ul>
-                            <select class="js-example-basic-multiple addAll_removeAll_btn  specilitysubtype specility_sub_type_{{ $ptl->id }}_{{$i}}" data-list-id="speciality_entry_exp-{{ $l }}-{{ $i }}" name="speciality_entry_expe_{{ $l }}[1][]" index_name="{{ $i }}" multiple="multiple"></select>
+                            <select class="js-example-basic-multiple addAll_removeAll_btn  specilitysubtype specility_sub_type_{{ $ptl->id }}_{{$i}}" data-list-id="speciality_entry_exp-{{ $l }}-{{ $i }}" name="speciality_entry_experience_{{ $l }}[{{$i}}][]" index_name="{{ $i }}" multiple="multiple"></select>
 
                           </div>
                           <?php
@@ -3043,7 +3044,7 @@
 
                           ?>
                           <div class="neonatal_row_exp_{{$i}} form-group drp--clr drpdown-set d-none col-md-12">
-                            <label class="form-label" for="input-1">Neonatal Care:</label>
+                            <label class="form-label" for="input-1"> </label>
 
                             <ul id="neonatal_care_expe" style="display:none;">
                               @foreach($speciality_surgical_datamater as $ssd)
@@ -3089,7 +3090,7 @@
                         <div class="form-group level-drp">
                           <label class="form-label" for="input-1">What is your Level of experience in this specialty?
                           </label>
-                          <select class="form-input mr-10 select-active" name="exper_assistent_level[$i]">
+                          <select class="form-input mr-10 select-active" name="exper_assistent_level[{{$i}}]">
                             @for($l = 1; $l <= 30; $l++)
                               <option value="{{ $l }}" {{ $l == $data->assistent_level ? 'selected' : '' }}>
                               {{ $l }}{{ $l == 1 ? 'st' : ($l == 2 ? 'nd' : ($l == 3 ? 'rd' : 'th')) }}
@@ -3101,7 +3102,7 @@
                         <div class="form-group level-drp">
                           <div class="form-group level-drp">
                             <label class="form-label" for="input-1">Position Held</label>
-                            <select class="form-control" name="positions_held[1]">
+                            <select class="form-control" name="positions_held[{{$i}}]">
                               <option value="">select</option>
                               <option value="Team Member" {{ 'Team Member' == $data->position_held ? 'selected' : '' }}>Team Member</option>
                               <option value="Team Leader" {{ 'Team Leader' == $data->position_held ? 'selected' : '' }}>Team Leader</option>
@@ -3144,7 +3145,7 @@
                             <div class="col-md-12">
                               <div class="form-group level-drp">
                                 <label class="form-label" for="input-1">Employment type</label>
-                                <select class="form-control" name="employeement_type[1]" onchange="ExpEmpStatus(this.value)">
+                                <select class="form-control" name="employeement_type[{{$i}}]" onchange="ExpEmpStatus(this.value)">
                                   <option value="">select</option>
                                   <option value="Permanent" @if($data->employeement_type == "Permanent") selected @endif>Permanent</option>
                                   <option value="Temporary" @if($data->employeement_type == "Temporary") selected @endif>Temporary</option>
@@ -3156,7 +3157,7 @@
                           <div class="exp_permanent" @if($data->permanent_status == NULL) style="display: none;" @endif>
                             <div class="form-group col-md-12">
                               <label class="form-label" for="input-1">Permanent</label>
-                              <select class="form-input mr-10 select-active" name="permanent_status[1]">
+                              <select class="form-input mr-10 select-active" name="permanent_status[{{$i}}]">
                                 <option value="">Select</option>
                                 <option value="Full-time" @if($data->permanent_status == "Full-time") selected @endif>Full-time</option>
                                 <option value="Part-time" @if($data->permanent_status == "Part-time") selected @endif>Part-time</option>
@@ -3171,7 +3172,7 @@
                           <div class="exp_temporary" @if($data->temporary_status == NULL) style="display: none;" @endif>
                             <div class="form-group col-md-12">
                               <label class="form-label" for="input-1">Temporary</label>
-                              <select class="form-input mr-10 select-active" name="temporary_status[1]">
+                              <select class="form-input mr-10 select-active" name="temporary_status[{{$i}}]">
                                 <option value="">Select</option>
                                 <option value="Temporary" @if($data->temporary_status == "Temporary") selected @endif>Temporary</option>
                                 <option value="Contract" @if($data->temporary_status == "Contract") selected @endif>Contract</option>
@@ -3198,12 +3199,12 @@
                           </h6>
                           <div class="form-group level-drp">
                             <label class="form-label" for="input-1">Responsibilities</label>
-                            <textarea class="form-control" name="job_responeblities[1]">{{$data->responsiblities}}</textarea>
+                            <textarea class="form-control" name="job_responeblities[{{$i}}]">{{$data->responsiblities}}</textarea>
                             <span id="reqresposiblities" class="reqError text-danger valley"></span>
                           </div>
                           <div class="form-group level-drp">
                             <label class="form-label" for="input-1">Achievements</label>
-                            <textarea class="form-control" name="achievements[1]">{{$data->achievements}}</textarea>
+                            <textarea class="form-control" name="achievements[{{$i}}]">{{$data->achievements}}</textarea>
                             <span id="reqachievements" class="reqError text-danger valley"></span>
                           </div>
                           <h6 class="emergency_text">
@@ -3215,16 +3216,16 @@
                             <?php
                             $skills = DB::table("skills")->where("parent_id", "1")->get();
                             ?>
-                            <ul id="skills_compantancies" style="display:none;">
+                            <ul id="skills_compantancies1" style="display:none;">
                               @foreach($skills as $cert)
                               <li data-value="{{ $cert->id }}">{{ $cert->name }}</li>
                               @endforeach
                             </ul>
-                            <select class="js-example-basic-multiple addAll_removeAll_btn skill_com_{{ $i }}" data-list-id="skills_compantancies" name="skills_compantancies[1][]" multiple="multiple"></select>
+                            <select class="js-example-basic-multiple addAll_removeAll_btn specific_skill skill_com_{{ $i }}" data-list-id="skills_compantancies1" name="skills_compantancies[{{$i}}][]" multiple="multiple" index_name="{{ $i }}"></select>
                           </div>
                           <span id="reqexpertise" class="reqError text-danger valley"></span>
 
-                          <div class="form-group level-drp" @if($data->inter_and_em_skill == 'null') style="display: none;" @endif>
+                          <div class="form-group level-drp @if($data->inter_and_em_skill == 'null') d-none @endif interpersonal_{{$i}}">
                             <input type="hidden" value="{{ $data->inter_and_em_skill }}" id="inter_and_em_skill{{ $i }}">
                             <label class="form-label" for="input-1">Interpersonal and Emotional Skills</label>
                             <?php
@@ -3235,11 +3236,11 @@
                               <li data-value="{{ $cert->id }}">{{ $cert->name }}</li>
                               @endforeach
                             </ul>
-                            <select class="js-example-basic-multiple addAll_removeAll_btn inter_and_em_skill_{{ $i }}" data-list-id="inter_and_em_skill" name="sub_skills_compantancies-[ {{$i}} ][]" multiple="multiple"></select>
+                            <select class="js-example-basic-multiple addAll_removeAll_btn inter_and_em_skill_{{ $i }}" data-list-id="inter_and_em_skill" name="sub_skills_compantancies-8[{{$i}}][]" multiple="multiple"></select>
                           </div>
                           <span id="reqexpertise" class="reqError text-danger valley"></span>
 
-                          <div class="form-group level-drp" @if($data->org_and_any_skill == 'null') style=" display: none;" @endif>
+                          <div class="form-group level-drp @if($data->org_and_any_skill == 'null') d-none @endif analy_skill_{{$i}}">
                             <input type="hidden" value="{{ $data->org_and_any_skill }}" id="org_and_any_skill{{ $i }}">
                             <label class="form-label" for="input-1">Organizational and Analytical Skills</label>
                             <?php
@@ -3250,37 +3251,37 @@
                               <li data-value="{{ $cert->id }}">{{ $cert->name }}</li>
                               @endforeach
                             </ul>
-                            <select class="js-example-basic-multiple addAll_removeAll_btn org_and_any_skill_{{ $i }}" data-list-id="org_and_any_skill" name="sub_skills_compantancies-[ {{$i}} ][]" multiple="multiple"></select>
+                            <select class="js-example-basic-multiple addAll_removeAll_btn org_and_any_skill_{{ $i }}" data-list-id="org_and_any_skill" name="sub_skills_compantancies-9[{{$i}}][]" multiple="multiple"></select>
                           </div>
                           <span id="reqexpertise" class="reqError text-danger valley"></span>
 
-                          <div class="form-group level-drp" @if($data->lead_and_ment_skill == 'null') style="display:none;" @endif>
+                          <div class="form-group level-drp @if($data->lead_and_ment_skill === 'null') d-none @endif leader_skill_{{$i}}">
                             <input type="hidden" value="{{ $data->lead_and_ment_skill }}" id="lead_and_ment_skill_{{ $i }}">
                             <label class="form-label" for="input-1">Leadership and Mentorship Skills</label>
                             <?php
                             $skills = DB::table("skills")->where("parent_id", "10")->get();
                             ?>
-                            <ul id="lead_and_ment_skill" style="display:none;">
+                            <ul id="lead_and_ment_skill1" style="display:none;">
                               @foreach($skills as $cert)
                               <li data-value="{{ $cert->id }}">{{ $cert->name }}</li>
                               @endforeach
                             </ul>
-                            <select class="js-example-basic-multiple addAll_removeAll_btn lead_and_ment_skill_{{ $i }}" data-list-id="lead_and_ment_skill" name="sub_skills_compantancies-[{{$i}}][]" multiple="multiple"></select>
+                            <select class="js-example-basic-multiple addAll_removeAll_btn lead_and_ment_skill_{{ $i }}" data-list-id="lead_and_ment_skill1" name="sub_skills_compantancies-10[{{$i}}][]" multiple="multiple"></select>
                           </div>
                           <span id="reqexpertise" class="reqError text-danger valley"></span>
 
-                          <div class="form-group level-drp" @if($data->tech_and_soft_pro == 'null') style="display:none;" @endif>
+                          <div class="form-group level-drp  @if($data->tech_and_soft_pro == 'null')  d-none @endif tech_skill_{{$i}}">
                             <input type="hidden" value="{{ $data->tech_and_soft_pro }}" id="tech_and_soft_pro_{{ $i }}">
                             <label class="form-label" for="input-1">Technology and Software Proficiency</label>
                             <?php
-                            $skills = DB::table("skills")->where("parent_id", "9")->get();
+                            $skills = DB::table("skills")->where("parent_id", "11")->get();
                             ?>
                             <ul id="tech_and_soft_pro" style="display:none;">
                               @foreach($skills as $cert)
                               <li data-value="{{ $cert->id }}">{{ $cert->name }}</li>
                               @endforeach
                             </ul>
-                            <select class="js-example-basic-multiple addAll_removeAll_btn tech_and_soft_pro{{ $i }}" data-list-id="tech_and_soft_pro" name="sub_skills_compantancies-[{{$i}}][]" multiple="multiple"></select>
+                            <select class="js-example-basic-multiple addAll_removeAll_btn tech_and_soft_pro{{ $i }}" data-list-id="tech_and_soft_pro" name="sub_skills_compantancies-11[{{$i}}][]" multiple="multiple"></select>
                           </div>
                           <span id="reqexpertise" class="reqError text-danger valley"></span>
                           <div class="form-group level-drp">
@@ -3296,7 +3297,7 @@
                               <li data-value="Transcript">Transcript</li>
                               <li data-value="Certificate">Certificate</li>
                             </ul>
-                            <select class="js-example-basic-multiple addAll_removeAll_btn type_evi_{{ $i }}" data-list-id="type_of_evidence" name="type_of_evidence[1][]" multiple="multiple"></select>
+                            <select class="js-example-basic-multiple addAll_removeAll_btn type_evi_{{ $i }}" data-list-id="type_of_evidence" name="type_of_evidence[{{$i}}][]" multiple="multiple"></select>
                             <span id="reqtype_evidence" class="reqError text-danger valley"></span>
                           </div>
                           <div class="form-group level-drp">
@@ -3304,13 +3305,14 @@
                             $user_id = Auth::guard('nurse_middle')->user()->id;
                             ?>
                             <label class="form-label" for="input-1">Upload evidence</label>
-                            <input class="form-control change_evi" type="file" name="upload_evidence[$i][]" multiple="" id="{{ $i }}">
+                            <input class="form-control change_evi" type="file" name="upload_evidence[{{$i}}][]" multiple="" id="{{ $i }}">
+                            <input type="hidden" name="old_file[{{ $i }}]" value="{{ $data->upload_evidence }}">
                             <div class="fileList  fileList_{{ $i }}">
                               @if(!empty($data) && ($data->upload_evidence))
                               <?php
                               $evi_img = json_decode($data->upload_evidence);
 
-                              $m = 1;
+                              $m = 0;
                               $user_id = Auth::guard('nurse_middle')->user()->id;
                               $getid = $data->experience_id;
                               ?>
@@ -3321,7 +3323,7 @@
                                 <div class="close_btn close_btn-{{ $i }}" onclick="deletevdiImg('{{ $m }}','{{ $user_id }}','{{ $tranimg }}','{{ $getid }}')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
                               </div>
                               <?php
-                              $i++;
+                              $m++;
                               ?>
                               @endforeach
                               @endif
@@ -3356,9 +3358,9 @@
                             ?>
                             @endforeach
                           </ul>
-                          <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="type-of-nurse-experience" name="nurseType[1][]" id="nurse_type_experience" multiple="multiple"></select>
+                          <select class="js-example-basic-multiple addAll_removeAll_btn nurse_type_exp nurse_type_exp_1" data-list-id="type-of-nurse-experience" name="nurseType[1][]" id="nurse_type_experience" multiple="multiple"></select>
                         </div>
-                        <span id="reqnurseTypeId" class="reqError text-danger valley"></span>
+                        <span id="reqnurseTypeexpId-1" class="reqError text-danger valley"></span>
                       </div>
                       <div class="result--show">
                         <div class="container p-0">
@@ -4090,6 +4092,11 @@
                   </div> <br>
                   <div class="add_new_certification_div mb-3 mt-3">
                     <a style="cursor: pointer;" onclick="add_another_referee()">+ Add another Referee</a>
+                  </div>
+                  <div class="declaration_bottom">
+                    <input class="declare" type="checkbox" name="declare" @if($referee_data->is_declare == 1) checked @endif>I declare that the information provided is true and correct
+                    <br>
+                    <span class="reqError text-danger valley"></span>
                   </div>
                   <div class="box-button mt-15">
                     <button class="btn btn-apply-big font-md font-bold" type="submit" id="submitReferences">Save Changes</button>

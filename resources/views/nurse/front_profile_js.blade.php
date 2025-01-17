@@ -1353,8 +1353,9 @@
                 ?>
                 @endforeach
                 </ul>
-                <select class="js-example-basic-multiple${previous_employeers_head} addAll_removeAll_btn" data-list-id="type-of-nurse-experience-${previous_employeers_head}" name="nurseType[${previous_employeers_head}][]" id="nurse_type_experience" multiple="multiple"></select>
+                <select class="js-example-basic-multiple${previous_employeers_head} addAll_removeAll_btn nurse_type_exp nurse_type_exp_${previous_employeers_head}" data-list-id="type-of-nurse-experience-${previous_employeers_head}" name="nurseType[${previous_employeers_head}][]" id="nurse_type_experience" multiple="multiple"></select>
             </div>
+              <span id="reqnurseTypeexpId-${previous_employeers_head}" class="reqError text-danger valley"></span>
             <div class="result--show">
                 <div class="container p-0">
                     <div class="row g-2">
@@ -2113,22 +2114,134 @@
             }
         });
 
-        $('.js-example-basic-multiple' + previous_employeers_head + '[data-list-id="skills_compantancies-' + previous_employeers_head + '"]').on('change', function() {
-            // Get selected values from the main category dropdown
+        // $('.js-example-basic-multiple' + previous_employeers_head + '[data-list-id="skills_compantancies-' + previous_employeers_head + '"]').on('change', function() {
+        //     // Get selected values from the main category dropdown
+        //     let selectedValues = $(this).val();
+
+        //     // Keep track of existing dropdowns
+        //     let existingDropdowns = [];
+        //     $('.skills_compantancies_dropdowns-' + previous_employeers_head + ' .js-example-basic-multiple' + previous_employeers_head).each(function() {
+        //         existingDropdowns.push($(this).data('list-id'));
+        //     });
+
+        //     var skcount = 1;
+        //     // Loop through selected values
+        //     selectedValues.forEach(function(value) {
+        //         // Check if the dropdown for this ID already exists
+        //         if (!existingDropdowns.includes(`skills_compantancies-${previous_employeers_head}-${value}`)) {
+
+        //             // Fetch submenu data for new IDs
+        //             $.ajax({
+        //                 type: "POST",
+        //                 url: "{{ url('/nurse') }}/getSkillsData",
+        //                 data: {
+        //                     id: value,
+        //                     _token: "{{ csrf_token() }}"
+        //                 },
+        //                 cache: false,
+        //                 success: function(data) {
+        //                     var skills = JSON.parse(data);
+        //                     var skills_data = '';
+        //                     skills.forEach(function(skill) {
+        //                         skills_data += '<li data-value="' + skill.id + '">' + skill.name + '</li>';
+        //                     });
+
+        //                     // Create submenu HTML
+        //                     var dropdownHtml = `
+        //                         <div class="form-group level-drp">
+        //                         <label class="form-label" for="input-1">${skills[0].parent_name}</label>
+        //                         <ul id="skills_compantancies-${previous_employeers_head}-${skills[0].parent_id}" style="display:none;">
+        //                             ${skills_data}
+        //                         </ul>
+        //                         <select class="js-example-basic-multiple${previous_employeers_head} addAll_removeAll_btn" 
+        //                                 data-list-id="skills_compantancies-${previous_employeers_head}-${skills[0].parent_id}" 
+        //                                 name="sub_skills_compantancies-${skills[0].parent_id}[${previous_employeers_head}][]" multiple="multiple">
+        //                         </select>
+        //                         </div>
+        //                     `;
+
+        //                     // Append the new dropdown
+        //                     $(".skills_compantancies_dropdowns-" + previous_employeers_head).append(dropdownHtml);
+
+        //                     // Populate the new dropdown with options
+        //                     let listId1 = `skills_compantancies-${previous_employeers_head}-${skills[0].parent_id}`;
+        //                     let items1 = [];
+
+        //                     $('#' + listId1 + ' li').each(function() {
+        //                         items1.push({
+        //                             id: $(this).data('value'),
+        //                             text: $(this).text()
+        //                         });
+        //                     });
+
+        //                     let $newDropdown = $(`[data-list-id="${listId1}"]`);
+        //                     $newDropdown.select2({
+        //                         data: items1
+        //                     });
+        //                     // Add select all/remove all functionality
+        //                     initializeSelect22($newDropdown);
+        //                 }
+        //             });
+        //         }
+        //     });
+
+        //     // Remove dropdowns for deselected IDs
+        //     if (selectedValues && selectedValues.length > 0) {
+        //         $('.skills_compantancies_dropdowns .js-example-basic-multiples' + previous_employeers_head).each(function() {
+        //             let listId2 = $(this).data('list-id');
+        //             let id = listId2.replace('skills_compantancies-', '');
+        //             if (!selectedValues.includes(id)) {
+        //                 $(this).closest('.form-group').remove();
+        //             }
+        //         });
+        //     }
+        // });
+
+        // // Function to initialize Select2 for dynamically created select elements
+        // function initializeSelect22($dropdown) {
+        //     $dropdown.on('select2:open', function() {
+        //         var $currentDropdown = $(this);
+
+        //         // Check if buttons already exist
+        //         if (!$('.extra-buttons').length) {
+        //             var searchBoxHtml = `
+        //         <div class="extra-buttons">
+        //             <button class="select-all-button" type="button">Select All</button>
+        //             <button class="remove-all-button" type="button">Remove All</button>
+        //         </div>`;
+
+        //             // Add select all/remove all buttons
+        //             $('.select2-results').prepend(searchBoxHtml);
+
+        //             // Attach event listeners to the buttons
+        //             $('.select-all-button').on('click', function() {
+        //                 var allValues = $currentDropdown.find('option').map(function() {
+        //                     return $(this).val();
+        //                 }).get();
+        //                 $currentDropdown.val(allValues).trigger('change');
+        //             });
+
+        //             $('.remove-all-button').on('click', function() {
+        //                 $currentDropdown.val(null).trigger('change');
+        //             });
+        //         }
+        //     });
+        // }
+        // Event listener for change event on the main dropdown
+        $('.js-example-basic-multiple' + previous_employeers_head + `[data-list-id="skills_compantancies-${previous_employeers_head}"]`).on('change', function() {
+            // Get selected values from the main dropdown
             let selectedValues = $(this).val();
 
-            // Keep track of existing dropdowns
+            // Track existing dropdowns
             let existingDropdowns = [];
-            $('.skills_compantancies_dropdowns-' + previous_employeers_head + ' .js-example-basic-multiple' + previous_employeers_head).each(function() {
+            $(`.skills_compantancies_dropdowns-${previous_employeers_head} .js-example-basic-multiple${previous_employeers_head}`).each(function() {
                 existingDropdowns.push($(this).data('list-id'));
             });
 
-            var skcount = 1;
-            // Loop through selected values
+            // Loop through selected values to add new dropdowns
             selectedValues.forEach(function(value) {
-                // Check if the dropdown for this ID already exists
-                if (!existingDropdowns.includes(`skills_compantancies-${previous_employeers_head}-${value}`)) {
-
+                let dropdownId = `skills_compantancies-${previous_employeers_head}-${value}`;
+                if (!existingDropdowns.includes(dropdownId)) {
                     // Fetch submenu data for new IDs
                     $.ajax({
                         type: "POST",
@@ -2139,93 +2252,83 @@
                         },
                         cache: false,
                         success: function(data) {
-                            var skills = JSON.parse(data);
-                            var skills_data = '';
-                            skills.forEach(function(skill) {
-                                skills_data += '<li data-value="' + skill.id + '">' + skill.name + '</li>';
-                            });
+                            let skills = JSON.parse(data);
+                            if (!skills || skills.length === 0) return; // Handle empty data
 
-                            // Create submenu HTML
-                            var dropdownHtml = `
-                                <div class="form-group level-drp">
-                                <label class="form-label" for="input-1">${skills[0].parent_name}</label>
-                                <ul id="skills_compantancies-${previous_employeers_head}-${skills[0].parent_id}" style="display:none;">
-                                    ${skills_data}
-                                </ul>
-                                <select class="js-example-basic-multiple${previous_employeers_head} addAll_removeAll_btn" 
-                                        data-list-id="skills_compantancies-${previous_employeers_head}-${skills[0].parent_id}" 
-                                        name="sub_skills_compantancies-${skills[0].parent_id}[${previous_employeers_head}][]" multiple="multiple">
-                                </select>
-                                </div>
-                            `;
+                            let skills_data = skills.map(skill => `<li data-value="${skill.id}">${skill.name}</li>`).join('');
+
+                            // Create new dropdown HTML
+                            let dropdownHtml = `
+                        <div class="form-group level-drp">
+                            <label class="form-label">${skills[0].parent_name}</label>
+                            <ul id="${dropdownId}" style="display:none;">
+                                ${skills_data}
+                            </ul>
+                            <select class="js-example-basic-multiple${previous_employeers_head} addAll_removeAll_btn"
+                                    data-list-id="${dropdownId}"
+                                    name="sub_skills_compantancies-${skills[0].parent_id}[${previous_employeers_head}][]"
+                                    multiple="multiple">
+                            </select>
+                        </div>
+                    `;
 
                             // Append the new dropdown
-                            $(".skills_compantancies_dropdowns-" + previous_employeers_head).append(dropdownHtml);
+                            $(`.skills_compantancies_dropdowns-${previous_employeers_head}`).append(dropdownHtml);
 
-                            // Populate the new dropdown with options
-                            let listId1 = `skills_compantancies-${previous_employeers_head}-${skills[0].parent_id}`;
-                            let items1 = [];
+                            // Initialize Select2 for the new dropdown
+                            let $newDropdown = $(`[data-list-id="${dropdownId}"]`);
+                            let items = skills.map(skill => ({
+                                id: skill.id,
+                                text: skill.name
+                            }));
 
-                            $('#' + listId1 + ' li').each(function() {
-                                items1.push({
-                                    id: $(this).data('value'),
-                                    text: $(this).text()
-                                });
-                            });
-
-                            let $newDropdown = $(`[data-list-id="${listId1}"]`);
                             $newDropdown.select2({
-                                data: items1
+                                data: items
                             });
-                            // Add select all/remove all functionality
-                            initializeSelect22($newDropdown);
+                            initializeSelect22($newDropdown); // Add select all/remove all functionality
                         }
                     });
                 }
             });
 
             // Remove dropdowns for deselected IDs
-            if (selectedValues && selectedValues.length > 0) {
-                $('.skills_compantancies_dropdowns .js-example-basic-multiples' + previous_employeers_head).each(function() {
-                    let listId2 = $(this).data('list-id');
-                    let id = listId2.replace('skills_compantancies-', '');
-                    if (!selectedValues.includes(id)) {
-                        $(this).closest('.form-group').remove();
-                    }
-                });
-            }
+            $(`.skills_compantancies_dropdowns-${previous_employeers_head} .js-example-basic-multiple${previous_employeers_head}`).each(function() {
+                let listId = $(this).data('list-id');
+                let id = listId.split('-').pop(); // Extract the ID
+                if (!selectedValues.includes(id)) {
+                    $(this).closest('.form-group').remove(); // Remove dropdown if not selected
+                }
+            });
         });
 
-        // Function to initialize Select2 for dynamically created select elements
+        // Function to initialize Select2 with custom buttons
         function initializeSelect22($dropdown) {
             $dropdown.on('select2:open', function() {
-                var $currentDropdown = $(this);
-
-                // Check if buttons already exist
-                if (!$('.extra-buttons').length) {
-                    var searchBoxHtml = `
+                if (!$('.select2-container .extra-buttons').length) {
+                    let searchBoxHtml = `
                 <div class="extra-buttons">
                     <button class="select-all-button" type="button">Select All</button>
                     <button class="remove-all-button" type="button">Remove All</button>
-                </div>`;
+                </div>
+            `;
 
-                    // Add select all/remove all buttons
                     $('.select2-results').prepend(searchBoxHtml);
 
                     // Attach event listeners to the buttons
                     $('.select-all-button').on('click', function() {
-                        var allValues = $currentDropdown.find('option').map(function() {
+                        let allValues = $dropdown.find('option').map(function() {
                             return $(this).val();
                         }).get();
-                        $currentDropdown.val(allValues).trigger('change');
+                        $dropdown.val(allValues).trigger('change');
                     });
 
                     $('.remove-all-button').on('click', function() {
-                        $currentDropdown.val(null).trigger('change');
+                        $dropdown.val(null).trigger('change');
                     });
                 }
             });
         }
+
 
 
 
@@ -2723,6 +2826,13 @@
                     .trigger('change');
             }
 
+            if (selectedValues.includes('250')) {
+                $('.neonatal_row_exp_' + index).removeClass('d-none');
+            } else {
+                $('.neonatal_row_exp_' + index).addClass('d-none');
+                $('.js-example-basic-multiple[data-list-id="neonatal_care_expe"]').select2().val(null).trigger('change');
+            }
+
             if (selectedValues.includes("285") == false) {
                 $('.surgical_rowp_exp_' + index).addClass('d-none');
                 $('.js-example-basic-multiple[data-list-id="surgical_operative_carep_exp-' + index + '"]')
@@ -2737,15 +2847,12 @@
     $(document).on('change', '.pae_sur_pre', function() {
         let selectedValues = $(this).val(); // Get selected values
         let index = $(this).attr('index_name'); // Get the index name
-        let liCount = $("#ssurgical_rowpad_box_exp_" + index).children("li").length; // Count <li> elements
-
+        let liCount = $("#surgical_rowpad_box_exp_" + index).children("li").length; // Count <li> elements
         for (let k = 1; k <= liCount; k++) {
             //     // Get the value for the current surgical subtype
             let surgical_rowp_val = $(".surgical_rowp_result_experience-" + index + "-" + k).val();
 
-            console.log(surgical_rowp_val);
-
-            if (selectedValues.includes(speciality_result_val)) {
+            if (selectedValues.includes(surgical_rowp_val)) {
                 //         // Show the row if the value is included
                 $('.surgical_rowp_exp-' + k + '-' + index).removeClass('d-none');
             } else {
@@ -2753,6 +2860,45 @@
                 $('.surgical_rowp_exp-' + k + '-' + index).addClass('d-none');
             }
         }
+    });
+
+    $(document).on('change', '.specific_skill', function() {
+
+        let selectedValues = $(this).val(); // Get selected values
+        console.log(selectedValues);
+        let index = $(this).attr('index_name'); // Get the index name
+        if (selectedValues.includes('8')) {
+            //         // Show the row if the value is included
+            $('.interpersonal_' + index).removeClass('d-none');
+        } else {
+            //         // Hide the row if the value is not included
+            $('.interpersonal_' + index).addClass('d-none');
+        }
+
+        if (selectedValues.includes('9')) {
+            //         // Show the row if the value is included
+            $('.analy_skill_' + index).removeClass('d-none');
+        } else {
+            //         // Hide the row if the value is not included
+            $('.analy_skill_' + index).addClass('d-none');
+        }
+
+        if (selectedValues.includes('10')) {
+            //         // Show the row if the value is included
+            $('.leader_skill_' + index).removeClass('d-none');
+        } else {
+            //         // Hide the row if the value is not included
+            $('.leader_skill_' + index).addClass('d-none');
+        }
+
+        if (selectedValues.includes('11')) {
+            //         // Show the row if the value is included
+            $('.tech_skill_' + index).removeClass('d-none');
+        } else {
+            //         // Hide the row if the value is not included
+            $('.tech_skill_' + index).addClass('d-none');
+        }
+
     });
 </script>
 
@@ -2813,7 +2959,7 @@
     }
 
     // Function to delete the work experience section
-    function deletevdiImg(i, user_id, img, $imgid) {
+    function deletevdiImg(i, user_id, img, imgid) {
         $.ajax({
             type: "post",
             url: "{{route('nurse.deleteEvidence')}}",
@@ -2826,7 +2972,7 @@
             cache: false,
             success: function(data) {
                 if (data == 1) {
-                    // $(".license_number_div_" + i).remove();
+                    $(".trans_img-" + i).remove();
                 }
             }
         });
