@@ -1416,9 +1416,9 @@
                         ?>
                         @endforeach
                     </ul>
-                    <select class="js-example-basic-multiple${previous_employeers_head} addAll_removeAll_btn" data-list-id="specialties_experience-${previous_employeers_head}" name="specialties_experience[${previous_employeers_head}][]" multiple="multiple"></select>
+                    <select class="js-example-basic-multiple${previous_employeers_head} addAll_removeAll_btn spec_exp spec_exp_${previous_employeers_head}" data-list-id="specialties_experience-${previous_employeers_head}" name="specialties_experience[${previous_employeers_head}][]" multiple="multiple"></select>
                 </div>
-                <span id="reqspecialties" class="reqError text-danger valley"></span>
+                <span id="reqspecialtiesexp-${previous_employeers_head}" class="reqError text-danger valley"></span>
             </div>
             <div class="speciality_boxes row result--show">
                 <?php
@@ -1589,7 +1589,7 @@
             
             <div class="form-group level-drp">
                 <label class="form-label" for="positions_held">Position Held</label>
-                <select class="form-control" name="positions_held[${previous_employeers_head}]" id="positions_held">
+                <select class="form-control pos_held pos_held_${previous_employeers_head}" name="positions_held[${previous_employeers_head}]" id="positions_held">
                     <option value="">Position Held</option>
                     <option value="Team Member">Team Member</option>
                     <option value="Team Leader">Team Leader</option>
@@ -1597,28 +1597,28 @@
                     <option value="Manager">Manager</option>
                     <option value="Clinical Specialist">Clinical Specialist</option>
                 </select>
-                <span id="reqpositionheld" class="reqError text-danger valley"></span>
+                <span id="reqpositionheld-${previous_employeers_head}" class="reqError text-danger valley"></span>
             </div>
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group level-drp">
                         <label class="form-label" for="start_date_${previous_employeers_head}">Employment Start Date</label>
-                        <input class="form-control employeement_start_date employeement_start_date-${previous_employeers_head}" 
+                        <input class="form-control employeement_start_date_exp employeement_start_date_exp-${previous_employeers_head}" 
                                 type="date" 
                                 name="start_date[${previous_employeers_head}]" 
                                 id="start_date_${previous_employeers_head}" 
                                 onchange="changeEmployeementEndDate(${previous_employeers_head})">
-                        <span id="reqempsdate" class="reqError text-danger valley"></span>
+                        <span id="reqempsdateexp-${previous_employeers_head}" class="reqError text-danger valley"></span>
                     </div>
                 </div>
                 <div class="col-md-6 empl_end_date-${previous_employeers_head}">
                     <div class="form-group level-drp">
                         <label class="form-label" for="end_date_${previous_employeers_head}">Employment End Date</label>
-                        <input class="form-control employeement_end_date-${previous_employeers_head}" 
+                        <input class="form-control employeement_end_date_exp employeement_end_date_exp-${previous_employeers_head}" 
                                 type="date" 
                                 name="end_date[${previous_employeers_head}]" 
                                 id="end_date_${previous_employeers_head}">
-                        <span id="reqemployeementenddate" class="reqError text-danger valley"></span>
+                        <span id="reqemployeementenddateexp-${previous_employeers_head}" class="reqError text-danger valley"></span>
                     </div>
                     <div class="declaration_box">
                         <input class="currently_position currently_position-${previous_employeers_head}" type="checkbox" name="present_box[${previous_employeers_head}][]" value="1" onclick="currently_position(${previous_employeers_head})">
@@ -1689,13 +1689,13 @@
             <h6 class="emergency_text">Detailed Job Descriptions</h6>
             <div class="form-group level-drp">
                 <label class="form-label" for="job_responsibilities">Responsibilities</label>
-                <textarea class="form-control" name="job_responeblities[${previous_employeers_head}]" id="job_responsibilities"></textarea>
-                <span id="reqresposiblities" class="reqError text-danger valley"></span>
+                <textarea class="form-control res-exp res-exp-${previous_employeers_head}" name="job_responeblities[${previous_employeers_head}]" id="job_responsibilities"></textarea>
+                <span id="reqresposiblitiesexp-${previous_employeers_head}" class="reqError text-danger valley"></span>
             </div>
             <div class="form-group level-drp">
                 <label class="form-label" for="achievements">Achievements</label>
-                <textarea class="form-control" name="achievements[${previous_employeers_head}]" id="achievements"></textarea>
-                <span id="reqachievements" class="reqError text-danger valley"></span>
+                <textarea class="form-control ach_exp ach_exp-${previous_employeers_head}" name="achievements[${previous_employeers_head}]" id="achievements"></textarea>
+                <span id="reqachievementsexp-${previous_employeers_head}" class="reqError text-danger valley"></span>
             </div>
             <h6 class="emergency_text">
             Areas of Expertise
@@ -1710,11 +1710,10 @@
                 @foreach($skills as $cert)
                 <li data-value="{{ $cert->id }}">{{ $cert->name }}</li>
                 @endforeach
-
             </ul>
-            <select class="js-example-basic-multiple${previous_employeers_head} addAll_removeAll_btn" data-list-id="skills_compantancies-${previous_employeers_head}" name="skills_compantancies[${previous_employeers_head}][]" multiple="multiple"></select>
+            <select class="spe_skill spe_skill_${previous_employeers_head} js-example-basic-multiple${previous_employeers_head} addAll_removeAll_btn" data-list-id="skills_compantancies-${previous_employeers_head}" name="skills_compantancies[${previous_employeers_head}][]" multiple="multiple"></select>
             </div>
-            <span id="reqexpertise" class="reqError text-danger valley"></span>
+            <span id="reqexpertiseexp-${previous_employeers_head}" class="reqError text-danger valley"></span>
             <div class="skills_compantancies_dropdowns-${previous_employeers_head}"></div>        
             <div class="form-group level-drp">
           
@@ -1729,8 +1728,8 @@
                 <li data-value="Transcript">Transcript</li>
                 <li data-value="Certificate">Certificate</li>
             </ul>
-            <select class="js-example-basic-multiple${previous_employeers_head} addAll_removeAll_btn" data-list-id="type_of_evidence" name="type_of_evidence[${previous_employeers_head}][]" multiple="multiple"></select>
-            <span id="reqtype_evidence" class="reqError text-danger valley"></span>
+            <select class="type_of_evi type_of_evi_${previous_employeers_head} js-example-basic-multiple${previous_employeers_head} addAll_removeAll_btn" data-list-id="type_of_evidence" name="type_of_evidence[${previous_employeers_head}][]" multiple="multiple"></select>
+            <span id="reqtype_evidenceexp-${previous_employeers_head}" class="reqError text-danger valley"></span>
             </div>
             <div class="form-group level-drp">
             <label class="form-label" for="input-1">Upload evidence</label>

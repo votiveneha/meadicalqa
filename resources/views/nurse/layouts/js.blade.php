@@ -660,10 +660,131 @@
       isValid = false;
     }
 
-    if ($('[name="specialties[]"]').val() == '') {
-      document.getElementById("reqspecialties").innerHTML = "* Please select one or more specialties.";
+    if ($('[name="nursing_type_1[]"]').val() == '') {
+      document.getElementById("reqnursesubcat_1").innerHTML = "* Please select one or more entry level nursing";
       isValid = false;
     }
+
+    if ($('[name="nursing_type_2[]"]').val() == '') {
+      document.getElementById("reqnursesubcat_2").innerHTML = "* Please select one or more registered nurses (RNs)";
+      isValid = false;
+    }
+
+    if ($('[name="nursing_type_3[]"]').val() == '') {
+      document.getElementById("reqnursesubcat_3").innerHTML = "* Please select one or more advanced practice registered nurses (APRNs)";
+      isValid = false;
+    }
+
+    if ($(".np_submenu").hasClass("d-none") == false) {
+      if ($('[name="nurse_practitioner_menu[]"]').val() == '') {
+        document.getElementById("reqnurseprac").innerHTML = "* Please select one or more specialties.";
+        isValid = false;
+      }
+
+    }
+
+    if ($('[name="specialties[]"]').val() == '') {
+      document.getElementById("reqspecialties").innerHTML = "* Please select one or more nurse practitioner (NP).";
+      isValid = false;
+    }
+
+
+    if ($('[name="speciality_entry_1[]"]').val() == '') {
+      document.getElementById("reqspecialtiessubtype-1").innerHTML = "* Please select one or more adults";
+      isValid = false;
+    }
+
+    if ($('[name="speciality_entry_3[]"]').val() == '') {
+      document.getElementById("reqspecialtiessubtype-3").innerHTML = "* Please select one or more paediatrics neonatal perinatal";
+      isValid = false;
+    }
+
+    if ($('[name="speciality_entry_4[]"]').val() == '') {
+      document.getElementById("reqspecialtiessubtype-4").innerHTML = "* Please select one or more community";
+      isValid = false;
+    }
+
+    if ($(".surgical_row_data").hasClass("d-none") == false) {
+      if ($('[name="surgical_row_box[]"]').val() == '') {
+        document.getElementById("reqsurgical_row_box").innerHTML = "* Please select surgical preoperative and postoperative care.";
+        isValid = false;
+      }
+
+    }
+
+    // if ($(".surgical_row-1").hasClass("d-none") == false) {
+    //   if ($('[name="surgical_operative_care1[]"]').val() == '') {
+    //     document.getElementById("reqsurgical_operative_care-1").innerHTML = "* Please select  one or more operating room (or).";
+    //     isValid = false;
+    //   }
+    // }
+
+    // if ($(".surgical_row-2").hasClass("d-none") == false) {
+    //   if ($('[name="surgical_operative_care2[]"]').val() == '') {
+    //     document.getElementById("reqsurgical_operative_care-2").innerHTML = "* Please select  one or more operating room (or): scout (circulating nurse).";
+    //     isValid = false;
+    //   }
+
+    // }
+
+    // if ($(".surgical_row-3").hasClass("d-none") == false) {
+    //   if ($('[name="surgical_operative_care3[]"]').val() == '') {
+    //     document.getElementById("reqsurgical_operative_care-3").innerHTML = "* Please select  one or more operating room (or): scrub (technician nurse).";
+    //     isValid = false;
+    //   }
+    // }
+
+    if ($(".surgicalobs_row").hasClass("d-none") == false) {
+      if ($('[name="surgical_obs_care[]"]').val() == '') {
+        document.getElementById("reqsurgical_obs_care").innerHTML = "* Please select  one or more surgical obstetrics and gynecology (OB/GYN).";
+        isValid = false;
+      }
+    }
+
+    if ($(".neonatal_row").hasClass("d-none") == false) {
+      if ($('[name="neonatal_care[]"]').val() == '') {
+        document.getElementById("reqneonatal_care").innerHTML = "* Please select  one or more neonatal care.";
+        isValid = false;
+      }
+    }
+
+
+
+    if ($(".surgicalpad_row_data").hasClass("d-none") == false) {
+      if ($('[name="surgical_rowpad_box[]"]').val() == '') {
+        document.getElementById("reqsurgical_rowpad_box").innerHTML = "* Please select  one or more paediatric surgical preop. and postop. care.";
+        isValid = false;
+      }
+    }
+
+
+
+    // if ($(".surgical_rowp-1 ").hasClass("d-none") == false) {
+    //   if ($('[name="surgical_operative_carep_1[]"]').val() == '') {
+    //     document.getElementById("reqsurgical_operative_1").innerHTML = "* Please select  one or more paediatric operating room (or).";
+    //     isValid = false;
+    //   }
+    // }
+
+    // if ($(".surgical_rowp-2").hasClass("d-none") == false) {
+    //   if ($('[name="surgical_operative_carep_2[]"]').val() == '') {
+    //     document.getElementById("reqsurgical_operative_2").innerHTML = "* Please select  one or more paediatric or: scout (circulating nurse).";
+    //     isValid = false;
+    //   }
+    // }
+
+
+    // if ($(".surgical_rowp-3").hasClass("d-none") == false) {
+    //   if ($('[name="surgical_operative_carep_3[]"]').val() == '') {
+    //     document.getElementById("reqsurgical_operative_3").innerHTML = "* Please select  one or more paediatric or: scrub (technician nurse).";
+    //     isValid = false;
+    //   }
+    // }
+
+
+
+
+
 
     // if ($('[name="degree[]"]').val() == '') {
     //   document.getElementById("reqdegree").innerHTML = "* Please select degree.";
@@ -1358,40 +1479,110 @@
       }
       a++;
     });
-    // if ($('[name="assistent_level"]').val() == '') {
-    //   document.getElementById("reqlevelexpereience").innerHTML = "* Please select the experience level";
-    //   isValid = false;
-    // }
 
-    // if ($('[name="previous_employer_name"]').val() == '') {
 
-    //   document.getElementById("reqnames").innerHTML = "* Please enter the name";
-    //   isValid = false;
-    // }
-    // if ($('[name="position_held[]"]').val() == '') {
-    //   document.getElementById("reqpositionheld").innerHTML = "* Please select the position";
-    //   isValid = false;
-    // }
-    // if ($('[name="start_date"]').val() == '') {
-    //   document.getElementById("reqempsdate").innerHTML = "* Please enter the employement start date";
-    //   isValid = false;
-    // }
-    // if ($('[name="employeement_type"]').val() == '') {
-    //   document.getElementById("reqemptype").innerHTML = "* Please select the employeement type";
-    //   isValid = false;
-    // }
-    // if ($.trim($('[name="job_responeblities[]"]').val()) == '') {
-    //   document.getElementById("reqresposiblities").innerHTML = "* Please enter the job responsiblities";
-    //   isValid = false;
-    // }
-    // if ($('[name="achievements"]').val() == '') {
-    //   document.getElementById("reqachievements").innerHTML = "* Please enter the achievements";
-    //   isValid = false;
-    // }
-    // if ($('[name="skills_compantancies[]"]').val() == '') {
-    //   document.getElementById("reqexpertise").innerHTML = "* Please select the skills and competencies";
-    //   isValid = false;
-    // }
+    var b = 1;
+    $(".spec_exp").each(function() {
+      if ($(".spec_exp_" + b).length > 0) {
+        if ($(".spec_exp_" + b).val() == '') {
+          document.getElementById("reqspecialtiesexp-" + b).innerHTML = "* Please select the specialties";
+          isValid = false;
+        }
+      }
+      b++;
+    });
+
+
+    var c = 1;
+    $(".pos_held").each(function() {
+      if ($(".pos_held_" + c).length > 0) {
+        if ($(".pos_held_" + c).val() == '') {
+          document.getElementById("reqpositionheld-" + c).innerHTML = "* Please select the position held";
+          isValid = false;
+        }
+      }
+      c++;
+    });
+
+    var d = 1;
+    $(".employeement_start_date_exp").each(function() {
+      if ($(".employeement_start_date_exp-" + d).length > 0) {
+        if ($(".employeement_start_date_exp-" + d).val() == '') {
+          document.getElementById("reqempsdateexp-" + d).innerHTML = "* Please enter the employment start date";
+          isValid = false;
+        }
+      }
+      d++;
+    });
+
+    var e = 1;
+    $(".employeement_end_date_exp").each(function() {
+      if ($(".employeement_end_date_exp-" + e).length > 0) {
+        if ($(".employeement_end_date_exp-" + e).val() == '') {
+          document.getElementById("reqemployeementenddateexp-" + e).innerHTML = "* Please enter the employment end date";
+          isValid = false;
+        }
+      }
+      e++;
+    });
+
+    var f = 1;
+    $(".res-exp").each(function() {
+      if ($(".res-exp-" + f).length > 0) {
+        if ($(".res-exp-" + f).val() == '') {
+          document.getElementById("reqresposiblitiesexp-" + f).innerHTML = "* Please enter the responsibilities";
+          isValid = false;
+        }
+      }
+      f++;
+    });
+
+    var g = 1;
+    $(".ach_exp").each(function() {
+      if ($(".ach_exp-" + g).length > 0) {
+        if ($(".ach_exp-" + g).val() == '') {
+          document.getElementById("reqachievementsexp-" + g).innerHTML = "* Please enter the achievements";
+          isValid = false;
+        }
+      }
+      g++;
+    });
+
+
+    var h = 1;
+    $(".spe_skill").each(function() {
+      if ($(".spe_skill_" + h).length > 0) {
+        if ($(".spe_skill_" + h).val() == '') {
+          document.getElementById("reqexpertiseexp-" + h).innerHTML = "* Please select the specific skills and competencies";
+          isValid = false;
+        }
+      }
+      h++;
+    });
+
+    var i = 1;
+    $(".spe_skill").each(function() {
+      if ($(".spe_skill_" + i).length > 0) {
+        if ($(".spe_skill_" + i).val() == '') {
+          document.getElementById("reqexpertiseexp-" + i).innerHTML = "* Please select the specific skills and competencies";
+          isValid = false;
+        }
+      }
+      i++;
+    });
+
+
+    var j = 1;
+    $(".type_of_evi").each(function() {
+      if ($(".type_of_evi_" + j).length > 0) {
+        if ($(".type_of_evi_" + j).val() == '') {
+          document.getElementById("reqtype_evidenceexp-" + j).innerHTML = "* Please select the type of evidence";
+          isValid = false;
+        }
+      }
+      j++;
+    });
+
 
     if (isValid == true) {
       $('#experience_form').find('.text-danger').hide();
@@ -2980,8 +3171,11 @@
   }
 </script>
 <script>
+  // Get today's date in YYYY-MM-DD format
+  const today = new Date().toISOString().split('T')[0];
 
-
-
+  // Set the minimum date of the input to today
+  const dateInput = document.getElementById('available_date');
+  dateInput.setAttribute('min', today);
 </script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
