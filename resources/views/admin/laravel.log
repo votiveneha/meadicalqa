@@ -1,0 +1,4 @@
+[2024-09-06 08:34:17] local.INFO: Sending block email to: votivephp.harshita@gmail.com  
+[2024-09-06 08:34:17] local.ERROR: Error in NurseServices.changeStatusBlockUnblock(): Method Illuminate\Mail\Mailer::failures does not exist.  
+[2024-09-06 08:36:57] local.INFO: Sending unblock email to: votivephp.harshita@gmail.com  
+[2024-09-06 08:36:57] local.ERROR: Error in NurseServices.changeStatusBlockUnblock(): Method Illuminate\Mail\Mailer::failures does not exist.  
