@@ -129,10 +129,16 @@ Route::prefix('nurse')->name('nurse.')->namespace('App\Http\Controllers\nurse')-
   Route::post('/update-profession-user-children', 'ProfessionalController@update_children_to_work')->name('update-profession-user-children');
   Route::post('/removeWwcc', 'ProfessionalController@removeWwcc')->name('removeWwcc');
   Route::post('/update-profession-user-police-check', 'ProfessionalController@update_police_check_to_work')->name('update-profession-user-police-check');
+  Route::post('/updateSpecializedClearance', 'ProfessionalController@updateSpecializedClearance')->name('updateSpecializedClearance');
+  Route::post('/removeSpecialized', 'ProfessionalController@removeSpecialized')->name('removeSpecialized');
+
+  /**************[Professional Membership]**************/
   Route::any('/professionalMembership','ProfessionalController@professionalMembership')->name('professionalMembership');
   Route::any('/getCountryOrgnizations','ProfessionalController@getCountryOrgnizations')->name('getCountryOrgnizations');
-
-     /**************[Interview Preferences]**************/
+  Route::any('/getCountrySubOrgnizations','ProfessionalController@getCountrySubOrgnizations')->name('getCountrySubOrgnizations');
+  
+  /**************[Interview Preferences]**************/
   Route::any('/interview','ProfessionalController@interview')->name('interview');
+  
   });
 });

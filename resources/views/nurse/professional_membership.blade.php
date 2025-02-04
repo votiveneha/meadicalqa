@@ -133,16 +133,8 @@
                       <span id="reqprofessassociation" class="reqError text-danger valley"></span>
                     </div>
                     <div class="show_country_org"></div>
-                    <div class="form-group level-drp organization_country_div d-none">
-                      <label class="form-label organization_country_label" for="input-1">Organization Country:</label>
-                      
-                      <input type="hidden" name="professional_as" class="professional_as" value="@if(!empty($MembershipData)){{ $MembershipData->des_profession_association }}@endif">
-                      <ul id="country_organization" style="display:none;">
-                        
-                      </ul>
-                      <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="country_organization" id="country_organization_select" name="country_organization[]" multiple="multiple"></select>
-                      
-                    </div>
+                    <div class="show_subcountry_org"></div>
+                    
                     <div class="form-group level-drp">
                       <label class="form-label" for="input-1">Organization Name</label>
 
@@ -277,6 +269,7 @@
     let selectedValues = $(this).val();
     console.log("selectedValues",selectedValues);
     $(".show_country_org").empty();
+    
     for(var i=0;i<selectedValues.length;i++){
       
       $.ajax({
@@ -287,26 +280,64 @@
         success: function(data){
           var data1 = JSON.parse(data);
           
+          console.log("data1",data1);
           
-         
           var org_text = "";
           for(var j=0;j<data1.country_organiztions.length;j++){
-            console.log("data",data1.country_organiztions[j].organization_id);
+            //console.log("data",data1.country_organiztions[j].organization_id);
             org_text += "<li data-value='"+data1.country_organiztions[j].organization_id+"'>"+data1.country_organiztions[j].organization_country+"</li>"; 
             // $(".organization_country_div").removeClass("d-none");
             // $("#country_organization").append("<li data-value="+data1.country_organiztions[j].organization_id+">"+data1.country_organiztions[j].organization_country+"</li>");
             // $("#country_organization_select").append("<option value="+data1.country_organiztions[j].organization_id+">"+data1.country_organiztions[j].organization_country+"</option>");
           }
-          $(".show_country_org").append('<div class="form-group level-drp organization_country_div"><label class="form-label organization_country_label" for="input-1">'+data1.country_name+' Organizations:</label><ul id="country_organization" style="display:none;">'+org_text+'</ul><select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="country_organization" id="country_organization_select" name="country_organization[]" multiple="multiple"></select></div>');
-          selectTwoFunction();
-        
+          $(".show_country_org").append('<div class="form-group level-drp organization_country_div"><label class="form-label organization_country_label" for="input-1">'+data1.country_name+' Organizations:</label><ul id="country_organization-'+data1.organization_id+'" style="display:none;">'+org_text+'</ul><select class="js-example-basic-multiple1 addAll_removeAll_btn" data-list-id="country_organization-'+data1.organization_id+'" id="country_organization_select" name="country_organization[]" multiple="multiple"></select></div>');
+          selectTwoFunction(1);
+          sub_organization(data1.organization_id);
         }
       });
     }
+    
   });
 
-  function selectTwoFunction(){
-    $('.js-example-basic-multiple').on('select2:open', function() {
+  function sub_organization(country_org){
+    
+    $('.js-example-basic-multiple1[data-list-id="country_organization-'+country_org+'"]').on('change', function() {
+      
+      let selectedValues = $(this).val();
+      console.log("selectedValues",selectedValues);
+      $(".show_subcountry_org").empty();
+
+      for(var i=0;i<selectedValues.length;i++){
+      
+        $.ajax({
+          type: "GET",
+          url: "{{ url('/nurse/getCountrySubOrgnizations') }}",
+          data: {organization_id:selectedValues[i],country_org_id:country_org},
+          cache: false,
+          success: function(data){
+            var data1 = JSON.parse(data);
+            
+            console.log("data1",data1);
+            
+            var org_text = "";
+            for(var j=0;j<data1.country_organiztions.length;j++){
+              
+              org_text += "<li data-value='"+data1.country_organiztions[j].organization_id+"'>"+data1.country_organiztions[j].organization_country+"</li>"; 
+              
+            }
+            $(".show_subcountry_org").append('<div class="form-group level-drp organization_subcountry_div"><label class="form-label organization_subcountry_label" for="input-1">'+data1.country_name+':</label><ul id="subcountry_organization-'+data1.organization_id+'" style="display:none;">'+org_text+'</ul><select class="js-example-basic-multiple2 addAll_removeAll_btn" data-list-id="subcountry_organization-'+data1.organization_id+'" id="subcountry_organization_select" name="subcountry_organization[]" multiple="multiple"></select></div>');
+            selectTwoFunction(2);
+            
+          }
+        });
+      }
+    });
+  }
+
+  
+
+  function selectTwoFunction(select_id){
+    $('.js-example-basic-multiple'+select_id).on('select2:open', function() {
                 var searchBoxHtml = `
                     <div class="extra-search-container">
                         <input type="text" class="extra-search-box" placeholder="Search...">
@@ -341,7 +372,7 @@
                 });
             });
 
-            $('.js-example-basic-multiple').select2();
+            $('.js-example-basic-multiple'+select_id).select2();
 
             // Dynamically add the clear button
             const clearButton = $('<span class="clear-btn">✖</span>');
@@ -350,7 +381,7 @@
             // Handle the visibility of the clear button
             function toggleClearButton() {
 
-                const selectedOptions = $('.js-example-basic-multiple').val();
+                const selectedOptions = $('.js-example-basic-multiple1').val();
                 if (selectedOptions && selectedOptions.length > 0) {
                     clearButton.show();
                 } else {
@@ -359,32 +390,32 @@
             }
 
             // Attach change event to select2
-            $('.js-example-basic-multiple').on('change', toggleClearButton);
+            $('.js-example-basic-multiple'+select_id).on('change', toggleClearButton);
 
             // Clear button click event
             clearButton.click(function() {
 
-                $('.js-example-basic-multiple').val(null).trigger('change');
+                $('.js-example-basic-multiple'+select_id).val(null).trigger('change');
                 toggleClearButton();
             });
 
             // Initial check
             toggleClearButton();
-            $('.js-example-basic-multiple').each(function() {
-        let listId = $(this).data('list-id');
-
-        let items1 = [];
-        console.log("listId",listId);
-        $('#' + listId + ' li').each(function() {
-            console.log("value",$(this).data('value'));
-            items1.push({ id: $(this).data('value'), text: $(this).text() });
-        });
-        console.log("items",items1);
-        $(this).select2({
-            data: items1
-        });
-    });
-  }
+            $('.js-example-basic-multiple'+select_id).each(function() {
+                let listId = $(this).data('list-id');
+                console.log("listId",listId);
+                let items1 = [];
+                //console.log("listId",listId);
+                $('#' + listId + ' li').each(function() {
+                    //console.log("value",$(this).data('value'));
+                    items1.push({ id: $(this).data('value'), text: $(this).text() });
+                });
+                console.log("items",items1);
+                $(this).select2({
+                    data: items1
+                });
+            });
+          }
 </script>
 
 

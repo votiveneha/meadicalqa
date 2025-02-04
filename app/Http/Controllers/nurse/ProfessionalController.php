@@ -11,6 +11,7 @@ use App\Models\PoliceCheckModel;
 use App\Models\OtherVaccineModel;
 use App\Models\EvidanceFileModel;
 use App\Models\NdisWorker;
+use App\Models\SpecializedClearance;
 
 
 use App\Http\Requests\AddnewsletterRequest;
@@ -73,14 +74,15 @@ class ProfessionalController extends Controller
         $visaholderSubclasses = SubClassModel::where('residence_id', 3) 
                                     ->orderBy('id') 
                                     ->get();
-        $work_eligibility = EligibilityToWorkModel::where('user_id', $user_id)->first();                     
 
-        $ndis = NdisWorker::where('user_id', $user_id)->first();              
+        $work_eligibility   = EligibilityToWorkModel::where('user_id', $user_id)->first();                     
+        $ndis               = NdisWorker::where('user_id', $user_id)->first();              
+        $ww_child           = WorkingChildrenCheckModel::where('user_id', $user_id)->get();
+        $policy_check       = PoliceCheckModel::where('user_id', $user_id)->first();
+        $specialize         = SpecializedClearance::where('user_id', $user_id)->get();
         
-        $ww_child=WorkingChildrenCheckModel::where('user_id', $user_id)->get();
-        $policy_check = PoliceCheckModel::where('user_id', $user_id)->first();
 
-        return view('nurse.work_clearances',compact('visaSubclasses','visaholderSubclasses','work_eligibility','ndis','ww_child','policy_check'));
+        return view('nurse.work_clearances',compact('visaSubclasses','visaholderSubclasses','work_eligibility','ndis','ww_child','policy_check','specialize'));
     }
     public function update_eligibility_to_work(Request $request)
     {
@@ -323,7 +325,7 @@ class ProfessionalController extends Controller
             $wwcc->delete();
             return response()->json(['success' => true]);
         }
-        return response()->json(['success' => false, 'message' => 'Vaccine not found']);
+        return response()->json(['success' => false, 'message' => 'wwcc not found']);
     }
 
     public function update_police_check_to_work(Request $request)
@@ -365,7 +367,94 @@ class ProfessionalController extends Controller
 
         echo json_encode($json);
     }
+    public function updateSpecializedClearance(Request $request)
+    {
+        //This function is for update the specialized clearance
 
+        $user_id =  Auth::guard('nurse_middle')->user()->id;
+        
+        $clearance_state        = $request->input('clearance_state', []);
+        $clearance_type         = $request->input('clearance_type', []);
+        $clearance_number       = $request->input('clearance_number', []);
+        $clearance_expiry_date  = $request->input('clearance_expiry_date',[]);
+        $clearance_evidence     = $request->file('clearance_evidence', []);
+        $s_clearance_id         = $request->input('s_clearance_id', []);
+
+        for ($i = 0; $i < count($clearance_state); $i++) {
+
+            if (isset($s_clearance_id[$i])) 
+            {
+                $specialized = SpecializedClearance::find($s_clearance_id[$i]);
+                if ($specialized) {
+                    $specialized->clearance_state       = $clearance_state[$i];
+                    $specialized->clearance_type        = $clearance_type[$i];
+                    $specialized->clearance_number      = $clearance_number[$i];
+                    $specialized->clearance_expiry_date = $clearance_expiry_date[$i];
+
+
+                    if (isset($clearance_evidence[$i]) && $clearance_evidence[$i]->isValid()) {
+                        $filename = 'evidence_file_' . time() . '.' . $clearance_evidence[$i]->getClientOriginalExtension();
+                        $destinationPath = public_path() . '/uploads/support_document';
+                        $clearance_evidence[$i]->move($destinationPath, $filename);
+    
+                        $specialized->clearance_original_name = $clearance_evidence[$i]->getClientOriginalName();
+                        $specialized->clearance_evidence = $filename;
+                    }
+                    $run= $specialized->save();
+                }
+            }
+            else
+            {
+                
+                $specialized    = new SpecializedClearance();
+                $specialized->user_id               = $user_id;
+                $specialized->clearance_state       = $clearance_state[$i];
+                $specialized->clearance_type        = $clearance_type[$i];
+                $specialized->clearance_number      = $clearance_number[$i];
+                $specialized->clearance_expiry_date = $clearance_expiry_date[$i];
+
+
+                if (isset($clearance_evidence[$i]) && $clearance_evidence[$i]->isValid()) {
+                    $filename = 'evidence_file_' . time() . '.' . $clearance_evidence[$i]->getClientOriginalExtension();
+                    $destinationPath = public_path() . '/uploads/support_document';
+                    $clearance_evidence[$i]->move($destinationPath, $filename);
+
+                    $specialized->clearance_original_name = $clearance_evidence[$i]->getClientOriginalName();
+                    $specialized->clearance_evidence = $filename;
+                }
+                
+                $specialized->created_at = Carbon::now('Asia/Kolkata');
+                $run =$specialized->save();
+                
+            }
+        }
+        if ($run) {
+            $json['status'] = 1;
+            $json['url'] = url('nurse/workClearances') . "?page=work_clearances";
+            $json['message'] = 'You have Successfully submitted the details.';
+        } else {
+            $json['status'] = 0;
+            $json['message'] = 'Please Try Again';
+        }
+
+        echo json_encode($json);
+   }
+    public function removeSpecialized(Request $request)
+    {
+        $id = $request->id;
+
+        $specialed = SpecializedClearance::find($id);
+
+        if ($specialed) {
+            $filePath = 'uploads/support_document/' . $specialed->clearance_evidence;
+            if (Storage::exists($filePath)) {
+                Storage::delete($filePath);
+            }
+            $specialed->delete();
+            return response()->json(['success' => true]);
+        }
+        return response()->json(['success' => false, 'message' => 'Specialized Clearance not found']);
+    }
     public function professionalMembership()
     {
         $data['organization_country'] = DB::table("professional_organization")->where("country_organiztions","0")->get();
@@ -376,10 +465,24 @@ class ProfessionalController extends Controller
     {
         
         $organization_id = $request->organization_id;
-        $data['country_organiztions'] = DB::table("professional_organization")->where("country_organiztions",$organization_id)->where("sub_organiztions","0")->get();
+        $data['country_organiztions'] = DB::table("professional_organization")->where("country_organiztions",'like','%'.$organization_id.'%')->where("sub_organiztions","0")->get();
         $country_name = DB::table("professional_organization")->where("organization_id",$organization_id)->first();
         //print_r(json_encode($data));
         $data['country_name'] = $country_name->organization_country;
+        $data['organization_id'] = $organization_id;
+        return json_encode($data);
+    }
+
+    public function getCountrySubOrgnizations(Request $request)
+    {
+        
+        $organization_id = $request->organization_id;
+        $country_org_id = $request->country_org_id;
+        $data['country_organiztions'] = DB::table("professional_organization")->where("country_organiztions",$country_org_id)->where("sub_organiztions",$organization_id)->get();
+        $country_name = DB::table("professional_organization")->where("organization_id",$organization_id)->first();
+        //print_r(json_encode($data));
+        $data['country_name'] = $country_name->organization_country;
+        $data['organization_id'] = $organization_id;
         return json_encode($data);
     }
 

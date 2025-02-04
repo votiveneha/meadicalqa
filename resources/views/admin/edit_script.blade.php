@@ -4098,20 +4098,7 @@ $(document).ready(function() {
     </script>
 
     <script>
-    $(document).ready(function() {
-    $('#residencyId').change(function() {
-      var residencyId = $(this).val();
-      $('#passport_detail_date').hide();
-      $('#passport_detail').hide();
-      if (residencyId !== 'Citizen') {
-        if (residencyId == 'Visa Holder') {
-          $('#passport_detail_date').show();
-        }
-        $('#passport_detail').show();
-
-      }
-    });
-  });
+    
 
     function get_new_plice_check() {
     $('#get_new_plice_checkModel').modal('show');

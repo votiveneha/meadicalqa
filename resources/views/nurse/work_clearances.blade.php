@@ -602,26 +602,28 @@
                 <div class="card shadow-sm border-0 p-4 mt-30">
                   <h3 class="mt-0 color-brand-1 mb-2">Specialized Clearances</h3>
                   <div><strong>State or Territory-Specific Registrations: </strong> Highlight any additional clearances, such as restricted drug licenses.</div>
-                  <form id="multi-step-form-specialized enctype="multipart/form-data">
+                  <form id="multi-step-form-specialized" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                       @php
-                      $working_data =working_data();
                       $state_data =state_name_array( 'AU');
                       @endphp
                       
                       <div id="specialized_more" >
+                        <?php if($specialize!=''){
+                          $s=1;
+                          foreach($specialize as $svalue){ ?>
                         <div class="add_specialized" >
-                          <h6>Specialized Clearances 1</h6>
+                          <h6>Specialized Clearances {{$s}}</h6>
                           <div class="col-md-12">
                             <div class="form-group position-relative">
-                              
+                              <input type="hidden" name="s_clearance_id[]" value="{{$svalue->id}}"/>
                               <label>State *</label>
-                              <select class="form-control form-select" name="clearance_state" id="clearancestateI" id="stateI">
+                              <select class="form-control form-select clearance_state" name="clearance_state[]">
                                 <option value="">Select State</option>
                                 @if(isset($state_data) && !empty($state_data))
                                 @foreach ($state_data as $data_state)
-                                <option value="{{$data_state->id}}" > {{$data_state->name}} </option>
+                                <option value="{{$data_state->id}}" {{$svalue->clearance_state==$data_state->id?'selected':''}} > {{$data_state->name}} </option>
                                 @endforeach
                                 @endif
                               </select>
@@ -631,30 +633,36 @@
 
                           <div class="form-group ">
                             <label class="font-sm color-text-mutted mb-10 state_label">Specialized Clearance type*</label>
-                            <input class="form-control state_input" type="text" name="clearance_type" id="clearance_numberI" placeholder="" value="">
+                            <input class="form-control clearance_type" type="text" name="clearance_type[]"  placeholder="" value="{{$svalue->clearance_type}}">
                           </div>
                           <span id="reqTxtclearance_numberI" class="reqError text-danger valley"></span>
 
                           <div class="form-group ">
                             <label class="font-sm color-text-mutted mb-10 state_label">Specialized Clearance Number*</label>
-                            <input class="form-control state_input" type="text" name="clearance_number" id="clearance_numberI" placeholder="" value="">
+                            <input class="form-control clearance_number" type="text" name="clearance_number[]" placeholder="" value="{{$svalue->clearance_number}}">
                           </div>
                           <span id="reqTxtclearance_numberI" class="reqError text-danger valley"></span>
 
                           <div class="form-group ">
-                            <?php $workingexpiry_data = '';
-                            if ($working_data != 'null') $workingexpiry_data = $working_data->expiry_date; ?>
                             <label class="font-sm color-text-mutted mb-10">Expiry Date*</label>
-                            <input class="form-control" type="date" name="clearance_expiry_date" id="clearance_expiry_dataI" value="{{ $workingexpiry_data }}" min="{{ date('Y-m-d') }}">
+                            <input class="form-control clearance_expiry_date" type="date" name="clearance_expiry_date[]" value="{{$svalue->clearance_expiry_date}}" min="{{ date('Y-m-d') }}">
                           </div>
                           <span id="reqTxtclearance_expiry_dataI" class="reqError text-danger valley"></span>
 
                           <div class="form-group ">
                             <label class="font-sm color-text-mutted mb-10">Upload Evidence*</label>
-                            <input class="form-control" type="file" name="clearance_evidence" id="clearance_expiry_dataI">
+                            <input class="form-control {{$svalue->clearance_evidence==''?'clearance_evidence':''}}" type="file" name="clearance_evidence[]">
+                            <?php if($svalue->clearance_evidence!=''){ ?>  
+                              <a href="{{ asset('uploads/support_document/'.$svalue->clearance_evidence) }}" target="_blank" class="mt-2"> <img src="{{ asset('uploads/support_document/'.$svalue->clearance_evidence) }}" width="50px;" height="50px" /> </a>
+                            <?php } ?>
                           </div>
                           <span id="reqTxtclearance_expiry_dataI" class="reqError text-danger valley"></span>
+
+                          <div class="add_new_certification_div mb-3 mt-3">
+                                <a style="cursor: pointer;" class="remove-specialized" clearance_id="{{$svalue->id}}">- Delete specialized Clearance</a>
+                          </div>
                         </div>
+                        <?php $s++;  } } ?>
                       </div>
                       <div class="add_new_certification_div mb-3 mt-3">
                             <a style="cursor: pointer;" id="add-specialized">+ Add Another Specialized Clearance </a>
@@ -662,7 +670,7 @@
 
                       <div class="col-md-3">
                         <div class="d-flex align-items-center justify-content-between">
-                          <button @if(!email_verified()) disabled @endif class="btn btn-default px-5 py-8  rounded-2 mb-0 submit-btn-120" type="submit"><span class="resetpassword">Submit</span>
+                          <button onclick="updateSpecializedClearance()"  @if(!email_verified()) disabled @endif class="btn btn-default px-5 py-8  rounded-2 mb-0 submit-btn-120" type="submit"><span class="resetpassword">Submit</span>
                             <div class="spinner-border submit-btn-1" role="status" style="display:none;">
                               <span class="sr-only">Loading...</span>
                             </div>
@@ -937,7 +945,7 @@ if (!empty($interviewReferenceData)) {
 
         //speacilized clearence add more section 
         
-        let l = <?php echo count($ww_child)+1 ?>;
+        let l = <?php echo count($specialize)+1 ?>;
         
         $('#add-specialized').click(function(){
           $('#specialized_more').append(
@@ -947,7 +955,7 @@ if (!empty($interviewReferenceData)) {
                             <div class="form-group position-relative">
                               
                               <label>State *</label>
-                              <select class="form-control form-select" name="clearance_state" id="clearancestateI" id="stateI">
+                              <select class="form-control form-select clearance_state" name="clearance_state[]">
                                 <option value="">Select State</option>
                                 @if(isset($state_data) && !empty($state_data))
                                 @foreach ($state_data as $data_state)
@@ -961,37 +969,62 @@ if (!empty($interviewReferenceData)) {
 
                           <div class="form-group ">
                             <label class="font-sm color-text-mutted mb-10 state_label">Specialized Clearance type*</label>
-                            <input class="form-control state_input" type="text" name="clearance_number" id="clearance_numberI" placeholder="" value="">
+                            <input class="form-control clearance_type" type="text" name="clearance_type[]"  placeholder="" value="">
                           </div>
                           <span id="reqTxtclearance_numberI" class="reqError text-danger valley"></span>
 
                           <div class="form-group ">
                             <label class="font-sm color-text-mutted mb-10 state_label">Specialized Clearance Number*</label>
-                            <input class="form-control state_input" type="text" name="clearance_number" id="clearance_numberI" placeholder="" value="">
+                            <input class="form-control clearance_number" type="text" name="clearance_number[]" placeholder="" value="">
                           </div>
                           <span id="reqTxtclearance_numberI" class="reqError text-danger valley"></span>
 
                           <div class="form-group ">
-                            <?php $workingexpiry_data = '';
-                            if ($working_data != 'null') $workingexpiry_data = $working_data->expiry_date; ?>
                             <label class="font-sm color-text-mutted mb-10">Expiry Date*</label>
-                            <input class="form-control" type="date" name="clearance_expiry_date" id="clearance_expiry_dataI" value="{{ $workingexpiry_data }}" min="{{ date('Y-m-d') }}">
+                            <input class="form-control clearance_expiry_date" type="date" name="clearance_expiry_date[]" value="" min="{{ date('Y-m-d') }}">
                           </div>
                           <span id="reqTxtclearance_expiry_dataI" class="reqError text-danger valley"></span>
 
                           <div class="form-group ">
                             <label class="font-sm color-text-mutted mb-10">Upload Evidence*</label>
-                            <input class="form-control" type="file" name="clearance_expiry_date" id="clearance_expiry_dataI">
+                            <input class="form-control clearance_evidence" type="file" name="clearance_evidence[]">
                           </div>
                           <span id="reqTxtclearance_expiry_dataI" class="reqError text-danger valley"></span>
+
                           <div class="add_new_certification_div mb-3 mt-3">
-                                <a style="cursor: pointer;" class="remove-specialized">- Delete WWCC</a>
-                              </div>
+                                <a style="cursor: pointer;" class="remove-specialized">- Delete specialized Clearance</a>
+                          </div>
                         </div>`);
                         l++;
         });
 
         $(document).on('click', '.remove-specialized', function () {
+          const clearance_id=$(this).attr('clearance_id');
+          if (clearance_id)
+          {
+
+            $.ajax({
+              url: "{{ url('/nurse') }}/removeSpecialized",
+                type: 'POST',
+                data: {
+                  _token: "{{ csrf_token() }}",
+                    id: clearance_id
+                },
+                success: function (response)
+                {
+                    if (response.success) {
+                        // On successful deletion from the database, remove the HTML
+                        alert('Clearance record removed successfully!');
+                    } else {
+                        alert('Failed to remove Clearance record. Please try again.');
+                    }
+                }.bind(this), // Bind `this` to refer to the button element
+                error: function () {
+                    alert('An error occurred. Please try again.');
+                }
+            });
+          }
+
           $(this).closest('.add_specialized').remove();
 
           $('#specialized_more .add_specialized').each(function (index) {
@@ -1558,7 +1591,7 @@ if (!empty($interviewReferenceData)) {
   {
     let isValid = true;
     event.preventDefault();
-    $('.wwcc_state').each(function () {
+    $('.clearance_state').each(function () {
       let errorSpan = $(this).closest('.form-group').next('.reqError');
         if ($(this).val() === null || $(this).val().trim() === '') {
             isValid = false;
@@ -1568,16 +1601,38 @@ if (!empty($interviewReferenceData)) {
         }
     });
 
-    $('.wwcc_clearance').each(function () {
+    $('.clearance_type').each(function () {
       let errorSpan = $(this).closest('.form-group').next('.reqError');
         if ($(this).val().trim() === '') {
             isValid = false;
-            errorSpan.text('Clearance number is required');
+            errorSpan.text('Specialized Clearance type is required');
         } else {
           errorSpan.text('');
         }
     });
-    $('.wwcc_evidence').each(function () {
+
+    $('.clearance_number').each(function () {
+      let errorSpan = $(this).closest('.form-group').next('.reqError');
+        if ($(this).val().trim() === '') {
+            isValid = false;
+            errorSpan.text('Specialized Clearance number is required');
+        } else {
+          errorSpan.text('');
+        }
+    });
+
+    $('.clearance_expiry_date').each(function () {
+      let errorSpan = $(this).closest('.form-group').next('.reqError');
+        if ($(this).val().trim() === '') {
+            isValid = false;
+            errorSpan.text('Specialized Clearance expiry date is required');
+        } else {
+          errorSpan.text('');
+        }
+    });
+    
+    
+    $('.clearance_evidence').each(function () {
       let errorSpan = $(this).closest('.form-group').next('.reqError');
         if ($(this).val().trim() === '') {
             isValid = false;
@@ -1587,9 +1642,58 @@ if (!empty($interviewReferenceData)) {
         }
     });
 
+    if (isValid == false) {
+      $('.submit-btn-120').prop('disabled', false);
+      $('.submit-btn-1').hide();
+      $('.resetpassword').show();
+    }
 
+    if (isValid == true) {
+      let formData = new FormData($('#multi-step-form-specialized')[0]);
+      $.ajax({
+        type: 'POST',
+        url: "{{route('nurse.updateSpecializedClearance')}}",
+        data: formData,
+        dataType: 'JSON',
+        processData: false,
+        contentType: false,
+        cache: false,
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
 
-    
+        beforeSend: function() {
+          $('.submit-btn-120').prop('disabled', true);
+          $('.submit-btn-1').show();
+          $('.resetpassword').hide();
+        },
+        success: function(resp) {
+          if (resp.status == 1) {
+            $('.submit-btn-120').prop('disabled', false);
+            $('.submit-btn-1').hide();
+            $('.resetpassword').show();
+            Swal.fire({
+              icon: 'success',
+              title: 'Successfully!',
+              text: resp.message,
+            }).then(function() {
+              window.location = resp.url;
+            });
+          } else {
+            $('.submit-btn-120').prop('disabled', false);
+            $('.submit-btn-1').hide();
+            $('.resetpassword').show();
+            Swal.fire({
+              'icon': 'error',
+              'title': 'Error',
+              'text': resp.message
+            });
+            printErrorMsg(resp.validation);
+          }
+        }
+      });
+      return false;
+    }
   }
  
 
