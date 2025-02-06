@@ -133,14 +133,13 @@
                       <span id="reqprofessassociation" class="reqError text-danger valley"></span>
                     </div>
                     <div class="show_country_org"></div>
-                    <div class="show_subcountry_org"></div>
                     
                     <div class="form-group level-drp">
                       <label class="form-label" for="input-1">Organization Name</label>
 
                       <input type="hidden" name="professional_as" class="professional_as" value="@if(!empty($MembershipData)){{ $MembershipData->des_profession_association }}@endif">
                       <ul id="des_profession_association" style="display:none;">
-
+                        
                         <li data-value="ANA">ANA</li>
                         <li data-value="ENA">ENA</li>
 
@@ -149,19 +148,48 @@
                       <span id="reqprofessassociation" class="reqError text-danger valley"></span>
                     </div>
                     <div class="form-group level-drp">
-                      <label class="form-label" for="input-1">Membership Numbers</label>
-                      <input type="text" name="prof_membership_numbers" class="form-control" value="@if(!empty($MembershipData)){{ $MembershipData->membership_numbers }}@endif">
-                      <span id="reqmembernumbers" class="reqError text-danger valley"></span>
+                      <label class="form-label" for="input-1">Date Joined</label>
+                      <input class="form-control graduation_start_date" type="date" name="graduation_start_date" value="@if(!empty($educationData)){{ $educationData->graduate_start_date }}@endif" onchange="changeDate(event);">
+                      <span id="reqstartdate" class="reqError text-danger valley"></span>
                     </div>
+                    
                     <div class="form-group level-drp">
                       <label class="form-label" for="input-1">Status</label>
                       <select class="form-control" name="prof_membership_status" id="language-picker-select">
                         <option value="">Select Status</option>
-                        <option value="Active" @if(!empty($MembershipData) && $MembershipData->membership_status == "Active") selected @endif>Active</option>
-                        <option value="Lapsed" @if(!empty($MembershipData) && $MembershipData->membership_status == "Lapsed") selected @endif>Lapsed</option>
+                        <option value="Active - Current Member" @if(!empty($MembershipData) && $MembershipData->membership_status == "Active - Current Member") selected @endif>Active - Current Member</option>
+                        <option value="Lapsed Member" @if(!empty($MembershipData) && $MembershipData->membership_status == "Lapsed Member") selected @endif>Lapsed Member</option>
+                        <option value="Expired Member" @if(!empty($MembershipData) && $MembershipData->membership_status == "Expired Member") selected @endif>Expired Member</option>
+                        <option value="Suspended Member" @if(!empty($MembershipData) && $MembershipData->membership_status == "Suspended Member") selected @endif>Suspended Member</option>
+                        <option value="Inactive Member" @if(!empty($MembershipData) && $MembershipData->membership_status == "Inactive Member") selected @endif>Inactive Member</option>
+                        <option value="Non-Renewed Member" @if(!empty($MembershipData) && $MembershipData->membership_status == "Non-Renewed Member") selected @endif>Non-Renewed Member</option>
+                        <option value="Pending Membership Approval" @if(!empty($MembershipData) && $MembershipData->membership_status == "Pending Membership Approval") selected @endif>Pending Membership Approval</option>
+                        <option value="Membership Renewal Pending" @if(!empty($MembershipData) && $MembershipData->membership_status == "Membership Renewal Pending") selected @endif>Membership Renewal Pending</option>
 
                       </select>
                       <span id="reqmemberstatus" class="reqError text-danger valley"></span>
+                    </div>
+                    <div class="form-group level-drp">
+                      <label class="form-label" for="input-1">Awards & Recognitions:</label>
+
+                      <input type="hidden" name="professional_as" class="professional_as" value="@if(!empty($MembershipData)){{ $MembershipData->des_profession_association }}@endif">
+                      <ul id="awards_recognitions" style="display:none;">
+                        @if(!empty($awards_recognitions))
+                        @foreach($awards_recognitions as $a_reg)
+                        <li data-value="{{ $a_reg->award_id }}">{{ $a_reg->award_name }}</li>
+                        
+                        @endforeach
+                        @endif
+                      </ul>
+                      <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="awards_recognitions" name="des_profession_association[]" multiple="multiple"></select>
+                      <span id="reqprofessassociation" class="reqError text-danger valley"></span>
+                    </div>
+                    <div class="show_award_reg"></div>
+                    <div class="form-group level-drp">
+                      <label class="form-label" for="input-1">Upload Evidence</label>
+                      <input class="form-control degree_transcript" type="file" name="degree_transcript[]" onchange="changeImg('173')" multiple="">
+                      <div class="degree_transcript_imgs"></div>
+                      <span id="reqdegreetranscript" class="reqError text-danger valley"></span>
                     </div>
                     <div class="box-button mt-15">
                       <button class="btn btn-apply-big font-md font-bold" type="submit" id="submitProfessionalMembership">Save Changes</button>
@@ -265,54 +293,58 @@
     });
   });
 
+  $('.js-example-basic-multiple[data-list-id="awards_recognitions"]').on('change', function() {
+    let selectedValues = $(this).val();
+    console.log("selectedValues",selectedValues);
+    //$(".show_country_org").empty();
+    
+    
+    for(var i=0;i<selectedValues.length;i++){
+      //alert($(".organization_input-"+selectedValues[i]).val());
+      if($(".show_award_reg .award_country_div-"+selectedValues[i]).length < 1){
+        $.ajax({
+          type: "GET",
+          url: "{{ url('/nurse/getawardsRecognitions') }}",
+          data: {award_id:selectedValues[i]},
+          cache: false,
+          success: function(data){
+            var data1 = JSON.parse(data);
+            
+            console.log("data1",data1);
+            
+            var org_text = "";
+            for(var j=0;j<data1.award.length;j++){
+              //console.log("data",data1.country_organiztions[j].organization_id);
+              org_text += "<li data-value='"+data1.award[j].award_id+"'>"+data1.award[j].award_name+"</li>"; 
+              // $(".organization_country_div").removeClass("d-none");
+              // $("#country_organization").append("<li data-value="+data1.country_organiztions[j].organization_id+">"+data1.country_organiztions[j].organization_country+"</li>");
+              // $("#country_organization_select").append("<option value="+data1.country_organiztions[j].organization_id+">"+data1.country_organiztions[j].organization_country+"</option>");
+            }
+            //alert($(".organization_country_div-"+data1.organization_id).length);
+            
+              $(".show_award_reg").append('<div class="form-group level-drp award_div award_country_div-'+data1.organization_id+'"><label class="form-label award_label" for="input-1">'+data1.award_name+'</label><ul id="award_reg-'+data1.organization_id+'" style="display:none;">'+org_text+'</ul><select class="js-example-basic-multiple'+data1.organization_id+' addAll_removeAll_btn" data-list-id="award_reg-'+data1.organization_id+'" id="award_organization_select-'+data1.organization_id+'" name="award_organization'+data1.organization_id+'[]" multiple="multiple"></select></div>');
+            
+            selectTwoFunction(data1.organization_id);
+            
+          }
+        });
+      }
+    }
+  });
+  
   $('.js-example-basic-multiple[data-list-id="organization_country"]').on('change', function() {
     let selectedValues = $(this).val();
     console.log("selectedValues",selectedValues);
-    $(".show_country_org").empty();
+    //$(".show_country_org").empty();
+    
     
     for(var i=0;i<selectedValues.length;i++){
-      
-      $.ajax({
-        type: "GET",
-        url: "{{ url('/nurse/getCountryOrgnizations') }}",
-        data: {organization_id:selectedValues[i]},
-        cache: false,
-        success: function(data){
-          var data1 = JSON.parse(data);
-          
-          console.log("data1",data1);
-          
-          var org_text = "";
-          for(var j=0;j<data1.country_organiztions.length;j++){
-            //console.log("data",data1.country_organiztions[j].organization_id);
-            org_text += "<li data-value='"+data1.country_organiztions[j].organization_id+"'>"+data1.country_organiztions[j].organization_country+"</li>"; 
-            // $(".organization_country_div").removeClass("d-none");
-            // $("#country_organization").append("<li data-value="+data1.country_organiztions[j].organization_id+">"+data1.country_organiztions[j].organization_country+"</li>");
-            // $("#country_organization_select").append("<option value="+data1.country_organiztions[j].organization_id+">"+data1.country_organiztions[j].organization_country+"</option>");
-          }
-          $(".show_country_org").append('<div class="form-group level-drp organization_country_div"><label class="form-label organization_country_label" for="input-1">'+data1.country_name+' Organizations:</label><ul id="country_organization-'+data1.organization_id+'" style="display:none;">'+org_text+'</ul><select class="js-example-basic-multiple1 addAll_removeAll_btn" data-list-id="country_organization-'+data1.organization_id+'" id="country_organization_select" name="country_organization[]" multiple="multiple"></select></div>');
-          selectTwoFunction(1);
-          sub_organization(data1.organization_id);
-        }
-      });
-    }
-    
-  });
-
-  function sub_organization(country_org){
-    
-    $('.js-example-basic-multiple1[data-list-id="country_organization-'+country_org+'"]').on('change', function() {
-      
-      let selectedValues = $(this).val();
-      console.log("selectedValues",selectedValues);
-      $(".show_subcountry_org").empty();
-
-      for(var i=0;i<selectedValues.length;i++){
-      
+      //alert($(".organization_input-"+selectedValues[i]).val());
+      if($(".show_country_org .organization_country_div-"+selectedValues[i]).length < 1){
         $.ajax({
           type: "GET",
-          url: "{{ url('/nurse/getCountrySubOrgnizations') }}",
-          data: {organization_id:selectedValues[i],country_org_id:country_org},
+          url: "{{ url('/nurse/getCountryOrgnizations') }}",
+          data: {organization_id:selectedValues[i]},
           cache: false,
           success: function(data){
             var data1 = JSON.parse(data);
@@ -321,22 +353,174 @@
             
             var org_text = "";
             for(var j=0;j<data1.country_organiztions.length;j++){
-              
+              //console.log("data",data1.country_organiztions[j].organization_id);
               org_text += "<li data-value='"+data1.country_organiztions[j].organization_id+"'>"+data1.country_organiztions[j].organization_country+"</li>"; 
-              
+              // $(".organization_country_div").removeClass("d-none");
+              // $("#country_organization").append("<li data-value="+data1.country_organiztions[j].organization_id+">"+data1.country_organiztions[j].organization_country+"</li>");
+              // $("#country_organization_select").append("<option value="+data1.country_organiztions[j].organization_id+">"+data1.country_organiztions[j].organization_country+"</option>");
             }
-            $(".show_subcountry_org").append('<div class="form-group level-drp organization_subcountry_div"><label class="form-label organization_subcountry_label" for="input-1">'+data1.country_name+':</label><ul id="subcountry_organization-'+data1.organization_id+'" style="display:none;">'+org_text+'</ul><select class="js-example-basic-multiple2 addAll_removeAll_btn" data-list-id="subcountry_organization-'+data1.organization_id+'" id="subcountry_organization_select" name="subcountry_organization[]" multiple="multiple"></select></div>');
-            selectTwoFunction(2);
+            //alert($(".organization_country_div-"+data1.organization_id).length);
             
+              $(".show_country_org").append('<div class="form-group level-drp organization_country_div organization_country_div-'+data1.organization_id+'"><label class="form-label organization_country_label" for="input-1">'+data1.country_name+'</label><ul id="country_organization-'+data1.organization_id+'" style="display:none;">'+org_text+'</ul><select class="js-example-basic-multiple'+data1.organization_id+' addAll_removeAll_btn" data-list-id="country_organization-'+data1.organization_id+'" id="country_organization_select-'+data1.organization_id+'" name="country_organization'+data1.organization_id+'[]" multiple="multiple"></select></div><div class="show_subcountry_org-'+data1.organization_id+'"></div>');
+            
+            
+              
+            
+            
+            selectTwoFunction(data1.organization_id);
+            sub_organization(data1.organization_id);
           }
         });
+      }
+    }
+    
+  });
+
+  function sub_organization(country_org){
+    
+    $('.js-example-basic-multiple'+country_org+'[data-list-id="country_organization-'+country_org+'"]').on('change', function() {
+      
+      let selectedValues = $(this).val();
+      console.log("selectedValues",selectedValues);
+      
+      
+      for(var i=0;i<selectedValues.length;i++){
+        if($(".show_subcountry_org-"+country_org+" .organization_country_div-"+selectedValues[i]).length < 1){
+          $.ajax({
+            type: "GET",
+            url: "{{ url('/nurse/getCountrySubOrgnizations') }}",
+            data: {organization_id:selectedValues[i],country_org_id:country_org},
+            cache: false,
+            success: function(data){
+              var data1 = JSON.parse(data);
+              
+              console.log("data1",data1);
+              
+              var org_text = "";
+              for(var j=0;j<data1.country_organiztions.length;j++){
+                
+                org_text += "<li data-value='"+data1.country_organiztions[j].organization_id+"'>"+data1.country_organiztions[j].organization_country+"</li>"; 
+                
+              }
+              $(".show_subcountry_org-"+country_org).append('<div class="form-group level-drp organization_subcountry_div organization_subcountry_div-'+data1.organization_id+'"><label class="form-label organization_subcountry_label" for="input-1">'+data1.country_name+':</label><ul id="subcountry_organization-'+data1.organization_id+'" style="display:none;">'+org_text+'</ul><select class="js-example-basic-multiple'+data1.organization_id+' addAll_removeAll_btn" data-list-id="subcountry_organization-'+data1.organization_id+'" id="subcountry_organization_select" name="subcountry_organization[]" multiple="multiple"></select></div><div class="show_membership_type-'+data1.organization_id+'"></div>');
+              selectTwoFunction(data1.organization_id);
+              membership_type(data1.organization_id);
+            }
+          });
+        }
       }
     });
   }
 
+  function membership_type(organization_id){
+    
+    $('.js-example-basic-multiple'+organization_id+'[data-list-id="subcountry_organization-'+organization_id+'"]').on('change', function() {
+      let selectedValues = $(this).val();
+      console.log("selectedValues",selectedValues);
+      
+
+      for(var i=0;i<selectedValues.length;i++){
+        if($(".show_membership_type-"+organization_id+" .membership_type_div-"+selectedValues[i]).length < 1){
+          $.ajax({
+            type: "GET",
+            url: "{{ url('/nurse/getMembershipData') }}",
+            data: {organization_id:selectedValues[i]},
+            cache: false,
+            success: function(data){
+              var data1 = JSON.parse(data);
+              
+              console.log("data1",data1);
+              
+              var membership_text = "";
+              for(var j=0;j<data1.membership_type.length;j++){
+                
+                membership_text += "<li data-value='"+data1.membership_type[j].membership_id+"'>"+data1.membership_type[j].membership_name+"</li>"; 
+                
+              }
+              $(".show_membership_type-"+organization_id).append('<div class="form-group level-drp membership_type_div membership_type_div-'+data1.organization_id+'"><label class="form-label membership_type_label" for="input-1">Membership Type('+data1.organization_name+')</label><ul id="membership_type-'+data1.organization_id+'" style="display:none;">'+membership_text+'</ul><select class="js-example-basic-multiple'+data1.organization_id+' addAll_removeAll_btn" data-list-id="membership_type-'+data1.organization_id+'" id="subcountry_organization_select" name="subcountry_organization[]" multiple="multiple"></select></div><div class="show_submembership_type-'+data1.organization_id+'"></div>');
+              selectTwoFunction(data1.organization_id);
+              submembership_type(data1.organization_id,organization_id);
+            }
+          });
+        
+        }
+      }
+    });
+    
+  }
+
+
+  function submembership_type(organization_id,organization_id1){
+    $('.js-example-basic-multiple'+organization_id+'[data-list-id="membership_type-'+organization_id+'"]').on('change', function() {
+      let selectedValues = $(this).val();
+      console.log("selectedValues",selectedValues);
+      
+
+      for(var i=0;i<selectedValues.length;i++){
+        if($(".show_submembership_type-"+organization_id+" .submembership_type_div-"+selectedValues[i]).length < 1){
+          $.ajax({
+            type: "GET",
+            url: "{{ url('/nurse/getSubMembershipData') }}",
+            data: {organization_id:selectedValues[i]},
+            cache: false,
+            success: function(data){
+              var data1 = JSON.parse(data);
+              
+              console.log("data1",organization_id);
+              
+              var membership_text = "";
+              for(var j=0;j<data1.membership_type.length;j++){
+                
+                membership_text += "<li data-value='"+data1.membership_type[j].membership_id+"'>"+data1.membership_type[j].membership_name+"</li>"; 
+                
+              }
+              $(".show_submembership_type-"+organization_id).append('<div class="form-group level-drp submembership_type_div submembership_type_div-'+data1.organization_id+'"><label class="form-label submembership_type_label" for="input-1">'+data1.organization_name+'</label><ul id="submembership_type-'+data1.organization_id+'-'+organization_id+'" style="display:none;">'+membership_text+'</ul><select class="js-example-basic-multiple'+organization_id1+data1.organization_id+' addAll_removeAll_btn" data-list-id="submembership_type-'+data1.organization_id+'-'+organization_id+'" id="subcountry_organization_select" name="subcountry_organization[]" multiple="multiple"></select></div>');
+              selectTwoFunction(organization_id1+data1.organization_id);
+              
+              
+            }
+          });
+        }
+        //$(".show_membership_type").append('<div class="form-group level-drp organization_subcountry_div"><label class="form-label organization_subcountry_label" for="input-1">'+data1.country_name+':</label><ul id="subcountry_organization-'+data1.organization_id+'" style="display:none;">'+org_text+'</ul><select class="js-example-basic-multiple2 addAll_removeAll_btn" data-list-id="subcountry_organization-'+data1.organization_id+'" id="subcountry_organization_select" name="subcountry_organization[]" multiple="multiple"></select></div>');
+        
+      }
+    });
+  }
   
 
   function selectTwoFunction(select_id){
+    
+    $('.addAll_removeAll_btn').on('select2:open', function() {
+            var $dropdown = $(this);
+            var searchBoxHtml = `
+                
+                <div class="extra-buttons">
+                    <button class="select-all-button" type="button">Select All</button>
+                    <button class="remove-all-button" type="button">Remove All</button>
+                </div>`;
+
+            // Remove any existing extra buttons before adding new ones
+            $('.select2-results .extra-search-container').remove();
+            $('.select2-results .extra-buttons').remove();
+
+            // Append the new extra buttons and search box
+            $('.select2-results').prepend(searchBoxHtml);
+
+            // Handle Select All button for the current dropdown
+            $('.select-all-button').on('click', function() {
+                var $currentDropdown = $dropdown;
+                var allValues = $currentDropdown.find('option').map(function() {
+                    return $(this).val();
+                }).get();
+                $currentDropdown.val(allValues).trigger('change');
+            });
+
+            // Handle Remove All button for the current dropdown
+            $('.remove-all-button').on('click', function() {
+                var $currentDropdown = $dropdown;
+                $currentDropdown.val(null).trigger('change');
+            });
+        });
     $('.js-example-basic-multiple'+select_id).on('select2:open', function() {
                 var searchBoxHtml = `
                     <div class="extra-search-container">
@@ -381,7 +565,7 @@
             // Handle the visibility of the clear button
             function toggleClearButton() {
 
-                const selectedOptions = $('.js-example-basic-multiple1').val();
+                const selectedOptions = $('.js-example-basic-multiple'+select_id).val();
                 if (selectedOptions && selectedOptions.length > 0) {
                     clearButton.show();
                 } else {
@@ -402,18 +586,18 @@
             // Initial check
             toggleClearButton();
             $('.js-example-basic-multiple'+select_id).each(function() {
-                let listId = $(this).data('list-id');
-                console.log("listId",listId);
-                let items1 = [];
-                //console.log("listId",listId);
-                $('#' + listId + ' li').each(function() {
-                    //console.log("value",$(this).data('value'));
-                    items1.push({ id: $(this).data('value'), text: $(this).text() });
-                });
-                console.log("items",items1);
-                $(this).select2({
-                    data: items1
-                });
+              let listId = $(this).data('list-id');
+
+              let items = [];
+              console.log("listId",listId);
+              $('#' + listId + ' li').each(function() {
+                  console.log("value",$(this).data('value'));
+                  items.push({ id: $(this).data('value'), text: $(this).text() });
+              });
+              console.log("items",items);
+              $(this).select2({
+                  data: items
+              });
             });
           }
 </script>
@@ -438,8 +622,8 @@
     });
   });
 
-
-
+  // $('.js-example-basic-multiple[data-list-id="organization_country"]').select2().val([1,2]).trigger('change');
+  // $('.js-example-basic-multiple2[data-list-id="country_organization-2"]').select2().val([14,15]).trigger('change');
   if ($(".professional_as").val() != "") {
     var professional_as = JSON.parse($(".professional_as").val());
     console.log("professional_as", professional_as);

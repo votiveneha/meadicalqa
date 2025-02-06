@@ -136,6 +136,9 @@ Route::prefix('nurse')->name('nurse.')->namespace('App\Http\Controllers\nurse')-
   Route::any('/professionalMembership','ProfessionalController@professionalMembership')->name('professionalMembership');
   Route::any('/getCountryOrgnizations','ProfessionalController@getCountryOrgnizations')->name('getCountryOrgnizations');
   Route::any('/getCountrySubOrgnizations','ProfessionalController@getCountrySubOrgnizations')->name('getCountrySubOrgnizations');
+  Route::any('/getMembershipData','ProfessionalController@getMembershipData')->name('getMembershipData');
+  Route::any('/getSubMembershipData','ProfessionalController@getSubMembershipData')->name('getSubMembershipData');
+  Route::any('/getawardsRecognitions','ProfessionalController@getawardsRecognitions')->name('getawardsRecognitions');
   
   /**************[Interview Preferences]**************/
   Route::any('/interview','ProfessionalController@interview')->name('interview');

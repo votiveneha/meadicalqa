@@ -458,6 +458,7 @@ class ProfessionalController extends Controller
     public function professionalMembership()
     {
         $data['organization_country'] = DB::table("professional_organization")->where("country_organiztions","0")->get();
+        $data['awards_recognitions'] = DB::table("awards_recognitions")->where("sub_award_id","0")->get();
         return view('nurse.professional_membership')->with($data);
     }
 
@@ -483,6 +484,36 @@ class ProfessionalController extends Controller
         //print_r(json_encode($data));
         $data['country_name'] = $country_name->organization_country;
         $data['organization_id'] = $organization_id;
+        return json_encode($data);
+    }
+
+    public function getMembershipData(Request $request)
+    {
+        $organization_id = $request->organization_id;
+        $data['membership_type'] = DB::table("membership_type")->where("submember_id","0")->get();
+        $organization_name = DB::table("professional_organization")->where("organization_id",$organization_id)->first();
+        $data['organization_id'] = $organization_id;
+        $data['organization_name'] = $organization_name->organization_country;
+        return json_encode($data);
+    }
+
+    public function getsubMembershipData(Request $request)
+    {
+        $organization_id = $request->organization_id;
+        $data['membership_type'] = DB::table("membership_type")->where("submember_id",$organization_id)->get();
+        $organization_name = DB::table("membership_type")->where("membership_id",$organization_id)->first();
+        $data['organization_id'] = $organization_id;
+        $data['organization_name'] = $organization_name->membership_name;
+        return json_encode($data);
+    }
+
+    public function getawardsRecognitions(Request $request)
+    {
+        $award_id = $request->award_id;
+        $data['award'] = DB::table("awards_recognitions")->where("sub_award_id",$award_id)->get();
+        $organization_name = DB::table("awards_recognitions")->where("award_id",$award_id)->first();
+        $data['organization_id'] = $award_id;
+        $data['award_name'] = $organization_name->award_name;
         return json_encode($data);
     }
 
