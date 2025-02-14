@@ -457,8 +457,11 @@ class ProfessionalController extends Controller
     }
     public function professionalMembership()
     {
+        $user_id = Auth::guard('nurse_middle')->user()->id;
         $data['organization_country'] = DB::table("professional_organization")->where("country_organiztions","0")->get();
         $data['awards_recognitions'] = DB::table("awards_recognitions")->where("sub_award_id","0")->get();
+        $data['awards_recognition_submission'] = DB::table("awards_recognition_submission")->where("user_id",$user_id)->get();
+        $data['professional_membership'] = DB::table("professional_membership")->where("user_id",$user_id)->get();
         return view('nurse.professional_membership')->with($data);
     }
 

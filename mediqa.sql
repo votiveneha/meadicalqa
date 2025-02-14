@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Feb 05, 2025 at 11:56 PM
+-- Generation Time: Feb 14, 2025 at 12:09 AM
 -- Server version: 10.6.21-MariaDB
 -- PHP Version: 7.4.33
 
@@ -157,6 +157,30 @@ INSERT INTO `awards_recognitions` (`award_id`, `award_name`, `sub_award_id`) VAL
 (43, 'World Health Organization (WHO) Nursing Leadership Award', 8),
 (44, 'Florence Nightingale Medal (International Red Cross)', 8),
 (45, 'Global Health Impact Award', 8);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `awards_recognition_submission`
+--
+
+CREATE TABLE `awards_recognition_submission` (
+  `award_reg_id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `award_id` int(11) DEFAULT NULL,
+  `sub_award_id` int(11) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `awards_recognition_submission`
+--
+
+INSERT INTO `awards_recognition_submission` (`award_reg_id`, `user_id`, `award_id`, `sub_award_id`, `created_at`, `updated_at`) VALUES
+(7, 173, 5, 34, '2025-02-11 05:22:03', '2025-02-11 05:22:03'),
+(8, 173, 5, 35, '2025-02-11 05:22:03', '2025-02-11 05:22:03'),
+(9, 173, 6, 37, '2025-02-11 05:22:03', '2025-02-11 05:22:03');
 
 -- --------------------------------------------------------
 
@@ -600,7 +624,6 @@ CREATE TABLE `eligibility_to_work` (
 --
 
 INSERT INTO `eligibility_to_work` (`id`, `user_id`, `residency`, `support_document`, `original_file_name`, `evidence_type`, `passport_number`, `country_id`, `visa_subclass`, `other_visa_type`, `visa_grant_number`, `status`, `created_at`, `updated_at`) VALUES
-(2, 112, 'Permanent Resident', '/nurse/assets/imgs/support_document/1723123735.png', '', '2024-08-08 18:58:55', '243434', 0, 2323, '', '343424', '', '2024-08-08 18:58:55', '2024-11-06 13:14:10'),
 (3, 131, 'Visa Holder', '/nurse/assets/imgs/support_document/1723455514.png', '', '2024-08-12 15:08:34', 'IND2856L8952', 0, 1232165489, '', '56', '0', '2024-08-12 15:08:34', '2024-08-12 15:08:34'),
 (4, 58, 'Citizen', '/nurse/assets/imgs/support_document/1723546985.jpg', '', '2024-08-13 16:33:05', NULL, 0, NULL, '', NULL, '0', '2024-08-13 16:33:05', '2024-08-13 16:33:05'),
 (5, 136, 'Citizen', '/nurse/assets/imgs/support_document/1723554432.jpg', '', '2024-08-13 18:37:12', NULL, 0, NULL, '', NULL, '0', '2024-08-13 18:37:12', '2024-08-13 18:37:12'),
@@ -613,10 +636,12 @@ INSERT INTO `eligibility_to_work` (`id`, `user_id`, `residency`, `support_docume
 (14, 153, 'Permanent Resident', '/nurse/assets/imgs/support_document/download - Copy.jfif', '', '2024-09-14 18:59:22', '45454545', 0, 2147483647, '', '45454545', '0', '2024-09-14 13:29:22', '2024-09-14 13:29:22'),
 (15, 154, 'Permanent Resident', '/nurse/assets/imgs/support_document/download (1).jfif', '', '2024-09-16 19:04:32', '433454545', 0, 565656, '', '45454545', '0', '2024-09-16 13:34:32', '2024-09-16 13:34:32'),
 (16, 166, 'Permanent Resident', '/nurse/assets/imgs/support_document/download (2).jfif', '', '2024-10-07 19:03:28', '456565656', 0, 565656, '', '45454545', '0', '2024-10-07 13:33:28', '2024-10-07 13:33:28'),
-(18, 179, 'Permanent Resident', '/nurse/assets/imgs/support_document/1737111644.jpg', '', '2025-01-17 11:00:44', '4215121542312331215', 0, 0, '', '54545ft6t46545646', '0', '2025-01-17 16:30:44', '2025-01-17 11:00:44'),
 (19, 173, 'Citizen', '/nurse/assets/imgs/support_document/1737376922.jpg', '', '2025-01-20 12:42:02', NULL, 0, NULL, '', NULL, '0', '2025-01-20 18:12:02', '2025-01-20 12:42:02'),
 (38, 184, 'Visa Holder', 'evidence_file_1738315696.jpg', '4002676.jpg', 'Visa grant letter', '123123', 14, 39, '', '123123123', '0', '2025-01-31 15:05:51', '2025-01-31 15:05:51'),
-(41, 186, 'Visa Holder', 'evidence_file_1738317411.jpg', 'reflection-lights-mountain-lake-captured-parco-ciani-lugano-switzerland.jpg', 'Visa grant letter', '222222', 82, 35, '', '22212', '0', '2025-01-31 15:26:51', '2025-01-31 09:56:51');
+(42, 112, 'Australian Citizen', 'evidence_file_1738822086.jpg', '2157623-3840x2160-desktop-4k-gt-r-wallpaper-image.jpg', 'Australian Citizenship Certificate', '243434', 0, 1, '', '343424', '0', '2025-02-06 11:38:06', '2025-02-06 06:08:06'),
+(46, 187, 'Australian Citizen', 'evidence_file_1738822241.jpg', '2157647-3840x2160-desktop-4k-gt-r-background.jpg', 'Full Australian Birth Certificate', NULL, 0, 1, '', NULL, '0', '2025-02-06 11:48:13', '2025-02-06 06:18:13'),
+(47, 186, 'Visa Holder', 'evidence_file_1738317411.jpg', 'reflection-lights-mountain-lake-captured-parco-ciani-lugano-switzerland.jpg', 'Visa grant letter', '222222', 82, 35, '', '22212', '0', '2025-02-06 18:44:05', '2025-02-06 13:14:05'),
+(48, 179, 'Australian Citizen', 'evidence_file_1738923862.png', 'download.png', 'Australian Passport', '4215121542312331215', 0, 1, '', '54545ft6t46545646', '0', '2025-02-07 15:54:22', '2025-02-07 10:24:22');
 
 -- --------------------------------------------------------
 
@@ -695,7 +720,10 @@ INSERT INTO `evidance_file` (`id`, `vcc_front_id`, `original_name`, `file_name`,
 (32, 22, 'barberry-8612696_1920.jpg', 'evidence_file_1737711851.jpg', '2025-01-24 09:44:11', '2025-01-24 09:44:11'),
 (33, 22, 'camping-7856198_1920.jpg', 'evidence_file_1737711851.jpg', '2025-01-24 09:44:11', '2025-01-24 09:44:11'),
 (34, 22, 'fog-7496901_1920.jpg', 'evidence_file_1737711851.jpg', '2025-01-24 09:44:11', '2025-01-24 09:44:11'),
-(35, 23, 'camping-7856198_1920.jpg', 'evidence_file_1737719197.jpg', '2025-01-24 11:46:37', '2025-01-24 11:46:37');
+(35, 23, 'camping-7856198_1920.jpg', 'evidence_file_1737719197.jpg', '2025-01-24 11:46:37', '2025-01-24 11:46:37'),
+(36, 24, '2127448-2560x1669-desktop-hd-mustang-background-photo.jpg', 'evidence_file_1738847877.jpg', '2025-02-06 13:17:57', '2025-02-06 13:17:57'),
+(37, 24, '2127524-3840x2160-desktop-4k-mustang-background-image.jpg', 'evidence_file_1738847877.jpg', '2025-02-06 13:17:57', '2025-02-06 13:17:57'),
+(38, 24, '2127556-2880x1800-desktop-hd-mustang-wallpaper-image.jpg', 'evidence_file_1738847877.jpg', '2025-02-06 13:17:57', '2025-02-06 13:17:57');
 
 -- --------------------------------------------------------
 
@@ -1279,7 +1307,9 @@ CREATE TABLE `ndis_screening_check` (
 
 INSERT INTO `ndis_screening_check` (`id`, `user_id`, `state_id`, `clearance_number`, `expiry_date`, `evidence_file`, `original_file_name`, `created_at`, `updated_at`) VALUES
 (2, 184, 1597, '12333', '2025-02-28', 'evidence_file_1738326257.jpg', 'pexels-joshuaworoniecki-2607956.jpg', '2025-01-31 12:24:17', '2025-01-31 06:54:17'),
-(3, 186, 1591, '44334433', '2025-07-10', 'evidence_file_1738327017.jpg', 'pexels-eberhardgross-1612351.jpg', '2025-01-31 12:36:09', '2025-02-03 09:09:34');
+(3, 186, 1591, '44334433', '2025-07-10', 'evidence_file_1738327017.jpg', 'pexels-eberhardgross-1612351.jpg', '2025-01-31 12:36:09', '2025-02-03 09:09:34'),
+(4, 187, 1590, '2323232323', '2025-02-26', 'evidence_file_1738822718.jpg', '2157842-3840x2160-desktop-4k-gt-r-wallpaper.jpg', '2025-02-06 06:18:38', '2025-02-06 06:18:38'),
+(5, 179, 1530, 'asdawdawdada', '2028-12-04', 'evidence_file_1738923894.jpeg', 'images (1).jpeg', '2025-02-07 10:24:54', '2025-02-07 10:24:54');
 
 -- --------------------------------------------------------
 
@@ -1436,7 +1466,7 @@ CREATE TABLE `police_check` (
 --
 
 INSERT INTO `police_check` (`id`, `user_id`, `issuance_date`, `evidence_file`, `original_file_name`, `reason`, `status`, `created_at`, `updated_at`) VALUES
-(1, 112, '2024-08-07', '/nurse/assets/imgs/police_check/1723123763.png', '', NULL, 1, '2024-08-08 13:29:23', '2024-08-13 07:46:12'),
+(1, 112, '2024-08-07', 'evidence_file_1738822103.jpg', '2157647-3840x2160-desktop-4k-gt-r-background.jpg', NULL, 1, '2024-08-08 13:29:23', '2025-02-06 06:08:23'),
 (2, 131, '2025-03-12', '/nurse/assets/imgs/police_check/1723455646.jpg', '', NULL, 1, '2024-08-12 09:40:46', '2024-08-12 04:12:09'),
 (3, 58, '2024-08-07', '/nurse/assets/imgs/police_check/1723547012.jpg', '', NULL, 1, '2024-08-13 11:03:32', '2024-08-13 07:46:07'),
 (4, 136, '2025-08-05', '/nurse/assets/imgs/police_check/1723554473.jpg', '', NULL, 1, '2024-08-13 13:07:53', '2024-08-13 07:46:00'),
@@ -2013,9 +2043,14 @@ INSERT INTO `professional_certificate_table` (`professionalcert_id`, `cert_id`, 
 CREATE TABLE `professional_membership` (
   `membership_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `des_profession_association` text NOT NULL,
-  `membership_numbers` text NOT NULL,
-  `membership_status` text NOT NULL,
+  `organization_country` int(11) DEFAULT NULL,
+  `country_organization` int(11) DEFAULT NULL,
+  `subcountry_organization` int(11) DEFAULT NULL,
+  `membership_type` int(11) DEFAULT NULL,
+  `submembership_type` int(11) DEFAULT NULL,
+  `des_profession_association` text DEFAULT NULL,
+  `date_joined` text DEFAULT NULL,
+  `membership_status` text DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -2024,14 +2059,8 @@ CREATE TABLE `professional_membership` (
 -- Dumping data for table `professional_membership`
 --
 
-INSERT INTO `professional_membership` (`membership_id`, `user_id`, `des_profession_association`, `membership_numbers`, `membership_status`, `created_at`, `updated_at`) VALUES
-(6, 112, '[\"ANA\",\"ENA\"]', '3434', 'Active', '2024-09-10 01:44:04', '2024-11-08 00:54:02'),
-(7, 151, '[\"ANA\"]', '45454545', 'Active', '2024-09-11 07:44:58', '2024-09-11 07:44:58'),
-(8, 153, '[\"ANA\"]', '45454545', 'Lapsed', '2024-09-14 07:59:50', '2024-09-14 07:59:50'),
-(9, 154, '[\"ANA\"]', '45454545', 'Active', '2024-09-16 08:05:12', '2024-09-16 08:05:12'),
-(10, 166, '[\"ANA\"]', '45454545', 'Lapsed', '2024-10-07 08:03:50', '2024-10-07 08:03:50'),
-(11, 179, '[\"ENA\"]', '1255', 'Active', '2025-01-16 05:23:51', '2025-01-16 05:23:51'),
-(12, 173, '[\"ANA\"]', '55t5', 'Active', '2025-01-20 12:43:47', '2025-01-20 12:43:47');
+INSERT INTO `professional_membership` (`membership_id`, `user_id`, `organization_country`, `country_organization`, `subcountry_organization`, `membership_type`, `submembership_type`, `des_profession_association`, `date_joined`, `membership_status`, `created_at`, `updated_at`) VALUES
+(71, 173, 4, 15, 112, 4, 34, '[\"ANA\"]', '2025-02-27', 'Pending Membership Approval', '2025-02-11 05:22:03', '2025-02-11 05:22:03');
 
 -- --------------------------------------------------------
 
@@ -8005,7 +8034,8 @@ INSERT INTO `users` (`id`, `name`, `lastname`, `email`, `profile_img`, `email_ve
 (173, 'Neha', 'Mandloi', 'votivephp.neha@gmail.com', '/nurse/assets/imgs/1733380177.png', NULL, '$2y$10$cS2ayCxai0n62.XiB6TNQeYaBq5q8A6CHIPx43SqEi.v14J17jF5W', NULL, '', 0, '1', '1', '1', '[\"1\",\"2\",\"3\",\"4\"]', '[\"2\",\"1\",\"3\"]', 'null', 'null', '3', 'null', 'null', 'null', '[\"7\"]', '452001', NULL, NULL, '2025-01-03 18:23:42', '2025-01-30 10:23:14', '5', '1', 'Yes', 'No', 'No', 'No', 'No', '61', 'au', '1234567890', 'Neha@1234', 'AU', 195, 'Indore', 'dgdfg', 'https://votivetech.in/mediqa/nurse/my-profile?page=my_profile', NULL, 'Male', '1996-12-04', 'Indore', '5615445516', '61', 'au', 'Nhhvbuvr12@gmail.com', '[\"252\",\"253\",\"6\",\"5\",\"254\",\"10\",\"7\",\"9\",\"8\",\"11\",\"255\",\"12\",\"13\",\"14\",\"256\",\"257\",\"15\",\"258\",\"259\",\"238\",\"260\",\"261\",\"239\"]', '[\"18\",\"19\",\"20\",\"21\",\"22\",\"23\",\"24\",\"25\",\"26\",\"27\",\"28\",\"29\",\"31\",\"263\",\"30\",\"32\",\"33\",\"34\",\"245\",\"246\",\"247\",\"248\",\"35\",\"36\",\"37\",\"264\",\"38\",\"265\",\"39\",\"40\",\"41\",\"249\",\"42\",\"44\",\"43\",\"45\",\"46\",\"47\",\"48\",\"49\",\"50\",\"51\",\"52\",\"250\",\"53\",\"54\",\"55\",\"56\",\"57\",\"58\",\"59\",\"60\",\"61\",\"63\",\"62\",\"64\",\"65\",\"66\",\"67\",\"267\",\"268\",\"68\",\"69\",\"70\",\"71\",\"72\",\"73\",\"74\",\"75\",\"269\",\"76\",\"77\",\"78\",\"79\",\"80\",\"81\",\"82\",\"83\",\"84\",\"85\",\"86\",\"87\",\"88\",\"90\",\"89\",\"91\",\"92\",\"93\",\"95\",\"94\",\"96\",\"97\",\"98\",\"99\",\"100\",\"101\",\"301\",\"102\",\"103\",\"104\",\"105\",\"142\",\"106\",\"302\",\"107\",\"108\",\"109\",\"110\",\"240\",\"111\",\"112\",\"113\",\"114\",\"115\",\"116\",\"117\",\"118\",\"119\",\"120\",\"121\",\"122\",\"123\",\"124\",\"262\",\"251\",\"266\",\"125\",\"244\",\"126\",\"127\",\"241\",\"128\",\"129\",\"130\",\"131\",\"132\",\"133\",\"134\",\"135\",\"136\",\"243\",\"137\",\"138\",\"139\",\"140\",\"141\",\"143\",\"144\",\"145\",\"146\",\"147\",\"148\",\"149\",\"150\",\"151\",\"152\",\"153\",\"154\",\"155\",\"156\",\"158\",\"159\",\"160\",\"161\",\"162\",\"163\",\"164\",\"165\",\"166\",\"167\",\"168\",\"169\",\"170\",\"171\",\"242\"]', '[\"173\",\"174\",\"282\",\"290\",\"285\",\"281\",\"273\",\"232\",\"283\",\"176\",\"234\",\"233\",\"280\",\"271\",\"276\",\"275\",\"272\",\"279\",\"284\",\"175\",\"286\",\"287\",\"270\",\"277\",\"178\",\"179\",\"289\",\"288\",\"177\",\"274\",\"291\"]', '[\"181\",\"182\",\"183\",\"184\",\"185\",\"186\",\"187\",\"188\",\"189\",\"190\",\"191\",\"192\",\"193\",\"194\",\"195\",\"196\",\"197\",\"198\",\"199\",\"200\",\"201\",\"202\",\"203\",\"204\",\"205\",\"206\",\"207\",\"208\",\"209\",\"210\",\"211\",\"212\",\"213\",\"214\",\"215\",\"216\",\"217\",\"218\",\"219\",\"220\",\"221\",\"222\",\"223\",\"224\",\"225\",\"226\",\"227\",\"278\"]', '[\"6\",\"7\",\"8\",\"9\",\"10\",\"11\",\"12\",\"13\",\"14\",\"15\",\"16\",\"17\",\"18\",\"19\",\"20\",\"21\",\"22\",\"23\",\"24\",\"25\",\"26\",\"27\",\"28\",\"29\",\"30\",\"31\",\"32\",\"33\",\"34\",\"35\",\"36\",\"37\",\"38\",\"39\",\"40\",\"41\",\"42\",\"43\",\"44\",\"45\",\"46\",\"47\",\"48\",\"49\",\"50\",\"51\",\"52\",\"53\",\"54\",\"55\",\"56\",\"57\",\"58\",\"59\",\"60\",\"61\",\"62\",\"63\",\"64\",\"65\",\"66\",\"67\",\"68\",\"69\",\"70\",\"71\",\"72\",\"73\",\"74\",\"75\",\"76\",\"77\",\"78\",\"79\",\"80\",\"81\",\"82\",\"83\",\"84\",\"85\",\"86\",\"87\",\"88\",\"89\",\"90\",\"91\",\"92\",\"93\",\"94\",\"95\",\"96\",\"394\",\"395\",\"396\",\"397\",\"398\"]', '[\"201\",\"202\",\"203\",\"204\",\"205\",\"206\",\"207\",\"208\",\"209\",\"210\",\"211\",\"212\",\"213\",\"214\",\"215\",\"216\",\"217\",\"218\",\"219\",\"220\",\"221\",\"222\",\"223\",\"224\",\"225\",\"226\",\"227\",\"228\",\"229\",\"230\",\"231\",\"232\",\"233\",\"399\"]', '[\"239\",\"240\",\"241\",\"242\",\"243\",\"244\",\"245\",\"246\",\"247\",\"248\",\"249\",\"250\",\"255\",\"256\",\"257\",\"258\",\"259\",\"260\",\"261\",\"262\",\"263\",\"264\",\"265\",\"266\",\"267\",\"268\",\"269\",\"270\",\"271\",\"272\",\"273\",\"274\",\"275\",\"276\",\"277\",\"278\",\"279\",\"280\",\"281\",\"282\",\"283\",\"284\",\"285\",\"404\",\"405\",\"406\",\"407\"]', '[\"384\",\"385\",\"386\",\"387\",\"388\",\"389\",\"390\",\"391\",\"392\",\"393\"]', '[\"97\",\"98\",\"99\"]', '[\"101\",\"102\",\"103\",\"104\",\"105\",\"106\",\"107\",\"108\",\"109\",\"110\",\"111\",\"112\",\"113\",\"114\",\"115\",\"116\",\"118\"]', '[\"120\",\"121\",\"122\",\"123\",\"124\",\"125\",\"126\",\"127\",\"128\",\"129\",\"130\",\"131\",\"132\",\"133\",\"134\",\"135\",\"136\",\"137\",\"138\",\"139\",\"140\",\"141\",\"142\",\"143\",\"144\",\"145\",\"146\",\"147\",\"148\",\"149\",\"150\",\"151\",\"152\",\"153\",\"154\",\"155\",\"156\"]', '[\"158\",\"159\",\"160\",\"161\",\"162\",\"163\",\"164\",\"165\",\"166\",\"167\",\"168\",\"169\",\"170\",\"171\",\"172\",\"173\",\"174\",\"175\",\"176\",\"177\",\"178\",\"179\",\"180\",\"181\",\"182\",\"183\",\"184\",\"185\",\"186\",\"187\",\"188\",\"189\",\"190\",\"191\",\"192\",\"193\",\"194\"]', '[\"234\",\"235\",\"236\",\"237\"]', '[\"400\",\"401\",\"402\",\"403\"]', '[\"286\",\"287\",\"288\"]', '[\"290\",\"291\",\"292\",\"293\",\"294\",\"295\",\"296\",\"297\",\"298\",\"299\",\"300\",\"301\",\"302\",\"303\",\"304\"]', '[\"306\",\"307\",\"309\",\"308\",\"310\",\"311\",\"312\",\"313\",\"314\",\"315\",\"316\",\"317\",\"318\",\"319\",\"320\",\"321\",\"322\",\"323\",\"324\",\"325\",\"328\",\"326\",\"329\",\"327\",\"330\",\"331\",\"332\",\"333\",\"334\",\"335\",\"336\",\"337\",\"338\",\"339\",\"340\",\"341\"]', '[\"346\",\"343\",\"344\",\"345\",\"347\",\"348\",\"349\",\"350\",\"352\",\"353\",\"354\",\"355\",\"356\",\"357\",\"358\",\"359\",\"360\",\"361\",\"362\",\"365\",\"363\",\"366\",\"364\",\"367\",\"368\",\"369\",\"370\",\"371\",\"372\",\"373\",\"374\",\"375\",\"377\",\"378\",\"376\",\"351\"]', 'Permanent', 'Agency Nurse/Midwife', '', 1, 1, '1', 0, '2025-01-09', 1),
 (179, 'vijendra', 'parmar', 'votivetester.preeti@gmail.com', '/nurse/assets/imgs/1737193205.png', NULL, '$2y$10$1MTooQA55r/pLIhawB5/2uMLsjpADpmSMH0PCM44dcFpaJzT4rFpC', NULL, '', 0, '1', '1', '1', '[\"1\"]', '[\"2\"]', 'null', 'null', '3', 'null', 'null', 'null', '[\"5\"]', '452001', NULL, NULL, '2025-01-18 13:51:15', '2025-01-23 07:09:18', '5', '1', 'Yes', 'Yes', 'No', 'No', 'No', '61', 'au', '1234567891', '7089@Veer', 'HK', 1530, 'indore', 'yugygy', 'https://votivetech.in/mediqa/nurse/my-profile?page=my_profile', NULL, 'Male', '1996-12-04', 'Indore', '1234567891', '61', 'au', 'Demo2332@gmail.com', '[\"252\"]', 'null', 'null', 'null', '[\"6\"]', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'Temporary', '', NULL, 1, 1, '3', 0, '2025-01-20', 1),
 (184, 'Nurse', 'Apl', 'vijehndraparmar1789@gmail.com', 'nurse/assets/imgs/nurse06.png', NULL, '$2y$10$WQ9AsddpDmRr/OvecszQOOXdkhGNwlRaizhPVMF.GWDZuNSZoW09y', NULL, 'eyJpdiI6IjBWRnFoS2FPZHFXMUFRMXlyaGc3QXc9PSIsInZhbHVlIjoiZ1lZWXdMenNieThWVG5KcDY2K3ZCK01pRFlwdVpCampQSm42eGlzUVduST0iLCJtYWMiOiIzM2M3NjZiYWJhYjU2MTZmNjQ3YTM0Njg0NDQzZDdjN2ExZTdjZGQ2ZDE5YWU1YWRiYTk1MGNjY2E2YzdkNDEwIiwidGFnIjoiIn0=', 0, '0', '1', '1', '[\"1\"]', '[\"2\"]', 'null', 'null', '1', 'null', 'null', 'null', '[\"1\"]', '452001', NULL, NULL, '2025-01-28 12:03:35', NULL, '0', '1', 'No', 'No', 'No', 'No', 'No', '61', 'au', '7089165162', '7089@Veer', 'AU', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '[\"252\"]', 'null', 'null', 'null', '[\"6\"]', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(186, 'Govinda', 'Yadav', 'votivephp.govinda@gmail.com', '/nurse/assets/imgs/1738573670.jpg', NULL, '$2y$10$JRlWa0gfHb2bA.I91xm/9O86J95S2.jnUc0OgS6QivwyvtF9CWbGa', NULL, '', 0, '1', '1', '1', '[\"1\"]', '[\"2\"]', 'null', 'null', '4', 'null', 'null', 'null', 'null', '456111', NULL, NULL, '2025-02-03 14:38:57', '2025-02-03 09:08:57', '5', '1', 'No', 'No', 'No', 'No', 'No', '61', 'au', '123123123', 'Votive@123', 'IS', 1591, 'some', NULL, 'nahihai.com', NULL, 'Male', '1998-06-26', 'Indore', '123123123', '61', 'au', 'abc@mail.com', '[\"252\"]', 'null', 'null', 'null', '[\"6\"]', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'Temporary', '', 'Temporary', 1, 1, '101', NULL, NULL, 1);
+(186, 'Govinda', 'Yadav', 'votivephp.govinda@gmail.com', '/nurse/assets/imgs/1738573670.jpg', NULL, '$2y$10$JRlWa0gfHb2bA.I91xm/9O86J95S2.jnUc0OgS6QivwyvtF9CWbGa', NULL, '', 0, '1', '1', '1', '[\"1\"]', '[\"2\"]', 'null', 'null', '4', 'null', 'null', 'null', 'null', '456111', NULL, NULL, '2025-02-03 14:38:57', '2025-02-03 09:08:57', '5', '1', 'No', 'No', 'No', 'No', 'No', '61', 'au', '123123123', 'Votive@123', 'IS', 1591, 'some', NULL, 'nahihai.com', NULL, 'Male', '1998-06-26', 'Indore', '123123123', '61', 'au', 'abc@mail.com', '[\"252\"]', 'null', 'null', 'null', '[\"6\"]', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'Temporary', '', 'Temporary', 1, 1, '101', NULL, NULL, 1),
+(187, 'Govinda', 'Yadav', 'admhhin@gmail.com', 'nurse/assets/imgs/2157842-3840x2160-desktop-4k-gt-r-wallpaper.jpg', NULL, '$2y$10$uPo32K0pZJfY/FHL.5JHnO.t6Aq0.HopSo2rMDzlY0n9SnoJMH9l2', NULL, NULL, 0, '1', '1', '1', NULL, '', '', NULL, '', '', NULL, NULL, '', '456111', NULL, NULL, '2025-02-06 06:10:06', '2025-02-06 06:10:06', '1', '1', 'No', 'No', 'No', 'No', 'No', '61', 'au', '456456456', 'Aa@123123', 'IS', 1591, 'some', NULL, 'gfh.dfhsss', NULL, 'Male', '2025-02-26', 'Indore', '456565656', '61', 'au', 'votive56php.govinda@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -8246,7 +8276,8 @@ INSERT INTO `vaccination_front` (`id`, `user_id`, `vaccination_id`, `immunizatio
 (20, 182, 8, 8, 4, 0, '2025-01-24 04:50:18', '2025-01-24 04:50:18', ''),
 (21, 182, 9, 8, 2, 0, '2025-01-24 04:51:04', '2025-01-24 08:31:07', ''),
 (22, 181, 8, 10, 4, 0, '2025-01-24 09:44:11', '2025-01-24 09:44:11', ''),
-(23, 183, 8, 15, 4, 0, '2025-01-24 11:46:37', '2025-01-24 11:46:37', '');
+(23, 183, 8, 15, 4, 0, '2025-01-24 11:46:37', '2025-01-24 11:46:37', ''),
+(24, 186, 8, 8, 4, 0, '2025-02-06 13:17:57', '2025-02-06 13:17:57', '');
 
 -- --------------------------------------------------------
 
@@ -8522,7 +8553,6 @@ INSERT INTO `working_children_check` (`id`, `user_id`, `state_id`, `clearance_nu
 (20, 173, 195, '444', '2025-01-31', '', '', '1', '2025-01-20 18:13:06', '2025-01-20 07:13:06'),
 (28, 184, 195, '11111122', '2025-02-13', 'evidence_file_1738405757.jpg', 'reflection-lights-mountain-lake-captured-parco-ciani-lugano-switzerland.jpg', '1', '2025-02-01 15:59:17', '2025-02-01 05:02:16'),
 (30, 184, 196, '222222211', '2025-02-28', 'evidence_file_1738405799.jpg', '4002676.jpg', '1', '2025-02-01 15:59:59', '2025-02-01 05:02:16'),
-(32, 186, 196, '112211', '2025-02-27', 'evidence_file_1738414250.jpg', 'pexels-joshuaworoniecki-2607956.jpg', '1', '2025-02-01 18:20:50', '2025-02-01 12:50:50'),
 (33, 186, 198, '456456', '2025-02-27', 'evidence_file_1738414277.jpg', 'pexels-elti-meshau-107925-333850.jpg', '1', '2025-02-01 18:21:17', '2025-02-01 12:51:17');
 
 -- --------------------------------------------------------
@@ -8587,6 +8617,12 @@ ALTER TABLE `admin`
 --
 ALTER TABLE `awards_recognitions`
   ADD PRIMARY KEY (`award_id`);
+
+--
+-- Indexes for table `awards_recognition_submission`
+--
+ALTER TABLE `awards_recognition_submission`
+  ADD PRIMARY KEY (`award_reg_id`);
 
 --
 -- Indexes for table `contact_us`
@@ -8915,6 +8951,12 @@ ALTER TABLE `awards_recognitions`
   MODIFY `award_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
+-- AUTO_INCREMENT for table `awards_recognition_submission`
+--
+ALTER TABLE `awards_recognition_submission`
+  MODIFY `award_reg_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
 -- AUTO_INCREMENT for table `contact_us`
 --
 ALTER TABLE `contact_us`
@@ -8942,7 +8984,7 @@ ALTER TABLE `edu_fields`
 -- AUTO_INCREMENT for table `eligibility_to_work`
 --
 ALTER TABLE `eligibility_to_work`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT for table `emergency_contact`
@@ -8954,7 +8996,7 @@ ALTER TABLE `emergency_contact`
 -- AUTO_INCREMENT for table `evidance_file`
 --
 ALTER TABLE `evidance_file`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `evidence_type`
@@ -9026,7 +9068,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `ndis_screening_check`
 --
 ALTER TABLE `ndis_screening_check`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `newsletter`
@@ -9086,7 +9128,7 @@ ALTER TABLE `professional_certificate_table`
 -- AUTO_INCREMENT for table `professional_membership`
 --
 ALTER TABLE `professional_membership`
-  MODIFY `membership_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `membership_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
 
 --
 -- AUTO_INCREMENT for table `professional_organization`
@@ -9140,7 +9182,7 @@ ALTER TABLE `sub_job_specialities`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=187;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=188;
 
 --
 -- AUTO_INCREMENT for table `user_education_cerification`
@@ -9164,7 +9206,7 @@ ALTER TABLE `vaccination`
 -- AUTO_INCREMENT for table `vaccination_front`
 --
 ALTER TABLE `vaccination_front`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `vaccine_compliances`

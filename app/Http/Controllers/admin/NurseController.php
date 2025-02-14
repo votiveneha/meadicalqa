@@ -20,10 +20,19 @@ use App\Models\ExperienceModel;
 use App\Models\EvidanceFileModel;
 use App\Models\OtherVaccineModel;
 use App\Models\VaccinationFrontModel;
+
+use App\Models\EligibilityToWorkModel;
+use App\Models\WorkingChildrenCheckModel;
+use App\Models\NdisWorker;
+use App\Models\SpecializedClearance;
+use App\Models\SubClassModel;
+use App\Models\PoliceCheckModel;
+
 use Illuminate\Support\Facades\Storage;
 use App\Models\User;
 use Illuminate\Support\Facades\Session;
 use App\Models\MandatoryTrainModel;
+use Carbon\Carbon;
 use File;
 use DB;
 use Helpers;
@@ -150,28 +159,41 @@ class NurseController extends Controller
             $interviewrefData  = $this->nurseRepository->getInterviewrefdetails(['user_id' => $request->id]);
             $personalprefData  = $this->nurseRepository->getPersonalprefdetails(['user_id' => $request->id]);
             $findworkData  = $this->nurseRepository->getfindworkdetails(['user_id' => $request->id]);
-            // $vaccinationData  = $this->nurseRepository->getvaccinationdetails(['user_id' => $request->id]);
-            $policeCheckVerificationData = $this->verificationRepository->getPoliceCheckVerificationData(['user_id' => $request->id]);
-            $eligibilityToWorkData = $this->verificationRepository->getEligibilityToWorkData(['user_id' => $request->id]);
-            $workingChildrenCheckData = $this->verificationRepository->getWorkingChildrenCheckData(['user_id' => $request->id]);
             $proMembershipData = $this->nurseRepository->getProMembershipData(['user_id' => $request->id]);
+            // $vaccinationData  = $this->nurseRepository->getvaccinationdetails(['user_id' => $request->id]);
+            //$policeCheckVerificationData = $this->verificationRepository->getPoliceCheckVerificationData(['user_id' => $request->id]);
+            //$eligibilityToWorkData = $this->verificationRepository->getEligibilityToWorkData(['user_id' => $request->id]);
+            //$workingChildrenCheckData = $this->verificationRepository->getWorkingChildrenCheckData(['user_id' => $request->id]);
+            $user_id=$request->id;
+            //$work_eligibility   = EligibilityToWorkModel::where('user_id', $user_id)->first();                     
+            $ndis               = NdisWorker::where('user_id', $user_id)->first();              
+            $ww_child           = WorkingChildrenCheckModel::where('user_id', $user_id)->get();
+            $policy_check       = PoliceCheckModel::where('user_id', $user_id)->first();
+            $specialize         = SpecializedClearance::where('user_id', $user_id)->get();
+            $work_eligibility   = DB::table('eligibility_to_work as ew')
+                                    ->select('ew.*','c.name as country_name', DB::raw("IFNULL(vs.sublcass_text, '') as sublcass_text"))
+                                    ->leftJoin('visa_subclas as vs', 'ew.visa_subclass', '=', 'vs.id')
+                                    ->leftJoin('country as c', 'ew.country_id', '=', 'c.id')
+                                    ->where('ew.user_id', $request->id)
+                                    ->first();
+        //echo "<pre>";print_r($work_eligibility);die();
+        
+            
 
-            $other_vaccine = DB::table("other_vaccine")->where("user_id", $request->id)->get();
-            $vaccinationData = DB::table("vaccination_front")->where("user_id", $request->id)->get();
-            $vccdata = DB::table('vaccination_front as vc')
-                ->select('vc.*', 'v.name as vaccination_name', 'ims.name as imm_status', 'et.name as evidence_type_name')
-                ->join('vaccination as v', 'vc.vaccination_id', '=', 'v.id')
-                ->join('imm_status as ims', 'vc.immunization_status', '=', 'ims.id')
-                ->join('evidence_type as et', 'vc.evidance_type', '=', 'et.id')
-                ->where('vc.user_id', $request->id)
-                ->get();
+            $other_vaccine      = DB::table("other_vaccine")->where("user_id", $request->id)->get();
+            $vaccinationData    = DB::table("vaccination_front")->where("user_id", $request->id)->get();
+            $vccdata            = DB::table('vaccination_front as vc')
+                                        ->select('vc.*', 'v.name as vaccination_name', 'ims.name as imm_status', 'et.name as evidence_type_name')
+                                        ->join('vaccination as v', 'vc.vaccination_id', '=', 'v.id')
+                                        ->join('imm_status as ims', 'vc.immunization_status', '=', 'ims.id')
+                                        ->join('evidence_type as et', 'vc.evidance_type', '=', 'et.id')
+                                        ->where('vc.user_id', $request->id)
+                                        ->get();
 
             return view('admin.profile-view', compact(
                 'profileData',
                 'experienceData',
-                'policeCheckVerificationData',
-                'eligibilityToWorkData',
-                'workingChildrenCheckData',
+                'policy_check','work_eligibility', 'ndis', 'ww_child','specialize',
                 'educationData',
                 'mandatorytrainingData',
                 'interviewrefData',
@@ -1812,5 +1834,461 @@ class NurseController extends Controller
 
 
         echo json_encode($json);
+    }
+
+    public function updateWorkClreance(Request $request)
+    {
+        //This function is for update the work clearance
+        $user_id=$request->id;
+        if(!$user_id)
+        {
+            $email = Session::get('nurseemail');
+            if($email!='')
+            {
+                $user = User::where('email', $email)->first();
+                $user_id                = $user->id;
+            }
+        }
+        
+        $visaSubclasses = SubClassModel::where('residence_id', 2) 
+                ->orderBy('id') 
+                ->get()
+                ->groupBy('subclass_head'); 
+        $visaholderSubclasses = SubClassModel::where('residence_id', 3) 
+                ->orderBy('id') 
+                ->get();
+
+        $work_eligibility   = EligibilityToWorkModel::where('user_id', $user_id)->first();                     
+        $ndis               = NdisWorker::where('user_id', $user_id)->first();              
+        $ww_child           = WorkingChildrenCheckModel::where('user_id', $user_id)->get();
+        $policy_check       = PoliceCheckModel::where('user_id', $user_id)->first();
+        $specialize         = SpecializedClearance::where('user_id', $user_id)->get();
+
+        $profileData  = $this->nurseRepository->getOneUser(['id' => $user_id]);
+        
+        
+        return view('admin.check_clearance',compact('profileData',
+                    'visaSubclasses',
+                    'visaholderSubclasses',
+                    'work_eligibility',
+                    'ndis','ww_child',
+                    'policy_check',
+                    'specialize' ));
+    }
+    public function update_eligibility_to_work(Request $request)
+    {
+        //This function is for update the eligibility to work for nurse
+        $user_id=$request->user_id;
+        if(!$user_id)
+        {
+            $email = Session::get('nurseemail');
+            if($email!='')
+            {
+                $user = User::where('email', $email)->first();
+                $user_id                = $user->id;
+            }
+        }
+        
+
+        $lastRecord = EligibilityToWorkModel::where('user_id', $user_id)->first();
+        if($lastRecord)
+        {
+            $professioninsert['original_file_name'] = $lastRecord['original_file_name'];
+            $professioninsert['support_document']=$lastRecord['support_document'];
+
+            $lastRecord->delete();
+        }
+        $professioninsert['user_id'] =  $user_id;
+        $professioninsert['residency'] = $request->residency;
+
+        if($request->evidence_type!='')
+        {
+            $professioninsert['evidence_type'] = $request->evidence_type;
+        }
+        if($request->evidence_type1!='')
+        {
+            $professioninsert['evidence_type'] = $request->evidence_type1;
+        }
+        if($request->evidence_type2!='')
+        {
+            $professioninsert['evidence_type'] = $request->evidence_type2;
+        }
+
+        if($request->passport_number!='')
+        {
+            $professioninsert['passport_number'] = $request->passport_number;
+        }
+        if($request->passport_number1!='')
+        {
+            $professioninsert['passport_number'] = $request->passport_number1;
+        }
+        
+        if($request->country_id!='')
+        {
+            $professioninsert['country_id']=$request->country_id;
+        }
+        if($request->country_id1!='')
+        {
+            $professioninsert['country_id']=$request->country_id1;
+        }
+        
+        if($request->visa_subclass!='')
+        {
+            $professioninsert['visa_subclass']=$request->visa_subclass;
+        }
+        if($request->visa_subclass1!='')
+        {
+            $professioninsert['visa_subclass']=$request->visa_subclass1;
+            if($request->visa_subclass1==40)
+            {
+                $professioninsert['other_visa_type']=$request->other_visa_type??'';
+            }
+        }
+        
+        if($request->visa_grant_number!='')
+        {
+            $professioninsert['visa_grant_number'] = $request->visa_grant_number;
+        }
+        if($request->visa_grant_number1!='')
+        {
+            $professioninsert['visa_grant_number'] = $request->visa_grant_number1;
+        }
+        
+        
+        $professioninsert['status'] = '0';
+        $professioninsert['created_at'] = Carbon::now('Asia/Kolkata');
+
+        if ($request->hasFile('upload_evidence0')) 
+        {
+            $filename = 'evidence_file_' . time() . '.' . $request->upload_evidence0->getClientOriginalExtension();
+            $destinationPath = public_path() . '/uploads/support_document';
+            $request->upload_evidence0->move($destinationPath, $filename);
+
+            $professioninsert['original_file_name'] = $request->file('upload_evidence0')->getClientOriginalName();
+            $professioninsert['support_document']=$filename;
+        }
+        if ($request->hasFile('upload_evidence1')) 
+        {
+            $filename = 'evidence_file_' . time() . '.' . $request->upload_evidence1->getClientOriginalExtension();
+            $destinationPath = public_path() . '/uploads/support_document';
+            $request->upload_evidence1->move($destinationPath, $filename);
+
+            $professioninsert['original_file_name'] = $request->file('upload_evidence1')->getClientOriginalName();
+            $professioninsert['support_document']=$filename;
+        }
+        if ($request->hasFile('upload_evidence2')) 
+        {
+            $filename = 'evidence_file_' . time() . '.' . $request->upload_evidence2->getClientOriginalExtension();
+            $destinationPath = public_path() . '/uploads/support_document';
+            $request->upload_evidence2->move($destinationPath, $filename);
+
+            $professioninsert['original_file_name'] = $request->file('upload_evidence2')->getClientOriginalName();
+            $professioninsert['support_document']=$filename;
+        }
+        
+
+        $run = EligibilityToWorkModel::insert($professioninsert);
+        if ($run) {
+            $json['status'] = 1;
+            $json['url'] = url('nurse/workClearances') . "?page=work_clearances";
+            $json['message'] = 'You have Successfully submitted the details.';
+        } else {
+            $json['status'] = 0;
+            $json['message'] = 'Please Try Again';
+        }
+
+        echo json_encode($json);
+    }
+    public function updateNdis(Request $request)
+    {
+        //This function is for update the ndis record
+        $user_id=$request->user_id;
+        if(!$user_id)
+        {
+            $email = Session::get('nurseemail');
+            if($email!='')
+            {
+                $user = User::where('email', $email)->first();
+                $user_id                = $user->id;
+            }
+        }
+
+       $ndis['state_id']= $request->ndis_state;
+       $ndis['clearance_number']= $request->ndis_worker_clearance_number;
+       $ndis['expiry_date']= $request->ndis_expiry_date;
+       
+       if ($request->hasFile('ndis_evidence')) 
+        {
+            $filename = 'evidence_file_' . time() . '.' . $request->ndis_evidence->getClientOriginalExtension();
+            $destinationPath = public_path() . '/uploads/support_document';
+            $request->ndis_evidence->move($destinationPath, $filename);
+
+            $ndis['original_file_name'] = $request->file('ndis_evidence')->getClientOriginalName();
+            $ndis['evidence_file']=$filename;
+        }
+        
+        $lastRecord = NdisWorker::where('user_id', $user_id)->first();
+        if($lastRecord)
+        {
+            $run=$lastRecord->update($ndis);
+        }
+        else
+        {
+            $ndis['created_at']= now();
+            $ndis['user_id'] = $user_id; 
+            $run= NdisWorker::create($ndis);
+        }
+
+        if ($run) {
+            $json['status'] = 1;
+            $json['url'] = url('nurse/workClearances') . "?page=work_clearances";
+            $json['message'] = 'You have Successfully submitted the details.';
+        } else {
+            $json['status'] = 0;
+            $json['message'] = 'Please Try Again';
+        }
+        echo json_encode($json);
+    } 
+    public function update_children_to_work(Request $request)
+    {
+        //This function is for add / update wwcc
+        $user_id=$request->user_id;
+        if(!$user_id)
+        {
+            $email = Session::get('nurseemail');
+            if($email!='')
+            {
+                $user = User::where('email', $email)->first();
+                $user_id                = $user->id;
+            }
+        }
+        
+        
+        $wwcc_state         = $request->input('wwcc_state', []);
+        $clearance_number   = $request->input('wwcc_clearance_number', []);
+        $wwcc_expiry_date   = $request->input('wwcc_expiry_date', []);
+        $wwcc_evidence      = $request->file('wwcc_evidence', []);
+        $wwcc_id            = $request->input('wwcc_id', []);
+        
+        for ($i = 0; $i < count($wwcc_state); $i++) {
+            if (isset($wwcc_id[$i])) 
+            {
+                $wwcc = WorkingChildrenCheckModel::find($wwcc_id[$i]);
+                if ($wwcc) {
+                    $wwcc->state_id         = $wwcc_state[$i];
+                    $wwcc->clearance_number = $clearance_number[$i];
+                    $wwcc->expiry_date      = $wwcc_expiry_date[$i];
+
+
+                    if (isset($wwcc_evidence[$i]) && $wwcc_evidence[$i]->isValid()) {
+                        $filename = 'evidence_file_' . time() . '.' . $wwcc_evidence[$i]->getClientOriginalExtension();
+                        $destinationPath = public_path() . '/uploads/support_document';
+                        $wwcc_evidence[$i]->move($destinationPath, $filename);
+    
+                        $wwcc->evidence_original_name = $wwcc_evidence[$i]->getClientOriginalName();
+                        $wwcc->wwcc_evidence = $filename;
+                    }
+                    $run= $wwcc->save();
+                }
+            }
+            else
+            {
+                
+                $wwcc = new WorkingChildrenCheckModel();
+                $wwcc->user_id          = $user_id;
+                $wwcc->state_id         = $wwcc_state[$i];
+                $wwcc->clearance_number = $clearance_number[$i];
+                $wwcc->expiry_date      = $wwcc_expiry_date[$i];
+
+
+                if (isset($wwcc_evidence[$i]) && $wwcc_evidence[$i]->isValid()) {
+                    $filename = 'evidence_file_' . time() . '.' . $wwcc_evidence[$i]->getClientOriginalExtension();
+                    $destinationPath = public_path() . '/uploads/support_document';
+                    $wwcc_evidence[$i]->move($destinationPath, $filename);
+
+                    $wwcc->evidence_original_name = $wwcc_evidence[$i]->getClientOriginalName();
+                    $wwcc->wwcc_evidence = $filename;
+                }
+                $wwcc->status = 1;
+                $wwcc->created_at = Carbon::now('Asia/Kolkata');
+                $run =$wwcc->save();
+                
+            }
+        }
+        
+        if ($run) {
+            $json['status'] = 1;
+            $json['url'] = url('nurse/workClearances') . "?page=work_clearances";
+            $json['message'] = 'You have Successfully submitted the details.';
+        } else {
+            $json['status'] = 0;
+            $json['message'] = 'Please Try Again';
+        }
+
+        echo json_encode($json);
+    }
+    public function removeWwcc(Request $request)
+    {
+        //This function is for ajax for remove wwcc from db
+        $id = $request->id;
+
+        $wwcc = WorkingChildrenCheckModel::find($id);
+
+        if ($wwcc) {
+            $filePath = 'uploads/support_document/' . $wwcc->wwcc_evidence;
+            if (Storage::exists($filePath)) {
+                Storage::delete($filePath);
+            }
+            $wwcc->delete();
+            return response()->json(['success' => true]);
+        }
+        return response()->json(['success' => false, 'message' => 'wwcc not found']);
+    }
+    public function update_police_check_to_work(Request $request)
+    {
+        $user_id=$request->user_id;
+        if(!$user_id)
+        {
+            $email = Session::get('nurseemail');
+            if($email!='')
+            {
+                $user = User::where('email', $email)->first();
+                $user_id                = $user->id;
+            }
+        }
+
+        $policy['issuance_date'] = $request->issuance_date;
+        
+        if ($request->hasFile('clearance_document')) 
+        {
+            $filename = 'evidence_file_' . time() . '.' . $request->clearance_document->getClientOriginalExtension();
+            $destinationPath = public_path() . '/uploads/support_document';
+            $request->clearance_document->move($destinationPath, $filename);
+
+            $policy['original_file_name'] = $request->file('clearance_document')->getClientOriginalName();
+            $policy['evidence_file']=$filename;
+        }
+        
+        $lastRecord = PoliceCheckModel::where('user_id', $user_id)->first();
+        if($lastRecord)
+        {
+            $run=$lastRecord->update($policy);
+        }
+        else
+        {
+            $policy['created_at']= Carbon::now('Asia/Kolkata');
+            $policy['user_id'] = $user_id; 
+            $policy['status'] = '0';
+            $run= PoliceCheckModel::create($policy);
+        }
+
+        if ($run) {
+            $json['status'] = 1;
+            $json['url'] = url('nurse/workClearances') . "?page=work_clearances";
+            // $json['url'] = url('nurse/my-profile#tab-myclearance-jobs');
+            $json['message'] = 'You have Successfully submitted the details.';
+        } else {
+            $json['status'] = 0;
+            $json['message'] = 'Please Try Again';
+        }
+
+        echo json_encode($json);
+    }
+    public function updateSpecializedClearance(Request $request)
+    {
+        //This function is for update the specialized clearance
+
+        $user_id=$request->user_id;
+        if(!$user_id)
+        {
+            $email = Session::get('nurseemail');
+            if($email!='')
+            {
+                $user = User::where('email', $email)->first();
+                $user_id                = $user->id;
+            }
+        }
+        
+        $clearance_state        = $request->input('clearance_state', []);
+        $clearance_type         = $request->input('clearance_type', []);
+        $clearance_number       = $request->input('clearance_number', []);
+        $clearance_expiry_date  = $request->input('clearance_expiry_date',[]);
+        $clearance_evidence     = $request->file('clearance_evidence', []);
+        $s_clearance_id         = $request->input('s_clearance_id', []);
+
+        for ($i = 0; $i < count($clearance_state); $i++) {
+
+            if (isset($s_clearance_id[$i])) 
+            {
+                $specialized = SpecializedClearance::find($s_clearance_id[$i]);
+                if ($specialized) {
+                    $specialized->clearance_state       = $clearance_state[$i];
+                    $specialized->clearance_type        = $clearance_type[$i];
+                    $specialized->clearance_number      = $clearance_number[$i];
+                    $specialized->clearance_expiry_date = $clearance_expiry_date[$i];
+
+
+                    if (isset($clearance_evidence[$i]) && $clearance_evidence[$i]->isValid()) {
+                        $filename = 'evidence_file_' . time() . '.' . $clearance_evidence[$i]->getClientOriginalExtension();
+                        $destinationPath = public_path() . '/uploads/support_document';
+                        $clearance_evidence[$i]->move($destinationPath, $filename);
+    
+                        $specialized->clearance_original_name = $clearance_evidence[$i]->getClientOriginalName();
+                        $specialized->clearance_evidence = $filename;
+                    }
+                    $run= $specialized->save();
+                }
+            }
+            else
+            {
+                
+                $specialized    = new SpecializedClearance();
+                $specialized->user_id               = $user_id;
+                $specialized->clearance_state       = $clearance_state[$i];
+                $specialized->clearance_type        = $clearance_type[$i];
+                $specialized->clearance_number      = $clearance_number[$i];
+                $specialized->clearance_expiry_date = $clearance_expiry_date[$i];
+
+
+                if (isset($clearance_evidence[$i]) && $clearance_evidence[$i]->isValid()) {
+                    $filename = 'evidence_file_' . time() . '.' . $clearance_evidence[$i]->getClientOriginalExtension();
+                    $destinationPath = public_path() . '/uploads/support_document';
+                    $clearance_evidence[$i]->move($destinationPath, $filename);
+
+                    $specialized->clearance_original_name = $clearance_evidence[$i]->getClientOriginalName();
+                    $specialized->clearance_evidence = $filename;
+                }
+                
+                $specialized->created_at = Carbon::now('Asia/Kolkata');
+                $run =$specialized->save();
+                
+            }
+        }
+        if ($run) {
+            $json['status'] = 1;
+            $json['url'] = url('nurse/workClearances') . "?page=work_clearances";
+            $json['message'] = 'You have Successfully submitted the details.';
+        } else {
+            $json['status'] = 0;
+            $json['message'] = 'Please Try Again';
+        }
+
+        echo json_encode($json);
+    }
+    public function removeSpecialized(Request $request)
+    {
+        $id = $request->id;
+
+        $specialed = SpecializedClearance::find($id);
+
+        if ($specialed) {
+            $filePath = 'uploads/support_document/' . $specialed->clearance_evidence;
+            if (Storage::exists($filePath)) {
+                Storage::delete($filePath);
+            }
+            $specialed->delete();
+            return response()->json(['success' => true]);
+        }
+        return response()->json(['success' => false, 'message' => 'Specialized Clearance not found']);
     }
 }

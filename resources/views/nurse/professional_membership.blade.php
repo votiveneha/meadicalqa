@@ -119,8 +119,18 @@
                     <input type="hidden" name="user_id" value="{{ Auth::guard('nurse_middle')->user()->id }}">
                     <div class="form-group level-drp">
                       <label class="form-label" for="input-1">Organization Country:</label>
+                      <?php
+                        $p_memb_arr = array();
+
+                        foreach ($professional_membership as $p_memb) {
+                          $p_memb_arr[] = $p_memb->organization_country;
+                        }
+
+                        
+                        $p_memb_json = json_encode($p_memb_arr);
+                      ?>
                       
-                      <input type="hidden" name="professional_as" class="professional_as" value="@if(!empty($MembershipData)){{ $MembershipData->des_profession_association }}@endif">
+                      <input type="hidden" name="org_country" class="org_country" value='<?php echo $p_memb_json; ?>'>
                       <ul id="organization_country" style="display:none;">
                         @if(!empty($organization_country))
                         @foreach($organization_country as $org_country)
@@ -132,12 +142,155 @@
                       <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="organization_country" name="organization_country[]" multiple="multiple"></select>
                       <span id="reqprofessassociation" class="reqError text-danger valley"></span>
                     </div>
-                    <div class="show_country_org"></div>
+                    <div class="show_country_org">
+                      <?php
+                        $i = 0;
+                      ?>
+                      @foreach ($p_memb_arr as $p_arr)
+                      <?php
+                        $country_name = DB::table("professional_organization")->where("organization_id",$p_arr)->first();
+                        $organization_list = DB::table("professional_organization")->where("country_organiztions",'like','%'.$p_arr.',%')->where("sub_organiztions","0")->get();
+                        $professional_membership = DB::table("professional_membership")->where("organization_country",$p_arr)->get();
+                        $sub_count_arr = array();
+
+                        foreach ($professional_membership as $p_memb) {
+                          $sub_count_arr[] = $p_memb->country_organization;
+                        }
+                        
+                        
+                        $p_memb_json = json_encode($sub_count_arr);
+                      ?>
+                      <div class="form-group level-drp organization_country_div organization_country_div-{{ $p_arr }}">
+                        <label class="form-label" for="input-1">{{ $country_name->organization_name }}</label>
+                        <input type="hidden" name="country_org_list" class="country_org_list country_org_list-{{ $p_arr }}" value='{{ $p_arr }}'>
+                        <input type="hidden" name="country_org" class="country_org-{{ $p_arr }}" value='<?php echo $p_memb_json; ?>'>
+                        <ul id="country_organization-{{ $p_arr }}" style="display:none;">
+                          @if(!empty($organization_list))
+                          @foreach($organization_list as $org_list)
+                          <li data-value="{{ $org_list->organization_id }}">{{ $org_list->organization_country }}</li>
+                          
+                          @endforeach
+                          @endif
+                        </ul>
+                        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="country_organization-{{ $p_arr }}" name="sub_organization_country[]" onchange="sub_organization('edit',{{ $p_arr }}, {{ $i+1 }})" multiple="multiple"></select>
+                      </div>
+                      <div class="show_subcountry_org-{{ $p_arr }}">
+                        <?php
+                          $j = 0;
+                        ?>
+                        @foreach ($sub_count_arr as $p_arr1)
+                        <?php
+                          $country_name = DB::table("professional_organization")->where("organization_id",$p_arr1)->first();
+                          $organization_list = DB::table("professional_organization")->where("country_organiztions",$p_arr)->where("sub_organiztions",$p_arr1)->get();
+                          $professional_membership = DB::table("professional_membership")->where("country_organization",$p_arr1)->get();
+                          $subsub_count_arr = array();
+
+                          foreach ($professional_membership as $p_memb) {
+                            $subsub_count_arr[] = $p_memb->subcountry_organization;
+                          }
+                        
+                        
+                          $p_memb_json = json_encode($subsub_count_arr);
+                        ?>
+                        <div class="form-group level-drp o_country_div-{{ $p_arr }} o_subcountry_div-{{ $p_arr1 }} o_subcountry_div-{{ $p_arr1 }} organization_subcountry_div organization_subcountry_div-{{ $p_arr1 }}">
+                          <label class="form-label organization_subcountry_label" for="input-1">{{ $country_name->organization_country }}</label>
+                          <input type="hidden" name="subcountry_org_list" class="subcountry_org_list subcountry_org_list-{{ $p_arr1 }}" value='{{ $p_arr1 }}'>
+                          <input type="hidden" name="subcountry_org" class="subcountry_org-{{ $p_arr1 }}" value='<?php echo $p_memb_json; ?>'>
+                          <ul id="subcountry_organization-{{ $p_arr1 }}" style="display:none;">
+                            @if(!empty($organization_list))
+                            @foreach($organization_list as $org_list)
+                            <li data-value="{{ $org_list->organization_id }}">{{ $org_list->organization_country }}</li>
+                            
+                            @endforeach
+                            @endif
+                          </ul><select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="subcountry_organization-{{ $p_arr1 }}" id="subcountry_organization_select" name="subsubcountry_organization[]" onchange="memberships_type('edit','{{ $p_arr }}','{{ $p_arr1 }}',{{ $i+1 }},{{{ $j+1 }}})" multiple="multiple">
+                          </select>
+                        </div>
+                        <div class="show_membership_type-{{ $p_arr1 }}">
+                          <?php
+                            $k = 0;  
+                          ?>
+                          @foreach ($subsub_count_arr as $p_arr2)
+                          <?php
+                            $membership_type = DB::table("membership_type")->where("submember_id","0")->get();
+                            $membership_type_arr = DB::table("professional_membership")->where("subcountry_organization",$p_arr2)->get();
+                            $memb_type_arr = array();
+
+                            foreach ($membership_type_arr as $m_type_arr) {
+                              $memb_type_arr[] = $m_type_arr->membership_type;
+                            }
+                        
+                        
+                            $p_memb_json = json_encode($memb_type_arr);
+                          ?>
+                          <div class="form-group level-drp o_subcountry_div-{{ $p_arr1 }} o_country_div-{{ $p_arr }} membership_type_div membership_type_div-{{ $p_arr2 }}">
+                            <label class="form-label membership_type_label" for="input-1">Membership Type({{ $country_name->organization_country }})</label>
+                            <input type="hidden" name="subsubcountry_org_list" class="subsubcountry_org_list subsubcountry_org_list-{{ $p_arr2 }}" value='{{ $p_arr2 }}'>
+                            <input type="hidden" name="memb_type_input" class="memb_type_input-{{ $p_arr2 }}" value='<?php echo $p_memb_json; ?>'>
+                            <ul id="membership_type-{{ $p_arr2 }}" style="display:none;">
+                              @if(!empty($membership_type))
+                              @foreach($membership_type as $m_type)
+                              <li data-value="{{ $m_type->membership_id }}">{{ $m_type->membership_name }}</li>
+                              
+                              @endforeach
+                              @endif
+                            </ul><select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="membership_type-{{ $p_arr2 }}" id="subcountry_organization_select" name="subcountry_organization[]" onchange="submemberships_type('edit','{{ $p_arr }}','{{ $p_arr2 }}','{{ $p_arr1 }}',{{ $i+1 }},{{ $j+1 }},{{ $k+1 }})" multiple="multiple">
+                            </select>
+                          </div>
+                          <div class="show_submembership_type-{{ $p_arr2 }}">
+                            @foreach ($memb_type_arr as $p_arr3)
+                            <?php
+                            $membership_name = DB::table("membership_type")->where("membership_id",$p_arr3)->first();
+                            $submembership_type_list = DB::table("membership_type")->where("submember_id",$p_arr3)->get();
+                            $submembership_type_arr = DB::table("professional_membership")->where("membership_type",$p_arr3)->get();
+                            $submemb_type_arr = array();
+
+                            foreach ($submembership_type_arr as $subm_type_arr) {
+                              $submemb_type_arr[] = $subm_type_arr->submembership_type;
+                            }
+                        
+                        
+                            $p_memb_json = json_encode($submemb_type_arr);
+                            ?>
+                            <div class="form-group level-drp o_membtype_div-{{ $p_arr2 }} o_subcountry_div-{{ $p_arr1 }} o_country_div-{{ $p_arr }} submembership_type_div submembership_type_div-{{ $p_arr3 }}">
+                              <label class="form-label submembership_type_label" for="input-1">{{ $membership_name->membership_name }}</label>
+                              <input type="hidden" name="submemb_list" class="submemb_list submemb_list-{{ $p_arr3 }}" value='{{ $p_arr3 }}'>
+                              <input type="hidden" name="submemb_type_input" class="submemb_type_input-{{ $p_arr3 }}" value='<?php echo $p_memb_json; ?>'>
+                              <ul id="submembership_type-{{ $p_arr3 }}-{{ $p_arr2 }}" style="display:none;">
+                                @if(!empty($submembership_type_list))
+                                @foreach($submembership_type_list as $msub_type)
+                                <li data-value="{{ $msub_type->membership_id }}">{{ $msub_type->membership_name }}</li>
+                                
+                                @endforeach
+                                @endif
+                              </ul><select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="submembership_type-{{ $p_arr3 }}-{{ $p_arr2 }}" id="subcountry_organization_select" name="subcountry_organization[]" multiple="multiple">
+                              </select>
+                            </div>
+                            @endforeach
+                          </div>
+                          <?php
+                            $k++;
+                          ?>
+                          @endforeach
+                        </div>
+                        <?php
+                          $j++;
+                        ?>
+                        @endforeach
+                      </div>
+                      <?php
+                        $i++;
+                      ?>
+                      @endforeach
+                    </div>
                     
                     <div class="form-group level-drp">
                       <label class="form-label" for="input-1">Organization Name</label>
-
-                      <input type="hidden" name="professional_as" class="professional_as" value="@if(!empty($MembershipData)){{ $MembershipData->des_profession_association }}@endif">
+                      <?php
+                            $user_id = Auth::guard('nurse_middle')->user()->id;
+                            $organization_name = DB::table("professional_membership")->where("user_id",$user_id)->first();
+                      ?>      
+                      <input type="hidden" name="organization_name" class="organization_name" value='<?php if(count($professional_membership)>0){ echo $organization_name->des_profession_association; } ?>'>
                       <ul id="des_profession_association" style="display:none;">
                         
                         <li data-value="ANA">ANA</li>
@@ -149,7 +302,7 @@
                     </div>
                     <div class="form-group level-drp">
                       <label class="form-label" for="input-1">Date Joined</label>
-                      <input class="form-control graduation_start_date" type="date" name="graduation_start_date" value="@if(!empty($educationData)){{ $educationData->graduate_start_date }}@endif" onchange="changeDate(event);">
+                      <input class="form-control graduation_start_date" type="date" name="date_joined" value="@if(count($professional_membership)>0){{ $professional_membership[0]->date_joined }}@endif" onchange="changeDate(event);">
                       <span id="reqstartdate" class="reqError text-danger valley"></span>
                     </div>
                     
@@ -171,8 +324,19 @@
                     </div>
                     <div class="form-group level-drp">
                       <label class="form-label" for="input-1">Awards & Recognitions:</label>
+                      <?php
+                            $user_id = Auth::guard('nurse_middle')->user()->id;
+                            $awards_recognition = DB::table("awards_recognition_submission")->where("user_id",$user_id)->get();
+                            $awards_recognition_arr = array();
 
-                      <input type="hidden" name="professional_as" class="professional_as" value="@if(!empty($MembershipData)){{ $MembershipData->des_profession_association }}@endif">
+                            foreach ($awards_recognition as $a_reg) {
+                              $awards_recognition_arr[] = $a_reg->award_id;
+                            }
+                        
+                            
+                            $awards_recognition_json = json_encode($awards_recognition_arr);
+                      ?>      
+                      <input type="hidden" name="awards_recognition_input" class="awards_recognition_input" value='<?php echo $awards_recognition_json; ?>'>
                       <ul id="awards_recognitions" style="display:none;">
                         @if(!empty($awards_recognitions))
                         @foreach($awards_recognitions as $a_reg)
@@ -181,10 +345,41 @@
                         @endforeach
                         @endif
                       </ul>
-                      <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="awards_recognitions" name="des_profession_association[]" multiple="multiple"></select>
+                      <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="awards_recognitions" name="awards_recognitions[]" multiple="multiple"></select>
                       <span id="reqprofessassociation" class="reqError text-danger valley"></span>
                     </div>
-                    <div class="show_award_reg"></div>
+                    <div class="show_award_reg">
+                      @foreach (array_unique($awards_recognition_arr) as $a_reg_arr)
+                      <?php
+                          $user_id = Auth::guard('nurse_middle')->user()->id;
+                          $subawards_recognition = DB::table("awards_recognitions")->where("sub_award_id",$a_reg_arr)->get();
+                          
+                          $subawards_name = DB::table("awards_recognitions")->where("award_id",$a_reg_arr)->first();
+                          $subawards_recognition_submission = DB::table("awards_recognition_submission")->where("user_id",$user_id)->where("award_id",$a_reg_arr)->get();
+                          $subawards_recognition_arr = array();
+
+                          foreach ($subawards_recognition_submission as $suba_reg) {
+                            $subawards_recognition_arr[] = $suba_reg->sub_award_id;
+                          }
+                      
+                      
+                          $subawards_recognition_json = json_encode(array_unique($subawards_recognition_arr));
+                      ?>      
+                      <div class="form-group level-drp award_div award_country_div-{{ $a_reg_arr }}">
+                        <label class="form-label award_label" for="input-1">{{ $subawards_name->award_name }}</label>
+                        <input type="hidden" name="subawards_recognition_input" class="subawards_recognition_input-{{ $a_reg_arr }}" value='<?php echo $subawards_recognition_json; ?>'>
+                        <ul id="award_reg-{{ $a_reg_arr }}" style="display:none;">
+                          @if(!empty($subawards_recognition))
+                          
+                          @foreach($subawards_recognition as $a_reg)
+                          <li data-value="{{ $a_reg->award_id }}">{{ $a_reg->award_name }}</li>
+                          @endforeach
+                          @endif
+                        </ul><select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="award_reg-{{ $a_reg_arr }}" id="award_organization_select-{{ $a_reg_arr }}" name="award_organization{{ $a_reg_arr }}[]" multiple="multiple">
+                        </select>
+                      </div>                        
+                      @endforeach
+                    </div>
                     <div class="form-group level-drp">
                       <label class="form-label" for="input-1">Upload Evidence</label>
                       <input class="form-control degree_transcript" type="file" name="degree_transcript[]" onchange="changeImg('173')" multiple="">
@@ -322,7 +517,7 @@
             }
             //alert($(".organization_country_div-"+data1.organization_id).length);
             
-              $(".show_award_reg").append('<div class="form-group level-drp award_div award_country_div-'+data1.organization_id+'"><label class="form-label award_label" for="input-1">'+data1.award_name+'</label><ul id="award_reg-'+data1.organization_id+'" style="display:none;">'+org_text+'</ul><select class="js-example-basic-multiple'+data1.organization_id+' addAll_removeAll_btn" data-list-id="award_reg-'+data1.organization_id+'" id="award_organization_select-'+data1.organization_id+'" name="award_organization'+data1.organization_id+'[]" multiple="multiple"></select></div>');
+              $(".show_award_reg").append('<div class="form-group level-drp award_div award_country_div-'+data1.organization_id+'"><label class="form-label award_label" for="input-1">'+data1.award_name+'</label><ul id="award_reg-'+data1.organization_id+'" style="display:none;">'+org_text+'</ul><select class="js-example-basic-multiple'+data1.organization_id+' addAll_removeAll_btn" data-list-id="award_reg-'+data1.organization_id+'" id="award_organization_select-'+data1.organization_id+'" name="award_organization['+i+'][]" multiple="multiple"></select></div>');
             
             selectTwoFunction(data1.organization_id);
             
@@ -336,15 +531,24 @@
     let selectedValues = $(this).val();
     console.log("selectedValues",selectedValues);
     //$(".show_country_org").empty();
+
+    $(".country_org_list").each(function(i,val){
+      var val = $(val).val();
+      console.log("val",$(val).val());
+      if(selectedValues.includes(val) == false){
+        $(".organization_country_div-"+val).remove();
+        $(".o_country_div-"+val).remove();
+      }
+    });
     
     
     for(var i=0;i<selectedValues.length;i++){
       //alert($(".organization_input-"+selectedValues[i]).val());
-      if($(".show_country_org .organization_country_div-"+selectedValues[i]).length < 1){
+      if($(".show_country_org .organization_country_div-"+selectedValues[i]).length < 1 ){
         $.ajax({
           type: "GET",
           url: "{{ url('/nurse/getCountryOrgnizations') }}",
-          data: {organization_id:selectedValues[i]},
+          data: {organization_id:selectedValues[i],id:i},
           cache: false,
           success: function(data){
             var data1 = JSON.parse(data);
@@ -361,14 +565,14 @@
             }
             //alert($(".organization_country_div-"+data1.organization_id).length);
             
-              $(".show_country_org").append('<div class="form-group level-drp organization_country_div organization_country_div-'+data1.organization_id+'"><label class="form-label organization_country_label" for="input-1">'+data1.country_name+'</label><ul id="country_organization-'+data1.organization_id+'" style="display:none;">'+org_text+'</ul><select class="js-example-basic-multiple'+data1.organization_id+' addAll_removeAll_btn" data-list-id="country_organization-'+data1.organization_id+'" id="country_organization_select-'+data1.organization_id+'" name="country_organization'+data1.organization_id+'[]" multiple="multiple"></select></div><div class="show_subcountry_org-'+data1.organization_id+'"></div>');
+              $(".show_country_org").append('<div class="form-group level-drp o_country_div-'+data1.organization_id+' organization_country_div organization_country_div-'+data1.organization_id+'"><label class="form-label organization_country_label" for="input-1">'+data1.country_name+'</label><input type="hidden" name="country_org_list" class="country_org_list country_org_list-'+data1.organization_id+'" value="'+data1.organization_id+'"><ul id="country_organization-'+data1.organization_id+'" style="display:none;">'+org_text+'</ul><select class="js-example-basic-multiple'+data1.organization_id+' addAll_removeAll_btn" data-list-id="country_organization-'+data1.organization_id+'" id="country_organization_select-'+data1.organization_id+'" name="country_organization['+i+'][]" multiple="multiple"></select></div><div class="show_subcountry_org-'+data1.organization_id+'"></div>');
             
             
               
             
             
             selectTwoFunction(data1.organization_id);
-            sub_organization(data1.organization_id);
+            sub_organization('',data1.organization_id,i);
           }
         });
       }
@@ -376,16 +580,27 @@
     
   });
 
-  function sub_organization(country_org){
+ 
+  
+  function sub_organization(ed,country_org,k){
     
-    $('.js-example-basic-multiple'+country_org+'[data-list-id="country_organization-'+country_org+'"]').on('change', function() {
-      
-      let selectedValues = $(this).val();
+    
+    if(ed == "edit"){
+      let selectedValues = $('.js-example-basic-multiple[data-list-id="country_organization-'+country_org+'"]').val();
       console.log("selectedValues",selectedValues);
+
+      $(".subcountry_org_list").each(function(i,val){
+        var val = $(val).val();
+        console.log("val",$(val).val());
+        if(selectedValues.includes(val) == false){
+          $(".organization_subcountry_div-"+val).remove();
+          $(".o_subcountry_div-"+val).remove();
+        }
+      });
       
       
       for(var i=0;i<selectedValues.length;i++){
-        if($(".show_subcountry_org-"+country_org+" .organization_country_div-"+selectedValues[i]).length < 1){
+        if($(".show_subcountry_org-"+country_org+" .organization_subcountry_div-"+selectedValues[i]).length < 1){
           $.ajax({
             type: "GET",
             url: "{{ url('/nurse/getCountrySubOrgnizations') }}",
@@ -402,22 +617,77 @@
                 org_text += "<li data-value='"+data1.country_organiztions[j].organization_id+"'>"+data1.country_organiztions[j].organization_country+"</li>"; 
                 
               }
-              $(".show_subcountry_org-"+country_org).append('<div class="form-group level-drp organization_subcountry_div organization_subcountry_div-'+data1.organization_id+'"><label class="form-label organization_subcountry_label" for="input-1">'+data1.country_name+':</label><ul id="subcountry_organization-'+data1.organization_id+'" style="display:none;">'+org_text+'</ul><select class="js-example-basic-multiple'+data1.organization_id+' addAll_removeAll_btn" data-list-id="subcountry_organization-'+data1.organization_id+'" id="subcountry_organization_select" name="subcountry_organization[]" multiple="multiple"></select></div><div class="show_membership_type-'+data1.organization_id+'"></div>');
+              $(".show_subcountry_org-"+country_org).append('<div class="form-group level-drp o_country_div-'+country_org+' o_subcountry_div-'+data1.organization_id+' organization_subcountry_div organization_subcountry_div-'+data1.organization_id+'"><label class="form-label organization_subcountry_label" for="input-1">'+data1.country_name+':</label><ul id="subcountry_organization-'+data1.organization_id+'" style="display:none;">'+org_text+'</ul><input type="hidden" name="subcountry_org_list" class="subcountry_org_list subcountry_org_list-'+data1.organization_id+'" value="'+data1.organization_id+'"><select class="js-example-basic-multiple'+data1.organization_id+' addAll_removeAll_btn" data-list-id="subcountry_organization-'+data1.organization_id+'" id="subcountry_organization_select" name="subcountry_organization['+k+']['+i+'][]" multiple="multiple"></select></div><div class="show_membership_type-'+data1.organization_id+'"></div>');
               selectTwoFunction(data1.organization_id);
-              membership_type(data1.organization_id);
+              
+              memberships_type('',country_org,data1.organization_id,k,i);
             }
           });
         }
       }
-    });
+    }else{
+
+    
+
+      $('.js-example-basic-multiple'+country_org+'[data-list-id="country_organization-'+country_org+'"]').on('change', function() {
+      
+        let selectedValues = $(this).val();
+        console.log("selectedValues",selectedValues);
+
+        $(".subcountry_org_list").each(function(i,val){
+        var val = $(val).val();
+        console.log("val",$(val).val());
+        if(selectedValues.includes(val) == false){
+          $(".ed-organization_subcountry_div-"+val).remove();
+          $(".ed-o_subcountry_div-"+val).remove();
+        }
+      });
+        
+        
+        for(var i=0;i<selectedValues.length;i++){
+          if($(".show_subcountry_org-"+country_org+" .organization_subcountry_div-"+selectedValues[i]).length < 1){
+            $.ajax({
+              type: "GET",
+              url: "{{ url('/nurse/getCountrySubOrgnizations') }}",
+              data: {organization_id:selectedValues[i],country_org_id:country_org},
+              cache: false,
+              success: function(data){
+                var data1 = JSON.parse(data);
+                
+                console.log("data1",data1);
+                
+                var org_text = "";
+                for(var j=0;j<data1.country_organiztions.length;j++){
+                  
+                  org_text += "<li data-value='"+data1.country_organiztions[j].organization_id+"'>"+data1.country_organiztions[j].organization_country+"</li>"; 
+                  
+                }
+                $(".show_subcountry_org-"+country_org).append('<div class="form-group level-drp o_country_div-'+country_org+' ed-o_subcountry_div-'+data1.organization_id+' organization_subcountry_div organization_subcountry_div-'+data1.organization_id+' ed-organization_subcountry_div-'+data1.organization_id+'"><label class="form-label organization_subcountry_label" for="input-1">'+data1.country_name+':</label><input type="hidden" name="subcountry_org_list" class="subcountry_org_list subcountry_org_list-'+data1.organization_id+'" value="'+data1.organization_id+'"><ul id="subcountry_organization-'+data1.organization_id+'" style="display:none;">'+org_text+'</ul><select class="js-example-basic-multiple'+data1.organization_id+' addAll_removeAll_btn" data-list-id="subcountry_organization-'+data1.organization_id+'" id="subcountry_organization_select" name="subcountry_organization['+k+']['+i+'][]" multiple="multiple"></select></div><div class="show_membership_type-'+data1.organization_id+'"></div>');
+                selectTwoFunction(data1.organization_id);
+                
+                memberships_type('',country_org,data1.organization_id,k,i);
+              }
+            });
+          }
+        }
+      });
+    }
   }
 
-  function membership_type(organization_id){
+  function memberships_type(ed,country_org,organization_id,k,l){
     
-    $('.js-example-basic-multiple'+organization_id+'[data-list-id="subcountry_organization-'+organization_id+'"]').on('change', function() {
-      let selectedValues = $(this).val();
+    if(ed == "edit"){
+      let selectedValues = $('.js-example-basic-multiple[data-list-id="subcountry_organization-'+organization_id+'"]').val();
       console.log("selectedValues",selectedValues);
       
+      $(".subsubcountry_org_list").each(function(i,val){
+        var val = $(val).val();
+        console.log("val",$(val).val());
+        if(selectedValues.includes(val) == false){
+          $(".membership_type_div-"+val).remove();
+          $(".o_membtype_div-"+val).remove();
+        }
+      });
 
       for(var i=0;i<selectedValues.length;i++){
         if($(".show_membership_type-"+organization_id+" .membership_type_div-"+selectedValues[i]).length < 1){
@@ -437,25 +707,65 @@
                 membership_text += "<li data-value='"+data1.membership_type[j].membership_id+"'>"+data1.membership_type[j].membership_name+"</li>"; 
                 
               }
-              $(".show_membership_type-"+organization_id).append('<div class="form-group level-drp membership_type_div membership_type_div-'+data1.organization_id+'"><label class="form-label membership_type_label" for="input-1">Membership Type('+data1.organization_name+')</label><ul id="membership_type-'+data1.organization_id+'" style="display:none;">'+membership_text+'</ul><select class="js-example-basic-multiple'+data1.organization_id+' addAll_removeAll_btn" data-list-id="membership_type-'+data1.organization_id+'" id="subcountry_organization_select" name="subcountry_organization[]" multiple="multiple"></select></div><div class="show_submembership_type-'+data1.organization_id+'"></div>');
+              $(".show_membership_type-"+organization_id).append('<div class="form-group level-drp o_country_div-'+country_org+' o_subcountry_div-15 membership_type_div membership_type_div-'+data1.organization_id+'"><label class="form-label membership_type_label" for="input-1">Membership Type('+data1.organization_name+')</label><input type="hidden" name="subsubcountry_org_list" class="subsubcountry_org_list subsubcountry_org_list-'+data1.organization_id+'" value="'+data1.organization_id+'"><ul id="membership_type-'+data1.organization_id+'" style="display:none;">'+membership_text+'</ul><select class="js-example-basic-multiple'+data1.organization_id+' addAll_removeAll_btn" data-list-id="membership_type-'+data1.organization_id+'" id="subcountry_organization_select" name="membership_type['+k+']['+l+']['+i+'][]" multiple="multiple"></select></div><div class="show_submembership_type-'+data1.organization_id+'"></div>');
               selectTwoFunction(data1.organization_id);
-              submembership_type(data1.organization_id,organization_id);
+              submemberships_type('',country_org,data1.organization_id,organization_id,k,l,i);
             }
           });
         
         }
       }
-    });
-    
+    }else{
+      $('.js-example-basic-multiple'+organization_id+'[data-list-id="subcountry_organization-'+organization_id+'"]').on('change', function() {
+        let selectedValues = $(this).val();
+        console.log("selectedValues",selectedValues);
+        
+
+        for(var i=0;i<selectedValues.length;i++){
+          if($(".show_membership_type-"+organization_id+" .membership_type_div-"+selectedValues[i]).length < 1){
+            $.ajax({
+              type: "GET",
+              url: "{{ url('/nurse/getMembershipData') }}",
+              data: {organization_id:selectedValues[i]},
+              cache: false,
+              success: function(data){
+                var data1 = JSON.parse(data);
+                
+                console.log("data1",data1);
+                
+                var membership_text = "";
+                for(var j=0;j<data1.membership_type.length;j++){
+                  
+                  membership_text += "<li data-value='"+data1.membership_type[j].membership_id+"'>"+data1.membership_type[j].membership_name+"</li>"; 
+                  
+                }
+                $(".show_membership_type-"+organization_id).append('<div class="form-group level-drp o_country_div-'+country_org+' membership_type_div membership_type_div-'+data1.organization_id+'"><label class="form-label membership_type_label" for="input-1">Membership Type('+data1.organization_name+')</label><input type="hidden" name="subsubcountry_org_list" class="subsubcountry_org_list subsubcountry_org_list-'+data1.organization_id+'" value="'+data1.organization_id+'"><ul id="membership_type-'+data1.organization_id+'" style="display:none;">'+membership_text+'</ul><select class="js-example-basic-multiple'+data1.organization_id+' addAll_removeAll_btn" data-list-id="membership_type-'+data1.organization_id+'" id="subcountry_organization_select" name="membership_type['+k+']['+l+']['+i+'][]" multiple="multiple"></select></div><div class="show_submembership_type-'+data1.organization_id+'"></div>');
+                selectTwoFunction(data1.organization_id);
+                submemberships_type('',country_org,data1.organization_id,organization_id,k,l,i);
+              }
+            });
+          
+          }
+        }
+      });
+    }
   }
 
 
-  function submembership_type(organization_id,organization_id1){
-    $('.js-example-basic-multiple'+organization_id+'[data-list-id="membership_type-'+organization_id+'"]').on('change', function() {
-      let selectedValues = $(this).val();
+  function submemberships_type(ed, country_org,organization_id,organization_id1,k,l,m){
+
+    if(ed == "edit"){
+      let selectedValues = $('.js-example-basic-multiple[data-list-id="membership_type-'+organization_id+'"]').val();
       console.log("selectedValues",selectedValues);
       
-
+      $(".submemb_list").each(function(i,val){
+        var val = $(val).val();
+        console.log("val",$(val).val());
+        if(selectedValues.includes(val) == false){
+          $(".submembership_type_div-"+val).remove();
+          //$(".o_membtype_div-"+val).remove();
+        }
+      });
       for(var i=0;i<selectedValues.length;i++){
         if($(".show_submembership_type-"+organization_id+" .submembership_type_div-"+selectedValues[i]).length < 1){
           $.ajax({
@@ -474,7 +784,7 @@
                 membership_text += "<li data-value='"+data1.membership_type[j].membership_id+"'>"+data1.membership_type[j].membership_name+"</li>"; 
                 
               }
-              $(".show_submembership_type-"+organization_id).append('<div class="form-group level-drp submembership_type_div submembership_type_div-'+data1.organization_id+'"><label class="form-label submembership_type_label" for="input-1">'+data1.organization_name+'</label><ul id="submembership_type-'+data1.organization_id+'-'+organization_id+'" style="display:none;">'+membership_text+'</ul><select class="js-example-basic-multiple'+organization_id1+data1.organization_id+' addAll_removeAll_btn" data-list-id="submembership_type-'+data1.organization_id+'-'+organization_id+'" id="subcountry_organization_select" name="subcountry_organization[]" multiple="multiple"></select></div>');
+              $(".show_submembership_type-"+organization_id).append('<div class="form-group level-drp o_country_div-'+country_org+' submembership_type_div submembership_type_div-'+data1.organization_id+'"><label class="form-label submembership_type_label" for="input-1">'+data1.organization_name+'</label><input type="hidden" name="submemb_list" class="submemb_list submemb_list-'+data1.organization_id+'" value="'+data1.organization_id+'"><ul id="submembership_type-'+data1.organization_id+'-'+organization_id+'" style="display:none;">'+membership_text+'</ul><select class="js-example-basic-multiple'+organization_id1+data1.organization_id+' addAll_removeAll_btn" data-list-id="submembership_type-'+data1.organization_id+'-'+organization_id+'" id="subcountry_organization_select" name="submembership_type['+k+']['+l+']['+m+']['+i+'][]" multiple="multiple"></select></div>');
               selectTwoFunction(organization_id1+data1.organization_id);
               
               
@@ -484,7 +794,42 @@
         //$(".show_membership_type").append('<div class="form-group level-drp organization_subcountry_div"><label class="form-label organization_subcountry_label" for="input-1">'+data1.country_name+':</label><ul id="subcountry_organization-'+data1.organization_id+'" style="display:none;">'+org_text+'</ul><select class="js-example-basic-multiple2 addAll_removeAll_btn" data-list-id="subcountry_organization-'+data1.organization_id+'" id="subcountry_organization_select" name="subcountry_organization[]" multiple="multiple"></select></div>');
         
       }
-    });
+    }else{
+      $('.js-example-basic-multiple'+organization_id+'[data-list-id="membership_type-'+organization_id+'"]').on('change', function() {
+        let selectedValues = $(this).val();
+        console.log("selectedValues",selectedValues);
+        
+
+        for(var i=0;i<selectedValues.length;i++){
+          if($(".show_submembership_type-"+organization_id+" .submembership_type_div-"+selectedValues[i]).length < 1){
+            $.ajax({
+              type: "GET",
+              url: "{{ url('/nurse/getSubMembershipData') }}",
+              data: {organization_id:selectedValues[i]},
+              cache: false,
+              success: function(data){
+                var data1 = JSON.parse(data);
+                
+                console.log("data1",organization_id);
+                
+                var membership_text = "";
+                for(var j=0;j<data1.membership_type.length;j++){
+                  
+                  membership_text += "<li data-value='"+data1.membership_type[j].membership_id+"'>"+data1.membership_type[j].membership_name+"</li>"; 
+                  
+                }
+                $(".show_submembership_type-"+organization_id).append('<div class="form-group level-drp o_country_div-'+country_org+' submembership_type_div submembership_type_div-'+data1.organization_id+'"><label class="form-label submembership_type_label" for="input-1">'+data1.organization_name+'</label><input type="hidden" name="submemb_list" class="submemb_list submemb_list-'+data1.organization_id+'" value="'+data1.organization_id+'"><ul id="submembership_type-'+data1.organization_id+'-'+organization_id+'" style="display:none;">'+membership_text+'</ul><select class="js-example-basic-multiple'+organization_id1+data1.organization_id+' addAll_removeAll_btn" data-list-id="submembership_type-'+data1.organization_id+'-'+organization_id+'" id="subcountry_organization_select" name="submembership_type['+k+']['+l+']['+m+']['+i+'][]" multiple="multiple"></select></div>');
+                selectTwoFunction(organization_id1+data1.organization_id);
+                
+                
+              }
+            });
+          }
+          //$(".show_membership_type").append('<div class="form-group level-drp organization_subcountry_div"><label class="form-label organization_subcountry_label" for="input-1">'+data1.country_name+':</label><ul id="subcountry_organization-'+data1.organization_id+'" style="display:none;">'+org_text+'</ul><select class="js-example-basic-multiple2 addAll_removeAll_btn" data-list-id="subcountry_organization-'+data1.organization_id+'" id="subcountry_organization_select" name="subcountry_organization[]" multiple="multiple"></select></div>');
+          
+        }
+      });
+    }
   }
   
 
@@ -624,11 +969,77 @@
 
   // $('.js-example-basic-multiple[data-list-id="organization_country"]').select2().val([1,2]).trigger('change');
   // $('.js-example-basic-multiple2[data-list-id="country_organization-2"]').select2().val([14,15]).trigger('change');
-  if ($(".professional_as").val() != "") {
-    var professional_as = JSON.parse($(".professional_as").val());
-    console.log("professional_as", professional_as);
-    $('.js-example-basic-multiple[data-list-id="des_profession_association"]').select2().val(professional_as).trigger('change');
+  // if ($(".professional_as").val() != "") {
+  //   var professional_as = JSON.parse($(".professional_as").val());
+  //   console.log("professional_as", professional_as);
+  //   $('.js-example-basic-multiple[data-list-id="des_profession_association"]').select2().val(professional_as).trigger('change');
+  // }
+  var org_country = JSON.parse($(".org_country").val());
+  console.log("org_country", org_country);
+
+  var or_count = [];
+  for(var i=0;i<org_country.length;i++){
+    or_count.push(org_country[i].organization_country);
+
   }
+  console.log("org_country1", or_count);
+
+  if ($(".awards_recognition_input").val() != "") {
+    var awards_recognition_input = JSON.parse($(".awards_recognition_input").val());
+    $('.js-example-basic-multiple[data-list-id="awards_recognitions"]').select2().val(awards_recognition_input).trigger('change');
+    for(var i=0;i<awards_recognition_input.length;i++){
+      if ($(".subawards_recognition_input-"+awards_recognition_input[i]).val() != "") {
+        var subawards_recognition_input = JSON.parse($(".subawards_recognition_input-"+awards_recognition_input[i]).val());
+        $('.js-example-basic-multiple[data-list-id="award_reg-'+awards_recognition_input[i]+'"]').select2().val(subawards_recognition_input).trigger('change');
+      }
+    }
+  }
+
+  if ($(".subawards_recognition_input").val() != "") {
+    var awards_recognition_input = JSON.parse($(".awards_recognition_input").val());
+    $('.js-example-basic-multiple[data-list-id="awards_recognitions"]').select2().val(awards_recognition_input).trigger('change');
+  }
+
+  if ($(".organization_name").val() != "") {
+    var organization_name = JSON.parse($(".organization_name").val());
+    $('.js-example-basic-multiple[data-list-id="des_profession_association"]').select2().val(organization_name).trigger('change');
+  }
+ 
+  if ($(".org_country").val() != "") {
+    var org_country = JSON.parse($(".org_country").val());
+    $('.js-example-basic-multiple[data-list-id="organization_country"]').select2().val(org_country).trigger('change');
+    
+    for(var i=0;i<org_country.length;i++){
+      if ($(".country_org-"+org_country[i]).val() != "") {
+        var suborg_country = JSON.parse($(".country_org-"+org_country[i]).val());
+        $('.js-example-basic-multiple[data-list-id="country_organization-'+org_country[i]+'"]').select2().val(suborg_country).trigger('change');
+        
+        for(var j=0;j<suborg_country.length;j++){
+          if ($(".subcountry_org-"+suborg_country[j]).val() != "") {
+            var subsuborg_country = JSON.parse($(".subcountry_org-"+suborg_country[j]).val());
+            $('.js-example-basic-multiple[data-list-id="subcountry_organization-'+suborg_country[j]+'"]').select2().val(subsuborg_country).trigger('change');
+            
+            for(var k=0;k<subsuborg_country.length;k++){
+              if ($(".memb_type_input-"+subsuborg_country[k]).val() != "") {
+                var membership_type = JSON.parse($(".memb_type_input-"+subsuborg_country[k]).val());
+                $('.js-example-basic-multiple[data-list-id="membership_type-'+subsuborg_country[k]+'"]').select2().val(membership_type).trigger('change');
+
+                for(var l=0;l<membership_type.length;l++){
+                  var submembership_type = JSON.parse($(".submemb_type_input-"+membership_type[l]).val());
+                  $('.js-example-basic-multiple[data-list-id="submembership_type-'+membership_type[l]+"-"+subsuborg_country[j]+'"]').select2().val(submembership_type).trigger('change');
+                }
+              }
+            }
+
+          }
+        }
+      }  
+    }
+  }
+  
+  
+  
+
 
 
   $("#tab-professional-membership").insertAfter("#tab-educert");
@@ -687,6 +1098,52 @@
       }
     });
   });
+
+  function professional_membership_form() {
+    $.ajax({
+        url: "{{ route('nurse.updateProfessionalMembership') }}",
+        type: "POST",
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: new FormData($('#professional_memb_form')[0]),
+        dataType: 'json',
+        beforeSend: function() {
+          $('#submitProfessionalMembership').prop('disabled', true);
+          $('#submitProfessionalMembership').text('Process....');
+        },
+        success: function(res) {
+          $('#submitProfessionalMembership').prop('disabled', false);
+          $('#submitProfessionalMembership').text('Update Profile');
+
+          if (res.status == '1') {
+            Swal.fire({
+              icon: 'success',
+              title: 'Success',
+              text: 'Professional Membership Updated Successfully',
+            }).then(function() {
+              window.location.href = "{{ route('nurse.my-profile') }}?page=professional_membership";
+            });
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: res.message,
+            })
+          }
+
+        },
+        error: function(errorss) {
+          $('#submitProfessionalMembership').prop('disabled', false);
+          $('#submitProfessionalMembership').text('Save Changes');
+          console.log("errorss", errorss);
+          for (var err in errorss.responseJSON.errors) {
+            $("#submitProfessionalMembership").find("[name='" + err + "']").after("<div class='text-danger'>" + errorss.responseJSON.errors[err] + "</div>");
+          }
+        }
+      });
+      return false;
+  }
 </script>
 <script>
 
