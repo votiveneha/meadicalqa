@@ -177,7 +177,7 @@
                 <!-- <li><a href="#vaccinations" id="vaccinations" class="btn btn-border aboutus-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true"><i class="fi fi-rr-chart-user"></i> Vaccinations</a></li> -->
                 <li><a href="{{ route('nurse.profileVaccination', ['page' => 'vaccinations']) }}" class="btn btn-border aboutus-icon mb-20" aria-controls="tab-my-menu4" aria-selected="true"><i class="fi fi-rr-chart-user"></i> Vaccinations</a></li>
                 <li><a href="{{ route('nurse.workClearances', ['page' => 'work_clearances']) }}" class="btn btn-border recruitment-icon mb-20" aria-controls="tab-myclearance-jobs" aria-selected="false"><i class="fi fi-rr-briefcase-arrow-right"></i> Checks and Clearances</a></li>
-                <li><a href="#professional_membership" id="professional_membership" class="btn btn-border recruitment-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-myclearance-jobs" aria-selected="false"><i class="fi fi-rr-membership-vip"></i> Professional Memberships</a></li>
+                <li><a href="{{ route('nurse.professionalMembership', ['page' => 'professional_membership']) }}" class="btn btn-border recruitment-icon mb-20" aria-controls="tab-myclearance-jobs" aria-selected="false"><i class="fi fi-rr-membership-vip"></i> Professional Memberships & Awards</a></li>
                 <li><a href="#interview_references" id="interview_references" class="btn btn-border recruitment-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-myclearance-jobs" aria-selected="false"><i class="fi fi-rr-refer-arrow"></i> Interview</a></li>
                 <li><a href="#personal_preferences" id="personal_preferences" class="btn btn-border recruitment-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-myclearance-jobs" aria-selected="false"><i class="fi fi-rr-id-badge"></i> Personal Preferences</a></li>
                 <li><a href="#work_preferences" id="work_preferences" class="btn btn-border recruitment-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-myclearance-jobs" aria-selected="false"><i class="fi fi-rr-magnifying-glass-wave"></i>Job Search Preferences</a></li>
@@ -6080,50 +6080,7 @@
                   </div>
                 </form>
               </div>
-              <div class="tab-pane fade" id="tab-professional-membership" role="tabpanel" aria-labelledby="tab-interview-references" style="display: none">
-
-                <div class="card shadow-sm border-0 p-4 mt-30">
-                  <h3 class="mt-0 color-brand-1 mb-2">Professional Memberships</h3>
-                  <?php
-                  $MembershipData = DB::table("professional_membership")->where("user_id", Auth::guard('nurse_middle')->user()->id)->first();
-                  ?>
-                  <form id="professional_memb_form" method="POST" onsubmit="return professional_membership_form()">
-                    @csrf
-                    <input type="hidden" name="user_id" value="{{ Auth::guard('nurse_middle')->user()->id }}">
-                    <div class="form-group level-drp">
-                      <label class="form-label" for="input-1">Professional Associations </label>
-
-                      <input type="hidden" name="professional_as" class="professional_as" value="@if(!empty($MembershipData)){{ $MembershipData->des_profession_association }}@endif">
-                      <ul id="des_profession_association" style="display:none;">
-
-                        <li data-value="ANA">ANA</li>
-                        <li data-value="ENA">ENA</li>
-
-                      </ul>
-                      <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="des_profession_association" name="des_profession_association[]" multiple="multiple"></select>
-                      <span id="reqprofessassociation" class="reqError text-danger valley"></span>
-                    </div>
-                    <div class="form-group level-drp">
-                      <label class="form-label" for="input-1">Membership Numbers</label>
-                      <input type="text" name="prof_membership_numbers" class="form-control" value="@if(!empty($MembershipData)){{ $MembershipData->membership_numbers }}@endif">
-                      <span id="reqmembernumbers" class="reqError text-danger valley"></span>
-                    </div>
-                    <div class="form-group level-drp">
-                      <label class="form-label" for="input-1">Status</label>
-                      <select class="form-control" name="prof_membership_status" id="language-picker-select">
-                        <option value="">Select Status</option>
-                        <option value="Active" @if(!empty($MembershipData) && $MembershipData->membership_status == "Active") selected @endif>Active</option>
-                        <option value="Lapsed" @if(!empty($MembershipData) && $MembershipData->membership_status == "Lapsed") selected @endif>Lapsed</option>
-
-                      </select>
-                      <span id="reqmemberstatus" class="reqError text-danger valley"></span>
-                    </div>
-                    <div class="box-button mt-15">
-                      <button class="btn btn-apply-big font-md font-bold" type="submit" id="submitProfessionalMembership" @if(!email_verified()) disabled @endif>Save Changes</button>
-                    </div>
-                  </form>
-                </div>
-              </div>
+              
               <div class="tab-pane fade" id="tab-my-profile-setting" role="tabpanel" aria-labelledby="tab-my-profile-setting">
 
                 @if(email_verified())
@@ -7355,11 +7312,11 @@ if (!empty($interviewReferenceData)) {
     $('.js-example-basic-multiple[data-list-id="nlc_data"]').select2().val(pro_cert_nl).trigger('change');
   }
 
-  if ($(".professional_as").val() != "") {
-    var professional_as = JSON.parse($(".professional_as").val());
-    ////console.log("professional_as", professional_as);
-    $('.js-example-basic-multiple[data-list-id="des_profession_association"]').select2().val(professional_as).trigger('change');
-  }
+  // if ($(".professional_as").val() != "") {
+  //   var professional_as = JSON.parse($(".professional_as").val());
+  //   ////console.log("professional_as", professional_as);
+  //   $('.js-example-basic-multiple[data-list-id="des_profession_association"]').select2().val(professional_as).trigger('change');
+  // }
 
   $(".surgical_row_data").insertAfter("#specility_level-1");
   $(".specialty_sub_boxes").insertAfter(".surgical_row_data");

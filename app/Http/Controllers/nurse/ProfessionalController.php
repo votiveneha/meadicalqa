@@ -239,12 +239,7 @@ class ProfessionalController extends Controller
     {
         //This function is for add / update wwcc
 
-/*
-        $lastRecord = WorkingChildrenCheckModel::where('user_id', Auth::guard('nurse_middle')->user()->id)->first();
-        if ($lastRecord) {
-            $lastRecord->delete();
-        }
-*/
+
         $user_id =  Auth::guard('nurse_middle')->user()->id;
         
         $wwcc_state         = $request->input('wwcc_state', []);
@@ -455,13 +450,117 @@ class ProfessionalController extends Controller
         }
         return response()->json(['success' => false, 'message' => 'Specialized Clearance not found']);
     }
+
+    public function removeEligibilityFile(Request $request)
+    {
+        $user_id = Auth::guard('nurse_middle')->user()->id;
+        $work = EligibilityToWorkModel::where('user_id', $user_id)->first();
+        if ($work) {
+            $filePath = 'uploads/support_document/' . $work->support_document;
+      
+            if (Storage::exists($filePath)) {
+                Storage::delete($filePath);
+            }
+        
+            $work->support_document = null; 
+            $work->original_file_name= null; 
+            $work->save();
+
+            return response()->json(['success' => true, 'message' => 'File removed successfully']);
+        }
+        return response()->json(['success' => false, 'message' => 'File not found']);
+    }
+
+    public function removendisFile(Request $request)
+    {
+        $user_id = Auth::guard('nurse_middle')->user()->id;
+        $work = NdisWorker::where('user_id', $user_id)->first();
+        if ($work) {
+            $filePath = 'uploads/support_document/' . $work->evidence_file;
+      
+            if (Storage::exists($filePath)) {
+                Storage::delete($filePath);
+            }
+        
+            $work->evidence_file = null; 
+            $work->original_file_name= null; 
+            $work->save();
+
+            return response()->json(['success' => true, 'message' => 'File removed successfully']);
+        }
+        return response()->json(['success' => false, 'message' => 'File not found']);
+    }
+
+    public function removewwccFile(Request $request)
+    {
+        $id = $request->id;
+
+        $work = WorkingChildrenCheckModel::find($id);
+        if ($work) {
+            $filePath = 'uploads/support_document/' . $work->wwcc_evidence;
+      
+            if (Storage::exists($filePath)) {
+                Storage::delete($filePath);
+            }
+        
+            $work->wwcc_evidence = null; 
+            $work->evidence_original_name= null; 
+            $work->save();
+
+            return response()->json(['success' => true, 'message' => 'File removed successfully']);
+        }
+        return response()->json(['success' => false, 'message' => 'File not found']);
+    }
+
+    public function removePolicyFile(Request $request)
+    {
+        $user_id = Auth::guard('nurse_middle')->user()->id;
+        $work = PoliceCheckModel::where('user_id', $user_id)->first();
+        if ($work) {
+            $filePath = 'uploads/support_document/' . $work->evidence_file;
+      
+            if (Storage::exists($filePath)) {
+                Storage::delete($filePath);
+            }
+        
+            $work->evidence_file = null; 
+            $work->original_file_name= null; 
+            $work->save();
+
+            return response()->json(['success' => true, 'message' => 'File removed successfully']);
+        }
+        return response()->json(['success' => false, 'message' => 'File not found']);
+    }
+
+    public function removeSpecializedFile(Request $request)
+    {
+        $id = $request->id;
+
+        $work = SpecializedClearance::find($id);
+        if ($work) {
+            $filePath = 'uploads/support_document/' . $work->clearance_evidence;
+      
+            if (Storage::exists($filePath)) {
+                Storage::delete($filePath);
+            }
+        
+            $work->clearance_evidence = null; 
+            $work->clearance_original_name= null; 
+            $work->save();
+
+            return response()->json(['success' => true, 'message' => 'File removed successfully']);
+        }
+        return response()->json(['success' => false, 'message' => 'File not found']);
+    }
+    
     public function professionalMembership()
     {
         $user_id = Auth::guard('nurse_middle')->user()->id;
-        $data['organization_country'] = DB::table("professional_organization")->where("country_organiztions","0")->get();
-        $data['awards_recognitions'] = DB::table("awards_recognitions")->where("sub_award_id","0")->get();
-        $data['awards_recognition_submission'] = DB::table("awards_recognition_submission")->where("user_id",$user_id)->get();
-        $data['professional_membership'] = DB::table("professional_membership")->where("user_id",$user_id)->get();
+        $data['organization_country'] = DB::table("professional_organization")->where("country_organiztions","0")->orderBy('organization_country', 'ASC')->get();
+        $data['awards_recognitions'] = DB::table("awards_recognitions")->where("sub_award_id","0")->orderBy('award_name', 'ASC')->get();
+        
+        $data['professional_membership'] = DB::table("professional_membership")->where("user_id",$user_id)->first();
+        
         return view('nurse.professional_membership')->with($data);
     }
 
@@ -469,10 +568,10 @@ class ProfessionalController extends Controller
     {
         
         $organization_id = $request->organization_id;
-        $data['country_organiztions'] = DB::table("professional_organization")->where("country_organiztions",'like','%'.$organization_id.'%')->where("sub_organiztions","0")->get();
+        $data['country_organiztions'] = DB::table("professional_organization")->where("country_organiztions",'like','%'.$organization_id.',%')->where("sub_organiztions","0")->orderBy('organization_country', 'ASC')->get();
         $country_name = DB::table("professional_organization")->where("organization_id",$organization_id)->first();
         //print_r(json_encode($data));
-        $data['country_name'] = $country_name->organization_country;
+        $data['country_name'] = $country_name->organization_name;
         $data['organization_id'] = $organization_id;
         return json_encode($data);
     }
@@ -482,7 +581,7 @@ class ProfessionalController extends Controller
         
         $organization_id = $request->organization_id;
         $country_org_id = $request->country_org_id;
-        $data['country_organiztions'] = DB::table("professional_organization")->where("country_organiztions",$country_org_id)->where("sub_organiztions",$organization_id)->get();
+        $data['country_organiztions'] = DB::table("professional_organization")->where("country_organiztions",$country_org_id)->where("sub_organiztions",$organization_id)->orderBy('organization_country', 'ASC')->get();
         $country_name = DB::table("professional_organization")->where("organization_id",$organization_id)->first();
         //print_r(json_encode($data));
         $data['country_name'] = $country_name->organization_country;
@@ -493,7 +592,7 @@ class ProfessionalController extends Controller
     public function getMembershipData(Request $request)
     {
         $organization_id = $request->organization_id;
-        $data['membership_type'] = DB::table("membership_type")->where("submember_id","0")->get();
+        $data['membership_type'] = DB::table("membership_type")->where("submember_id","0")->orderBy('membership_name', 'ASC')->get();
         $organization_name = DB::table("professional_organization")->where("organization_id",$organization_id)->first();
         $data['organization_id'] = $organization_id;
         $data['organization_name'] = $organization_name->organization_country;
@@ -503,7 +602,7 @@ class ProfessionalController extends Controller
     public function getsubMembershipData(Request $request)
     {
         $organization_id = $request->organization_id;
-        $data['membership_type'] = DB::table("membership_type")->where("submember_id",$organization_id)->get();
+        $data['membership_type'] = DB::table("membership_type")->where("submember_id",$organization_id)->orderBy('membership_name', 'ASC')->get();
         $organization_name = DB::table("membership_type")->where("membership_id",$organization_id)->first();
         $data['organization_id'] = $organization_id;
         $data['organization_name'] = $organization_name->membership_name;
@@ -513,11 +612,120 @@ class ProfessionalController extends Controller
     public function getawardsRecognitions(Request $request)
     {
         $award_id = $request->award_id;
-        $data['award'] = DB::table("awards_recognitions")->where("sub_award_id",$award_id)->get();
+        $data['award'] = DB::table("awards_recognitions")->where("sub_award_id",$award_id)->orderBy('award_name', 'ASC')->get();
         $organization_name = DB::table("awards_recognitions")->where("award_id",$award_id)->first();
         $data['organization_id'] = $award_id;
         $data['award_name'] = $organization_name->award_name;
         return json_encode($data);
+    }
+
+    public function updateProfessionalMembership(Request $request)
+    {
+        $user_id = $request->user_id;
+        $organization_country = $request->organization_country;
+        $country_organization = $request->country_organization;
+        $subcountry_organization = $request->subcountry_organization;
+        $membership_type = $request->membership_type;
+        $submembership_type = json_encode($request->submembership_type);
+        $des_profession_association = json_encode($request->des_profession_association);
+        $date_joined = $request->date_joined;
+        $membership_status = $request->prof_membership_status;
+        $awards_recognitions = $request->awards_recognitions;
+        $award_organization = json_encode($request->award_organization);
+
+        //print_r($award_organization);die;
+
+        $professional_membership_data = DB::table("professional_membership")->where("user_id",$user_id)->first();
+        $awards_data = DB::table("awards_recognition_submission")->where("user_id",$user_id)->get();
+        //print_r($professional_membership_data);die;
+        
+
+        if(!empty($professional_membership_data)){
+           
+            ProfessionalAssocialtionModel::where('user_id',$user_id)->update(['organization_data'=>$submembership_type,'des_profession_association'=>$des_profession_association,'date_joined'=>$date_joined,'membership_status'=>$membership_status,'award_recognitions'=>$award_organization]);
+            $run = 1;
+        }else{
+            
+            $post = new ProfessionalAssocialtionModel();
+            $post->user_id = $user_id;
+            $post->organization_data = $submembership_type;
+            $post->des_profession_association = $des_profession_association;
+            $post->date_joined = $date_joined;
+            $post->membership_status = $membership_status;
+            $post->award_recognitions = $award_organization;
+            $run = $post->save();
+            
+        }
+        
+        if ($run) {
+            $json['status'] = 1;
+            
+        } else {
+            $json['status'] = 0;
+            
+        }
+
+        echo json_encode($json);
+        
+        
+    }
+
+    public function uploadMembershipImgs(Request $request){
+        $files = $request->file('membership_evidence');
+        $user_id = $request->user_id;
+
+        $getMembdata = DB::table("professional_membership")->where("user_id", $user_id)->first();
+
+        if ($getMembdata) {
+            $membimg = json_decode($getMembdata->evidence_imgs);
+
+            $membimgs = Helpers::multipleFileUpload($files, $membimg);
+        } else {
+            $membimgs = Helpers::multipleFileUpload($files, '');
+        }
+
+        $run = ProfessionalAssocialtionModel::where('user_id', $user_id)->update(['evidence_imgs' => $membimgs]);
+
+        return $membimgs;
+    }
+
+    public function deleteEvidenceImg(Request $request)
+    {
+        $user_id = $request->user_id;
+        $img = $request->img;
+
+        $getMembData = DB::table("professional_membership")->where("user_id", $user_id)->first();
+
+        $getEvidenceimg = json_decode($getMembData->evidence_imgs);
+
+
+
+        $img_index = array_search($img, $getEvidenceimg);
+
+        array_splice($getEvidenceimg, $img_index, 1);
+
+        if (!empty($getEvidenceimg)) {
+            $EvidenceimgData = json_encode($getEvidenceimg);
+        } else {
+            $EvidenceimgData = '';
+        }
+
+
+
+        $deleteData = ProfessionalAssocialtionModel::where('user_id', $user_id)->update(['evidence_imgs' => $EvidenceimgData]);
+
+        $destinationPath = public_path() . '/uploads/education_degree/' . $img;
+
+        if (File::exists($destinationPath)) {
+            File::delete($destinationPath);
+        }
+
+        if ($deleteData) {
+            return 1;
+        }
+
+        //print_r($gettransimg);
+
     }
 
     public function interview()

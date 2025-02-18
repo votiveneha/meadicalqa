@@ -63,6 +63,7 @@ class HomeController extends Controller
         $this->specialityServices = $specialityServices;
         $this->specialityRepository = $specialityRepository;
         $this->authServices = $authServices;
+        
     }
     public function index($message = '')
     {

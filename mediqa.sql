@@ -1,9 +1,9 @@
--- phpMyAdmin SQL Dump
+﻿-- phpMyAdmin SQL Dump
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Feb 14, 2025 at 12:09 AM
+-- Generation Time: Feb 17, 2025 at 11:31 PM
 -- Server version: 10.6.21-MariaDB
 -- PHP Version: 7.4.33
 
@@ -586,7 +586,7 @@ CREATE TABLE `edu_fields` (
 
 INSERT INTO `edu_fields` (`edu_id`, `user_id`, `acls_imgs`, `bls_imgs`, `cpr_imgs`, `nrp_imgs`, `pls_imgs`, `rn_imgs`, `np_imgs`, `cn_imgs`, `lpn_imgs`, `crna_imgs`, `cnm_imgs`, `ons_imgs`, `msw_imgs`, `ain_imgs`, `rpn_imgs`, `well_imgs`, `tech_innvo_imgs`, `leader_pro_imgs`, `mid_spec_imgs`, `clinic_skill_imgs`, `eme_topic_imgs`, `safety_com_imgs`, `spec_area_imgs`, `mid_spe_imgs`, `core_man_imgs`, `other_tran_img`, `ano_education_imgs`, `ano_certifi_imgs`) VALUES
 (5, 167, '{\"canada\":\"\"}', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(6, 101, '', '', '', '', '', '', '', '', '', '', '', '', '', '', NULL, '{\"emotional\":\"[\\\"TRANSCRIPT SAMPLE.pdf\\\"]\"}', '', '', '', '', '{\"artificial\":\"[\\\"CERTIFICATIONS SAMPLE.pdf\\\"]\"}', '', '', '', '', '{\"tran_1\":\"[\\\"CERTIFICATIONS SAMPLE.pdf\\\"]\",\"tran_3\":\"[\\\"TRANSCRIPT SAMPLE.pdf\\\"]\",\"tran_2\":\"[\\\"DIPLOMA SAMPLE.pdf\\\",\\\"CERTIFICATIONS SAMPLE.pdf\\\",\\\"TRANSCRIPT SAMPLE.pdf\\\"]\"}', '{\"edu_2\":\"\",\"edu_1\":\"\"}', '{\"certifi_1\":\"[\\\"CERTIFICATIONS SAMPLE.pdf\\\"]\",\"certifi_2\":\"[\\\"DIPLOMA SAMPLE.docx\\\"]\",\"certifi_3\":\"[\\\"DIPLOMA SAMPLE.pdf\\\"]\"}'),
+(6, 101, '{\"australia\":\"[\\\"TRANSCRIPT SAMPLE.pdf\\\"]\"}', '', '', '', '', '', '', '', '', '', '', '', '', '', NULL, '{\"emotional\":\"[\\\"TRANSCRIPT SAMPLE.pdf\\\"]\"}', '', '', '', '', '{\"artificial\":\"[\\\"CERTIFICATIONS SAMPLE.pdf\\\"]\"}', '', '', '', '', '{\"tran_1\":\"[\\\"CERTIFICATIONS SAMPLE.pdf\\\"]\",\"tran_3\":\"[\\\"TRANSCRIPT SAMPLE.pdf\\\"]\",\"tran_2\":\"[\\\"DIPLOMA SAMPLE.pdf\\\",\\\"CERTIFICATIONS SAMPLE.pdf\\\",\\\"TRANSCRIPT SAMPLE.pdf\\\"]\"}', '{\"edu_2\":\"\",\"edu_1\":\"\"}', '{\"certifi_1\":\"[\\\"CERTIFICATIONS SAMPLE.pdf\\\"]\",\"certifi_2\":\"[\\\"DIPLOMA SAMPLE.docx\\\"]\",\"certifi_3\":\"[\\\"DIPLOMA SAMPLE.pdf\\\"]\"}'),
 (7, 112, '{\"australia\":\"[\\\"phpserve_mediqa (1).sql\\\",\\\"8VjZEm1717242175 - Copy - Copy.png\\\"]\"}', NULL, '{\"hong\":\"[\\\"user_education_cerification.sql\\\"]\",\"jamaica\":\"[\\\"8VjZEm1717242175 - Copy - Copy - Copy - Copy.png\\\"]\"}', '{\"hong\":\"[\\\"blog3.png\\\",\\\"care guides.png\\\",\\\"blog1.png\\\",\\\"about us.png\\\",\\\"Aurora Updated.jpg\\\"]\"}', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', NULL, '{\"telehealth\":\"[\\\"image_five.png\\\"]\"}', NULL, '{\"emergency\":\"[\\\"services.php\\\"]\"}', NULL, NULL, NULL, '{\"edu_1\":\"\",\"edu_2\":\"[\\\"phpserve_mediqa (1).sql\\\",\\\"MEDIQA Feedback 18  27 novembre 24.docx\\\"]\"}', '{\"certifi_1\":\"[\\\"header.blade.php\\\",\\\"phpserve_mediqa (2).sql\\\"]\",\"\":\"[\\\"8VjZEm1717242175 - Copy - Copy.png\\\"]\"}'),
 (8, 170, NULL, '{\"canada\":\"[\\\"download.jpeg\\\",\\\"download.png\\\",\\\"images (1).jpeg\\\",\\\"images.jpeg\\\",\\\"oGhX5A1726828366.png\\\",\\\"photo-1492684223066-81342ee5ff30.avif\\\"]\"}', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '{\"ergonomics\":\"[\\\"download.jpeg\\\",\\\"download.png\\\",\\\"images (1).jpeg\\\",\\\"images.jpeg\\\",\\\"oGhX5A1726828366.png\\\",\\\"photo-1492684223066-81342ee5ff30.avif\\\"]\",\"compassion\":\"[\\\"download.jpeg\\\",\\\"download.png\\\",\\\"images (1).jpeg\\\",\\\"images.jpeg\\\",\\\"oGhX5A1726828366.png\\\",\\\"photo-1492684223066-81342ee5ff30.avif\\\"]\"}', NULL, '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '{\"certifi_1\":\"[\\\"download.jpeg\\\",\\\"download.png\\\",\\\"images (1).jpeg\\\",\\\"images.jpeg\\\",\\\"oGhX5A1726828366.png\\\",\\\"photo-1492684223066-81342ee5ff30.avif\\\"]\"}'),
 (9, 175, '{\"australia\":\"[\\\"8VjZEm1717242175 - Copy (2) - Copy.png\\\"]\"}', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
@@ -641,7 +641,8 @@ INSERT INTO `eligibility_to_work` (`id`, `user_id`, `residency`, `support_docume
 (42, 112, 'Australian Citizen', 'evidence_file_1738822086.jpg', '2157623-3840x2160-desktop-4k-gt-r-wallpaper-image.jpg', 'Australian Citizenship Certificate', '243434', 0, 1, '', '343424', '0', '2025-02-06 11:38:06', '2025-02-06 06:08:06'),
 (46, 187, 'Australian Citizen', 'evidence_file_1738822241.jpg', '2157647-3840x2160-desktop-4k-gt-r-background.jpg', 'Full Australian Birth Certificate', NULL, 0, 1, '', NULL, '0', '2025-02-06 11:48:13', '2025-02-06 06:18:13'),
 (47, 186, 'Visa Holder', 'evidence_file_1738317411.jpg', 'reflection-lights-mountain-lake-captured-parco-ciani-lugano-switzerland.jpg', 'Visa grant letter', '222222', 82, 35, '', '22212', '0', '2025-02-06 18:44:05', '2025-02-06 13:14:05'),
-(48, 179, 'Australian Citizen', 'evidence_file_1738923862.png', 'download.png', 'Australian Passport', '4215121542312331215', 0, 1, '', '54545ft6t46545646', '0', '2025-02-07 15:54:22', '2025-02-07 10:24:22');
+(51, 101, 'Visa Holder', 'evidence_file_1739762460.pdf', 'TRANSCRIPT SAMPLE.pdf', 'New Zealand Passport', '12335', 75, 40, 'sample visa', '1254588', '0', '2025-02-17 08:51:00', '2025-02-17 03:21:00'),
+(53, 179, 'Visa Holder', '', '', 'VEVO (Visa Entitlement Verification Online) status report', '51954624984jhj58495', 1, 20, '', '24194654984649', '0', '2025-02-17 14:34:51', '2025-02-17 13:05:29');
 
 -- --------------------------------------------------------
 
@@ -1309,7 +1310,8 @@ INSERT INTO `ndis_screening_check` (`id`, `user_id`, `state_id`, `clearance_numb
 (2, 184, 1597, '12333', '2025-02-28', 'evidence_file_1738326257.jpg', 'pexels-joshuaworoniecki-2607956.jpg', '2025-01-31 12:24:17', '2025-01-31 06:54:17'),
 (3, 186, 1591, '44334433', '2025-07-10', 'evidence_file_1738327017.jpg', 'pexels-eberhardgross-1612351.jpg', '2025-01-31 12:36:09', '2025-02-03 09:09:34'),
 (4, 187, 1590, '2323232323', '2025-02-26', 'evidence_file_1738822718.jpg', '2157842-3840x2160-desktop-4k-gt-r-wallpaper.jpg', '2025-02-06 06:18:38', '2025-02-06 06:18:38'),
-(5, 179, 1530, 'asdawdawdada', '2028-12-04', 'evidence_file_1738923894.jpeg', 'images (1).jpeg', '2025-02-07 10:24:54', '2025-02-07 10:24:54');
+(5, 179, 1530, 'asdawdawdada', '2028-12-04', 'evidence_file_1738923894.jpeg', 'images (1).jpeg', '2025-02-07 10:24:54', '2025-02-07 10:24:54'),
+(6, 101, 195, '14255', '2025-02-28', 'evidence_file_1739762640.pdf', 'TRANSCRIPT SAMPLE.pdf', '2025-02-17 03:24:00', '2025-02-17 03:24:00');
 
 -- --------------------------------------------------------
 
@@ -1479,10 +1481,11 @@ INSERT INTO `police_check` (`id`, `user_id`, `issuance_date`, `evidence_file`, `
 (12, 153, '2024-09-12', '/nurse/assets/imgs/police_check/download - Copy.jfif', '', NULL, 0, '2024-09-14 07:59:43', '2024-09-14 07:59:43'),
 (13, 154, '2024-09-04', '/nurse/assets/imgs/police_check/download (1).jfif', '', NULL, 0, '2024-09-16 08:05:06', '2024-09-16 08:05:06'),
 (14, 166, '2024-10-02', '/nurse/assets/imgs/police_check/download (1).jfif', '', NULL, 0, '2024-10-07 08:03:44', '2024-10-07 08:03:44'),
-(15, 179, '2020-06-01', '/nurse/assets/imgs/police_check/1736418913.png', '', NULL, 0, '2025-01-09 16:05:13', NULL),
+(15, 179, '2020-06-01', NULL, '', NULL, 0, '2025-01-09 16:05:13', '2025-02-17 13:06:36'),
 (16, 173, '2024-11-14', '/nurse/assets/imgs/police_check/1737376971.jpg', '', NULL, 0, '2025-01-20 18:12:51', NULL),
 (17, 184, '2025-01-26', 'evidence_file_1738412275.jpg', 'pexels-joshuaworoniecki-2607956.jpg', NULL, 0, '2025-02-01 12:17:55', '2025-02-01 06:47:55'),
-(18, 186, '2025-01-26', 'evidence_file_1738414218.jpg', '4002676.jpg', NULL, 0, '2025-02-01 18:20:18', '2025-02-01 12:50:18');
+(18, 186, '2025-01-26', 'evidence_file_1738414218.jpg', '4002676.jpg', NULL, 0, '2025-02-01 18:20:18', '2025-02-01 12:50:18'),
+(19, 101, '2025-02-12', 'evidence_file_1739762903.pdf', 'CERTIFICATIONS SAMPLE.pdf', NULL, 0, '2025-02-17 08:58:23', '2025-02-17 03:28:23');
 
 -- --------------------------------------------------------
 
@@ -2043,6 +2046,7 @@ INSERT INTO `professional_certificate_table` (`professionalcert_id`, `cert_id`, 
 CREATE TABLE `professional_membership` (
   `membership_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
+  `organization_data` text DEFAULT NULL,
   `organization_country` int(11) DEFAULT NULL,
   `country_organization` int(11) DEFAULT NULL,
   `subcountry_organization` int(11) DEFAULT NULL,
@@ -2051,6 +2055,8 @@ CREATE TABLE `professional_membership` (
   `des_profession_association` text DEFAULT NULL,
   `date_joined` text DEFAULT NULL,
   `membership_status` text DEFAULT NULL,
+  `award_recognitions` text DEFAULT NULL,
+  `evidence_imgs` text DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -2059,8 +2065,9 @@ CREATE TABLE `professional_membership` (
 -- Dumping data for table `professional_membership`
 --
 
-INSERT INTO `professional_membership` (`membership_id`, `user_id`, `organization_country`, `country_organization`, `subcountry_organization`, `membership_type`, `submembership_type`, `des_profession_association`, `date_joined`, `membership_status`, `created_at`, `updated_at`) VALUES
-(71, 173, 4, 15, 112, 4, 34, '[\"ANA\"]', '2025-02-27', 'Pending Membership Approval', '2025-02-11 05:22:03', '2025-02-11 05:22:03');
+INSERT INTO `professional_membership` (`membership_id`, `user_id`, `organization_data`, `organization_country`, `country_organization`, `subcountry_organization`, `membership_type`, `submembership_type`, `des_profession_association`, `date_joined`, `membership_status`, `award_recognitions`, `evidence_imgs`, `created_at`, `updated_at`) VALUES
+(80, 186, '{\"1\":{\"12\":{\"31\":{\"5\":[\"39\",\"40\"]}}},\"4\":{\"71\":{\"115\":{\"5\":[\"38\",\"40\",\"41\"]}}}}', NULL, NULL, NULL, NULL, NULL, '[\"ENA\"]', '2025-02-27', 'Expired Member', '{\"4\":[\"31\",\"32\"]}', NULL, '2025-02-17 05:20:44', '2025-02-17 05:58:08'),
+(81, 173, '{\"4\":{\"71\":{\"114\":{\"2\":[\"17\"]}}}}', NULL, NULL, NULL, NULL, NULL, '[\"ANA\"]', '2025-02-26', 'Expired Member', '{\"8\":[\"42\"]}', NULL, '2025-02-17 13:06:31', '2025-02-17 13:06:31');
 
 -- --------------------------------------------------------
 
@@ -8112,11 +8119,11 @@ INSERT INTO `user_education_cerification` (`education_id`, `user_id`, `degrees`,
 (28, 167, NULL, 'ssk university London', 'no', '2020-12-04', '', NULL, '[\"6\"]', '', NULL, 0, '', NULL, 'null', '[{\"training_courses\":\"uhyuguyuh\",\"additional_license_number\":\"gyfhvbuygui44495\",\"additional_expiry\":\"2035-12-04\",\"additional_upload_certification\":\"1728454800Unknown2.jpeg\"}]', 1, 1, '[{\"acls_certification_id\":\"Canada: ACLS - Heart and Stroke Foundation of Canada (HSFC)\",\"acls_license_number\":\"g22562552\",\"acls_expiry\":\"2035-12-04\",\"acls_upload_certification\":\"[\\\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.35.27.png\\\",\\\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.35.20.png\\\",\\\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.35.05.png\\\",\\\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.34.56.png\\\",\\\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.33.49.png\\\"]\"}]', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2024-11-04 12:16:36', '2024-11-04 06:46:36'),
 (29, 171, NULL, 'Testuuu', NULL, '2024-12-12', NULL, NULL, '[\"6\"]', '', NULL, 0, '', '', NULL, '', 1, NULL, '[{\"acls_certification_id\":\"Australia: ALS (Advanced Life Support) - Australian Resuscitation Council (ARC)\",\"acls_license_number\":\"34343434\",\"acls_expiry\":\"2024-12-04\"}]', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', NULL, '2024-12-03 06:55:01', '2024-12-03 06:55:01'),
 (30, 175, NULL, 'gffgfg', NULL, '2024-12-05', NULL, NULL, '[\"6\"]', '', NULL, 0, '', '', NULL, '', 1, NULL, '[{\"acls_certification_id\":\"Australia: ALS (Advanced Life Support) - Australian Resuscitation Council (ARC)\",\"acls_license_number\":\"34343434\",\"acls_expiry\":\"2024-12-26\"}]', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', NULL, '2024-12-03 13:11:41', '2024-12-03 13:11:41'),
-(31, 173, NULL, 'trrtrt', NULL, '2024-12-17', '[\"8VjZEm1717242175 - Copy (3).png\",\"8VjZEm1717242175 - Copy.png\"]', NULL, '[\"8\"]', '', NULL, 0, '', NULL, 'null', NULL, 1, 1, '', '', '[{\"cpr_certification_id\":\"Hong Kong: CPR - Hong Kong College of Cardiology (HKCC), Hong Kong Red Cross\",\"cpr_license_number\":\"5454545454\",\"cpr_expiry\":\"2024-12-26\",\"cpr_upload_certification\":\"[\\\"profile.blade.php\\\",\\\"branch 3.png\\\",\\\"branch 5.png\\\",\\\"brush 1.png\\\",\\\"8VjZEm1717242175 - Copy - Copy.png\\\",\\\"8VjZEm1717242175 - Copy (2) - Copy.png\\\",\\\"8VjZEm1717242175 - Copy (2).png\\\",\\\"8VjZEm1717242175 - Copy (3).png\\\",\\\"8VjZEm1717242175 - Copy.png\\\",\\\"8VjZEm1717242175.png\\\",\\\"download - Copy - Copy - Copy - Copy - Copy.jfif\\\",\\\"download - Copy - Copy - Copy - Copy.jfif\\\",\\\"download - Copy - Copy - Copy.jfif\\\"]\"}]', '', '', '', '', '', '', '', '', '', '', '', '', '', '[{\"certificate_id\":1,\"training_certificate\":\"test\",\"certificate_license_number\":\"56556\",\"certificate_expiry\":\"2024-12-20\",\"regulating_body\":\"test\",\"certificate_upload_certification\":\"\"}]', '2025-01-30 12:41:29', '2025-01-30 12:41:29'),
+(31, 173, NULL, 'trrtrt', NULL, '2024-12-17', '[\"8VjZEm1717242175 - Copy.png\"]', NULL, '[\"8\"]', '', NULL, 0, '', NULL, 'null', NULL, 1, 1, '', '', '[{\"cpr_certification_id\":\"Hong Kong: CPR - Hong Kong College of Cardiology (HKCC), Hong Kong Red Cross\",\"cpr_license_number\":\"5454545454\",\"cpr_expiry\":\"2024-12-26\",\"cpr_upload_certification\":\"[\\\"profile.blade.php\\\",\\\"branch 3.png\\\",\\\"branch 5.png\\\",\\\"brush 1.png\\\",\\\"8VjZEm1717242175 - Copy - Copy.png\\\",\\\"8VjZEm1717242175 - Copy (2) - Copy.png\\\",\\\"8VjZEm1717242175 - Copy (2).png\\\",\\\"8VjZEm1717242175 - Copy (3).png\\\",\\\"8VjZEm1717242175 - Copy.png\\\",\\\"8VjZEm1717242175.png\\\",\\\"download - Copy - Copy - Copy - Copy - Copy.jfif\\\",\\\"download - Copy - Copy - Copy - Copy.jfif\\\",\\\"download - Copy - Copy - Copy.jfif\\\"]\"}]', '', '', '', '', '', '', '', '', '', '', '', '', '', '[{\"certificate_id\":1,\"training_certificate\":\"test\",\"certificate_license_number\":\"56556\",\"certificate_expiry\":\"2024-12-20\",\"regulating_body\":\"test\",\"certificate_upload_certification\":\"\"}]', '2025-02-17 07:00:36', '2025-02-17 07:00:36'),
 (32, 176, NULL, 'k c s university', NULL, '1996-12-04', '[\"download.jpeg\",\"download.png\",\"hg9xBr1721293815.png\",\"images (1).jpeg\",\"images.jpeg\",\"oGhX5A1726828366.png\",\"photo-1492684223066-81342ee5ff30.avif\"]', NULL, '[\"6\",\"7\"]', '', NULL, 0, '', NULL, 'null', NULL, 1, 1, '[{\"acls_certification_id\":\"Australia: ALS (Advanced Life Support) - Australian Resuscitation Council (ARC)\",\"acls_license_number\":\"bcs university\",\"acls_expiry\":\"2024-12-05\",\"acls_upload_certification\":\"[\\\"download.jpeg\\\",\\\"download.png\\\",\\\"images (1).jpeg\\\",\\\"images.jpeg\\\",\\\"oGhX5A1726828366.png\\\",\\\"photo-1492684223066-81342ee5ff30.avif\\\",\\\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.33.49.png\\\",\\\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.34.56.png\\\",\\\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.35.05.png\\\",\\\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.35.20.png\\\",\\\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.35.27.png\\\"]\"}]', '[{\"bls_certification_id\":\"Australia: BLS (Basic Life Support) - Australian Resuscitation Council (ARC)\",\"bls_license_number\":\"btbtbttt\",\"bls_expiry\":\"1996-12-04\",\"bls_upload_certification\":\"[\\\"download.jpeg\\\",\\\"download.png\\\",\\\"hg9xBr1721293815.png\\\",\\\"images (1).jpeg\\\",\\\"images.jpeg\\\",\\\"oGhX5A1726828366.png\\\",\\\"photo-1492684223066-81342ee5ff30.avif\\\"]\"}]', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '[{\"certificate_id\":1,\"training_certificate\":\"55252525\",\"certificate_license_number\":\"75225252274\",\"certificate_expiry\":\"1996-12-04\",\"regulating_body\":\"dcccccec\",\"certificate_upload_certification\":\"\"}]', '2025-01-07 07:24:56', '2025-01-07 07:24:56'),
 (33, 177, NULL, 'ssk university London', NULL, '2020-04-12', NULL, NULL, '[\"6\"]', '', NULL, 0, '', '', NULL, '', 1, NULL, '[{\"acls_certification_id\":\"Australia: ALS (Advanced Life Support) - Australian Resuscitation Council (ARC)\",\"acls_license_number\":\"g22562552\",\"acls_expiry\":\"1996-12-04\"}]', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', NULL, '2024-12-10 05:22:18', '2024-12-10 05:22:18'),
 (34, 178, NULL, 'ssk university London', NULL, '1996-12-04', '', NULL, '[\"6\"]', '', NULL, 0, '', NULL, 'null', NULL, 1, 1, '[{\"acls_certification_id\":\"Canada: ACLS - Heart and Stroke Foundation of Canada (HSFC)\",\"acls_license_number\":\"g22562552\",\"acls_expiry\":\"1996-12-04\",\"acls_upload_certification\":\"[\\\"download.jpeg\\\",\\\"download.png\\\",\\\"hg9xBr1721293815.png\\\",\\\"images (1).jpeg\\\",\\\"images.jpeg\\\",\\\"oGhX5A1726828366.png\\\",\\\"photo-1492684223066-81342ee5ff30.avif\\\"]\"}]', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2025-01-07 08:44:56', '2025-01-07 08:44:56'),
-(35, 179, NULL, 'ssk university London', NULL, '2020-12-04', '[\"download.jpeg\",\"download.png\"]', NULL, '[\"6\"]', '', NULL, 0, '', NULL, 'null', NULL, 1, 1, '[{\"acls_certification_id\":\"Canada: ACLS - Heart and Stroke Foundation of Canada (HSFC)\",\"acls_license_number\":\"g22562552\",\"acls_expiry\":\"2018-12-04\",\"acls_upload_certification\":\"[\\\"download.jpeg\\\",\\\"download.png\\\",\\\"hg9xBr1721293815.png\\\",\\\"images (1).jpeg\\\",\\\"images.jpeg\\\",\\\"oGhX5A1726828366.png\\\",\\\"photo-1492684223066-81342ee5ff30.avif\\\"]\"}]', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2025-01-23 07:09:18', '2025-01-23 07:09:18');
+(35, 179, NULL, 'ssk university London', NULL, '2020-12-04', '[\"download.png\"]', NULL, '[\"6\"]', '', NULL, 0, '', NULL, 'null', NULL, 1, 1, '[{\"acls_certification_id\":\"Canada: ACLS - Heart and Stroke Foundation of Canada (HSFC)\",\"acls_license_number\":\"g22562552\",\"acls_expiry\":\"2018-12-04\",\"acls_upload_certification\":\"[\\\"download.jpeg\\\",\\\"download.png\\\",\\\"hg9xBr1721293815.png\\\",\\\"images (1).jpeg\\\",\\\"images.jpeg\\\",\\\"oGhX5A1726828366.png\\\",\\\"photo-1492684223066-81342ee5ff30.avif\\\"]\"}]', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2025-02-17 07:03:52', '2025-02-17 07:03:52');
 
 -- --------------------------------------------------------
 
@@ -8984,7 +8991,7 @@ ALTER TABLE `edu_fields`
 -- AUTO_INCREMENT for table `eligibility_to_work`
 --
 ALTER TABLE `eligibility_to_work`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT for table `emergency_contact`
@@ -9068,7 +9075,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `ndis_screening_check`
 --
 ALTER TABLE `ndis_screening_check`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `newsletter`
@@ -9098,7 +9105,7 @@ ALTER TABLE `personal_preferences`
 -- AUTO_INCREMENT for table `police_check`
 --
 ALTER TABLE `police_check`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `practitioner_type`
@@ -9128,7 +9135,7 @@ ALTER TABLE `professional_certificate_table`
 -- AUTO_INCREMENT for table `professional_membership`
 --
 ALTER TABLE `professional_membership`
-  MODIFY `membership_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
+  MODIFY `membership_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
 
 --
 -- AUTO_INCREMENT for table `professional_organization`

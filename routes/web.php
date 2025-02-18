@@ -91,7 +91,7 @@ Route::prefix('/admin')->name('admin.')->namespace('App\Http\Controllers\admin')
     Route::post('/add-nurse-post-13', 'NurseController@addNursePostForm13')->name('add_nurse_post_13');
     Route::post('/add-nurse-post-14', 'NurseController@addNursePostForm14')->name('add_nurse_post_14');
     Route::post('/add-nurse-post-15', 'NurseController@addNursePostForm15')->name('add_nurse_post_15');
-    Route::get('/edit-nurse/{id}', 'NurseController@EditNurse')->name('edit_nurse');
+    Route::get('/edit-nurse/{id?}', 'NurseController@EditNurse')->name('edit_nurse');
     Route::post('/edit-nurse-post', 'NurseController@EditNursePost')->name('edit_nurse_post');
     Route::post('/delete-cer-img', 'NurseController@deleteCertificateImg')->name('delete_cer_img');
     Route::post('/upload-deg-img', 'NurseController@UploadDegreeImg')->name('upload-deg-img');
@@ -200,5 +200,16 @@ Route::prefix('/admin')->name('admin.')->namespace('App\Http\Controllers\admin')
     Route::post('/removeVaccine', 'NurseController@removeVaccine')->name('removeVaccine');
     Route::any('/removeEvidance', 'NurseController@removeEvidance')->name('removeEvidance');
     Route::any('/updateNurseVaccination', 'NurseController@updateNurseVaccination')->name('updateNurseVaccination');
+
+    /************[Nurse Profile Work Cleareance]*************/
+    Route::any('/updateWorkClreance/{id?}', 'NurseController@updateWorkClreance')->name('updateWorkClreance');
+    Route::post('/update-profession-user-eligibility', 'NurseController@update_eligibility_to_work')->name('update-profession-user-eligibility');
+    Route::post('/update-ndis', 'NurseController@updateNdis')->name('update-ndis');
+    Route::post('/update-profession-user-children', 'NurseController@update_children_to_work')->name('update-profession-user-children');
+    Route::post('/removeWwcc', 'NurseController@removeWwcc')->name('removeWwcc');
+    Route::post('/update-profession-user-police-check', 'NurseController@update_police_check_to_work')->name('update-profession-user-police-check');
+    Route::post('/updateSpecializedClearance', 'NurseController@updateSpecializedClearance')->name('updateSpecializedClearance');
+    Route::post('/removeSpecialized', 'NurseController@removeSpecialized')->name('removeSpecialized');
+
   });
 });

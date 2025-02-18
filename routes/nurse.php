@@ -93,7 +93,7 @@ Route::prefix('nurse')->name('nurse.')->namespace('App\Http\Controllers\nurse')-
     
     Route::post('/updateAdditionalInfo', 'HomeController@updateAdditionalInfo')->name('updateAdditionalInfo');
     Route::post('/updateReference', 'HomeController@updateReference')->name('updateReference');
-    Route::post('/updateProfessionalMembership', 'HomeController@updateProfessionalMembership')->name('updateProfessionalMembership');
+    
     Route::post('/deleteReferee', 'HomeController@deleteReferee')->name('deleteReferee');
     Route::post('/deleteCertification', 'HomeController@deleteCertification')->name('deleteCertification');
     Route::post('/deleteOtherTraining', 'HomeController@deleteOtherTraining')->name('deleteOtherTraining');
@@ -132,6 +132,12 @@ Route::prefix('nurse')->name('nurse.')->namespace('App\Http\Controllers\nurse')-
   Route::post('/updateSpecializedClearance', 'ProfessionalController@updateSpecializedClearance')->name('updateSpecializedClearance');
   Route::post('/removeSpecialized', 'ProfessionalController@removeSpecialized')->name('removeSpecialized');
 
+  Route::any('/removeEligibilityFile','ProfessionalController@removeEligibilityFile')->name('removeEligibilityFile');
+  Route::any('/removendisFile','ProfessionalController@removendisFile')->name('removendisFile');
+  Route::any('/removewwccFile','ProfessionalController@removewwccFile')->name('removewwccFile');
+  Route::any('/removePolicyFile','ProfessionalController@removePolicyFile')->name('removePolicyFile');
+  Route::any('/removeSpecializedFile','ProfessionalController@removeSpecializedFile')->name('removeSpecializedFile');
+
   /**************[Professional Membership]**************/
   Route::any('/professionalMembership','ProfessionalController@professionalMembership')->name('professionalMembership');
   Route::any('/getCountryOrgnizations','ProfessionalController@getCountryOrgnizations')->name('getCountryOrgnizations');
@@ -139,6 +145,9 @@ Route::prefix('nurse')->name('nurse.')->namespace('App\Http\Controllers\nurse')-
   Route::any('/getMembershipData','ProfessionalController@getMembershipData')->name('getMembershipData');
   Route::any('/getSubMembershipData','ProfessionalController@getSubMembershipData')->name('getSubMembershipData');
   Route::any('/getawardsRecognitions','ProfessionalController@getawardsRecognitions')->name('getawardsRecognitions');
+  Route::post('/updateProfessionalMembership', 'ProfessionalController@updateProfessionalMembership')->name('updateProfessionalMembership');
+  Route::post('/uploadMembershipImgs', 'ProfessionalController@uploadMembershipImgs')->name('uploadMembershipImgs');
+  Route::post('/deleteEvidenceImg', 'ProfessionalController@deleteEvidenceImg')->name('deleteEvidenceImg');
   
   /**************[Interview Preferences]**************/
   Route::any('/interview','ProfessionalController@interview')->name('interview');

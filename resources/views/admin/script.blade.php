@@ -2774,7 +2774,14 @@
                             title: 'Success',
                             text: res.message,
                         }).then(function() {
-                            $('a[href="' + targetTab + '"]').tab('show');
+                            //$('a[href="' + targetTab + '"]').tab('show');
+                            let fullPath = window.location.pathname;
+                            let pathParts = fullPath.split("/").filter(part => part !== "");
+                            let uriSegment = pathParts[0] + "/" + pathParts[1];
+
+                            var targetTab = 'tab-9';
+                            var newUrl = window.location.protocol + "//" + window.location.host +'/'+uriSegment+  '/updateWorkClreance?tab=' + targetTab;
+                            window.location.href = newUrl;
                         });
                     } else {
                         Swal.fire({

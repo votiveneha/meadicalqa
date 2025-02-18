@@ -137,9 +137,9 @@
                     </a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link" data-bs-toggle="tab" href="#tab-9" role="tab" aria-selected="false"
+                    <a class="nav-link" href="{{ route('admin.updateWorkClreance', ['id' => $profileData->id ?? null, 'tab' => 'tab-9']) }}" aria-selected="false"
                         tabindex="-1">
-                        <span>Work Clearances</span>
+                        <span>Checks and Clearances</span>
                     </a>
                 </li>
                 <li class="nav-item" role="presentation">

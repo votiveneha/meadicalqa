@@ -59,47 +59,6 @@
     color: #fff;
   }
 
-  .file-item {
-    display: flex;
-    align-items: unset;
-    margin-bottom: 10px;
-}
-
-.file-item a {
-    text-decoration: none;
-    color: #333;
-    margin-right: 10px;
-    display: flex;
-    align-items: center;
-}
-
-.file-item .fa-file {
-    margin-right: 5px;
-}
-
-.file-item .close_btn.close_btn-0 {
-    margin-left: 0;
-}
-
-i.fa.fa-file {
-    position: relative;
-    left: 0px;
-    font-size: 14px;
-    line-height: 25px;
-    margin-right: 5px;
-    color: #000000;
-}
-.close_btn i {
-    display: block;
-    position: relative;
-    left: 0px;
-    font-size: 14px;
-    line-height: 25px;
-    margin-right: 5px;
-    color: #000000;
-    top: 14px;
-}
-
 </style>
 @endsection
 
@@ -204,17 +163,16 @@ i.fa.fa-file {
 
                       <div class="form-group">
                         <label class="form-label" for="input-1">Upload Evidence</label>
-                        <input type="file" name="upload_evidence0" id="{{$support_document0==''?'upload_evidence0':''}}" class="form-control h-100 fileInput">
-                        <div id="fileList" class="file-list">
-                          <?php if($support_document0!=''){ ?>  
-                            <div class="file-item">
-                                <a href="{{ asset('uploads/support_document/' . $support_document0) }}" target="_blank"><i class="fa fa-file" aria-hidden="true"></i> {{$work_eligibility['original_file_name']}}</a>
-                                <div class="close_btn close_btn-0 del_eve" eve_id="{{$support_document0}}" style="cursor: pointer;">
-                                    <i class="fa fa-close" aria-hidden="true"></i>
-                                </div>
-                            </div>
-                          <?php } ?>
-                        </div>
+                      
+                        <?php if($support_document0!=''){ ?>
+                          <a href="{{ asset('uploads/support_document/'.$support_document0) }}" target="_blank"><span class="btn-primary badge badge-primary">Show</span></a>
+                        <?php } ?>
+    
+                        <input type="file" name="upload_evidence0" id="{{$support_document0==''?'upload_evidence0':''}}" class="form-control h-100" accept="image/*">
+                        
+                        <?php if($support_document0!=''){ ?>  
+                          <a href="{{ asset('uploads/support_document/'.$support_document0) }}" target="_blank" class="mt-2"> <img src="{{ asset('uploads/support_document/'.$support_document0) }}" width="50px;" height="50px" /> </a>
+                        <?php } ?>
                         <span id="reqasupport_document" class="reqError text-danger valley"></span>
                       </div>
                     </div>
@@ -244,7 +202,7 @@ i.fa.fa-file {
 
                       <div class="form-group">
                         <label class="font-sm color-text-mutted mb-10">Visa Subclass *</label>
-                        <select name="visa_subclass" class="form-control js-example-basic-multiple" id="perm_visa_subclass">
+                        <select name="visa_subclass" class="form-control" id="perm_visa_subclass">
                           <option value="" disabled>Select Visa Subclass</option>
                           @foreach($visaSubclasses as $head => $subclasses)
                               <optgroup label="{{ $head }}">
@@ -279,17 +237,16 @@ i.fa.fa-file {
                       
                       <div class="form-group">
                         <label class="form-label" for="input-1">Upload Evidence</label>
-                        <input type="file" name="upload_evidence1" id="{{$support_document1==''?'upload_evidence1':''}}" class="form-control h-100 fileInput" >
-                        <div id="fileList" class="file-list">
-                          <?php if($support_document1!=''){ ?>  
-                            <div class="file-item">
-                                <a href="{{ asset('uploads/support_document/' . $support_document1) }}" target="_blank"><i class="fa fa-file" aria-hidden="true"></i> {{$work_eligibility['original_file_name']}}</a>
-                                <div class="close_btn close_btn-0 del_eve" eve_id="{{$support_document1}}" style="cursor: pointer;">
-                                    <i class="fa fa-close" aria-hidden="true"></i>
-                                </div>
-                            </div>
-                          <?php } ?>
-                        </div>
+                      
+                        <?php if($support_document1!=''){ ?>
+                          <a href="{{ asset('uploads/support_document/'.$support_document1) }}" target="_blank"><span class="btn-primary badge badge-primary">Show</span></a>
+                        <?php } ?>
+    
+                        <input type="file" name="upload_evidence1" id="{{$support_document1==''?'upload_evidence1':''}}" class="form-control h-100" accept="image/*">
+                        
+                        <?php if($support_document1!=''){ ?>  
+                          <a href="{{ asset('uploads/support_document/'.$support_document1) }}" target="_blank" class="mt-2"> <img src="{{ asset('uploads/support_document/'.$support_document1) }}" width="50px;" height="50px" /> </a>
+                        <?php } ?>
                         <span id="reqasupport_document" class="reqError text-danger valley"></span>
                       </div>
                     </div>
@@ -319,7 +276,7 @@ i.fa.fa-file {
 
                       <div class="form-group ">
                         <label class="font-sm color-text-mutted mb-10">Visa Subclass *</label>
-                        <select class="form-control js-example-basic-multiple" name="visa_subclass1" id="visa_holder_subcls" >
+                        <select class="form-control" name="visa_subclass1" id="visa_holder_subcls" >
                           <option value="">Select Visa Subclass</option>
                             @foreach($visaholderSubclasses as $visa_sub)
                               <option value="{{ $visa_sub->id }}" {{$visa_subclass==$visa_sub->id?'selected':''}}>{{ $visa_sub->sublcass_text }}</option>
@@ -355,22 +312,25 @@ i.fa.fa-file {
                       
                       <div class="form-group">
                         <label class="form-label" for="input-1">Upload Evidence</label>
-                        <input type="file" name="upload_evidence2" id="{{$support_document2==''?'upload_evidence2':''}}" class="form-control h-100 fileInput" >
-                        <div id="fileList" class="file-list">
-                          <?php if($support_document2!=''){ ?>  
-                            <div class="file-item">
-                                <a href="{{ asset('uploads/support_document/' . $support_document2) }}" target="_blank"><i class="fa fa-file" aria-hidden="true"></i> {{$work_eligibility['original_file_name']}}</a>
-                                <div class="close_btn close_btn-0 del_eve" eve_id="{{$support_document2}}" style="cursor: pointer;">
-                                    <i class="fa fa-close" aria-hidden="true"></i>
-                                </div>
-                            </div>
-                          <?php } ?>
-                        </div>
+                      
+                        <?php if($support_document2!=''){ ?>
+                          <a href="{{ asset('uploads/support_document/'.$support_document2) }}" target="_blank"><span class="btn-primary badge badge-primary">Show</span></a>
+                        <?php } ?>
+    
+                        <input type="file" name="upload_evidence2" id="{{$support_document2==''?'upload_evidence2':''}}" class="form-control h-100" accept="image/*">
+                        
+                        <?php if($support_document2!=''){ ?>  
+                          <a href="{{ asset('uploads/support_document/'.$support_document2) }}" target="_blank" class="mt-2"> <img src="{{ asset('uploads/support_document/'.$support_document2) }}" width="50px;" height="50px" /> </a>
+                        <?php } ?>
                         <span id="reqasupport_document" class="reqError text-danger valley"></span>
                       </div>
 
                     </div>
                     
+                    
+                    
+
+
                       <div class="d-flex align-items-center justify-content-between">
                         <button onclick="doeligibility_to_work()" @if(!email_verified()) disabled @endif class="btn btn-default px-5 py-8  rounded-2 mb-0 submit-btn-120" type="submit"><span class="resetpassword">Submit</span>
                           <div class="spinner-border submit-btn-1" role="status" style="display:none;">
@@ -428,19 +388,13 @@ i.fa.fa-file {
 
                       <div class="form-group ">
                         <label class="font-sm color-text-mutted mb-10">Upload Evidence*</label>
-                        <input class="form-control fileInput" type="file" name="ndis_evidence" id="{{$ndis!=''?($ndis['evidence_file']!=''?'':'ndis_evidence'):'ndis_evidence'}}">
+                        <input class="form-control" type="file" name="ndis_evidence" id="{{$ndis!=''?($ndis['evidence_file']!=''?'':'ndis_evidence'):'ndis_evidence'}}">
+
+                        <?php if($ndis!=''){ ?>  
+                          <a href="{{ asset('uploads/support_document/'.$ndis['evidence_file']) }}" target="_blank" class="mt-2"> <img src="{{ asset('uploads/support_document/'.$ndis['evidence_file']) }}" width="50px;" height="50px" /> </a>
+                        <?php } ?>
+
                         <span id="reqTxtclearance_expiry_dataI" class="reqError text-danger valley"></span>
-                        <div id="fileList" class="file-list">
-                          <?php if($ndis['evidence_file']!=''){ ?>  
-                            <div class="file-item">
-                                <a href="{{ asset('uploads/support_document/' . $ndis['evidence_file']) }}" target="_blank"><i class="fa fa-file" aria-hidden="true"></i> {{$ndis['original_file_name']}}</a>
-                                <div class="close_btn close_btn-0 del_ndis_eve" eve_id="{{$ndis['evidence_file']}}" style="cursor: pointer;">
-                                    <i class="fa fa-close" aria-hidden="true"></i>
-                                </div>
-                            </div>
-                          <?php } ?>
-                        </div>
-                        
                       </div>
                       
 
@@ -508,18 +462,10 @@ i.fa.fa-file {
 
                           <div class="form-group ">
                             <label class="font-sm color-text-mutted mb-10">Upload Evidence*</label>
-                            <input class="form-control fileInput {{ $work_child->wwcc_evidence==''?'wwcc_evidence':'' }}" type="file" name="wwcc_evidence[]" value="{{ $work_child->evidence_original_name }}">
-                            <div id="fileList" class="file-list">
+                            <input class="form-control {{ $work_child->wwcc_evidence==''?'wwcc_evidence':'' }}" type="file" name="wwcc_evidence[]" value="{{ $work_child->evidence_original_name }}">
                             <?php if($work_child->wwcc_evidence!=''){ ?>  
-                                <div class="file-item">
-                                    <a href="{{ asset('uploads/support_document/' . $work_child->wwcc_evidence) }}" target="_blank"><i class="fa fa-file" aria-hidden="true"></i> {{$work_child->evidence_original_name}}</a>
-                                    <div class="close_btn close_btn-0 del_wwcc_eve" eve_id="{{ $work_child->id }}" style="cursor: pointer;">
-                                        <i class="fa fa-close" aria-hidden="true"></i>
-                                    </div>
-                                </div>
-                              <?php } ?>
-                            </div>
-                            
+                              <a href="{{ asset('uploads/support_document/'.$work_child->wwcc_evidence) }}" target="_blank" class="mt-2"> <img src="{{ asset('uploads/support_document/'.$work_child->wwcc_evidence) }}" width="50px;" height="50px" /> </a>
+                            <?php } ?>
                           </div>
                           <span id="reqTxtclearance_expiry_dataI" class="reqError text-danger valley"></span>
                           
@@ -550,7 +496,17 @@ i.fa.fa-file {
                 <div class="card shadow-sm border-0 p-4 mt-30">
                   <h3 class="mt-0 color-brand-1 mb-2">Police Clearance</h3>
                   <span>A National Police Clerance is a point-in-time check, meaning it is accurate only as of the issue date and does not track offenses committed afterward. Most employers or agencies typically consider it valid for 3 to 12 months from the issue date.</span>
-                 
+                  <!--div>
+                    <span class="btn-dark badge badge-dark">Optional</span> 
+                  </div>
+                  <div class="mt-2 mb-2">
+                    <span class="btn-light badge badge-dark" style="color:#000;">Get new police check</span> <i class="fi fi-rr-info" onclick="get_new_plice_check()"></i>
+                  </div>
+                  <div class="mb-2">
+                    <a href="https://secure.policecheckexpress.com.au/intercheck/landing/1389/507997" target="_blank">
+                      <span class="btn-secondary badge badge-secondary" target="_blank"><i class="fi fi-rr-info"></i> Get new police check </span>
+                    </a>
+                  </div-->
                   <form id="multi-step-form-police-check" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
@@ -569,40 +525,15 @@ i.fa.fa-file {
                       
                       <div class="form-group">
                         <label class="form-label" for="input-1">Police Clearance</label>
-                        <input type="file" name="clearance_document" id="{{$evidence_file!=''?($evidence_file!=''?'':'clearance_document'):'clearance_document'}}" class="form-control fileInput">
+                        <input type="file" name="clearance_document" id="clearance_document" class="form-control" accept="image/*">
                         <span id="reqTxtimage_support_documentI" class="reqError text-danger valley"></span>
-                        <div id="fileList" class="file-list">
-                          <?php if($evidence_file!=''){ ?>  
-                            <div class="file-item">
-                                <a href="{{ asset('uploads/support_document/' . $evidence_file) }}" target="_blank"><i class="fa fa-file" aria-hidden="true"></i> {{$policy_check['original_file_name']}}</a>
-                                <div class="close_btn close_btn-0 del_pc_eve" eve_id="{{$evidence_file}}" style="cursor: pointer;">
-                                    <i class="fa fa-close" aria-hidden="true"></i>
-                                </div>
-                            </div>
-                          <?php } ?>
-                        </div>
-
-                        
-                        
+                        <?php if($evidence_file!=''){ ?>
+                        <a href="{{ asset('uploads/support_document/'.$evidence_file) }}" target="_blank" class="mt-2"> <img src="{{ asset('uploads/support_document/'.$evidence_file) }}" width="50px;" height="50px" /> </a>
+                        <?php } ?>
                       </div>
-                      <div class="col-lg-12 col-md-12 declaration_box mb-3">
-                      <label>
-                            <input class="float-start mr-5 mt-6" type="checkbox" id="policy_confirm" name="is_declare"> I declare that my Police Clearance and legal record remain unchanged since the date of issue.
-                           <br> <span id="reqTxtconfirmationCheckboxPoliceCheckI" class="reqError text-danger valley"></span>
-                          </label>
-                      </div>
-                      <div class="col-lg-12 col-md-12">
-                        <div class="d-flex align-items-center justify-content-between">
-                          <button onclick="do_police_check()" @if(!email_verified()) disabled @endif class="btn btn-default px-5 py-8  rounded-2 mb-0 submit-btn-120" type="submit"><span class="resetpassword">Submit</span>
-                            <div class="spinner-border submit-btn-1" role="status" style="display:none;">
-                              <span class="sr-only">Loading...</span>
-                            </div>
-                          </button>
+                      
 
-                        </div>
-                      </div>
-
-                      <!--?php
+                      <?php
                         if ($policy_check != null) {
                           $status = $policy_check->status;
                           if ($status == '2') {
@@ -627,7 +558,7 @@ i.fa.fa-file {
                             </button>                            </div>
                           </div>
                         </div>
-                      <!?php } elseif ($status == '0') {
+                      <?php } elseif ($status == '0') {
                           echo  '<div> Status: <span class="btn-warning badge badge-warning">Pending</span> </div>';
                           echo ' <div class="alert alert-warning mt-2 " role="alert">
                                      Your request has been successfully submitted.Its in pending state, We will back to you as soon as possible.
@@ -643,11 +574,26 @@ i.fa.fa-file {
                           </div>
                         </button>
                       </div>
-                      <!?php
+                      <?php
                         } } else {
                       ?>
-                      
-                      <!?php } ?-->
+                      <div class="col-lg-12 col-md-12 declaration_box mb-3">
+                      <label>
+                            <input class="float-start mr-5 mt-6" type="checkbox" id="policy_confirm" name="is_declare"> I declare that my Police Clearance and legal record remain unchanged since the date of issue.
+                           <br> <span id="reqTxtconfirmationCheckboxPoliceCheckI" class="reqError text-danger valley"></span>
+                          </label>
+                      </div>
+                      <div class="col-lg-12 col-md-12">
+                        <div class="d-flex align-items-center justify-content-between">
+                          <button onclick="do_police_check()" @if(!email_verified()) disabled @endif class="btn btn-default px-5 py-8  rounded-2 mb-0 submit-btn-120" type="submit"><span class="resetpassword">Submit</span>
+                            <div class="spinner-border submit-btn-1" role="status" style="display:none;">
+                              <span class="sr-only">Loading...</span>
+                            </div>
+                          </button>
+
+                        </div>
+                      </div>
+                      <?php } ?>
                     </div>
                   </form>
                 </div>
@@ -705,18 +651,10 @@ i.fa.fa-file {
 
                           <div class="form-group ">
                             <label class="font-sm color-text-mutted mb-10">Upload Evidence*</label>
-                            <input class="form-control fileInput {{$svalue->clearance_evidence==''?'clearance_evidence':''}}" type="file" name="clearance_evidence[]">
-                            
-                            <div id="fileList" class="file-list">
-                              <?php if($svalue->clearance_evidence!=''){ ?>  
-                                <div class="file-item">
-                                    <a href="{{ asset('uploads/support_document/' . $svalue->clearance_evidence) }}" target="_blank"><i class="fa fa-file" aria-hidden="true"></i> {{$svalue->clearance_evidence}}</a>
-                                    <div class="close_btn close_btn-0 del_sc_eve" eve_id="{{$svalue->id}}" style="cursor: pointer;">
-                                        <i class="fa fa-close" aria-hidden="true"></i>
-                                    </div>
-                                </div>
-                              <?php } ?>
-                            </div>
+                            <input class="form-control {{$svalue->clearance_evidence==''?'clearance_evidence':''}}" type="file" name="clearance_evidence[]">
+                            <?php if($svalue->clearance_evidence!=''){ ?>  
+                              <a href="{{ asset('uploads/support_document/'.$svalue->clearance_evidence) }}" target="_blank" class="mt-2"> <img src="{{ asset('uploads/support_document/'.$svalue->clearance_evidence) }}" width="50px;" height="50px" /> </a>
+                            <?php } ?>
                           </div>
                           <span id="reqTxtclearance_expiry_dataI" class="reqError text-danger valley"></span>
 
@@ -955,16 +893,13 @@ if (!empty($interviewReferenceData)) {
 
                           <div class="form-group ">
                             <label class="font-sm color-text-mutted mb-10">Upload Evidence*</label>
-                            <input class="form-control wwcc_evidence fileInput" type="file" name="wwcc_evidence[]" >
-                            <div id="fileList" class="file-list"></div>
+                            <input class="form-control wwcc_evidence" type="file" name="wwcc_evidence[]" >
                           </div>
-                          
                           <span id="reqTxtclearance_expiry_dataI" class="reqError text-danger valley"></span>
                           <div class="add_new_certification_div mb-3 mt-3">
                                 <a style="cursor: pointer;" class="remove-wwcc">- Delete WWCC</a>
                               </div>
                         </div>` );
-                        initializeFileUpload();
                   i++;
         });
 
@@ -1052,18 +987,14 @@ if (!empty($interviewReferenceData)) {
 
                           <div class="form-group ">
                             <label class="font-sm color-text-mutted mb-10">Upload Evidence*</label>
-                            <input class="form-control clearance_evidence fileInput" type="file" name="clearance_evidence[]">
-
-                            <div id="fileList" class="file-list"></div>
+                            <input class="form-control clearance_evidence" type="file" name="clearance_evidence[]">
                           </div>
-                          
                           <span id="reqTxtclearance_expiry_dataI" class="reqError text-danger valley"></span>
 
                           <div class="add_new_certification_div mb-3 mt-3">
                                 <a style="cursor: pointer;" class="remove-specialized">- Delete specialized Clearance</a>
                           </div>
                         </div>`);
-                        initializeFileUpload();
                         l++;
         });
 
@@ -1109,7 +1040,6 @@ if (!empty($interviewReferenceData)) {
 </script>
 
 <script>
-  
   $(document).ready(function() {
 
     // Add an additional search box to the dropdown
@@ -1421,7 +1351,6 @@ if (!empty($interviewReferenceData)) {
       $('#ndis_expiry_date').next('.reqError').text('');
     }
     if($('#ndis_evidence')[0]){
-      
       if ($('#ndis_evidence')[0].files.length === 0) {
         isValid = false;
         $('#ndis_evidence').next('.reqError').text('Please upload evidance file ');
@@ -1589,7 +1518,6 @@ if (!empty($interviewReferenceData)) {
     }
 
     if($('#clearance_document')[0]){
-      
       if ($('#clearance_document')[0].files.length === 0) {
         isValid = false;
         $('#clearance_document').next('.reqError').text('Policy Clearance document is required ');
@@ -1768,6 +1696,9 @@ if (!empty($interviewReferenceData)) {
     }
   }
  
+
+ 
+
   function doprofessionregistration() {
     event.preventDefault();
     $(".valley").html("");
@@ -2003,150 +1934,6 @@ if (!empty($interviewReferenceData)) {
       $(".print-error-msg").find("ul").append('<li>' + value + '</li>');
     });
   }
-
-  function initializeFileUpload() {
-    $(".fileInput").each(function () {
-        const fileInput = $(this);
-        const fileList = fileInput.siblings(".file-list"); // Select the correct file list
-        const selectedFiles = new DataTransfer(); // Maintain a single file
-
-        fileInput.off("change").on("change", function (event) {
-            // Clear previously selected files
-            selectedFiles.items.clear();
-            fileList.empty(); // Remove existing file preview
-
-            if (event.target.files.length > 0) {
-                const file = event.target.files[0]; // Only take the first file
-                selectedFiles.items.add(file);
-
-                // Create a file item container
-                const fileDiv = $("<div>").addClass("file-item");
-
-                // Create a link to the file with the file name
-                const fileLink = $("<a>")
-                    .attr("href", URL.createObjectURL(file)) // Create Blob URL
-                    .attr("target", "_blank")
-                    .html(`<i class="fa fa-file" aria-hidden="true"></i> ${file.name}`);
-
-                // Create the close button
-                const closeButton = $("<div>").addClass("close_btn").css({
-                    "cursor": "pointer",
-                    "color": "red"
-                });
-                const closeIcon = $("<i>").addClass("fa fa-close").attr("aria-hidden", "true");
-
-                // Append the close icon to the close button
-                closeButton.append(closeIcon);
-
-                // Remove the selected file when close button is clicked
-                closeButton.on("click", function () {
-                    selectedFiles.items.clear(); // Remove file from DataTransfer
-                    fileInput[0].files = selectedFiles.files; // Update file input
-                    fileList.empty(); // Clear UI
-                });
-
-                // Append elements
-                fileDiv.append(fileLink).append(closeButton);
-                fileList.append(fileDiv);
-            }
-
-            // Update the file input with the modified FileList (only one file)
-            fileInput[0].files = selectedFiles.files;
-        });
-    });
-}
-
-// Call the function when the document is ready
-$(document).ready(function () {
-    initializeFileUpload();
-});
-
-
-    $('.del_eve').on('click',function(){
-        const eve_id = $(this).attr('eve_id');
-        $.ajax({
-                url: "{{ url('/nurse') }}/removeEligibilityFile", 
-                type: 'GET',
-                data: { id: eve_id }, // Pass the ID as a parameter
-                success: function (response) {
-                    
-                    $(`.del_eve[eve_id="${eve_id}"]`).closest('.file-item').remove();
-                },
-                error: function (xhr, status, error) {
-                    console.error(`Failed to fetch data for ID: ${eve_id}`, error);
-                },
-            });
-    });
-
-    $('.del_ndis_eve').on('click', function () {
-      const eve_id = $(this).attr('eve_id'); // Get the file id
-
-      $.ajax({
-          url: "{{ url('/nurse') }}/removendisFile",
-          type: 'GET',
-          data: { id: eve_id }, // Pass the file id as a parameter
-          success: function (response) {
-              // Find the file item and remove it
-              $(`.del_ndis_eve[eve_id="${eve_id}"]`).closest('.file-item').remove();
-          },
-          error: function (xhr, status, error) {
-              console.error(`Failed to fetch data for ID: ${eve_id}`, error);
-          },
-      });
-    });
-
-    $('.del_wwcc_eve').on('click', function () {
-      const eve_id = $(this).attr('eve_id'); // Get the file id
-
-      $.ajax({
-          url: "{{ url('/nurse') }}/removewwccFile",
-          type: 'GET',
-          data: { id: eve_id }, // Pass the file id as a parameter
-          success: function (response) {
-              // Find the file item and remove it
-              $(`.del_wwcc_eve[eve_id="${eve_id}"]`).closest('.file-item').remove();
-          },
-          error: function (xhr, status, error) {
-              console.error(`Failed to fetch data for ID: ${eve_id}`, error);
-          },
-      });
-    });
-
-    $('.del_pc_eve').on('click', function () {
-      const eve_id = $(this).attr('eve_id'); // Get the file id
-
-      $.ajax({
-          url: "{{ url('/nurse') }}/removePolicyFile",
-          type: 'GET',
-          data: { id: eve_id }, // Pass the file id as a parameter
-          success: function (response) {
-              // Find the file item and remove it
-              $(`.del_pc_eve[eve_id="${eve_id}"]`).closest('.file-item').remove();
-          },
-          error: function (xhr, status, error) {
-              console.error(`Failed to fetch data for ID: ${eve_id}`, error);
-          },
-      });
-    });
-
-    $('.del_sc_eve').on('click', function () {
-      const eve_id = $(this).attr('eve_id'); // Get the file id
-
-      $.ajax({
-          url: "{{ url('/nurse') }}/removeSpecializedFile",
-          type: 'GET',
-          data: { id: eve_id }, // Pass the file id as a parameter
-          success: function (response) {
-              // Find the file item and remove it
-              $(`.del_sc_eve[eve_id="${eve_id}"]`).closest('.file-item').remove();
-          },
-          error: function (xhr, status, error) {
-              console.error(`Failed to fetch data for ID: ${eve_id}`, error);
-          },
-      });
-    });
-    
-    
 </script>
 
 <script>
