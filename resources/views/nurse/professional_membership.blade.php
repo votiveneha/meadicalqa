@@ -100,7 +100,7 @@
               <div class="tab-pane fade" id="tab-professional-membership" >
 
                 <div class="card shadow-sm border-0 p-4 mt-30">
-                  <h3 class="mt-0 color-brand-1 mb-2">Professional Memberships</h3>
+                  <h3 class="mt-0 color-brand-1 mb-2">Professional Memberships & Awards</h3>
                   <div class="professional_membership_text">
                     <p>
                       List any professional memberships or affiliations relevant to your nursing or midwifery career, such as associations, councils, organizations or societies.
@@ -152,7 +152,7 @@
                         @endif
                       </ul>
                       <select class="js-example-basic-multiple addAll_removeAll_btn organization_country" data-list-id="organization_country" name="organization_country[]" multiple="multiple"></select>
-                      <span id="reqprofessassociation" class="reqError text-danger valley"></span>
+                      <span id="reqorganization_country" class="reqError text-danger valley"></span>
                     </div>
                     <div class="show_country_org">
                       <?php
@@ -221,7 +221,7 @@
                             </ul><select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="subcountry_organization-{{ $p_arr1 }}" id="subcountry_organization_select" name="subcountry_organization[{{ $p_arr }}][{{ $p_arr1 }}][]" onchange="memberships_type('edit','{{ $p_arr }}','{{ $p_arr1 }}',{{ $i+1 }},{{{ $j+1 }}})" multiple="multiple">
                             </select>
                           </div>
-                          <div class="show_membership_type-{{ $p_arr1 }}">
+                          <div class="show_membership_type-{{ $p_arr }}{{ $p_arr1 }}">
                             <?php
                               $k = 0;  
                             ?>
@@ -316,12 +316,12 @@
 
                       </ul>
                       <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="des_profession_association" name="des_profession_association[]" multiple="multiple"></select>
-                      <span id="reqprofessassociation" class="reqError text-danger valley"></span>
+                      <span id="reqorg_name" class="reqError text-danger valley"></span>
                     </div>
                     <div class="form-group level-drp">
                       <label class="form-label" for="input-1">Date Joined</label>
                       <input class="form-control graduation_start_date" type="date" name="date_joined" value="@if(!empty($professional_membership)){{ $professional_membership->date_joined }}@endif" onchange="changeDate(event);">
-                      <span id="reqstartdate" class="reqError text-danger valley"></span>
+                      <span id="reqjoined_date" class="reqError text-danger valley"></span>
                     </div>
                     
                     <div class="form-group level-drp">
@@ -338,7 +338,7 @@
                         <option value="Membership Renewal Pending" @if(!empty($professional_membership) && $professional_membership->membership_status == "Membership Renewal Pending") selected @endif>Membership Renewal Pending</option>
 
                       </select>
-                      <span id="reqmemberstatus" class="reqError text-danger valley"></span>
+                      <span id="reqmembership_status" class="reqError text-danger valley"></span>
                     </div>
                     <div class="form-group level-drp">
                       <label class="form-label" for="input-1">Awards & Recognitions:</label>
@@ -369,7 +369,7 @@
                         @endif
                       </ul>
                       <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="awards_recognitions" name="awards_recognitions[]" multiple="multiple"></select>
-                      <span id="reqprofessassociation" class="reqError text-danger valley"></span>
+                      <span id="reqawards_recognitions" class="reqError text-danger valley"></span>
                     </div>
                     <div class="show_award_reg">
                       @foreach ($awards_recognition_arr as $a_reg_arr)
@@ -743,14 +743,15 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
                 org_text += "<li data-value='"+data1.country_organiztions[j].organization_id+"'>"+data1.country_organiztions[j].organization_country+"</li>"; 
                 
               }
-              $(".show_subcountry_org-"+country_org).append('<div class="sub_country_div sub_country_div-'+data1.organization_id+'" data-name="'+data1.country_name+'"<div class="form-group level-drp o_country_div-'+country_org+' o_subcountry_div-'+data1.organization_id+' organization_subcountry_div organization_subcountry_div-'+data1.organization_id+'"><label class="form-label organization_subcountry_label" for="input-1">'+data1.country_name+':</label><ul id="subcountry_organization-'+data1.organization_id+'" style="display:none;">'+org_text+'</ul><input type="hidden" name="subcountry_org_list" class="subcountry_org_list subcountry_org_list-'+data1.organization_id+'" value="'+data1.organization_id+'"><select class="js-example-basic-multiple'+country_org+data1.organization_id+' addAll_removeAll_btn" data-list-id="subcountry_organization-'+data1.organization_id+'" id="subcountry_organization_select" name="subcountry_organization['+country_org+']['+data1.organization_id+'][]" multiple="multiple"></select></div><div class="show_membership_type-'+data1.organization_id+'"></div></div>');
+              $(".show_subcountry_org-"+country_org).append('<div class="sub_country_div sub_country_div-'+data1.organization_id+'" data-name="'+data1.country_name+'"><div class="form-group level-drp o_country_div-'+country_org+' o_subcountry_div-'+data1.organization_id+' organization_subcountry_div organization_subcountry_div-'+data1.organization_id+'"><label class="form-label organization_subcountry_label" for="input-1">'+data1.country_name+':</label><ul id="subcountry_organization-'+data1.organization_id+'" style="display:none;">'+org_text+'</ul><input type="hidden" name="subcountry_org_list" class="subcountry_org_list subcountry_org_list-'+data1.organization_id+'" value="'+data1.organization_id+'"><select class="js-example-basic-multiple'+country_org+data1.organization_id+' addAll_removeAll_btn" data-list-id="subcountry_organization-'+data1.organization_id+'" id="subcountry_organization_select" name="subcountry_organization['+country_org+']['+data1.organization_id+'][]" multiple="multiple"></select></div><div class="show_membership_type-'+country_org+data1.organization_id+'"></div></div>');
               
-              var $wrapper = $('.show_country_org');
-
-              $wrapper.find('.country_whole_div').sort(function (a, b) {
-                  return +a.dataset.name - +b.dataset.name;
-              })
-              .appendTo( $wrapper );
+              var alphabeticallyOrderedDivs = $('.sub_country_div').sort(function(a, b) {
+                return String.prototype.localeCompare.call($(a).data('name').toLowerCase(), $(b).data('name').toLowerCase());
+              });
+            
+          var container = $(".show_subcountry_org-"+country_org);
+          container.append(alphabeticallyOrderedDivs);
+          $('.country_whole_div-'+country_org).append(container);
 
               selectTwoFunction(country_org+data1.organization_id);
               
@@ -804,12 +805,13 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
                 }
                 $(".show_subcountry_org-"+country_org).append('<div class="sub_country_div sub_country_div-'+data1.organization_id+'" data-name="'+data1.country_name+'"><div class="form-group level-drp o_country_div-'+country_org+' ed-o_subcountry_div-'+data1.organization_id+' organization_subcountry_div organization_subcountry_div-'+data1.organization_id+' ed-organization_subcountry_div-'+data1.organization_id+'"><label class="form-label organization_subcountry_label" for="input-1">'+data1.country_name+':</label><input type="hidden" name="subcountry_org_list" class="subcountry_org_list subcountry_org_list-'+data1.organization_id+'" value="'+data1.organization_id+'"><ul id="subcountry_organization-'+data1.organization_id+'" style="display:none;">'+org_text+'</ul><select class="js-example-basic-multiple'+country_org+data1.organization_id+' addAll_removeAll_btn" data-list-id="subcountry_organization-'+data1.organization_id+'" id="subcountry_organization_select" name="subcountry_organization['+country_org+']['+data1.organization_id+'][]" multiple="multiple"></select></div><div class="show_membership_type-'+country_org+data1.organization_id+'"></div></div>');
                 
-                var $wrapper = $('.show_subcountry_org-'+country_org);
-
-                $wrapper.find('.sub_country_div').sort(function (a, b) {
-                    return +a.dataset.name - +b.dataset.name;
-                })
-                .appendTo( $wrapper );
+                var alphabeticallyOrderedDivs = $('.sub_country_div').sort(function(a, b) {
+                return String.prototype.localeCompare.call($(a).data('name').toLowerCase(), $(b).data('name').toLowerCase());
+              });
+            
+              var container = $(".show_subcountry_org-"+country_org);
+              container.append(alphabeticallyOrderedDivs);
+              $('.country_whole_div-'+country_org).append(container);
 
                 selectTwoFunction(country_org+data1.organization_id);
                 
@@ -828,7 +830,7 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
       let selectedValues = $('.js-example-basic-multiple[data-list-id="subcountry_organization-'+organization_id+'"]').val();
       console.log("selectedValues",selectedValues);
       
-      $(".show_membership_type-"+organization_id+" .subsubcountry_org_list").each(function(i,val){
+      $(".show_membership_type-"+country_org+organization_id+" .subsubcountry_org_list").each(function(i,val){
         var val1 = $(val).val();
         console.log("val",val1);
         if(selectedValues.includes(val1) == false){
@@ -856,7 +858,16 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
                 
               }
               
-              $(".show_membership_type-"+country_org+organization_id).append('<div class="form-group level-drp o_country_div-'+country_org+' o_subcountry_div-'+organization_id+' membership_type_div membership_type_div-'+data1.organization_id+'"><label class="form-label membership_type_label" for="input-1">Membership Type('+data1.organization_name+')</label><input type="hidden" name="subsubcountry_org_list" class="subsubcountry_org_list subsubcountry_org_list-'+data1.organization_id+'" value="'+data1.organization_id+'"><ul id="membership_type-'+data1.organization_id+'" style="display:none;">'+membership_text+'</ul><select class="js-example-basic-multiple'+country_org+data1.organization_id+' addAll_removeAll_btn" data-list-id="membership_type-'+data1.organization_id+'" id="subcountry_organization_select" name="membership_type['+k+']['+l+']['+i+'][]" multiple="multiple"></select></div><div class="show_submembership_type-'+data1.organization_id+'"></div>');
+              
+              $(".show_membership_type-"+country_org+organization_id).append('<div class="form-group level-drp o_country_div-'+country_org+' o_subcountry_div-'+organization_id+' membership_type_div membership_type_div-'+data1.organization_id+'"><label class="form-label membership_type_label" for="input-1">Membership Type('+data1.organization_name+')</label><input type="hidden" name="subsubcountry_org_list" class="subsubcountry_org_list subsubcountry_org_list-'+data1.organization_id+'" value="'+data1.organization_id+'"><ul id="membership_type-'+data1.organization_id+'" style="display:none;">'+membership_text+'</ul><select class="js-example-basic-multiple'+country_org+data1.organization_id+' addAll_removeAll_btn" data-list-id="membership_type-'+data1.organization_id+'" id="subcountry_organization_select" name="membership_type['+k+']['+l+']['+i+'][]" multiple="multiple"></select></div><div class="show_submembership_type-'+country_org+organization_id+data1.organization_id+'"></div>');
+              
+              var alphabeticallyOrderedDivs = $('.sub_country_div').sort(function(a, b) {
+                return String.prototype.localeCompare.call($(a).data('name').toLowerCase(), $(b).data('name').toLowerCase());
+              });
+            
+              var container = $(".show_subcountry_org-"+country_org);
+              container.append(alphabeticallyOrderedDivs);
+              $('.country_whole_div-'+country_org).append(container);
               selectTwoFunction(country_org+data1.organization_id);
               submemberships_type('',country_org,data1.organization_id,organization_id,k,l,i);
             }
@@ -880,7 +891,7 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
         
 
         for(var i=0;i<selectedValues.length;i++){
-          if($(".show_membership_type-"+organization_id+" .membership_type_div-"+selectedValues[i]).length < 1){
+          if($(".show_membership_type-"+country_org+organization_id+" .membership_type_div-"+selectedValues[i]).length < 1){
             $.ajax({
               type: "GET",
               url: "{{ url('/nurse/getMembershipData') }}",
@@ -898,7 +909,7 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
                   
                 }
 
-                $(".show_membership_type-"+country_org+organization_id).append('<div class="membership_type_div-'+data1.organization_id+'"><div class="form-group level-drp o_country_div-'+country_org+' ed-o_subcountry_div-'+organization_id+' membership_type_div membership_type_div-'+data1.organization_id+' ed-membership_type_div-'+data1.organization_id+'"><label class="form-label membership_type_label" for="input-1">Membership Type('+data1.organization_name+')</label><input type="hidden" name="subsubcountry_org_list" class="subsubcountry_org_list subsubcountry_org_list-'+data1.organization_id+'" value="'+data1.organization_id+'"><ul id="membership_type-'+data1.organization_id+'" style="display:none;">'+membership_text+'</ul><select class="js-example-basic-multiple'+country_org+data1.organization_id+' addAll_removeAll_btn" data-list-id="membership_type-'+data1.organization_id+'" id="subcountry_organization_select" name="membership_type['+country_org+']['+organization_id+']['+data1.organization_id+'][]" multiple="multiple"></select></div><div class="show_submembership_type-'+data1.organization_id+'"></div></div>');
+                $(".show_membership_type-"+country_org+organization_id).append('<div class="membership_type_divs-'+data1.organization_id+'"><div class="form-group level-drp o_country_div-'+country_org+' ed-o_subcountry_div-'+organization_id+' membership_type_div membership_type_div-'+data1.organization_id+' ed-membership_type_div-'+data1.organization_id+'"><label class="form-label membership_type_label" for="input-1">Membership Type('+data1.organization_name+')</label><input type="hidden" name="subsubcountry_org_list" class="subsubcountry_org_list subsubcountry_org_list-'+data1.organization_id+'" value="'+data1.organization_id+'"><ul id="membership_type-'+data1.organization_id+'" style="display:none;">'+membership_text+'</ul><select class="js-example-basic-multiple'+country_org+data1.organization_id+' addAll_removeAll_btn" data-list-id="membership_type-'+data1.organization_id+'" id="subcountry_organization_select" name="membership_type['+country_org+']['+organization_id+']['+data1.organization_id+'][]" multiple="multiple"></select></div><div class="show_submembership_type-'+country_org+organization_id+data1.organization_id+'"></div></div>');
                 selectTwoFunction(country_org+data1.organization_id);
                 submemberships_type('',country_org,data1.organization_id,organization_id,k,l,i);
               }
@@ -912,12 +923,12 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
 
 
   function submemberships_type(ed, country_org,organization_id,organization_id1,k,l,m){
-
+    
     if(ed == "edit"){
       let selectedValues = $('.js-example-basic-multiple[data-list-id="membership_type-'+organization_id+'"]').val();
       console.log("selectedValues",selectedValues);
       
-      $(".show_submembership_type-"+organization_id+" .submemb_list").each(function(i,val){
+      $(".show_submembership_type-"+country_org+organization_id1+organization_id+" .submemb_list").each(function(i,val){
         var val1 = $(val).val();
         console.log("val",val1);
         if(selectedValues.includes(val1) == false){
@@ -927,7 +938,7 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
       });
 
       for(var i=0;i<selectedValues.length;i++){
-        if($(".show_submembership_type-"+organization_id+" .submembership_type_div-"+selectedValues[i]).length < 1){
+        if($(".show_submembership_type-"+country_org+organization_id1+organization_id+" .submembership_type_div-"+selectedValues[i]).length < 1){
           $.ajax({
             type: "GET",
             url: "{{ url('/nurse/getSubMembershipData') }}",
@@ -944,8 +955,8 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
                 membership_text += "<li data-value='"+data1.membership_type[j].membership_id+"'>"+data1.membership_type[j].membership_name+"</li>"; 
                 
               }
-              $(".show_submembership_type-"+organization_id).append('<div class="form-group level-drp o_country_div-'+country_org+' ed-o_membtype_div-'+organization_id+' submembership_type_div submembership_type_div-'+data1.organization_id+'"><label class="form-label submembership_type_label" for="input-1">'+data1.organization_name+'</label><input type="hidden" name="submemb_list" class="submemb_list submemb_list-'+data1.organization_id+'" value="'+data1.organization_id+'"><ul id="submembership_type-'+data1.organization_id+'-'+organization_id+'" style="display:none;">'+membership_text+'</ul><select class="js-example-basic-multiple'+organization_id1+data1.organization_id+' addAll_removeAll_btn" data-list-id="submembership_type-'+data1.organization_id+'-'+organization_id+'" id="subcountry_organization_select" name="submembership_type['+k+']['+l+']['+m+']['+i+'][]" multiple="multiple"></select></div>');
-              selectTwoFunction(organization_id1+data1.organization_id);
+              $(".show_submembership_type-"+country_org+organization_id1+organization_id).append('<div class="form-group level-drp o_country_div-'+country_org+' ed-o_membtype_div-'+organization_id+' submembership_type_div submembership_type_div-'+data1.organization_id+'"><label class="form-label submembership_type_label" for="input-1">'+data1.organization_name+'</label><input type="hidden" name="submemb_list" class="submemb_list submemb_list-'+data1.organization_id+'" value="'+data1.organization_id+'"><ul id="submembership_type-'+data1.organization_id+'-'+organization_id+'" style="display:none;">'+membership_text+'</ul><select class="js-example-basic-multiple'+ountry_org+organization_id1+organization_id+' addAll_removeAll_btn" data-list-id="submembership_type-'+data1.organization_id+'-'+organization_id+'" id="subcountry_organization_select" name="submembership_type['+k+']['+l+']['+m+']['+i+'][]" multiple="multiple"></select></div>');
+              selectTwoFunction(ountry_org+organization_id1+organization_id);
               
               
             }
@@ -959,7 +970,7 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
         let selectedValues = $(this).val();
         console.log("selectedValues",selectedValues);
 
-        $(".show_submembership_type-"+organization_id+" .submemb_list").each(function(i,val){
+        $(".show_submembership_type-"+country_org+organization_id1+organization_id+" .submemb_list").each(function(i,val){
           var val1 = $(val).val();
           console.log("val",val1);
           if(selectedValues.includes(val1) == false){
@@ -970,7 +981,7 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
         
 
         for(var i=0;i<selectedValues.length;i++){
-          if($(".show_submembership_type-"+organization_id+" .submembership_type_div-"+selectedValues[i]).length < 1){
+          if($(".show_submembership_type-"+country_org+organization_id1+organization_id+" .submembership_type_div-"+selectedValues[i]).length < 1){
             $.ajax({
               type: "GET",
               url: "{{ url('/nurse/getSubMembershipData') }}",
@@ -987,8 +998,8 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
                   membership_text += "<li data-value='"+data1.membership_type[j].membership_id+"'>"+data1.membership_type[j].membership_name+"</li>"; 
                   
                 }
-                $(".show_submembership_type-"+organization_id).append('<div class="submembership_type_div-'+country_org+'-'+data1.organization_id+'"><div class="form-group level-drp o_country_div-'+country_org+' ed-o_subcountry_div-'+organization_id1+' ed-o_membtype_div-'+organization_id+' submembership_type_div submembership_type_div-'+data1.organization_id+' ed-submembership_type_div-'+data1.organization_id+'"><label class="form-label submembership_type_label" for="input-1">'+data1.organization_name+'</label><input type="hidden" name="submemb_list" class="submemb_list submemb_list-'+country_org+'-'+data1.organization_id+'" value="'+data1.organization_id+'"><ul id="submembership_type-'+data1.organization_id+'-'+organization_id+'" style="display:none;">'+membership_text+'</ul><select class="js-example-basic-multiple'+organization_id1+data1.organization_id+' addAll_removeAll_btn" data-list-id="submembership_type-'+data1.organization_id+'-'+organization_id+'" id="subcountry_organization_select" name="submembership_type['+country_org+']['+organization_id1+']['+organization_id+']['+data1.organization_id+'][]" multiple="multiple"></select></div>');
-                selectTwoFunction(organization_id1+data1.organization_id);
+                $(".show_submembership_type-"+country_org+organization_id1+organization_id).append('<div class="submembership_type_div-'+country_org+'-'+data1.organization_id+'"><div class="form-group level-drp o_country_div-'+country_org+' ed-o_subcountry_div-'+organization_id1+' ed-o_membtype_div-'+organization_id+' submembership_type_div submembership_type_div-'+data1.organization_id+' ed-submembership_type_div-'+data1.organization_id+'"><label class="form-label submembership_type_label" for="input-1">'+data1.organization_name+'</label><input type="hidden" name="submemb_list" class="submemb_list submemb_list-'+country_org+'-'+data1.organization_id+'" value="'+data1.organization_id+'"><ul id="submembership_type-'+data1.organization_id+'-'+organization_id+'" style="display:none;">'+membership_text+'</ul><select class="js-example-basic-multiple'+country_org+organization_id1+organization_id+' addAll_removeAll_btn" data-list-id="submembership_type-'+data1.organization_id+'-'+organization_id+'" id="subcountry_organization_select" name="submembership_type['+country_org+']['+organization_id1+']['+organization_id+']['+data1.organization_id+'][]" multiple="multiple"></select></div>');
+                selectTwoFunction(country_org+organization_id1+organization_id);
                 
                 
               }
@@ -1270,8 +1281,46 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
   });
 
   function professional_membership_form() {
+    var isValid = true;
+
+    if ($('[name="organization_country[]"]').val() == '') {
+
+      document.getElementById("reqorganization_country").innerHTML = "* Please select the Organization Country";
+      isValid = false;
+
+    }
+
+    if ($('[name="des_profession_association[]"]').val() == '') {
+
+      document.getElementById("reqorg_name").innerHTML = "* Please select the Organization Name";
+      isValid = false;
+
+    }
+
+    if ($('[name="date_joined"]').val() == '') {
+
+      document.getElementById("reqjoined_date").innerHTML = "* Please select the Joined Date";
+      isValid = false;
+
+    }
+
+    if ($('[name="prof_membership_status"]').val() == '') {
+
+      document.getElementById("reqmembership_status").innerHTML = "* Please select the Status";
+      isValid = false;
+
+    }
+
+    if ($('[name="awards_recognitions[]"]').val() == '') {
+
+      document.getElementById("reqawards_recognitions").innerHTML = "* Please select the Awards & Recognitions";
+      isValid = false;
+
+    }
     
-    $.ajax({
+    if (isValid == true) {
+
+      $.ajax({
         url: "{{ route('nurse.updateProfessionalMembership') }}",
         type: "POST",
         cache: false,
@@ -1301,18 +1350,19 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
               title: 'Error',
               text: res.message,
             })
-          }
-
-        },
-        error: function(errorss) {
-          $('#submitProfessionalMembership').prop('disabled', false);
-          $('#submitProfessionalMembership').text('Save Changes');
-          console.log("errorss", errorss);
-          for (var err in errorss.responseJSON.errors) {
-            $("#submitProfessionalMembership").find("[name='" + err + "']").after("<div class='text-danger'>" + errorss.responseJSON.errors[err] + "</div>");
-          }
         }
-      });
+
+      },
+      error: function(errorss) {
+        $('#submitProfessionalMembership').prop('disabled', false);
+        $('#submitProfessionalMembership').text('Save Changes');
+        console.log("errorss", errorss);
+        for (var err in errorss.responseJSON.errors) {
+          $("#submitProfessionalMembership").find("[name='" + err + "']").after("<div class='text-danger'>" + errorss.responseJSON.errors[err] + "</div>");
+        }
+      }
+    });
+    }
       return false;
   }
 </script>
