@@ -3386,39 +3386,294 @@
             </div>
             <div class="card-body p-3 px-md-4">
                 <div class="col-md-12">
+                    <?php
+                        if(!empty($proMembershipData)){
+                          $organization_data = json_decode($proMembershipData->organization_data);
+                          
+                        }else{
+                          $organization_data = array(); 
+                        }
+                        
+                        
+                        $o_data = (array)$organization_data;
+                        $p_memb_arr = array();
+
+                        foreach ($organization_data as $p_memb) {
+                          
+                          //print_r($p_memb);
+                          $p_memb_arr[] = array_search($p_memb, (array)$organization_data);
+                          
+                        }
+
+                        
+                        
+                      ?>
                     @if($proMembershipData)
                     <div class="row">
-                        @if(isset($proMembershipData->des_profession_association) && $proMembershipData->des_profession_association)
-                        <?php $data = json_decode($proMembershipData->des_profession_association, true) ?>
+                        
+                        <?php
+                            $organization_name_array = array();
+                        ?>
+                        @foreach($p_memb_arr as $pmem)
+                            <?php
+                                $organization_data = DB::table("professional_organization")->where("organization_id",$pmem)->first();
+                                $organization_name_array[] = $organization_data->organization_country;
+                            ?>
+                            
+                        @endforeach
+                        
                         <div class="col-md-12 mt-3">
                             <div class="d-flex gap-3 flex-wrap">
-                                <strong>Professional Associations : </strong>
+                                <strong>Organization Country</strong>
                                 <ul class="dropdown-list">
-                                    @forelse($data as $key => $value)
-                                    <li><span class="dropdown-item-custom">{{ $value }} , </span></li>
-                                    @empty
-                                    <li><a href="#" class="dropdown-item-custom"></a></li>
-                                    @endforelse
+                                    @foreach($p_memb_arr as $pmem)
+                                    <?php
+                                        $organization_data = DB::table("professional_organization")->where("organization_id",$pmem)->first();
+                                        
+                                    ?>
+                                    <li><span class="dropdown-item-custom">{{ $organization_data->organization_country }} </span></li>
+                                    
+                                    @endforeach
                                 </ul>
                             </div>
                         </div>
-                        @endif
-                        @if(isset($proMembershipData->membership_numbers) && $proMembershipData->membership_numbers)
-                        <div class="col-md-6 mt-3">
-                            <div class="d-flex gap-3 flex-wrap">
-                                <strong>Membership Numbers : </strong><span>{{ $proMembershipData->membership_numbers }}</span>
-                            </div>
-                        </div>
-                        @endif
+                        <div class="show_country_org">
+                            @foreach($p_memb_arr as $p_arr)
+                            <?php
+                                $country_name = DB::table("professional_organization")->where("organization_id",$p_arr)->first();
+                                $os_data = (array)$o_data[$p_arr];
+                                $sub_count_arr = array();
 
-                        @if(isset($proMembershipData->membership_status) && $proMembershipData->membership_status)
-                        <div class="col-md-6 mt-3">
+                                foreach ($os_data as $p_memb) {
+                                    $sub_count_arr[] = array_search($p_memb, $os_data);
+                                }
+
+                                //print_r($sub_count_arr);
+                            ?>  
+                            <div class="col-md-12 mt-3">
+                                <div class="d-flex gap-3 flex-wrap">
+                                    <strong>{{ $country_name->organization_name }}</strong>
+                                    <ul class="dropdown-list">
+                                        @foreach($sub_count_arr as $s_count)
+                                        <?php
+                                            $organization_data = DB::table("professional_organization")->where("organization_id",$s_count)->first();
+                                            
+                                        ?>
+                                        <li><span class="dropdown-item-custom">{{ $organization_data->organization_country }} </span></li>
+                                        
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>  
+                            <div class="show_subcountry_org-{{ $p_arr }}">
+                                @foreach ($sub_count_arr as $p_arr1)
+                                <?php
+                                    $country_name = DB::table("professional_organization")->where("organization_id",$p_arr1)->first();
+                                    $oss_data = (array)$os_data[$p_arr1];
+                                    $subsub_count_arr = array();
+
+                                    foreach ($oss_data as $p_memb) {
+                                        $subsub_count_arr[] = array_search($p_memb, $oss_data);
+                                    }
+                                ?>
+                                <div class="col-md-12 mt-3">
+                                    <div class="d-flex gap-3 flex-wrap">
+                                        <strong>{{ $country_name->organization_country }}</strong>
+                                        <ul class="dropdown-list">
+                                            @foreach($subsub_count_arr as $ss_count)
+                                            <?php
+                                                $organization_data = DB::table("professional_organization")->where("organization_id",$ss_count)->first();
+                                                
+                                            ?>
+                                            <li><span class="dropdown-item-custom">{{ $organization_data->organization_country }} </span></li>
+                                            
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                </div> 
+                                <div class="show_membership_type-{{ $p_arr }}{{ $p_arr1 }}">
+                                    @foreach ($subsub_count_arr as $p_arr2)
+                                    <?php
+                                        $membership_type = DB::table("membership_type")->where("submember_id","0")->orderBy('membership_name', 'ASC')->get();
+                                        $osm_data = (array)$oss_data[$p_arr2];
+                                        $memb_type_arr = array();
+
+                                        foreach ($osm_data as $m_type_arr) {
+                                            $memb_type_arr[] = array_search($m_type_arr, $osm_data);
+                                        }
+                                    
+                                    
+                                    ?>
+                                    @endforeach
+                                    <div class="col-md-12 mt-3">
+                                        <div class="d-flex gap-3 flex-wrap">
+                                            <strong>Membership Type({{ $country_name->organization_country }})</strong>
+                                            <ul class="dropdown-list">
+                                                @foreach($memb_type_arr as $mt_arr)
+                                                <?php
+                                                    $organization_data = DB::table("membership_type")->where("membership_id",$mt_arr)->first();
+                                                    
+                                                ?>
+                                                <li><span class="dropdown-item-custom">{{ $organization_data->membership_name }} </span></li>
+                                                
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    </div> 
+                                    <div class="show_submembership_type-{{ $p_arr2 }}">
+                                        @foreach ($memb_type_arr as $p_arr3)
+                                        <?php
+                                            $membership_name = DB::table("membership_type")->where("membership_id",$p_arr3)->first();
+                                            
+                                            $ossm_data = (array)$osm_data[$p_arr3];
+                                            $memb_type_arr = array();
+                                        
+                                            foreach ($ossm_data as $m_type_arr) {
+                                            $memb_type_arr[] = $m_type_arr;
+                                            
+                                            }
+
+                                        ?>
+                                        @endforeach
+                                    </div>
+                                    <div class="col-md-12 mt-3">
+                                        <div class="d-flex gap-3 flex-wrap">
+                                            <strong>{{ $membership_name->membership_name }}</strong>
+                                            <ul class="dropdown-list">
+                                                @foreach($memb_type_arr as $mt_arr)
+                                                <?php
+                                                    $organization_data = DB::table("membership_type")->where("membership_id",$mt_arr)->first();
+                                                    
+                                                ?>
+                                                <li><span class="dropdown-item-custom">{{ $organization_data->membership_name }} </span></li>
+                                                
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    </div> 
+                                </div>
+                                @endforeach
+                            </div>
+                            @endforeach
+                        </div>
+                        <div class="col-md-12 mt-3">
                             <div class="d-flex gap-3 flex-wrap">
-                                <strong>Status: </strong>
-                                <span>{{$proMembershipData->membership_status}}</span>
+                                <strong>Organization Name</strong>
+                                <?php
+                                    $organization_name_data = json_decode($proMembershipData->des_profession_association);
+                                ?>
+                                <ul class="dropdown-list">
+                                    @foreach($organization_name_data as $org_name)
+                                    
+                                    <li><span class="dropdown-item-custom">{{ $org_name }} </span></li>
+                                    
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </div> 
+                        <div class="col-md-12 mt-3">
+                            <div class="d-flex gap-3 flex-wrap">
+                                <strong>Date Joined:</strong>
+                                <span>{{ $proMembershipData->date_joined }}</span>
+                            </div>
+                        </div> 
+                        <div class="col-md-12 mt-3">
+                            <div class="d-flex gap-3 flex-wrap">
+                                <strong>Status:</strong>
+                                <span>{{ $proMembershipData->membership_status }}</span>
+                            </div>
+                        </div> 
+                        <?php
+                            if(!empty($proMembershipData)){
+                            $award_data = json_decode($proMembershipData->award_recognitions);
+                            
+                            }else{
+                            $award_data = array(); 
+                            }
+                            
+                            
+                            $a_data = (array)$award_data;
+                            $awards_recognition_arr = array();
+
+                            foreach ($a_data as $a_reg) {
+                            $awards_recognition_arr[] = array_search($a_reg, $a_data);
+                            }  
+
+                        ?>
+                        <div class="col-md-12 mt-3">
+                            <div class="d-flex gap-3 flex-wrap">
+                                <strong>Awards & Recognitions</strong>
+                                <ul class="dropdown-list">
+                                    @foreach($awards_recognition_arr as $award_name)
+                                    <?php
+                                        $award_data_name = DB::table("awards_recognitions")->where("award_id",$award_name)->first();
+                                        
+                                    ?>
+                                    <li><span class="dropdown-item-custom">{{ $award_data_name->award_name }} </span></li>
+                                    
+                                    @endforeach
+                                </ul>
                             </div>
                         </div>
-                        @endif
+                        <div class="show_award_reg">
+                            @foreach ($awards_recognition_arr as $a_reg_arr)
+                            <?php
+                                
+                                
+                                $subawards_name = DB::table("awards_recognitions")->where("award_id",$a_reg_arr)->first();
+                                $as_data = (array)$a_data[$a_reg_arr];
+                                $subawards_recognition_arr = array();
+
+                                foreach ($as_data as $suba_reg) {
+                                    $subawards_recognition_arr[] = $suba_reg;
+                                }
+                            
+                            ?>    
+                            @endforeach
+                            <div class="col-md-12 mt-3">
+                                <div class="d-flex gap-3 flex-wrap">
+                                    <strong>{{ $subawards_name->award_name }}</strong>
+                                    <ul class="dropdown-list">
+                                        @foreach($subawards_recognition_arr as $award_id)
+                                        <?php
+                                            $award_data_name = DB::table("awards_recognitions")->where("award_id",$award_id)->first();
+                                            
+                                        ?>
+                                        <li><span class="dropdown-item-custom">{{ $award_data_name->award_name }} </span></li>
+                                        
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-12 mt-3">
+                                <div class="d-flex gap-3 flex-wrap">
+                                    <div class="evidence_label">
+                                        <strong>Evidence</strong>
+                                    </div>
+                                    
+                                    <div class="memb_evdence">
+                                        @if(!empty($proMembershipData) && $proMembershipData->evidence_imgs)
+                                        <?php
+                                        $dtran_img = json_decode($proMembershipData->evidence_imgs);
+                                        //print_r($dtran_img);
+                                        
+                                        ?>
+
+                                        @if(!empty($dtran_img))
+                                        @foreach($dtran_img as $tranimg)
+                                        <div class="trans_img trans_img-{{ $i }}">
+                                        <a href="{{ url('/public/uploads/education_degree') }}/{{ $tranimg }}" target="_blank"><i class="fa fa-file"></i>{{ $tranimg }}</a>
+                                        
+                                        </div>
+                                        
+                                        @endforeach
+                                        @endif
+
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     @else
                     <div class="col-md-12">

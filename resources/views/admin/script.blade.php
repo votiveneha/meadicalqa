@@ -2777,8 +2777,8 @@
                             //$('a[href="' + targetTab + '"]').tab('show');
                             let fullPath = window.location.pathname;
                             let pathParts = fullPath.split("/").filter(part => part !== "");
-                            let uriSegment = pathParts[0] + "/" + pathParts[1];
-
+                            let uriSegment = pathParts[0];
+                            console.log("path",uriSegment);
                             var targetTab = 'tab-9';
                             var newUrl = window.location.protocol + "//" + window.location.host +'/'+uriSegment+  '/updateWorkClreance?tab=' + targetTab;
                             window.location.href = newUrl;
@@ -3905,7 +3905,21 @@
                                     title: 'Success',
                                     text: res.message,
                                 }).then(function() {
-                                    $('a[href="' + targetTab + '"]').tab('show');
+                                    let currentTab = 'navpill-5.1';
+                                    let targetTab = 'navpill-7';
+                                    let newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?tab=' + targetTab;
+
+
+                                    // Disable the current tab and save it in local storage
+                                    $('.nav-link[href="#' + currentTab + '"]').addClass('disabled').attr('aria-disabled', 'true').off('click');
+                                    let disabledTabs = JSON.parse(localStorage.getItem('disabledTabs')) || [];
+                                    if (!disabledTabs.includes(currentTab)) {
+                                        disabledTabs.push(currentTab);
+                                        localStorage.setItem('disabledTabs', JSON.stringify(disabledTabs));
+                                    }
+
+                                    // Redirect to the target tab
+                                    window.location.href = newUrl;
                                 });
                             } else {
                                 Swal.fire({

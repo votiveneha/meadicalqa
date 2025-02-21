@@ -211,5 +211,8 @@ Route::prefix('/admin')->name('admin.')->namespace('App\Http\Controllers\admin')
     Route::post('/updateSpecializedClearance', 'NurseController@updateSpecializedClearance')->name('updateSpecializedClearance');
     Route::post('/removeSpecialized', 'NurseController@removeSpecialized')->name('removeSpecialized');
 
+     /************[Professional Membership & Awards]*************/
+     Route::any('/professionalMembership','NurseController@professionalMembership')->name('professionalMembership');
+
   });
 });

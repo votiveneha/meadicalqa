@@ -253,7 +253,7 @@
                               </ul><select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="membership_type-{{ $p_arr2 }}" id="subcountry_organization_select" name="membership_type[{{ $p_arr }}][{{ $p_arr1 }}][{{ $p_arr2 }}][]" onchange="submemberships_type('edit','{{ $p_arr }}','{{ $p_arr2 }}','{{ $p_arr1 }}',{{ $i+1 }},{{ $j+1 }},{{ $k+1 }})" multiple="multiple">
                               </select>
                             </div>
-                            <div class="show_submembership_type-{{ $p_arr2 }}">
+                            <div class="show_submembership_type-{{ $p_arr }}{{ $p_arr1 }}{{ $p_arr2 }}">
                               @foreach ($memb_type_arr as $p_arr3)
                               <?php
                                 $membership_name = DB::table("membership_type")->where("membership_id",$p_arr3)->first();
@@ -389,6 +389,7 @@
                         ?>
                         <div class="form-group level-drp award_div award_country_div-{{ $a_reg_arr }}">
                           <label class="form-label award_label" for="input-1">{{ $subawards_name->award_name }}</label>
+                          <input type="hidden" name="sub_award_list" class="subaward_list subaward_list-{{ $a_reg_arr }}" value='<?php echo $a_reg_arr; ?>'>
                           <input type="hidden" name="subawards_recognition_input" class="subawards_recognition_input-{{ $a_reg_arr }}" value='<?php echo $subawards_recognition_json; ?>'>
                           <ul id="award_reg-{{ $a_reg_arr }}" style="display:none;">
                             @if(!empty($subawards_recognition))
@@ -598,14 +599,14 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
     console.log("selectedValues",selectedValues);
     //$(".show_country_org").empty();
 
-    // $(".subaward_list").each(function(i,val){
-    //   var val = $(val).val();
-    //   console.log("val",$(val).val());
-    //   if(selectedValues.includes(val) == false){
-    //     $(".award_country_div-"+val).remove();
-    //     //$(".o_country_div-"+val).remove();
-    //   }
-    // });
+    $(".subaward_list").each(function(i,val){
+      var val = $(val).val();
+      console.log("val",$(val).val());
+      if(selectedValues.includes(val) == false){
+        $(".award_country_div-"+val).remove();
+        //$(".o_country_div-"+val).remove();
+      }
+    });
     
     
     for(var i=0;i<selectedValues.length;i++){
@@ -745,13 +746,7 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
               }
               $(".show_subcountry_org-"+country_org).append('<div class="sub_country_div sub_country_div-'+data1.organization_id+'" data-name="'+data1.country_name+'"><div class="form-group level-drp o_country_div-'+country_org+' o_subcountry_div-'+data1.organization_id+' organization_subcountry_div organization_subcountry_div-'+data1.organization_id+'"><label class="form-label organization_subcountry_label" for="input-1">'+data1.country_name+':</label><ul id="subcountry_organization-'+data1.organization_id+'" style="display:none;">'+org_text+'</ul><input type="hidden" name="subcountry_org_list" class="subcountry_org_list subcountry_org_list-'+data1.organization_id+'" value="'+data1.organization_id+'"><select class="js-example-basic-multiple'+country_org+data1.organization_id+' addAll_removeAll_btn" data-list-id="subcountry_organization-'+data1.organization_id+'" id="subcountry_organization_select" name="subcountry_organization['+country_org+']['+data1.organization_id+'][]" multiple="multiple"></select></div><div class="show_membership_type-'+country_org+data1.organization_id+'"></div></div>');
               
-              var alphabeticallyOrderedDivs = $('.sub_country_div').sort(function(a, b) {
-                return String.prototype.localeCompare.call($(a).data('name').toLowerCase(), $(b).data('name').toLowerCase());
-              });
-            
-          var container = $(".show_subcountry_org-"+country_org);
-          container.append(alphabeticallyOrderedDivs);
-          $('.country_whole_div-'+country_org).append(container);
+              
 
               selectTwoFunction(country_org+data1.organization_id);
               
@@ -805,13 +800,7 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
                 }
                 $(".show_subcountry_org-"+country_org).append('<div class="sub_country_div sub_country_div-'+data1.organization_id+'" data-name="'+data1.country_name+'"><div class="form-group level-drp o_country_div-'+country_org+' ed-o_subcountry_div-'+data1.organization_id+' organization_subcountry_div organization_subcountry_div-'+data1.organization_id+' ed-organization_subcountry_div-'+data1.organization_id+'"><label class="form-label organization_subcountry_label" for="input-1">'+data1.country_name+':</label><input type="hidden" name="subcountry_org_list" class="subcountry_org_list subcountry_org_list-'+data1.organization_id+'" value="'+data1.organization_id+'"><ul id="subcountry_organization-'+data1.organization_id+'" style="display:none;">'+org_text+'</ul><select class="js-example-basic-multiple'+country_org+data1.organization_id+' addAll_removeAll_btn" data-list-id="subcountry_organization-'+data1.organization_id+'" id="subcountry_organization_select" name="subcountry_organization['+country_org+']['+data1.organization_id+'][]" multiple="multiple"></select></div><div class="show_membership_type-'+country_org+data1.organization_id+'"></div></div>');
                 
-                var alphabeticallyOrderedDivs = $('.sub_country_div').sort(function(a, b) {
-                return String.prototype.localeCompare.call($(a).data('name').toLowerCase(), $(b).data('name').toLowerCase());
-              });
-            
-              var container = $(".show_subcountry_org-"+country_org);
-              container.append(alphabeticallyOrderedDivs);
-              $('.country_whole_div-'+country_org).append(container);
+                
 
                 selectTwoFunction(country_org+data1.organization_id);
                 

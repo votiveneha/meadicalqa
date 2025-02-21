@@ -94,6 +94,55 @@
             data: items
         });
     });
+
+    if ($(".awards_recognition_input").val() != "") {
+        var awards_recognition_input = JSON.parse($(".awards_recognition_input").val());
+        $('.js-example-basic-multiple[data-list-id="awards_recognitions"]').select2().val(awards_recognition_input).trigger('change');
+        for(var i=0;i<awards_recognition_input.length;i++){
+        if ($(".subawards_recognition_input-"+awards_recognition_input[i]).val() != "") {
+            var subawards_recognition_input = JSON.parse($(".subawards_recognition_input-"+awards_recognition_input[i]).val());
+            $('.js-example-basic-multiple[data-list-id="award_reg-'+awards_recognition_input[i]+'"]').select2().val(subawards_recognition_input).trigger('change');
+        }
+        }
+    }
+
+    if ($(".organization_name").val() != "") {
+        var organization_name = JSON.parse($(".organization_name").val());
+        $('.js-example-basic-multiple[data-list-id="des_profession_association"]').select2().val(organization_name).trigger('change');
+    }
+
+    if ($(".org_country").val() != "") {
+        var org_country = JSON.parse($(".org_country").val());
+        $('.js-example-basic-multiple[data-list-id="organization_country"]').select2().val(org_country).trigger('change');
+        
+        for(var i=0;i<org_country.length;i++){
+        if ($(".country_org-"+org_country[i]).val() != "") {
+            var suborg_country = JSON.parse($(".country_org-"+org_country[i]).val());
+            $('.js-example-basic-multiple[data-list-id="country_organization-'+org_country[i]+'"]').select2().val(suborg_country).trigger('change');
+            
+            for(var j=0;j<suborg_country.length;j++){
+            if ($(".subcountry_org-"+suborg_country[j]).val() != "") {
+                var subsuborg_country = JSON.parse($(".subcountry_org-"+suborg_country[j]).val());
+                $('.js-example-basic-multiple[data-list-id="subcountry_organization-'+suborg_country[j]+'"]').select2().val(subsuborg_country).trigger('change');
+                
+                for(var k=0;k<subsuborg_country.length;k++){
+                if ($(".memb_type_input-"+subsuborg_country[k]).val() != "") {
+                    var membership_type = JSON.parse($(".memb_type_input-"+subsuborg_country[k]).val());
+                    $('.js-example-basic-multiple[data-list-id="membership_type-'+subsuborg_country[k]+'"]').select2().val(membership_type).trigger('change');
+
+                    for(var l=0;l<membership_type.length;l++){
+                    var submembership_type = JSON.parse($(".submemb_type_input-"+org_country[i]+"-"+membership_type[l]).val());
+                    console.log("submembership_type",submembership_type);
+                    $('.js-example-basic-multiple[data-list-id="submembership_type-'+membership_type[l]+"-"+subsuborg_country[j]+'"]').select2().val(submembership_type).trigger('change');
+                    }
+                }
+                }
+
+            }
+            }
+        }  
+        }
+    }
     var nurse_array = [];
     // Show corresponding job lists when an option is selected in the first select
     $('.js-example-basic-multiple[data-list-id="type-of-nurse"]').on('change', function() {

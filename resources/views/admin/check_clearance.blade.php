@@ -1040,7 +1040,8 @@
       let pathParts = fullPath.split("/").filter(part => part !== "");
       //let uriSegment = pathParts[0] + "/" + pathParts[1];
       let uriSegment = pathParts[0];
-      var newUrl = window.location.protocol + "//" + window.location.host +'/'+uriSegment+  '/add-nurse?tab=navpill-9';
+      var targetTab = 'navpill-9';
+      var newUrl = window.location.protocol + "//" + window.location.host +'/'+uriSegment+  '/professionalMembership?tab=' + targetTab;
     }
   
   function doeligibility_to_work() {

@@ -143,7 +143,7 @@
                     </a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link" data-bs-toggle="tab" href="#tab-10" role="tab" aria-selected="false"
+                    <a class="nav-link" href="{{ route('admin.professionalMembership', ['id' => $profileData->id ?? null, 'tab' => 'tab-10']) }}" aria-selected="false"
                         tabindex="-1">
                         <span>Professional Memberships</span>
                     </a>

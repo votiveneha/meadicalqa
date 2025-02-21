@@ -159,12 +159,14 @@ class NurseController extends Controller
             $interviewrefData  = $this->nurseRepository->getInterviewrefdetails(['user_id' => $request->id]);
             $personalprefData  = $this->nurseRepository->getPersonalprefdetails(['user_id' => $request->id]);
             $findworkData  = $this->nurseRepository->getfindworkdetails(['user_id' => $request->id]);
-            $proMembershipData = $this->nurseRepository->getProMembershipData(['user_id' => $request->id]);
+            
             // $vaccinationData  = $this->nurseRepository->getvaccinationdetails(['user_id' => $request->id]);
             //$policeCheckVerificationData = $this->verificationRepository->getPoliceCheckVerificationData(['user_id' => $request->id]);
             //$eligibilityToWorkData = $this->verificationRepository->getEligibilityToWorkData(['user_id' => $request->id]);
             //$workingChildrenCheckData = $this->verificationRepository->getWorkingChildrenCheckData(['user_id' => $request->id]);
             $user_id=$request->id;
+
+            $proMembershipData = DB::table('professional_membership')->where('user_id', $user_id)->first();
             //$work_eligibility   = EligibilityToWorkModel::where('user_id', $user_id)->first();                     
             $ndis               = NdisWorker::where('user_id', $user_id)->first();              
             $ww_child           = WorkingChildrenCheckModel::where('user_id', $user_id)->get();
@@ -2290,5 +2292,30 @@ class NurseController extends Controller
             return response()->json(['success' => true]);
         }
         return response()->json(['success' => false, 'message' => 'Specialized Clearance not found']);
+    }
+
+    public function professionalMembership(Request $request)
+    {
+        $data['organization_country'] = DB::table("professional_organization")->where("country_organiztions","0")->orderBy('organization_country', 'ASC')->get();
+        $data['awards_recognitions'] = DB::table("awards_recognitions")->where("sub_award_id","0")->orderBy('award_name', 'ASC')->get();
+        
+        if(isset($_GET['id'])){
+            $id = $_GET['id'];
+        }else{
+            $id = '';
+        }
+        
+        $email = Session::get('nurseemail');
+        $user = User::where("email",$email)->first();
+
+        if($id){
+            $data['user_id'] = $id;
+        }else{
+            $data['user_id'] = $user->id;
+        }
+        
+        
+        $data['professional_membership'] = DB::table("professional_membership")->where("user_id",$data['user_id'])->first();
+        return view('admin.professional_membership')->with($data);
     }
 }
