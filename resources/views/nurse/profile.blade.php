@@ -167,7 +167,7 @@
             <div class="box-nav-tabs nav-tavs-profile mb-5 p-0 profile-icns">
               <ul class="nav" role="tablist">
                 <li><a class="btn btn-border aboutus-icon mb-20 profile_tabs" href="#tab-my-profile" id="my_profile" data-bs-toggle="tab" role="tab" aria-controls="tab-my-profile" aria-selected="true"><i class="fi fi-rr-user"></i> My Profile</a></li>
-                <li><a class="btn btn-border recruitment-icon mb-20 profile_tabs" id="settings" href="#tab-my-profile-setting" data-bs-toggle="tab" role="tab" aria-controls="tab-my-profile-setting" aria-selected="false"><i class="fi fi-rr-settings"></i> Setting</a></li>
+                <li><a href="{{ route('nurse.setting_availablity', ['page' => 'setting_availablity']) }}" class="btn btn-border recruitment-icon mb-20" aria-controls="tab-myclearance-jobs" aria-selected="false"><i class="fi fi-rr-membership-vip"></i> Setting & Availability</a></li>
                 <li><a href="#tab-my-jobs" id="my_profession" class="btn btn-border recruitment-icon mb-20 profile_tabs" data-bs-toggle="tab" role="tab" aria-controls="tab-my-jobs" aria-selected="false"><i class="fi fi-rr-employee-man"></i> Profession</a></li>
                 <li><a class="btn btn-border people-icon mb-20" id="educert" data-bs-toggle="tab" role="tab" aria-controls="tab-saved-jobs" aria-selected="false"><i class="fi fi-rr-graduation-cap"></i> Education and Certifications</a></li>
                 <li><a href="#mand_training" id="mand_training" class="btn btn-border aboutus-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true"><i class="fi fi-rr-chart-user"></i>Mandatory Training and Continuing Education</a></li>
@@ -768,9 +768,10 @@
                         <label class="form-label" for="input-1">Current Employment Status</label>
                         <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
                         <select class="form-input mr-10 select-active" name="employee_status" onchange="employeeStatus(this.value)">
-                          <option value="">Select Employee Status</option>
+                          <option value="">select</option>
                           <option value="Permanent" @if(Auth::guard('nurse_middle')->user()->current_employee_status == "Permanent") selected @endif>Permanent</option>
                           <option value="Temporary" @if(Auth::guard('nurse_middle')->user()->current_employee_status == "Temporary") selected @endif>Temporary</option>
+                          <option value="Unemployed" @if(Auth::guard('nurse_middle')->user()->current_employee_status == "Unemployed") selected @endif>Unemployed</option>
 
                         </select>
                       </div>
@@ -780,14 +781,17 @@
                       <div class="form-group col-md-12">
                         <label class="form-label" for="input-1">Permanent</label>
                         <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
-                        <select class="form-input mr-10 select-active" name="permanent_status">
-                          <option value="">Select</option>
-                          <option value="Full-time" @if(Auth::guard('nurse_middle')->user()->permanent_status == "Full-time") selected @endif>Full-time</option>
-                          <option value="Part-time" @if(Auth::guard('nurse_middle')->user()->permanent_status == "Part-time") selected @endif>Part-time</option>
-                          <option value="Agency Nurse/Midwife" @if(Auth::guard('nurse_middle')->user()->permanent_status == "Agency Nurse/Midwife") selected @endif>Agency Nurse/Midwife</option>
-                          <option value="Freelance" @if(Auth::guard('nurse_middle')->user()->permanent_status == "Freelance") selected @endif>Freelance</option>
-                          <option value="Local" @if(Auth::guard('nurse_middle')->user()->permanent_status == "Local") selected @endif>Local</option>
-                          <option value="Volunteer" @if(Auth::guard('nurse_middle')->user()->permanent_status == "Volunteer") selected @endif>Volunteer</option>
+                        <select class="form-input mr-10 select-active permanent_status" name="permanent_status">
+                          <option value="">select</option>
+                          <option value="Full-time (Permanent)" @if(Auth::guard('nurse_middle')->user()->permanent_status == "Full-time (Permanent)") selected @endif>Full-time (Permanent)</option>
+                          <option value="Part-time (Permanent)" @if(Auth::guard('nurse_middle')->user()->permanent_status == "Part-time (Permanent)") selected @endif>Part-time (Permanent)</option>
+                          <option value="Agency Nurse / Midwife (Permanent)" @if(Auth::guard('nurse_middle')->user()->permanent_status == "Agency Nurse / Midwife (Permanent)") selected @endif>Agency Nurse / Midwife (Permanent)</option>
+                          <option value="Staffing Agency Nurse (Permanent)" @if(Auth::guard('nurse_middle')->user()->permanent_status == "Staffing Agency Nurse (Permanent)") selected @endif>Staffing Agency Nurse (Permanent)</option>
+                          <option value="Private Healthcare Agency Nurse (Permanent)" @if(Auth::guard('nurse_middle')->user()->permanent_status == "Private Healthcare Agency Nurse (Permanent)") selected @endif>Private Healthcare Agency Nurse (Permanent)</option>
+                          <option value="Freelance (Permanent)" @if(Auth::guard('nurse_middle')->user()->permanent_status == "Freelance (Permanent)") selected @endif>Freelance (Permanent)</option>
+                          <option value="Self-Employed (Permanent)" @if(Auth::guard('nurse_middle')->user()->permanent_status == "Self-Employed (Permanent)") selected @endif>Self-Employed (Permanent)</option>
+                          <option value="Private Practice (Permanent)" @if(Auth::guard('nurse_middle')->user()->permanent_status == "Private Practice (Permanent)") selected @endif>Private Practice (Permanent)</option>
+                          <option value="Volunteer (Permanent)" @if(Auth::guard('nurse_middle')->user()->permanent_status == "Volunteer (Permanent)") selected @endif>Volunteer (Permanent)</option>
 
                         </select>
                       </div>
@@ -798,47 +802,123 @@
                         <label class="form-label" for="input-1">Temporary</label>
                         <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
                         <select class="form-input mr-10 select-active" name="temporary_status">
-                          <option value="">Select</option>
-                          <option value="Temporary" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Temporary") selected @endif>Temporary</option>
-                          <option value="Contract" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Contract") selected @endif>Contract</option>
-                          <option value="Term Contract" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Term Contract") selected @endif>Term Contract</option>
+                          <option value="">select</option>
+                          <option value="Full-time (Temporary)" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Full-time (Temporary)") selected @endif>Full-time (Temporary)</option>
+                          <option value="Part-time (Temporary)" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Part-time (Temporary)") selected @endif>Part-time (Temporary)</option>
+                          <option value="Agency Nurse/Midwife (Temporary)" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Agency Nurse/Midwife (Temporary)") selected @endif>Agency Nurse/Midwife (Temporary)</option>
+                          <option value="Staffing Agency Nurse (Temporary)" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Staffing Agency Nurse (Temporary)") selected @endif>Staffing Agency Nurse (Temporary)</option>
+                          <option value="Private Healthcare Agency Nurse (Temporary)" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Private Healthcare Agency Nurse (Temporary)") selected @endif>Private Healthcare Agency Nurse (Temporary)</option>
                           <option value="Travel" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Travel") selected @endif>Travel</option>
-                          <option value="Per Diem" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Per Diem") selected @endif>Per Diem</option>
-                          <option value="Local" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Local") selected @endif>Local</option>
-                          <option value="On-Call" @if(Auth::guard('nurse_middle')->user()->temporary_status == "On-Call") selected @endif>On-Call</option>
-                          <option value="PRN (Pro Re Nata)" @if(Auth::guard('nurse_middle')->user()->temporary_status == "PRN (Pro Re Nata)") selected @endif>PRN (Pro Re Nata)</option>
+                          <option value="Per Diem (Daily Basis)" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Per Diem (Daily Basis)") selected @endif>Per Diem (Daily Basis)</option>
+                          <option value="Float Pool & Relief Nursing (Multi-Department Work)" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Float Pool & Relief Nursing (Multi-Department Work)") selected @endif>Float Pool & Relief Nursing (Multi-Department Work)</option>
+                          <option value="On-Call (Immediate Availability)" @if(Auth::guard('nurse_middle')->user()->temporary_status == "On-Call (Immediate Availability)") selected @endif>On-Call (Immediate Availability)</option>
+                          <option value="PRN (Pro Re Nata /As Needed)" @if(Auth::guard('nurse_middle')->user()->temporary_status == "PRN (Pro Re Nata /As Needed)") selected @endif>PRN (Pro Re Nata /As Needed)</option>
                           <option value="Casual" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Casual") selected @endif>Casual</option>
                           <option value="Locum tenens (temporary substitute)" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Locum tenens (temporary substitute)") selected @endif>Locum tenens (temporary substitute)</option>
-                          <option value="Agency Nurse/Midwife" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Agency Nurse/Midwife") selected @endif>Agency Nurse/Midwife</option>
-                          <option value="Seasonal" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Seasonal") selected @endif>Seasonal</option>
-                          <option value="Freelance" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Freelance") selected @endif>Freelance</option>
+                          <option value="Seasonal (Short-Term for Peak Demand)" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Seasonal (Short-Term for Peak Demand)") selected @endif>Seasonal (Short-Term for Peak Demand)</option>
+                          <option value="Freelance (Temporary)" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Freelance (Temporary)") selected @endif>Freelance (Temporary)</option>
+                          <option value="Self-Employed (Temporary)" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Self-Employed (Temporary)") selected @endif>Self-Employed (Temporary)</option>
+                          <option value="Private Practice (Temporary)" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Private Practice (Temporary)") selected @endif>Private Practice (Temporary)</option>
                           <option value="Internship" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Internship") selected @endif>Internship</option>
                           <option value="Apprenticeship" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Apprenticeship") selected @endif>Apprenticeship</option>
                           <option value="Residency" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Residency") selected @endif>Residency</option>
-                          <option value="Volunteer" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Volunteer") selected @endif>Volunteer</option>
+                          <option value="Volunteer (Temporary)" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Volunteer (Temporary)") selected @endif>Volunteer (Temporary)</option>
 
 
                         </select>
                       </div>
                       <span id="reqemployee_status" class="reqError text-danger valley"></span>
                     </div>
+                    <div class="professional_unemplyeed" @if(Auth::guard('nurse_middle')->user()->unemployeed_status == NULL) style="display: none;" @endif>
+                      <div class="form-group col-md-12">
+                        <label class="form-label" for="input-1">Reason for Unemployment</label>
+                        <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
+                        <select class="form-input mr-10 select-active unemployeement_reason" name="unemployeement_reason" id="unemployeement_reason" onchange="reasonUnemployeement(this.value)">
+                          <option value="">select</option>
+                          <option value="Recently graduated" @if(Auth::guard('nurse_middle')->user()->unemployeed_status == "Recently graduated") selected @endif>Recently graduated</option>
+                          <option value="Career break (maternity leave, family reasons, etc.)" @if(Auth::guard('nurse_middle')->user()->unemployeed_status == "Career break (maternity leave, family reasons, etc.)") selected @endif>Career break (maternity leave, family reasons, etc.)</option>
+                          <option value="Transitioning from another job" @if(Auth::guard('nurse_middle')->user()->unemployeed_status == "Transitioning from another job") selected @endif>Transitioning from another job</option>
+                          <option value="Retired but seeking work" @if(Auth::guard('nurse_middle')->user()->unemployeed_status == "Retired but seeking work") selected @endif>Retired but seeking work</option>
+                          <option value="Laid off / Contract ended" @if(Auth::guard('nurse_middle')->user()->unemployeed_status == "Laid off / Contract ended") selected @endif>Laid off / Contract ended</option>
+                          <option value="Other (Please specify)" @if(Auth::guard('nurse_middle')->user()->unemployeed_status == "Other (Please specify)") selected @endif>Other (Please specify)</option>
+                        </select>
+                      </div>
+                      {{-- <span id="reqemployee_status" class="reqError text-danger valley"></span> --}}
+                    </div>
+                    <div class="form-group d-none specify_reason_div">
+                      <label class="form-label" for="input-1">Other (Please specify)</label>
+                      
+                      <input class="form-control" type="text" name="specify_reason">
+                      {{-- <span id="reqfname-1" class="reqError text-danger valley"></span> --}}
+                    </div>
+                    <div class="long_unemplyeed" @if(Auth::guard('nurse_middle')->user()->long_unemplyeed == NULL) style="display: none;" @endif>
+                      <div class="form-group col-md-12">
+                        <label class="form-label" for="input-1">How long have you been unemployed?</label>
+                        <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
+                        <select class="form-input mr-10 select-active long_unemployeed" name="long_unemployeed" id="long_unemployeed">
+                          <option value="">select</option>
+                          <option value="Less than 1 month" @if(Auth::guard('nurse_middle')->user()->long_unemplyeed == "Less than 1 month") selected @endif>Less than 1 month</option>
+                          <option value="1 to 3 months" @if(Auth::guard('nurse_middle')->user()->long_unemplyeed == "1 to 3 months") selected @endif>1 to 3 months</option>
+                          <option value="3 to 6 months" @if(Auth::guard('nurse_middle')->user()->long_unemplyeed == "3 to 6 months") selected @endif>3 to 6 months</option>
+                          <option value="6 months to 1 year" @if(Auth::guard('nurse_middle')->user()->long_unemplyeed == "6 months to 1 year") selected @endif>6 months to 1 year</option>
+                          <option value="More than 1 year" @if(Auth::guard('nurse_middle')->user()->long_unemplyeed == "More than 1 year") selected @endif>More than 1 year</option>
+                          
+                        </select>
+                      </div>
+                      {{-- <span id="reqemployee_status" class="reqError text-danger valley"></span> --}}
+                    </div>
                     <script type="text/javascript">
+                      function reasonUnemployeement(value){
+                        if(value == "Other (Please specify)"){
+                          $(".specify_reason_div").removeClass("d-none");
+                        }else{
+                          $(".specify_reason_div").addClass("d-none");
+                        }
+                      }
                       function employeeStatus(value) {
+                        
                         if (value == "Permanent") {
                           $(".professional_permanent").show();
                           $(".professional_temporary").hide();
+                          $(".professional_unemplyeed").hide();
+                          $(".specify_reason_div").addClass("d-none");
+                          $(".long_unemplyeed").hide();
+                          
                         } else {
                           if (value == "Temporary") {
                             $(".professional_temporary").show();
                             $(".professional_permanent").hide();
+                            $(".professional_unemplyeed").hide();
+                            $(".long_unemplyeed").hide();
+                            $(".specify_reason_div").addClass("d-none");
+                          }else{
+                            $(".professional_temporary").hide();
+                            $(".professional_permanent").hide();
+                            $(".professional_unemplyeed").show();
+                            $(".long_unemplyeed").show();
+
+                            var value = $("#unemployeement_reason").val();
+                            if(value == "Other (Please specify)"){
+                              $(".specify_reason_div").removeClass("d-none");
+                            }else{
+                              $(".specify_reason_div").addClass("d-none");
+                            }
                           }
                         }
                       }
+
                     </script>
                     <div class="professional_bio">
                       <div class="form-group col-md-12">
                         <label class="font-sm color-text-mutted mb-10">Professional Bio</label>
                         <textarea class="form-control" rows="4" name="bio">{{ Auth::guard('nurse_middle')->user()->bio }}</textarea>
+                      </div>
+                      <span id="reqprofessional_bio" class="reqError text-danger valley"></span>
+                    </div>
+                    <div class="career_advancement_goals">
+                      <div class="form-group col-md-12">
+                        <label class="font-sm color-text-mutted mb-10">Career Advancement Goals</label>
+                        <textarea class="form-control" rows="4" name="career_advancement_goals">{{ Auth::guard('nurse_middle')->user()->career_advancement_goals }}</textarea>
                       </div>
                       <span id="reqprofessional_bio" class="reqError text-danger valley"></span>
                     </div>

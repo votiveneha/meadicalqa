@@ -899,6 +899,10 @@ class HomeController extends Controller
         $employee_status = $request->employee_status;
         $permanent_status = $request->permanent_status;
         $temporary_status = $request->temporary_status;
+        $unemployeed_status = $request->unemployeement_reason;
+        $unemployeed_reason = $request->specify_reason;
+        $long_unemplyeed = $request->long_unemployeed;
+        $career_advancement_goals = $request->career_advancement_goals;
 
         if ($employee_status == "Permanent") {
             $permanent_status1 = $permanent_status;
@@ -941,7 +945,11 @@ class HomeController extends Controller
         $post->current_employee_status = $employee_status;
         $post->permanent_status = $permanent_status1;
         $post->temporary_status = $temporary_status1;
+        $post->unemployeed_status = $unemployeed_status;
+        $post->unemployeed_reason = $unemployeed_reason;
+        $post->long_unemplyeed = $long_unemplyeed;
         $post->professional_info_status = "1";
+        $post->career_advancement_goals = $career_advancement_goals;
         $run = $post->save();
 
         if ($run) {
@@ -3363,28 +3371,7 @@ class HomeController extends Controller
     
     
     
-    public function update_profession_profile_setting(Request $request)
-    {
-        $update['medical_facilities'] = isset($request->medical_facilities) ? 'Yes' : 'No';
-        $update['agencies'] = isset($request->agencies) ? 'Yes' : 'No';
-        $update['individuals'] = isset($request->individuals) ? 'Yes' : 'No';
-        $update['profile_status1'] = $request->profile_status;
-        //$update['unavailable_profile_status'] = isset($request->profile_status) ? 'Yes' : 'No';
-        $update['available_date'] = $request->available_date;
-        $update['updated_at'] = Carbon::now('Asia/Kolkata');
-        $run = User::where('id', Auth::guard('nurse_middle')->user()->id)->update($update);
-
-        if ($run) {
-            $json['status'] = 1;
-            $json['url'] = url('nurse/my-profile');
-            $json['message'] = 'You have Successfully submitted the details.';
-        } else {
-            $json['status'] = 0;
-            $json['message'] = 'Please Try Again';
-        }
-
-        echo json_encode($json);
-    }
+    
     public function term_and_condition($message = '')
     {
         return view('nurse.term-&-condition', compact('message'));
@@ -3668,5 +3655,34 @@ class HomeController extends Controller
         // }
 
         // return response()->json(['error' => 'Failed to delete evidence'], 500);
+    }
+
+    public function setting_availablity(Request $request){
+        return view('nurse.setting_availablity');
+    }
+
+    public function update_profession_profile_setting(Request $request)
+    {
+        $update['medical_facilities'] = isset($request->medical_facilities) ? 'Yes' : 'No';
+        $update['agencies'] = isset($request->agencies) ? 'Yes' : 'No';
+        $update['individuals'] = isset($request->individuals) ? 'Yes' : 'No';
+        $update['profile_status1'] = $request->profile_status;
+        //$update['unavailable_profile_status'] = isset($request->profile_status) ? 'Yes' : 'No';
+        $update['available_date'] = $request->available_date;
+        $update['start_job_dropdown'] = $request->start_job_dropdown;
+        $update['any_help'] = json_encode($request->any_help);
+        $update['updated_at'] = Carbon::now('Asia/Kolkata');
+        $run = User::where('id', Auth::guard('nurse_middle')->user()->id)->update($update);
+
+        if ($run) {
+            $json['status'] = 1;
+            $json['url'] = url('nurse/my-profile');
+            $json['message'] = 'You have Successfully submitted the details.';
+        } else {
+            $json['status'] = 0;
+            $json['message'] = 'Please Try Again';
+        }
+
+        echo json_encode($json);
     }
 }

@@ -138,6 +138,10 @@ Route::prefix('nurse')->name('nurse.')->namespace('App\Http\Controllers\nurse')-
   Route::any('/removePolicyFile','ProfessionalController@removePolicyFile')->name('removePolicyFile');
   Route::any('/removeSpecializedFile','ProfessionalController@removeSpecializedFile')->name('removeSpecializedFile');
 
+  /**************[Setting & Availability]**************/
+  Route::get('/setting_availablity', 'HomeController@setting_availablity')->name('setting_availablity');
+  Route::post('/update-profession-profile-setting', 'HomeController@update_profession_profile_setting')->name('update-profession-profile-setting');
+  
   /**************[Professional Membership]**************/
   Route::any('/professionalMembership','ProfessionalController@professionalMembership')->name('professionalMembership');
   Route::any('/getCountryOrgnizations','ProfessionalController@getCountryOrgnizations')->name('getCountryOrgnizations');
