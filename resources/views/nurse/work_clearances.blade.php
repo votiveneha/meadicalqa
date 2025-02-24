@@ -1222,7 +1222,7 @@ if (!empty($interviewReferenceData)) {
       }
       if($('#upload_evidence0')[0]){
         if ($('#upload_evidence0')[0].files.length === 0) {
-          alert('govinda');
+          
             isValid = false;
             $('#upload_evidence0').next('.reqError').text('Please upload an evidence file');
         } else {
