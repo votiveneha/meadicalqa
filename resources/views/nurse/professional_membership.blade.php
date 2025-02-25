@@ -291,14 +291,59 @@
                               $k++;
                             ?>
                             </div>
+                            <?php
+                              $date_joined = (array)json_decode($professional_membership->date_joined);
+                              $membership_status = (array)json_decode($professional_membership->membership_status);
+                              
+                            ?>
+                            <div class="form-group level-drp">
+                              <label class="form-label" for="input-1">Date Joined</label>
+                              <input class="form-control graduation_start_date" type="date" name="date_joined[{{ $p_arr2 }}]" value="@if(!empty($professional_membership) && !empty($date_joined)){{ $date_joined[$p_arr2] }}@endif" onchange="changeDate(event);">
+                              <span id="reqjoined_date" class="reqError text-danger valley"></span>
+                            </div>
+                            <div class="form-group level-drp">
+                              <label class="form-label" for="input-1">Status</label>
+                              <select class="form-control" name="prof_membership_status[{{ $p_arr2 }}]" id="language-picker-select">
+                                <option value="">Select Status</option>
+                                <option value="Active - Current Member" @if(!empty($membership_status) && $membership_status[$p_arr2] == "Active - Current Member") selected @endif>Active - Current Member</option>
+                                <option value="Lapsed Member" @if(!empty($membership_status) && $membership_status[$p_arr2] == "Lapsed Member") selected @endif>Lapsed Member</option>
+                                <option value="Expired Member" @if(!empty($membership_status) && $membership_status[$p_arr2] == "Expired Member") selected @endif>Expired Member</option>
+                                <option value="Suspended Member" @if(!empty($membership_status) && $membership_status[$p_arr2] == "Suspended Member") selected @endif>Suspended Member</option>
+                                <option value="Inactive Member" @if(!empty($membership_status) && $membership_status[$p_arr2] == "Inactive Member") selected @endif>Inactive Member</option>
+                                <option value="Non-Renewed Member" @if(!empty($membership_status) && $membership_status[$p_arr2] == "Non-Renewed Member") selected @endif>Non-Renewed Member</option>
+                                <option value="Pending Membership Approval" @if(!empty($membership_status) && $membership_status[$p_arr2] == "Pending Membership Approval") selected @endif>Pending Membership Approval</option>
+                                <option value="Membership Renewal Pending" @if(!empty($membership_status) && $membership_status[$p_arr2] == "Membership Renewal Pending") selected @endif>Membership Renewal Pending</option>
+        
+                              </select>
+                              <span id="reqmembership_status" class="reqError text-danger valley"></span>
+                            </div>
+                            <div class="form-group level-drp">
+                              <label class="form-label" for="input-1">Awards & Recognitions:</label>
+                                 
+                              <input type="hidden" name="awards_recognition_input" class="awards_recognition_input" value=''>
+                              <ul id="awards_recognitions" style="display:none;">
+                                @if(!empty($awards_recognitions))
+                                @foreach($awards_recognitions as $a_reg)
+                                <li data-value="{{ $a_reg->award_id }}">{{ $a_reg->award_name }}</li>
+                                
+                                @endforeach
+                                @endif
+                              </ul>
+                              <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="awards_recognitions-{{ $p_arr }}{{ $p_arr2 }}" name="awards_recognitions[]" onchange="subaward_recognitions('edit',{{ $p_arr }},{{ $p_arr2 }})" multiple="multiple"></select>
+                              <span id="reqawards_recognitions" class="reqError text-danger valley"></span>
+                            </div>
+                            <div class="show_award_reg-{{ $p_arr }}{{ $p_arr2 }}"></div>
                             @endforeach
+                            
                           </div>  
                           <?php
                             $j++
                           ?>
                           </div>
                         @endforeach
+                        
                         </div>
+                        
                         <?php
                           $i++
                         ?>
@@ -318,13 +363,13 @@
                       <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="des_profession_association" name="des_profession_association[]" multiple="multiple"></select>
                       <span id="reqorg_name" class="reqError text-danger valley"></span>
                     </div>
-                    <div class="form-group level-drp">
+                    {{-- <div class="form-group level-drp">
                       <label class="form-label" for="input-1">Date Joined</label>
                       <input class="form-control graduation_start_date" type="date" name="date_joined" value="@if(!empty($professional_membership)){{ $professional_membership->date_joined }}@endif" onchange="changeDate(event);">
                       <span id="reqjoined_date" class="reqError text-danger valley"></span>
-                    </div>
+                    </div> --}}
                     
-                    <div class="form-group level-drp">
+                    {{-- <div class="form-group level-drp">
                       <label class="form-label" for="input-1">Status</label>
                       <select class="form-control" name="prof_membership_status" id="language-picker-select">
                         <option value="">Select Status</option>
@@ -339,54 +384,11 @@
 
                       </select>
                       <span id="reqmembership_status" class="reqError text-danger valley"></span>
-                    </div>
-                    <div class="form-group level-drp">
-                      <label class="form-label" for="input-1">Awards & Recognitions:</label>
-                      <?php
-                        if(!empty($professional_membership)){
-                          $award_data = json_decode($professional_membership->award_recognitions);
-                        }else{
-                          $award_data = array();
-                        }
-                        
-                        $a_data = (array)$award_data;
-                        $awards_recognition_arr = array();
-
-                        foreach ($a_data as $a_reg) {
-                          $awards_recognition_arr[] = array_search($a_reg, $a_data);
-                        }
+                    </div> --}}
                     
-                        
-                        $awards_recognition_json = json_encode($awards_recognition_arr);
-                      ?>      
-                      <input type="hidden" name="awards_recognition_input" class="awards_recognition_input" value='<?php echo $awards_recognition_json; ?>'>
-                      <ul id="awards_recognitions" style="display:none;">
-                        @if(!empty($awards_recognitions))
-                        @foreach($awards_recognitions as $a_reg)
-                        <li data-value="{{ $a_reg->award_id }}">{{ $a_reg->award_name }}</li>
-                        
-                        @endforeach
-                        @endif
-                      </ul>
-                      <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="awards_recognitions" name="awards_recognitions[]" multiple="multiple"></select>
-                      <span id="reqawards_recognitions" class="reqError text-danger valley"></span>
-                    </div>
-                    <div class="show_award_reg">
+                    {{-- <div class="show_award_reg">
                       @foreach ($awards_recognition_arr as $a_reg_arr)
-                        <?php
-                          $subawards_recognition = DB::table("awards_recognitions")->where("sub_award_id",$a_reg_arr)->get();
-                          
-                          $subawards_name = DB::table("awards_recognitions")->where("award_id",$a_reg_arr)->first();
-                          $as_data = (array)$a_data[$a_reg_arr];
-                          $subawards_recognition_arr = array();
-
-                          foreach ($as_data as $suba_reg) {
-                            $subawards_recognition_arr[] = $suba_reg;
-                          }
-                      
-                      
-                          $subawards_recognition_json = json_encode(array_unique($subawards_recognition_arr));
-                        ?>
+                       
                         <div class="form-group level-drp award_div award_country_div-{{ $a_reg_arr }}">
                           <label class="form-label award_label" for="input-1">{{ $subawards_name->award_name }}</label>
                           <input type="hidden" name="sub_award_list" class="subaward_list subaward_list-{{ $a_reg_arr }}" value='<?php echo $a_reg_arr; ?>'>
@@ -402,36 +404,8 @@
                           </select>
                         </div>     
                       @endforeach
-                    </div>
-                    <div class="form-group level-drp">
-                      <?php
-                        $user_id = Auth::guard('nurse_middle')->user()->id
-                      ?>
-                      <label class="form-label" for="input-1">Upload Evidence</label>
-                      <input class="form-control membership_evidence" type="file" name="membership_evidence[]" onchange="changeEvidenceImg('{{ $user_id }}')" multiple="">
-                      <div class="memb_evdence">
-                        @if(!empty($professional_membership) && $professional_membership->evidence_imgs)
-                        <?php
-                        $dtran_img = json_decode($professional_membership->evidence_imgs);
-                        //print_r($dtran_img);
-                        $i = 1;
-                        $user_id = Auth::guard('nurse_middle')->user()->id;
-                        ?>
-
-                        @if(!empty($dtran_img))
-                        @foreach($dtran_img as $tranimg)
-                        <div class="trans_img trans_img-{{ $i }}">
-                          <a href="{{ url('/public/uploads/education_degree') }}/{{ $tranimg }}" target="_blank"><i class="fa fa-file"></i>{{ $tranimg }}</a>
-                          <div class="close_btn close_btn-{{ $i }}" onclick="deleteEvidenceImg('{{ $i }}','{{ $user_id }}','{{ $tranimg }}')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
-                        </div>
-                        <?php
-                        $i++;
-                        ?>
-                        @endforeach
-                        @endif
-
-                        @endif
-                      </div>
+                    </div> --}}
+                    
                     <div class="box-button mt-15">
                       <button class="btn btn-apply-big font-md font-bold" type="submit" id="submitProfessionalMembership">Save Changes</button>
                     </div>
@@ -594,53 +568,7 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
 })
 .appendTo( $wrapper );
 
-  $('.js-example-basic-multiple[data-list-id="awards_recognitions"]').on('change', function() {
-    let selectedValues = $(this).val();
-    console.log("selectedValues",selectedValues);
-    //$(".show_country_org").empty();
-
-    $(".subaward_list").each(function(i,val){
-      var val = $(val).val();
-      console.log("val",$(val).val());
-      if(selectedValues.includes(val) == false){
-        $(".award_country_div-"+val).remove();
-        //$(".o_country_div-"+val).remove();
-      }
-    });
-    
-    
-    for(var i=0;i<selectedValues.length;i++){
-      //alert($(".organization_input-"+selectedValues[i]).val());
-      if($(".show_award_reg .award_country_div-"+selectedValues[i]).length < 1){
-        $.ajax({
-          type: "GET",
-          url: "{{ url('/nurse/getawardsRecognitions') }}",
-          data: {award_id:selectedValues[i]},
-          cache: false,
-          success: function(data){
-            var data1 = JSON.parse(data);
-            
-            console.log("data1",data1);
-            
-            var org_text = "";
-            for(var j=0;j<data1.award.length;j++){
-              //console.log("data",data1.country_organiztions[j].organization_id);
-              org_text += "<li data-value='"+data1.award[j].award_id+"'>"+data1.award[j].award_name+"</li>"; 
-              // $(".organization_country_div").removeClass("d-none");
-              // $("#country_organization").append("<li data-value="+data1.country_organiztions[j].organization_id+">"+data1.country_organiztions[j].organization_country+"</li>");
-              // $("#country_organization_select").append("<option value="+data1.country_organiztions[j].organization_id+">"+data1.country_organiztions[j].organization_country+"</option>");
-            }
-            //alert($(".organization_country_div-"+data1.organization_id).length);
-            
-              $(".show_award_reg").append('<div class="form-group level-drp award_div award_country_div-'+data1.organization_id+'"><label class="form-label award_label" for="input-1">'+data1.award_name+'</label><input type="hidden" name="subaward_list" class="subaward_list subaward_list-'+data1.organization_id+'" value="'+data1.organization_id+'"><ul id="award_reg-'+data1.organization_id+'" style="display:none;">'+org_text+'</ul><select class="js-example-basic-multiple'+data1.organization_id+' addAll_removeAll_btn" data-list-id="award_reg-'+data1.organization_id+'" id="award_organization_select-'+data1.organization_id+'" name="award_organization['+data1.organization_id+'][]" multiple="multiple"></select></div>');
-            
-            selectTwoFunction(data1.organization_id);
-            
-          }
-        });
-      }
-    }
-  });
+ 
   
   $('.js-example-basic-multiple[data-list-id="organization_country"]').on('change', function() {
     let selectedValues = $(this).val();
@@ -744,7 +672,7 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
                 org_text += "<li data-value='"+data1.country_organiztions[j].organization_id+"'>"+data1.country_organiztions[j].organization_country+"</li>"; 
                 
               }
-              $(".show_subcountry_org-"+country_org).append('<div class="sub_country_div sub_country_div-'+data1.organization_id+'" data-name="'+data1.country_name+'"><div class="form-group level-drp o_country_div-'+country_org+' o_subcountry_div-'+data1.organization_id+' organization_subcountry_div organization_subcountry_div-'+data1.organization_id+'"><label class="form-label organization_subcountry_label" for="input-1">'+data1.country_name+':</label><ul id="subcountry_organization-'+data1.organization_id+'" style="display:none;">'+org_text+'</ul><input type="hidden" name="subcountry_org_list" class="subcountry_org_list subcountry_org_list-'+data1.organization_id+'" value="'+data1.organization_id+'"><select class="js-example-basic-multiple'+country_org+data1.organization_id+' addAll_removeAll_btn" data-list-id="subcountry_organization-'+data1.organization_id+'" id="subcountry_organization_select" name="subcountry_organization['+country_org+']['+data1.organization_id+'][]" multiple="multiple"></select></div><div class="show_membership_type-'+country_org+data1.organization_id+'"></div></div>');
+              $(".show_subcountry_org-"+country_org).append('<div class="sub_country_div sub_country_div-'+data1.organization_id+'" data-name="'+data1.country_name+'"><div class="form-group level-drp o_country_div-'+country_org+' o_subcountry_div-'+data1.organization_id+' organization_subcountry_div organization_subcountry_div-'+data1.organization_id+'"><label class="form-label organization_subcountry_label" for="input-1">'+data1.country_name+':</label><ul id="subcountry_organization-'+data1.organization_id+'" style="display:none;">'+org_text+'</ul><input type="hidden" name="subcountry_org_list" class="subcountry_org_list subcountry_org_list-'+data1.organization_id+'" value="'+data1.organization_id+'"><select class="js-example-basic-multiple'+country_org+data1.organization_id+' addAll_removeAll_btn" data-list-id="subcountry_organization-'+data1.organization_id+'" id="subcountry_organization_select" name="subcountry_organization['+country_org+']['+data1.organization_id+'][]" multiple="multiple"></select></div><div class="show_membership_type-'+country_org+data1.organization_id+'"></div><div class="form-group level-drp"><label class="form-label" for="input-1">Date Joined</label><input class="form-control graduation_start_date" type="date" name="date_joined"><span id="reqjoined_date" class="reqError text-danger valley"></span></div></div>');
               
               
 
@@ -798,7 +726,15 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
                   org_text += "<li data-value='"+data1.country_organiztions[j].organization_id+"'>"+data1.country_organiztions[j].organization_country+"</li>"; 
                   
                 }
-                $(".show_subcountry_org-"+country_org).append('<div class="sub_country_div sub_country_div-'+data1.organization_id+'" data-name="'+data1.country_name+'"><div class="form-group level-drp o_country_div-'+country_org+' ed-o_subcountry_div-'+data1.organization_id+' organization_subcountry_div organization_subcountry_div-'+data1.organization_id+' ed-organization_subcountry_div-'+data1.organization_id+'"><label class="form-label organization_subcountry_label" for="input-1">'+data1.country_name+':</label><input type="hidden" name="subcountry_org_list" class="subcountry_org_list subcountry_org_list-'+data1.organization_id+'" value="'+data1.organization_id+'"><ul id="subcountry_organization-'+data1.organization_id+'" style="display:none;">'+org_text+'</ul><select class="js-example-basic-multiple'+country_org+data1.organization_id+' addAll_removeAll_btn" data-list-id="subcountry_organization-'+data1.organization_id+'" id="subcountry_organization_select" name="subcountry_organization['+country_org+']['+data1.organization_id+'][]" multiple="multiple"></select></div><div class="show_membership_type-'+country_org+data1.organization_id+'"></div></div>');
+                
+
+                $(".show_subcountry_org-"+country_org).append('\<div class="sub_country_div sub_country_div-'+data1.organization_id+'" data-name="'+data1.country_name+'">\
+                  <div class="form-group level-drp o_country_div-'+country_org+' ed-o_subcountry_div-'+data1.organization_id+' organization_subcountry_div organization_subcountry_div-'+data1.organization_id+' ed-organization_subcountry_div-'+data1.organization_id+'">\
+                    <label class="form-label organization_subcountry_label" for="input-1">'+data1.country_name+':</label>\
+                    <input type="hidden" name="subcountry_org_list" class="subcountry_org_list subcountry_org_list-'+data1.organization_id+'" value="'+data1.organization_id+'">\
+                    <ul id="subcountry_organization-'+data1.organization_id+'" style="display:none;">'+org_text+'</ul>\
+                    <select class="js-example-basic-multiple'+country_org+data1.organization_id+' addAll_removeAll_btn" data-list-id="subcountry_organization-'+data1.organization_id+'" id="subcountry_organization_select" name="subcountry_organization['+country_org+']['+data1.organization_id+'][]" multiple="multiple"></select>\
+                    </div><div class="show_membership_type-'+country_org+data1.organization_id+'">');
                 
                 
 
@@ -898,14 +834,133 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
                   
                 }
 
-                $(".show_membership_type-"+country_org+organization_id).append('<div class="membership_type_divs-'+data1.organization_id+'"><div class="form-group level-drp o_country_div-'+country_org+' ed-o_subcountry_div-'+organization_id+' membership_type_div membership_type_div-'+data1.organization_id+' ed-membership_type_div-'+data1.organization_id+'"><label class="form-label membership_type_label" for="input-1">Membership Type('+data1.organization_name+')</label><input type="hidden" name="subsubcountry_org_list" class="subsubcountry_org_list subsubcountry_org_list-'+data1.organization_id+'" value="'+data1.organization_id+'"><ul id="membership_type-'+data1.organization_id+'" style="display:none;">'+membership_text+'</ul><select class="js-example-basic-multiple'+country_org+data1.organization_id+' addAll_removeAll_btn" data-list-id="membership_type-'+data1.organization_id+'" id="subcountry_organization_select" name="membership_type['+country_org+']['+organization_id+']['+data1.organization_id+'][]" multiple="multiple"></select></div><div class="show_submembership_type-'+country_org+organization_id+data1.organization_id+'"></div></div>');
+                var awards_text = "";
+                for(var k=0;k<data1.award_recognitions.length;k++){
+                  
+                  awards_text += "<li data-value='"+data1.award_recognitions[k].award_id+"'>"+data1.award_recognitions[k].award_name+"</li>"; 
+                  
+                }
+
+                $(".show_membership_type-"+country_org+organization_id).append('\<div class="membership_type_divs-'+data1.organization_id+'">\
+                  <div class="form-group level-drp o_country_div-'+country_org+' ed-o_subcountry_div-'+organization_id+' membership_type_div membership_type_div-'+data1.organization_id+' ed-membership_type_div-'+data1.organization_id+'">\
+                    <label class="form-label membership_type_label" for="input-1">Membership Type('+data1.organization_name+')</label>\
+                    <input type="hidden" name="subsubcountry_org_list" class="subsubcountry_org_list subsubcountry_org_list-'+data1.organization_id+'" value="'+data1.organization_id+'">\
+                    <ul id="membership_type-'+data1.organization_id+'" style="display:none;">'+membership_text+'</ul>\
+                    <select class="js-example-basic-multiple'+country_org+data1.organization_id+' addAll_removeAll_btn" data-list-id="membership_type-'+data1.organization_id+'" id="subcountry_organization_select" name="membership_type['+country_org+']['+organization_id+']['+data1.organization_id+'][]" multiple="multiple"></select>\
+                    </div><div class="show_submembership_type-'+country_org+organization_id+data1.organization_id+'"></div></div>\
+                    <div class="form-group level-drp">\
+                    <label class="form-label" for="input-1">Date Joined</label>\
+                    <input class="form-control graduation_start_date" type="date" name="date_joined['+data1.organization_id+']">\
+                    <span id="reqjoined_date" class="reqError text-danger valley"></span></div></div><div class="form-group level-drp">\
+                      <label class="form-label" for="input-1">Status</label>\
+                      <select class="form-control" name="prof_membership_status['+data1.organization_id+']" id="language-picker-select">\
+                        <option value="">Select Status</option>\
+                        <option value="Active - Current Member">Active - Current Member</option>\
+                        <option value="Lapsed Member">Lapsed Member</option>\
+                        <option value="Expired Member">Expired Member</option>\
+                        <option value="Suspended Member">Suspended Member</option>\
+                        <option value="Inactive Member">Inactive Member</option>\
+                        <option value="Non-Renewed Member">Non-Renewed Member</option>\
+                        <option value="Pending Membership Approval">Pending Membership Approval</option>\
+                        <option value="Membership Renewal Pending">Membership Renewal Pending</option>\
+                      </select>\
+                      <span id="reqmembership_status" class="reqError text-danger valley"></span>\
+                    </div></div>\
+                    <div class="form-group level-drp">\
+                    <label class="form-label" for="input-1">Awards & Recognitions:</label>\
+                    <ul id="awards_recognitions" style="display:none;">'+awards_text+'</ul>\
+                    <select class="js-example-basic-multiple'+country_org+data1.organization_id+' addAll_removeAll_btn" data-list-id="awards_recognitions" name="awards_recognitions[]" multiple="multiple"></select>\
+                    <span id="reqawards_recognitions" class="reqError text-danger valley"></span></div><div class="show_award_reg-'+country_org+data1.organization_id+'"></div><div class="form-group level-drp">\
+                      <label class="form-label" for="input-1">Upload Evidence</label>\
+                      <input class="form-control membership_evidence" type="file" name="membership_evidence[]" multiple="">\
+                    </div>');
                 selectTwoFunction(country_org+data1.organization_id);
                 submemberships_type('',country_org,data1.organization_id,organization_id,k,l,i);
+                subaward_recognitions('',country_org,data1.organization_id);
               }
             });
           
           }
         }
+      });
+    }
+  }
+
+  function subaward_recognitions(ed,country_org,organization_id){
+    
+    if(ed == "edit"){
+      
+      let selectedValues = $('.js-example-basic-multiple[data-list-id="awards_recognitions-'+country_org+organization_id+'"]').val();
+      console.log("selectedValues",selectedValues);
+      
+      for(var i=0;i<selectedValues.length;i++){
+    
+        if($(".show_award_reg-"+country_org+organization_id+" .award_country_div-"+selectedValues[i]).length < 1){
+          $.ajax({
+            type: "GET",
+            url: "{{ url('/nurse/getawardsRecognitions') }}",
+            data: {award_id:selectedValues[i]},
+            cache: false,
+            success: function(data){
+              var data1 = JSON.parse(data);
+              
+              console.log("data1",data1);
+              
+              var org_text = "";
+              for(var j=0;j<data1.award.length;j++){
+                //console.log("data",data1.country_organiztions[j].organization_id);
+                org_text += "<li data-value='"+data1.award[j].award_id+"'>"+data1.award[j].award_name+"</li>"; 
+                // $(".organization_country_div").removeClass("d-none");
+                // $("#country_organization").append("<li data-value="+data1.country_organiztions[j].organization_id+">"+data1.country_organiztions[j].organization_country+"</li>");
+                // $("#country_organization_select").append("<option value="+data1.country_organiztions[j].organization_id+">"+data1.country_organiztions[j].organization_country+"</option>");
+              }
+              //alert($(".organization_country_div-"+data1.organization_id).length);
+              
+                $(".show_award_reg-"+country_org+organization_id).append('<div class="form-group level-drp award_div award_country_div-'+data1.organization_id+'"><label class="form-label award_label" for="input-1">'+data1.award_name+'</label><input type="hidden" name="subaward_list" class="subaward_list subaward_list-'+data1.organization_id+'" value="'+data1.organization_id+'"><ul id="award_reg-'+data1.organization_id+'" style="display:none;">'+org_text+'</ul><select class="js-example-basic-multiple'+country_org+organization_id+data1.organization_id+' addAll_removeAll_btn" data-list-id="award_reg-'+data1.organization_id+'" id="award_organization_select-'+data1.organization_id+'" name="award_organization['+data1.organization_id+'][]" multiple="multiple"></select></div>');
+              
+              selectTwoFunction(country_org+organization_id+data1.organization_id);
+              
+            }
+          });
+        }
+      }
+    }else{  
+      $('.js-example-basic-multiple'+country_org+organization_id+'[data-list-id="awards_recognitions"]').on('change', function() {
+        let selectedValues = $(this).val();
+        console.log("selectedValues",selectedValues);
+
+        for(var i=0;i<selectedValues.length;i++){
+      
+          if($(".show_award_reg-"+country_org+organization_id+" .award_country_div-"+selectedValues[i]).length < 1){
+            $.ajax({
+              type: "GET",
+              url: "{{ url('/nurse/getawardsRecognitions') }}",
+              data: {award_id:selectedValues[i]},
+              cache: false,
+              success: function(data){
+                var data1 = JSON.parse(data);
+                
+                console.log("data1",data1);
+                
+                var org_text = "";
+                for(var j=0;j<data1.award.length;j++){
+                  //console.log("data",data1.country_organiztions[j].organization_id);
+                  org_text += "<li data-value='"+data1.award[j].award_id+"'>"+data1.award[j].award_name+"</li>"; 
+                  // $(".organization_country_div").removeClass("d-none");
+                  // $("#country_organization").append("<li data-value="+data1.country_organiztions[j].organization_id+">"+data1.country_organiztions[j].organization_country+"</li>");
+                  // $("#country_organization_select").append("<option value="+data1.country_organiztions[j].organization_id+">"+data1.country_organiztions[j].organization_country+"</option>");
+                }
+                //alert($(".organization_country_div-"+data1.organization_id).length);
+                
+                  $(".show_award_reg-"+country_org+organization_id).append('<div class="form-group level-drp award_div award_country_div-'+data1.organization_id+'"><label class="form-label award_label" for="input-1">'+data1.award_name+'</label><input type="hidden" name="subaward_list" class="subaward_list subaward_list-'+data1.organization_id+'" value="'+data1.organization_id+'"><ul id="award_reg-'+data1.organization_id+'" style="display:none;">'+org_text+'</ul><select class="js-example-basic-multiple'+country_org+organization_id+data1.organization_id+' addAll_removeAll_btn" data-list-id="award_reg-'+data1.organization_id+'" id="award_organization_select-'+data1.organization_id+'" name="award_organization['+data1.organization_id+'][]" multiple="multiple"></select></div>');
+                
+                selectTwoFunction(country_org+organization_id+data1.organization_id);
+                
+              }
+            });
+          }
+        }
+        
       });
     }
   }
@@ -1153,16 +1208,16 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
   // }
   // console.log("org_country1", or_count);
 
-  if ($(".awards_recognition_input").val() != "") {
-    var awards_recognition_input = JSON.parse($(".awards_recognition_input").val());
-    $('.js-example-basic-multiple[data-list-id="awards_recognitions"]').select2().val(awards_recognition_input).trigger('change');
-    for(var i=0;i<awards_recognition_input.length;i++){
-      if ($(".subawards_recognition_input-"+awards_recognition_input[i]).val() != "") {
-        var subawards_recognition_input = JSON.parse($(".subawards_recognition_input-"+awards_recognition_input[i]).val());
-        $('.js-example-basic-multiple[data-list-id="award_reg-'+awards_recognition_input[i]+'"]').select2().val(subawards_recognition_input).trigger('change');
-      }
-    }
-  }
+  // if ($(".awards_recognition_input").val() != "") {
+  //   var awards_recognition_input = JSON.parse($(".awards_recognition_input").val());
+  //   $('.js-example-basic-multiple[data-list-id="awards_recognitions"]').select2().val(awards_recognition_input).trigger('change');
+  //   for(var i=0;i<awards_recognition_input.length;i++){
+  //     if ($(".subawards_recognition_input-"+awards_recognition_input[i]).val() != "") {
+  //       var subawards_recognition_input = JSON.parse($(".subawards_recognition_input-"+awards_recognition_input[i]).val());
+  //       $('.js-example-basic-multiple[data-list-id="award_reg-'+awards_recognition_input[i]+'"]').select2().val(subawards_recognition_input).trigger('change');
+  //     }
+  //   }
+  // }
 
   // if ($(".subawards_recognition_input").val() != "") {
   //   var awards_recognition_input = JSON.parse($(".awards_recognition_input").val());
@@ -1195,8 +1250,8 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
 
                 for(var l=0;l<membership_type.length;l++){
                   var submembership_type = JSON.parse($(".submemb_type_input-"+org_country[i]+"-"+membership_type[l]).val());
-                  console.log("submembership_type",submembership_type);
-                  $('.js-example-basic-multiple[data-list-id="submembership_type-'+membership_type[l]+"-"+subsuborg_country[j]+'"]').select2().val(submembership_type).trigger('change');
+                  console.log("submembership_type",membership_type[l]+"-"+subsuborg_country[k]);
+                  $('.js-example-basic-multiple[data-list-id="submembership_type-'+membership_type[l]+"-"+subsuborg_country[k]+'"]').select2().val(submembership_type).trigger('change');
                 }
               }
             }

@@ -593,6 +593,7 @@ class ProfessionalController extends Controller
     {
         $organization_id = $request->organization_id;
         $data['membership_type'] = DB::table("membership_type")->where("submember_id","0")->orderBy('membership_name', 'ASC')->get();
+        $data['award_recognitions'] = DB::table("awards_recognitions")->where("sub_award_id","0")->orderBy('award_name', 'ASC')->get();
         $organization_name = DB::table("professional_organization")->where("organization_id",$organization_id)->first();
         $data['organization_id'] = $organization_id;
         $data['organization_name'] = $organization_name->organization_country;
