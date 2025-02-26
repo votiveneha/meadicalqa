@@ -305,7 +305,7 @@ i.fa.fa-file {
                           </div>
                         <!----[Vaccination Compliance End]---->
                         <div class="box-button mt-15">
-                          <button class="btn btn-apply-big font-md font-bold" type="submitVaccination" id="submitVaccination">Save Changes</button>
+                          <button class="btn btn-apply-big font-md font-bold" @if(!email_verified()) disabled @endif type="submitVaccination" id="submitVaccination">Save Changes</button>
                         </div>
                       </div>
                     </div>
@@ -842,7 +842,6 @@ $('.js-example-basic-multiple').each(function() {
     // Call the initialization function on page load
     initializeVaccinationRecords();
     evidance_content();
-    initializeFileUpload();
 
     // Bind change event on select element
     $('.js-example-basic-multiple[data-list-id="vaccination_record"]').on('change', function () {
@@ -887,7 +886,6 @@ $('.js-example-basic-multiple').each(function() {
 
                             }
                             evidance_content();
-                            initializeFileUpload();
                         }
 
                     },
@@ -927,58 +925,58 @@ $('.js-example-basic-multiple').each(function() {
 
 
     //add remove file in the list of view
-    function initializeFileUpload() {
-    $(".fileInput").each(function () {
-        const fileInput = $(this);
-        const fileList = $(`#fileList${fileInput.attr("id").replace("fileInput", "")}`);
-        const selectedFiles = new DataTransfer();
+//     function initializeFileUpload() {
+//     $(".fileInput").each(function () {
+//         const fileInput = $(this);
+//         const fileList = $(`#fileList${fileInput.attr("id").replace("fileInput", "")}`);
+//         const selectedFiles = new DataTransfer();
 
-        fileInput.off("change").on("change", function (event) {
-            Array.from(event.target.files).forEach((file) => {
-                selectedFiles.items.add(file);
+//         fileInput.off("change").on("change", function (event) {
+//             Array.from(event.target.files).forEach((file) => {
+//                 selectedFiles.items.add(file);
 
-                // Create a file item container
-                const fileDiv = $("<div>").addClass("file-item");
+//                 // Create a file item container
+//                 const fileDiv = $("<div>").addClass("file-item");
 
-                // Create a link to the file with the file name
-                const fileLink = $("<a>")
-                    .attr("href", URL.createObjectURL(file))  // Use Blob URL to link the file
-                    .attr("target", "_blank")
-                    .html(`<i class="fa fa-file" aria-hidden="true"></i> ${file.name}`);
+//                 // Create a link to the file with the file name
+//                 const fileLink = $("<a>")
+//                     .attr("href", URL.createObjectURL(file))  // Use Blob URL to link the file
+//                     .attr("target", "_blank")
+//                     .html(`<i class="fa fa-file" aria-hidden="true"></i> ${file.name}`);
 
-                // Create the close button
-                const closeButton = $("<div>").addClass("close_btn close_btn-0").css("cursor", "pointer");
-                const closeIcon = $("<i>").addClass("fa fa-close").attr("aria-hidden", "true");
+//                 // Create the close button
+//                 const closeButton = $("<div>").addClass("close_btn close_btn-0").css("cursor", "pointer");
+//                 const closeIcon = $("<i>").addClass("fa fa-close").attr("aria-hidden", "true");
 
-                // Append the close icon to the close button
-                closeButton.append(closeIcon);
+//                 // Append the close icon to the close button
+//                 closeButton.append(closeIcon);
 
-                // Add event listener to remove the file item when clicked
-                closeButton.on("click", function () {
-                    for (let i = 0; i < selectedFiles.items.length; i++) {
-                        if (selectedFiles.items[i].getAsFile().name === file.name) {
-                            selectedFiles.items.remove(i);
-                            break;
-                        }
-                    }
-                    fileInput[0].files = selectedFiles.files;
+//                 // Add event listener to remove the file item when clicked
+//                 closeButton.on("click", function () {
+//                     for (let i = 0; i < selectedFiles.items.length; i++) {
+//                         if (selectedFiles.items[i].getAsFile().name === file.name) {
+//                             selectedFiles.items.remove(i);
+//                             break;
+//                         }
+//                     }
+//                     fileInput[0].files = selectedFiles.files;
 
-                    // Remove the file div from the list
-                    fileDiv.remove();
-                });
+//                     // Remove the file div from the list
+//                     fileDiv.remove();
+//                 });
 
-                // Append the link and close button to the file div
-                fileDiv.append(fileLink).append(closeButton);
+//                 // Append the link and close button to the file div
+//                 fileDiv.append(fileLink).append(closeButton);
 
-                // Append the file div to the file list container
-                fileList.append(fileDiv);
-            });
+//                 // Append the file div to the file list container
+//                 fileList.append(fileDiv);
+//             });
 
-            // Update the file input with the modified FileList
-            fileInput[0].files = selectedFiles.files;
-        });
-    });
-}
+//             // Update the file input with the modified FileList
+//             fileInput[0].files = selectedFiles.files;
+//         });
+//     });
+// }
 
 function evidance_content() {
 
@@ -1137,47 +1135,5 @@ $(document).on('click', '.evidence-types', function() {
     return false;
   }
 
-
-  
-    // Handle change event for dose selection
-    function handleDoseChange(selectElement, i) {
-       
-       const selectedDose = selectElement.value; // Get the selected dose value
-       const evidenceRequiredContainer = $(`#evidence_required_container`);
-       const evidenceRequiredDiv = $(`#evidence_div`);
-       
-       // If "None" is selected, hide the evidence section
-       if (selectedDose === "None") {
-           evidenceRequiredContainer.hide(); // Hide the evidence container
-           evidenceRequiredDiv.html(''); // Clear the evidence options
-       } else {
-           // Show the evidence section
-           evidenceRequiredContainer.show();
-   
-           // Clear previous evidence before adding new ones
-           evidenceRequiredDiv.html('');
-           const  selectedEvidenceId=<?php echo   isset($vaccinationData[0])?$vaccinationData[0]->evidance_type:'' ?>
-           
-           // Fetch evidence types dynamically
-           const evidenceTypes = <?php echo json_encode(DB::table("evidence_type")->where('type', 12)->get()); ?>;
-           
-           // Populate the evidence section dynamically
-           
-           $.each(evidenceTypes, function (index, data) {
-               if (data.dose == selectedDose) { 
-                   // Match dose with the selected value
-                   evidenceRequiredDiv.append(`
-                       <input type="radio" class="evidence-required" id="evidence_re-${index}-${i}" name="evidence_required[${data.type}][]" value="${data.id}" ${data.id == selectedEvidenceId ? 'checked' : ''}>
-                       <label for="evidence_re-${index}-${i}">${data.name}</label><br>
-                   `);
-               }
-           });
-   
-           // If no evidence options found, display a fallback message
-           if (evidenceRequiredDiv.html() === '') {
-               evidenceRequiredDiv.append('<p>No evidence required for this dose.</p>');
-           }
-       }
-   }
   </script>
 @endsection

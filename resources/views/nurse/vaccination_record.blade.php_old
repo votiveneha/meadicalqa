@@ -5,8 +5,15 @@
     <input type="hidden" name="record_id[{{ $id }}][]" value="{{$vaccination_data!=''?$vaccination_data->id:''}}">
     <div class="row vacc_rec_institution">
         <!-- Level of Requirement -->
-        
-        @if($id==12)
+        @if($id!=12)
+        <div class="extra-info" style="margin-top: 10px;">
+            <label>If vaccination records are missing, a NSW Health Hepatitis B Vaccination Declaration form, signed by an approved assessor, may be accepted in certain cases. However, it is not sufficient by itself; additional evidence, such as serology results showing immunity, is usually required for full compliance
+                <br>
+                <a href="https://www.health.nsw.gov.au/immunisation/Documents/Occupational/appendix-9-declaration.pdf" style="
+                        color: #0662bb; text-decoration: underline; font-weight: 800;">appendix-9-declaration</a>
+            </label>
+        </div>
+        @else
         <div class="extra-info-covid" style="margin-top: 10px;">
             <label>The COVID-19 vaccination mandate for healthcare workers has been revoked across all states. However, individual healthcare employers, especially those in high-risk settings, may still enforce vaccination policies based on their risk assessments and workplace safety regulations. Nurses and midwives may therefore be required to stay up to date with their COVID-19 vaccinations by specific employers
                 <br>
@@ -70,7 +77,7 @@
                     $evidences = DB::table("evidence_type")->where('dose', $vaccination_data->covid_dose)->get();
                     foreach ($evidences as $evidence1){ ?>
                     <input type="radio" class="evidence-required" name="evidence_required[{{ $id }}][]" value="{{ $evidence1->id }}" {{$vaccination_data!=''?($vaccination_data->evidance_type==$evidence1->id?'checked':''):''}}>
-                    <label>{{ $evidence1->name }}</label><br>
+                    <label>{{ $evidence->name }}</label><br>
                     <?php }
                 }
                 ?>
@@ -78,15 +85,7 @@
             <span class="reqError text-danger valley"></span>
         </div>
         @endif
-        @if($id==8)
-        <div class="extra-info" style="margin-top: 10px;">
-            <label>If vaccination records are missing, a NSW Health Hepatitis B Vaccination Declaration form, signed by an approved assessor, may be accepted in certain cases. However, it is not sufficient by itself; additional evidence, such as serology results showing immunity, is usually required for full compliance
-                <br>
-                <a target="_blank" href="https://www.health.nsw.gov.au/immunisation/Documents/Occupational/appendix-9-declaration.pdf" style="
-                        color: #0662bb; text-decoration: underline; font-weight: 800;">NSW Gov Health Hepatitis B Vaccination Declaration form</a>
-            </label>
-        </div>
-        @endif
+        
         <!-- Evidence Upload -->
         <div class="form-group col-md-12">
             <label class="form-label">Upload Evidence</label>
@@ -185,46 +184,45 @@
         });
     });
 
+    // Handle change event for dose selection
+    function handleDoseChange(selectElement, i) {
+        
+    const selectedDose = selectElement.value; // Get the selected dose value
+    const evidenceRequiredContainer = $(`#evidence_required_container`);
+    const evidenceRequiredDiv = $(`#evidence_div`);
     
-//     // Handle change event for dose selection
-//     function handleDoseChange(selectElement, i) {
-       
-//     const selectedDose = selectElement.value; // Get the selected dose value
-//     const evidenceRequiredContainer = $(`#evidence_required_container`);
-//     const evidenceRequiredDiv = $(`#evidence_div`);
-    
-//     // If "None" is selected, hide the evidence section
-//     if (selectedDose === "None") {
-//         evidenceRequiredContainer.hide(); // Hide the evidence container
-//         evidenceRequiredDiv.html(''); // Clear the evidence options
-//     } else {
-//         // Show the evidence section
-//         evidenceRequiredContainer.show();
+    // If "None" is selected, hide the evidence section
+    if (selectedDose === "None") {
+        evidenceRequiredContainer.hide(); // Hide the evidence container
+        evidenceRequiredDiv.html(''); // Clear the evidence options
+    } else {
+        // Show the evidence section
+        evidenceRequiredContainer.show();
 
-//         // Clear previous evidence before adding new ones
-//         evidenceRequiredDiv.html('');
-//         const  selectedEvidenceId=<?php echo $vaccination_data!=''?$vaccination_data->evidance_type:'' ?>
+        // Clear previous evidence before adding new ones
+        evidenceRequiredDiv.html('');
+        const  selectedEvidenceId=<?php echo $vaccination_data!=''?$vaccination_data->evidance_type:'' ?>
         
-//         // Fetch evidence types dynamically
-//         const evidenceTypes = <?php echo json_encode(DB::table("evidence_type")->where('type', 12)->get()); ?>;
+        // Fetch evidence types dynamically
+        const evidenceTypes = <?php echo json_encode(DB::table("evidence_type")->where('type', 12)->get()); ?>;
         
-//         // Populate the evidence section dynamically
+        // Populate the evidence section dynamically
         
-//         $.each(evidenceTypes, function (index, data) {
-//             if (data.dose == selectedDose) { 
-//                 // Match dose with the selected value
-//                 evidenceRequiredDiv.append(`
-//                     <input type="radio" class="evidence-required" id="evidence_re-${index}-${i}" name="evidence_required[${data.type}][]" value="${data.id}" ${data.id == selectedEvidenceId ? 'checked' : ''}>
-//                     <label for="evidence_re-${index}-${i}">${data.name}</label><br>
-//                 `);
-//             }
-//         });
+        $.each(evidenceTypes, function (index, data) {
+            if (data.dose == selectedDose) { 
+                // Match dose with the selected value
+                evidenceRequiredDiv.append(`
+                    <input type="radio" class="evidence-required" id="evidence_re-${index}-${i}" name="evidence_required[${data.type}][]" value="${data.id}" ${data.id == selectedEvidenceId ? 'checked' : ''}>
+                    <label for="evidence_re-${index}-${i}">${data.name}</label><br>
+                `);
+            }
+        });
 
-//         // If no evidence options found, display a fallback message
-//         if (evidenceRequiredDiv.html() === '') {
-//             evidenceRequiredDiv.append('<p>No evidence required for this dose.</p>');
-//         }
-//     }
-// }
+        // If no evidence options found, display a fallback message
+        if (evidenceRequiredDiv.html() === '') {
+            evidenceRequiredDiv.append('<p>No evidence required for this dose.</p>');
+        }
+    }
+}
 
     </script>
