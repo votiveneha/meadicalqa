@@ -175,7 +175,7 @@
                         ?>
                         <div class="country_whole_div country_whole_div-{{ $p_arr }}" data-name="{{ $p_arr }}">
                         <div class="form-group level-drp organization_country_div organization_country_div-{{ $p_arr }}">
-                          <label class="form-label" for="input-1">{{ $country_name->organization_name }}</label>
+                          <label class="form-label organization_country_label organization_country_label-{{ $p_arr }}" for="input-1">{{ $country_name->organization_name }}</label>
                           <input type="hidden" name="country_org_list" class="country_org_list country_org_list-{{ $p_arr }}" value='{{ $p_arr }}'>
                           <input type="hidden" name="country_org" class="country_org-{{ $p_arr }}" value='<?php echo $p_memb_json; ?>'>
                           <ul id="country_organization-{{ $p_arr }}" style="display:none;">
@@ -186,7 +186,8 @@
                             @endforeach
                             @endif
                           </ul>
-                          <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="country_organization-{{ $p_arr }}" name="country_organization[{{ $p_arr }}][]" onchange="sub_organization('edit',{{ $p_arr }}, {{ $i+1 }})" multiple="multiple"></select>
+                          <select class="country_org_valid country_org_valid-{{ $p_arr }} js-example-basic-multiple addAll_removeAll_btn" data-list-id="country_organization-{{ $p_arr }}" name="country_organization[{{ $p_arr }}][]" onchange="sub_organization('edit',{{ $p_arr }}, {{ $i+1 }})" multiple="multiple"></select>
+                          <span id="reqcountry_org-{{ $p_arr }}" class="reqError text-danger valley"></span>
                         </div>
                         <div class="show_subcountry_org-{{ $p_arr }}">
                           <?php
@@ -211,7 +212,7 @@
                           ?>
                           <div class="sub_country_div sub_country_div-{{ $p_arr1 }}" data-name="{{ $country_name->organization_country }}">
                           <div class="form-group level-drp o_country_div-{{ $p_arr }} o_subcountry_div-{{ $p_arr1 }} o_subcountry_div-{{ $p_arr1 }} organization_subcountry_div organization_subcountry_div-{{ $p_arr1 }}">
-                            <label class="form-label organization_subcountry_label" for="input-1">{{ $country_name->organization_country }}</label>
+                            <label class="form-label organization_subcountry_label organization_subcountry_label-{{ $p_arr }}{{ $p_arr1 }}" for="input-1">{{ $country_name->organization_country }}</label>
                             <input type="hidden" name="subcountry_org_list" class="subcountry_org_list subcountry_org_list-{{ $p_arr1 }}" value='{{ $p_arr1 }}'>
                             <input type="hidden" name="subcountry_org" class="subcountry_org-{{ $p_arr1 }}" value='<?php echo $p_memb_json; ?>'>
                             <ul id="subcountry_organization-{{ $p_arr1 }}" style="display:none;">
@@ -221,8 +222,9 @@
                               
                               @endforeach
                               @endif
-                            </ul><select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="subcountry_organization-{{ $p_arr1 }}" id="subcountry_organization_select" name="subcountry_organization[{{ $p_arr }}][{{ $p_arr1 }}][]" onchange="memberships_type('edit','{{ $p_arr }}','{{ $p_arr1 }}',{{ $i+1 }},{{{ $j+1 }}})" multiple="multiple">
+                            </ul><select class="sub_country_org sub_country_org-{{ $p_arr }}{{ $p_arr1 }} js-example-basic-multiple addAll_removeAll_btn" data-list-id="subcountry_organization-{{ $p_arr1 }}" id="subcountry_organization_select" name="subcountry_organization[{{ $p_arr }}][{{ $p_arr1 }}][]" onchange="memberships_type('edit','{{ $p_arr }}','{{ $p_arr1 }}',{{ $i+1 }},{{{ $j+1 }}})" multiple="multiple">
                             </select>
+                            <span id="reqsubcountry_org-{{ $p_arr }}{{ $p_arr1 }}" class="reqError text-danger valley"></span>
                           </div>
                           <div class="show_membership_type-{{ $p_arr }}{{ $p_arr1 }}">
                             <?php
@@ -243,7 +245,7 @@
                             ?>
                             <div class="membership_type_div-{{ $p_arr2 }}">
                             <div class="form-group level-drp o_subcountry_div-{{ $p_arr1 }} o_country_div-{{ $p_arr }} membership_type_div membership_type_div-{{ $p_arr2 }}">
-                              <label class="form-label membership_type_label" for="input-1">Membership Type({{ $country_name->organization_country }})</label>
+                              <label class="form-label membership_type_label membership_type_label-{{ $p_arr }}{{ $p_arr2 }}" for="input-1">Membership Type({{ $country_name->organization_country }})</label>
                               <input type="hidden" name="subsubcountry_org_list" class="subsubcountry_org_list subsubcountry_org_list-{{ $p_arr2 }}" value='{{ $p_arr2 }}'>
                               <input type="hidden" name="memb_type_input" class="memb_type_input-{{ $p_arr2 }}" value='<?php echo $p_memb_json; ?>'>
                               <ul id="membership_type-{{ $p_arr2 }}" style="display:none;">
@@ -253,8 +255,9 @@
                                 
                                 @endforeach
                                 @endif
-                              </ul><select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="membership_type-{{ $p_arr2 }}" id="subcountry_organization_select" name="membership_type[{{ $p_arr }}][{{ $p_arr1 }}][{{ $p_arr2 }}][]" onchange="submemberships_type('edit','{{ $p_arr }}','{{ $p_arr2 }}','{{ $p_arr1 }}',{{ $i+1 }},{{ $j+1 }},{{ $k+1 }})" multiple="multiple">
+                              </ul><select class="membership_type_org membership_type_org-{{ $p_arr }}{{ $p_arr2 }} js-example-basic-multiple addAll_removeAll_btn" data-list-id="membership_type-{{ $p_arr2 }}" id="subcountry_organization_select" name="membership_type[{{ $p_arr }}][{{ $p_arr1 }}][{{ $p_arr2 }}][]" onchange="submemberships_type('edit','{{ $p_arr }}','{{ $p_arr2 }}','{{ $p_arr1 }}',{{ $i+1 }},{{ $j+1 }},{{ $k+1 }})" multiple="multiple">
                               </select>
+                              <span id="reqmembershiptype-{{ $p_arr }}{{ $p_arr2 }}" class="reqError text-danger valley"></span>
                             </div>
                             <div class="show_submembership_type-{{ $p_arr }}{{ $p_arr1 }}{{ $p_arr2 }}">
                               @foreach ($memb_type_arr as $p_arr3)
@@ -264,8 +267,8 @@
                                 $ossm_data = (array)$osm_data[$p_arr3];
                                 $memb_type_arr = array();
                                
-                                foreach ($ossm_data as $index =>$m_type_arr) {
-                                  $memb_type_arr[] = $index;
+                                foreach ($ossm_data as $m_type_arr) {
+                                  $memb_type_arr[] = $m_type_arr;
                                   
                                 }
 
@@ -274,7 +277,7 @@
                               ?>
                               <div class="submembership_type_div-{{ $p_arr3 }}-{{ $p_arr3 }}">
                               <div class="form-group level-drp o_membtype_div-{{ $p_arr2 }} o_subcountry_div-{{ $p_arr1 }} o_country_div-{{ $p_arr }} submembership_type_div submembership_type_div-{{ $p_arr3 }}">
-                                <label class="form-label submembership_type_label" for="input-1">{{ $membership_name->membership_name }}</label>
+                                <label class="form-label submembership_type_label submembership_type_label-{{ $p_arr }}-{{ $p_arr3 }}" for="input-1">{{ $membership_name->membership_name }}</label>
                                 <input type="hidden" name="submemb_list" class="submemb_list submemb_list-{{ $p_arr3 }}" value='{{ $p_arr3 }}'>
                                 <input type="hidden" name="submemb_type_input" class="submemb_type_input-{{ $p_arr2 }}-{{ $p_arr3 }}" value='<?php echo $p_memb_json; ?>'>
                                 <ul id="submembership_type-{{ $p_arr3 }}-{{ $p_arr2 }}" style="display:none;">
@@ -284,8 +287,9 @@
                                   
                                   @endforeach
                                   @endif
-                                </ul><select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="submembership_type-{{ $p_arr3 }}-{{ $p_arr2 }}" id="subcountry_organization_select" name="submembership_type[{{ $p_arr }}][{{ $p_arr1 }}][{{ $p_arr2 }}][{{ $p_arr3 }}][]" multiple="multiple">
+                                </ul><select class="submemb_valid submemb_valid-{{ $p_arr }}-{{ $p_arr3 }} js-example-basic-multiple addAll_removeAll_btn" data-list-id="submembership_type-{{ $p_arr3 }}-{{ $p_arr2 }}" id="subcountry_organization_select" name="submembership_type[{{ $p_arr }}][{{ $p_arr1 }}][{{ $p_arr2 }}][{{ $p_arr3 }}][]" multiple="multiple">
                                 </select>
+                                <span id="reqsubmem_org-{{ $p_arr }}-{{ $p_arr3 }}" class="reqError text-danger valley"></span>
                               </div>
                               </div>
                               @endforeach
@@ -293,7 +297,7 @@
                             <?php
                               $k++;
                             ?>
-                            </div>
+                            
                             <?php
                               $date_joined = (array)json_decode($professional_membership->date_joined);
                               $membership_status = (array)json_decode($professional_membership->membership_status);
@@ -301,12 +305,12 @@
                             ?>
                             <div class="form-group level-drp">
                               <label class="form-label" for="input-1">Date Joined</label>
-                              <input class="form-control graduation_start_date" type="date" name="date_joined[{{ $p_arr2 }}]" value="@if(!empty($professional_membership)){{ $date_joined[$p_arr2] }}@endif" onchange="changeDate(event);">
-                              <span id="reqjoined_date" class="reqError text-danger valley"></span>
+                              <input class="form-control graduation_start_date graduation_start_date-{{ $p_arr }}{{ $p_arr2 }}" type="date" name="date_joined[{{ $p_arr2 }}]" value="@if(!empty($professional_membership)){{ $date_joined[$p_arr2] }}@endif" onchange="changeDate(event);">
+                              <span id="reqjoined_date-{{ $p_arr }}{{ $p_arr2 }}" class="reqError text-danger valley"></span>
                             </div>
                             <div class="form-group level-drp">
                               <label class="form-label" for="input-1">Status</label>
-                              <select class="form-control" name="prof_membership_status[{{ $p_arr2 }}]" id="language-picker-select">
+                              <select class="form-control profmemstatus profmemstatus-{{ $p_arr }}{{ $p_arr2 }}" name="prof_membership_status[{{ $p_arr2 }}]" id="language-picker-select">
                                 <option value="">Select Status</option>
                                 <option value="Active - Current Member" @if(!empty($professional_membership) && $membership_status[$p_arr2] == "Active - Current Member") selected @endif>Active - Current Member</option>
                                 <option value="Lapsed Member" @if(!empty($professional_membership) && $membership_status[$p_arr2] == "Lapsed Member") selected @endif>Lapsed Member</option>
@@ -318,10 +322,10 @@
                                 <option value="Membership Renewal Pending" @if(!empty($professional_membership) && $membership_status[$p_arr2] == "Membership Renewal Pending") selected @endif>Membership Renewal Pending</option>
         
                               </select>
-                              <span id="reqmembership_status" class="reqError text-danger valley"></span>
+                              <span id="reqmembership_status-{{ $p_arr }}{{ $p_arr2 }}" class="reqError text-danger valley"></span>
                             </div>
                             <div class="form-group level-drp">
-                              <label class="form-label" for="input-1">Awards & Recognitions:</label>
+                              <label class="form-label award_recognition_label-{{ $p_arr }}{{ $p_arr2 }}" for="input-1">Awards & Recognitions:</label>
                               <?php
                                 $award_recognitions = (array)json_decode($professional_membership->award_recognitions);
 
@@ -341,7 +345,7 @@
                                 
                                 $award_json = json_encode($award_arr);
                               ?>
-                                 
+                              <input type="hidden" name="award_list" class="award_list award_list-{{ $p_arr2 }}" value="{{ $p_arr2 }}">   
                               <input type="hidden" name="awards_recognition_input" class="awards_recognition_input-{{ $p_arr2 }}" value='<?php echo $award_json; ?>'>
                               <ul id="awards_recognitions-{{ $p_arr }}{{ $p_arr2 }}" style="display:none;">
                                 @if(!empty($awards_recognitions))
@@ -351,8 +355,8 @@
                                 @endforeach
                                 @endif
                               </ul>
-                              <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="awards_recognitions-{{ $p_arr }}{{ $p_arr2 }}" name="awards_recognitions[]" onchange="subaward_recognitions('edit',{{ $p_arr }},{{ $p_arr2 }})" multiple="multiple"></select>
-                              <span id="reqawards_recognitions" class="reqError text-danger valley"></span>
+                              <select class="award_recog-{{ $p_arr }}{{ $p_arr2 }} js-example-basic-multiple addAll_removeAll_btn" data-list-id="awards_recognitions-{{ $p_arr }}{{ $p_arr2 }}" name="awards_recognitions[]" onchange="subaward_recognitions('edit',{{ $p_arr }},{{ $p_arr2 }})" multiple="multiple"></select>
+                              <span id="reqawards_recognitions-{{ $p_arr }}{{ $p_arr2 }}" class="reqError text-danger valley"></span>
                             </div>
                             <div class="show_award_reg-{{ $p_arr }}{{ $p_arr2 }}">
                               @foreach ($award_arr as $a_reg_arr)
@@ -364,7 +368,7 @@
                                 $subawards_recognition_json = json_encode($sub_award_data);
                               ?>
                               <div class="form-group level-drp award_div award_country_div-{{ $a_reg_arr }}">
-                                <label class="form-label award_label" for="input-1">{{ $subawards_name->award_name }}</label>
+                                <label class="form-label subaward_label subaward_label-{{ $p_arr2 }}{{ $a_reg_arr }}" for="input-1">{{ $subawards_name->award_name }}</label>
                                 <input type="hidden" name="sub_award_list" class="subaward_list subaward_list-{{ $a_reg_arr }}" value='<?php echo $a_reg_arr; ?>'>
                                 <input type="hidden" name="subawards_recognition_input" class="subawards_recognition_input-{{ $p_arr2 }}{{ $a_reg_arr }}" value='<?php echo $subawards_recognition_json; ?>'>
                                 <ul id="award_reg-{{ $p_arr2 }}{{ $a_reg_arr }}" style="display:none;">
@@ -374,9 +378,43 @@
                                   <li data-value="{{ $a_reg->award_id }}">{{ $a_reg->award_name }}</li>
                                   @endforeach
                                   @endif
-                                </ul><select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="award_reg-{{ $p_arr2 }}{{ $a_reg_arr }}" id="award_organization_select-{{ $a_reg_arr }}" name="award_organization[{{ $p_arr2 }}][{{ $a_reg_arr }}][]" multiple="multiple">
+                                </ul><select class="sub_award_org sub_award_org-{{ $p_arr2 }}{{ $a_reg_arr }} js-example-basic-multiple addAll_removeAll_btn" data-list-id="award_reg-{{ $p_arr2 }}{{ $a_reg_arr }}" id="award_organization_select-{{ $a_reg_arr }}" name="award_organization[{{ $p_arr2 }}][{{ $a_reg_arr }}][]" multiple="multiple">
                                 </select>
-                              </div>     
+                                <span id="reqsubawards_recognitions-{{ $p_arr2 }}{{ $a_reg_arr }}" class="reqError text-danger valley"></span>
+                              </div>    
+                            </div>
+                              <div class="form-group level-drp">
+                                <?php
+                                  $user_id = Auth::guard('nurse_middle')->user()->id;  
+                                ?>
+                                <label class="form-label" for="input-1">Upload Evidence</label>
+                                <input class="form-control membership_evidence-{{ $p_arr2 }}" type="file" name="membership_evidence[{{ $p_arr2 }}][]" onchange="changeEvidenceImg({{ $user_id }},{{ $p_arr2 }})" multiple>
+                              </div>
+                              <div class="memb_evdence-{{ $p_arr2 }}">
+                                <?php
+                                  if($professional_membership->evidence_imgs){
+                                    $evidence_imgs = (array)json_decode($professional_membership->evidence_imgs);
+                                    $evorgimg = $evidence_imgs[$p_arr2];
+                                    //print_r($evorgimg);
+                                    $i = 0;
+                                    ?>
+                                    @if(!empty($evorgimg))
+                                    @foreach ($evorgimg as $ev_img)
+                                    <div class="trans_img trans_img-{{ $i+1 }}">
+                                      <a href=""><i class="fa fa-file" aria-hidden="true"></i>{{ $ev_img }}</a>
+                                      <div class="close_btn close_btn-' + i + '" onclick="deleteEvidenceImg({{ $i+1 }},{{ $user_id }},'{{ $ev_img }}',{{ $p_arr2 }})" style="cursor: pointer;"><i class="fa fa-close" aria-hidden="true"></i></div>
+                                    </div>
+                                    <?php
+                                      $i++;
+                                    ?>
+                                    @endforeach
+                                    @endif
+                                    <?php
+                                  }
+                                  //print_r($evidence_imgs);
+                                ?>
+                              </div>
+                            
                               @endforeach
                             </div>
                             @endforeach
@@ -396,8 +434,8 @@
                         </div>
                       @endforeach
                     </div>
-                    
-                    {{-- <div class="form-group level-drp">
+{{--                     
+                    <div class="form-group level-drp">
                       <label class="form-label" for="input-1">Organization Name</label>
                       <input type="hidden" name="organization_name" class="organization_name" value="@if(!empty($professional_membership)){{ $professional_membership->des_profession_association }}@endif">
                       <ul id="des_profession_association" style="display:none;">
@@ -409,48 +447,7 @@
                       <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="des_profession_association" name="des_profession_association[]" multiple="multiple"></select>
                       <span id="reqorg_name" class="reqError text-danger valley"></span>
                     </div> --}}
-                    {{-- <div class="form-group level-drp">
-                      <label class="form-label" for="input-1">Date Joined</label>
-                      <input class="form-control graduation_start_date" type="date" name="date_joined" value="@if(!empty($professional_membership)){{ $professional_membership->date_joined }}@endif" onchange="changeDate(event);">
-                      <span id="reqjoined_date" class="reqError text-danger valley"></span>
-                    </div> --}}
                     
-                    {{-- <div class="form-group level-drp">
-                      <label class="form-label" for="input-1">Status</label>
-                      <select class="form-control" name="prof_membership_status" id="language-picker-select">
-                        <option value="">Select Status</option>
-                        <option value="Active - Current Member" @if(!empty($professional_membership) && $professional_membership->membership_status == "Active - Current Member") selected @endif>Active - Current Member</option>
-                        <option value="Lapsed Member" @if(!empty($professional_membership) && $professional_membership->membership_status == "Lapsed Member") selected @endif>Lapsed Member</option>
-                        <option value="Expired Member" @if(!empty($professional_membership) && $professional_membership->membership_status == "Expired Member") selected @endif>Expired Member</option>
-                        <option value="Suspended Member" @if(!empty($professional_membership) && $professional_membership->membership_status == "Suspended Member") selected @endif>Suspended Member</option>
-                        <option value="Inactive Member" @if(!empty($professional_membership) && $professional_membership->membership_status == "Inactive Member") selected @endif>Inactive Member</option>
-                        <option value="Non-Renewed Member" @if(!empty($professional_membership) && $professional_membership->membership_status == "Non-Renewed Member") selected @endif>Non-Renewed Member</option>
-                        <option value="Pending Membership Approval" @if(!empty($professional_membership) && $professional_membership->membership_status == "Pending Membership Approval") selected @endif>Pending Membership Approval</option>
-                        <option value="Membership Renewal Pending" @if(!empty($professional_membership) && $professional_membership->membership_status == "Membership Renewal Pending") selected @endif>Membership Renewal Pending</option>
-
-                      </select>
-                      <span id="reqmembership_status" class="reqError text-danger valley"></span>
-                    </div> --}}
-                    
-                    {{-- <div class="show_award_reg">
-                      @foreach ($awards_recognition_arr as $a_reg_arr)
-                       
-                        <div class="form-group level-drp award_div award_country_div-{{ $a_reg_arr }}">
-                          <label class="form-label award_label" for="input-1">{{ $subawards_name->award_name }}</label>
-                          <input type="hidden" name="sub_award_list" class="subaward_list subaward_list-{{ $a_reg_arr }}" value='<?php echo $a_reg_arr; ?>'>
-                          <input type="hidden" name="subawards_recognition_input" class="subawards_recognition_input-{{ $a_reg_arr }}" value='<?php echo $subawards_recognition_json; ?>'>
-                          <ul id="award_reg-{{ $a_reg_arr }}" style="display:none;">
-                            @if(!empty($subawards_recognition))
-                            
-                            @foreach($subawards_recognition as $a_reg)
-                            <li data-value="{{ $a_reg->award_id }}">{{ $a_reg->award_name }}</li>
-                            @endforeach
-                            @endif
-                          </ul><select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="award_reg-{{ $a_reg_arr }}" id="award_organization_select-{{ $a_reg_arr }}" name="award_organization[{{ $a_reg_arr }}][]" multiple="multiple">
-                          </select>
-                        </div>     
-                      @endforeach
-                    </div> --}}
                     
                     <div class="box-button mt-15">
                       <button class="btn btn-apply-big font-md font-bold" type="submit" id="submitProfessionalMembership">Save Changes</button>
@@ -515,19 +512,21 @@
   });
 </script>
 <script>
-  function changeEvidenceImg(user_id) {
-    var files = $('.membership_evidence')[0].files;
-    console.log("files", files.length);
+  function changeEvidenceImg(user_id,sub_org_id) {
+    
+    var files = $('.membership_evidence-'+sub_org_id)[0].files;
+    console.log("files", files);
     var form_data = "";
     form_data = new FormData();
 
     for (var i = 0; i < files.length; i++) {
-      form_data.append("membership_evidence[]", files[i], files[i]['name']);
+      form_data.append("membership_evidence["+sub_org_id+"][]", files[i], files[i]['name']);
     }
 
     form_data.append("user_id", user_id);
+    form_data.append("sub_org_id", sub_org_id);
     form_data.append("_token", '{{ csrf_token() }}');
-
+    
     $.ajax({
       type: "post",
       url: "{{ route('nurse.uploadMembershipImgs') }}",
@@ -539,25 +538,27 @@
 
       success: function(data) {
         var image_array = JSON.parse(data);
+        console.log("degree_transcript", image_array[sub_org_id].length);
         var htmlData = '';
-        for (var i = 0; i < image_array.length; i++) {
-          console.log("degree_transcript", image_array[i]);
-          var img_name = image_array[i];
+        for (var i = 0; i < image_array[sub_org_id].length; i++) {
+          //console.log("degree_transcript", image_array[i]);
+          var img_name = image_array[sub_org_id][i];
           console.log("img_name", 'deleteImg(' + (i + 1) + ',' + user_id + ',"' + img_name + '")');
-          htmlData += '<div class="trans_img trans_img-' + (i + 1) + '"><a href="{{ url("/public") }}/uploads/education_degree/' + img_name + '" target="_blank"><i class="fa fa-file" aria-hidden="true"></i>' + image_array[i] + '</a><div class="close_btn close_btn-' + i + '" onclick="deleteImg(' + (i + 1) + ',' + user_id + ',\'' + img_name + '\')" style="cursor: pointer;"><i class="fa fa-close" aria-hidden="true"></i></div></div>';
+          htmlData += '<div class="trans_img trans_img-' + (i + 1) + '"><a href="{{ url("/public") }}/uploads/education_degree/' + img_name + '" target="_blank"><i class="fa fa-file" aria-hidden="true"></i>' + image_array[sub_org_id][i] + '</a><div class="close_btn close_btn-' + i + '" onclick="deleteEvidenceImg(' + (i + 1) + ',' + user_id + ',\'' + img_name + '\','+sub_org_id+')" style="cursor: pointer;"><i class="fa fa-close" aria-hidden="true"></i></div></div>';
         }
-        $(".memb_evdence").html(htmlData);
+        $(".memb_evdence-"+sub_org_id).html(htmlData);
       }
     });
   }
 
-  function deleteEvidenceImg(i, user_id, img) {
+  function deleteEvidenceImg(i, user_id, img,sub_org_id) {
     $.ajax({
       type: "post",
       url: "{{ route('nurse.deleteEvidenceImg') }}",
       data: {
         user_id: user_id,
         img: img,
+        sub_org_id: sub_org_id,
         _token: '{{ csrf_token() }}'
       },
       cache: false,
@@ -654,7 +655,7 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
             }
             //alert($(".organization_country_div-"+data1.organization_id).length);
             
-              $(".show_country_org").append('<div class="country_whole_div country_whole_div-'+data1.organization_id+'" data-name="'+data1.organization_id+'"><div class="form-group level-drp o_country_div-'+data1.organization_id+' organization_country_div organization_country_div-'+data1.organization_id+'"><label class="form-label organization_country_label" for="input-1">'+data1.country_name+'</label><input type="hidden" name="country_org_list" class="country_org_list country_org_list-'+data1.organization_id+'" value="'+data1.organization_id+'"><ul id="country_organization-'+data1.organization_id+'" style="display:none;">'+org_text+'</ul><select class="js-example-basic-multiple'+data1.organization_id+' addAll_removeAll_btn" data-list-id="country_organization-'+data1.organization_id+'" id="country_organization_select-'+data1.organization_id+'" name="country_organization['+data1.organization_id+'][]" multiple="multiple"></select></div><div class="show_subcountry_org-'+data1.organization_id+'"></div></div>');
+              $(".show_country_org").append('<div class="country_whole_div country_whole_div-'+data1.organization_id+'" data-name="'+data1.organization_id+'"><div class="form-group level-drp o_country_div-'+data1.organization_id+' organization_country_div organization_country_div-'+data1.organization_id+'"><label class="form-label organization_country_label organization_country_label-'+data1.organization_id+'" for="input-1">'+data1.country_name+'</label><input type="hidden" name="country_org_list" class="country_org_list country_org_list-'+data1.organization_id+'" value="'+data1.organization_id+'"><ul id="country_organization-'+data1.organization_id+'" style="display:none;">'+org_text+'</ul><select class="country_org_valid country_org_valid-'+data1.organization_id+' js-example-basic-multiple'+data1.organization_id+' addAll_removeAll_btn" data-list-id="country_organization-'+data1.organization_id+'" id="country_organization_select-'+data1.organization_id+'" name="country_organization['+data1.organization_id+'][]" multiple="multiple"></select><span id="reqcountry_org-'+data1.organization_id+'" class="reqError text-danger valley"></span></div><div class="show_subcountry_org-'+data1.organization_id+'"></div></div>');
             
             
               var $wrapper = $('.show_country_org');
@@ -718,7 +719,14 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
                 org_text += "<li data-value='"+data1.country_organiztions[j].organization_id+"'>"+data1.country_organiztions[j].organization_country+"</li>"; 
                 
               }
-              $(".show_subcountry_org-"+country_org).append('<div class="sub_country_div sub_country_div-'+data1.organization_id+'" data-name="'+data1.country_name+'"><div class="form-group level-drp o_country_div-'+country_org+' o_subcountry_div-'+data1.organization_id+' organization_subcountry_div organization_subcountry_div-'+data1.organization_id+'"><label class="form-label organization_subcountry_label" for="input-1">'+data1.country_name+':</label><ul id="subcountry_organization-'+data1.organization_id+'" style="display:none;">'+org_text+'</ul><input type="hidden" name="subcountry_org_list" class="subcountry_org_list subcountry_org_list-'+data1.organization_id+'" value="'+data1.organization_id+'"><select class="js-example-basic-multiple'+country_org+data1.organization_id+' addAll_removeAll_btn" data-list-id="subcountry_organization-'+data1.organization_id+'" id="subcountry_organization_select" name="subcountry_organization['+country_org+']['+data1.organization_id+'][]" multiple="multiple"></select></div><div class="show_membership_type-'+country_org+data1.organization_id+'"></div><div class="form-group level-drp"><label class="form-label" for="input-1">Date Joined</label><input class="form-control graduation_start_date" type="date" name="date_joined"><span id="reqjoined_date" class="reqError text-danger valley"></span></div></div>');
+              $(".show_subcountry_org-"+country_org).append('\<div class="sub_country_div sub_country_div-'+data1.organization_id+'" data-name="'+data1.country_name+'">\
+                  <div class="form-group level-drp o_country_div-'+country_org+' ed-o_subcountry_div-'+data1.organization_id+' organization_subcountry_div organization_subcountry_div-'+data1.organization_id+' ed-organization_subcountry_div-'+data1.organization_id+'">\
+                    <label class="form-label organization_subcountry_label organization_subcountry_label-'+country_org+data1.organization_id+'" for="input-1">'+data1.country_name+':</label>\
+                    <input type="hidden" name="subcountry_org_list" class="subcountry_org_list subcountry_org_list-'+data1.organization_id+'" value="'+data1.organization_id+'">\
+                    <ul id="subcountry_organization-'+country_org+data1.organization_id+'" style="display:none;">'+org_text+'</ul>\
+                    <select class="sub_country_org sub_country_org-'+country_org+data1.organization_id+' js-example-basic-multiple'+country_org+data1.organization_id+' addAll_removeAll_btn" data-list-id="subcountry_organization-'+country_org+data1.organization_id+'" id="subcountry_organization_select" name="subcountry_organization['+country_org+']['+data1.organization_id+'][]" multiple="multiple"></select>\
+                    <span id="reqsubcountry_org-'+country_org+data1.organization_id+'" class="reqError text-danger valley"></span>\
+                    </div><div class="show_membership_type-'+country_org+data1.organization_id+'"></div>');
               
               
 
@@ -776,10 +784,11 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
 
                 $(".show_subcountry_org-"+country_org).append('\<div class="sub_country_div sub_country_div-'+data1.organization_id+'" data-name="'+data1.country_name+'">\
                   <div class="form-group level-drp o_country_div-'+country_org+' ed-o_subcountry_div-'+data1.organization_id+' organization_subcountry_div organization_subcountry_div-'+data1.organization_id+' ed-organization_subcountry_div-'+data1.organization_id+'">\
-                    <label class="form-label organization_subcountry_label" for="input-1">'+data1.country_name+':</label>\
+                    <label class="form-label organization_subcountry_label organization_subcountry_label-'+country_org+data1.organization_id+'" for="input-1">'+data1.country_name+':</label>\
                     <input type="hidden" name="subcountry_org_list" class="subcountry_org_list subcountry_org_list-'+data1.organization_id+'" value="'+data1.organization_id+'">\
                     <ul id="subcountry_organization-'+country_org+data1.organization_id+'" style="display:none;">'+org_text+'</ul>\
-                    <select class="js-example-basic-multiple'+country_org+data1.organization_id+' addAll_removeAll_btn" data-list-id="subcountry_organization-'+country_org+data1.organization_id+'" id="subcountry_organization_select" name="subcountry_organization['+country_org+']['+data1.organization_id+'][]" multiple="multiple"></select>\
+                    <select class="sub_country_org sub_country_org-'+country_org+data1.organization_id+' js-example-basic-multiple'+country_org+data1.organization_id+' addAll_removeAll_btn" data-list-id="subcountry_organization-'+country_org+data1.organization_id+'" id="subcountry_organization_select" name="subcountry_organization['+country_org+']['+data1.organization_id+'][]" multiple="multiple"></select>\
+                    <span id="reqsubcountry_org-'+country_org+data1.organization_id+'" class="reqError text-danger valley"></span>\
                     </div><div class="show_membership_type-'+country_org+data1.organization_id+'"></div>');
                 
                 
@@ -835,21 +844,24 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
                 awards_text += "<li data-value='"+data1.award_recognitions[k].award_id+"'>"+data1.award_recognitions[k].award_name+"</li>"; 
                 
               }
-              alert(country_org+organization_id);
               
-              $(".show_membership_type-"+country_org+organization_id).append('\<div class="membership_type_divs-'+data1.organization_id+'">\
+              
+              var user_id = "<?php echo Auth::guard('nurse_middle')->user()->id; ?>";
+
+              $(".show_membership_type-"+country_org+organization_id).append('\<div class="membership_type_div-'+data1.organization_id+'">\
                   <div class="form-group level-drp o_country_div-'+country_org+' ed-o_subcountry_div-'+organization_id+' membership_type_div membership_type_div-'+data1.organization_id+' ed-membership_type_div-'+data1.organization_id+'">\
-                    <label class="form-label membership_type_label" for="input-1">Membership Type('+data1.organization_name+')</label>\
+                    <label class="form-label membership_type_label membership_type_label-'+country_org+data1.organization_id+'" for="input-1">Membership Type('+data1.organization_name+')</label>\
                     <input type="hidden" name="subsubcountry_org_list" class="subsubcountry_org_list subsubcountry_org_list-'+data1.organization_id+'" value="'+data1.organization_id+'">\
                     <ul id="membership_type-'+data1.organization_id+'" style="display:none;">'+membership_text+'</ul>\
-                    <select class="js-example-basic-multiple'+country_org+data1.organization_id+' addAll_removeAll_btn" data-list-id="membership_type-'+data1.organization_id+'" id="subcountry_organization_select" name="membership_type['+country_org+']['+organization_id+']['+data1.organization_id+'][]" multiple="multiple"></select>\
-                    </div><div class="show_submembership_type-'+country_org+organization_id+data1.organization_id+'"></div></div>\
+                    <select class="membership_type_org membership_type_org-'+country_org+data1.organization_id+' js-example-basic-multiple'+country_org+data1.organization_id+' addAll_removeAll_btn" data-list-id="membership_type-'+data1.organization_id+'" id="subcountry_organization_select" name="membership_type['+country_org+']['+organization_id+']['+data1.organization_id+'][]" multiple="multiple"></select>\
+                    <span id="reqmembershiptype-'+country_org+data1.organization_id+'" class="reqError text-danger valley"></span>\
+                    </div><div class="show_submembership_type-'+country_org+organization_id+data1.organization_id+'"></div>\
                     <div class="form-group level-drp">\
                     <label class="form-label" for="input-1">Date Joined</label>\
-                    <input class="form-control graduation_start_date" type="date" name="date_joined['+data1.organization_id+']">\
-                    <span id="reqjoined_date" class="reqError text-danger valley"></span></div></div><div class="form-group level-drp">\
+                    <input class="form-control graduation_start_date graduation_start_date-'+country_org+data1.organization_id+'" type="date" name="date_joined['+data1.organization_id+']">\
+                    <span id="reqjoined_date-'+country_org+data1.organization_id+'" class="reqError text-danger valley"></span></div><div class="form-group level-drp">\
                       <label class="form-label" for="input-1">Status</label>\
-                      <select class="form-control" name="prof_membership_status['+data1.organization_id+']" id="language-picker-select">\
+                      <select class="form-control profmemstatus profmemstatus-'+country_org+data1.organization_id+'" name="prof_membership_status['+data1.organization_id+']" id="language-picker-select">\
                         <option value="">Select Status</option>\
                         <option value="Active - Current Member">Active - Current Member</option>\
                         <option value="Lapsed Member">Lapsed Member</option>\
@@ -860,16 +872,17 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
                         <option value="Pending Membership Approval">Pending Membership Approval</option>\
                         <option value="Membership Renewal Pending">Membership Renewal Pending</option>\
                       </select>\
-                      <span id="reqmembership_status" class="reqError text-danger valley"></span>\
-                    </div></div>\
+                      <span id="reqmembership_status-'+country_org+data1.organization_id+'" class="reqError text-danger valley"></span>\
+                    </div>\
                     <div class="form-group level-drp">\
-                    <label class="form-label" for="input-1">Awards & Recognitions:</label>\
+                    <label class="form-label award_recognition_label-'+country_org+data1.organization_id+'" for="input-1">Awards & Recognitions:</label>\
+                    <input type="hidden" name="award_list" class="award_list award_list-'+data1.organization_id+'" value="'+data1.organization_id+'">\
                     <ul id="awards_recognitions" style="display:none;">'+awards_text+'</ul>\
-                    <select class="js-example-basic-multiple'+country_org+data1.organization_id+' addAll_removeAll_btn" data-list-id="awards_recognitions" name="awards_recognitions[]" multiple="multiple"></select>\
-                    <span id="reqawards_recognitions" class="reqError text-danger valley"></span></div><div class="show_award_reg-'+country_org+data1.organization_id+'"></div><div class="form-group level-drp">\
+                    <select class="award_recog-'+country_org+data1.organization_id+' js-example-basic-multiple'+country_org+data1.organization_id+' addAll_removeAll_btn" data-list-id="awards_recognitions" name="awards_recognitions[]" multiple="multiple"></select>\
+                    <span id="reqawards_recognitions-'+country_org+data1.organization_id+'" class="reqError text-danger valley"></span></div><div class="show_award_reg-'+country_org+data1.organization_id+'"></div><div class="form-group level-drp">\
                       <label class="form-label" for="input-1">Upload Evidence</label>\
-                      <input class="form-control membership_evidence" type="file" name="membership_evidence[]" multiple="">\
-                    </div>');
+                      <input class="form-control membership_evidence-'+data1.organization_id+'" type="file" name="membership_evidence['+data1.organization_id+'][]" onchange="changeEvidenceImg('+user_id+','+data1.organization_id+')" multiple="">\
+                    </div><div class="memb_evdence-'+data1.organization_id+'"></div>');
                 selectTwoFunction(country_org+data1.organization_id);
                 submemberships_type('',country_org,data1.organization_id,organization_id,k,l,i);
                 subaward_recognitions('',country_org,data1.organization_id);
@@ -879,7 +892,8 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
         }
       }
     }else{
-      $('.js-example-basic-multiple'+country_org+organization_id+'[data-list-id="subcountry_organization-'+organization_id+'"]').on('change', function() {
+      
+      $('.js-example-basic-multiple'+country_org+organization_id+'[data-list-id="subcountry_organization-'+country_org+organization_id+'"]').on('change', function() {
         let selectedValues = $(this).val();
         console.log("selectedValues",organization_id);
 
@@ -918,20 +932,23 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
                   awards_text += "<li data-value='"+data1.award_recognitions[k].award_id+"'>"+data1.award_recognitions[k].award_name+"</li>"; 
                   
                 }
+                
+                var user_id = "<?php echo Auth::guard('nurse_middle')->user()->id; ?>";
 
-                $(".show_membership_type-"+country_org+organization_id).append('\<div class="membership_type_divs-'+data1.organization_id+'">\
+                $(".show_membership_type-"+country_org+organization_id).append('\<div class="membership_type_div-'+data1.organization_id+'">\
                   <div class="form-group level-drp o_country_div-'+country_org+' ed-o_subcountry_div-'+organization_id+' membership_type_div membership_type_div-'+data1.organization_id+' ed-membership_type_div-'+data1.organization_id+'">\
-                    <label class="form-label membership_type_label" for="input-1">Membership Type('+data1.organization_name+')</label>\
+                    <label class="form-label membership_type_label membership_type_label-'+country_org+data1.organization_id+'" for="input-1">Membership Type('+data1.organization_name+')</label>\
                     <input type="hidden" name="subsubcountry_org_list" class="subsubcountry_org_list subsubcountry_org_list-'+data1.organization_id+'" value="'+data1.organization_id+'">\
                     <ul id="membership_type-'+data1.organization_id+'" style="display:none;">'+membership_text+'</ul>\
-                    <select class="js-example-basic-multiple'+country_org+data1.organization_id+' addAll_removeAll_btn" data-list-id="membership_type-'+data1.organization_id+'" id="subcountry_organization_select" name="membership_type['+country_org+']['+organization_id+']['+data1.organization_id+'][]" multiple="multiple"></select>\
-                    </div><div class="show_submembership_type-'+country_org+organization_id+data1.organization_id+'"></div></div>\
+                    <select class="membership_type_org membership_type_org-'+country_org+data1.organization_id+' js-example-basic-multiple'+country_org+data1.organization_id+' addAll_removeAll_btn" data-list-id="membership_type-'+data1.organization_id+'" id="subcountry_organization_select" name="membership_type['+country_org+']['+organization_id+']['+data1.organization_id+'][]" multiple="multiple"></select>\
+                    <span id="reqmembershiptype-'+country_org+data1.organization_id+'" class="reqError text-danger valley"></span>\
+                    </div><div class="show_submembership_type-'+country_org+organization_id+data1.organization_id+'"></div>\
                     <div class="form-group level-drp">\
                     <label class="form-label" for="input-1">Date Joined</label>\
-                    <input class="form-control graduation_start_date" type="date" name="date_joined['+data1.organization_id+']">\
-                    <span id="reqjoined_date" class="reqError text-danger valley"></span></div></div><div class="form-group level-drp">\
+                    <input class="form-control graduation_start_date graduation_start_date-'+country_org+data1.organization_id+'" type="date" name="date_joined['+data1.organization_id+']">\
+                    <span id="reqjoined_date-'+country_org+data1.organization_id+'" class="reqError text-danger valley"></span></div><div class="form-group level-drp">\
                       <label class="form-label" for="input-1">Status</label>\
-                      <select class="form-control" name="prof_membership_status['+data1.organization_id+']" id="language-picker-select">\
+                      <select class="form-control profmemstatus profmemstatus-'+country_org+data1.organization_id+'" name="prof_membership_status['+data1.organization_id+']" id="language-picker-select">\
                         <option value="">Select Status</option>\
                         <option value="Active - Current Member">Active - Current Member</option>\
                         <option value="Lapsed Member">Lapsed Member</option>\
@@ -942,16 +959,17 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
                         <option value="Pending Membership Approval">Pending Membership Approval</option>\
                         <option value="Membership Renewal Pending">Membership Renewal Pending</option>\
                       </select>\
-                      <span id="reqmembership_status" class="reqError text-danger valley"></span>\
-                    </div></div>\
+                      <span id="reqmembership_status-'+country_org+data1.organization_id+'" class="reqError text-danger valley"></span>\
+                    </div>\
                     <div class="form-group level-drp">\
-                    <label class="form-label" for="input-1">Awards & Recognitions:</label>\
+                    <label class="form-label award_recognition_label-'+country_org+data1.organization_id+'" for="input-1">Awards & Recognitions:</label>\
+                    <input type="hidden" name="award_list" class="award_list award_list-'+data1.organization_id+'" value="'+data1.organization_id+'">\
                     <ul id="awards_recognitions" style="display:none;">'+awards_text+'</ul>\
-                    <select class="js-example-basic-multiple'+country_org+data1.organization_id+' addAll_removeAll_btn" data-list-id="awards_recognitions" name="awards_recognitions[]" multiple="multiple"></select>\
-                    <span id="reqawards_recognitions" class="reqError text-danger valley"></span></div><div class="show_award_reg-'+country_org+data1.organization_id+'"></div><div class="form-group level-drp">\
+                    <select class="award_recog-'+country_org+data1.organization_id+' js-example-basic-multiple'+country_org+data1.organization_id+' addAll_removeAll_btn" data-list-id="awards_recognitions" name="awards_recognitions[]" multiple="multiple"></select>\
+                    <span id="reqawards_recognitions-'+country_org+data1.organization_id+'" class="reqError text-danger valley"></span></div><div class="show_award_reg-'+country_org+data1.organization_id+'"></div><div class="form-group level-drp">\
                       <label class="form-label" for="input-1">Upload Evidence</label>\
-                      <input class="form-control membership_evidence" type="file" name="membership_evidence[]" multiple="">\
-                    </div>');
+                      <input class="form-control membership_evidence-'+data1.organization_id+'" type="file" name="membership_evidence['+data1.organization_id+'][]" onchange="changeEvidenceImg('+user_id+','+data1.organization_id+')" multiple="">\
+                    </div><div class="memb_evdence-'+data1.organization_id+'"></div>');
                 selectTwoFunction(country_org+data1.organization_id);
                 submemberships_type('',country_org,data1.organization_id,organization_id,k,l,i);
                 subaward_recognitions('',country_org,data1.organization_id);
@@ -970,6 +988,15 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
       
       let selectedValues = $('.js-example-basic-multiple[data-list-id="awards_recognitions-'+country_org+organization_id+'"]').val();
       console.log("selectedValues",selectedValues);
+
+      $(".show_award_reg-"+country_org+organization_id+" .subaward_list").each(function(i,val){
+        var val1 = $(val).val();
+        console.log("val",val1);
+        if(selectedValues.includes(val1) == false){
+          $(".award_country_div-"+val1).remove();
+          
+        }
+      });
       
       for(var i=0;i<selectedValues.length;i++){
     
@@ -994,7 +1021,7 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
               }
               
               
-                $(".show_award_reg-"+country_org+organization_id).append('<div class="form-group level-drp award_div award_country_div-'+data1.organization_id+'"><label class="form-label award_label" for="input-1">'+data1.award_name+'</label><input type="hidden" name="subaward_list" class="subaward_list subaward_list-'+data1.organization_id+'" value="'+data1.organization_id+'"><ul id="award_reg-'+data1.organization_id+'" style="display:none;">'+org_text+'</ul><select class="js-example-basic-multiple'+organization_id+data1.organization_id+' addAll_removeAll_btn" data-list-id="award_reg-'+data1.organization_id+'" id="award_organization_select-'+data1.organization_id+'" name="award_organization['+organization_id+']['+data1.organization_id+'][]" multiple="multiple"></select></div>');
+              $(".show_award_reg-"+country_org+organization_id).append('<div class="form-group level-drp award_div award_country_div-'+data1.organization_id+'"><label class="form-label subaward_label subaward_label-'+organization_id+data1.organization_id+'" for="input-1">'+data1.award_name+'</label><input type="hidden" name="subaward_list" class="subaward_list subaward_list-'+data1.organization_id+'" value="'+data1.organization_id+'"><ul id="award_reg-'+data1.organization_id+'" style="display:none;">'+org_text+'</ul><select class="sub_award_org sub_award_org-'+organization_id+data1.organization_id+' js-example-basic-multiple'+organization_id+data1.organization_id+' addAll_removeAll_btn" data-list-id="award_reg-'+data1.organization_id+'" id="award_organization_select-'+data1.organization_id+'" name="award_organization['+organization_id+']['+data1.organization_id+'][]" multiple="multiple"></select><span id="reqsubawards_recognitions-'+organization_id+data1.organization_id+'" class="reqError text-danger valley"></span></div>');
                 //alert(organization_id+data1.organization_id);
               selectTwoFunction(organization_id+data1.organization_id);
               
@@ -1006,6 +1033,15 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
       $('.js-example-basic-multiple'+country_org+organization_id+'[data-list-id="awards_recognitions"]').on('change', function() {
         let selectedValues = $(this).val();
         console.log("selectedValues",selectedValues);
+
+        $(".show_award_reg-"+country_org+organization_id+" .subaward_list").each(function(i,val){
+          var val1 = $(val).val();
+          console.log("val",val1);
+          if(selectedValues.includes(val1) == false){
+            $(".award_country_div-"+val1).remove();
+            
+          }
+        });
 
         for(var i=0;i<selectedValues.length;i++){
       
@@ -1030,7 +1066,7 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
                 }
                 //alert($(".organization_country_div-"+data1.organization_id).length);
                 
-                  $(".show_award_reg-"+country_org+organization_id).append('<div class="form-group level-drp award_div award_country_div-'+data1.organization_id+'"><label class="form-label award_label" for="input-1">'+data1.award_name+'</label><input type="hidden" name="subaward_list" class="subaward_list subaward_list-'+data1.organization_id+'" value="'+data1.organization_id+'"><ul id="award_reg-'+data1.organization_id+'" style="display:none;">'+org_text+'</ul><select class="js-example-basic-multiple'+organization_id+data1.organization_id+' addAll_removeAll_btn" data-list-id="award_reg-'+data1.organization_id+'" id="award_organization_select-'+data1.organization_id+'" name="award_organization['+organization_id+']['+data1.organization_id+'][]" multiple="multiple"></select></div>');
+                $(".show_award_reg-"+country_org+organization_id).append('<div class="form-group level-drp award_div award_country_div-'+data1.organization_id+'"><label class="form-label subaward_label subaward_label-'+organization_id+data1.organization_id+'" for="input-1">'+data1.award_name+'</label><input type="hidden" name="subaward_list" class="subaward_list subaward_list-'+data1.organization_id+'" value="'+data1.organization_id+'"><ul id="award_reg-'+data1.organization_id+'" style="display:none;">'+org_text+'</ul><select class="sub_award_org sub_award_org-'+organization_id+data1.organization_id+' js-example-basic-multiple'+organization_id+data1.organization_id+' addAll_removeAll_btn" data-list-id="award_reg-'+data1.organization_id+'" id="award_organization_select-'+data1.organization_id+'" name="award_organization['+organization_id+']['+data1.organization_id+'][]" multiple="multiple"></select><span id="reqsubawards_recognitions-'+organization_id+data1.organization_id+'" class="reqError text-danger valley"></span></div>');
                 
                 selectTwoFunction(organization_id+data1.organization_id);
                 
@@ -1077,8 +1113,8 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
                 membership_text += "<li data-value='"+data1.membership_type[j].membership_id+"'>"+data1.membership_type[j].membership_name+"</li>"; 
                 
               }
-              $(".show_submembership_type-"+country_org+organization_id1+organization_id).append('<div class="form-group level-drp o_country_div-'+country_org+' ed-o_membtype_div-'+organization_id+' submembership_type_div submembership_type_div-'+data1.organization_id+'"><label class="form-label submembership_type_label" for="input-1">'+data1.organization_name+'</label><input type="hidden" name="submemb_list" class="submemb_list submemb_list-'+data1.organization_id+'" value="'+data1.organization_id+'"><ul id="submembership_type-'+data1.organization_id+'-'+organization_id+'" style="display:none;">'+membership_text+'</ul><select class="js-example-basic-multiple'+ountry_org+organization_id1+organization_id+' addAll_removeAll_btn" data-list-id="submembership_type-'+data1.organization_id+'-'+organization_id+'" id="subcountry_organization_select" name="submembership_type['+k+']['+l+']['+m+']['+i+'][]" multiple="multiple"></select></div>');
-              selectTwoFunction(ountry_org+organization_id1+organization_id);
+              $(".show_submembership_type-"+country_org+organization_id1+organization_id).append('<div class="submembership_type_div-'+country_org+'-'+data1.organization_id+'"><div class="form-group level-drp o_country_div-'+country_org+' ed-o_subcountry_div-'+organization_id1+' ed-o_membtype_div-'+organization_id+' submembership_type_div submembership_type_div-'+data1.organization_id+' ed-submembership_type_div-'+data1.organization_id+'"><label class="form-label submembership_type_label submembership_type_label-'+country_org+'-'+data1.organization_id+'" for="input-1">'+data1.organization_name+'</label><input type="hidden" name="submemb_list" class="submemb_list submemb_list-'+country_org+'-'+data1.organization_id+'" value="'+data1.organization_id+'"><ul id="submembership_type-'+data1.organization_id+'-'+organization_id+'" style="display:none;">'+membership_text+'</ul><select class="submemb_valid submemb_valid-'+country_org+'-'+data1.organization_id+' js-example-basic-multiple'+country_org+organization_id1+organization_id+' addAll_removeAll_btn" data-list-id="submembership_type-'+data1.organization_id+'-'+organization_id+'" id="subcountry_organization_select" name="submembership_type['+country_org+']['+organization_id1+']['+organization_id+']['+data1.organization_id+'][]" multiple="multiple"></select><span id="reqsubmem_org-'+country_org+'-'+data1.organization_id+'" class="reqError text-danger valley"></span></div>');
+              selectTwoFunction(country_org+organization_id1+organization_id);
               
               
             }
@@ -1120,7 +1156,7 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
                   membership_text += "<li data-value='"+data1.membership_type[j].membership_id+"'>"+data1.membership_type[j].membership_name+"</li>"; 
                   
                 }
-                $(".show_submembership_type-"+country_org+organization_id1+organization_id).append('<div class="submembership_type_div-'+country_org+'-'+data1.organization_id+'"><div class="form-group level-drp o_country_div-'+country_org+' ed-o_subcountry_div-'+organization_id1+' ed-o_membtype_div-'+organization_id+' submembership_type_div submembership_type_div-'+data1.organization_id+' ed-submembership_type_div-'+data1.organization_id+'"><label class="form-label submembership_type_label" for="input-1">'+data1.organization_name+'</label><input type="hidden" name="submemb_list" class="submemb_list submemb_list-'+country_org+'-'+data1.organization_id+'" value="'+data1.organization_id+'"><ul id="submembership_type-'+data1.organization_id+'-'+organization_id+'" style="display:none;">'+membership_text+'</ul><select class="js-example-basic-multiple'+country_org+organization_id1+organization_id+' addAll_removeAll_btn" data-list-id="submembership_type-'+data1.organization_id+'-'+organization_id+'" id="subcountry_organization_select" name="submembership_type['+country_org+']['+organization_id1+']['+organization_id+']['+data1.organization_id+'][]" multiple="multiple"></select></div>');
+                $(".show_submembership_type-"+country_org+organization_id1+organization_id).append('<div class="submembership_type_div-'+country_org+'-'+data1.organization_id+'"><div class="form-group level-drp o_country_div-'+country_org+' ed-o_subcountry_div-'+organization_id1+' ed-o_membtype_div-'+organization_id+' submembership_type_div submembership_type_div-'+data1.organization_id+' ed-submembership_type_div-'+data1.organization_id+'"><label class="form-label submembership_type_label submembership_type_label-'+country_org+'-'+data1.organization_id+'" for="input-1">'+data1.organization_name+'</label><input type="hidden" name="submemb_list" class="submemb_list submemb_list-'+country_org+'-'+data1.organization_id+'" value="'+data1.organization_id+'"><ul id="submembership_type-'+data1.organization_id+'-'+organization_id+'" style="display:none;">'+membership_text+'</ul><select class="submemb_valid submemb_valid-'+country_org+'-'+data1.organization_id+' js-example-basic-multiple'+country_org+organization_id1+organization_id+' addAll_removeAll_btn" data-list-id="submembership_type-'+data1.organization_id+'-'+organization_id+'" id="subcountry_organization_select" name="submembership_type['+country_org+']['+organization_id1+']['+organization_id+']['+data1.organization_id+'][]" multiple="multiple"></select><span id="reqsubmem_org-'+country_org+'-'+data1.organization_id+'" class="reqError text-danger valley"></span></div>');
                 selectTwoFunction(country_org+organization_id1+organization_id);
                 
                 
@@ -1293,7 +1329,10 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
   //   $('.js-example-basic-multiple[data-list-id="awards_recognitions"]').select2().val(awards_recognition_input).trigger('change');
   // }
 
- 
+  // if ($(".organization_name").val() != "") {
+  //   var organization_name = JSON.parse($(".organization_name").val());
+  //   $('.js-example-basic-multiple[data-list-id="des_profession_association"]').select2().val(organization_name).trigger('change');
+  // }
  
   if ($(".org_country").val() != "") {
     var org_country = JSON.parse($(".org_country").val());
@@ -1412,33 +1451,117 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
 
     }
 
-    if ($('[name="des_profession_association[]"]').val() == '') {
+    
+    $(".country_org_list").each(function(i,val) {
+      console.log("val",$(this).val());
+      var val1 = $(this).val();
+      var label_name1 = $(".organization_country_label-"+val1).text();
+      if ($(".country_org_valid-" + val1).length > 0) {
+        //console.log("reference_relationship-" + m, $(".reference_relationship-" + m).val());
+        if ($(".country_org_valid-" + val1).val() == '') {
+          document.getElementById("reqcountry_org-" + val1).innerHTML = "* Please enter the "+label_name1;
+          isValid = false;
+        }
+      }
 
-      document.getElementById("reqorg_name").innerHTML = "* Please select the Organization Name";
-      isValid = false;
+      $(".subcountry_org_list").each(function(i,val) {
+        console.log("val",$(this).val());
+        var val2 = $(this).val();
+        var label_name2 = $(".organization_subcountry_label-"+val1+val2).text();
+        if ($(".sub_country_org-" + val1+val2).length > 0) {
+          //console.log("reference_relationship-" + m, $(".reference_relationship-" + m).val());
+          if ($(".sub_country_org-" + val1+val2).val() == '') {
+            document.getElementById("reqsubcountry_org-" + val1+val2).innerHTML = "* Please enter the "+label_name2;
+            isValid = false;
+          }
+        }
 
-    }
+        
+      });
 
-    if ($('[name="date_joined"]').val() == '') {
+      $(".subsubcountry_org_list").each(function(i,val) {
+        console.log("val",$(this).val());
+        var val3 = $(this).val();
+        var label_name3 = $(".membership_type_label-"+val1+val3).text();
+        if ($(".membership_type_org-" + val1+val3).length > 0) {
+          //console.log("reference_relationship-" + m, $(".reference_relationship-" + m).val());
+          if ($(".membership_type_org-" + val1+val3).val() == '') {
+            document.getElementById("reqmembershiptype-" + val1+val3).innerHTML = "* Please enter the "+label_name3;
+            isValid = false;
+          }
+        }
+        $(".graduation_start_date").each(function(i,val) {
+          console.log("val12",val1+val3);
+          var val5 = $(this).val();
+          
+          if ($(".graduation_start_date-"+val1+val3).length > 0) {
+            //console.log("reference_relationship-" + m, $(".reference_relationship-" + m).val());
+            if ($(".graduation_start_date-"+val1+val3).val() == '') {
+              document.getElementById("reqjoined_date-"+val1+val3).innerHTML = "* Please enter the Joined Date";
+              isValid = false;
+            }
+          }
+        });
 
-      document.getElementById("reqjoined_date").innerHTML = "* Please select the Joined Date";
-      isValid = false;
+        $(".profmemstatus").each(function(i,val) {
+          console.log("val12",val1+val3);
+          var val5 = $(this).val();
+          
+          if ($(".profmemstatus-"+val1+val3).length > 0) {
+            //console.log("reference_relationship-" + m, $(".reference_relationship-" + m).val());
+            if ($(".profmemstatus-"+val1+val3).val() == '') {
+              document.getElementById("reqmembership_status-"+val1+val3).innerHTML = "* Please enter the Membership Status";
+              isValid = false;
+            }
+          }
+        });
 
-    }
+        $(".award_list").each(function(i,val) {
+          var award_val = $(this).val();
+          console.log("award_recog1", val1);
+          console.log("award_recog2", val3);
+          if ($(".award_recog-"+val1+val3).length > 0) {
+            //console.log("reference_relationship-" + m, $(".reference_relationship-" + m).val());
+            if ($(".award_recog-"+val1+val3).val() == '') {
+              document.getElementById("reqawards_recognitions-"+val1+val3).innerHTML = "* Please enter the Awards & Recognitions";
+              isValid = false;
+            }
+          }
+          $(".subaward_list").each(function(i,val) {
+          
+            console.log("val",$(this).val());
+            var val6 = $(this).val();
+            var label_name5 = $(".subaward_label-"+val3+val6).text();
+            if ($(".sub_award_org-"+val3+val6).length > 0) {
+              //console.log("reference_relationship-" + m, $(".reference_relationship-" + m).val());
+              if ($(".sub_award_org-"+val3+val6).val() == '') {
+                document.getElementById("reqsubawards_recognitions-"+val3+val6).innerHTML = "* Please enter the "+label_name5;
+                isValid = false;
+              }
+            }
+          });
+        });
 
-    if ($('[name="prof_membership_status"]').val() == '') {
+        
+      });
 
-      document.getElementById("reqmembership_status").innerHTML = "* Please select the Status";
-      isValid = false;
+      $(".submemb_list").each(function(i,val) {
+        console.log("val",$(this).val());
+        var val4 = $(this).val();
+        var label_name4 = $(".submembership_type_label-"+val1+"-"+val4).text();
+        if ($(".submemb_valid-"+val1+"-"+val4).length > 0) {
+          //console.log("reference_relationship-" + m, $(".reference_relationship-" + m).val());
+          if ($(".submemb_valid-"+val1+"-"+val4).val() == '') {
+            document.getElementById("reqsubmem_org-"+val1+"-"+val4).innerHTML = "* Please enter the "+label_name4;
+            isValid = false;
+          }
+        }
+      });
 
-    }
+      
+    });
 
-    if ($('[name="awards_recognitions[]"]').val() == '') {
-
-      document.getElementById("reqawards_recognitions").innerHTML = "* Please select the Awards & Recognitions";
-      isValid = false;
-
-    }
+    
     
     if (isValid == true) {
 

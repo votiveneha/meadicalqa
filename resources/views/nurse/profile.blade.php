@@ -2562,7 +2562,7 @@
                         @endforeach
                         @endif
                       </div>
-                      <div class="form-group level-drp @if($education_data && $education_data->nl_data == NULL) d-none @endif @if(empty($educationData)) d-none @endif procertdivfiveteen">
+                      {{-- <div class="form-group level-drp @if($education_data && $education_data->nl_data == NULL) d-none @endif @if(empty($educationData)) d-none @endif procertdivfiveteen">
                         <input type="hidden" name="pro_cert_nl" class="pro_cert_nl" value="@if(!empty($educationData)){{ $nl_data_new }}@endif">
                         <label class="form-label" for="input-1">No License/Certification</label>
                         <?php
@@ -2574,7 +2574,7 @@
                           @endforeach
                         </ul>
                         <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="nlc_data" name="nl_data[]" multiple="multiple"></select>
-                      </div>
+                      </div> --}}
                     </div>
                     <div class="another_certifications">
                       <h6 class="emergency_text">
@@ -7386,11 +7386,11 @@ if (!empty($interviewReferenceData)) {
     $('.js-example-basic-multiple[data-list-id="rpn_data"]').select2().val(pro_cert_rpn).trigger('change');
   }
 
-  if ($(".pro_cert_nl").val() != "") {
-    var pro_cert_nl = JSON.parse($(".pro_cert_nl").val());
-    ////console.log("pro_cert_bls", pro_cert_nl);
-    $('.js-example-basic-multiple[data-list-id="nlc_data"]').select2().val(pro_cert_nl).trigger('change');
-  }
+  // if ($(".pro_cert_nl").val() != "") {
+  //   var pro_cert_nl = JSON.parse($(".pro_cert_nl").val());
+  //   ////console.log("pro_cert_bls", pro_cert_nl);
+  //   $('.js-example-basic-multiple[data-list-id="nlc_data"]').select2().val(pro_cert_nl).trigger('change');
+  // }
 
   // if ($(".professional_as").val() != "") {
   //   var professional_as = JSON.parse($(".professional_as").val());

@@ -629,12 +629,13 @@ class ProfessionalController extends Controller
         $membership_type = $request->membership_type;
         $submembership_type = json_encode($request->submembership_type);
         $des_profession_association = json_encode($request->des_profession_association);
-        $date_joined = $request->date_joined;
-        $membership_status = $request->prof_membership_status;
+        $date_joined = json_encode($request->date_joined);
+        $membership_status = json_encode($request->prof_membership_status);
         $awards_recognitions = $request->awards_recognitions;
         $award_organization = json_encode($request->award_organization);
+        $membership_evidence = $request->file('membership_evidence');
 
-        //print_r($award_organization);die;
+        //print_r($membership_evidence);die;
 
         $professional_membership_data = DB::table("professional_membership")->where("user_id",$user_id)->first();
         $awards_data = DB::table("awards_recognition_submission")->where("user_id",$user_id)->get();
@@ -646,7 +647,17 @@ class ProfessionalController extends Controller
             ProfessionalAssocialtionModel::where('user_id',$user_id)->update(['organization_data'=>$submembership_type,'des_profession_association'=>$des_profession_association,'date_joined'=>$date_joined,'membership_status'=>$membership_status,'award_recognitions'=>$award_organization]);
             $run = 1;
         }else{
-            
+            $img_arr = array();
+            foreach($subcountry_organization as $s_org){
+                foreach($s_org as $s_org1){
+                    foreach($s_org1 as $s_org2){
+                        
+                        $memimgs = Helpers::multipleFileUpload($membership_evidence[$s_org2], '');
+                        $img_arr[$s_org2] = json_decode($memimgs);
+                    }
+                }
+            }
+
             $post = new ProfessionalAssocialtionModel();
             $post->user_id = $user_id;
             $post->organization_data = $submembership_type;
@@ -654,6 +665,7 @@ class ProfessionalController extends Controller
             $post->date_joined = $date_joined;
             $post->membership_status = $membership_status;
             $post->award_recognitions = $award_organization;
+            $post->evidence_imgs = json_encode($img_arr);
             $run = $post->save();
             
         }
@@ -673,52 +685,74 @@ class ProfessionalController extends Controller
 
     public function uploadMembershipImgs(Request $request){
         $files = $request->file('membership_evidence');
+        $sub_org_id = $request->sub_org_id;
         $user_id = $request->user_id;
-
+        
         $getMembdata = DB::table("professional_membership")->where("user_id", $user_id)->first();
+        
+        if ($getMembdata && $getMembdata->evidence_imgs) {
+            $membimg = (array)json_decode($getMembdata->evidence_imgs);
+            if(isset($membimg[$sub_org_id])){
+                
+                $memim = $membimg[$sub_org_id];
+            }else{
+                $memim = '';
+            }
+            
+            $memimgs = Helpers::multipleFileUpload($files[$sub_org_id], $memim);
 
-        if ($getMembdata) {
-            $membimg = json_decode($getMembdata->evidence_imgs);
-
-            $membimgs = Helpers::multipleFileUpload($files, $membimg);
+            $membimg[$sub_org_id] = json_decode($memimgs);
+            $img_arr = $membimg;
+            
         } else {
-            $membimgs = Helpers::multipleFileUpload($files, '');
+            $membimgs = Helpers::multipleFileUpload($files[$sub_org_id], '');
+            $img_arr = array($sub_org_id=>json_decode($membimgs));
         }
+ 
+        //print_r(json_encode($img_arr));die;
+        
+        $run = ProfessionalAssocialtionModel::where('user_id', $user_id)->update(['evidence_imgs' => json_encode($img_arr)]);
 
-        $run = ProfessionalAssocialtionModel::where('user_id', $user_id)->update(['evidence_imgs' => $membimgs]);
-
-        return $membimgs;
+        return json_encode($img_arr);
     }
 
     public function deleteEvidenceImg(Request $request)
     {
         $user_id = $request->user_id;
+        $sub_org_id = $request->sub_org_id;
         $img = $request->img;
 
         $getMembData = DB::table("professional_membership")->where("user_id", $user_id)->first();
 
-        $getEvidenceimg = json_decode($getMembData->evidence_imgs);
+        if(!empty($getMembData)){
+            $getEvidenceimg = (array)json_decode($getMembData->evidence_imgs);
 
+            $getevimg = $getEvidenceimg[$sub_org_id];
+            //print_r($getevimg);die;
 
+            $img_index = array_search($img, $getevimg);
 
-        $img_index = array_search($img, $getEvidenceimg);
+            array_splice($getevimg, $img_index, 1);
 
-        array_splice($getEvidenceimg, $img_index, 1);
+            if (!empty($getevimg)) {
+                $EvidenceimgData = $getevimg;
+            } else {
+                $EvidenceimgData = '';
+            }
 
-        if (!empty($getEvidenceimg)) {
-            $EvidenceimgData = json_encode($getEvidenceimg);
-        } else {
-            $EvidenceimgData = '';
-        }
+            
+            $getEvidenceimg[$sub_org_id] = $EvidenceimgData;
 
+            //print_r($getEvidenceimg);die;
+            $deleteData = ProfessionalAssocialtionModel::where('user_id', $user_id)->update(['evidence_imgs' => json_encode($getEvidenceimg)]);
 
+            $destinationPath = public_path() . '/uploads/education_degree/' . $img;
 
-        $deleteData = ProfessionalAssocialtionModel::where('user_id', $user_id)->update(['evidence_imgs' => $EvidenceimgData]);
-
-        $destinationPath = public_path() . '/uploads/education_degree/' . $img;
-
-        if (File::exists($destinationPath)) {
-            File::delete($destinationPath);
+            if (File::exists($destinationPath)) {
+                File::delete($destinationPath);
+            }
+        }else{
+            $deleteData = 1;
         }
 
         if ($deleteData) {
