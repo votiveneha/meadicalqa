@@ -895,7 +895,7 @@ class HomeController extends Controller
         $assistent_level = $request->assistent_level;
         $declare_information = $request->declare_information;
         $bio = $request->bio;
-        $degree = json_encode($request->degree);
+        
         $employee_status = $request->employee_status;
         $permanent_status = $request->permanent_status;
         $temporary_status = $request->temporary_status;
@@ -941,7 +941,7 @@ class HomeController extends Controller
         $post->assistent_level = $assistent_level;
         $post->declaration_status = $declare_information;
         $post->bio = $bio;
-        $post->degree = $degree;
+        
         $post->current_employee_status = $employee_status;
         $post->permanent_status = $permanent_status1;
         $post->temporary_status = $temporary_status1;

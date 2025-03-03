@@ -158,6 +158,7 @@
                       <?php
                         $i = 0;
                       ?>
+                      
                       @foreach ($p_memb_arr as $p_arr)
                         <?php
                           //print_r($o_data[$p_arr]);
@@ -199,6 +200,7 @@
                           <?php
                             $country_name = DB::table("professional_organization")->where("organization_id",$p_arr1)->first();
                             $organization_list = DB::table("professional_organization")->where("country_organiztions",$p_arr)->where("sub_organiztions",$p_arr1)->orderBy('organization_country', 'ASC')->get();
+                            
                             $oss_data = (array)$os_data[$p_arr1];
                             $subsub_count_arr = array();
                             
@@ -209,20 +211,21 @@
                             
                             
                             $p_memb_json = json_encode($subsub_count_arr);
+                           
                           ?>
                           <div class="sub_country_div sub_country_div-{{ $p_arr1 }}" data-name="{{ $country_name->organization_country }}">
                           <div class="form-group level-drp o_country_div-{{ $p_arr }} o_subcountry_div-{{ $p_arr1 }} o_subcountry_div-{{ $p_arr1 }} organization_subcountry_div organization_subcountry_div-{{ $p_arr1 }}">
                             <label class="form-label organization_subcountry_label organization_subcountry_label-{{ $p_arr }}{{ $p_arr1 }}" for="input-1">{{ $country_name->organization_country }}</label>
                             <input type="hidden" name="subcountry_org_list" class="subcountry_org_list subcountry_org_list-{{ $p_arr1 }}" value='{{ $p_arr1 }}'>
-                            <input type="hidden" name="subcountry_org" class="subcountry_org-{{ $p_arr1 }}" value='<?php echo $p_memb_json; ?>'>
-                            <ul id="subcountry_organization-{{ $p_arr1 }}" style="display:none;">
+                            <input type="hidden" name="subcountry_org" class="subcountry_org-{{ $p_arr }}{{ $p_arr1 }}" value='<?php echo $p_memb_json; ?>'>
+                            <ul id="subcountry_organization-{{ $p_arr }}{{ $p_arr1 }}" style="display:none;">
                               @if(!empty($organization_list))
                               @foreach($organization_list as $org_list)
                               <li data-value="{{ $org_list->organization_id }}">{{ $org_list->organization_country }}</li>
                               
                               @endforeach
                               @endif
-                            </ul><select class="sub_country_org sub_country_org-{{ $p_arr }}{{ $p_arr1 }} js-example-basic-multiple addAll_removeAll_btn" data-list-id="subcountry_organization-{{ $p_arr1 }}" id="subcountry_organization_select" name="subcountry_organization[{{ $p_arr }}][{{ $p_arr1 }}][]" onchange="memberships_type('edit','{{ $p_arr }}','{{ $p_arr1 }}',{{ $i+1 }},{{{ $j+1 }}})" multiple="multiple">
+                            </ul><select class="sub_country_org sub_country_org-{{ $p_arr }}{{ $p_arr1 }} js-example-basic-multiple addAll_removeAll_btn" data-list-id="subcountry_organization-{{ $p_arr }}{{ $p_arr1 }}" id="subcountry_organization_select" name="subcountry_organization[{{ $p_arr }}][{{ $p_arr1 }}][]" onchange="memberships_type('edit','{{ $p_arr }}','{{ $p_arr1 }}',{{ $i+1 }},{{{ $j+1 }}})" multiple="multiple">
                             </select>
                             <span id="reqsubcountry_org-{{ $p_arr }}{{ $p_arr1 }}" class="reqError text-danger valley"></span>
                           </div>
@@ -807,8 +810,8 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
   function memberships_type(ed,country_org,organization_id,k,l){
     
     if(ed == "edit"){
-      let selectedValues = $('.js-example-basic-multiple[data-list-id="subcountry_organization-'+organization_id+'"]').val();
-      console.log("selectedValues",selectedValues);
+      let selectedValues = $('.js-example-basic-multiple[data-list-id="subcountry_organization-'+country_org+organization_id+'"]').val();
+      console.log("selectedValues_mem",selectedValues);
       
       $(".show_membership_type-"+country_org+organization_id+" .subsubcountry_org_list").each(function(i,val){
         var val1 = $(val).val();
@@ -848,7 +851,7 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
               
               var user_id = "<?php echo Auth::guard('nurse_middle')->user()->id; ?>";
 
-              $(".show_membership_type-"+country_org+organization_id).append('\<div class="membership_type_div-'+data1.organization_id+'">\
+                $(".show_membership_type-"+country_org+organization_id).append('\<div class="membership_type_div-'+data1.organization_id+'">\
                   <div class="form-group level-drp o_country_div-'+country_org+' ed-o_subcountry_div-'+organization_id+' membership_type_div membership_type_div-'+data1.organization_id+' ed-membership_type_div-'+data1.organization_id+'">\
                     <label class="form-label membership_type_label membership_type_label-'+country_org+data1.organization_id+'" for="input-1">Membership Type('+data1.organization_name+')</label>\
                     <input type="hidden" name="subsubcountry_org_list" class="subsubcountry_org_list subsubcountry_org_list-'+data1.organization_id+'" value="'+data1.organization_id+'">\
@@ -859,7 +862,7 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
                     <div class="form-group level-drp">\
                     <label class="form-label" for="input-1">Date Joined</label>\
                     <input class="form-control graduation_start_date graduation_start_date-'+country_org+data1.organization_id+'" type="date" name="date_joined['+data1.organization_id+']">\
-                    <span id="reqjoined_date-'+country_org+data1.organization_id+'" class="reqError text-danger valley"></span></div><div class="form-group level-drp">\
+                    <span id="reqjoined_date-'+country_org+data1.organization_id+'" class="reqError text-danger valley"></span></div></div><div class="form-group level-drp">\
                       <label class="form-label" for="input-1">Status</label>\
                       <select class="form-control profmemstatus profmemstatus-'+country_org+data1.organization_id+'" name="prof_membership_status['+data1.organization_id+']" id="language-picker-select">\
                         <option value="">Select Status</option>\
@@ -873,7 +876,7 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
                         <option value="Membership Renewal Pending">Membership Renewal Pending</option>\
                       </select>\
                       <span id="reqmembership_status-'+country_org+data1.organization_id+'" class="reqError text-danger valley"></span>\
-                    </div>\
+                    </div></div>\
                     <div class="form-group level-drp">\
                     <label class="form-label award_recognition_label-'+country_org+data1.organization_id+'" for="input-1">Awards & Recognitions:</label>\
                     <input type="hidden" name="award_list" class="award_list award_list-'+data1.organization_id+'" value="'+data1.organization_id+'">\
@@ -881,8 +884,8 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
                     <select class="award_recog-'+country_org+data1.organization_id+' js-example-basic-multiple'+country_org+data1.organization_id+' addAll_removeAll_btn" data-list-id="awards_recognitions" name="awards_recognitions[]" multiple="multiple"></select>\
                     <span id="reqawards_recognitions-'+country_org+data1.organization_id+'" class="reqError text-danger valley"></span></div><div class="show_award_reg-'+country_org+data1.organization_id+'"></div><div class="form-group level-drp">\
                       <label class="form-label" for="input-1">Upload Evidence</label>\
-                      <input class="form-control membership_evidence-'+data1.organization_id+'" type="file" name="membership_evidence['+data1.organization_id+'][]" onchange="changeEvidenceImg('+user_id+','+data1.organization_id+')" multiple="">\
-                    </div><div class="memb_evdence-'+data1.organization_id+'"></div>');
+                      <input class="form-control membership_evidence" type="file" name="membership_evidence['+data1.organization_id+'][]" multiple="">\
+                    </div></div>');
                 selectTwoFunction(country_org+data1.organization_id);
                 submemberships_type('',country_org,data1.organization_id,organization_id,k,l,i);
                 subaward_recognitions('',country_org,data1.organization_id);
@@ -1344,9 +1347,12 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
         $('.js-example-basic-multiple[data-list-id="country_organization-'+org_country[i]+'"]').select2().val(suborg_country).trigger('change');
         
         for(var j=0;j<suborg_country.length;j++){
-          if ($(".subcountry_org-"+suborg_country[j]).val() != "") {
-            var subsuborg_country = JSON.parse($(".subcountry_org-"+suborg_country[j]).val());
-            $('.js-example-basic-multiple[data-list-id="subcountry_organization-'+suborg_country[j]+'"]').select2().val(subsuborg_country).trigger('change');
+          var scountorg = org_country[i].toString() + suborg_country[j].toString();
+          if ($(".subcountry_org-"+scountorg).val() != "") {
+            var subsuborg_country = JSON.parse($(".subcountry_org-"+scountorg).val());
+            
+            console.log("subsuborg_country"+scountorg,subsuborg_country);
+            $('.js-example-basic-multiple[data-list-id="subcountry_organization-'+scountorg+'"]').select2().val(subsuborg_country).trigger('change');
             
             for(var k=0;k<subsuborg_country.length;k++){
               if ($(".memb_type_input-"+subsuborg_country[k]).val() != "") {

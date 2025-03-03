@@ -690,7 +690,7 @@
     }
 
     if ($('[name="specialties[]"]').val() == '') {
-      document.getElementById("reqspecialties").innerHTML = "* Please select one or more nurse practitioner (NP).";
+      document.getElementById("reqspecialties").innerHTML = "* Please select one or more Specialties.";
       isValid = false;
     }
 
@@ -703,14 +703,14 @@
 
     if ($("#specility_level-3").hasClass("d-none") == false) {
       if ($('[name="speciality_entry_3[]"]').val() == '') {
-        document.getElementById("reqspecialtiessubtype-3").innerHTML = "* Please select one or more paediatrics neonatal perinatal";
+        document.getElementById("reqspecialtiessubtype-3").innerHTML = "* Please select one or more Neonatal Perinatal";
         isValid = false;
       }
     }
 
     if ($("#specility_level-2").hasClass("d-none") == false) {
       if ($('[name="speciality_entry_2[]"]').val() == '') {
-        document.getElementById("reqspecialtiessubtype-3").innerHTML = "* Please select one or more maternity ob/gyn/mfm";
+        document.getElementById("reqspecialtiessubtype-2").innerHTML = "* Please select one or more maternity ob/gyn/mfm";
         isValid = false;
       }
     }
@@ -816,6 +816,11 @@
 
     if ($('[name="employee_status"]').val() == '') {
       document.getElementById("reqemployee_status").innerHTML = "* Please select the employee status.";
+      isValid = false;
+    }
+
+    if ($('[name="career_advancement_goals"]').val() == '') {
+      document.getElementById("reqcareergoals").innerHTML = "* Please enter the Career Advancement Goals";
       isValid = false;
     }
 
@@ -1496,6 +1501,85 @@
         }
       }
       a++;
+    });
+
+    var x = 1;
+    $(".type_nurse_input").each(function(i,val) {
+      
+      
+      $(".type_nurse_input-"+x).each(function(i,val) {
+        var ntypeval = $(this).val();
+        var st_value = x.toString()+ntypeval.toString();
+        if($(".nursing_exps_"+st_value).hasClass("d-none") == false){
+          
+          console.log("x",st_value);
+          var label_name = $(".nursing_type_label-"+st_value).text();
+          
+          if ($(".subtype_nurses-" +st_value).val() == '') {
+            document.getElementById("reqnsubtypenurse-" +st_value).innerHTML = "* Please select the "+label_name;
+            isValid = false;
+          }
+          
+        }
+      });
+      x++;
+    });
+
+    var y = 1;
+    $(".nurse_prac_valid").each(function(i,val) {
+      if($(".np_submenu_experience_"+y).hasClass("d-none") == false){
+        if ($(".nurse_prac_valid_"+y).val() == '') {
+          document.getElementById("reqnp-" +y).innerHTML = "* Please select the Nurse Practitioner (NP)";
+          isValid = false;
+        }
+        y++;
+      }
+      
+    });
+
+    var z = 1;
+    $(".type_specialities_input").each(function(i,val) {
+      
+      
+      $(".type_specialities_input-"+z).each(function(i,val) {
+        var stypeval = $(this).val();
+        var st_value = z.toString()+stypeval.toString();
+        if($(".speciality_exps_"+st_value).hasClass("d-none") == false){
+          
+          console.log("x",st_value);
+          var label_name = $(".speciality_name_label-"+st_value).text();
+          
+          if ($(".subspecialities-" +st_value).val() == '') {
+            document.getElementById("reqnsubspecialities-" +st_value).innerHTML = "* Please select the "+label_name;
+            isValid = false;
+          }
+          
+        }
+      });
+      z++;
+    });
+
+    var w = 1;
+    $(".surgicalp_input").each(function(i,val) {
+      
+      
+      $(".surgicalp_input-"+w).each(function(i,val) {
+        var stypeval = $(this).val();
+        var st_value = w.toString()+stypeval.toString();
+        console.log("stypeval",stypeval);
+        if($(".surgicalp_experience-"+st_value).hasClass("d-none") == false){
+          
+          console.log("x",st_value);
+          var label_name = $(".surgicalprelabel-"+st_value).text();
+          
+          if ($(".surgicalspec-" +st_value).val() == '') {
+            document.getElementById("reqnsurgicalspecialities-" +st_value).innerHTML = "* Please select the "+label_name;
+            isValid = false;
+          }
+          
+        }
+      });
+      w++;
     });
 
 
@@ -3120,6 +3204,42 @@
     //   }
     // });
   }
+
+  $('.js-example-basic-multiple_emst').keyup(function() {
+      alert("hello");
+      var searchBoxHtml = `
+                    <div class="extra-search-container">
+                        <input type="text" class="extra-search-box" placeholder="Search...">
+                        <button class="clear-button" type="button">&times;</button>
+                    </div>`;
+
+      if ($('.select2-results').find('.extra-search-container').length === 0) {
+        $('.select2-results').prepend(searchBoxHtml);
+      }
+
+      var $searchBox = $('.extra-search-box');
+      var $clearButton = $('.clear-button');
+
+      $searchBox.on('input', function() {
+
+        var searchTerm = $(this).val().toLowerCase();
+        $('.select2-results__option').each(function() {
+          var text = $(this).text().toLowerCase();
+          if (text.includes(searchTerm)) {
+            $(this).show();
+          } else {
+            $(this).hide();
+          }
+        });
+
+        $clearButton.toggle($searchBox.val().length > 0);
+      });
+
+      $clearButton.on('click', function() {
+        $searchBox.val('');
+        $searchBox.trigger('input');
+      });
+    });
 </script>
 <!-- =================================
 
