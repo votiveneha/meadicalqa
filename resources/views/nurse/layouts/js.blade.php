@@ -1582,6 +1582,33 @@
       w++;
     });
 
+    var u = 1;
+    $(".surgical_specialities_input").each(function(i,val) {
+      
+      
+      $(".surgical_specialities_input-"+u).each(function(i,val) {
+        var ntypeval = $(this).val();
+        var st_value = u.toString()+ntypeval.toString();
+        if($(".surgicalspeciality_exps_"+st_value).hasClass("d-none") == false){
+          
+          console.log("xsurgical",st_value);
+          var label_name = $(".surgicalspeciality_name_label-"+st_value).text();
+          
+          if ($(".surgicalspecialities-" +st_value).val() == '') {
+            document.getElementById("reqsurgicalspecialities-" +st_value).innerHTML = "* Please select the "+label_name;
+            isValid = false;
+          }
+          
+        }
+      });
+      u++;
+    });
+
+    if ($(".exp_declare_information").prop('checked') == false) {
+      document.getElementById("reqdeclare_information_exp").innerHTML = "* Please check this checkbox";
+      isValid = false;
+    }
+
 
     var b = 1;
     $(".spec_exp").each(function() {
@@ -2368,6 +2395,7 @@
       document.getElementById("reqmantradeclare_information").innerHTML = "* Please check this checkbox";
       isValid = false;
     }
+    
     if (isValid == true) {
       $('#training_form').find('.text-danger').hide();
       $.ajax({
@@ -2498,12 +2526,15 @@
     });
     const isChecked = $('.declare').prop('checked');
     if (!isChecked) {
+      
       // If not checked, show an error message
-      $('.declaration_bottom').find('.reqError').text('You must declare that the information is true and correct.');
+      document.getElementById("reqreference").innerHTML = "* Please check this checkbox";
+      //$('.declaration_bottom').find('#reqreference').text('You must declare that the information is true and correct.');
       isValid = false;
     } else {
       // Clear the error message if checked
-      $('.declaration_bottom').find('.reqError').text('');
+      document.getElementById("reqreference").innerHTML = "";
+      isValid = true;
     }
     if (isValid == true) {
       $('#reference_form').find('.text-danger').hide();

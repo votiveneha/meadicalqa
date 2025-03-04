@@ -3585,17 +3585,19 @@
                           ?>
                           @foreach($speciality_surgical_data as $ssd)
                           <input type="hidden" name="speciality_result" class="speciality_surgical_result_experience-{{ $w }}" value="{{ $ssd->id }}">
-                          <div class="surgical_row_experience-{{ $w }} surgicalopcboxes1-{{ $ssd->id }} form-group drp--clr d-none drpdown-set">
-                            <label class="form-label" for="input-1">{{ $ssd->name }}</label>
+                          <div class="surgical_row_experience-{{ $w }} surgicalopcboxes1-{{ $ssd->id }} form-group drp--clr d-none drpdown-set surgicalspeciality_exps_1{{ $w }}">
+                            <label class="form-label surgicalspeciality_name_label-1{{ $w }}" for="input-1">{{ $ssd->name }}</label>
                             <?php
                             $speciality_surgicalsub_data = DB::table("speciality")->where('parent', $ssd->id)->get();
                             ?>
+                            <input type="hidden" name="surgical_specialities_input" class="surgical_specialities_input surgical_specialities_input-1" value="{{ $w }}">
                             <ul id="surgical_operative_care_experience-{{ $w }}" style="display:none;">
                               @foreach($speciality_surgicalsub_data as $sssd)
                               <li data-value="{{ $sssd->id }}">{{ $sssd->name }}</li>
                               @endforeach
                             </ul>
-                            <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_operative_care_experience-{{ $w }}" name="surgical_operative_care_exp_{{ $w }}[1][]" multiple="multiple"></select>
+                            <select class="surgicalspecialities-1 surgicalspecialities-1{{ $w }} js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_operative_care_experience-{{ $w }}" name="surgical_operative_care_exp_{{ $w }}[1][]" multiple="multiple"></select>
+                            <span id="reqsurgicalspecialities-1{{ $w }}" class="reqError text-danger valley"></span>
                             @foreach($speciality_surgicalsub_data as $sssd)
                             <div class="d-none form-group level-drp level_id-{{ $sssd->id }}">
                               <label class="form-label" for="input-1">What is your Level of experience in {{ $sssd->name }}:
@@ -3866,12 +3868,13 @@
                     }
                     ?>
                     <div class="declaration_box">
-                      <input type="checkbox" name="exp_declare_information" class="exp_declare_information" value="1" @if(!empty($firstValue)) @if($firstValue->declaration_status == 1) checked onclick="return false;" @endif @endif>
+                      <input type="checkbox" name="exp_declare_information" class="exp_declare_information" value="1" @if(!empty($firstValue)) @if($firstValue->declaration_status == 1) checked @endif @endif>
                       <label for="declare_information">I declare that the information provided is true and correct</label>
                       @if(!empty($firstValue->declaration_status) && $firstValue->declaration_status == 1)
                       <input type="hidden" name="exp_declare_information" value="1">
                       @endif
                     </div>
+                    <span id="reqdeclare_information_exp" class="reqError text-danger valley"></span>
                     <div class="box-button mt-15">
                       <button class="btn btn-apply-big font-md font-bold" type="submit" id="submitExperience" @if(!email_verified()) disabled @endif>Save Changes</button>
                     </div>
@@ -4191,11 +4194,13 @@
                   <div class="add_new_certification_div mb-3 mt-3">
                     <a style="cursor: pointer;" onclick="add_another_referee()">+ Add another Referee</a>
                   </div>
-                  <div class="declaration_bottom">
-                    <input class="declare" type="checkbox" name="declare" <?php echo count($get_reference_data) > 0 ? ($get_reference_data[0]->is_declare == 1 ? 'checked' : '') : '' ?>>I declare that the information provided is true and correct
+                  <div class="declaration_box declaration_bottom">
+                    <input class="declare" type="checkbox" name="declare" <?php echo count($get_reference_data) > 0 ? ($get_reference_data[0]->is_declare == 1 ? 'checked' : '') : '' ?>>
+                    <label for="declare_information">I declare that the information provided is true and correct</label>
                     <br>
-                    <span class="reqError text-danger valley"></span>
+                    
                   </div>
+                  <span id="reqreference" class="reqError text-danger valley"></span>
                   <div class="box-button mt-15">
                     <button class="btn btn-apply-big font-md font-bold" type="submit" id="submitReferences" @if(!email_verified()) disabled @endif>Save Changes</button>
                   </div>
@@ -5925,7 +5930,7 @@
                       <a style="cursor: pointer;" onclick="add_listeduction()">+Add another Continuing Education</a>
                     </div>
                     <div class="declaration_box mt-2">
-                      <input type="checkbox" name="declare_information_man" class="declare_information_man" value="1" @if(!empty($trainingData)) @if($trainingData->declaration_status == 1) checked onclick="return false;" @endif @endif>
+                      <input type="checkbox" name="declare_information_man" class="declare_information_man" value="1" @if(!empty($trainingData)) @if($trainingData->declaration_status == 1) checked @endif @endif>
                       <!-- Hidden Input to Ensure Value is Sent -->
                       @if(!empty($trainingData) && $trainingData->declaration_status == 1)
                       <input type="hidden" name="declare_information_man" value="1">

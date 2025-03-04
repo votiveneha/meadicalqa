@@ -116,341 +116,350 @@
                   ?>
                   <form id="professional_memb_form" method="POST" onsubmit="return professional_membership_form()">
                     @csrf
+                    
                     <input type="hidden" name="user_id" value="{{ Auth::guard('nurse_middle')->user()->id }}">
+                    
                     <div class="form-group level-drp">
-                      <label class="form-label" for="input-1">Organization Country:</label>
-                      <?php
-                        if(!empty($professional_membership)){
-                          $organization_data = json_decode($professional_membership->organization_data);
-                          
-                        }else{
-                          $organization_data = array(); 
-                        }
-                        
-                        
-                        $o_data = (array)$organization_data;
-                        $p_memb_arr = array();
-
-                        foreach ($organization_data as $p_memb) {
-                          
-                          //print_r($p_memb);
-                          $p_memb_arr[] = array_search($p_memb, (array)$organization_data);
-                          
-                        }
-
-                        
-                        $p_memb_json = json_encode($p_memb_arr);
-                      ?>
-                      
-                      <input type="hidden" name="org_country" class="org_country" value='<?php echo $p_memb_json; ?>'>
-                      <ul id="organization_country" style="display:none;">
-                        @if(!empty($organization_country))
-                        @foreach($organization_country as $org_country)
-                        <li data-value="{{ $org_country->organization_id }}">{{ $org_country->organization_country }}</li>
-                        
-                        @endforeach
-                        @endif
-                      </ul>
-                      <select class="js-example-basic-multiple addAll_removeAll_btn organization_country" data-list-id="organization_country" name="organization_country[]" multiple="multiple"></select>
-                      <span id="reqorganization_country" class="reqError text-danger valley"></span>
+                      <label class="form-label" for="input-1">Do you have any Professional Memberships or Awards?<br>Please include all, even those that are Lapsed, Expired, Suspended, Inactive, Non-Renewed, Pending Approval, or Renewal Pending.
+                        </label> 
+                      <select class="form-control profmemaward" name="profmemaward">
+                        <option value="">select</option>
+                        <option value="Yes" @if(!empty($professional_membership) && $professional_membership->award_status == "Yes") selected @endif>Yes</option>
+                        <option value="No" @if(!empty($professional_membership) && $professional_membership->award_status == "No") selected @endif>No</option>
+                      </select> 
+                      <span id="professional_awards" class="reqError text-danger valley"></span>
                     </div>
-                    <div class="show_country_org">
-                      <?php
-                        $i = 0;
-                      ?>
-                      
-                      @foreach ($p_memb_arr as $p_arr)
+                    <div class="profess_fields d-none">
+                      <div class="form-group level-drp">
+                        <label class="form-label" for="input-1">Organization Country:</label>
                         <?php
-                          //print_r($o_data[$p_arr]);
-                          $country_name = DB::table("professional_organization")->where("organization_id",$p_arr)->first();
-                          $organization_list = DB::table("professional_organization")->where("country_organiztions",'like','%'.$p_arr.',%')->where("sub_organiztions","0")->orderBy('organization_country', 'ASC')->get();
-                          $os_data = (array)$o_data[$p_arr];
-                          $sub_count_arr = array();
-
-                          foreach ($os_data as $p_memb) {
-                            $sub_count_arr[] = array_search($p_memb, $os_data);
+                          if(!empty($professional_membership)){
+                            $organization_data = json_decode($professional_membership->organization_data);
+                            
+                          }else{
+                            $organization_data = array(); 
                           }
                           
                           
-                          $p_memb_json = json_encode($sub_count_arr);
-                        ?>
-                        <div class="country_whole_div country_whole_div-{{ $p_arr }}" data-name="{{ $p_arr }}">
-                        <div class="form-group level-drp organization_country_div organization_country_div-{{ $p_arr }}">
-                          <label class="form-label organization_country_label organization_country_label-{{ $p_arr }}" for="input-1">{{ $country_name->organization_name }}</label>
-                          <input type="hidden" name="country_org_list" class="country_org_list country_org_list-{{ $p_arr }}" value='{{ $p_arr }}'>
-                          <input type="hidden" name="country_org" class="country_org-{{ $p_arr }}" value='<?php echo $p_memb_json; ?>'>
-                          <ul id="country_organization-{{ $p_arr }}" style="display:none;">
-                            @if(!empty($organization_list))
-                            @foreach($organization_list as $org_list)
-                            <li data-value="{{ $org_list->organization_id }}">{{ $org_list->organization_country }}</li>
+                          $o_data = (array)$organization_data;
+                          $p_memb_arr = array();
+
+                          if(!empty($organization_data)){
+                            foreach ($organization_data as $p_memb) {
                             
-                            @endforeach
-                            @endif
-                          </ul>
-                          <select class="country_org_valid country_org_valid-{{ $p_arr }} js-example-basic-multiple addAll_removeAll_btn" data-list-id="country_organization-{{ $p_arr }}" name="country_organization[{{ $p_arr }}][]" onchange="sub_organization('edit',{{ $p_arr }}, {{ $i+1 }})" multiple="multiple"></select>
-                          <span id="reqcountry_org-{{ $p_arr }}" class="reqError text-danger valley"></span>
-                        </div>
-                        <div class="show_subcountry_org-{{ $p_arr }}">
-                          <?php
-                          $j = 0;
+                              //print_r($p_memb);
+                              $p_memb_arr[] = array_search($p_memb, (array)$organization_data);
+                              
+                            }
+                          }
                           
+
+                          
+                          $p_memb_json = json_encode($p_memb_arr);
                         ?>
                         
-                        @foreach ($sub_count_arr as $p_arr1)
+                        <input type="hidden" name="org_country" class="org_country" value='<?php echo $p_memb_json; ?>'>
+                        <ul id="organization_country" style="display:none;">
+                          @if(!empty($organization_country))
+                          @foreach($organization_country as $org_country)
+                          <li data-value="{{ $org_country->organization_id }}">{{ $org_country->organization_country }}</li>
+                          
+                          @endforeach
+                          @endif
+                        </ul>
+                        <select class="js-example-basic-multiple addAll_removeAll_btn organization_country" data-list-id="organization_country" name="organization_country[]" multiple="multiple"></select>
+                        <span id="reqorganization_country" class="reqError text-danger valley"></span>
+                      </div>
+                      <div class="show_country_org">
+                        <?php
+                          $i = 0;
+                        ?>
+                        
+                        @foreach ($p_memb_arr as $p_arr)
                           <?php
-                            $country_name = DB::table("professional_organization")->where("organization_id",$p_arr1)->first();
-                            $organization_list = DB::table("professional_organization")->where("country_organiztions",$p_arr)->where("sub_organiztions",$p_arr1)->orderBy('organization_country', 'ASC')->get();
-                            
-                            $oss_data = (array)$os_data[$p_arr1];
-                            $subsub_count_arr = array();
-                            
-                            foreach ($oss_data as $index => $p_memb) {
-                              
-                              $subsub_count_arr[] = $index;
+                            //print_r($o_data[$p_arr]);
+                            $country_name = DB::table("professional_organization")->where("organization_id",$p_arr)->first();
+                            $organization_list = DB::table("professional_organization")->where("country_organiztions",'like','%'.$p_arr.',%')->where("sub_organiztions","0")->orderBy('organization_country', 'ASC')->get();
+                            $os_data = (array)$o_data[$p_arr];
+                            $sub_count_arr = array();
+
+                            foreach ($os_data as $p_memb) {
+                              $sub_count_arr[] = array_search($p_memb, $os_data);
                             }
                             
                             
-                            $p_memb_json = json_encode($subsub_count_arr);
-                           
+                            $p_memb_json = json_encode($sub_count_arr);
                           ?>
-                          <div class="sub_country_div sub_country_div-{{ $p_arr1 }}" data-name="{{ $country_name->organization_country }}">
-                          <div class="form-group level-drp o_country_div-{{ $p_arr }} o_subcountry_div-{{ $p_arr1 }} o_subcountry_div-{{ $p_arr1 }} organization_subcountry_div organization_subcountry_div-{{ $p_arr1 }}">
-                            <label class="form-label organization_subcountry_label organization_subcountry_label-{{ $p_arr }}{{ $p_arr1 }}" for="input-1">{{ $country_name->organization_country }}</label>
-                            <input type="hidden" name="subcountry_org_list" class="subcountry_org_list subcountry_org_list-{{ $p_arr1 }}" value='{{ $p_arr1 }}'>
-                            <input type="hidden" name="subcountry_org" class="subcountry_org-{{ $p_arr }}{{ $p_arr1 }}" value='<?php echo $p_memb_json; ?>'>
-                            <ul id="subcountry_organization-{{ $p_arr }}{{ $p_arr1 }}" style="display:none;">
+                          <div class="country_whole_div country_whole_div-{{ $p_arr }}" data-name="{{ $p_arr }}">
+                          <div class="form-group level-drp organization_country_div organization_country_div-{{ $p_arr }}">
+                            <label class="form-label organization_country_label organization_country_label-{{ $p_arr }}" for="input-1">{{ $country_name->organization_name }}</label>
+                            <input type="hidden" name="country_org_list" class="country_org_list country_org_list-{{ $p_arr }}" value='{{ $p_arr }}'>
+                            <input type="hidden" name="country_org" class="country_org-{{ $p_arr }}" value='<?php echo $p_memb_json; ?>'>
+                            <ul id="country_organization-{{ $p_arr }}" style="display:none;">
                               @if(!empty($organization_list))
                               @foreach($organization_list as $org_list)
                               <li data-value="{{ $org_list->organization_id }}">{{ $org_list->organization_country }}</li>
                               
                               @endforeach
                               @endif
-                            </ul><select class="sub_country_org sub_country_org-{{ $p_arr }}{{ $p_arr1 }} js-example-basic-multiple addAll_removeAll_btn" data-list-id="subcountry_organization-{{ $p_arr }}{{ $p_arr1 }}" id="subcountry_organization_select" name="subcountry_organization[{{ $p_arr }}][{{ $p_arr1 }}][]" onchange="memberships_type('edit','{{ $p_arr }}','{{ $p_arr1 }}',{{ $i+1 }},{{{ $j+1 }}})" multiple="multiple">
-                            </select>
-                            <span id="reqsubcountry_org-{{ $p_arr }}{{ $p_arr1 }}" class="reqError text-danger valley"></span>
+                            </ul>
+                            <select class="country_org_valid country_org_valid-{{ $p_arr }} js-example-basic-multiple addAll_removeAll_btn" data-list-id="country_organization-{{ $p_arr }}" name="country_organization[{{ $p_arr }}][]" onchange="sub_organization('edit',{{ $p_arr }}, {{ $i+1 }})" multiple="multiple"></select>
+                            <span id="reqcountry_org-{{ $p_arr }}" class="reqError text-danger valley"></span>
                           </div>
-                          <div class="show_membership_type-{{ $p_arr }}{{ $p_arr1 }}">
+                          <div class="show_subcountry_org-{{ $p_arr }}">
                             <?php
-                              $k = 0;  
-                            ?>
-                            @foreach ($subsub_count_arr as $p_arr2)
+                            $j = 0;
+                            
+                          ?>
+                          
+                          @foreach ($sub_count_arr as $p_arr1)
                             <?php
-                              $membership_type = DB::table("membership_type")->where("submember_id","0")->orderBy('membership_name', 'ASC')->get();
-                              $osm_data = (array)$oss_data[$p_arr2];
-                              $memb_type_arr = array();
-
-                              foreach ($osm_data as $index =>$m_type_arr) {
-                                $memb_type_arr[] = $index;
+                              $country_name = DB::table("professional_organization")->where("organization_id",$p_arr1)->first();
+                              $organization_list = DB::table("professional_organization")->where("country_organiztions",$p_arr)->where("sub_organiztions",$p_arr1)->orderBy('organization_country', 'ASC')->get();
+                              
+                              $oss_data = (array)$os_data[$p_arr1];
+                              $subsub_count_arr = array();
+                              
+                              foreach ($oss_data as $index => $p_memb) {
+                                
+                                $subsub_count_arr[] = $index;
                               }
-                          
-                          
-                              $p_memb_json = json_encode($memb_type_arr);
+                              
+                              
+                              $p_memb_json = json_encode($subsub_count_arr);
+                            
                             ?>
-                            <div class="membership_type_div-{{ $p_arr2 }}">
-                            <div class="form-group level-drp o_subcountry_div-{{ $p_arr1 }} o_country_div-{{ $p_arr }} membership_type_div membership_type_div-{{ $p_arr2 }}">
-                              <label class="form-label membership_type_label membership_type_label-{{ $p_arr }}{{ $p_arr2 }}" for="input-1">Membership Type({{ $country_name->organization_country }})</label>
-                              <input type="hidden" name="subsubcountry_org_list" class="subsubcountry_org_list subsubcountry_org_list-{{ $p_arr2 }}" value='{{ $p_arr2 }}'>
-                              <input type="hidden" name="memb_type_input" class="memb_type_input-{{ $p_arr2 }}" value='<?php echo $p_memb_json; ?>'>
-                              <ul id="membership_type-{{ $p_arr2 }}" style="display:none;">
-                                @if(!empty($membership_type))
-                                @foreach($membership_type as $m_type)
-                                <li data-value="{{ $m_type->membership_id }}">{{ $m_type->membership_name }}</li>
+                            <div class="sub_country_div sub_country_div-{{ $p_arr1 }}" data-name="{{ $country_name->organization_country }}">
+                            <div class="form-group level-drp o_country_div-{{ $p_arr }} o_subcountry_div-{{ $p_arr1 }} o_subcountry_div-{{ $p_arr1 }} organization_subcountry_div organization_subcountry_div-{{ $p_arr1 }}">
+                              <label class="form-label organization_subcountry_label organization_subcountry_label-{{ $p_arr }}{{ $p_arr1 }}" for="input-1">{{ $country_name->organization_country }}</label>
+                              <input type="hidden" name="subcountry_org_list" class="subcountry_org_list subcountry_org_list-{{ $p_arr1 }}" value='{{ $p_arr1 }}'>
+                              <input type="hidden" name="subcountry_org" class="subcountry_org-{{ $p_arr }}{{ $p_arr1 }}" value='<?php echo $p_memb_json; ?>'>
+                              <ul id="subcountry_organization-{{ $p_arr }}{{ $p_arr1 }}" style="display:none;">
+                                @if(!empty($organization_list))
+                                @foreach($organization_list as $org_list)
+                                <li data-value="{{ $org_list->organization_id }}">{{ $org_list->organization_country }}</li>
                                 
                                 @endforeach
                                 @endif
-                              </ul><select class="membership_type_org membership_type_org-{{ $p_arr }}{{ $p_arr2 }} js-example-basic-multiple addAll_removeAll_btn" data-list-id="membership_type-{{ $p_arr2 }}" id="subcountry_organization_select" name="membership_type[{{ $p_arr }}][{{ $p_arr1 }}][{{ $p_arr2 }}][]" onchange="submemberships_type('edit','{{ $p_arr }}','{{ $p_arr2 }}','{{ $p_arr1 }}',{{ $i+1 }},{{ $j+1 }},{{ $k+1 }})" multiple="multiple">
+                              </ul><select class="sub_country_org sub_country_org-{{ $p_arr }}{{ $p_arr1 }} js-example-basic-multiple addAll_removeAll_btn" data-list-id="subcountry_organization-{{ $p_arr }}{{ $p_arr1 }}" id="subcountry_organization_select" name="subcountry_organization[{{ $p_arr }}][{{ $p_arr1 }}][]" onchange="memberships_type('edit','{{ $p_arr }}','{{ $p_arr1 }}',{{ $i+1 }},{{{ $j+1 }}})" multiple="multiple">
                               </select>
-                              <span id="reqmembershiptype-{{ $p_arr }}{{ $p_arr2 }}" class="reqError text-danger valley"></span>
+                              <span id="reqsubcountry_org-{{ $p_arr }}{{ $p_arr1 }}" class="reqError text-danger valley"></span>
                             </div>
-                            <div class="show_submembership_type-{{ $p_arr }}{{ $p_arr1 }}{{ $p_arr2 }}">
-                              @foreach ($memb_type_arr as $p_arr3)
+                            <div class="show_membership_type-{{ $p_arr }}{{ $p_arr1 }}">
                               <?php
-                                $membership_name = DB::table("membership_type")->where("membership_id",$p_arr3)->first();
-                                $submembership_type_list = DB::table("membership_type")->where("submember_id",$p_arr3)->orderBy('membership_name', 'ASC')->get();
-                                $ossm_data = (array)$osm_data[$p_arr3];
+                                $k = 0;  
+                              ?>
+                              @foreach ($subsub_count_arr as $p_arr2)
+                              <?php
+                                $membership_type = DB::table("membership_type")->where("submember_id","0")->orderBy('membership_name', 'ASC')->get();
+                                $osm_data = (array)$oss_data[$p_arr2];
                                 $memb_type_arr = array();
-                               
-                                foreach ($ossm_data as $m_type_arr) {
-                                  $memb_type_arr[] = $m_type_arr;
-                                  
-                                }
 
-                                
+                                foreach ($osm_data as $index =>$m_type_arr) {
+                                  $memb_type_arr[] = $index;
+                                }
+                            
+                            
                                 $p_memb_json = json_encode($memb_type_arr);
                               ?>
-                              <div class="submembership_type_div-{{ $p_arr3 }}-{{ $p_arr3 }}">
-                              <div class="form-group level-drp o_membtype_div-{{ $p_arr2 }} o_subcountry_div-{{ $p_arr1 }} o_country_div-{{ $p_arr }} submembership_type_div submembership_type_div-{{ $p_arr3 }}">
-                                <label class="form-label submembership_type_label submembership_type_label-{{ $p_arr }}-{{ $p_arr3 }}" for="input-1">{{ $membership_name->membership_name }}</label>
-                                <input type="hidden" name="submemb_list" class="submemb_list submemb_list-{{ $p_arr3 }}" value='{{ $p_arr3 }}'>
-                                <input type="hidden" name="submemb_type_input" class="submemb_type_input-{{ $p_arr2 }}-{{ $p_arr3 }}" value='<?php echo $p_memb_json; ?>'>
-                                <ul id="submembership_type-{{ $p_arr3 }}-{{ $p_arr2 }}" style="display:none;">
-                                  @if(!empty($submembership_type_list))
-                                  @foreach($submembership_type_list as $msub_type)
-                                  <li data-value="{{ $msub_type->membership_id }}">{{ $msub_type->membership_name }}</li>
+                              <div class="membership_type_div-{{ $p_arr2 }}">
+                              <div class="form-group level-drp o_subcountry_div-{{ $p_arr1 }} o_country_div-{{ $p_arr }} membership_type_div membership_type_div-{{ $p_arr2 }}">
+                                <label class="form-label membership_type_label membership_type_label-{{ $p_arr }}{{ $p_arr2 }}" for="input-1">Membership Type({{ $country_name->organization_country }})</label>
+                                <input type="hidden" name="subsubcountry_org_list" class="subsubcountry_org_list subsubcountry_org_list-{{ $p_arr2 }}" value='{{ $p_arr2 }}'>
+                                <input type="hidden" name="memb_type_input" class="memb_type_input-{{ $p_arr2 }}" value='<?php echo $p_memb_json; ?>'>
+                                <ul id="membership_type-{{ $p_arr2 }}" style="display:none;">
+                                  @if(!empty($membership_type))
+                                  @foreach($membership_type as $m_type)
+                                  <li data-value="{{ $m_type->membership_id }}">{{ $m_type->membership_name }}</li>
                                   
                                   @endforeach
                                   @endif
-                                </ul><select class="submemb_valid submemb_valid-{{ $p_arr }}-{{ $p_arr3 }} js-example-basic-multiple addAll_removeAll_btn" data-list-id="submembership_type-{{ $p_arr3 }}-{{ $p_arr2 }}" id="subcountry_organization_select" name="submembership_type[{{ $p_arr }}][{{ $p_arr1 }}][{{ $p_arr2 }}][{{ $p_arr3 }}][]" multiple="multiple">
+                                </ul><select class="membership_type_org membership_type_org-{{ $p_arr }}{{ $p_arr2 }} js-example-basic-multiple addAll_removeAll_btn" data-list-id="membership_type-{{ $p_arr2 }}" id="subcountry_organization_select" name="membership_type[{{ $p_arr }}][{{ $p_arr1 }}][{{ $p_arr2 }}][]" onchange="submemberships_type('edit','{{ $p_arr }}','{{ $p_arr2 }}','{{ $p_arr1 }}',{{ $i+1 }},{{ $j+1 }},{{ $k+1 }})" multiple="multiple">
                                 </select>
-                                <span id="reqsubmem_org-{{ $p_arr }}-{{ $p_arr3 }}" class="reqError text-danger valley"></span>
+                                <span id="reqmembershiptype-{{ $p_arr }}{{ $p_arr2 }}" class="reqError text-danger valley"></span>
                               </div>
-                              </div>
-                              @endforeach
-                            </div>
-                            <?php
-                              $k++;
-                            ?>
-                            
-                            <?php
-                              $date_joined = (array)json_decode($professional_membership->date_joined);
-                              $membership_status = (array)json_decode($professional_membership->membership_status);
-                              
-                            ?>
-                            <div class="form-group level-drp">
-                              <label class="form-label" for="input-1">Date Joined</label>
-                              <input class="form-control graduation_start_date graduation_start_date-{{ $p_arr }}{{ $p_arr2 }}" type="date" name="date_joined[{{ $p_arr2 }}]" value="@if(!empty($professional_membership)){{ $date_joined[$p_arr2] }}@endif" onchange="changeDate(event);">
-                              <span id="reqjoined_date-{{ $p_arr }}{{ $p_arr2 }}" class="reqError text-danger valley"></span>
-                            </div>
-                            <div class="form-group level-drp">
-                              <label class="form-label" for="input-1">Status</label>
-                              <select class="form-control profmemstatus profmemstatus-{{ $p_arr }}{{ $p_arr2 }}" name="prof_membership_status[{{ $p_arr2 }}]" id="language-picker-select">
-                                <option value="">Select Status</option>
-                                <option value="Active - Current Member" @if(!empty($professional_membership) && $membership_status[$p_arr2] == "Active - Current Member") selected @endif>Active - Current Member</option>
-                                <option value="Lapsed Member" @if(!empty($professional_membership) && $membership_status[$p_arr2] == "Lapsed Member") selected @endif>Lapsed Member</option>
-                                <option value="Expired Member" @if(!empty($professional_membership) && $membership_status[$p_arr2] == "Expired Member") selected @endif>Expired Member</option>
-                                <option value="Suspended Member" @if(!empty($professional_membership) && $membership_status[$p_arr2] == "Suspended Member") selected @endif>Suspended Member</option>
-                                <option value="Inactive Member" @if(!empty($professional_membership) && $membership_status[$p_arr2] == "Inactive Member") selected @endif>Inactive Member</option>
-                                <option value="Non-Renewed Member" @if(!empty($professional_membership) && $membership_status[$p_arr2] == "Non-Renewed Member") selected @endif>Non-Renewed Member</option>
-                                <option value="Pending Membership Approval" @if(!empty($professional_membership) && $membership_status[$p_arr2] == "Pending Membership Approval") selected @endif>Pending Membership Approval</option>
-                                <option value="Membership Renewal Pending" @if(!empty($professional_membership) && $membership_status[$p_arr2] == "Membership Renewal Pending") selected @endif>Membership Renewal Pending</option>
-        
-                              </select>
-                              <span id="reqmembership_status-{{ $p_arr }}{{ $p_arr2 }}" class="reqError text-danger valley"></span>
-                            </div>
-                            <div class="form-group level-drp">
-                              <label class="form-label award_recognition_label-{{ $p_arr }}{{ $p_arr2 }}" for="input-1">Awards & Recognitions:</label>
-                              <?php
-                                $award_recognitions = (array)json_decode($professional_membership->award_recognitions);
-
-                                if(!empty($award_recognitions)){
-                                  $award_data = (array)$award_recognitions[$p_arr2];
-                                }else{
-                                  $award_data = array();
-                                }
-                                
-                                //print_r($award_data);
-                                $award_arr = array();
-
-                                foreach ($award_data as $aw_data) {
-                                  $award_arr[] = array_search($aw_data, $award_data);
-                                }
-                            
-                                
-                                $award_json = json_encode($award_arr);
-                              ?>
-                              <input type="hidden" name="award_list" class="award_list award_list-{{ $p_arr2 }}" value="{{ $p_arr2 }}">   
-                              <input type="hidden" name="awards_recognition_input" class="awards_recognition_input-{{ $p_arr2 }}" value='<?php echo $award_json; ?>'>
-                              <ul id="awards_recognitions-{{ $p_arr }}{{ $p_arr2 }}" style="display:none;">
-                                @if(!empty($awards_recognitions))
-                                @foreach($awards_recognitions as $a_reg)
-                                <li data-value="{{ $a_reg->award_id }}">{{ $a_reg->award_name }}</li>
-                                
-                                @endforeach
-                                @endif
-                              </ul>
-                              <select class="award_recog-{{ $p_arr }}{{ $p_arr2 }} js-example-basic-multiple addAll_removeAll_btn" data-list-id="awards_recognitions-{{ $p_arr }}{{ $p_arr2 }}" name="awards_recognitions[]" onchange="subaward_recognitions('edit',{{ $p_arr }},{{ $p_arr2 }})" multiple="multiple"></select>
-                              <span id="reqawards_recognitions-{{ $p_arr }}{{ $p_arr2 }}" class="reqError text-danger valley"></span>
-                            </div>
-                            <div class="show_award_reg-{{ $p_arr }}{{ $p_arr2 }}">
-                              @foreach ($award_arr as $a_reg_arr)
-                              <?php
-                                $sub_award_data = $award_data[$a_reg_arr];
-                                $subawards_name = DB::table("awards_recognitions")->where("award_id",$a_reg_arr)->first();
-                                //print_r($award_data[$a_reg_arr]);
-                                $subawards_recognition = DB::table("awards_recognitions")->where("sub_award_id",$a_reg_arr)->get();
-                                $subawards_recognition_json = json_encode($sub_award_data);
-                              ?>
-                              <div class="form-group level-drp award_div award_country_div-{{ $a_reg_arr }}">
-                                <label class="form-label subaward_label subaward_label-{{ $p_arr2 }}{{ $a_reg_arr }}" for="input-1">{{ $subawards_name->award_name }}</label>
-                                <input type="hidden" name="sub_award_list" class="subaward_list subaward_list-{{ $a_reg_arr }}" value='<?php echo $a_reg_arr; ?>'>
-                                <input type="hidden" name="subawards_recognition_input" class="subawards_recognition_input-{{ $p_arr2 }}{{ $a_reg_arr }}" value='<?php echo $subawards_recognition_json; ?>'>
-                                <ul id="award_reg-{{ $p_arr2 }}{{ $a_reg_arr }}" style="display:none;">
-                                  @if(!empty($subawards_recognition))
-                                  
-                                  @foreach($subawards_recognition as $a_reg)
-                                  <li data-value="{{ $a_reg->award_id }}">{{ $a_reg->award_name }}</li>
-                                  @endforeach
-                                  @endif
-                                </ul><select class="sub_award_org sub_award_org-{{ $p_arr2 }}{{ $a_reg_arr }} js-example-basic-multiple addAll_removeAll_btn" data-list-id="award_reg-{{ $p_arr2 }}{{ $a_reg_arr }}" id="award_organization_select-{{ $a_reg_arr }}" name="award_organization[{{ $p_arr2 }}][{{ $a_reg_arr }}][]" multiple="multiple">
-                                </select>
-                                <span id="reqsubawards_recognitions-{{ $p_arr2 }}{{ $a_reg_arr }}" class="reqError text-danger valley"></span>
-                              </div>    
-                            </div>
-                              <div class="form-group level-drp">
+                              <div class="show_submembership_type-{{ $p_arr }}{{ $p_arr1 }}{{ $p_arr2 }}">
+                                @foreach ($memb_type_arr as $p_arr3)
                                 <?php
-                                  $user_id = Auth::guard('nurse_middle')->user()->id;  
+                                  $membership_name = DB::table("membership_type")->where("membership_id",$p_arr3)->first();
+                                  $submembership_type_list = DB::table("membership_type")->where("submember_id",$p_arr3)->orderBy('membership_name', 'ASC')->get();
+                                  $ossm_data = (array)$osm_data[$p_arr3];
+                                  $memb_type_arr = array();
+                                
+                                  foreach ($ossm_data as $m_type_arr) {
+                                    $memb_type_arr[] = $m_type_arr;
+                                    
+                                  }
+
+                                  
+                                  $p_memb_json = json_encode($memb_type_arr);
                                 ?>
-                                <label class="form-label" for="input-1">Upload Evidence</label>
-                                <input class="form-control membership_evidence-{{ $p_arr2 }}" type="file" name="membership_evidence[{{ $p_arr2 }}][]" onchange="changeEvidenceImg({{ $user_id }},{{ $p_arr2 }})" multiple>
-                              </div>
-                              <div class="memb_evdence-{{ $p_arr2 }}">
-                                <?php
-                                  if($professional_membership->evidence_imgs){
-                                    $evidence_imgs = (array)json_decode($professional_membership->evidence_imgs);
-                                    $evorgimg = $evidence_imgs[$p_arr2];
-                                    //print_r($evorgimg);
-                                    $i = 0;
-                                    ?>
-                                    @if(!empty($evorgimg))
-                                    @foreach ($evorgimg as $ev_img)
-                                    <div class="trans_img trans_img-{{ $i+1 }}">
-                                      <a href=""><i class="fa fa-file" aria-hidden="true"></i>{{ $ev_img }}</a>
-                                      <div class="close_btn close_btn-' + i + '" onclick="deleteEvidenceImg({{ $i+1 }},{{ $user_id }},'{{ $ev_img }}',{{ $p_arr2 }})" style="cursor: pointer;"><i class="fa fa-close" aria-hidden="true"></i></div>
-                                    </div>
-                                    <?php
-                                      $i++;
-                                    ?>
+                                <div class="submembership_type_div-{{ $p_arr3 }}-{{ $p_arr3 }}">
+                                <div class="form-group level-drp o_membtype_div-{{ $p_arr2 }} o_subcountry_div-{{ $p_arr1 }} o_country_div-{{ $p_arr }} submembership_type_div submembership_type_div-{{ $p_arr3 }}">
+                                  <label class="form-label submembership_type_label submembership_type_label-{{ $p_arr }}-{{ $p_arr3 }}" for="input-1">{{ $membership_name->membership_name }}</label>
+                                  <input type="hidden" name="submemb_list" class="submemb_list submemb_list-{{ $p_arr3 }}" value='{{ $p_arr3 }}'>
+                                  <input type="hidden" name="submemb_type_input" class="submemb_type_input-{{ $p_arr2 }}-{{ $p_arr3 }}" value='<?php echo $p_memb_json; ?>'>
+                                  <ul id="submembership_type-{{ $p_arr3 }}-{{ $p_arr2 }}" style="display:none;">
+                                    @if(!empty($submembership_type_list))
+                                    @foreach($submembership_type_list as $msub_type)
+                                    <li data-value="{{ $msub_type->membership_id }}">{{ $msub_type->membership_name }}</li>
+                                    
                                     @endforeach
                                     @endif
-                                    <?php
-                                  }
-                                  //print_r($evidence_imgs);
-                                ?>
+                                  </ul><select class="submemb_valid submemb_valid-{{ $p_arr }}-{{ $p_arr3 }} js-example-basic-multiple addAll_removeAll_btn" data-list-id="submembership_type-{{ $p_arr3 }}-{{ $p_arr2 }}" id="subcountry_organization_select" name="submembership_type[{{ $p_arr }}][{{ $p_arr1 }}][{{ $p_arr2 }}][{{ $p_arr3 }}][]" multiple="multiple">
+                                  </select>
+                                  <span id="reqsubmem_org-{{ $p_arr }}-{{ $p_arr3 }}" class="reqError text-danger valley"></span>
+                                </div>
+                                </div>
+                                @endforeach
                               </div>
-                            
+                              <?php
+                                $k++;
+                              ?>
+                              
+                              <?php
+                                $date_joined = (array)json_decode($professional_membership->date_joined);
+                                $membership_status = (array)json_decode($professional_membership->membership_status);
+                                
+                              ?>
+                              <div class="form-group level-drp">
+                                <label class="form-label" for="input-1">Date Joined</label>
+                                <input class="form-control graduation_start_date graduation_start_date-{{ $p_arr }}{{ $p_arr2 }}" type="date" name="date_joined[{{ $p_arr2 }}]" value="@if(!empty($professional_membership)){{ $date_joined[$p_arr2] }}@endif" onchange="changeDate(event);">
+                                <span id="reqjoined_date-{{ $p_arr }}{{ $p_arr2 }}" class="reqError text-danger valley"></span>
+                              </div>
+                              <div class="form-group level-drp">
+                                <label class="form-label" for="input-1">Status</label>
+                                <select class="form-control profmemstatus profmemstatus-{{ $p_arr }}{{ $p_arr2 }}" name="prof_membership_status[{{ $p_arr2 }}]" id="language-picker-select">
+                                  <option value="">Select Status</option>
+                                  <option value="Active - Current Member" @if(!empty($professional_membership) && $membership_status[$p_arr2] == "Active - Current Member") selected @endif>Active - Current Member</option>
+                                  <option value="Lapsed Member" @if(!empty($professional_membership) && $membership_status[$p_arr2] == "Lapsed Member") selected @endif>Lapsed Member</option>
+                                  <option value="Expired Member" @if(!empty($professional_membership) && $membership_status[$p_arr2] == "Expired Member") selected @endif>Expired Member</option>
+                                  <option value="Suspended Member" @if(!empty($professional_membership) && $membership_status[$p_arr2] == "Suspended Member") selected @endif>Suspended Member</option>
+                                  <option value="Inactive Member" @if(!empty($professional_membership) && $membership_status[$p_arr2] == "Inactive Member") selected @endif>Inactive Member</option>
+                                  <option value="Non-Renewed Member" @if(!empty($professional_membership) && $membership_status[$p_arr2] == "Non-Renewed Member") selected @endif>Non-Renewed Member</option>
+                                  <option value="Pending Membership Approval" @if(!empty($professional_membership) && $membership_status[$p_arr2] == "Pending Membership Approval") selected @endif>Pending Membership Approval</option>
+                                  <option value="Membership Renewal Pending" @if(!empty($professional_membership) && $membership_status[$p_arr2] == "Membership Renewal Pending") selected @endif>Membership Renewal Pending</option>
+          
+                                </select>
+                                <span id="reqmembership_status-{{ $p_arr }}{{ $p_arr2 }}" class="reqError text-danger valley"></span>
+                              </div>
+                              <div class="form-group level-drp">
+                                <label class="form-label award_recognition_label-{{ $p_arr }}{{ $p_arr2 }}" for="input-1">Awards & Recognitions:</label>
+                                <?php
+                                  $award_recognitions = (array)json_decode($professional_membership->award_recognitions);
+
+                                  if(!empty($award_recognitions)){
+                                    $award_data = (array)$award_recognitions[$p_arr2];
+                                  }else{
+                                    $award_data = array();
+                                  }
+                                  
+                                  //print_r($award_data);
+                                  $award_arr = array();
+
+                                  foreach ($award_data as $aw_data) {
+                                    $award_arr[] = array_search($aw_data, $award_data);
+                                  }
+                              
+                                  
+                                  $award_json = json_encode($award_arr);
+                                ?>
+                                <input type="hidden" name="award_list" class="award_list award_list-{{ $p_arr2 }}" value="{{ $p_arr2 }}">   
+                                <input type="hidden" name="awards_recognition_input" class="awards_recognition_input-{{ $p_arr2 }}" value='<?php echo $award_json; ?>'>
+                                <ul id="awards_recognitions-{{ $p_arr }}{{ $p_arr2 }}" style="display:none;">
+                                  @if(!empty($awards_recognitions))
+                                  @foreach($awards_recognitions as $a_reg)
+                                  <li data-value="{{ $a_reg->award_id }}">{{ $a_reg->award_name }}</li>
+                                  
+                                  @endforeach
+                                  @endif
+                                </ul>
+                                <select class="award_recog-{{ $p_arr }}{{ $p_arr2 }} js-example-basic-multiple addAll_removeAll_btn" data-list-id="awards_recognitions-{{ $p_arr }}{{ $p_arr2 }}" name="awards_recognitions[]" onchange="subaward_recognitions('edit',{{ $p_arr }},{{ $p_arr2 }})" multiple="multiple"></select>
+                                <span id="reqawards_recognitions-{{ $p_arr }}{{ $p_arr2 }}" class="reqError text-danger valley"></span>
+                              </div>
+                              <div class="show_award_reg-{{ $p_arr }}{{ $p_arr2 }}">
+                                @foreach ($award_arr as $a_reg_arr)
+                                <?php
+                                  $sub_award_data = $award_data[$a_reg_arr];
+                                  $subawards_name = DB::table("awards_recognitions")->where("award_id",$a_reg_arr)->first();
+                                  //print_r($award_data[$a_reg_arr]);
+                                  $subawards_recognition = DB::table("awards_recognitions")->where("sub_award_id",$a_reg_arr)->get();
+                                  $subawards_recognition_json = json_encode($sub_award_data);
+                                ?>
+                                <div class="form-group level-drp award_div award_country_div-{{ $a_reg_arr }}">
+                                  <label class="form-label subaward_label subaward_label-{{ $p_arr2 }}{{ $a_reg_arr }}" for="input-1">{{ $subawards_name->award_name }}</label>
+                                  <input type="hidden" name="sub_award_list" class="subaward_list subaward_list-{{ $a_reg_arr }}" value='<?php echo $a_reg_arr; ?>'>
+                                  <input type="hidden" name="subawards_recognition_input" class="subawards_recognition_input-{{ $p_arr2 }}{{ $a_reg_arr }}" value='<?php echo $subawards_recognition_json; ?>'>
+                                  <ul id="award_reg-{{ $p_arr2 }}{{ $a_reg_arr }}" style="display:none;">
+                                    @if(!empty($subawards_recognition))
+                                    
+                                    @foreach($subawards_recognition as $a_reg)
+                                    <li data-value="{{ $a_reg->award_id }}">{{ $a_reg->award_name }}</li>
+                                    @endforeach
+                                    @endif
+                                  </ul><select class="sub_award_org sub_award_org-{{ $p_arr2 }}{{ $a_reg_arr }} js-example-basic-multiple addAll_removeAll_btn" data-list-id="award_reg-{{ $p_arr2 }}{{ $a_reg_arr }}" id="award_organization_select-{{ $a_reg_arr }}" name="award_organization[{{ $p_arr2 }}][{{ $a_reg_arr }}][]" multiple="multiple">
+                                  </select>
+                                  <span id="reqsubawards_recognitions-{{ $p_arr2 }}{{ $a_reg_arr }}" class="reqError text-danger valley"></span>
+                                </div>    
+                              </div>
+                                <div class="form-group level-drp">
+                                  <?php
+                                    $user_id = Auth::guard('nurse_middle')->user()->id;  
+                                  ?>
+                                  <label class="form-label" for="input-1">Upload Evidence</label>
+                                  <input class="form-control membership_evidence-{{ $p_arr2 }}" type="file" name="membership_evidence[{{ $p_arr2 }}][]" onchange="changeEvidenceImg({{ $user_id }},{{ $p_arr2 }})" multiple>
+                                </div>
+                                <div class="memb_evdence-{{ $p_arr2 }}">
+                                  <?php
+                                    if($professional_membership->evidence_imgs){
+                                      $evidence_imgs = (array)json_decode($professional_membership->evidence_imgs);
+                                      $evorgimg = $evidence_imgs[$p_arr2];
+                                      //print_r($evorgimg);
+                                      $i = 0;
+                                      ?>
+                                      @if(!empty($evorgimg))
+                                      @foreach ($evorgimg as $ev_img)
+                                      <div class="trans_img trans_img-{{ $i+1 }}">
+                                        <a href=""><i class="fa fa-file" aria-hidden="true"></i>{{ $ev_img }}</a>
+                                        <div class="close_btn close_btn-' + i + '" onclick="deleteEvidenceImg({{ $i+1 }},{{ $user_id }},'{{ $ev_img }}',{{ $p_arr2 }})" style="cursor: pointer;"><i class="fa fa-close" aria-hidden="true"></i></div>
+                                      </div>
+                                      <?php
+                                        $i++;
+                                      ?>
+                                      @endforeach
+                                      @endif
+                                      <?php
+                                    }
+                                    //print_r($evidence_imgs);
+                                  ?>
+                                </div>
+                              
+                                @endforeach
+                              </div>
                               @endforeach
+                              
+                            </div>  
+                            <?php
+                              $j++
+                            ?>
                             </div>
-                            @endforeach
-                            
-                          </div>  
+                          @endforeach
+                          
+                          </div>
+                          
                           <?php
-                            $j++
+                            $i++
                           ?>
                           </div>
                         @endforeach
-                        
-                        </div>
-                        
-                        <?php
-                          $i++
-                        ?>
-                        </div>
-                      @endforeach
+                      </div>
                     </div>
-{{--                     
-                    <div class="form-group level-drp">
-                      <label class="form-label" for="input-1">Organization Name</label>
-                      <input type="hidden" name="organization_name" class="organization_name" value="@if(!empty($professional_membership)){{ $professional_membership->des_profession_association }}@endif">
-                      <ul id="des_profession_association" style="display:none;">
-                        
-                        <li data-value="ANA">ANA</li>
-                        <li data-value="ENA">ENA</li>
-
-                      </ul>
-                      <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="des_profession_association" name="des_profession_association[]" multiple="multiple"></select>
-                      <span id="reqorg_name" class="reqError text-danger valley"></span>
-                    </div> --}}
-                    
+                    <div class="declaration_box">
+                      <input type="checkbox" name="professional_declare_information" class="professional_declare_information" value="1" @if(!empty($professional_membership) && $professional_membership->declare_info == "1") checked @endif>
+                      <label for="declare_information">I declare that the information provided is true and correct</label>
+                      
+                    </div>
+                    <span id="reqdeclare_information_profess" class="reqError text-danger valley"></span>
                     
                     <div class="box-button mt-15">
                       <button class="btn btn-apply-big font-md font-bold" type="submit" id="submitProfessionalMembership">Save Changes</button>
@@ -618,6 +627,16 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
 })
 .appendTo( $wrapper );
 
+$('.profmemaward').on('change', function() {
+  console.log( this.value );
+  var value = this.value;
+
+  if(value == "Yes"){
+    $(".profess_fields").removeClass("d-none");
+  }else{
+    $(".profess_fields").addClass("d-none");
+  }
+});
  
   
   $('.js-example-basic-multiple[data-list-id="organization_country"]').on('change', function() {
@@ -625,6 +644,7 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
     console.log("selectedValues",selectedValues);
     //$(".show_country_org").empty();
 
+    
     $(".country_org_list").each(function(i,val){
       var val = $(val).val();
       console.log("val",$(val).val());
@@ -637,7 +657,10 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
     
     for(var i=0;i<selectedValues.length;i++){
       //alert($(".organization_input-"+selectedValues[i]).val());
+
+      
       if($(".show_country_org .organization_country_div-"+selectedValues[i]).length < 1 ){
+        $("#submitProfessionalMembership").attr("disabled", true);
         $.ajax({
           type: "GET",
           url: "{{ url('/nurse/getCountryOrgnizations') }}",
@@ -671,7 +694,7 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
             
             selectTwoFunction(data1.organization_id);
             sub_organization('',data1.organization_id,i);
-            
+            $("#submitProfessionalMembership").removeAttr("disabled");
           }
         });
       }
@@ -706,6 +729,7 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
         
 
         if($(".show_subcountry_org-"+country_org+" .organization_subcountry_div-"+selectedValues[i]).length < 1){
+          $("#submitProfessionalMembership").attr("disabled", true);
           $.ajax({
             type: "GET",
             url: "{{ url('/nurse/getCountrySubOrgnizations') }}",
@@ -736,6 +760,7 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
               selectTwoFunction(country_org+data1.organization_id);
               
               memberships_type('',country_org,data1.organization_id,k,i);
+              $("#submitProfessionalMembership").removeAttr("disabled");
             }
           });
         }
@@ -767,6 +792,7 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
         for(var i=0;i<selectedValues.length;i++){
           
           if($(".show_subcountry_org-"+country_org+" .organization_subcountry_div-"+selectedValues[i]).length < 1){
+            $("#submitProfessionalMembership").attr("disabled", true);
             $.ajax({
               type: "GET",
               url: "{{ url('/nurse/getCountrySubOrgnizations') }}",
@@ -799,6 +825,8 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
                 selectTwoFunction(country_org+data1.organization_id);
                 
                 memberships_type('',country_org,data1.organization_id,k,i);
+
+                $("#submitProfessionalMembership").removeAttr("disabled");
               }
             });
           }
@@ -824,6 +852,7 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
     
       for(var i=0;i<selectedValues.length;i++){
         if($(".show_membership_type-"+country_org+organization_id+" .membership_type_div-"+selectedValues[i]).length < 1){
+          $("#submitProfessionalMembership").attr("disabled", true);
           $.ajax({
             type: "GET",
             url: "{{ url('/nurse/getMembershipData') }}",
@@ -889,6 +918,8 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
                 selectTwoFunction(country_org+data1.organization_id);
                 submemberships_type('',country_org,data1.organization_id,organization_id,k,l,i);
                 subaward_recognitions('',country_org,data1.organization_id);
+
+                $("#submitProfessionalMembership").removeAttr("disabled");
             }
           });
         
@@ -912,6 +943,7 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
 
         for(var i=0;i<selectedValues.length;i++){
           if($(".show_membership_type-"+country_org+organization_id+" .membership_type_div-"+selectedValues[i]).length < 1){
+            $("#submitProfessionalMembership").attr("disabled", true);
             $.ajax({
               type: "GET",
               url: "{{ url('/nurse/getMembershipData') }}",
@@ -976,6 +1008,8 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
                 selectTwoFunction(country_org+data1.organization_id);
                 submemberships_type('',country_org,data1.organization_id,organization_id,k,l,i);
                 subaward_recognitions('',country_org,data1.organization_id);
+
+                $("#submitProfessionalMembership").removeAttr("disabled");
               }
             });
           
@@ -1004,6 +1038,7 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
       for(var i=0;i<selectedValues.length;i++){
     
         if($(".show_award_reg-"+country_org+organization_id+" .award_country_div-"+selectedValues[i]).length < 1){
+          $("#submitProfessionalMembership").attr("disabled", true);
           $.ajax({
             type: "GET",
             url: "{{ url('/nurse/getawardsRecognitions') }}",
@@ -1027,7 +1062,7 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
               $(".show_award_reg-"+country_org+organization_id).append('<div class="form-group level-drp award_div award_country_div-'+data1.organization_id+'"><label class="form-label subaward_label subaward_label-'+organization_id+data1.organization_id+'" for="input-1">'+data1.award_name+'</label><input type="hidden" name="subaward_list" class="subaward_list subaward_list-'+data1.organization_id+'" value="'+data1.organization_id+'"><ul id="award_reg-'+data1.organization_id+'" style="display:none;">'+org_text+'</ul><select class="sub_award_org sub_award_org-'+organization_id+data1.organization_id+' js-example-basic-multiple'+organization_id+data1.organization_id+' addAll_removeAll_btn" data-list-id="award_reg-'+data1.organization_id+'" id="award_organization_select-'+data1.organization_id+'" name="award_organization['+organization_id+']['+data1.organization_id+'][]" multiple="multiple"></select><span id="reqsubawards_recognitions-'+organization_id+data1.organization_id+'" class="reqError text-danger valley"></span></div>');
                 //alert(organization_id+data1.organization_id);
               selectTwoFunction(organization_id+data1.organization_id);
-              
+              $("#submitProfessionalMembership").removeAttr("disabled");
             }
           });
         }
@@ -1049,6 +1084,7 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
         for(var i=0;i<selectedValues.length;i++){
       
           if($(".show_award_reg-"+country_org+organization_id+" .award_country_div-"+selectedValues[i]).length < 1){
+            $("#submitProfessionalMembership").attr("disabled", true);
             $.ajax({
               type: "GET",
               url: "{{ url('/nurse/getawardsRecognitions') }}",
@@ -1072,7 +1108,7 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
                 $(".show_award_reg-"+country_org+organization_id).append('<div class="form-group level-drp award_div award_country_div-'+data1.organization_id+'"><label class="form-label subaward_label subaward_label-'+organization_id+data1.organization_id+'" for="input-1">'+data1.award_name+'</label><input type="hidden" name="subaward_list" class="subaward_list subaward_list-'+data1.organization_id+'" value="'+data1.organization_id+'"><ul id="award_reg-'+data1.organization_id+'" style="display:none;">'+org_text+'</ul><select class="sub_award_org sub_award_org-'+organization_id+data1.organization_id+' js-example-basic-multiple'+organization_id+data1.organization_id+' addAll_removeAll_btn" data-list-id="award_reg-'+data1.organization_id+'" id="award_organization_select-'+data1.organization_id+'" name="award_organization['+organization_id+']['+data1.organization_id+'][]" multiple="multiple"></select><span id="reqsubawards_recognitions-'+organization_id+data1.organization_id+'" class="reqError text-danger valley"></span></div>');
                 
                 selectTwoFunction(organization_id+data1.organization_id);
-                
+                $("#submitProfessionalMembership").removeAttr("disabled");
               }
             });
           }
@@ -1100,6 +1136,7 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
 
       for(var i=0;i<selectedValues.length;i++){
         if($(".show_submembership_type-"+country_org+organization_id1+organization_id+" .submembership_type_div-"+selectedValues[i]).length < 1){
+          $("#submitProfessionalMembership").attr("disabled", true);
           $.ajax({
             type: "GET",
             url: "{{ url('/nurse/getSubMembershipData') }}",
@@ -1119,6 +1156,7 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
               $(".show_submembership_type-"+country_org+organization_id1+organization_id).append('<div class="submembership_type_div-'+country_org+'-'+data1.organization_id+'"><div class="form-group level-drp o_country_div-'+country_org+' ed-o_subcountry_div-'+organization_id1+' ed-o_membtype_div-'+organization_id+' submembership_type_div submembership_type_div-'+data1.organization_id+' ed-submembership_type_div-'+data1.organization_id+'"><label class="form-label submembership_type_label submembership_type_label-'+country_org+'-'+data1.organization_id+'" for="input-1">'+data1.organization_name+'</label><input type="hidden" name="submemb_list" class="submemb_list submemb_list-'+country_org+'-'+data1.organization_id+'" value="'+data1.organization_id+'"><ul id="submembership_type-'+data1.organization_id+'-'+organization_id+'" style="display:none;">'+membership_text+'</ul><select class="submemb_valid submemb_valid-'+country_org+'-'+data1.organization_id+' js-example-basic-multiple'+country_org+organization_id1+organization_id+' addAll_removeAll_btn" data-list-id="submembership_type-'+data1.organization_id+'-'+organization_id+'" id="subcountry_organization_select" name="submembership_type['+country_org+']['+organization_id1+']['+organization_id+']['+data1.organization_id+'][]" multiple="multiple"></select><span id="reqsubmem_org-'+country_org+'-'+data1.organization_id+'" class="reqError text-danger valley"></span></div>');
               selectTwoFunction(country_org+organization_id1+organization_id);
               
+              $("#submitProfessionalMembership").removeAttr("disabled");
               
             }
           });
@@ -1143,6 +1181,7 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
 
         for(var i=0;i<selectedValues.length;i++){
           if($(".show_submembership_type-"+country_org+organization_id1+organization_id+" .submembership_type_div-"+selectedValues[i]).length < 1){
+            $("#submitProfessionalMembership").attr("disabled", true);
             $.ajax({
               type: "GET",
               url: "{{ url('/nurse/getSubMembershipData') }}",
@@ -1162,7 +1201,7 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
                 $(".show_submembership_type-"+country_org+organization_id1+organization_id).append('<div class="submembership_type_div-'+country_org+'-'+data1.organization_id+'"><div class="form-group level-drp o_country_div-'+country_org+' ed-o_subcountry_div-'+organization_id1+' ed-o_membtype_div-'+organization_id+' submembership_type_div submembership_type_div-'+data1.organization_id+' ed-submembership_type_div-'+data1.organization_id+'"><label class="form-label submembership_type_label submembership_type_label-'+country_org+'-'+data1.organization_id+'" for="input-1">'+data1.organization_name+'</label><input type="hidden" name="submemb_list" class="submemb_list submemb_list-'+country_org+'-'+data1.organization_id+'" value="'+data1.organization_id+'"><ul id="submembership_type-'+data1.organization_id+'-'+organization_id+'" style="display:none;">'+membership_text+'</ul><select class="submemb_valid submemb_valid-'+country_org+'-'+data1.organization_id+' js-example-basic-multiple'+country_org+organization_id1+organization_id+' addAll_removeAll_btn" data-list-id="submembership_type-'+data1.organization_id+'-'+organization_id+'" id="subcountry_organization_select" name="submembership_type['+country_org+']['+organization_id1+']['+organization_id+']['+data1.organization_id+'][]" multiple="multiple"></select><span id="reqsubmem_org-'+country_org+'-'+data1.organization_id+'" class="reqError text-danger valley"></span></div>');
                 selectTwoFunction(country_org+organization_id1+organization_id);
                 
-                
+                $("#submitProfessionalMembership").removeAttr("disabled");
               }
             });
           }
@@ -1450,124 +1489,142 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
   function professional_membership_form() {
     var isValid = true;
 
-    if ($('[name="organization_country[]"]').val() == '') {
+    var profess_award = $(".profmemaward").val();
 
-      document.getElementById("reqorganization_country").innerHTML = "* Please select the Organization Country";
+    if ($('[name="profmemaward"]').val() == '') {
+
+      document.getElementById("professional_awards").innerHTML = "* Please select Yes or No";
       isValid = false;
 
     }
 
-    
-    $(".country_org_list").each(function(i,val) {
-      console.log("val",$(this).val());
-      var val1 = $(this).val();
-      var label_name1 = $(".organization_country_label-"+val1).text();
-      if ($(".country_org_valid-" + val1).length > 0) {
-        //console.log("reference_relationship-" + m, $(".reference_relationship-" + m).val());
-        if ($(".country_org_valid-" + val1).val() == '') {
-          document.getElementById("reqcountry_org-" + val1).innerHTML = "* Please enter the "+label_name1;
-          isValid = false;
-        }
+    if(profess_award == "Yes"){
+
+      if ($('[name="organization_country[]"]').val() == '') {
+
+        document.getElementById("reqorganization_country").innerHTML = "* Please select the Organization Country";
+        isValid = false;
+
       }
 
-      $(".subcountry_org_list").each(function(i,val) {
+      
+      $(".country_org_list").each(function(i,val) {
         console.log("val",$(this).val());
-        var val2 = $(this).val();
-        var label_name2 = $(".organization_subcountry_label-"+val1+val2).text();
-        if ($(".sub_country_org-" + val1+val2).length > 0) {
+        var val1 = $(this).val();
+        var label_name1 = $(".organization_country_label-"+val1).text();
+        if ($(".country_org_valid-" + val1).length > 0) {
           //console.log("reference_relationship-" + m, $(".reference_relationship-" + m).val());
-          if ($(".sub_country_org-" + val1+val2).val() == '') {
-            document.getElementById("reqsubcountry_org-" + val1+val2).innerHTML = "* Please enter the "+label_name2;
+          if ($(".country_org_valid-" + val1).val() == '') {
+            document.getElementById("reqcountry_org-" + val1).innerHTML = "* Please enter the "+label_name1;
             isValid = false;
           }
         }
 
-        
-      });
-
-      $(".subsubcountry_org_list").each(function(i,val) {
-        console.log("val",$(this).val());
-        var val3 = $(this).val();
-        var label_name3 = $(".membership_type_label-"+val1+val3).text();
-        if ($(".membership_type_org-" + val1+val3).length > 0) {
-          //console.log("reference_relationship-" + m, $(".reference_relationship-" + m).val());
-          if ($(".membership_type_org-" + val1+val3).val() == '') {
-            document.getElementById("reqmembershiptype-" + val1+val3).innerHTML = "* Please enter the "+label_name3;
-            isValid = false;
-          }
-        }
-        $(".graduation_start_date").each(function(i,val) {
-          console.log("val12",val1+val3);
-          var val5 = $(this).val();
-          
-          if ($(".graduation_start_date-"+val1+val3).length > 0) {
+        $(".subcountry_org_list").each(function(i,val) {
+          console.log("val",$(this).val());
+          var val2 = $(this).val();
+          var label_name2 = $(".organization_subcountry_label-"+val1+val2).text();
+          if ($(".sub_country_org-" + val1+val2).length > 0) {
             //console.log("reference_relationship-" + m, $(".reference_relationship-" + m).val());
-            if ($(".graduation_start_date-"+val1+val3).val() == '') {
-              document.getElementById("reqjoined_date-"+val1+val3).innerHTML = "* Please enter the Joined Date";
+            if ($(".sub_country_org-" + val1+val2).val() == '') {
+              document.getElementById("reqsubcountry_org-" + val1+val2).innerHTML = "* Please enter the "+label_name2;
               isValid = false;
             }
           }
+
+          
         });
 
-        $(".profmemstatus").each(function(i,val) {
-          console.log("val12",val1+val3);
-          var val5 = $(this).val();
-          
-          if ($(".profmemstatus-"+val1+val3).length > 0) {
+        $(".subsubcountry_org_list").each(function(i,val) {
+          console.log("val",$(this).val());
+          var val3 = $(this).val();
+          var label_name3 = $(".membership_type_label-"+val1+val3).text();
+          if ($(".membership_type_org-" + val1+val3).length > 0) {
             //console.log("reference_relationship-" + m, $(".reference_relationship-" + m).val());
-            if ($(".profmemstatus-"+val1+val3).val() == '') {
-              document.getElementById("reqmembership_status-"+val1+val3).innerHTML = "* Please enter the Membership Status";
+            if ($(".membership_type_org-" + val1+val3).val() == '') {
+              document.getElementById("reqmembershiptype-" + val1+val3).innerHTML = "* Please enter the "+label_name3;
               isValid = false;
             }
           }
-        });
-
-        $(".award_list").each(function(i,val) {
-          var award_val = $(this).val();
-          console.log("award_recog1", val1);
-          console.log("award_recog2", val3);
-          if ($(".award_recog-"+val1+val3).length > 0) {
-            //console.log("reference_relationship-" + m, $(".reference_relationship-" + m).val());
-            if ($(".award_recog-"+val1+val3).val() == '') {
-              document.getElementById("reqawards_recognitions-"+val1+val3).innerHTML = "* Please enter the Awards & Recognitions";
-              isValid = false;
-            }
-          }
-          $(".subaward_list").each(function(i,val) {
-          
-            console.log("val",$(this).val());
-            var val6 = $(this).val();
-            var label_name5 = $(".subaward_label-"+val3+val6).text();
-            if ($(".sub_award_org-"+val3+val6).length > 0) {
+          $(".graduation_start_date").each(function(i,val) {
+            console.log("val12",val1+val3);
+            var val5 = $(this).val();
+            
+            if ($(".graduation_start_date-"+val1+val3).length > 0) {
               //console.log("reference_relationship-" + m, $(".reference_relationship-" + m).val());
-              if ($(".sub_award_org-"+val3+val6).val() == '') {
-                document.getElementById("reqsubawards_recognitions-"+val3+val6).innerHTML = "* Please enter the "+label_name5;
+              if ($(".graduation_start_date-"+val1+val3).val() == '') {
+                document.getElementById("reqjoined_date-"+val1+val3).innerHTML = "* Please enter the Joined Date";
                 isValid = false;
               }
             }
           });
+
+          $(".profmemstatus").each(function(i,val) {
+            console.log("val12",val1+val3);
+            var val5 = $(this).val();
+            
+            if ($(".profmemstatus-"+val1+val3).length > 0) {
+              //console.log("reference_relationship-" + m, $(".reference_relationship-" + m).val());
+              if ($(".profmemstatus-"+val1+val3).val() == '') {
+                document.getElementById("reqmembership_status-"+val1+val3).innerHTML = "* Please enter the Membership Status";
+                isValid = false;
+              }
+            }
+          });
+
+          $(".award_list").each(function(i,val) {
+            var award_val = $(this).val();
+            console.log("award_recog1", val1);
+            console.log("award_recog2", val3);
+            if ($(".award_recog-"+val1+val3).length > 0) {
+              //console.log("reference_relationship-" + m, $(".reference_relationship-" + m).val());
+              if ($(".award_recog-"+val1+val3).val() == '') {
+                document.getElementById("reqawards_recognitions-"+val1+val3).innerHTML = "* Please enter the Awards & Recognitions";
+                isValid = false;
+              }
+            }
+            $(".subaward_list").each(function(i,val) {
+            
+              console.log("val",$(this).val());
+              var val6 = $(this).val();
+              var label_name5 = $(".subaward_label-"+val3+val6).text();
+              if ($(".sub_award_org-"+val3+val6).length > 0) {
+                //console.log("reference_relationship-" + m, $(".reference_relationship-" + m).val());
+                if ($(".sub_award_org-"+val3+val6).val() == '') {
+                  document.getElementById("reqsubawards_recognitions-"+val3+val6).innerHTML = "* Please enter the "+label_name5;
+                  isValid = false;
+                }
+              }
+            });
+          });
+
+          
+        });
+
+        $(".submemb_list").each(function(i,val) {
+          console.log("val",$(this).val());
+          var val4 = $(this).val();
+          var label_name4 = $(".submembership_type_label-"+val1+"-"+val4).text();
+          if ($(".submemb_valid-"+val1+"-"+val4).length > 0) {
+            //console.log("reference_relationship-" + m, $(".reference_relationship-" + m).val());
+            if ($(".submemb_valid-"+val1+"-"+val4).val() == '') {
+              document.getElementById("reqsubmem_org-"+val1+"-"+val4).innerHTML = "* Please enter the "+label_name4;
+              isValid = false;
+            }
+          }
         });
 
         
       });
+    }
 
-      $(".submemb_list").each(function(i,val) {
-        console.log("val",$(this).val());
-        var val4 = $(this).val();
-        var label_name4 = $(".submembership_type_label-"+val1+"-"+val4).text();
-        if ($(".submemb_valid-"+val1+"-"+val4).length > 0) {
-          //console.log("reference_relationship-" + m, $(".reference_relationship-" + m).val());
-          if ($(".submemb_valid-"+val1+"-"+val4).val() == '') {
-            document.getElementById("reqsubmem_org-"+val1+"-"+val4).innerHTML = "* Please enter the "+label_name4;
-            isValid = false;
-          }
-        }
-      });
-
+    if ($(".professional_declare_information").prop('checked') == false) {
       
-    });
+      document.getElementById("reqdeclare_information_profess").innerHTML = "* Please check this checkbox";
+      isValid = false;
+    }
 
-    
+   
     
     if (isValid == true) {
 

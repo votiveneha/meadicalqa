@@ -428,17 +428,17 @@ i.fa.fa-file {
 
                       <div class="form-group ">
                         <label class="font-sm color-text-mutted mb-10">Upload Evidence*</label>
-                        <input class="form-control fileInput" type="file" name="ndis_evidence" id="{{$ndis!=''?($ndis['evidence_file']!=''?'':'ndis_evidence'):'ndis_evidence'}}">
+                        <input class="form-control fileInput" type="file" name="ndis_evidence" id="{{ $ndis!=''?($ndis['evidence_file']!=''?'':'ndis_evidence'):'ndis_evidence'}}">
                         <span id="reqTxtclearance_expiry_dataI" class="reqError text-danger valley"></span>
                         <div id="fileList" class="file-list">
-                          <?php if($ndis['evidence_file']!=''){ ?>  
+                          <?php if($ndis!=''){ if($ndis['evidence_file']!=''){ ?>  
                             <div class="file-item">
                                 <a href="{{ asset('uploads/support_document/' . $ndis['evidence_file']) }}" target="_blank"><i class="fa fa-file" aria-hidden="true"></i> {{$ndis['original_file_name']}}</a>
                                 <div class="close_btn close_btn-0 del_ndis_eve" eve_id="{{$ndis['evidence_file']}}" style="cursor: pointer;">
                                     <i class="fa fa-close" aria-hidden="true"></i>
                                 </div>
                             </div>
-                          <?php } ?>
+                          <?php } } ?>
                         </div>
                         
                       </div>
@@ -602,52 +602,7 @@ i.fa.fa-file {
                         </div>
                       </div>
 
-                      <!--?php
-                        if ($policy_check != null) {
-                          $status = $policy_check->status;
-                          if ($status == '2') {
-                            echo  '<br> <div>Status:  <span class="btn-danger badge badge-danger">Rejected</span></div>';
-                      ?>
-                      <input type="hidden" name="action" value="1">
-                        <div class="alert alert-danger mt-2" role="alert">Reason : Your Detail has been rejectd due
-                          <b> {{ $policy_check->reason }} </b> . Please Resubmit the details.
-                        </div>
-                        <div class="col-lg-12 col-md-12">
-                          <label>
-                            <input class="float-start mr-5 mt-6" type="checkbox" id="policy_confirm" name="is_declare"> I declare that my Police Clearance and legal record remain unchanged since the date of issue.
-                           <br> <span id="reqTxtconfirmationCheckboxPoliceCheckI" class="reqError text-danger valley"></span>
-                          </label>
-                          
-
-                          <div class="d-flex align-items-center justify-content-between">
-                            <button onclick="do_police_check()" class="btn btn-default px-5 py-8  rounded-2 mb-0 submit-btn-120" type="submit"><span class="resetpassword">Re-Submit</span>
-                              <div class="spinner-border submit-btn-1" role="status" style="display:none;">
-                                <span class="sr-only">Loading...</span>
-                              </div>
-                            </button>                            </div>
-                          </div>
-                        </div>
-                      <!?php } elseif ($status == '0') {
-                          echo  '<div> Status: <span class="btn-warning badge badge-warning">Pending</span> </div>';
-                          echo ' <div class="alert alert-warning mt-2 " role="alert">
-                                     Your request has been successfully submitted.Its in pending state, We will back to you as soon as possible.
-                            </div>';
-                         } elseif ($status == '1') {
-                          echo  '<div>Status: <span class="btn-success badge badge-success">Approved</span> </div>';
-                        } else {
-                      ?>
-                      <div class="d-flex align-items-center justify-content-between">
-                        <button onclick="doprofession()" @if(!email_verified()) disabled @endif class="btn btn-default px-5 py-8  rounded-2 mb-0 submit-btn-120" type="submit"><span class="resetpassword">Submit</span>
-                          <div class="spinner-border submit-btn-1" role="status" style="display:none;">
-                            <span class="sr-only">Loading...</span>
-                          </div>
-                        </button>
-                      </div>
-                      <!?php
-                        } } else {
-                      ?>
                       
-                      <!?php } ?-->
                     </div>
                   </form>
                 </div>

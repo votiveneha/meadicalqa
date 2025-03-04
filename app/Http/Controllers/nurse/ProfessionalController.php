@@ -634,6 +634,8 @@ class ProfessionalController extends Controller
         $awards_recognitions = $request->awards_recognitions;
         $award_organization = json_encode($request->award_organization);
         $membership_evidence = $request->file('membership_evidence');
+        $declaration_status = $request->professional_declare_information;
+        $profmemaward = $request->profmemaward;
 
         //print_r($membership_evidence);die;
 
@@ -644,29 +646,42 @@ class ProfessionalController extends Controller
 
         if(!empty($professional_membership_data)){
            
-            ProfessionalAssocialtionModel::where('user_id',$user_id)->update(['organization_data'=>$submembership_type,'des_profession_association'=>$des_profession_association,'date_joined'=>$date_joined,'membership_status'=>$membership_status,'award_recognitions'=>$award_organization]);
+            ProfessionalAssocialtionModel::where('user_id',$user_id)->update(['organization_data'=>$submembership_type,'des_profession_association'=>$des_profession_association,'date_joined'=>$date_joined,'membership_status'=>$membership_status,'award_recognitions'=>$award_organization,'declare_info'=>$declaration_status]);
             $run = 1;
         }else{
-            $img_arr = array();
-            foreach($subcountry_organization as $s_org){
-                foreach($s_org as $s_org1){
-                    foreach($s_org1 as $s_org2){
-                        
-                        $memimgs = Helpers::multipleFileUpload($membership_evidence[$s_org2], '');
-                        $img_arr[$s_org2] = json_decode($memimgs);
+            if($profmemaward == "Yes"){
+                $img_arr = array();
+                if(!empty($subcountry_organization)){
+                    foreach($subcountry_organization as $s_org){
+                        foreach($s_org as $s_org1){
+                            foreach($s_org1 as $s_org2){
+                                
+                                $memimgs = Helpers::multipleFileUpload($membership_evidence[$s_org2], '');
+                                $img_arr[$s_org2] = json_decode($memimgs);
+                            }
+                        }
                     }
                 }
-            }
 
-            $post = new ProfessionalAssocialtionModel();
-            $post->user_id = $user_id;
-            $post->organization_data = $submembership_type;
-            $post->des_profession_association = $des_profession_association;
-            $post->date_joined = $date_joined;
-            $post->membership_status = $membership_status;
-            $post->award_recognitions = $award_organization;
-            $post->evidence_imgs = json_encode($img_arr);
-            $run = $post->save();
+            
+                $post = new ProfessionalAssocialtionModel();
+                $post->user_id = $user_id;
+                $post->organization_data = $submembership_type;
+                $post->des_profession_association = $des_profession_association;
+                $post->date_joined = $date_joined;
+                $post->membership_status = $membership_status;
+                $post->award_recognitions = $award_organization;
+                $post->evidence_imgs = json_encode($img_arr);
+                $post->award_status = $profmemaward;
+                $post->declare_info = $declaration_status;
+                $run = $post->save();
+            }else{
+                $post = new ProfessionalAssocialtionModel();
+                $post->user_id = $user_id;
+                $post->award_status = $profmemaward;
+                $post->declare_info = $declaration_status;
+                $run = $post->save();
+            }
             
         }
         

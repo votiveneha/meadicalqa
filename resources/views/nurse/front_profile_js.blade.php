@@ -1495,17 +1495,19 @@
                 ?>
                 @foreach($speciality_surgical_data as $ssd)
                 <input type="hidden" name="speciality_result" class="speciality_surgical_result_experience-${previous_employeers_head}-{{ $w }}" value="{{ $ssd->id }}">
-                <div class="surgical_row_experience-${previous_employeers_head}-{{ $w }} surgical_sub-${previous_employeers_head}  surgicalopcboxes-{{ $ssd->id }} form-group drp--clr d-none drpdown-set">
-                    <label class="form-label" for="input-1">{{ $ssd->name }}</label>
+                <div class="surgical_row_experience-${previous_employeers_head}-{{ $w }} surgical_sub-${previous_employeers_head}  surgicalopcboxes-{{ $ssd->id }} form-group drp--clr d-none drpdown-set surgicalspeciality_exps_${previous_employeers_head}{{ $w }}">
+                    <label class="form-label surgicalspeciality_name_label-${previous_employeers_head}{{ $w }}" for="input-1">{{ $ssd->name }}</label>
                     <?php
                     $speciality_surgicalsub_data = DB::table("speciality")->where('parent', $ssd->id)->get();
                     ?>
+                    <input type="hidden" name="surgical_specialities_input" class="surgical_specialities_input surgical_specialities_input-${previous_employeers_head}" value="{{ $w }}">
                     <ul id="surgical_operative_care_experience-${previous_employeers_head}-{{ $w }}" style="display:none;">
                     @foreach($speciality_surgicalsub_data as $sssd)
                     <li data-value="{{ $sssd->id }}">{{ $sssd->name }}</li>
                     @endforeach
                     </ul>
-                    <select class="js-example-basic-multiple${previous_employeers_head} addAll_removeAll_btn" data-list-id="surgical_operative_care_experience-${previous_employeers_head}-{{ $w }}" name="surgical_operative_care_exp_{{ $w }}[${previous_employeers_head}][]" multiple="multiple"></select>
+                    <select class="surgicalspecialities-${previous_employeers_head} surgicalspecialities-${previous_employeers_head}{{ $w }} js-example-basic-multiple${previous_employeers_head} addAll_removeAll_btn" data-list-id="surgical_operative_care_experience-${previous_employeers_head}-{{ $w }}" name="surgical_operative_care_exp_{{ $w }}[${previous_employeers_head}][]" multiple="multiple"></select>
+                    <span id="reqsurgicalspecialities-${previous_employeers_head}{{ $w }}" class="reqError text-danger valley"></span>
                     @foreach($speciality_surgicalsub_data as $sssd)
 
 
