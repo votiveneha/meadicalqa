@@ -554,12 +554,13 @@ i.fa.fa-file {
                   <form id="multi-step-form-police-check" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
-                      <?php
+                    <?php
                       
-                      $issuance_date=$evidence_file='';
+                      $issuance_date=$evidence_file='';$is_declare=0;
                       if($policy_check!='' || $policy_check!=null){
                         $issuance_date=$policy_check['issuance_date'];
                         $evidence_file=$policy_check['evidence_file'];
+                        $is_declare=$policy_check['is_declare'];
                       } ?>
                       <div class="form-group ">
                         <label class="font-sm color-text-mutted mb-10">Date of issuance *</label>
@@ -587,7 +588,7 @@ i.fa.fa-file {
                       </div>
                       <div class="col-lg-12 col-md-12 declaration_box mb-3">
                       <label>
-                            <input class="float-start mr-5 mt-6" type="checkbox" id="policy_confirm" name="is_declare"> I declare that my Police Clearance and legal record remain unchanged since the date of issue.
+                            <input class="float-start mr-5 mt-6" type="checkbox" id="policy_confirm" name="is_declare" {{ $is_declare!=0?'checked':'' }}> I declare that my Police Clearance and legal record remain unchanged since the date of issue.
                            <br> <span id="reqTxtconfirmationCheckboxPoliceCheckI" class="reqError text-danger valley"></span>
                           </label>
                       </div>

@@ -2512,6 +2512,23 @@
 
     });
 
+    var a = 1;
+    $(".end_date").each(function(i,val) {
+        
+        if($('.end_date-'+a).is(':visible')){
+          
+          //console.log("x",st_value);
+          //var label_name = $(".nursing_type_label-"+st_value).text();
+          
+          if ($(".end_date-"+a).val() == '') {
+            document.getElementById("reqrefereeedate-" +a).innerHTML = "* Please select the End Date";
+            isValid = false;
+          }
+          
+        }
+        a++;
+      });
+      
     var n = 1;
     $(".worked_together").each(function() {
       if ($(".worked_together-" + n).length > 0) {
@@ -2531,11 +2548,8 @@
       document.getElementById("reqreference").innerHTML = "* Please check this checkbox";
       //$('.declaration_bottom').find('#reqreference').text('You must declare that the information is true and correct.');
       isValid = false;
-    } else {
-      // Clear the error message if checked
-      document.getElementById("reqreference").innerHTML = "";
-      isValid = true;
     }
+    
     if (isValid == true) {
       $('#reference_form').find('.text-danger').hide();
       $.ajax({
@@ -2951,9 +2965,11 @@
 
     if ($(".still_working-" + i).prop('checked') == true) {
       $(".working-" + i).hide();
+      $(".still_working1-"+i).val("1");
     } else {
       $(".working-" + i).show();
       $(".end_date-" + i).val("");
+      $(".still_working1-"+i).val("0");
     }
   }
 

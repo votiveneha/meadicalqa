@@ -326,6 +326,7 @@ class ProfessionalController extends Controller
     public function update_police_check_to_work(Request $request)
     {
         $policy['issuance_date'] = $request->issuance_date;
+        $policy['is_declare'] = $request->is_declare=='on'?1:0;
         
         if ($request->hasFile('clearance_document')) 
         {
@@ -646,7 +647,7 @@ class ProfessionalController extends Controller
 
         if(!empty($professional_membership_data)){
            
-            ProfessionalAssocialtionModel::where('user_id',$user_id)->update(['organization_data'=>$submembership_type,'des_profession_association'=>$des_profession_association,'date_joined'=>$date_joined,'membership_status'=>$membership_status,'award_recognitions'=>$award_organization,'declare_info'=>$declaration_status]);
+            ProfessionalAssocialtionModel::where('user_id',$user_id)->update(['organization_data'=>$submembership_type,'des_profession_association'=>$des_profession_association,'date_joined'=>$date_joined,'membership_status'=>$membership_status,'award_recognitions'=>$award_organization,'declare_info'=>$declaration_status,'award_status'=>$profmemaward]);
             $run = 1;
         }else{
             if($profmemaward == "Yes"){

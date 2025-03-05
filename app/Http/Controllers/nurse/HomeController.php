@@ -2073,9 +2073,9 @@ class HomeController extends Controller
         $position_with_referee = $request->position_with_referee;
         $start_date = $request->start_date;
         $end_date = $request->end_date;
-        $still_working = $request->still_working;
+        $still_working = $request->still_working1;
         $reference_no = $request->reference_no;
-
+        //print_r($still_working);die;
         $getrefereedata = DB::table("referee")->where("user_id", $user_id)->get();
 
         $referee_no_array = array();
@@ -2087,12 +2087,12 @@ class HomeController extends Controller
 
         for ($i = 0; $i < count($first_name); $i++) {
             if (in_array($i + 1, $referee_no_array)) {
-                if (isset($still_working[$i])) {
-                    $working = 1;
-                } else {
-                    $working = 0;
-                }
-                $run = AddReferee::where('user_id', $user_id)->where('referee_no', $i + 1)->update(['first_name' => $first_name[$i], 'last_name' => $last_name[$i], 'email' => $email[$i], 'phone_no' => $phone_no[$i], 'relationship' => $reference_relationship[$i], 'worked_together' => $worked_together[$i], 'position_with_referee' => $position_with_referee[$i], 'start_date' => $start_date[$i], 'end_date' => $end_date[$i], 'still_working' => $working, 'is_declare' => 1]);
+                // if (isset($still_working[$i])) {
+                //     $working = 1;
+                // } else {
+                //     $working = 0;
+                // }
+                $run = AddReferee::where('user_id', $user_id)->where('referee_no', $i + 1)->update(['first_name' => $first_name[$i], 'last_name' => $last_name[$i], 'email' => $email[$i], 'phone_no' => $phone_no[$i], 'relationship' => $reference_relationship[$i], 'worked_together' => $worked_together[$i], 'position_with_referee' => $position_with_referee[$i], 'start_date' => $start_date[$i], 'end_date' => $end_date[$i], 'still_working' => $still_working[$i], 'is_declare' => 1]);
             } else {
                 if (isset($still_working[$i])) {
                     $working = 1;

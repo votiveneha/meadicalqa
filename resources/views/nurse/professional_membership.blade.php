@@ -129,7 +129,7 @@
                       </select> 
                       <span id="professional_awards" class="reqError text-danger valley"></span>
                     </div>
-                    <div class="profess_fields d-none">
+                    <div class="profess_fields  @if(!empty($professional_membership) && $professional_membership->award_status == "No") d-none @endif">
                       <div class="form-group level-drp">
                         <label class="form-label" for="input-1">Organization Country:</label>
                         <?php
@@ -357,8 +357,8 @@
                                   //print_r($award_data);
                                   $award_arr = array();
 
-                                  foreach ($award_data as $aw_data) {
-                                    $award_arr[] = array_search($aw_data, $award_data);
+                                  foreach ($award_data as $index =>$aw_data) {
+                                    $award_arr[] = $index;
                                   }
                               
                                   
@@ -400,7 +400,8 @@
                                   </ul><select class="sub_award_org sub_award_org-{{ $p_arr2 }}{{ $a_reg_arr }} js-example-basic-multiple addAll_removeAll_btn" data-list-id="award_reg-{{ $p_arr2 }}{{ $a_reg_arr }}" id="award_organization_select-{{ $a_reg_arr }}" name="award_organization[{{ $p_arr2 }}][{{ $a_reg_arr }}][]" multiple="multiple">
                                   </select>
                                   <span id="reqsubawards_recognitions-{{ $p_arr2 }}{{ $a_reg_arr }}" class="reqError text-danger valley"></span>
-                                </div>    
+                                </div>  
+                                @endforeach
                               </div>
                                 <div class="form-group level-drp">
                                   <?php
@@ -434,7 +435,7 @@
                                   ?>
                                 </div>
                               
-                                @endforeach
+                                
                               </div>
                               @endforeach
                               
