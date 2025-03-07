@@ -554,7 +554,7 @@ i.fa.fa-file {
                   <form id="multi-step-form-police-check" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
-                    <?php
+                      <?php
                       
                       $issuance_date=$evidence_file='';$is_declare=0;
                       if($policy_check!='' || $policy_check!=null){
@@ -588,6 +588,7 @@ i.fa.fa-file {
                       </div>
                       <div class="col-lg-12 col-md-12 declaration_box mb-3">
                       <label>
+                      
                             <input class="float-start mr-5 mt-6" type="checkbox" id="policy_confirm" name="is_declare" {{ $is_declare!=0?'checked':'' }}> I declare that my Police Clearance and legal record remain unchanged since the date of issue.
                            <br> <span id="reqTxtconfirmationCheckboxPoliceCheckI" class="reqError text-danger valley"></span>
                           </label>
@@ -1556,7 +1557,7 @@ if (!empty($interviewReferenceData)) {
 
     if (!$('#policy_confirm').is(':checked')) {
       isValid = false;
-      $('#reqTxtconfirmationCheckboxPoliceCheckI').text('You must confirm before proceeding');
+      $('#reqTxtconfirmationCheckboxPoliceCheckI').text('Please check this checkbox');
     } else {
         $('#reqTxtconfirmationCheckboxPoliceCheckI').text('');
     }

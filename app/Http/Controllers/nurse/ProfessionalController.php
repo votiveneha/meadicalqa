@@ -647,7 +647,11 @@ class ProfessionalController extends Controller
 
         if(!empty($professional_membership_data)){
            
-            ProfessionalAssocialtionModel::where('user_id',$user_id)->update(['organization_data'=>$submembership_type,'des_profession_association'=>$des_profession_association,'date_joined'=>$date_joined,'membership_status'=>$membership_status,'award_recognitions'=>$award_organization,'declare_info'=>$declaration_status,'award_status'=>$profmemaward]);
+            if($profmemaward == "Yes"){
+                ProfessionalAssocialtionModel::where('user_id',$user_id)->update(['organization_data'=>$submembership_type,'des_profession_association'=>$des_profession_association,'date_joined'=>$date_joined,'membership_status'=>$membership_status,'award_recognitions'=>$award_organization,'award_question'=>$profmemaward,'declare_info'=>$declaration_status]);
+            }else{
+                ProfessionalAssocialtionModel::where('user_id',$user_id)->update(['organization_data'=>'','des_profession_association'=>'','date_joined'=>'','membership_status'=>'','award_recognitions'=>'','award_question'=>$profmemaward,'declare_info'=>$declaration_status]);
+            }
             $run = 1;
         }else{
             if($profmemaward == "Yes"){
@@ -673,13 +677,13 @@ class ProfessionalController extends Controller
                 $post->membership_status = $membership_status;
                 $post->award_recognitions = $award_organization;
                 $post->evidence_imgs = json_encode($img_arr);
-                $post->award_status = $profmemaward;
+                $post->award_question = $profmemaward;
                 $post->declare_info = $declaration_status;
                 $run = $post->save();
             }else{
                 $post = new ProfessionalAssocialtionModel();
                 $post->user_id = $user_id;
-                $post->award_status = $profmemaward;
+                $post->award_question = $profmemaward;
                 $post->declare_info = $declaration_status;
                 $run = $post->save();
             }

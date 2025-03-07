@@ -189,11 +189,14 @@ i.fa.fa-file {
                           <label class="form-label" for="input-1">Vaccination Records</label>
                           @php
                             $vacc = [];
+                            $is_declare=0;
                           @endphp
 
                           @if(!empty($vaccinationData))
                               @foreach($vaccinationData as $vcdata)
-                                  @php $vacc[] = $vcdata->vaccination_id; @endphp
+                                  @php $vacc[] = $vcdata->vaccination_id;
+                                  $is_declare=$vcdata->is_declare;
+                                  @endphp
                               @endforeach
                           @endif
                           <input type="hidden" name="vaccination_r" class="vaccination_r" value="{{ json_encode($vacc) }}">
@@ -215,8 +218,13 @@ i.fa.fa-file {
                         <div class="row" id="vaccine-section-container">
                         <h6>Other Vaccination </h6>
                         @php $ci = 1; @endphp
+                        <?php $is_declare1=0; ?>
                               @if($other_vaccine)
+                              
                               @foreach($other_vaccine as $other)
+                              @php
+                                  $is_declare1 = $other->is_declare;
+                              @endphp
                             <div class="vaccine-section">
                               <div class="col-md-12">
                                 <input type="hidden" name="other_id[]" value="{{$other->id}}">
@@ -283,7 +291,7 @@ i.fa.fa-file {
                             <a style="cursor: pointer;" id="add-vaccine">+ Add Another Vaccine</a>
                           </div>
                           <!--[ADD OTHER VACCINE END]-->
-
+                          
                           <!----[Vaccination Compliance Start]---->
                           <div class="row" >
                             <h6>Vaccination Compliance and Evidence Requirements by State:</h6>
@@ -304,6 +312,14 @@ i.fa.fa-file {
                             </div>
                           </div>
                         <!----[Vaccination Compliance End]---->
+
+                        <div class="col-lg-12 col-md-12 declaration_box mb-3">
+                            <label>
+                                <input class="float-start mr-5 mt-6" type="checkbox" id="policy_confirm" name="is_declare" {{ $is_declare1 !=0?'checked':($is_declare!=0?'checked':'') }}>  I declare that the information provided is true and correct.
+                              <br> <span id="reqTxtconfirmationCheckboxPoliceCheckI" class="reqError text-danger valley"></span>
+                            </label>
+                          </div>
+
                         <div class="box-button mt-15">
                           <button class="btn btn-apply-big font-md font-bold" type="submitVaccination" id="submitVaccination">Save Changes</button>
                         </div>
@@ -376,6 +392,7 @@ i.fa.fa-file {
             $(this).next('.reqError').text('');
         }
     });
+
 });
     $(document).ready(function () {
         // Function to add a new vaccine section
@@ -846,7 +863,9 @@ $('.js-example-basic-multiple').each(function() {
 
     // Bind change event on select element
     $('.js-example-basic-multiple[data-list-id="vaccination_record"]').on('change', function () {
+    
         let selectedValues = $(this).val() || []; // Get selected values (IDs)
+        
         console.log('selectedValues : ', selectedValues);
 
         // Sort selectedValues to ensure ascending order
@@ -1021,7 +1040,7 @@ $(document).on('click', '.evidence-types', function() {
     function vaccinationForm()
     {
     let isValid = true;
-
+    
     $('.evidence-required').each(function () {
         const groupName = $(this).attr('name'); // Get the name attribute of the group
         const isChecked = $(`input[name="${groupName}"]:checked`).length > 0; // Check if any radio in the group is selected
@@ -1085,7 +1104,14 @@ $(document).on('click', '.evidence-types', function() {
             $(this).next('.reqError').text('');
         }
     });
-
+    if (!$('#policy_confirm').is(':checked')) {
+      isValid = false;
+      $('#reqTxtconfirmationCheckboxPoliceCheckI').text('Please check this checkbox');
+      
+    } else {
+        $('#reqTxtconfirmationCheckboxPoliceCheckI').text('');
+        
+    }
     // If validation fails, return false to prevent form submission
     if (!isValid) {
         return false;
@@ -1093,6 +1119,8 @@ $(document).on('click', '.evidence-types', function() {
 
     //return true;
 //console.log(new FormData($('#vaccination_form')[0]));
+
+if(isValid==true){
     $.ajax({
       url: "{{ route('nurse.vaccinationForm') }}",
       type: "POST",
@@ -1110,11 +1138,13 @@ $(document).on('click', '.evidence-types', function() {
         $('#submitVaccination').text('Save Changes');
 
         if (res.status == '1') {
+          
           Swal.fire({
             icon: 'success',
             title: 'Success',
             text: 'Vaccination Information Updated Successfully',
           }).then(function() {
+            console.log("Redirecting...");
             window.location.href = "{{ route('nurse.profileVaccination') }}?page=vaccinations";
           });
         } else {
@@ -1134,6 +1164,7 @@ $(document).on('click', '.evidence-types', function() {
         }
       }
     });
+  }
     return false;
   }
 
@@ -1156,7 +1187,7 @@ $(document).on('click', '.evidence-types', function() {
    
            // Clear previous evidence before adding new ones
            evidenceRequiredDiv.html('');
-           const  selectedEvidenceId=<?php echo   isset($vaccinationData[0])?$vaccinationData[0]->evidance_type:'' ?>
+           const  selectedEvidenceId=<?php echo   isset($vaccinationData[0])?$vaccinationData[0]->evidance_type:'null'; ?>
            
            // Fetch evidence types dynamically
            const evidenceTypes = <?php echo json_encode(DB::table("evidence_type")->where('type', 12)->get()); ?>;

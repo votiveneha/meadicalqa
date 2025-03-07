@@ -2452,6 +2452,7 @@ class HomeController extends Controller
                 $vaccine->vaccination_name = $vaccination_names[$i];
                 $vaccine->immunization_status = $immunization_statuses[$i];
                 $vaccine->evidence_type = $evidence_types[$i];
+                $vaccine->is_declare = $request->is_declare=='on'?1:0;
 
 
                 if (isset($evidence_files[$i]) && $evidence_files[$i]->isValid()) {
@@ -2521,7 +2522,10 @@ class HomeController extends Controller
                             ->update([
                                 'immunization_status' => $imm_status_status[$vaccination][0],
                                 'evidance_type' => $evidence_required[$vaccination][0] ?? null,
-                                'covid_dose' => $covid_dose[$vaccination] ?? null
+                                'covid_dose' => $covid_dose[$vaccination] ?? null,
+                                'is_declare'=> $request->is_declare=='on'?1:0
+                                
+
                             ]);
 
                         if ($request->hasFile('evidancefile' . $vaccination)) {
@@ -2549,6 +2553,7 @@ class HomeController extends Controller
                         $fvcc->immunization_status  = $imm_status_status[$vaccination][0];
                         $fvcc->evidance_type        = $evidence_required[$vaccination][0] ?? null;
                         $fvcc->covid_dose           = $covid_dose[$vaccination] ?? null;
+                        $fvcc->is_declare           = $request->is_declare=='on'?1:0;
 
                         $fvcc->save();
                         $vcc_id = $fvcc->id;
@@ -2572,7 +2577,11 @@ class HomeController extends Controller
                 }
             }
         }
-
+        else{
+            DB::table('vaccination_front')
+            ->where('user_id', $user_id)
+            ->delete();   
+        }
         /**********[Vaccination Record End]*************/
 
         $json['status'] = 1;
