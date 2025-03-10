@@ -151,7 +151,9 @@ Route::prefix('nurse')->name('nurse.')->namespace('App\Http\Controllers\nurse')-
   Route::any('/getawardsRecognitions','ProfessionalController@getawardsRecognitions')->name('getawardsRecognitions');
   Route::post('/updateProfessionalMembership', 'ProfessionalController@updateProfessionalMembership')->name('updateProfessionalMembership');
   Route::post('/uploadMembershipImgs', 'ProfessionalController@uploadMembershipImgs')->name('uploadMembershipImgs');
+  Route::post('/uploadAwardImgs', 'ProfessionalController@uploadAwardImgs')->name('uploadAwardImgs');
   Route::post('/deleteEvidenceImg', 'ProfessionalController@deleteEvidenceImg')->name('deleteEvidenceImg');
+  Route::post('/deleteAwardEvidenceImg', 'ProfessionalController@deleteAwardEvidenceImg')->name('deleteAwardEvidenceImg');
   
   /**************[Interview Preferences]**************/
   Route::any('/interview','ProfessionalController@interview')->name('interview');

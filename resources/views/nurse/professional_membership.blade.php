@@ -128,12 +128,12 @@
                         
                       <select class="form-control profmemaward" name="profmemaward">
                         <option value="">select</option>
-                        <option value="Yes" @if(!empty($professional_membership) && $professional_membership->award_question == "Yes") selected @endif>Yes</option>
-                        <option value="No" @if(!empty($professional_membership) && $professional_membership->award_question == "No") selected @endif>No</option>
+                        <option value="Yes" @if(!empty($professional_membership) && $professional_membership->membership_question == "Yes") selected @endif>Yes</option>
+                        <option value="No" @if(!empty($professional_membership) && $professional_membership->membership_question == "No") selected @endif>No</option>
                       </select> 
                       <span id="professional_awards" class="reqError text-danger valley"></span>
                     </div>
-                    <div class="profess_fields  @if(!empty($professional_membership) && $professional_membership->award_question == "No") d-none @endif">
+                    <div class="profess_fields  @if(empty($professional_membership) || $professional_membership->membership_question == "No") d-none @endif">
                       <div class="form-group level-drp">
                         <label class="form-label" for="input-1">Organization Country:</label>
                         <?php
@@ -347,66 +347,7 @@
                                 </select>
                                 <span id="reqmembership_status-{{ $p_arr }}{{ $p_arr2 }}" class="reqError text-danger valley"></span>
                               </div>
-                              <div class="form-group level-drp">
-                                <label class="form-label award_recognition_label-{{ $p_arr }}{{ $p_arr2 }}" for="input-1">Awards & Recognitions:</label>
-                                <?php
-                                  $award_recognitions = (array)json_decode($professional_membership->award_recognitions);
-
-                                  if(!empty($award_recognitions)){
-                                    $award_data = (array)$award_recognitions[$p_arr2];
-                                  }else{
-                                    $award_data = array();
-                                  }
-                                  
-                                  //print_r($award_data);
-                                  $award_arr = array();
-
-                                  foreach ($award_data as $index =>$aw_data) {
-                                    $award_arr[] = $index;
-                                  }
                               
-                                  
-                                  $award_json = json_encode($award_arr);
-                                ?>
-                                <input type="hidden" name="award_list" class="award_list award_list-{{ $p_arr2 }}" value="{{ $p_arr2 }}">   
-                                <input type="hidden" name="awards_recognition_input" class="awards_recognition_input-{{ $p_arr2 }}" value='<?php echo $award_json; ?>'>
-                                <ul id="awards_recognitions-{{ $p_arr }}{{ $p_arr2 }}" style="display:none;">
-                                  @if(!empty($awards_recognitions))
-                                  @foreach($awards_recognitions as $a_reg)
-                                  <li data-value="{{ $a_reg->award_id }}">{{ $a_reg->award_name }}</li>
-                                  
-                                  @endforeach
-                                  @endif
-                                </ul>
-                                <select class="award_recog-{{ $p_arr }}{{ $p_arr2 }} js-example-basic-multiple addAll_removeAll_btn" data-list-id="awards_recognitions-{{ $p_arr }}{{ $p_arr2 }}" name="awards_recognitions[]" onchange="subaward_recognitions('edit',{{ $p_arr }},{{ $p_arr2 }})" multiple="multiple"></select>
-                                <span id="reqawards_recognitions-{{ $p_arr }}{{ $p_arr2 }}" class="reqError text-danger valley"></span>
-                              </div>
-                              <div class="show_award_reg-{{ $p_arr }}{{ $p_arr2 }}">
-                                @foreach ($award_arr as $a_reg_arr)
-                                <?php
-                                  $sub_award_data = $award_data[$a_reg_arr];
-                                  $subawards_name = DB::table("awards_recognitions")->where("award_id",$a_reg_arr)->first();
-                                  //print_r($award_data[$a_reg_arr]);
-                                  $subawards_recognition = DB::table("awards_recognitions")->where("sub_award_id",$a_reg_arr)->get();
-                                  $subawards_recognition_json = json_encode($sub_award_data);
-                                ?>
-                                <div class="form-group level-drp award_div award_country_div-{{ $a_reg_arr }}">
-                                  <label class="form-label subaward_label subaward_label-{{ $p_arr2 }}{{ $a_reg_arr }}" for="input-1">{{ $subawards_name->award_name }}</label>
-                                  <input type="hidden" name="sub_award_list" class="subaward_list subaward_list-{{ $a_reg_arr }}" value='<?php echo $a_reg_arr; ?>'>
-                                  <input type="hidden" name="subawards_recognition_input" class="subawards_recognition_input-{{ $p_arr2 }}{{ $a_reg_arr }}" value='<?php echo $subawards_recognition_json; ?>'>
-                                  <ul id="award_reg-{{ $p_arr2 }}{{ $a_reg_arr }}" style="display:none;">
-                                    @if(!empty($subawards_recognition))
-                                    
-                                    @foreach($subawards_recognition as $a_reg)
-                                    <li data-value="{{ $a_reg->award_id }}">{{ $a_reg->award_name }}</li>
-                                    @endforeach
-                                    @endif
-                                  </ul><select class="sub_award_org sub_award_org-{{ $p_arr2 }}{{ $a_reg_arr }} js-example-basic-multiple addAll_removeAll_btn" data-list-id="award_reg-{{ $p_arr2 }}{{ $a_reg_arr }}" id="award_organization_select-{{ $a_reg_arr }}" name="award_organization[{{ $p_arr2 }}][{{ $a_reg_arr }}][]" multiple="multiple">
-                                  </select>
-                                  <span id="reqsubawards_recognitions-{{ $p_arr2 }}{{ $a_reg_arr }}" class="reqError text-danger valley"></span>
-                                </div>  
-                                @endforeach
-                              </div>
                                 <div class="form-group level-drp">
                                   <?php
                                     $user_id = Auth::guard('nurse_middle')->user()->id;  
@@ -472,12 +413,36 @@
                       </select> 
                       <span id="professional_awards_que" class="reqError text-danger valley"></span>
                     </div> 
-                    <div class="awards_fields d-none">
+                    <div class="awards_fields @if(empty($professional_membership) || $professional_membership->award_question == "No") d-none @endif">
                       <div class="form-group level-drp">
                         <label class="form-label award_recognition_label" for="input-1">Awards & Recognitions:</label>
-                        
+                        <?php
+                          if(!empty($professional_membership)){
+                            $award_recognitions = (array)json_decode($professional_membership->award_recognitions);
+                          }else{
+                            $award_recognitions = '';
+                          }
+                          
+
+                          if(!empty($award_recognitions)){
+                            $award_data = (array)$award_recognitions;
+                            
+                          }else{
+                            $award_data = array();
+                          }
+                          
+                          //print_r($award_data);
+                          $award_arr = array();
+
+                          foreach ($award_data as $index =>$aw_data) {
+                            $award_arr[] = $index;
+                          }
+                      
+                          
+                          $award_json = json_encode($award_arr);
+                        ?>
                         {{-- <input type="hidden" name="award_list" class="award_list award_list-{{ $p_arr2 }}" value="{{ $p_arr2 }}">    --}}
-                        {{-- <input type="hidden" name="awards_recognition_input" class="awards_recognition_input-{{ $p_arr2 }}" value='<?php echo $award_json; ?>'> --}}
+                        <input type="hidden" name="awards_recognition_input" class="awards_recognition_input" value='<?php echo $award_json; ?>'>
                         <ul id="awards_recognitions" style="display:none;">
                           @if(!empty($awards_recognitions))
                           @foreach($awards_recognitions as $a_reg)
@@ -489,7 +454,109 @@
                         <select class="award_recog js-example-basic-multiple addAll_removeAll_btn" data-list-id="awards_recognitions" name="awards_recognitions[]" multiple="multiple"></select>
                         <span id="reqawards_recognitions" class="reqError text-danger valley"></span>
                       </div>
-                      <div class="show_award_reg"></div>
+                      <div class="show_award_reg">
+                        @if(!empty($award_arr))
+                        @foreach ($award_arr as $a_reg_arr)
+                        
+                        <?php
+                          $subawards_name = DB::table("awards_recognitions")->where("award_id",$a_reg_arr)->first();
+                          $subawards_recognition = DB::table("awards_recognitions")->where("sub_award_id",$a_reg_arr)->get();
+
+                          if(!empty($award_recognitions)){
+                            $subaward_data = (array)$award_recognitions[$a_reg_arr];
+                            
+                          }else{
+                            $subaward_data = array();
+                          }
+
+                          $subaward_arr = array();
+
+                          foreach ($subaward_data as $index =>$subaw_data) {
+                            $subaward_arr[] = $index;
+                          }
+                      
+                          
+                          $subaward_json = json_encode($subaward_arr);
+                        ?>
+                        <div class="award_regc_div-{{ $a_reg_arr }}">
+                          <div class="form-group level-drp award_div award_country_div-{{ $a_reg_arr }}">
+                            <label class="form-label subaward_label subaward_label-{{ $a_reg_arr }}" for="input-1">{{ $subawards_name->award_name }}</label>
+                            <input type="hidden" name="sub_award_list" class="subaward_list subaward_list-{{ $a_reg_arr }}" value='<?php echo $a_reg_arr; ?>'>
+                            <input type="hidden" name="subawards_recognition_input" class="subawards_recognition_input-{{ $a_reg_arr }}" value='<?php echo $subaward_json; ?>'>
+                            <ul id="award_reg-{{ $a_reg_arr }}" style="display:none;">
+                              @if(!empty($subawards_recognition))
+                              
+                              @foreach($subawards_recognition as $a_reg)
+                              <li data-value="{{ $a_reg->award_id }}" class='sub_award_text-{{ $a_reg->award_id }}'>{{ $a_reg->award_name }}</li>
+                              @endforeach
+                              @endif
+                            </ul><select class="sub_award_org sub_award_org-{{ $a_reg_arr }} js-example-basic-multiple addAll_removeAll_btn" data-list-id="award_reg-{{ $a_reg_arr }}" id="award_organization_select-{{ $a_reg_arr }}" name="award_organization[{{ $a_reg_arr }}][]"  onchange="subaward_recognitions('edit',{{ $a_reg_arr }})" multiple="multiple">
+                            </select>
+                            <span id="reqsubawards_recognitions-{{ $a_reg_arr }}" class="reqError text-danger valley"></span>
+                          </div>  
+                        
+                          <div class="institution_evidence-{{ $a_reg_arr }}">
+                            @foreach($subaward_arr as $insreg)
+                            <?php
+                              $subawards_name1 = DB::table("awards_recognitions")->where("award_id",$insreg)->first();
+                              
+                              if(!empty($award_recognitions)){
+                                $insaward_data = (array)$subaward_data[$insreg];
+                                
+                              }else{
+                                $insaward_data = '';
+                              }
+                              $user_id = Auth::guard('nurse_middle')->user()->id;
+                            ?>
+                            <div class='subaward_institution-{{ $insreg }}'><input type='hidden' name='insev' class='insev insev-{{ $a_reg_arr }}' value='{{ $insreg }}'>
+                              <div class='strong_text'><strong>{{ $subawards_name1->award_name }}</strong></div><div class='form-group level-drp'>
+                                <label class='form-label institution_label' for='input-1'>Issuing Institution/Organization</label>
+                                <input type='hidden' name='ins_ev1' class='ins_ev1 ins_ev1-{{ $insreg }}' value='{{ $insreg }}'>
+                                <input class='form-control issue_ins issue_ins-{{ $insreg }}' type='text' name='inst_org[{{ $a_reg_arr }}][{{ $insreg }}]' value="{{ $insaward_data[0] }}">
+                                <span id='reqins_recognitions-{{ $insreg }}' class='reqError text-danger valley'></span>
+                                </div>
+                                <div class='form-group level-drp'>
+                                    <label class='form-label' for='input-1'>Upload Evidence</label>
+                                    <input class='form-control award_evidence award_evidence-{{ $insreg }}' type='file' name='award_evidence[{{ $insreg }}][]' onchange="changeAwardEvidenceImg({{ $user_id }},'{{ $insreg }}')" multiple=''>
+                                </div>
+                                <div class='award_evdence-{{ $insreg }}'>
+                                  <?php
+                                    
+                                      if(!empty($professional_membership) && $professional_membership->award_evidence_imgs){
+                                        $evidence_imgs = (array)json_decode($professional_membership->award_evidence_imgs);
+                                        
+
+                                        if(isset($evidence_imgs[$insreg])){
+                                          $evorgimg = $evidence_imgs[$insreg];
+                                        }else{
+                                          $evorgimg = array();
+                                        }
+                                        //print_r($evorgimg);
+                                        $i = 0;
+                                        ?>
+                                        @if(!empty($evorgimg))
+                                        @foreach ($evorgimg as $ev_img)
+                                        <div class="trans_img1 trans_img1-{{ $i+1 }}">
+                                          <a href=""><i class="fa fa-file" aria-hidden="true"></i>{{ $ev_img }}</a>
+                                          <div class="close_btn close_btn-' + i + '" onclick="deleteAwardEvidenceImg({{ $i+1 }},{{ $user_id }},'{{ $ev_img }}',{{ $insreg }})" style="cursor: pointer;"><i class="fa fa-close" aria-hidden="true"></i></div>
+                                        </div>
+                                        <?php
+                                          $i++;
+                                        ?>
+                                        @endforeach
+                                        @endif
+                                        <?php
+                                      }
+                                      //print_r($evidence_imgs);
+                                    ?>
+                                </div>
+                              </div>
+                            @endforeach
+                          </div>
+                        </div>
+                        @endforeach
+                        @endif
+                      </div>
                     </div>
                     <div class="declaration_box">
                       <input type="checkbox" name="professional_declare_information" class="professional_declare_information" value="1" @if(!empty($professional_membership) && $professional_membership->declare_info == "1") checked @endif>
@@ -600,6 +667,45 @@
     });
   }
 
+  function changeAwardEvidenceImg(user_id,award_org_id) {
+    
+    var files = $('.award_evidence-'+award_org_id)[0].files;
+    console.log("files", files);
+    var form_data = "";
+    form_data = new FormData();
+
+    for (var i = 0; i < files.length; i++) {
+      form_data.append("award_evidence["+award_org_id+"][]", files[i], files[i]['name']);
+    }
+
+    form_data.append("user_id", user_id);
+    form_data.append("award_org_id", award_org_id);
+    form_data.append("_token", '{{ csrf_token() }}');
+    
+    $.ajax({
+      type: "post",
+      url: "{{ route('nurse.uploadAwardImgs') }}",
+      cache: false,
+      contentType: false,
+      processData: false,
+      async: true,
+      data: form_data,
+
+      success: function(data) {
+        var image_array = JSON.parse(data);
+        console.log("degree_transcript", image_array[award_org_id].length);
+        var htmlData = '';
+        for (var i = 0; i < image_array[award_org_id].length; i++) {
+          //console.log("degree_transcript", image_array[i]);
+          var img_name = image_array[award_org_id][i];
+          console.log("img_name", 'deleteImg(' + (i + 1) + ',' + user_id + ',"' + img_name + '")');
+          htmlData += '<div class="trans_img1 trans_img1-' + (i + 1) + '"><a href="{{ url("/public") }}/uploads/education_degree/' + img_name + '" target="_blank"><i class="fa fa-file" aria-hidden="true"></i>' + image_array[award_org_id][i] + '</a><div class="close_btn close_btn-' + i + '" onclick="deleteAwardEvidenceImg(' + (i + 1) + ',' + user_id + ',\'' + img_name + '\','+award_org_id+')" style="cursor: pointer;"><i class="fa fa-close" aria-hidden="true"></i></div></div>';
+        }
+        $(".award_evdence-"+award_org_id).html(htmlData);
+      }
+    });
+  }
+
   function deleteEvidenceImg(i, user_id, img,sub_org_id) {
     $.ajax({
       type: "post",
@@ -614,6 +720,25 @@
       success: function(data) {
         if (data == 1) {
           $(".trans_img-" + i).remove();
+        }
+      }
+    });
+  }
+
+  function deleteAwardEvidenceImg(i, user_id, img,award_org_id) {
+    $.ajax({
+      type: "post",
+      url: "{{ route('nurse.deleteAwardEvidenceImg') }}",
+      data: {
+        user_id: user_id,
+        img: img,
+        award_org_id: award_org_id,
+        _token: '{{ csrf_token() }}'
+      },
+      cache: false,
+      success: function(data) {
+        if (data == 1) {
+          $(".trans_img1-" + i).remove();
         }
       }
     });
@@ -1057,14 +1182,6 @@ $('.award_question').on('change', function() {
         <span id="reqmembership_status-'+country_org+data1.organization_id+'" class="reqError text-danger valley"></span>\
     </div>\
     <div class="form-group level-drp">\
-        <label class="form-label award_recognition_label-'+country_org+data1.organization_id+'" for="input-1">Awards & Recognitions:</label>\
-        <input type="hidden" name="award_list" class="award_list award_list-'+data1.organization_id+'" value="'+data1.organization_id+'">\
-        <ul id="awards_recognitions" style="display:none;">'+awards_text+'</ul>\
-        <select class="award_recog-'+country_org+data1.organization_id+' js-example-basic-multiple'+country_org+data1.organization_id+' addAll_removeAll_btn" data-list-id="awards_recognitions" name="awards_recognitions[]" multiple="multiple"></select>\
-        <span id="reqawards_recognitions-'+country_org+data1.organization_id+'" class="reqError text-danger valley"></span>\
-    </div>\
-    <div class="show_award_reg-'+country_org+data1.organization_id+'"></div>\
-    <div class="form-group level-drp">\
         <label class="form-label" for="input-1">Upload Evidence</label>\
         <input class="form-control membership_evidence-'+data1.organization_id+'" type="file" name="membership_evidence['+data1.organization_id+'][]" onchange="changeEvidenceImg('+user_id+','+data1.organization_id+')" multiple="">\
     </div>\
@@ -1128,7 +1245,7 @@ $('.award_question').on('change', function() {
 
             $(".show_award_reg").append('<div class="award_regc_div-'+data1.organization_id+'"><div class="form-group level-drp award_div award_country_div-'+data1.organization_id+'"><label class="form-label subaward_label subaward_label-'+data1.organization_id+'" for="input-1">'+data1.award_name+'</label><input type="hidden" name="subaward_list" class="subaward_list subaward_list-'+data1.organization_id+'" value="'+data1.organization_id+'"><ul id="award_reg-'+data1.organization_id+'" style="display:none;">'+org_text+'</ul><select class="sub_award_org sub_award_org-'+data1.organization_id+' js-example-basic-multiple'+data1.organization_id+' addAll_removeAll_btn" data-list-id="award_reg-'+data1.organization_id+'" id="award_organization_select-'+data1.organization_id+'" name="award_organization['+data1.organization_id+'][]" multiple="multiple"></select><span id="reqsubawards_recognitions-'+data1.organization_id+'" class="reqError text-danger valley"></span></div><div class="institution_evidence institution_evidence-'+data1.organization_id+'"></div></div>');
             
-            subaward_recognitions(data1.organization_id);
+            subaward_recognitions('',data1.organization_id);
             selectTwoFunction(data1.organization_id);
             $("#submitProfessionalMembership").removeAttr("disabled");
           }
@@ -1138,10 +1255,10 @@ $('.award_question').on('change', function() {
     
   });
 
-  function subaward_recognitions(award_id){
+  function subaward_recognitions(ed,award_id){
     
-    $('.js-example-basic-multiple'+award_id+'[data-list-id="award_reg-'+award_id+'"]').on('change', function() {
-      let selectedValues = $(this).val();
+    if(ed == "edit"){
+      let selectedValues = $('.js-example-basic-multiple[data-list-id="award_reg-'+award_id+'"]').val();
       console.log("selectedValues",selectedValues);
       
       $(".insev-"+award_id).each(function(i,val){
@@ -1160,17 +1277,54 @@ $('.award_question').on('change', function() {
           //$('.award_country_div-'+award_id).after('\<div class="institution_evidence institution_evidence-'+selectedValues[i]+'"></div>');
           $(".institution_evidence-"+award_id).append("\<div class='subaward_institution-"+selectedValues[i]+"'><input type='hidden' name='insev' class='insev insev-"+award_id+"' value='"+selectedValues[i]+"'><div class='strong_text'><strong>"+label_text+"</strong></div><div class='form-group level-drp'>\
             <label class='form-label institution_label' for='input-1'>Issuing Institution/Organization</label>\
-            <input class='form-control' type='text' name='inst_org[]'>\
+            <input type='hidden' name='ins_ev1' class='ins_ev1 ins_ev1-"+selectedValues[i]+"' value='"+selectedValues[i]+"'>\
+            <input class='form-control issue_ins issue_ins-"+selectedValues[i]+"' type='text' name='inst_org["+award_id+"]["+selectedValues[i]+"]'>\
+            <span id='reqins_recognitions-"+selectedValues[i]+"' class='reqError text-danger valley'></span>\
             </div>\
             <div class='form-group level-drp'>\
                 <label class='form-label' for='input-1'>Upload Evidence</label>\
-                <input class='form-control membership_evidence' type='file' name='membership_evidence[]' multiple=''>\
+                <input class='form-control award_evidence award_evidence-"+selectedValues[i]+"' type='file' name='award_evidence["+selectedValues[i]+"][]' multiple=''>\
             </div>\
             <div class='memb_evdence'></div></div>\
             ");
         }  
       }
-    });
+    }else{
+      $('.js-example-basic-multiple'+award_id+'[data-list-id="award_reg-'+award_id+'"]').on('change', function() {
+        let selectedValues = $(this).val();
+        console.log("selectedValues",selectedValues);
+        
+        $(".insev-"+award_id).each(function(i,val){
+          var val1 = $(val).val();
+          console.log("val",val1);
+          if(selectedValues.includes(val1) == false){
+            $(".subaward_institution-"+val1).remove();
+            
+          }
+        });
+        
+        for(var i=0;i<selectedValues.length;i++){
+          if($(".subaward_institution-"+selectedValues[i]).length < 1){
+            
+            var label_text = $(".sub_award_text-"+selectedValues[i]).text();
+            //$('.award_country_div-'+award_id).after('\<div class="institution_evidence institution_evidence-'+selectedValues[i]+'"></div>');
+            $(".institution_evidence-"+award_id).append("\<div class='subaward_institution-"+selectedValues[i]+"'><input type='hidden' name='insev' class='insev insev-"+award_id+"' value='"+selectedValues[i]+"'><div class='strong_text'><strong>"+label_text+"</strong></div><div class='form-group level-drp'>\
+              <label class='form-label institution_label' for='input-1'>Issuing Institution/Organization</label>\
+              <input type='hidden' name='ins_ev1' class='ins_ev1 ins_ev1-"+selectedValues[i]+"' value='"+selectedValues[i]+"'>\
+              <input class='form-control issue_ins issue_ins-"+selectedValues[i]+"' type='text' name='inst_org["+award_id+"]["+selectedValues[i]+"]'>\
+              <span id='reqins_recognitions-"+selectedValues[i]+"' class='reqError text-danger valley'></span>\
+              </div>\
+              <div class='form-group level-drp'>\
+                  <label class='form-label' for='input-1'>Upload Evidence</label>\
+                  <input class='form-control award_evidence' type='file' name='award_evidence["+selectedValues[i]+"][]' multiple=''>\
+              </div>\
+              <div class='memb_evdence'></div></div>\
+              ");
+          }  
+        }
+      });
+    }
+    
   }
 
 
@@ -1468,23 +1622,25 @@ $('.award_question').on('change', function() {
                   $('.js-example-basic-multiple[data-list-id="submembership_type-'+membership_type[l]+"-"+subsuborg_country[k]+'"]').select2().val(submembership_type).trigger('change');
                 }
               }
-              if ($(".awards_recognition_input-"+subsuborg_country[k]).val() != "") {
-                var awards_recognition_input = JSON.parse($(".awards_recognition_input-"+subsuborg_country[k]).val());
-               
-                $('.js-example-basic-multiple[data-list-id="awards_recognitions-'+org_country[i]+subsuborg_country[k]+'"]').select2().val(awards_recognition_input).trigger('change');
-                for(var m=0;m<awards_recognition_input.length;m++){
-                  if ($(".subawards_recognition_input-"+subsuborg_country[k]+awards_recognition_input[m]).val() != "") {
-                    var subawards_recognition_input = JSON.parse($(".subawards_recognition_input-"+subsuborg_country[k]+awards_recognition_input[m]).val());
-                    console.log("subawards_recognition_input",subsuborg_country[k]+awards_recognition_input[m]);
-                    $('.js-example-basic-multiple[data-list-id="award_reg-'+subsuborg_country[k]+awards_recognition_input[m]+'"]').select2().val(subawards_recognition_input).trigger('change');
-                  }
-                }
-              }
+              
             }
 
           }
         }
       }  
+    }
+  }
+
+  if ($(".awards_recognition_input").val() != "") {
+    var awards_recognition_input = JSON.parse($(".awards_recognition_input").val());
+    
+    $('.js-example-basic-multiple[data-list-id="awards_recognitions"]').select2().val(awards_recognition_input).trigger('change');
+    for(var m=0;m<awards_recognition_input.length;m++){
+      if ($(".subawards_recognition_input-"+awards_recognition_input[m]).val() != "") {
+        var subawards_recognition_input = JSON.parse($(".subawards_recognition_input-"+awards_recognition_input[m]).val());
+        console.log("subawards_recognition_input",awards_recognition_input[m]);
+        $('.js-example-basic-multiple[data-list-id="award_reg-'+awards_recognition_input[m]+'"]').select2().val(subawards_recognition_input).trigger('change');
+      }
     }
   }
   
@@ -1644,31 +1800,7 @@ $('.award_question').on('change', function() {
             }
           });
 
-          $(".award_list").each(function(i,val) {
-            var award_val = $(this).val();
-            console.log("award_recog1", val1);
-            console.log("award_recog2", val3);
-            if ($(".award_recog-"+val1+val3).length > 0) {
-              //console.log("reference_relationship-" + m, $(".reference_relationship-" + m).val());
-              if ($(".award_recog-"+val1+val3).val() == '') {
-                document.getElementById("reqawards_recognitions-"+val1+val3).innerHTML = "* Please enter the Awards & Recognitions";
-                isValid = false;
-              }
-            }
-            $(".subaward_list").each(function(i,val) {
-            
-              console.log("val",$(this).val());
-              var val6 = $(this).val();
-              var label_name5 = $(".subaward_label-"+val3+val6).text();
-              if ($(".sub_award_org-"+val3+val6).length > 0) {
-                //console.log("reference_relationship-" + m, $(".reference_relationship-" + m).val());
-                if ($(".sub_award_org-"+val3+val6).val() == '') {
-                  document.getElementById("reqsubawards_recognitions-"+val3+val6).innerHTML = "* Please enter the "+label_name5;
-                  isValid = false;
-                }
-              }
-            });
-          });
+          
 
           
         });
@@ -1691,6 +1823,7 @@ $('.award_question').on('change', function() {
     }
 
     if(award == "Yes"){
+      
       if ($('[name="awards_recognitions[]"]').val() == '') {
         document.getElementById("reqawards_recognitions").innerHTML = "* Please enter the Awards & Recognitions";
         isValid = false;
@@ -1708,9 +1841,26 @@ $('.award_question').on('change', function() {
             isValid = false;
           }
         }
+
+        
+      });
+
+      $(".ins_ev1").each(function(i,val) {
+            
+        console.log("val",$(this).val());
+        var val6 = $(this).val();
+        //var label_name5 = $(".subaward_label-"+val6).text();
+        if ($(".issue_ins-"+val6).length > 0) {
+          //console.log("reference_relationship-" + m, $(".reference_relationship-" + m).val());
+          
+          if ($(".issue_ins-"+val6).val() == '') {
+            document.getElementById("reqins_recognitions-"+val6).innerHTML = "* Please enter the Issuing Institution/Organization";
+            isValid = false;
+          }
+        }
       });
     }
-
+    
     if ($(".professional_declare_information").prop('checked') == false) {
       
       document.getElementById("reqdeclare_information_profess").innerHTML = "* Please check this checkbox";

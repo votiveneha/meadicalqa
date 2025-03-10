@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Mar 04, 2025 at 07:32 AM
+-- Generation Time: Mar 10, 2025 at 08:34 AM
 -- Server version: 10.6.21-MariaDB
 -- PHP Version: 7.4.33
 
@@ -649,7 +649,8 @@ INSERT INTO `eligibility_to_work` (`id`, `user_id`, `residency`, `support_docume
 (47, 186, 'Visa Holder', 'evidence_file_1738317411.jpg', 'reflection-lights-mountain-lake-captured-parco-ciani-lugano-switzerland.jpg', 'Visa grant letter', '222222', 82, 35, '', '22212', '0', '2025-02-06 18:44:05', '2025-02-06 13:14:05'),
 (67, 101, 'Visa Holder', 'evidence_file_1740119376.pdf', 'TRANSCRIPT SAMPLE.pdf', 'Passport bio-data page and visa pages', '00000', 1, 20, '', '00000', '0', '2025-02-21 11:59:53', '2025-02-21 06:29:53'),
 (68, 191, 'Permanent Resident', 'evidence_file_1740143778.jpg', 'image_six.jpg', 'VEVO (Visa Entitlement Verification Online) status report', '434', 17, 14, '', '54545g', '0', '2025-02-21 18:46:18', '2025-02-21 13:16:18'),
-(71, 179, 'Visa Holder', 'evidence_file_1741084878.jpeg', 'images.jpeg', 'VEVO (Visa Entitlement Verification Online) status report', '78549621DF0144', 1, 20, '', '5231456987523', '0', '2025-03-04 16:11:18', '2025-03-04 10:41:18');
+(71, 179, 'Visa Holder', 'evidence_file_1741084878.jpeg', 'images.jpeg', 'VEVO (Visa Entitlement Verification Online) status report', '78549621DF0144', 1, 20, '', '5231456987523', '0', '2025-03-04 16:11:18', '2025-03-04 10:41:18'),
+(73, 194, 'Australian Citizen', '', '', 'Australian Passport', NULL, 0, 1, '', NULL, '0', '2025-03-05 12:29:40', '2025-03-05 06:59:40');
 
 -- --------------------------------------------------------
 
@@ -726,7 +727,41 @@ INSERT INTO `evidance_file` (`id`, `vcc_front_id`, `original_name`, `file_name`,
 (35, 23, 'camping-7856198_1920.jpg', 'evidence_file_1737719197.jpg', '2025-01-24 11:46:37', '2025-01-24 11:46:37'),
 (36, 24, '2127448-2560x1669-desktop-hd-mustang-background-photo.jpg', 'evidence_file_1738847877.jpg', '2025-02-06 13:17:57', '2025-02-06 13:17:57'),
 (37, 24, '2127524-3840x2160-desktop-4k-mustang-background-image.jpg', 'evidence_file_1738847877.jpg', '2025-02-06 13:17:57', '2025-02-06 13:17:57'),
-(38, 24, '2127556-2880x1800-desktop-hd-mustang-wallpaper-image.jpg', 'evidence_file_1738847877.jpg', '2025-02-06 13:17:57', '2025-02-06 13:17:57');
+(38, 24, '2127556-2880x1800-desktop-hd-mustang-wallpaper-image.jpg', 'evidence_file_1738847877.jpg', '2025-02-06 13:17:57', '2025-02-06 13:17:57'),
+(39, 33, '2157842-3840x2160-desktop-4k-gt-r-wallpaper.jpg', 'evidence_file_1741243221.jpg', '2025-03-06 06:40:21', '2025-03-06 06:40:21'),
+(40, 34, 'download.jpeg', 'evidence_file_1741243456.jpeg', '2025-03-06 06:44:16', '2025-03-06 06:44:16'),
+(41, 34, 'download.png', 'evidence_file_1741243456.png', '2025-03-06 06:44:16', '2025-03-06 06:44:16'),
+(42, 34, 'hg9xBr1721293815.png', 'evidence_file_1741243456.png', '2025-03-06 06:44:16', '2025-03-06 06:44:16'),
+(43, 34, 'images (1).jpeg', 'evidence_file_1741243456.jpeg', '2025-03-06 06:44:16', '2025-03-06 06:44:16'),
+(44, 34, 'images.jpeg', 'evidence_file_1741243456.jpeg', '2025-03-06 06:44:16', '2025-03-06 06:44:16'),
+(45, 34, 'oGhX5A1726828366.png', 'evidence_file_1741243456.png', '2025-03-06 06:44:16', '2025-03-06 06:44:16'),
+(46, 34, 'photo-1492684223066-81342ee5ff30.avif', 'evidence_file_1741243456.avif', '2025-03-06 06:44:16', '2025-03-06 06:44:16'),
+(47, 35, 'download.jpeg', 'evidence_file_1741243565.jpeg', '2025-03-06 06:46:05', '2025-03-06 06:46:05'),
+(48, 35, 'download.png', 'evidence_file_1741243565.png', '2025-03-06 06:46:05', '2025-03-06 06:46:05'),
+(49, 35, 'hg9xBr1721293815.png', 'evidence_file_1741243565.png', '2025-03-06 06:46:05', '2025-03-06 06:46:05'),
+(50, 35, 'images (1).jpeg', 'evidence_file_1741243565.jpeg', '2025-03-06 06:46:05', '2025-03-06 06:46:05'),
+(51, 35, 'images.jpeg', 'evidence_file_1741243565.jpeg', '2025-03-06 06:46:05', '2025-03-06 06:46:05'),
+(52, 35, 'oGhX5A1726828366.png', 'evidence_file_1741243565.png', '2025-03-06 06:46:05', '2025-03-06 06:46:05'),
+(53, 35, 'photo-1492684223066-81342ee5ff30.avif', 'evidence_file_1741243565.avif', '2025-03-06 06:46:05', '2025-03-06 06:46:05'),
+(54, 36, '2157818-3840x2160-desktop-4k-gt-r-wallpaper.jpg', 'evidence_file_1741243977.jpg', '2025-03-06 06:52:57', '2025-03-06 06:52:57'),
+(55, 37, '2157647-3840x2160-desktop-4k-gt-r-background.jpg', 'evidence_file_1741244090.jpg', '2025-03-06 06:54:50', '2025-03-06 06:54:50'),
+(56, 38, '2157818-3840x2160-desktop-4k-gt-r-wallpaper.jpg', 'evidence_file_1741244389.jpg', '2025-03-06 06:59:49', '2025-03-06 06:59:49'),
+(57, 39, '2157647-3840x2160-desktop-4k-gt-r-background.jpg', 'evidence_file_1741244463.jpg', '2025-03-06 07:01:03', '2025-03-06 07:01:03'),
+(58, 40, '2157818-3840x2160-desktop-4k-gt-r-wallpaper.jpg', 'evidence_file_1741244619.jpg', '2025-03-06 07:03:39', '2025-03-06 07:03:39'),
+(59, 41, '2157627-3840x2160-desktop-4k-gt-r-background.jpg', 'evidence_file_1741244619.jpg', '2025-03-06 07:03:39', '2025-03-06 07:03:39'),
+(60, 42, '2157627-3840x2160-desktop-4k-gt-r-background.jpg', 'evidence_file_1741245326.jpg', '2025-03-06 07:15:26', '2025-03-06 07:15:26'),
+(61, 43, '2157818-3840x2160-desktop-4k-gt-r-wallpaper.jpg', 'evidence_file_1741245509.jpg', '2025-03-06 07:18:29', '2025-03-06 07:18:29'),
+(62, 44, '2157647-3840x2160-desktop-4k-gt-r-background.jpg', 'evidence_file_1741245638.jpg', '2025-03-06 07:20:38', '2025-03-06 07:20:38'),
+(63, 45, '2157647-3840x2160-desktop-4k-gt-r-background.jpg', 'evidence_file_1741249317.jpg', '2025-03-06 08:21:57', '2025-03-06 08:21:57'),
+(64, 46, '2157647-3840x2160-desktop-4k-gt-r-background.jpg', 'evidence_file_1741249450.jpg', '2025-03-06 08:24:10', '2025-03-06 08:24:10'),
+(65, 47, 'images (1).jpeg', 'evidence_file_1741249630.jpeg', '2025-03-06 08:27:10', '2025-03-06 08:27:10'),
+(66, 48, 'download.jpeg', 'evidence_file_1741261786.jpeg', '2025-03-06 11:49:46', '2025-03-06 11:49:46'),
+(67, 48, 'download.png', 'evidence_file_1741261786.png', '2025-03-06 11:49:46', '2025-03-06 11:49:46'),
+(68, 48, 'hg9xBr1721293815.png', 'evidence_file_1741261786.png', '2025-03-06 11:49:46', '2025-03-06 11:49:46'),
+(69, 48, 'images (1).jpeg', 'evidence_file_1741261786.jpeg', '2025-03-06 11:49:46', '2025-03-06 11:49:46'),
+(70, 48, 'images.jpeg', 'evidence_file_1741261786.jpeg', '2025-03-06 11:49:46', '2025-03-06 11:49:46'),
+(71, 48, 'oGhX5A1726828366.png', 'evidence_file_1741261786.png', '2025-03-06 11:49:46', '2025-03-06 11:49:46'),
+(72, 48, 'photo-1492684223066-81342ee5ff30.avif', 'evidence_file_1741261786.avif', '2025-03-06 11:49:46', '2025-03-06 11:49:46');
 
 -- --------------------------------------------------------
 
@@ -1004,7 +1039,7 @@ INSERT INTO `mandatory_training` (`train_id`, `user_id`, `start_date`, `end_date
 (20, 188, NULL, NULL, NULL, NULL, '[\"417\"]', '[\"444\"]', '', '', '[{\"lead_pro_tra_id\":\"Cultural Competency and Diversity in Care\",\"lead_pro_institution\":\"rerer\",\"lead_start_date\":\"2025-02-24\",\"lead_end_date\":\"2025-02-25\",\"lead_expiry\":\"2025-02-25\"}]', '', '', '', '[{\"emr_edu_id\":\"Trauma-Informed Care\",\"eme_topic_institution\":\"dd\",\"eme_topic_start_date\":\"2025-02-17\",\"eme_topic_end_date\":\"2025-02-24\",\"eme_topic_expiry\":\"2025-02-24\",\"eme_topic_status\":\"Completed\"}]', '', '', '', '', '', 1, '2025-02-19 06:19:33', '2025-02-19 06:19:33'),
 (21, 191, NULL, NULL, NULL, NULL, '[\"416\"]', '[\"442\"]', '', '', '', '[{\"mid_spec_tra_id\":\"Postnatal Care\",\"mid_spec_institution\":\"sere\",\"mid_spec_start_date\":\"2025-02-23\",\"mid_spec_end_date\":\"2025-02-23\",\"mis_spec_expiry\":\"2025-03-04\"}]', '', '', '', '', '', '', '', '', 1, '2025-02-21 12:14:15', '2025-02-21 12:14:15'),
 (22, 192, NULL, NULL, NULL, NULL, '[\"419\"]', '[\"443\"]', '[{\"well_tra_id\":\"Compassion Fatigue and Burnout Prevention\",\"well_institution\":\"Perth\",\"well_tra_start_date\":\"2025-02-26\",\"well_tra_end_date\":\"2025-02-28\",\"well_expiry\":\"2025-02-28\"}]', '', '', '', '', '', '', '[{\"saf_edu_id\":\"Radiation Safety\",\"safety_com_institution\":\"perth\",\"safety_com_start_date\":\"2025-02-26\",\"safety_com_end_date\":\"2025-02-28\",\"safety_com_expiry\":\"2025-02-20\",\"safety_com_status\":\"Completed\"}]', '', '', '', '', 1, '2025-02-25 02:00:17', '2025-02-25 02:23:09'),
-(23, 194, NULL, NULL, NULL, NULL, '[\"419\"]', '[\"444\"]', '[{\"well_tra_id\":\"Compassion Fatigue and Burnout Prevention\",\"well_institution\":\"Perth\",\"well_tra_start_date\":\"2025-02-25\",\"well_tra_end_date\":\"2025-03-08\",\"well_expiry\":\"2025-03-09\"}]', '', '', '', '', '', '[{\"emr_edu_id\":\"Artificial Intelligence in Nursing Practice\",\"eme_topic_institution\":\"poiii\",\"eme_topic_start_date\":\"2025-02-25\",\"eme_topic_end_date\":\"2025-03-07\",\"eme_topic_expiry\":\"2025-03-09\",\"eme_topic_status\":\"Completed\"}]', '', '', '', '', '', 1, '2025-02-28 05:10:48', '2025-03-04 08:51:48'),
+(23, 194, NULL, NULL, NULL, NULL, '[\"419\"]', '[\"444\"]', '[{\"well_tra_id\":\"Compassion Fatigue and Burnout Prevention\",\"well_institution\":\"Perth\",\"well_tra_start_date\":\"2025-02-25\",\"well_tra_end_date\":\"2025-03-08\",\"well_expiry\":\"2025-03-09\"}]', '', '', '', '', '', '[{\"emr_edu_id\":\"Artificial Intelligence in Nursing Practice\",\"eme_topic_institution\":\"poiii\",\"eme_topic_start_date\":\"2025-02-25\",\"eme_topic_end_date\":\"2025-03-07\",\"eme_topic_expiry\":\"2025-03-09\",\"eme_topic_status\":\"Completed\"}]', '', '', '', '', '', 1, '2025-02-28 05:10:48', '2025-03-05 05:07:06'),
 (25, 196, NULL, NULL, NULL, NULL, '[\"417\"]', '[\"444\"]', '', '', '[{\"lead_pro_tra_id\":\"Ethical Decision Making in Nursing\",\"lead_pro_institution\":\"rerer\",\"lead_start_date\":\"2025-03-30\",\"lead_end_date\":\"2025-03-31\",\"lead_expiry\":\"2025-03-25\"}]', '', '', '', '[{\"emr_edu_id\":\"Artificial Intelligence in Nursing Practice\",\"eme_topic_institution\":\"dd\",\"eme_topic_start_date\":\"2025-03-27\",\"eme_topic_end_date\":\"2025-03-31\",\"eme_topic_expiry\":\"2025-03-31\",\"eme_topic_status\":\"Completed\"}]', '', '', '', '', '', 1, '2025-03-04 11:49:01', '2025-03-04 11:52:43'),
 (26, 179, NULL, NULL, NULL, NULL, '[\"564\"]', '[\"563\",\"444\"]', '', '', '', '', '', '', '[{\"emr_edu_id\":\"Telehealth and Digital Healthcare\",\"eme_topic_institution\":\"dwdwdwed\",\"eme_topic_start_date\":\"1253-01-04\",\"eme_topic_end_date\":\"2025-03-19\",\"eme_topic_expiry\":\"2025-12-04\",\"eme_topic_status\":\"Completed\"}]', '', '', '', '', '', 1, '2025-03-04 11:50:29', '2025-03-04 11:51:18');
 
@@ -1319,7 +1354,8 @@ INSERT INTO `ndis_screening_check` (`id`, `user_id`, `state_id`, `clearance_numb
 (3, 186, 1591, '44334433', '2025-07-10', 'evidence_file_1738327017.jpg', 'pexels-eberhardgross-1612351.jpg', '2025-01-31 12:36:09', '2025-02-03 09:09:34'),
 (4, 187, 1590, '2323232323', '2025-02-26', 'evidence_file_1738822718.jpg', '2157842-3840x2160-desktop-4k-gt-r-wallpaper.jpg', '2025-02-06 06:18:38', '2025-02-06 06:18:38'),
 (5, 179, 1530, 'asdawdawdada', '2028-12-04', 'evidence_file_1738923894.jpeg', 'images (1).jpeg', '2025-02-07 10:24:54', '2025-02-07 10:24:54'),
-(6, 101, 196, '0000', '2025-02-28', '', '', '2025-02-17 03:24:00', '2025-02-21 06:50:28');
+(6, 101, 196, '0000', '2025-02-28', '', '', '2025-02-17 03:24:00', '2025-02-21 06:50:28'),
+(7, 194, 195, '12222', '2025-03-30', 'evidence_file_1741157818.pdf', 'TRANSCRIPT SAMPLE.pdf', '2025-03-05 06:56:58', '2025-03-05 06:56:58');
 
 -- --------------------------------------------------------
 
@@ -1364,6 +1400,7 @@ CREATE TABLE `other_vaccine` (
   `immunization_status` int(11) NOT NULL,
   `evidence_type` text NOT NULL,
   `evidence_file` varchar(64) NOT NULL,
+  `is_declare` tinyint(4) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -1372,10 +1409,11 @@ CREATE TABLE `other_vaccine` (
 -- Dumping data for table `other_vaccine`
 --
 
-INSERT INTO `other_vaccine` (`id`, `user_id`, `vaccination_name`, `immunization_status`, `evidence_type`, `evidence_file`, `created_at`, `updated_at`) VALUES
-(4, 173, 'testtt', 13, 'Medical Letter or Certificate from GP', 'evidence_file_1737706526.png', '2025-01-24 08:15:26', '2025-01-24 08:15:26'),
-(5, 182, 'ttttt', 14, 'Vaccination Record from My Health Record', 'evidence_file_1737707467.png', '2025-01-24 08:31:07', '2025-01-24 08:31:07'),
-(6, 181, 'vacc', 13, 'Vaccination Card/Record', 'evidence_file_1737711851.jpg', '2025-01-24 09:44:11', '2025-01-24 09:44:11');
+INSERT INTO `other_vaccine` (`id`, `user_id`, `vaccination_name`, `immunization_status`, `evidence_type`, `evidence_file`, `is_declare`, `created_at`, `updated_at`) VALUES
+(4, 173, 'testtt', 13, 'Medical Letter or Certificate from GP', 'evidence_file_1737706526.png', 0, '2025-01-24 08:15:26', '2025-01-24 08:15:26'),
+(5, 182, 'ttttt', 14, 'Vaccination Record from My Health Record', 'evidence_file_1737707467.png', 0, '2025-01-24 08:31:07', '2025-01-24 08:31:07'),
+(6, 181, 'vacc', 13, 'Vaccination Card/Record', 'evidence_file_1737711851.jpg', 0, '2025-01-24 09:44:11', '2025-01-24 09:44:11'),
+(7, 179, 'Red fever', 6, 'Immunization Certificate', 'evidence_file_1741261738.jpeg', 1, '2025-03-06 11:48:58', '2025-03-06 11:48:58');
 
 -- --------------------------------------------------------
 
@@ -1396,6 +1434,7 @@ CREATE TABLE `password_reset_tokens` (
 INSERT INTO `password_reset_tokens` (`email`, `token`, `created_at`) VALUES
 ('vincentriviera@gmail.com', '5fMC15CxOCmz2fp03QTQuoxoRVHaahJ4OUD3BLIiPaCzDVQDiwhWwXyoCDvxHmhx', '2024-06-30 07:05:10'),
 ('votivephp.neha@gmail.com', 'Xcr8EDlLHfWHw8IwDmhmVIrrr8tWqBh3VZ1ccMNGqXFDqi4vefyXQ2iA1ZAxq3ph', '2024-09-10 04:00:43'),
+('votivetester.preeti@gmail.com', 'zxnuGh3Lo2PyF6e7XjbXKNeWQizC1spPehrCl5RK9BVdPnPEVuAIbcIocKnimvqs', '2025-03-05 04:58:15'),
 ('votivetester.vijendra@gmail.com', 'KUf86NfvommFPlDduagpdwMsLWgIfsmnokb8TJ5A17HWEpqwz4o0sDtke4A5otFr', '2024-12-03 08:42:58');
 
 -- --------------------------------------------------------
@@ -1467,6 +1506,7 @@ CREATE TABLE `police_check` (
   `original_file_name` varchar(256) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `reason` varchar(250) DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT 0 COMMENT '1-approve/2-reject',
+  `is_declare` tinyint(4) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -1475,25 +1515,26 @@ CREATE TABLE `police_check` (
 -- Dumping data for table `police_check`
 --
 
-INSERT INTO `police_check` (`id`, `user_id`, `issuance_date`, `evidence_file`, `original_file_name`, `reason`, `status`, `created_at`, `updated_at`) VALUES
-(1, 112, '2024-08-07', 'evidence_file_1738822103.jpg', '2157647-3840x2160-desktop-4k-gt-r-background.jpg', NULL, 1, '2024-08-08 13:29:23', '2025-02-06 06:08:23'),
-(2, 131, '2025-03-12', '/nurse/assets/imgs/police_check/1723455646.jpg', '', NULL, 1, '2024-08-12 09:40:46', '2024-08-12 04:12:09'),
-(3, 58, '2024-08-07', '/nurse/assets/imgs/police_check/1723547012.jpg', '', NULL, 1, '2024-08-13 11:03:32', '2024-08-13 07:46:07'),
-(4, 136, '2025-08-05', '/nurse/assets/imgs/police_check/1723554473.jpg', '', NULL, 1, '2024-08-13 13:07:53', '2024-08-13 07:46:00'),
-(5, 139, '2023-12-01', '/nurse/assets/imgs/police_check/1724143292.png', '', 'becouse of name', 1, '2024-08-20 08:41:32', '2024-09-10 06:20:00'),
-(6, 141, '2011-12-01', '/nurse/assets/imgs/police_check/1724652140.jpg', '', NULL, 1, '2024-08-26 06:02:20', '2024-08-26 00:43:57'),
-(7, 148, '2025-01-01', '/nurse/assets/imgs/police_check/1725969493.jpg', '', NULL, 1, '2024-09-10 11:58:13', '2024-09-10 06:31:15'),
-(8, 150, '2024-09-04', '/nurse/assets/imgs/police_check/download - Copy.jfif', '', 'name', 1, '2024-09-10 07:35:33', '2024-09-12 05:18:34'),
-(9, 151, '2024-09-06', '/nurse/assets/imgs/police_check/download - Copy.jfif', '', 'NAme', 2, '2024-09-11 07:42:27', '2024-09-12 06:09:03'),
-(11, 149, '2070-01-01', '/nurse/assets/imgs/police_check/1726220020.jpg', '', NULL, 1, '2024-09-13 09:33:40', '2024-09-13 04:09:21'),
-(12, 153, '2024-09-12', '/nurse/assets/imgs/police_check/download - Copy.jfif', '', NULL, 0, '2024-09-14 07:59:43', '2024-09-14 07:59:43'),
-(13, 154, '2024-09-04', '/nurse/assets/imgs/police_check/download (1).jfif', '', NULL, 0, '2024-09-16 08:05:06', '2024-09-16 08:05:06'),
-(14, 166, '2024-10-02', '/nurse/assets/imgs/police_check/download (1).jfif', '', NULL, 0, '2024-10-07 08:03:44', '2024-10-07 08:03:44'),
-(15, 179, '2020-06-01', NULL, '', NULL, 0, '2025-01-09 16:05:13', '2025-02-17 13:06:36'),
-(16, 173, '2024-11-14', '/nurse/assets/imgs/police_check/1737376971.jpg', '', NULL, 0, '2025-01-20 18:12:51', NULL),
-(17, 184, '2025-01-26', 'evidence_file_1738412275.jpg', 'pexels-joshuaworoniecki-2607956.jpg', NULL, 0, '2025-02-01 12:17:55', '2025-02-01 06:47:55'),
-(18, 186, '2025-01-26', 'evidence_file_1738414218.jpg', '4002676.jpg', NULL, 0, '2025-02-01 18:20:18', '2025-02-01 12:50:18'),
-(19, 101, '2025-02-12', NULL, '', NULL, 0, '2025-02-17 08:58:23', '2025-02-21 06:45:30');
+INSERT INTO `police_check` (`id`, `user_id`, `issuance_date`, `evidence_file`, `original_file_name`, `reason`, `status`, `is_declare`, `created_at`, `updated_at`) VALUES
+(1, 112, '2024-08-07', 'evidence_file_1738822103.jpg', '2157647-3840x2160-desktop-4k-gt-r-background.jpg', NULL, 1, 0, '2024-08-08 13:29:23', '2025-02-06 06:08:23'),
+(2, 131, '2025-03-12', '/nurse/assets/imgs/police_check/1723455646.jpg', '', NULL, 1, 0, '2024-08-12 09:40:46', '2024-08-12 04:12:09'),
+(3, 58, '2024-08-07', '/nurse/assets/imgs/police_check/1723547012.jpg', '', NULL, 1, 0, '2024-08-13 11:03:32', '2024-08-13 07:46:07'),
+(4, 136, '2025-08-05', '/nurse/assets/imgs/police_check/1723554473.jpg', '', NULL, 1, 0, '2024-08-13 13:07:53', '2024-08-13 07:46:00'),
+(5, 139, '2023-12-01', '/nurse/assets/imgs/police_check/1724143292.png', '', 'becouse of name', 1, 0, '2024-08-20 08:41:32', '2024-09-10 06:20:00'),
+(6, 141, '2011-12-01', '/nurse/assets/imgs/police_check/1724652140.jpg', '', NULL, 1, 0, '2024-08-26 06:02:20', '2024-08-26 00:43:57'),
+(7, 148, '2025-01-01', '/nurse/assets/imgs/police_check/1725969493.jpg', '', NULL, 1, 0, '2024-09-10 11:58:13', '2024-09-10 06:31:15'),
+(8, 150, '2024-09-04', '/nurse/assets/imgs/police_check/download - Copy.jfif', '', 'name', 1, 0, '2024-09-10 07:35:33', '2024-09-12 05:18:34'),
+(9, 151, '2024-09-06', '/nurse/assets/imgs/police_check/download - Copy.jfif', '', 'NAme', 2, 0, '2024-09-11 07:42:27', '2024-09-12 06:09:03'),
+(11, 149, '2070-01-01', '/nurse/assets/imgs/police_check/1726220020.jpg', '', NULL, 1, 0, '2024-09-13 09:33:40', '2024-09-13 04:09:21'),
+(12, 153, '2024-09-12', '/nurse/assets/imgs/police_check/download - Copy.jfif', '', NULL, 0, 0, '2024-09-14 07:59:43', '2024-09-14 07:59:43'),
+(13, 154, '2024-09-04', '/nurse/assets/imgs/police_check/download (1).jfif', '', NULL, 0, 0, '2024-09-16 08:05:06', '2024-09-16 08:05:06'),
+(14, 166, '2024-10-02', '/nurse/assets/imgs/police_check/download (1).jfif', '', NULL, 0, 0, '2024-10-07 08:03:44', '2024-10-07 08:03:44'),
+(15, 179, '2020-06-01', 'evidence_file_1741240820.jpeg', 'download.jpeg', NULL, 0, 1, '2025-01-09 16:05:13', '2025-03-06 06:00:20'),
+(16, 173, '2024-11-14', '/nurse/assets/imgs/police_check/1737376971.jpg', '', NULL, 0, 0, '2025-01-20 18:12:51', NULL),
+(17, 184, '2025-01-26', 'evidence_file_1738412275.jpg', 'pexels-joshuaworoniecki-2607956.jpg', NULL, 0, 0, '2025-02-01 12:17:55', '2025-02-01 06:47:55'),
+(18, 186, '2025-01-26', 'evidence_file_1738414218.jpg', '4002676.jpg', NULL, 0, 0, '2025-02-01 18:20:18', '2025-02-01 12:50:18'),
+(19, 101, '2025-02-12', NULL, '', NULL, 0, 0, '2025-02-17 08:58:23', '2025-02-21 06:45:30'),
+(20, 194, '2025-02-28', 'evidence_file_1741157875.pdf', 'TRANSCRIPT SAMPLE.pdf', NULL, 0, 1, '2025-03-05 12:27:55', '2025-03-05 12:56:21');
 
 -- --------------------------------------------------------
 
@@ -2083,7 +2124,9 @@ INSERT INTO `professional_certificate_table` (`professionalcert_id`, `cert_id`, 
 CREATE TABLE `professional_membership` (
   `membership_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `award_status` text NOT NULL,
+  `membership_question` text DEFAULT NULL,
+  `award_question` text NOT NULL,
+  `award_status` text DEFAULT NULL,
   `organization_data` text DEFAULT NULL,
   `organization_country` int(11) DEFAULT NULL,
   `country_organization` int(11) DEFAULT NULL,
@@ -2095,6 +2138,7 @@ CREATE TABLE `professional_membership` (
   `membership_status` text DEFAULT NULL,
   `award_recognitions` text DEFAULT NULL,
   `evidence_imgs` text DEFAULT NULL,
+  `award_evidence_imgs` text DEFAULT NULL,
   `declare_info` int(11) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
@@ -2104,15 +2148,15 @@ CREATE TABLE `professional_membership` (
 -- Dumping data for table `professional_membership`
 --
 
-INSERT INTO `professional_membership` (`membership_id`, `user_id`, `award_status`, `organization_data`, `organization_country`, `country_organization`, `subcountry_organization`, `membership_type`, `submembership_type`, `des_profession_association`, `date_joined`, `membership_status`, `award_recognitions`, `evidence_imgs`, `declare_info`, `created_at`, `updated_at`) VALUES
-(80, 186, '', '{\"1\":{\"12\":{\"31\":{\"5\":[\"39\",\"40\"]}}},\"4\":{\"71\":{\"115\":{\"5\":[\"38\",\"40\",\"41\"]}}}}', NULL, NULL, NULL, NULL, NULL, '[\"ENA\"]', '2025-02-27', 'Expired Member', '{\"4\":[\"31\",\"32\"]}', NULL, NULL, '2025-02-17 05:20:44', '2025-02-17 05:58:08'),
-(81, 173, '', '{\"1\":{\"17\":{\"46\":{\"2\":[\"17\"]}}}}', NULL, NULL, NULL, NULL, NULL, 'null', '{\"46\":\"2025-02-23\"}', '{\"46\":\"Expired Member\"}', '{\"46\":{\"8\":[\"43\"]}}', '{\"0\":\"image_three.jpg\",\"77\":\"\",\"102\":[\"674ebe60a87aa.png\",\"674ea511a5900.png\",\"674f02bda3345.png\"],\"46\":[\"674eaf41a5062.png\",\"674eaf4198ae8.png\"]}', NULL, '2025-02-17 13:06:31', '2025-02-28 05:00:28'),
-(82, 187, '', '{\"4\":{\"11\":{\"96\":{\"3\":[\"25\",\"25\",\"25\"]}}},\"6\":{\"11\":{\"96\":{\"3\":[\"25\",\"25\",\"25\",\"25\",\"25\",\"25\"]}}}}', NULL, NULL, NULL, NULL, NULL, '[\"ENA\"]', '2025-02-25', 'Non-Renewed Member', '{\"4\":[\"31\"],\"2\":[\"18\"]}', '[\"image_three.jpg\"]', NULL, '2025-02-21 05:13:01', '2025-02-21 05:21:50'),
-(83, 191, '', '{\"4\":{\"71\":{\"114\":{\"3\":[\"27\"]}}}}', NULL, NULL, NULL, NULL, NULL, '[\"ANA\"]', '2025-02-25', 'Suspended Member', '{\"8\":[\"42\"]}', NULL, NULL, '2025-02-21 13:19:47', '2025-02-21 13:19:47'),
-(88, 194, '', 'null', NULL, NULL, NULL, NULL, NULL, 'null', 'null', 'null', 'null', '{\"43\":[\"CERTIFICATIONS SAMPLE.pdf\",\"DIPLOMA SAMPLE.docx\",\"DIPLOMA SAMPLE.pdf\",\"TRANSCRIPT SAMPLE.pdf\"],\"272\":[\"CERTIFICATIONS SAMPLE.pdf\",\"DIPLOMA SAMPLE.docx\",\"DIPLOMA SAMPLE.pdf\",\"TRANSCRIPT SAMPLE.pdf\"],\"271\":[\"CERTIFICATIONS SAMPLE.pdf\",\"DIPLOMA SAMPLE.docx\",\"DIPLOMA SAMPLE.pdf\",\"TRANSCRIPT SAMPLE.pdf\"],\"79\":[\"CERTIFICATIONS SAMPLE.pdf\",\"DIPLOMA SAMPLE.docx\",\"DIPLOMA SAMPLE.pdf\",\"TRANSCRIPT SAMPLE.pdf\"],\"112\":[\"CERTIFICATIONS SAMPLE.pdf\",\"DIPLOMA SAMPLE.docx\",\"DIPLOMA SAMPLE.pdf\",\"TRANSCRIPT SAMPLE.pdf\"],\"89\":[\"CERTIFICATIONS SAMPLE.pdf\",\"DIPLOMA SAMPLE.docx\",\"DIPLOMA SAMPLE.pdf\",\"TRANSCRIPT SAMPLE.pdf\"],\"134\":[\"CERTIFICATIONS SAMPLE.pdf\",\"DIPLOMA SAMPLE.docx\",\"DIPLOMA SAMPLE.pdf\",\"TRANSCRIPT SAMPLE.pdf\"]}', 1, '2025-03-03 06:52:27', '2025-03-04 13:24:06'),
-(89, 179, '', '{\"1\":{\"15\":{\"42\":{\"7\":[\"61\"],\"4\":[\"32\"],\"2\":[\"20\"],\"1\":[\"14\"],\"3\":[\"26\"],\"6\":[\"43\"],\"5\":[\"36\"]}}},\"9\":{\"15\":{\"217\":{\"1\":[\"14\"]}}}}', NULL, NULL, NULL, NULL, NULL, 'null', '{\"42\":\"11996-02-01\",\"217\":\"1996-12-04\"}', '{\"42\":\"Active - Current Member\",\"217\":\"Lapsed Member\"}', '{\"42\":{\"4\":[\"30\"]},\"217\":{\"2\":[\"23\"]}}', '{\"271\":[\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.33.49.png\",\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.34.56.png\",\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.35.05.png\",\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.35.20.png\",\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.35.27.png\"],\"113\":[\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.33.49.png\",\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.34.56.png\",\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.35.05.png\",\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.35.20.png\",\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.35.27.png\"],\"217\":[\"images (1).jpeg\"],\"253\":[\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.33.49.png\",\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.34.56.png\",\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.35.05.png\",\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.35.20.png\",\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.35.27.png\"],\"43\":[\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.33.49.png\",\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.34.56.png\",\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.35.05.png\",\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.35.20.png\",\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.35.27.png\",\"download.jpeg\",\"download.png\",\"hg9xBr1721293815.png\",\"images (1).jpeg\",\"images.jpeg\",\"oGhX5A1726828366.png\",\"photo-1492684223066-81342ee5ff30.avif\"],\"112\":[\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.33.49.png\",\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.34.56.png\",\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.35.05.png\",\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.35.20.png\",\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.35.27.png\"],\"89\":[\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.33.49.png\",\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.34.56.png\",\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.35.05.png\",\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.35.20.png\",\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.35.27.png\"],\"42\":[\"download.jpeg\"]}', 1, '2025-03-03 08:41:18', '2025-03-04 12:56:13'),
-(90, 101, '', 'null', NULL, NULL, NULL, NULL, NULL, 'null', 'null', 'null', 'null', '{\"43\":[\"CERTIFICATIONS SAMPLE.pdf\",\"DIPLOMA SAMPLE.docx\",\"DIPLOMA SAMPLE.pdf\",\"TRANSCRIPT SAMPLE.pdf\"],\"271\":[\"CERTIFICATIONS SAMPLE.pdf\",\"DIPLOMA SAMPLE.docx\",\"DIPLOMA SAMPLE.pdf\",\"TRANSCRIPT SAMPLE.pdf\"],\"89\":[\"CERTIFICATIONS SAMPLE.pdf\",\"DIPLOMA SAMPLE.docx\",\"DIPLOMA SAMPLE.pdf\",\"TRANSCRIPT SAMPLE.pdf\"]}', NULL, '2025-03-04 07:12:23', '2025-03-04 07:22:48'),
-(93, 196, 'No', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2025-03-04 12:49:29', '2025-03-04 12:49:29');
+INSERT INTO `professional_membership` (`membership_id`, `user_id`, `membership_question`, `award_question`, `award_status`, `organization_data`, `organization_country`, `country_organization`, `subcountry_organization`, `membership_type`, `submembership_type`, `des_profession_association`, `date_joined`, `membership_status`, `award_recognitions`, `evidence_imgs`, `award_evidence_imgs`, `declare_info`, `created_at`, `updated_at`) VALUES
+(80, 186, NULL, '', NULL, '{\"1\":{\"12\":{\"31\":{\"5\":[\"39\",\"40\"]}}},\"4\":{\"71\":{\"115\":{\"5\":[\"38\",\"40\",\"41\"]}}}}', NULL, NULL, NULL, NULL, NULL, '[\"ENA\"]', '2025-02-27', 'Expired Member', '{\"4\":[\"31\",\"32\"]}', NULL, NULL, NULL, '2025-02-17 05:20:44', '2025-02-17 05:58:08'),
+(81, 173, NULL, 'No', NULL, '', NULL, NULL, NULL, NULL, NULL, '', '', '', '', '{\"0\":\"image_three.jpg\",\"77\":\"\",\"102\":[\"674ebe60a87aa.png\",\"674ea511a5900.png\",\"674f02bda3345.png\"],\"46\":[\"674eaf41a5062.png\",\"674eaf4198ae8.png\"]}', NULL, 1, '2025-02-17 13:06:31', '2025-03-06 12:22:04'),
+(82, 187, NULL, '', NULL, '{\"4\":{\"11\":{\"96\":{\"3\":[\"25\",\"25\",\"25\"]}}},\"6\":{\"11\":{\"96\":{\"3\":[\"25\",\"25\",\"25\",\"25\",\"25\",\"25\"]}}}}', NULL, NULL, NULL, NULL, NULL, '[\"ENA\"]', '2025-02-25', 'Non-Renewed Member', '{\"4\":[\"31\"],\"2\":[\"18\"]}', '[\"image_three.jpg\"]', NULL, NULL, '2025-02-21 05:13:01', '2025-02-21 05:21:50'),
+(83, 191, NULL, '', NULL, '{\"4\":{\"71\":{\"114\":{\"3\":[\"27\"]}}}}', NULL, NULL, NULL, NULL, NULL, '[\"ANA\"]', '2025-02-25', 'Suspended Member', '{\"8\":[\"42\"]}', NULL, NULL, NULL, '2025-02-21 13:19:47', '2025-02-21 13:19:47'),
+(88, 194, NULL, 'No', NULL, '', NULL, NULL, NULL, NULL, NULL, '', '', '', '', '{\"43\":[\"CERTIFICATIONS SAMPLE.pdf\",\"DIPLOMA SAMPLE.docx\",\"DIPLOMA SAMPLE.pdf\",\"TRANSCRIPT SAMPLE.pdf\"],\"272\":[\"CERTIFICATIONS SAMPLE.pdf\",\"DIPLOMA SAMPLE.docx\",\"DIPLOMA SAMPLE.pdf\",\"TRANSCRIPT SAMPLE.pdf\"],\"271\":[\"CERTIFICATIONS SAMPLE.pdf\",\"DIPLOMA SAMPLE.docx\",\"DIPLOMA SAMPLE.pdf\",\"TRANSCRIPT SAMPLE.pdf\"],\"79\":[\"CERTIFICATIONS SAMPLE.pdf\",\"DIPLOMA SAMPLE.docx\",\"DIPLOMA SAMPLE.pdf\",\"TRANSCRIPT SAMPLE.pdf\"],\"112\":[\"CERTIFICATIONS SAMPLE.pdf\",\"DIPLOMA SAMPLE.docx\",\"DIPLOMA SAMPLE.pdf\",\"TRANSCRIPT SAMPLE.pdf\"],\"89\":[\"CERTIFICATIONS SAMPLE.pdf\",\"DIPLOMA SAMPLE.docx\",\"DIPLOMA SAMPLE.pdf\",\"TRANSCRIPT SAMPLE.pdf\"],\"134\":[\"CERTIFICATIONS SAMPLE.pdf\",\"DIPLOMA SAMPLE.docx\",\"DIPLOMA SAMPLE.pdf\",\"TRANSCRIPT SAMPLE.pdf\"]}', NULL, 1, '2025-03-03 06:52:27', '2025-03-06 13:06:12'),
+(89, 179, NULL, 'Yes', NULL, '{\"2\":{\"15\":{\"271\":{\"1\":[\"14\",\"16\",\"11\",\"8\",\"12\",\"13\",\"10\",\"15\",\"9\"]}}}}', NULL, NULL, NULL, NULL, NULL, 'null', '{\"271\":\"1996-12-04\"}', '{\"271\":\"Active - Current Member\"}', '{\"271\":{\"2\":[\"23\",\"20\",\"21\",\"22\",\"18\",\"19\"],\"8\":[\"44\",\"45\",\"42\",\"43\"],\"3\":[\"24\",\"26\",\"27\",\"25\",\"28\"],\"6\":[\"36\",\"37\",\"38\"],\"4\":[\"30\",\"31\",\"29\",\"32\"],\"5\":[\"34\",\"33\",\"35\"],\"7\":[\"41\",\"39\",\"40\"],\"1\":[\"14\",\"10\",\"12\",\"11\",\"17\",\"9\",\"16\",\"15\",\"13\"]}}', '{\"271\":[\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.33.49.png\",\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.34.56.png\",\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.35.05.png\",\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.35.20.png\",\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.35.27.png\",\"download.jpeg\",\"download.png\",\"hg9xBr1721293815.png\",\"images (1).jpeg\",\"images.jpeg\",\"oGhX5A1726828366.png\",\"photo-1492684223066-81342ee5ff30.avif\"],\"113\":[\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.33.49.png\",\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.34.56.png\",\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.35.05.png\",\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.35.20.png\",\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.35.27.png\"],\"217\":[\"images (1).jpeg\"],\"253\":[\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.33.49.png\",\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.34.56.png\",\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.35.05.png\",\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.35.20.png\",\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.35.27.png\"],\"43\":[\"download.jpeg\"],\"112\":[\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.33.49.png\",\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.34.56.png\",\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.35.05.png\",\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.35.20.png\",\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.35.27.png\"],\"89\":[\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.33.49.png\",\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.34.56.png\",\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.35.05.png\",\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.35.20.png\",\"Simulator Screen Shot - iPhone 14 Pro Max - 2024-10-18 at 17.35.27.png\"],\"42\":[\"download.jpeg\"],\"41\":[\"download.jpeg\",\"download.png\",\"hg9xBr1721293815.png\",\"images (1).jpeg\",\"images.jpeg\",\"oGhX5A1726828366.png\",\"photo-1492684223066-81342ee5ff30.avif\"]}', NULL, 1, '2025-03-03 08:41:18', '2025-03-06 12:59:47'),
+(90, 101, NULL, '', NULL, 'null', NULL, NULL, NULL, NULL, NULL, 'null', 'null', 'null', 'null', '{\"43\":[\"CERTIFICATIONS SAMPLE.pdf\",\"DIPLOMA SAMPLE.docx\",\"DIPLOMA SAMPLE.pdf\",\"TRANSCRIPT SAMPLE.pdf\"],\"271\":[\"CERTIFICATIONS SAMPLE.pdf\",\"DIPLOMA SAMPLE.docx\",\"DIPLOMA SAMPLE.pdf\",\"TRANSCRIPT SAMPLE.pdf\"],\"89\":[\"CERTIFICATIONS SAMPLE.pdf\",\"DIPLOMA SAMPLE.docx\",\"DIPLOMA SAMPLE.pdf\",\"TRANSCRIPT SAMPLE.pdf\"]}', NULL, NULL, '2025-03-04 07:12:23', '2025-03-04 07:22:48'),
+(94, 196, 'Yes', 'Yes', NULL, '{\"3\":{\"11\":{\"76\":{\"3\":[\"30\"]}}}}', NULL, NULL, NULL, NULL, NULL, NULL, '{\"76\":\"2025-03-26\"}', '{\"76\":\"Inactive Member\"}', '{\"4\":{\"31\":\"sdfdfd\"}}', '{\"76\":[\"1 4.png\",\"blue_stick 1.png\"]}', '{\"31\":[\"1 2.png\",\"1 4.png\",\"header 1.png\"]}', 1, '2025-03-10 13:26:57', '2025-03-10 13:27:33');
 
 -- --------------------------------------------------------
 
@@ -2444,7 +2488,7 @@ INSERT INTO `referee` (`referee_id`, `referee_no`, `user_id`, `first_name`, `las
 (20, 1, 101, 'carry', 'sim', 'veer123@gmail.com', '708998038636633636666', 'Worked in Same Group', 'intomoniyo', 'manager', '2024-12-27', '2024-12-30', 1, 1, '2024-12-05 08:41:27', '2025-01-24 07:30:43'),
 (21, 2, 173, 'dwew', 'xcx', 'cfdd@gmail.com', '343434', 'I Managed Referee', 'intomoniyoere', 'gfgfg', '2025-01-20', '2025-01-31', 0, 1, '2024-12-05 08:43:18', '2025-01-30 10:43:43'),
 (22, 1, 176, 'Kate', 'DEMO', 'Damo2332@gmail.com', '05415416114', 'Worked in Same Group', 'intomoniyo', 'manager', NULL, NULL, 1, 0, '2024-12-07 10:52:00', '2024-12-07 10:52:00'),
-(23, 1, 179, 'vijendra', 'parmar', 'vijehndraparmar1789@gmail.com', '07089980388', 'Worked in Same Group', 'intomoniyo', 'manager', '2007-02-09', NULL, 1, 1, '2025-01-09 09:39:33', '2025-03-04 11:32:38'),
+(23, 1, 179, 'vijendra', 'parmar', 'vijehndraparmar1789@gmail.com', '07089980388', 'Peer Mentor', 'intomoniyo', 'manager', '2007-02-09', '2025-03-05', 0, 1, '2025-01-09 09:39:33', '2025-03-06 05:58:01'),
 (28, 1, 188, 'dwew', 'DEMO', 'Damo2332@gmail.com', '1234569878785', 'Sister', 'intomoniyo', 'manager', '2025-02-24', NULL, 1, 0, '2025-02-19 06:20:09', '2025-02-19 06:20:09'),
 (29, 1, 188, 'dwew', 'DEMO', 'Damo2332@gmail.com', '1234569878785', 'Sister', 'intomoniyo', 'manager', '2025-02-24', '2025-02-26', 1, 0, '2025-02-19 06:20:31', '2025-02-19 06:20:31'),
 (30, 1, 188, 'dwew', 'DEMO', 'Damo2332@gmail.com', '1234569878785', 'Sister', 'intomoniyo', 'manager', '2025-02-24', '2025-02-26', 1, 0, '2025-02-19 06:20:53', '2025-02-19 06:20:53'),
@@ -2455,10 +2499,16 @@ INSERT INTO `referee` (`referee_id`, `referee_no`, `user_id`, `first_name`, `las
 (35, 1, 191, 'wqwq', 'w3ww', 'dwewsdsd3434@gmail.com', '1234569878785', 'Brother', 'intomoniyo', 'manager', '2025-02-24', '2025-02-26', 0, 0, '2025-02-21 12:18:15', '2025-02-21 12:18:15'),
 (36, 1, 191, 'wqwq', 'w3ww', 'sdsd3434@gmail.com', '1234569878785', 'Sister', 'intomoniyoere', 'manager', '2025-02-27', '2025-02-26', 0, 0, '2025-02-21 12:21:46', '2025-02-21 12:21:46'),
 (37, 1, 192, 'Vincent', 'Boueshaghi', 'veer123@gmail.com', '0426923779', 'Preceptor', 'intomoniyo', 'manager', NULL, NULL, 1, 1, '2025-02-25 02:04:35', '2025-02-25 02:27:32'),
-(38, 1, 194, 'Vincent', 'Boueshaghi', 'veer123@gmail.com', '0426923779', 'Worked in Same Group', 'intomoniyo', 'manager', '2025-02-27', '2025-03-07', 0, 1, '2025-02-28 06:15:51', '2025-02-28 06:16:45'),
-(39, 2, 194, 'Vincent', 'Boueshaghi', 'veer123@gmail.com', '0426923779', 'Educational Supervisor', 'intomoniyo', 'manager', '2025-02-27', '2025-03-08', 0, 1, '2025-02-28 06:16:45', '2025-02-28 06:16:45'),
-(40, 1, 196, 'ass', 'zxzx', 'sdsd@gmail.com', '1234569878785', 'Worked Together on a Project', 'intomoniyo', 'manager', '2025-03-30', NULL, 0, 1, '2025-03-04 09:41:38', '2025-03-04 09:52:39'),
-(41, 2, 179, 'Nurse', 'DEMO', 'Damo2332@gmail.com', '708998038', 'Referee Managed Me', 'intomoniyo', 'manager', '2025-03-04', NULL, 1, 1, '2025-03-04 11:32:38', '2025-03-04 11:32:38');
+(38, 1, 194, 'Vincent', 'Boueshaghi', 'veer123@gmail.com', '0426923779', 'Worked in Same Group', 'intomoniyo', 'manager', '2025-02-27', NULL, 0, 1, '2025-02-28 06:15:51', '2025-03-05 05:17:26'),
+(39, 2, 194, 'Vincent', 'Boueshaghi', 'veer123@gmail.com', '0426923779', 'Educational Supervisor', 'intomoniyo', 'manager', '2025-02-27', NULL, 0, 1, '2025-02-28 06:16:45', '2025-03-05 05:17:26'),
+(40, 1, 196, 'ass', 'zxzx', 'sdsd@gmail.com', '1234569878785', 'Worked Together on a Project', 'intomoniyo', 'manager', '2025-03-30', '2025-03-19', 1, 1, '2025-03-04 09:41:38', '2025-03-05 13:34:00'),
+(48, 2, 196, 'sds', 'xcxc', 'sdsd3443@gmail.com', '34343434', 'Advisory Role', 'intomoniyo', 'manager', '2025-03-26', '2025-03-25', 1, 1, '2025-03-05 11:54:23', '2025-03-05 13:34:00'),
+(49, 3, 196, 'sds', 'errer', 'sdsdxcx@gmail.com', '1234569878785', 'Coordinated Care Together', 'intomoniyo', 'manager', '2025-03-16', '2025-03-24', 0, 1, '2025-03-05 12:13:47', '2025-03-05 13:34:00'),
+(50, 4, 196, 'cx', 'eer', 'cxcx@gmail.com', '343434', 'Instructor or Teacher', 'intomoniyo', 'manager', '2025-03-26', '2025-04-05', 1, 1, '2025-03-05 13:19:11', '2025-03-05 13:34:00'),
+(51, 2, 179, 'carry', 'DO', 'testgb01@hulas.co', '07089980388', 'Worked in Same Group', 'intomoniyo', 'manager', '2023-09-05', '2025-03-05', 1, 1, '2025-03-05 13:24:51', '2025-03-06 05:58:01'),
+(52, 3, 179, 'veer', 'veer', 'vijehndraparmar1789@gmail.com', '05415416114', 'Referee Managed Me', 'intomoniyo', 'manager', '2023-02-05', '2025-03-02', 0, 1, '2025-03-05 13:24:51', '2025-03-06 05:58:01'),
+(53, 5, 196, 'fdf', 'cvcv', 'ere@gmail.com', '1234569878785', 'Referee Managed Me', 'intomoniyo', 'manager', '2025-03-25', '2025-03-25', 0, 1, '2025-03-05 13:33:29', '2025-03-05 13:34:00'),
+(54, 4, 179, 'veer', 'veer', 'vijehndraparmar1789@gmail.com', '541541611', 'Worked in Same Group', 'intomoniyo', 'manager', '2023-06-06', '2025-03-12', 0, 1, '2025-03-06 05:56:53', '2025-03-06 05:58:01');
 
 -- --------------------------------------------------------
 
@@ -2557,7 +2607,8 @@ INSERT INTO `speacilaized_clearance` (`id`, `user_id`, `clearance_state`, `clear
 (9, 184, 195, '11122', '111122', '2025-02-04', 'evidence_file_1738571941.jpg', '2157647-3840x2160-desktop-4k-gt-r-background.jpg', '2025-02-03 14:09:01', '2025-02-03 03:11:36'),
 (10, 186, 196, '2222121', '2222121', '2025-02-27', 'evidence_file_1738573447.jpg', '2157647-3840x2160-desktop-4k-gt-r-background.jpg', '2025-02-03 14:09:38', '2025-02-03 09:04:07'),
 (11, 184, 201, '212121', '212111', '2025-02-27', 'evidence_file_1738572135.jpg', 'abstract-autumn-beauty-multi-colored-leaf-vein-pattern-generated-by-ai.jpg', '2025-02-03 14:12:15', '2025-02-03 03:12:15'),
-(12, 186, 198, '1212', '1212221', '2025-02-12', 'evidence_file_1738573387.jpg', '2157842-3840x2160-desktop-4k-gt-r-wallpaper.jpg', '2025-02-03 14:33:07', '2025-02-03 09:03:07');
+(12, 186, 198, '1212', '1212221', '2025-02-12', 'evidence_file_1738573387.jpg', '2157842-3840x2160-desktop-4k-gt-r-wallpaper.jpg', '2025-02-03 14:33:07', '2025-02-03 09:03:07'),
+(16, 194, 195, '555a', 'aaaa', '2025-03-15', '', '', '2025-03-05 12:28:28', '2025-03-05 06:59:13');
 
 -- --------------------------------------------------------
 
@@ -8113,7 +8164,7 @@ INSERT INTO `users` (`id`, `name`, `lastname`, `email`, `profile_img`, `email_ve
 (189, 'saeds', 'Mandloi', 'neha323@gmail.com', 'nurse/assets/imgs/image_four.jpg', NULL, '$2y$10$pZQjJBHgm0OCmXccGWNQ9.jKC7CSoMby/iXLwOlpRKY9zMM8JiS9i', NULL, NULL, 0, '1', '1', '1', NULL, '', '', NULL, '', '', NULL, NULL, '', '452001', NULL, NULL, '2025-02-19 08:46:44', '2025-02-19 08:46:44', '1', '1', 'No', 'No', 'No', 'No', 'No', '61', 'au', '2345671890', 'Neha@1234', 'AU', 195, 'Indore', NULL, 'https://mediqa.com.au/', NULL, 'Female', '2025-02-26', 'neha@gmail.com', '1234567890', '61', 'au', 'sdsd@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (190, 'aew', '3422', 'neha32343434@gmail.com', 'nurse/assets/imgs/image_two.jpg', NULL, '$2y$10$df875A83nB6XMliLUuirjewmTSjLdTGvBAhKpIB8kmA4LbIaFLWF2', NULL, NULL, 0, '1', '1', '1', NULL, '', '', NULL, '', '', NULL, NULL, '', '452001', NULL, NULL, '2025-02-19 08:48:51', '2025-02-19 08:48:51', '1', '1', 'No', 'No', 'No', 'No', 'No', '61', 'au', '4455454551', 'Neha@1234', 'AU', 195, 'Indore', NULL, 'https://mediqa.com.au/', NULL, 'Female', '2025-02-24', 'dfdf', '434554545', '61', 'au', 'sdsd@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (191, 'e434', 'fffffffg', 'fere@gmail.com', 'nurse/assets/imgs/image_three.jpg', NULL, '$2y$10$UsVf9lBh1Dn1gKgHSC4.t.bRROHXrmXHU./5AR.RXTpEi7GmRFSSa', NULL, NULL, 0, '1', '1', '1', '[\"3\"]', '[\"1\"]', '', NULL, '1', '', NULL, NULL, '[\"2\"]', '452001', NULL, NULL, '2025-02-21 12:12:01', '2025-02-21 12:13:38', '1', '1', 'No', 'Yes', 'No', 'Yes', 'No', '61', 'au', '1234567890', 'Neha@1234', 'AU', 195, 'Indore', 'seere', 'https://mediqa.com.au/', NULL, 'Female', '2025-02-25', 'dfdf', '1234567890', '61', 'au', 'xxccre@gmail.com', 'null', '[\"21\"]', 'null', 'null', 'null', 'null', '[\"242\"]', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'Volunteer', '', '', NULL, 1, NULL, 1, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL),
-(194, 'Vincent', 'Boueshaghi', 'vincentriviera@gmail.com', 'nurse/assets/imgs/nurse06.png', NULL, '$2y$10$w.IryVwIO3E1hSc7qAxPSOsVK1iVRhjWM7X3EmA72TgNtI/8s.28q', NULL, '', 0, '1', '1', '1', '[\"1\",\"2\",\"3\"]', '[\"2\"]', 'null', 'null', '1', 'null', 'null', 'null', '[\"1\",\"10\",\"11\"]', '6009', NULL, NULL, '2025-02-26 18:48:41', '2025-03-04 08:20:24', '5', '1', 'Yes', 'Yes', 'No', 'Yes', 'No', '61', 'au', '0426923779', 'Pizzas77', 'AU', 202, 'Crawley', 'test', NULL, NULL, 'Male', '1976-08-29', '3/21a Cook Street', '0426923779', '61', 'au', 'vincentriviera@gmail.com', '[\"254\"]', 'null', 'null', 'null', '[\"8\",\"9\"]', '[\"205\"]', '[\"243\"]', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'Unemployed', '', '', 1, 1, '75', 1, NULL, 1, 'Recently graduated', NULL, NULL, 'Within 1 month', '[\"Updating my resume \\/ CV\",\"Preparing for interviews\",\"Finding job opportunities\",\"Licensing & certification requirements\",\"Networking with healthcare employers\"]', 'test'),
+(194, 'Vincent', 'Boueshaghi', 'vincentriviera@gmail.com', 'nurse/assets/imgs/nurse06.png', NULL, '$2y$10$w.IryVwIO3E1hSc7qAxPSOsVK1iVRhjWM7X3EmA72TgNtI/8s.28q', NULL, '', 0, '1', '1', '1', '[\"1\",\"2\",\"3\"]', '[\"2\"]', 'null', 'null', '1', 'null', 'null', 'null', '[\"1\",\"10\",\"11\"]', '6009', NULL, NULL, '2025-02-26 18:48:41', '2025-03-05 06:48:39', '5', '1', 'Yes', 'Yes', 'No', 'Yes', 'No', '61', 'au', '0426923779', 'Pizzas77', 'AU', 202, 'Crawley', 'test', NULL, NULL, 'Male', '1976-08-29', '3/21a Cook Street', '0426923779', '61', 'au', 'vincentriviera@gmail.com', '[\"254\"]', 'null', 'null', 'null', '[\"8\",\"9\"]', '[\"205\"]', '[\"243\"]', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'Temporary', '', NULL, 1, 1, '75', 1, NULL, 1, 'Recently graduated', NULL, NULL, 'Within 1 month', '[\"Updating my resume \\/ CV\",\"Preparing for interviews\",\"Finding job opportunities\",\"Licensing & certification requirements\",\"Networking with healthcare employers\"]', 'test'),
 (196, 'aew', '3422', 'votivephp.neha@gmail.com', '/nurse/assets/imgs/1740575335.jpg', NULL, '$2y$10$GOSO6FsGODq4Oux7Ljdw5uCB6HW40EUWaEr1s3oSTHswN6mKVZGpO', NULL, '', 0, '1', '1', '1', '[\"3\"]', '[\"1\"]', 'null', 'null', '1', 'null', 'null', 'null', '[\"1\",\"10\",\"7\",\"11\",\"2\",\"6\",\"9\",\"4\",\"15\",\"14\",\"13\",\"8\",\"3\",\"5\"]', '452001', NULL, NULL, '2025-02-26 18:39:23', '2025-03-01 05:50:34', '5', '1', 'No', 'No', 'No', 'No', 'No', '61', 'au', '1234567890', 'Neha@1234', 'AU', 195, 'Indore', 'aewew', 'http://localhost/mediqa', NULL, 'Female', '2025-02-25', 'dfdf', '1234567890', '61', 'au', 'sdsd@gmail.com', 'null', '[\"21\"]', 'null', 'null', 'null', 'null', '[\"243\"]', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'Unemployed', '', '', 1, 1, '4', NULL, NULL, 1, 'Transitioning from another job', NULL, '3 to 6 months', NULL, NULL, 'dsdsd ss');
 
 -- --------------------------------------------------------
@@ -8199,7 +8250,7 @@ INSERT INTO `user_education_cerification` (`education_id`, `user_id`, `degrees`,
 (36, 188, NULL, 'trrtrt', NULL, '2025-02-21', NULL, NULL, '[\"7\"]', '', NULL, 0, '', '', NULL, '', 1, NULL, '', '[{\"bls_certification_id\":\"Jamaica: BLS - Heart Foundation of Jamaica\",\"bls_license_number\":\"sdsd3443\",\"bls_expiry\":\"2025-02-24\"}]', '', '', '', '', '', '', '', '', '', '', '', '', '', '', NULL, '2025-02-19 06:18:42', '2025-02-19 06:18:42'),
 (37, 191, NULL, 'trrtrt', NULL, '2025-02-17', NULL, NULL, '[\"11\"]', '', NULL, 0, '', '', NULL, '', 1, NULL, '', '', '', '', '', '[{\"rn_certification_id\":\"Jamaica: RN - Nursing Council of Jamaica (NCJ)\",\"rn_license_number\":\"ew43\",\"rn_expiry\":\"2025-02-24\"}]', '', '', '', '', '', '', '', '', '', '', NULL, '2025-02-21 12:13:38', '2025-02-21 12:13:38'),
 (38, 192, NULL, 'NDPS PSA Ecole des mines', NULL, '2025-02-26', '[\"TRANSCRIPT SAMPLE.pdf\"]', NULL, '[\"6\"]', '', NULL, 0, '', NULL, NULL, NULL, 1, NULL, '[{\"acls_certification_id\":\"Jamaica: ACLS - Heart Foundation of Jamaica\",\"acls_license_number\":\"dff\",\"acls_expiry\":\"2025-02-20\",\"acls_upload_certification\":\"[\\\"TRANSCRIPT SAMPLE.pdf\\\"]\"}]', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2025-02-25 02:20:19', '2025-02-25 02:20:19'),
-(39, 194, NULL, 'NDPS PSA Ecole des mines', NULL, '2025-02-27', '[\"DIPLOMA SAMPLE.pdf\"]', NULL, '[\"21\"]', '', NULL, 0, '', NULL, 'null', NULL, 1, 1, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2025-03-04 08:20:09', '2025-03-04 08:20:09'),
+(39, 194, NULL, 'NDPS PSA Ecole des mines', NULL, '2025-02-27', '[\"DIPLOMA SAMPLE.pdf\"]', NULL, '[\"21\"]', '', NULL, 0, '', NULL, 'null', NULL, 1, 1, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2025-03-05 05:06:23', '2025-03-05 05:06:23'),
 (40, 196, NULL, 'trrtrt', NULL, '2025-03-25', '[\"674eaf4198ae8.png\"]', NULL, '[\"21\"]', '', NULL, 0, '', NULL, 'null', NULL, 1, 1, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2025-03-04 09:53:18', '2025-03-04 09:53:18');
 
 -- --------------------------------------------------------
@@ -8294,9 +8345,9 @@ INSERT INTO `user_experience` (`experience_id`, `user_id`, `employer_name`, `pos
 (83, 188, '', 'Educator', '2025-02-23', '2025-02-26', 'Temporary', NULL, 'ssdsds ewe', 'd sdsd', '[\"9\"]', NULL, 1, '[\"Award\"]', '[\"image_three.jpg\"]', 'null', '[\"1\"]', 'null', '[\"3\"]', 'null', 'null', '[\"241\"]', 'null', '[\"22\"]', 'null', '2025-02-19 06:30:02', '2025-02-19 06:30:02', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, NULL, NULL, 0, '[]', 'null', NULL, 'null', '[\"24\"]', 'null', 'null', 1),
 (84, 188, '', 'Nurse Coordinator', '2025-02-27', '2025-02-28', 'Permanent', NULL, 'dsd', 'sd we', '[\"10\"]', NULL, 1, '[\"Transcript\"]', '[\"image_three.jpg\"]', 'null', '[\"1\"]', 'null', '[\"3\"]', 'null', 'null', '[\"242\"]', 'null', '[\"21\"]', 'null', '2025-02-19 06:49:03', '2025-02-19 06:49:03', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, NULL, 'Agency Nurse/Midwife', 0, '[]', 'null', NULL, 'null', 'null', '[\"30\"]', 'null', 1),
 (85, 192, '', 'Staff Nurse', '2025-02-27', '2025-02-28', 'Permanent', NULL, 'a', 'a', '[\"8\"]', NULL, 1, '[\"Award\"]', '[]', '[\"252\"]', '[\"2\"]', 'null', '[\"1\"]', '[\"8\"]', 'null', 'null', 'null', 'null', 'null', '2025-02-25 02:02:24', '2025-02-25 02:25:03', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, NULL, 'Part-time', 1, '[]', 'null', '1', 'null', 'null', 'null', 'null', 1),
-(93, 194, '', 'Team Member', '2025-02-24', '2025-03-03', 'Permanent', NULL, 'qwer', 'qwer', '[\"8\"]', NULL, 1, '[\"Statement of Service\"]', '[]', '[\"252\"]', '[\"2\"]', 'null', '[\"1\"]', '[\"6\"]', 'null', 'null', 'null', 'null', 'null', '2025-03-04 08:55:08', '2025-03-04 08:57:47', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, NULL, 'Full-time', 0, '{\"1\":[\"12\"]}', 'null', '3', '[\"12\"]', 'null', 'null', 'null', 1),
-(94, 194, '', 'Team Member', '2025-02-24', '2025-03-03', 'Temporary', NULL, 'qwer', 'qwer', '[\"8\"]', NULL, 1, '[\"Certificate\"]', '[\"TRANSCRIPT SAMPLE.pdf\"]', 'null', '[\"1\"]', 'null', '[\"1\"]', '[\"6\"]', 'null', 'null', 'null', '[\"18\"]', 'null', '2025-03-04 08:57:47', '2025-03-04 08:57:47', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, NULL, NULL, 0, '{\"1\":[\"12\"]}', 'null', '7', 'null', 'null', 'null', 'null', 1),
-(96, 179, '', 'Team Leader', '2025-03-04', '2025-02-24', 'Permanent', NULL, 'bgbgdghgngnghngh', 'nghnghnghghnghn', '[\"9\"]', NULL, 1, '[\"Statutory Declaration\"]', '[\"images (1).jpeg\"]', '[\"252\"]', '[\"2\"]', 'null', '[\"1\"]', '[\"6\"]', 'null', 'null', 'null', 'null', 'null', '2025-03-04 10:58:54', '2025-03-04 10:58:54', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, NULL, 'Full-time', 1, '[]', 'null', '1', 'null', '[\"23\"]', 'null', 'null', 1);
+(93, 194, '', 'Team Member', '2025-02-24', '2025-03-03', 'Permanent', NULL, 'qwer', 'qwer', '[\"8\"]', NULL, 1, '[\"Statement of Service\"]', '[]', '[\"252\"]', '[\"2\"]', 'null', '[\"1\"]', '[\"6\"]', 'null', 'null', 'null', 'null', 'null', '2025-03-04 08:55:08', '2025-03-05 06:45:33', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, NULL, 'Full-time', 0, '{\"1\":[\"12\"]}', 'null', '3', '[\"12\"]', 'null', 'null', 'null', 1),
+(94, 194, '', 'Team Member', '2025-02-24', '2025-03-03', 'Temporary', NULL, 'qwer', 'qwer', '[\"8\"]', NULL, 1, '[\"Certificate\"]', '[]', 'null', '[\"1\"]', 'null', '[\"1\"]', '[\"6\"]', 'null', 'null', 'null', '[\"18\"]', 'null', '2025-03-04 08:57:47', '2025-03-05 06:45:33', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, NULL, NULL, 0, '{\"1\":[\"12\"]}', 'null', '7', 'null', 'null', 'null', 'null', 1),
+(96, 179, '', 'Team Leader', '2025-03-04', '2025-02-24', 'Permanent', NULL, 'bgbgdghgngnghngh', 'nghnghnghghnghn', '[\"9\"]', NULL, 1, '[\"Statutory Declaration\"]', '[]', '[\"252\"]', '[\"2\"]', 'null', '[\"1\"]', '[\"6\"]', 'null', 'null', 'null', 'null', 'null', '2025-03-04 10:58:54', '2025-03-06 08:49:57', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, NULL, 'Full-time', 1, '[]', 'null', '1', 'null', '[\"23\"]', 'null', 'null', 1);
 
 -- --------------------------------------------------------
 
@@ -8339,6 +8390,7 @@ CREATE TABLE `vaccination_front` (
   `immunization_status` int(11) NOT NULL,
   `evidance_type` int(11) DEFAULT NULL,
   `covid_dose` int(11) NOT NULL,
+  `is_declare` tinyint(4) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `vaccination_records` varchar(10) NOT NULL
@@ -8348,30 +8400,23 @@ CREATE TABLE `vaccination_front` (
 -- Dumping data for table `vaccination_front`
 --
 
-INSERT INTO `vaccination_front` (`id`, `user_id`, `vaccination_id`, `immunization_status`, `evidance_type`, `covid_dose`, `created_at`, `updated_at`, `vaccination_records`) VALUES
-(7, 179, 8, 6, 3, 0, '2025-01-14 05:28:30', '2025-01-23 05:52:47', ''),
-(8, 179, 9, 8, 1, 0, '2025-01-14 05:28:30', '2025-01-23 05:52:47', ''),
-(10, 179, 10, 6, 5, 0, '2025-01-17 09:06:47', '2025-01-23 05:52:47', ''),
-(11, 179, 11, 6, 9, 0, '2025-01-17 09:06:47', '2025-01-23 05:52:47', ''),
-(13, 179, 13, 9, 12, 0, '2025-01-17 09:06:47', '2025-01-23 05:52:47', ''),
-(14, 179, 14, 7, 13, 0, '2025-01-17 09:06:47', '2025-01-23 05:52:47', ''),
-(15, 179, 15, 8, 15, 0, '2025-01-17 09:06:47', '2025-01-23 05:52:47', ''),
-(16, 179, 16, 6, 19, 0, '2025-01-17 09:06:47', '2025-01-23 05:52:47', ''),
-(17, 173, 8, 7, 3, 0, '2025-01-20 12:41:37', '2025-01-24 08:15:26', ''),
-(18, 179, 12, 6, 29, 5, '2025-01-23 05:52:47', '2025-01-23 05:52:47', ''),
-(20, 182, 8, 8, 4, 0, '2025-01-24 04:50:18', '2025-01-24 04:50:18', ''),
-(21, 182, 9, 8, 2, 0, '2025-01-24 04:51:04', '2025-01-24 08:31:07', ''),
-(22, 181, 8, 10, 4, 0, '2025-01-24 09:44:11', '2025-01-24 09:44:11', ''),
-(23, 183, 8, 15, 4, 0, '2025-01-24 11:46:37', '2025-01-24 11:46:37', ''),
-(24, 186, 8, 8, 4, 0, '2025-02-06 13:17:57', '2025-02-06 13:17:57', ''),
-(25, 191, 11, 8, 10, 0, '2025-02-21 12:22:12', '2025-02-21 12:22:12', ''),
-(26, 191, 12, 8, 0, 0, '2025-02-21 13:07:43', '2025-02-21 13:07:43', ''),
-(27, 191, 9, 12, 1, 0, '2025-02-21 13:08:09', '2025-02-21 13:08:09', ''),
-(28, 191, 12, 9, 0, 0, '2025-02-21 13:09:35', '2025-02-21 13:09:35', ''),
-(29, 191, 9, 11, 1, 0, '2025-02-21 13:11:15', '2025-02-21 13:11:15', ''),
-(30, 191, 12, 8, 0, 0, '2025-02-21 13:12:52', '2025-02-21 13:12:52', ''),
-(31, 191, 10, 13, 5, 0, '2025-02-21 13:13:26', '2025-02-21 13:13:26', ''),
-(32, 191, 10, 12, 6, 0, '2025-02-21 13:13:59', '2025-02-21 13:13:59', '');
+INSERT INTO `vaccination_front` (`id`, `user_id`, `vaccination_id`, `immunization_status`, `evidance_type`, `covid_dose`, `is_declare`, `created_at`, `updated_at`, `vaccination_records`) VALUES
+(17, 173, 8, 7, 3, 0, 0, '2025-01-20 12:41:37', '2025-01-24 08:15:26', ''),
+(20, 182, 8, 8, 4, 0, 0, '2025-01-24 04:50:18', '2025-01-24 04:50:18', ''),
+(21, 182, 9, 8, 2, 0, 0, '2025-01-24 04:51:04', '2025-01-24 08:31:07', ''),
+(22, 181, 8, 10, 4, 0, 0, '2025-01-24 09:44:11', '2025-01-24 09:44:11', ''),
+(23, 183, 8, 15, 4, 0, 0, '2025-01-24 11:46:37', '2025-01-24 11:46:37', ''),
+(24, 186, 8, 8, 4, 0, 0, '2025-02-06 13:17:57', '2025-02-06 13:17:57', ''),
+(25, 191, 11, 8, 10, 0, 0, '2025-02-21 12:22:12', '2025-02-21 12:22:12', ''),
+(26, 191, 12, 8, 0, 0, 0, '2025-02-21 13:07:43', '2025-02-21 13:07:43', ''),
+(27, 191, 9, 12, 1, 0, 0, '2025-02-21 13:08:09', '2025-02-21 13:08:09', ''),
+(28, 191, 12, 9, 0, 0, 0, '2025-02-21 13:09:35', '2025-02-21 13:09:35', ''),
+(29, 191, 9, 11, 1, 0, 0, '2025-02-21 13:11:15', '2025-02-21 13:11:15', ''),
+(30, 191, 12, 8, 0, 0, 0, '2025-02-21 13:12:52', '2025-02-21 13:12:52', ''),
+(31, 191, 10, 13, 5, 0, 0, '2025-02-21 13:13:26', '2025-02-21 13:13:26', ''),
+(32, 191, 10, 12, 6, 0, 0, '2025-02-21 13:13:59', '2025-02-21 13:13:59', ''),
+(46, 194, 8, 14, 4, 0, 1, '2025-03-06 08:24:10', '2025-03-06 08:24:10', ''),
+(48, 179, 9, 7, 2, 0, 1, '2025-03-06 11:49:46', '2025-03-06 11:49:46', '');
 
 -- --------------------------------------------------------
 
@@ -8647,7 +8692,8 @@ INSERT INTO `working_children_check` (`id`, `user_id`, `state_id`, `clearance_nu
 (20, 173, 195, '444', '2025-01-31', '', '', '1', '2025-01-20 18:13:06', '2025-01-20 07:13:06'),
 (28, 184, 195, '11111122', '2025-02-13', 'evidence_file_1738405757.jpg', 'reflection-lights-mountain-lake-captured-parco-ciani-lugano-switzerland.jpg', '1', '2025-02-01 15:59:17', '2025-02-01 05:02:16'),
 (30, 184, 196, '222222211', '2025-02-28', 'evidence_file_1738405799.jpg', '4002676.jpg', '1', '2025-02-01 15:59:59', '2025-02-01 05:02:16'),
-(33, 186, 198, '456456', '2025-02-27', 'evidence_file_1738414277.jpg', 'pexels-elti-meshau-107925-333850.jpg', '1', '2025-02-01 18:21:17', '2025-02-01 12:51:17');
+(33, 186, 198, '456456', '2025-02-27', 'evidence_file_1738414277.jpg', 'pexels-elti-meshau-107925-333850.jpg', '1', '2025-02-01 18:21:17', '2025-02-01 12:51:17'),
+(38, 194, 195, '000', '2025-03-22', 'evidence_file_1741157853.pdf', 'TRANSCRIPT SAMPLE.pdf', '1', '2025-03-05 12:27:33', '2025-03-05 06:57:33');
 
 -- --------------------------------------------------------
 
@@ -9078,7 +9124,7 @@ ALTER TABLE `edu_fields`
 -- AUTO_INCREMENT for table `eligibility_to_work`
 --
 ALTER TABLE `eligibility_to_work`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
 
 --
 -- AUTO_INCREMENT for table `emergency_contact`
@@ -9090,7 +9136,7 @@ ALTER TABLE `emergency_contact`
 -- AUTO_INCREMENT for table `evidance_file`
 --
 ALTER TABLE `evidance_file`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
 
 --
 -- AUTO_INCREMENT for table `evidence_type`
@@ -9162,7 +9208,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `ndis_screening_check`
 --
 ALTER TABLE `ndis_screening_check`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `newsletter`
@@ -9174,7 +9220,7 @@ ALTER TABLE `newsletter`
 -- AUTO_INCREMENT for table `other_vaccine`
 --
 ALTER TABLE `other_vaccine`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -9192,7 +9238,7 @@ ALTER TABLE `personal_preferences`
 -- AUTO_INCREMENT for table `police_check`
 --
 ALTER TABLE `police_check`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `practitioner_type`
@@ -9222,7 +9268,7 @@ ALTER TABLE `professional_certificate_table`
 -- AUTO_INCREMENT for table `professional_membership`
 --
 ALTER TABLE `professional_membership`
-  MODIFY `membership_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=94;
+  MODIFY `membership_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
 
 --
 -- AUTO_INCREMENT for table `professional_organization`
@@ -9234,7 +9280,7 @@ ALTER TABLE `professional_organization`
 -- AUTO_INCREMENT for table `referee`
 --
 ALTER TABLE `referee`
-  MODIFY `referee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `referee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT for table `seo`
@@ -9252,7 +9298,7 @@ ALTER TABLE `skills`
 -- AUTO_INCREMENT for table `speacilaized_clearance`
 --
 ALTER TABLE `speacilaized_clearance`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `speciality`
@@ -9300,7 +9346,7 @@ ALTER TABLE `vaccination`
 -- AUTO_INCREMENT for table `vaccination_front`
 --
 ALTER TABLE `vaccination_front`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT for table `vaccine_compliances`
@@ -9330,7 +9376,7 @@ ALTER TABLE `visa_subclas`
 -- AUTO_INCREMENT for table `working_children_check`
 --
 ALTER TABLE `working_children_check`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `work_preferences`
