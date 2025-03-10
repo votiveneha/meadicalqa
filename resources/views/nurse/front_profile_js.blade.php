@@ -1330,11 +1330,12 @@
         }
     }
 
-    let previous_employeers_head = parseInt($("#exp_data_count").val(), 10) + 2;
+    //let previous_employeers_head = parseInt($("#exp_data_count").val(), 10) + 1;
 
     //  for add another work exp js
     function add_work_experience() {
-
+        let previous_employeers_head = $(".previous_employeers_head").length;
+        previous_employeers_head++;
         $(".previous_employeers").append(`
             <div class="work_exp work_exp_${previous_employeers_head}">
                <h6 class="emergency_text previous_employeers_head">Work Experience ${previous_employeers_head}</h6>
@@ -2240,7 +2241,7 @@
         // function delete_Exp(previous_employeers_head) {
         //     $(".work_exp_" + previous_employeers_head).remove();
         // }
-        previous_employeers_head++;
+        
 
     }
 </script>

@@ -43,8 +43,8 @@
     <div class="banner-hero hero-2">
       <div class="banner-inner">
         <div class="block-banner">
-          <h1 class="text-36 color-white wow animate__animated animate__fadeInUp">Revolutionizing Healthcare Recruitment</h1>
-          <div class="font-lg font-regular color-white mt-20 wow animate__animated animate__fadeInUp" data-wow-delay=".1s">Mediqa sources travel, permanent, experienced or new specialised nurses</div>
+          <h1 class="text-36 color-white wow animate__animated animate__fadeInUp" style="font-size:35px;">Sourcing nursing excellence, near and far</h1>
+          <div class="font-lg font-regular color-white mt-20 wow animate__animated animate__fadeInUp" data-wow-delay=".1s">Healthcare-focused international software & network, exclusively designed for Nurses & Midwives</div>
 
           <div class="mt-30">
             <a href="{{ route('nurse.home') }}" class="btn btn-default mr-15">I want to get hired</a>

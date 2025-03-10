@@ -119,7 +119,7 @@
                     
                     <input type="hidden" name="user_id" value="{{ Auth::guard('nurse_middle')->user()->id }}">
                     <h6 class="emergency_text">
-                      Do you have any Professional Memberships or Awards?
+                      Do you have any Professional Memberships? 
   
                     </h6>
                     <div class="form-group level-drp">
@@ -459,6 +459,38 @@
                         @endforeach
                       </div>
                     </div>
+                    <h6 class="emergency_text">
+                      Do you have any Recognitions or Awards? 
+  
+                    </h6>
+                    <div class="form-group level-drp">
+                      <label class="form-label" for="input-1">Please select</label> 
+                      <select class="form-control award_question" name="award_question">
+                        <option value="">select</option>
+                        <option value="Yes" @if(!empty($professional_membership) && $professional_membership->award_question == "Yes") selected @endif>Yes</option>
+                        <option value="No" @if(!empty($professional_membership) && $professional_membership->award_question == "No") selected @endif>No</option>
+                      </select> 
+                      <span id="professional_awards_que" class="reqError text-danger valley"></span>
+                    </div> 
+                    <div class="awards_fields d-none">
+                      <div class="form-group level-drp">
+                        <label class="form-label award_recognition_label" for="input-1">Awards & Recognitions:</label>
+                        
+                        {{-- <input type="hidden" name="award_list" class="award_list award_list-{{ $p_arr2 }}" value="{{ $p_arr2 }}">    --}}
+                        {{-- <input type="hidden" name="awards_recognition_input" class="awards_recognition_input-{{ $p_arr2 }}" value='<?php echo $award_json; ?>'> --}}
+                        <ul id="awards_recognitions" style="display:none;">
+                          @if(!empty($awards_recognitions))
+                          @foreach($awards_recognitions as $a_reg)
+                          <li data-value="{{ $a_reg->award_id }}">{{ $a_reg->award_name }}</li>
+                          
+                          @endforeach
+                          @endif
+                        </ul>
+                        <select class="award_recog js-example-basic-multiple addAll_removeAll_btn" data-list-id="awards_recognitions" name="awards_recognitions[]" multiple="multiple"></select>
+                        <span id="reqawards_recognitions" class="reqError text-danger valley"></span>
+                      </div>
+                      <div class="show_award_reg"></div>
+                    </div>
                     <div class="declaration_box">
                       <input type="checkbox" name="professional_declare_information" class="professional_declare_information" value="1" @if(!empty($professional_membership) && $professional_membership->declare_info == "1") checked @endif>
                       <label for="declare_information">I declare that the information provided is true and correct</label>
@@ -640,6 +672,17 @@ $('.profmemaward').on('change', function() {
     $(".profess_fields").removeClass("d-none");
   }else{
     $(".profess_fields").addClass("d-none");
+  }
+});
+
+$('.award_question').on('change', function() {
+  console.log( this.value );
+  var value = this.value;
+
+  if(value == "Yes"){
+    $(".awards_fields").removeClass("d-none");
+  }else{
+    $(".awards_fields").addClass("d-none");
   }
 });
  
@@ -925,11 +968,6 @@ $('.profmemaward').on('change', function() {
                       <span id="reqmembership_status-'+country_org+data1.organization_id+'" class="reqError text-danger valley"></span>\
                     </div></div>\
                     <div class="form-group level-drp">\
-                    <label class="form-label award_recognition_label-'+country_org+data1.organization_id+'" for="input-1">Awards & Recognitions:</label>\
-                    <input type="hidden" name="award_list" class="award_list award_list-'+data1.organization_id+'" value="'+data1.organization_id+'">\
-                    <ul id="awards_recognitions" style="display:none;">'+awards_text+'</ul>\
-                    <select class="award_recog-'+country_org+data1.organization_id+' js-example-basic-multiple'+country_org+data1.organization_id+' addAll_removeAll_btn" data-list-id="awards_recognitions" name="awards_recognitions[]" multiple="multiple"></select>\
-                    <span id="reqawards_recognitions-'+country_org+data1.organization_id+'" class="reqError text-danger valley"></span></div><div class="show_award_reg-'+country_org+data1.organization_id+'"></div><div class="form-group level-drp">\
                       <label class="form-label" for="input-1">Upload Evidence</label>\
                       <input class="form-control membership_evidence" type="file" name="membership_evidence['+data1.organization_id+'][]" multiple="">\
                     </div></div>');
@@ -990,7 +1028,7 @@ $('.profmemaward').on('change', function() {
                 
                 var user_id = "<?php echo Auth::guard('nurse_middle')->user()->id; ?>";
 
-                $(".show_membership_type-"+country_org+organization_id).append('\<div class="membership_type_divs membership_type_divs-'+data1.organization_id+'">\
+                $(".show_membership_type-"+country_org+organization_id).append('\<div class="membership_type_div membership_type_div-'+data1.organization_id+'">\
     <div class="form-group level-drp o_country_div-'+country_org+' ed-o_subcountry_div-'+organization_id+' membership_type_div membership_type_div-'+data1.organization_id+' ed-membership_type_div-'+data1.organization_id+'">\
         <label class="form-label membership_type_label membership_type_label-'+country_org+data1.organization_id+'" for="input-1">Membership Type('+data1.organization_name+')</label>\
         <input type="hidden" name="subsubcountry_org_list" class="subsubcountry_org_list subsubcountry_org_list-'+data1.organization_id+'" value="'+data1.organization_id+'">\
@@ -1049,104 +1087,90 @@ $('.profmemaward').on('change', function() {
     }
   }
 
-  function subaward_recognitions(ed,country_org,organization_id){
+  $('.js-example-basic-multiple[data-list-id="awards_recognitions"]').on('change', function() {
     
-    if(ed == "edit"){
-      
-      let selectedValues = $('.js-example-basic-multiple[data-list-id="awards_recognitions-'+country_org+organization_id+'"]').val();
-      console.log("selectedValues",selectedValues);
+    let selectedValues = $(this).val();
+    console.log("selectedValues",selectedValues);
 
-      $(".show_award_reg-"+country_org+organization_id+" .subaward_list").each(function(i,val){
+    $(".show_award_reg .subaward_list").each(function(i,val){
+      var val1 = $(val).val();
+      console.log("val",val1);
+      if(selectedValues.includes(val1) == false){
+        $(".award_regc_div-"+val1).remove();
+        
+      }
+    });
+
+    for(var i=0;i<selectedValues.length;i++){
+  
+      if($(".show_award_reg .award_country_div-"+selectedValues[i]).length < 1){
+        $("#submitProfessionalMembership").attr("disabled", true);
+        $.ajax({
+          type: "GET",
+          url: "{{ url('/nurse/getawardsRecognitions') }}",
+          data: {award_id:selectedValues[i]},
+          cache: false,
+          success: function(data){
+            var data1 = JSON.parse(data);
+            
+            console.log("data1",data1);
+            
+            var org_text = "";
+            for(var j=0;j<data1.award.length;j++){
+              //console.log("data",data1.country_organiztions[j].organization_id);
+              org_text += "<li data-value='"+data1.award[j].award_id+"' class='sub_award_text-"+data1.award[j].award_id+"'>"+data1.award[j].award_name+"</li>"; 
+              // $(".organization_country_div").removeClass("d-none");
+              // $("#country_organization").append("<li data-value="+data1.country_organiztions[j].organization_id+">"+data1.country_organiztions[j].organization_country+"</li>");
+              // $("#country_organization_select").append("<option value="+data1.country_organiztions[j].organization_id+">"+data1.country_organiztions[j].organization_country+"</option>");
+            }
+            //alert($(".organization_country_div-"+data1.organization_id).length);
+            var user_id = "<?php echo Auth::guard('nurse_middle')->user()->id; ?>";
+
+            $(".show_award_reg").append('<div class="award_regc_div-'+data1.organization_id+'"><div class="form-group level-drp award_div award_country_div-'+data1.organization_id+'"><label class="form-label subaward_label subaward_label-'+data1.organization_id+'" for="input-1">'+data1.award_name+'</label><input type="hidden" name="subaward_list" class="subaward_list subaward_list-'+data1.organization_id+'" value="'+data1.organization_id+'"><ul id="award_reg-'+data1.organization_id+'" style="display:none;">'+org_text+'</ul><select class="sub_award_org sub_award_org-'+data1.organization_id+' js-example-basic-multiple'+data1.organization_id+' addAll_removeAll_btn" data-list-id="award_reg-'+data1.organization_id+'" id="award_organization_select-'+data1.organization_id+'" name="award_organization['+data1.organization_id+'][]" multiple="multiple"></select><span id="reqsubawards_recognitions-'+data1.organization_id+'" class="reqError text-danger valley"></span></div><div class="institution_evidence institution_evidence-'+data1.organization_id+'"></div></div>');
+            
+            subaward_recognitions(data1.organization_id);
+            selectTwoFunction(data1.organization_id);
+            $("#submitProfessionalMembership").removeAttr("disabled");
+          }
+        });
+      }
+    }
+    
+  });
+
+  function subaward_recognitions(award_id){
+    
+    $('.js-example-basic-multiple'+award_id+'[data-list-id="award_reg-'+award_id+'"]').on('change', function() {
+      let selectedValues = $(this).val();
+      console.log("selectedValues",selectedValues);
+      
+      $(".insev-"+award_id).each(function(i,val){
         var val1 = $(val).val();
         console.log("val",val1);
         if(selectedValues.includes(val1) == false){
-          $(".award_country_div-"+val1).remove();
+          $(".subaward_institution-"+val1).remove();
           
         }
       });
       
       for(var i=0;i<selectedValues.length;i++){
-    
-        if($(".show_award_reg-"+country_org+organization_id+" .award_country_div-"+selectedValues[i]).length < 1){
-          $("#submitProfessionalMembership").attr("disabled", true);
-          $.ajax({
-            type: "GET",
-            url: "{{ url('/nurse/getawardsRecognitions') }}",
-            data: {award_id:selectedValues[i]},
-            cache: false,
-            success: function(data){
-              var data1 = JSON.parse(data);
-              
-              console.log("data1",data1);
-              
-              var org_text = "";
-              for(var j=0;j<data1.award.length;j++){
-                //console.log("data",data1.country_organiztions[j].organization_id);
-                org_text += "<li data-value='"+data1.award[j].award_id+"'>"+data1.award[j].award_name+"</li>"; 
-                // $(".organization_country_div").removeClass("d-none");
-                // $("#country_organization").append("<li data-value="+data1.country_organiztions[j].organization_id+">"+data1.country_organiztions[j].organization_country+"</li>");
-                // $("#country_organization_select").append("<option value="+data1.country_organiztions[j].organization_id+">"+data1.country_organiztions[j].organization_country+"</option>");
-              }
-              
-              
-              $(".show_award_reg-"+country_org+organization_id).append('<div class="form-group level-drp award_div award_country_div-'+data1.organization_id+'"><label class="form-label subaward_label subaward_label-'+organization_id+data1.organization_id+'" for="input-1">'+data1.award_name+'</label><input type="hidden" name="subaward_list" class="subaward_list subaward_list-'+data1.organization_id+'" value="'+data1.organization_id+'"><ul id="award_reg-'+data1.organization_id+'" style="display:none;">'+org_text+'</ul><select class="sub_award_org sub_award_org-'+organization_id+data1.organization_id+' js-example-basic-multiple'+organization_id+data1.organization_id+' addAll_removeAll_btn" data-list-id="award_reg-'+data1.organization_id+'" id="award_organization_select-'+data1.organization_id+'" name="award_organization['+organization_id+']['+data1.organization_id+'][]" multiple="multiple"></select><span id="reqsubawards_recognitions-'+organization_id+data1.organization_id+'" class="reqError text-danger valley"></span></div>');
-                //alert(organization_id+data1.organization_id);
-              selectTwoFunction(organization_id+data1.organization_id);
-              $("#submitProfessionalMembership").removeAttr("disabled");
-            }
-          });
-        }
+        if($(".subaward_institution-"+selectedValues[i]).length < 1){
+          
+          var label_text = $(".sub_award_text-"+selectedValues[i]).text();
+          //$('.award_country_div-'+award_id).after('\<div class="institution_evidence institution_evidence-'+selectedValues[i]+'"></div>');
+          $(".institution_evidence-"+award_id).append("\<div class='subaward_institution-"+selectedValues[i]+"'><input type='hidden' name='insev' class='insev insev-"+award_id+"' value='"+selectedValues[i]+"'><div class='strong_text'><strong>"+label_text+"</strong></div><div class='form-group level-drp'>\
+            <label class='form-label institution_label' for='input-1'>Issuing Institution/Organization</label>\
+            <input class='form-control' type='text' name='inst_org[]'>\
+            </div>\
+            <div class='form-group level-drp'>\
+                <label class='form-label' for='input-1'>Upload Evidence</label>\
+                <input class='form-control membership_evidence' type='file' name='membership_evidence[]' multiple=''>\
+            </div>\
+            <div class='memb_evdence'></div></div>\
+            ");
+        }  
       }
-    }else{  
-      $('.js-example-basic-multiple'+country_org+organization_id+'[data-list-id="awards_recognitions"]').on('change', function() {
-        let selectedValues = $(this).val();
-        console.log("selectedValues",selectedValues);
-
-        $(".show_award_reg-"+country_org+organization_id+" .subaward_list").each(function(i,val){
-          var val1 = $(val).val();
-          console.log("val",val1);
-          if(selectedValues.includes(val1) == false){
-            $(".award_country_div-"+val1).remove();
-            
-          }
-        });
-
-        for(var i=0;i<selectedValues.length;i++){
-      
-          if($(".show_award_reg-"+country_org+organization_id+" .award_country_div-"+selectedValues[i]).length < 1){
-            $("#submitProfessionalMembership").attr("disabled", true);
-            $.ajax({
-              type: "GET",
-              url: "{{ url('/nurse/getawardsRecognitions') }}",
-              data: {award_id:selectedValues[i]},
-              cache: false,
-              success: function(data){
-                var data1 = JSON.parse(data);
-                
-                console.log("data1",data1);
-                
-                var org_text = "";
-                for(var j=0;j<data1.award.length;j++){
-                  //console.log("data",data1.country_organiztions[j].organization_id);
-                  org_text += "<li data-value='"+data1.award[j].award_id+"'>"+data1.award[j].award_name+"</li>"; 
-                  // $(".organization_country_div").removeClass("d-none");
-                  // $("#country_organization").append("<li data-value="+data1.country_organiztions[j].organization_id+">"+data1.country_organiztions[j].organization_country+"</li>");
-                  // $("#country_organization_select").append("<option value="+data1.country_organiztions[j].organization_id+">"+data1.country_organiztions[j].organization_country+"</option>");
-                }
-                //alert($(".organization_country_div-"+data1.organization_id).length);
-                
-                $(".show_award_reg-"+country_org+organization_id).append('<div class="form-group level-drp award_div award_country_div-'+data1.organization_id+'"><label class="form-label subaward_label subaward_label-'+organization_id+data1.organization_id+'" for="input-1">'+data1.award_name+'</label><input type="hidden" name="subaward_list" class="subaward_list subaward_list-'+data1.organization_id+'" value="'+data1.organization_id+'"><ul id="award_reg-'+data1.organization_id+'" style="display:none;">'+org_text+'</ul><select class="sub_award_org sub_award_org-'+organization_id+data1.organization_id+' js-example-basic-multiple'+organization_id+data1.organization_id+' addAll_removeAll_btn" data-list-id="award_reg-'+data1.organization_id+'" id="award_organization_select-'+data1.organization_id+'" name="award_organization['+organization_id+']['+data1.organization_id+'][]" multiple="multiple"></select><span id="reqsubawards_recognitions-'+organization_id+data1.organization_id+'" class="reqError text-danger valley"></span></div>');
-                
-                
-                selectTwoFunction(organization_id+data1.organization_id);
-                $("#submitProfessionalMembership").removeAttr("disabled");
-              }
-            });
-          }
-        }
-        
-      });
-    }
+    });
   }
 
 
@@ -1530,10 +1554,18 @@ $('.profmemaward').on('change', function() {
     var isValid = true;
 
     var profess_award = $(".profmemaward").val();
+    var award = $(".award_question").val();
 
     if ($('[name="profmemaward"]').val() == '') {
 
       document.getElementById("professional_awards").innerHTML = "* Please select Yes or No";
+      isValid = false;
+
+    }
+
+    if ($('[name="award_question"]').val() == '') {
+
+      document.getElementById("professional_awards_que").innerHTML = "* Please select Yes or No";
       isValid = false;
 
     }
@@ -1655,6 +1687,27 @@ $('.profmemaward').on('change', function() {
         });
 
         
+      });
+    }
+
+    if(award == "Yes"){
+      if ($('[name="awards_recognitions[]"]').val() == '') {
+        document.getElementById("reqawards_recognitions").innerHTML = "* Please enter the Awards & Recognitions";
+        isValid = false;
+      }
+
+      $(".subaward_list").each(function(i,val) {
+            
+        console.log("val",$(this).val());
+        var val6 = $(this).val();
+        var label_name5 = $(".subaward_label-"+val6).text();
+        if ($(".sub_award_org-"+val6).length > 0) {
+          //console.log("reference_relationship-" + m, $(".reference_relationship-" + m).val());
+          if ($(".sub_award_org-"+val6).val() == '') {
+            document.getElementById("reqsubawards_recognitions-"+val6).innerHTML = "* Please enter the "+label_name5;
+            isValid = false;
+          }
+        }
       });
     }
 
