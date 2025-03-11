@@ -30,7 +30,7 @@ Route::post('/getNursepractitionorSpecialities', 'App\Http\Controllers\HomeContr
 Route::post('/getsurgicalSpeciality', 'App\Http\Controllers\HomeController@getsurgicalSpeciality')->name('getsurgicalSpeciality');
 Route::post('/getsurgicalSubSpeciality', 'App\Http\Controllers\HomeController@getsurgicalSubSpeciality')->name('getsurgicalSubSpeciality');
 
-Route::prefix('medical-facilities')->name('medical-facilities.')->namespace('App\Http\Controllers\medical_facilities')->group(function () {
+Route::prefix('healthcare-facilities')->name('medical-facilities.')->namespace('App\Http\Controllers\medical_facilities')->group(function () {
   Route::get('/', 'HomeController@index_main')->name('medical_facilities_home_main');
   Route::get('/medical-facilities-registraion', 'HomeController@registraion')->name('medical-facilities-registraion');
 

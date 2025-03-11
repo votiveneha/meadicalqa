@@ -1,5 +1,27 @@
 @extends('nurse.layouts.layout')
 @section('css')
+<style>
+  .live_chat_btn{
+    margin-top: 10px;
+  }
+  .live_chat_btn a{
+   
+    width: 90px;
+    padding: 0.375rem 0.2rem !important;
+  }
+  .user_btns a{
+    margin-left: 10px;
+  }
+
+  .gt_touch a{
+    color: #4f5e64;
+  }
+
+  .gt_touch p{
+    line-height: 35px !important;
+  }
+</style>
+@endsection
 
 @section('content')
 
@@ -24,69 +46,25 @@
   </section>
   <section class="section-box mt-70">
     <div class="container">
-      <div class="row">
-        <div class="col-lg-8 mb-40"><span class="font-md color-brand-2 mt-20 d-inline-block">Contact us</span>
+      <div class="row" style="text-align: center;">
+        <div class="col-lg-12 mb-40 gt_touch">
           <h2 class="mt-5 mb-10">Get in touch</h2>
-          <p class="font-md color-text-paragraph-2">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod<br class="d-none d-lg-block"> Lorem ipsum dolor sit amet, consectetur.</p>
-          <form class="contact-form-style mt-30" id="contact-form">
-            @csrf
-            <div class="row wow animate__animated animate__fadeInUp" data-wow-delay=".1s">
-              <div class="col-lg-6 col-md-6">
-                <div class="input-style mb-20">
-                  <input class="font-sm color-text-paragraph-2" id="name" name="name" placeholder="First name" type="text">
-                  <span id="nameErr" class="text-danger"></span>
-                </div>
-              </div>
-              <div class="col-lg-6 col-md-6">
-                <div class="input-style mb-20">
-                  <input class="font-sm color-text-paragraph-2" id="lastnames" name="lastname" placeholder="Last Name" type="text">
-                  <span id="lastnameErr" class="text-danger"></span>
-                </div>
-              </div>
-              <div class="col-lg-6 col-md-6">
-                <div class="input-style mb-20">
-                  <input class="font-sm color-text-paragraph-2" id="email" name="email" placeholder="Your email" type="email">
-                  <span id="emailErr" class="text-danger"></span>
-                </div>
-              </div>
-              <div class="col-lg-2 col-md-1">
-                <div class="input-style mb-20">
-                  <select name="phone_code" class="form-control">
-                    @if ($phoneCode)
-                    @foreach ($phoneCode as $code)
-                    <option value="{{ $code->id }}">{{ $code->phonecode }}
-                    </option>
-                    @endforeach
-                    @endif
-                  </select>
-                </div>
-              </div>
-             
-            
-            <div class="col-lg-4 col-md-4">
-              <div class="input-style mb-20">
-
-                <input class="font-sm color-text-paragraph-2 numbers" id="phone_no" name="phone_no" placeholder="Phone number" type="tel">
-                <span id="phone_noErr" class="text-danger"></span>
-              </div>
-              
-            </div>
-
-
-            <div class="col-lg-12 col-md-12">
-              <div class="textarea-style mb-30">
-                <textarea class="font-sm color-text-paragraph-2" id="message" name="message" placeholder="Tell us about yourself"></textarea>
-                <span id="messageErr" class="text-danger"></span>
-              </div>
-              <button class="submit btn btn-send-message" type="button" id="signup_btn" onclick="return addContactUs()">Send message</button>
-             
-            </div>
+          <p class="font-md color-text-paragraph-2">Need support? Have a question? We’re here to help.</p>
+          <p class="font-md color-text-paragraph-2"><a href="mailto:info@mediqa.com.au">info@mediqa.com.au</a></p>
+          <p class="font-md color-text-paragraph-2"><a href="tel:+61 426 925 259">+61 426 925 259</a></p>
+          <div class="live_chat_btn">
+            <a href="https://api.whatsapp.com/send?phone=33626541818" class="btn btn-default btn-shadow hover-up">Live Chat</a>
+          </div>
         </div>
-        </form>
-        <p class="form-messege"></p>
+        <div class="col-lg-12 mb-40">
+          <div class="user_btns">
+            <a href="#" class="btn btn-default btn-shadow hover-up">Nurses & Midwives</a>
+            <a href="#" class="btn btn-default btn-shadow hover-up">Healthcare Facilities</a>
+            <a href="#" class="btn btn-default btn-shadow hover-up">Agencies</a>
+            <a href="#" class="btn btn-default btn-shadow hover-up">Families & Individuals</a>
+          </div>
+        </div>
       </div>
-      <div class="col-lg-4 text-center d-none d-lg-block"><img src="{{ asset('nurse/assets/imgs/page/contact/img.png') }}" alt="joxBox"></div>
-    </div>
     </div>
   </section>
 

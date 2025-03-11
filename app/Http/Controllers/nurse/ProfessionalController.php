@@ -833,7 +833,7 @@ class ProfessionalController extends Controller
             
         } else {
             $membimgs = Helpers::multipleFileUpload($files[$award_org_id], '');
-            $img_arr = array($sub_org_id=>json_decode($membimgs));
+            $img_arr = array($award_org_id=>json_decode($membimgs));
         }
  
         //print_r(json_encode($img_arr));die;

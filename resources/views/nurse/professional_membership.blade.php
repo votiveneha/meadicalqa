@@ -58,6 +58,25 @@
     background-color: black;
     color: #fff;
   }
+
+  .trans_img1{
+    margin-bottom: 5px;
+    display: flex;
+  }
+
+  .trans_img1 .close_btn i {
+    margin-left: 10px;
+    line-height: 22px;
+  }
+
+  .trans_img1 i.fa {
+    position: relative;
+    left: 0px;
+    font-size: 14px;
+    line-height: 25px;
+    margin-right: 5px;
+    color: #000000;
+  }
 </style>
 @endsection
 
@@ -455,7 +474,6 @@
                         <span id="reqawards_recognitions" class="reqError text-danger valley"></span>
                       </div>
                       <div class="show_award_reg">
-                        @if(!empty($award_arr))
                         @foreach ($award_arr as $a_reg_arr)
                         
                         <?php
@@ -555,7 +573,6 @@
                           </div>
                         </div>
                         @endforeach
-                        @endif
                       </div>
                     </div>
                     <div class="declaration_box">
@@ -1182,6 +1199,14 @@ $('.award_question').on('change', function() {
         <span id="reqmembership_status-'+country_org+data1.organization_id+'" class="reqError text-danger valley"></span>\
     </div>\
     <div class="form-group level-drp">\
+        <label class="form-label award_recognition_label-'+country_org+data1.organization_id+'" for="input-1">Awards & Recognitions:</label>\
+        <input type="hidden" name="award_list" class="award_list award_list-'+data1.organization_id+'" value="'+data1.organization_id+'">\
+        <ul id="awards_recognitions" style="display:none;">'+awards_text+'</ul>\
+        <select class="award_recog-'+country_org+data1.organization_id+' js-example-basic-multiple'+country_org+data1.organization_id+' addAll_removeAll_btn" data-list-id="awards_recognitions" name="awards_recognitions[]" multiple="multiple"></select>\
+        <span id="reqawards_recognitions-'+country_org+data1.organization_id+'" class="reqError text-danger valley"></span>\
+    </div>\
+    <div class="show_award_reg-'+country_org+data1.organization_id+'"></div>\
+    <div class="form-group level-drp">\
         <label class="form-label" for="input-1">Upload Evidence</label>\
         <input class="form-control membership_evidence-'+data1.organization_id+'" type="file" name="membership_evidence['+data1.organization_id+'][]" onchange="changeEvidenceImg('+user_id+','+data1.organization_id+')" multiple="">\
     </div>\
@@ -1269,6 +1294,8 @@ $('.award_question').on('change', function() {
           
         }
       });
+
+      var user_id = "<?php echo Auth::guard('nurse_middle')->user()->id; ?>";
       
       for(var i=0;i<selectedValues.length;i++){
         if($(".subaward_institution-"+selectedValues[i]).length < 1){
@@ -1283,9 +1310,9 @@ $('.award_question').on('change', function() {
             </div>\
             <div class='form-group level-drp'>\
                 <label class='form-label' for='input-1'>Upload Evidence</label>\
-                <input class='form-control award_evidence award_evidence-"+selectedValues[i]+"' type='file' name='award_evidence["+selectedValues[i]+"][]' multiple=''>\
+                <input class='form-control award_evidence award_evidence-"+selectedValues[i]+"' type='file' name='award_evidence["+selectedValues[i]+"][]' onchange='changeAwardEvidenceImg("+user_id+","+selectedValues[i]+")' multiple=''>\
             </div>\
-            <div class='memb_evdence'></div></div>\
+            <div class='award_evdence-"+selectedValues[i]+"'></div></div>\
             ");
         }  
       }
@@ -1302,6 +1329,8 @@ $('.award_question').on('change', function() {
             
           }
         });
+
+        var user_id = "<?php echo Auth::guard('nurse_middle')->user()->id; ?>";
         
         for(var i=0;i<selectedValues.length;i++){
           if($(".subaward_institution-"+selectedValues[i]).length < 1){
@@ -1316,9 +1345,9 @@ $('.award_question').on('change', function() {
               </div>\
               <div class='form-group level-drp'>\
                   <label class='form-label' for='input-1'>Upload Evidence</label>\
-                  <input class='form-control award_evidence' type='file' name='award_evidence["+selectedValues[i]+"][]' multiple=''>\
+                  <input class='form-control award_evidence award_evidence-"+selectedValues[i]+"' type='file' name='award_evidence["+selectedValues[i]+"][]' onchange='changeAwardEvidenceImg("+user_id+","+selectedValues[i]+")' multiple=''>\
               </div>\
-              <div class='memb_evdence'></div></div>\
+              <div class='award_evdence-"+selectedValues[i]+"'></div></div>\
               ");
           }  
         }
