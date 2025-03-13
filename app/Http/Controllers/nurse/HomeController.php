@@ -3583,6 +3583,7 @@ class HomeController extends Controller
             ->select(
                 'vaccine_compliances.*',
                 'vcc_state.state_name',
+                'vcc_state.policy',
                 'vaccination.name as vaccine_name'
             )
             ->get();

@@ -478,7 +478,7 @@
                         
                         <?php
                           $subawards_name = DB::table("awards_recognitions")->where("award_id",$a_reg_arr)->first();
-                          $subawards_recognition = DB::table("awards_recognitions")->where("sub_award_id",$a_reg_arr)->get();
+                          $subawards_recognition = DB::table("awards_recognitions")->where("sub_award_id",$a_reg_arr)->orderBy('award_name', 'ASC')->get();
 
                           if(!empty($award_recognitions)){
                             $subaward_data = (array)$award_recognitions[$a_reg_arr];
@@ -496,7 +496,7 @@
                           
                           $subaward_json = json_encode($subaward_arr);
                         ?>
-                        <div class="award_regc_div-{{ $a_reg_arr }}">
+                        <div class="award_regc_div award_regc_div-{{ $a_reg_arr }}">
                           <div class="form-group level-drp award_div award_country_div-{{ $a_reg_arr }}">
                             <label class="form-label subaward_label subaward_label-{{ $a_reg_arr }}" for="input-1">{{ $subawards_name->award_name }}</label>
                             <input type="hidden" name="sub_award_list" class="subaward_list subaward_list-{{ $a_reg_arr }}" value='<?php echo $a_reg_arr; ?>'>
@@ -526,8 +526,8 @@
                               }
                               $user_id = Auth::guard('nurse_middle')->user()->id;
                             ?>
-                            <div class='subaward_institution-{{ $insreg }}'><input type='hidden' name='insev' class='insev insev-{{ $a_reg_arr }}' value='{{ $insreg }}'>
-                              <div class='strong_text'><strong>{{ $subawards_name1->award_name }}</strong></div><div class='form-group level-drp'>
+                            <div class='subaward_institution subaward_institution-{{ $insreg }}'><input type='hidden' name='insev' class='insev insev-{{ $a_reg_arr }}' value='{{ $insreg }}'>
+                              <div class='inslabtext strong_text'><strong>{{ $subawards_name1->award_name }}</strong></div><div class='form-group level-drp'>
                                 <label class='form-label institution_label' for='input-1'>Issuing Institution/Organization</label>
                                 <input type='hidden' name='ins_ev1' class='ins_ev1 ins_ev1-{{ $insreg }}' value='{{ $insreg }}'>
                                 <input class='form-control issue_ins issue_ins-{{ $insreg }}' type='text' name='inst_org[{{ $a_reg_arr }}][{{ $insreg }}]' value="{{ $insaward_data[0] }}">
@@ -806,6 +806,7 @@ $wrapper.find('.country_whole_div').sort(function (a, b) {
 })
 .appendTo( $wrapper );
 
+
 $('.profmemaward').on('change', function() {
   console.log( this.value );
   var value = this.value;
@@ -945,12 +946,14 @@ $('.award_question').on('change', function() {
                     <span id="reqsubcountry_org-'+country_org+data1.organization_id+'" class="reqError text-danger valley"></span>\
                     </div><div class="show_membership_type-'+country_org+data1.organization_id+'"></div>');
               
-                    $(".show_subcountry_org-"+country_org).append($(".show_subcountry_org-"+country_org+" .organization_subcountry_div")
-                .remove().sort(function (a, b) {
-                    let at = $(a).text(),
-                        bt = $(b).text();
-                    return (at > bt) ? 1 : ((at < bt) ? -1 : 0);
-                }));
+                    let $fields = $(".show_subcountry_org-"+country_org+" .sub_country_div");
+
+                let sortedFields = $fields.sort(function (a, b) {
+                    return $(a).find(".organization_subcountry_label").text().localeCompare($(b).find(".organization_subcountry_label").text());
+                });
+
+                $(".show_subcountry_org-"+country_org).append(sortedFields);
+                    
 
               selectTwoFunction(country_org+data1.organization_id);
               
@@ -985,6 +988,7 @@ $('.award_question').on('change', function() {
         
         
         for(var i=0;i<selectedValues.length;i++){
+         
           
           if($(".show_subcountry_org-"+country_org+" .organization_subcountry_div-"+selectedValues[i]).length < 1){
             $("#submitProfessionalMembership").attr("disabled", true);
@@ -995,7 +999,6 @@ $('.award_question').on('change', function() {
               cache: false,
               success: function(data){
                 var data1 = JSON.parse(data);
-                
                 console.log("data1",data1);
                 
                 var org_text = "";
@@ -1006,7 +1009,7 @@ $('.award_question').on('change', function() {
                 }
                 
 
-                $(".show_subcountry_org-"+country_org).append('\<div class="sub_country_div sub_country_div-'+data1.organization_id+'" data-name="'+data1.country_name+'">\
+                $(".show_subcountry_org-"+country_org).append('\<div class="sub_country_div  sub_country_div-'+data1.organization_id+'" data-site="'+data1.country_name+'">\
                   <div class="form-group level-drp o_country_div-'+country_org+' ed-o_subcountry_div-'+data1.organization_id+' organization_subcountry_div organization_subcountry_div-'+data1.organization_id+' ed-organization_subcountry_div-'+data1.organization_id+'">\
                     <label class="form-label organization_subcountry_label organization_subcountry_label-'+country_org+data1.organization_id+'" for="input-1">'+data1.country_name+':</label>\
                     <input type="hidden" name="subcountry_org_list" class="subcountry_org_list subcountry_org_list-'+data1.organization_id+'" value="'+data1.organization_id+'">\
@@ -1015,14 +1018,13 @@ $('.award_question').on('change', function() {
                     <span id="reqsubcountry_org-'+country_org+data1.organization_id+'" class="reqError text-danger valley"></span>\
                     </div><div class="show_membership_type-'+country_org+data1.organization_id+'"></div>');
                 
-//                     $(".show_subcountry_org-"+country_org+" .organization_subcountry_div").sort(function(a, b) {
-//   if (a.textContent < b.textContent) {
-//     return -1;
-//   } else {
-//     return 1;
-//   }
-// }).appendTo(".show_subcountry_org-"+country_org);
-                
+                    let $fields = $(".show_subcountry_org-"+country_org+" .sub_country_div");
+
+                let sortedFields = $fields.sort(function (a, b) {
+                    return $(a).find(".organization_subcountry_label").text().localeCompare($(b).find(".organization_subcountry_label").text());
+                });
+
+                $(".show_subcountry_org-"+country_org).append(sortedFields);
 
                 selectTwoFunction(country_org+data1.organization_id);
                 
@@ -1114,6 +1116,8 @@ $('.award_question').on('change', function() {
                       <input class="form-control membership_evidence" type="file" name="membership_evidence['+data1.organization_id+'][]" multiple="">\
                     </div></div>');
 
+                   
+
                     
                 selectTwoFunction(country_org+data1.organization_id);
                 submemberships_type('',country_org,data1.organization_id,organization_id,k,l,i);
@@ -1199,14 +1203,6 @@ $('.award_question').on('change', function() {
         <span id="reqmembership_status-'+country_org+data1.organization_id+'" class="reqError text-danger valley"></span>\
     </div>\
     <div class="form-group level-drp">\
-        <label class="form-label award_recognition_label-'+country_org+data1.organization_id+'" for="input-1">Awards & Recognitions:</label>\
-        <input type="hidden" name="award_list" class="award_list award_list-'+data1.organization_id+'" value="'+data1.organization_id+'">\
-        <ul id="awards_recognitions" style="display:none;">'+awards_text+'</ul>\
-        <select class="award_recog-'+country_org+data1.organization_id+' js-example-basic-multiple'+country_org+data1.organization_id+' addAll_removeAll_btn" data-list-id="awards_recognitions" name="awards_recognitions[]" multiple="multiple"></select>\
-        <span id="reqawards_recognitions-'+country_org+data1.organization_id+'" class="reqError text-danger valley"></span>\
-    </div>\
-    <div class="show_award_reg-'+country_org+data1.organization_id+'"></div>\
-    <div class="form-group level-drp">\
         <label class="form-label" for="input-1">Upload Evidence</label>\
         <input class="form-control membership_evidence-'+data1.organization_id+'" type="file" name="membership_evidence['+data1.organization_id+'][]" onchange="changeEvidenceImg('+user_id+','+data1.organization_id+')" multiple="">\
     </div>\
@@ -1268,8 +1264,16 @@ $('.award_question').on('change', function() {
             //alert($(".organization_country_div-"+data1.organization_id).length);
             var user_id = "<?php echo Auth::guard('nurse_middle')->user()->id; ?>";
 
-            $(".show_award_reg").append('<div class="award_regc_div-'+data1.organization_id+'"><div class="form-group level-drp award_div award_country_div-'+data1.organization_id+'"><label class="form-label subaward_label subaward_label-'+data1.organization_id+'" for="input-1">'+data1.award_name+'</label><input type="hidden" name="subaward_list" class="subaward_list subaward_list-'+data1.organization_id+'" value="'+data1.organization_id+'"><ul id="award_reg-'+data1.organization_id+'" style="display:none;">'+org_text+'</ul><select class="sub_award_org sub_award_org-'+data1.organization_id+' js-example-basic-multiple'+data1.organization_id+' addAll_removeAll_btn" data-list-id="award_reg-'+data1.organization_id+'" id="award_organization_select-'+data1.organization_id+'" name="award_organization['+data1.organization_id+'][]" multiple="multiple"></select><span id="reqsubawards_recognitions-'+data1.organization_id+'" class="reqError text-danger valley"></span></div><div class="institution_evidence institution_evidence-'+data1.organization_id+'"></div></div>');
+            $(".show_award_reg").append('<div class="award_regc_div award_regc_div-'+data1.organization_id+'"><div class="form-group level-drp award_div award_country_div-'+data1.organization_id+'"><label class="form-label subaward_label subaward_label-'+data1.organization_id+'" for="input-1">'+data1.award_name+'</label><input type="hidden" name="subaward_list" class="subaward_list subaward_list-'+data1.organization_id+'" value="'+data1.organization_id+'"><ul id="award_reg-'+data1.organization_id+'" style="display:none;">'+org_text+'</ul><select class="sub_award_org sub_award_org-'+data1.organization_id+' js-example-basic-multiple'+data1.organization_id+' addAll_removeAll_btn" data-list-id="award_reg-'+data1.organization_id+'" id="award_organization_select-'+data1.organization_id+'" name="award_organization['+data1.organization_id+'][]" multiple="multiple"></select><span id="reqsubawards_recognitions-'+data1.organization_id+'" class="reqError text-danger valley"></span></div><div class="institution_evidence institution_evidence-'+data1.organization_id+'"></div></div>');
             
+            let $fields = $(".show_award_reg .award_regc_div");
+
+            let sortedFields = $fields.sort(function (a, b) {
+                return $(a).find(".subaward_label").text().localeCompare($(b).find(".subaward_label").text());
+            });
+
+            $(".show_award_reg").append(sortedFields);
+
             subaward_recognitions('',data1.organization_id);
             selectTwoFunction(data1.organization_id);
             $("#submitProfessionalMembership").removeAttr("disabled");
@@ -1302,7 +1306,7 @@ $('.award_question').on('change', function() {
           
           var label_text = $(".sub_award_text-"+selectedValues[i]).text();
           //$('.award_country_div-'+award_id).after('\<div class="institution_evidence institution_evidence-'+selectedValues[i]+'"></div>');
-          $(".institution_evidence-"+award_id).append("\<div class='subaward_institution-"+selectedValues[i]+"'><input type='hidden' name='insev' class='insev insev-"+award_id+"' value='"+selectedValues[i]+"'><div class='strong_text'><strong>"+label_text+"</strong></div><div class='form-group level-drp'>\
+          $(".institution_evidence-"+award_id).append("\<div class='subaward_institution subaward_institution-"+selectedValues[i]+"'><input type='hidden' name='insev' class='insev insev-"+award_id+"' value='"+selectedValues[i]+"'><div class='strong_text inslabtext'><strong>"+label_text+"</strong></div><div class='form-group level-drp'>\
             <label class='form-label institution_label' for='input-1'>Issuing Institution/Organization</label>\
             <input type='hidden' name='ins_ev1' class='ins_ev1 ins_ev1-"+selectedValues[i]+"' value='"+selectedValues[i]+"'>\
             <input class='form-control issue_ins issue_ins-"+selectedValues[i]+"' type='text' name='inst_org["+award_id+"]["+selectedValues[i]+"]'>\
@@ -1314,6 +1318,14 @@ $('.award_question').on('change', function() {
             </div>\
             <div class='award_evdence-"+selectedValues[i]+"'></div></div>\
             ");
+
+            let $fields = $(".institution_evidence-"+award_id+" .subaward_institution");
+
+            let sortedFields = $fields.sort(function (a, b) {
+                return $(a).find(".inslabtext strong").text().localeCompare($(b).find(".inslabtext strong").text());
+            });
+            console.log("sortedFields",sortedFields);
+            $(".institution_evidence-"+award_id).append(sortedFields);
         }  
       }
     }else{
@@ -1337,7 +1349,7 @@ $('.award_question').on('change', function() {
             
             var label_text = $(".sub_award_text-"+selectedValues[i]).text();
             //$('.award_country_div-'+award_id).after('\<div class="institution_evidence institution_evidence-'+selectedValues[i]+'"></div>');
-            $(".institution_evidence-"+award_id).append("\<div class='subaward_institution-"+selectedValues[i]+"'><input type='hidden' name='insev' class='insev insev-"+award_id+"' value='"+selectedValues[i]+"'><div class='strong_text'><strong>"+label_text+"</strong></div><div class='form-group level-drp'>\
+            $(".institution_evidence-"+award_id).append("\<div class='subaward_institution subaward_institution-"+selectedValues[i]+"'><input type='hidden' name='insev' class='insev insev-"+award_id+"' value='"+selectedValues[i]+"'><div class='strong_text inslabtext'><strong>"+label_text+"</strong></div><div class='form-group level-drp'>\
               <label class='form-label institution_label' for='input-1'>Issuing Institution/Organization</label>\
               <input type='hidden' name='ins_ev1' class='ins_ev1 ins_ev1-"+selectedValues[i]+"' value='"+selectedValues[i]+"'>\
               <input class='form-control issue_ins issue_ins-"+selectedValues[i]+"' type='text' name='inst_org["+award_id+"]["+selectedValues[i]+"]'>\
@@ -1349,6 +1361,14 @@ $('.award_question').on('change', function() {
               </div>\
               <div class='award_evdence-"+selectedValues[i]+"'></div></div>\
               ");
+
+              let $fields = $(".institution_evidence-"+award_id+" .subaward_institution");
+
+            let sortedFields = $fields.sort(function (a, b) {
+                return $(a).find(".inslabtext strong").text().localeCompare($(b).find(".inslabtext strong").text());
+            });
+
+            $(".institution_evidence-"+award_id).append(sortedFields);
           }  
         }
       });
@@ -1436,15 +1456,15 @@ $('.award_question').on('change', function() {
                   membership_text += "<li data-value='"+data1.membership_type[j].membership_id+"'>"+data1.membership_type[j].membership_name+"</li>"; 
                   
                 }
-                $(".show_submembership_type-"+country_org+organization_id1+organization_id).append('<div class="submembership_type_div-'+country_org+'-'+data1.organization_id+'"><div class="form-group level-drp o_country_div-'+country_org+' ed-o_subcountry_div-'+organization_id1+' ed-o_membtype_div-'+organization_id+' submembership_type_div submembership_type_div-'+data1.organization_id+' ed-submembership_type_div-'+data1.organization_id+'"><label class="form-label submembership_type_label submembership_type_label-'+country_org+'-'+data1.organization_id+'" for="input-1">'+data1.organization_name+'</label><input type="hidden" name="submemb_list" class="submemb_list submemb_list-'+country_org+'-'+data1.organization_id+'" value="'+data1.organization_id+'"><ul id="submembership_type-'+data1.organization_id+'-'+organization_id+'" style="display:none;">'+membership_text+'</ul><select class="submemb_valid submemb_valid-'+country_org+'-'+data1.organization_id+' js-example-basic-multiple'+country_org+organization_id1+organization_id+' addAll_removeAll_btn" data-list-id="submembership_type-'+data1.organization_id+'-'+organization_id+'" id="subcountry_organization_select" name="submembership_type['+country_org+']['+organization_id1+']['+organization_id+']['+data1.organization_id+'][]" multiple="multiple"></select><span id="reqsubmem_org-'+country_org+'-'+data1.organization_id+'" class="reqError text-danger valley"></span></div>');
+                $(".show_submembership_type-"+country_org+organization_id1+organization_id).append('<div class="submembership_type_div submembership_type_div-'+country_org+'-'+data1.organization_id+'"><div class="form-group level-drp o_country_div-'+country_org+' ed-o_subcountry_div-'+organization_id1+' ed-o_membtype_div-'+organization_id+' submembership_type_div submembership_type_div-'+data1.organization_id+' ed-submembership_type_div-'+data1.organization_id+'"><label class="form-label submembership_type_label submembership_type_label-'+country_org+'-'+data1.organization_id+'" for="input-1">'+data1.organization_name+'</label><input type="hidden" name="submemb_list" class="submemb_list submemb_list-'+country_org+'-'+data1.organization_id+'" value="'+data1.organization_id+'"><ul id="submembership_type-'+data1.organization_id+'-'+organization_id+'" style="display:none;">'+membership_text+'</ul><select class="submemb_valid submemb_valid-'+country_org+'-'+data1.organization_id+' js-example-basic-multiple'+country_org+organization_id1+organization_id+' addAll_removeAll_btn" data-list-id="submembership_type-'+data1.organization_id+'-'+organization_id+'" id="subcountry_organization_select" name="submembership_type['+country_org+']['+organization_id1+']['+organization_id+']['+data1.organization_id+'][]" multiple="multiple"></select><span id="reqsubmem_org-'+country_org+'-'+data1.organization_id+'" class="reqError text-danger valley"></span></div>');
                 
-                $(".show_submembership_type-"+country_org+organization_id1+organization_id+" .submembership_type_div").sort(function(a, b) {
-                    if (a.textContent < b.textContent) {
-                      return -1;
-                    } else {
-                      return 1;
-                    }
-                  }).appendTo(".show_submembership_type-"+country_org+organization_id1+organization_id);
+                let $fields = $(".show_submembership_type-"+country_org+organization_id1+organization_id+" .submembership_type_div");
+
+let sortedFields = $fields.sort(function (a, b) {
+    return $(a).find(".submembership_type_label").text().localeCompare($(b).find(".submembership_type_label").text());
+});
+
+$(".show_submembership_type-"+country_org+organization_id1+organization_id).append(sortedFields);
 
                 selectTwoFunction(country_org+organization_id1+organization_id);
                 

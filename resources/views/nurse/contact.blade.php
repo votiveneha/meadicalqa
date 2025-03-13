@@ -16,10 +16,6 @@
   .gt_touch a{
     color: #4f5e64;
   }
-
-  .gt_touch p{
-    line-height: 35px !important;
-  }
 </style>
 @endsection
 
@@ -49,11 +45,11 @@
       <div class="row" style="text-align: center;">
         <div class="col-lg-12 mb-40 gt_touch">
           <h2 class="mt-5 mb-10">Get in touch</h2>
-          <p class="font-md color-text-paragraph-2">Need support? Have a question? We’re here to help.</p>
+          <p class="font-md color-text-paragraph-2"><strong>Need support? Have a question? We’re here to help.</strong></p>
           <p class="font-md color-text-paragraph-2"><a href="mailto:info@mediqa.com.au">info@mediqa.com.au</a></p>
           <p class="font-md color-text-paragraph-2"><a href="tel:+61 426 925 259">+61 426 925 259</a></p>
           <div class="live_chat_btn">
-            <a href="https://api.whatsapp.com/send?phone=33626541818" class="btn btn-default btn-shadow hover-up">Live Chat</a>
+            <h6><a href="https://api.whatsapp.com/send?phone=33626541818" target="_blank">Let's chat now</a></h6>
           </div>
         </div>
         <div class="col-lg-12 mb-40">

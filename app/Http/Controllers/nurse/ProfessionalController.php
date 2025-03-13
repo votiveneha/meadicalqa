@@ -641,7 +641,7 @@ class ProfessionalController extends Controller
         $inst_org = json_encode($request->inst_org);
         $award_evidence = $request->file('award_evidence');
 
-        
+        //print_r($subcountry_organization);die;
 
         $professional_membership_data = DB::table("professional_membership")->where("user_id",$user_id)->first();
         $awards_data = DB::table("awards_recognition_submission")->where("user_id",$user_id)->get();
@@ -649,20 +649,73 @@ class ProfessionalController extends Controller
         
 
         if(!empty($professional_membership_data)){
+
+            $award_evidence_imgs = (array)json_decode($professional_membership_data->award_evidence_imgs);
+            $mem_evidence_imgs = (array)json_decode($professional_membership_data->evidence_imgs);
+
+            $subc_org = array();
+
+            if(!empty($subcountry_organization)){
+                foreach($subcountry_organization as $s_org){
+                    foreach($s_org as $s_org1){
+                        foreach($s_org1 as $s_org2){
+                            $subc_org[] = $s_org2;
+                            
+                        }
+                    }
+                }
+            }
+
+            if(!empty($mem_evidence_imgs)){
+                foreach($mem_evidence_imgs as $index=>$aimgs){
+                    if(!in_array($index, $subc_org)){
+                        unset($mem_evidence_imgs[$index]);
+                    }
+                }
+            }
+            $mevimgs = json_encode($mem_evidence_imgs);
+
+
+            //print_r($subc_org);die;
+
+            $award_org_arr = array();
+
+            if(!empty($award_organization)){
+                foreach($award_organization as $aorg){
+                    foreach($aorg as $aorg1){
+                        $award_org_arr[] = $aorg1;
+                        
+                        
+                    }
+                    
+                }
+            }
+            if(!empty($award_evidence_imgs)){
+                foreach($award_evidence_imgs as $index=>$aimgs){
+                    if(!in_array($index, $award_org_arr)){
+                        unset($award_evidence_imgs[$index]);
+                    }
+                }
+            }
+            $aevimgs = json_encode($award_evidence_imgs);
+            
+            
+            //print_r($award_evidence_imgs);die;
+
             
             if($profmemaward == "Yes"){
                 if($award_question == "Yes"){
-                    ProfessionalAssocialtionModel::where('user_id',$user_id)->update(['organization_data'=>$submembership_type,'des_profession_association'=>$des_profession_association,'date_joined'=>$date_joined,'membership_status'=>$membership_status,'membership_question'=>$profmemaward,'award_question'=>$award_question,'award_recognitions'=>$inst_org,'declare_info'=>$declaration_status]);
+                    ProfessionalAssocialtionModel::where('user_id',$user_id)->update(['organization_data'=>$submembership_type,'des_profession_association'=>$des_profession_association,'date_joined'=>$date_joined,'membership_status'=>$membership_status,'membership_question'=>$profmemaward,'award_question'=>$award_question,'award_recognitions'=>$inst_org,'award_evidence_imgs'=>$aevimgs,'evidence_imgs'=>$mevimgs,'declare_info'=>$declaration_status]);
                 }else{
-                    ProfessionalAssocialtionModel::where('user_id',$user_id)->update(['organization_data'=>$submembership_type,'des_profession_association'=>$des_profession_association,'date_joined'=>$date_joined,'membership_status'=>$membership_status,'membership_question'=>$profmemaward,'award_question'=>$award_question,'declare_info'=>$declaration_status]);
+                    ProfessionalAssocialtionModel::where('user_id',$user_id)->update(['organization_data'=>$submembership_type,'des_profession_association'=>$des_profession_association,'date_joined'=>$date_joined,'membership_status'=>$membership_status,'membership_question'=>$profmemaward,'award_question'=>$award_question,'award_evidence_imgs'=>$aevimgs,'evidence_imgs'=>$mevimgs,'declare_info'=>$declaration_status]);
                 }
                 
             }else{
                 if($award_question == "Yes"){
 
-                    ProfessionalAssocialtionModel::where('user_id',$user_id)->update(['membership_question'=>$profmemaward,'award_question'=>$award_question,'award_recognitions'=>$inst_org,'declare_info'=>$declaration_status]);
+                    ProfessionalAssocialtionModel::where('user_id',$user_id)->update(['membership_question'=>$profmemaward,'award_question'=>$award_question,'award_recognitions'=>$inst_org,'award_evidence_imgs'=>$aevimgs,'evidence_imgs'=>$mevimgs,'declare_info'=>$declaration_status]);
                 }else{
-                    ProfessionalAssocialtionModel::where('user_id',$user_id)->update(['membership_question'=>$profmemaward,'award_question'=>$award_question,'declare_info'=>$declaration_status]);
+                    ProfessionalAssocialtionModel::where('user_id',$user_id)->update(['membership_question'=>$profmemaward,'award_question'=>$award_question,'award_evidence_imgs'=>$aevimgs,'evidence_imgs'=>$mevimgs,'declare_info'=>$declaration_status]);
                 }
                 
             }

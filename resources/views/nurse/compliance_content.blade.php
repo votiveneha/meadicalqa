@@ -35,6 +35,7 @@
 <div class="content-container">
     @foreach ($data->groupBy('state_name') as $stateName => $items)
         <h6>{{ $stateName }}</h6>
+        <p>{!! $items->first()->policy !!}</p>
         @foreach ($items as $item)
             <div class="compliant">
                 {!! $item->complinace_content !!}

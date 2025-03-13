@@ -1330,7 +1330,7 @@
         }
     }
 
-    //let previous_employeers_head = parseInt($("#exp_data_count").val(), 10) + 1;
+    
 
     //  for add another work exp js
     function add_work_experience() {
@@ -1874,7 +1874,7 @@
             // Your code here
             
             let selectedValues = $(this).val();
-            var previous_head = previous_employeers_head - 1;
+            var previous_head = previous_employeers_head;
             var nurse_len = $("#type-of-nurse-experience-" + previous_head + " li").length;
 
             //console.log("nurse_len", nurse_len);
@@ -1904,7 +1904,7 @@
 
         $('.js-example-basic-multiple' + previous_employeers_head + '[data-list-id="nursing_entry_experience-' + previous_employeers_head + '-3"]').on('change', function() {
             let selectedValues = $(this).val();
-            var previous_head = previous_employeers_head - 1;
+            var previous_head = previous_employeers_head;
             var nurse_len = $("#type-of-nurse-experience-" + previous_head + " li").length;
             //console.log("nurse_len", nurse_len);
 
@@ -1921,7 +1921,7 @@
         $('.js-example-basic-multiple' + previous_employeers_head + '[data-list-id="specialties_experience-' + previous_employeers_head + '"]').on('change', function() {
 
             let selectedValues = $(this).val();
-            var previous_head = previous_employeers_head - 1;
+            var previous_head = previous_employeers_head;
             var speciality_len = $("#specialties_experience-" + previous_head + " li").length;
 
             //console.log("speciality_len", speciality_len);
@@ -1969,7 +1969,7 @@
 
         $('.js-example-basic-multiple' + previous_employeers_head + '[data-list-id="speciality_entry_experience-' + previous_employeers_head + '-1"]').on('change', function() {
             let selectedValues = $(this).val();
-            var previous_head = previous_employeers_head - 1;
+            var previous_head = previous_employeers_head;
             var speciality_entry = $("#speciality_entry_experience-" + previous_head + "-1 li").length;
             //console.log("speciality_entry", speciality_entry);
             // $(".surgical_row").wrapAll("<div class='col-md-12 row surgical_row_data'>");
@@ -2008,7 +2008,7 @@
 
         $('.js-example-basic-multiple' + previous_employeers_head + '[data-list-id="surgical_row_box_experience-' + previous_employeers_head + '"]').on('change', function() {
             let selectedValues = $(this).val();
-            var previous_head = previous_employeers_head - 1;
+            var previous_head = previous_employeers_head;
             var speciality_entry = $("#surgical_row_box_experience-" + previous_head + " li").length;
 
             //console.log("surgical_row_data_experience-", previous_employeers_head);
@@ -2039,7 +2039,7 @@
 
         $('.js-example-basic-multiple' + previous_employeers_head + '[data-list-id="speciality_entry_experience-' + previous_employeers_head + '-2"]').on('change', function() {
             let selectedValues = $(this).val();
-            var previous_head = previous_employeers_head - 1;
+            var previous_head = previous_employeers_head;
             var speciality_entry = $("#speciality_entry_experience-" + previous_head + "-2 li").length;
 
             //console.log("speciality_entry", speciality_entry);
@@ -2061,7 +2061,7 @@
 
         $('.js-example-basic-multiple' + previous_employeers_head + '[data-list-id="speciality_entry_experience-' + previous_employeers_head + '-3"]').on('change', function() {
             let selectedValues = $(this).val();
-            var previous_head = previous_employeers_head - 1;
+            var previous_head = previous_employeers_head;
             var speciality_entry = $("#speciality_entry_experience-" + previous_head + "-2 li").length;
             //console.log("speciality_entry", speciality_entry);
             $(".surgical_rowp_experience-" + previous_head).wrapAll("<div class='col-md-12 row surgical_rowp_data_experience-" + previous_head + "'>");
@@ -2099,7 +2099,7 @@
 
         $('.js-example-basic-multiple' + previous_employeers_head + '[data-list-id="surgical_rowpad_box_experience-' + previous_employeers_head + '"]').on('change', function() {
             let selectedValues = $(this).val();
-            var previous_head = previous_employeers_head - 1;
+            var previous_head = previous_employeers_head;
             var speciality_entry = $("#surgical_rowpad_box_experience-" + previous_head + " li").length;
             //console.log("speciality_entry", speciality_entry);
             // $(".surgical_rowp").wrapAll("<div class='col-md-12 row surgical_rowp_data'>");
