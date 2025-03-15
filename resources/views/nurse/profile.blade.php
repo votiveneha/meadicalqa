@@ -58,6 +58,11 @@
     background-color: black;
     color: #fff;
   }
+
+  .professional_temporary .select2-selection__arrow b,.professional_permanent .select2-selection__arrow b,
+  .exp_permanent .select2-selection__arrow b,.exp_temporary .select2-selection__arrow b{
+    margin-top: -10px !important;
+  }
 </style>
 @endsection
 
@@ -741,10 +746,11 @@
                       </label>
                       <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
                       <select class="form-input mr-10 select-active" name="assistent_level">
-
+                        <option value="">Please Select</option>
                         @for($i = 1; $i <= 30; $i++) <option value="{{ $i }}" @if(Auth::guard('nurse_middle')->user()->assistent_level == $i) selected @endif>{{ $i }}{{ $i == 1 ? 'st' : ($i == 2 ? 'nd' : ($i == 3 ? 'rd' : 'th')) }} Year</option>
                           @endfor
                       </select>
+                      <span id="reqassistentlevel" class="reqError text-danger valley"></span>
                     </div>
                     <!-- <div class="" id="mid_select">
                     <div class="form-group drp--clr drpdown-set">
@@ -781,56 +787,60 @@
                     <div class="professional_permanent" @if(Auth::guard('nurse_middle')->user()->permanent_status == NULL) style="display: none;" @endif>
                       <div class="form-group col-md-12">
                         <label class="form-label" for="input-1">Permanent</label>
-                        <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
-                        <select class="form-input mr-10 select-active permanent_status" name="permanent_status">
-                          <option value="">select</option>
-                          <option value="Full-time (Permanent)" @if(Auth::guard('nurse_middle')->user()->permanent_status == "Full-time (Permanent)") selected @endif>Full-time (Permanent)</option>
-                          <option value="Part-time (Permanent)" @if(Auth::guard('nurse_middle')->user()->permanent_status == "Part-time (Permanent)") selected @endif>Part-time (Permanent)</option>
-                          <option value="Agency Nurse / Midwife (Permanent)" @if(Auth::guard('nurse_middle')->user()->permanent_status == "Agency Nurse / Midwife (Permanent)") selected @endif>Agency Nurse / Midwife (Permanent)</option>
-                          <option value="Staffing Agency Nurse (Permanent)" @if(Auth::guard('nurse_middle')->user()->permanent_status == "Staffing Agency Nurse (Permanent)") selected @endif>Staffing Agency Nurse (Permanent)</option>
-                          <option value="Private Healthcare Agency Nurse (Permanent)" @if(Auth::guard('nurse_middle')->user()->permanent_status == "Private Healthcare Agency Nurse (Permanent)") selected @endif>Private Healthcare Agency Nurse (Permanent)</option>
-                          <option value="Freelance (Permanent)" @if(Auth::guard('nurse_middle')->user()->permanent_status == "Freelance (Permanent)") selected @endif>Freelance (Permanent)</option>
-                          <option value="Self-Employed (Permanent)" @if(Auth::guard('nurse_middle')->user()->permanent_status == "Self-Employed (Permanent)") selected @endif>Self-Employed (Permanent)</option>
-                          <option value="Private Practice (Permanent)" @if(Auth::guard('nurse_middle')->user()->permanent_status == "Private Practice (Permanent)") selected @endif>Private Practice (Permanent)</option>
-                          <option value="Volunteer (Permanent)" @if(Auth::guard('nurse_middle')->user()->permanent_status == "Volunteer (Permanent)") selected @endif>Volunteer (Permanent)</option>
-
-                        </select>
+                        <input type="hidden" name="perhfield" class="perhfield" value="{{ Auth::guard('nurse_middle')->user()->permanent_status }}">
+                        <ul id="permanent_status_profession" style="display:none;">
+                          <li data-value="">select</li>
+                          <li data-value="Full-time (Permanent)">Full-time (Permanent)</li>
+                          <li data-value="Part-time (Permanent)">Part-time (Permanent)</li>
+                          <li data-value="Agency Nurse / Midwife (Permanent)">Agency Nurse / Midwife (Permanent)</li>
+                          <li data-value="Staffing Agency Nurse (Permanent)">Staffing Agency Nurse (Permanent)</li>
+                          <li data-value="Private Healthcare Agency Nurse (Permanent)">Private Healthcare Agency Nurse (Permanent)</li>
+                          <li data-value="Freelance (Permanent)">Freelance (Permanent)</li>
+                          <li data-value="Self-Employed (Permanent)">Self-Employed (Permanent)</li>
+                          <li data-value="Private Practice (Permanent)">Private Practice (Permanent)</li>
+                          <li data-value="Volunteer (Permanent)">Volunteer (Permanent)</li>
+                          
+                        </ul>
+                        <select class="js-example-basic-multiple" data-list-id="permanent_status_profession" name="permanent_status" id="permanent_status"></select>
+                        <span id="reqemployeep_status" class="reqError text-danger valley"></span>
                       </div>
-                      <span id="reqemployee_status" class="reqError text-danger valley"></span>
+                      
                     </div>
+                    
                     <div class="professional_temporary" @if(Auth::guard('nurse_middle')->user()->temporary_status == NULL) style="display: none;" @endif>
                       <div class="form-group col-md-12">
                         <label class="form-label" for="input-1">Temporary</label>
-                        <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
-                        <select class="js-example-basic-multiple_emst form-input mr-10 select-active" name="temporary_status">
-                          <option value="">select</option>
-                          <option value="Full-time (Temporary)" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Full-time (Temporary)") selected @endif>Full-time (Temporary)</option>
-                          <option value="Part-time (Temporary)" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Part-time (Temporary)") selected @endif>Part-time (Temporary)</option>
-                          <option value="Agency Nurse/Midwife (Temporary)" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Agency Nurse/Midwife (Temporary)") selected @endif>Agency Nurse/Midwife (Temporary)</option>
-                          <option value="Staffing Agency Nurse (Temporary)" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Staffing Agency Nurse (Temporary)") selected @endif>Staffing Agency Nurse (Temporary)</option>
-                          <option value="Private Healthcare Agency Nurse (Temporary)" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Private Healthcare Agency Nurse (Temporary)") selected @endif>Private Healthcare Agency Nurse (Temporary)</option>
-                          <option value="Travel" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Travel") selected @endif>Travel</option>
-                          <option value="Per Diem (Daily Basis)" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Per Diem (Daily Basis)") selected @endif>Per Diem (Daily Basis)</option>
-                          <option value="Float Pool & Relief Nursing (Multi-Department Work)" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Float Pool & Relief Nursing (Multi-Department Work)") selected @endif>Float Pool & Relief Nursing (Multi-Department Work)</option>
-                          <option value="On-Call (Immediate Availability)" @if(Auth::guard('nurse_middle')->user()->temporary_status == "On-Call (Immediate Availability)") selected @endif>On-Call (Immediate Availability)</option>
-                          <option value="PRN (Pro Re Nata /As Needed)" @if(Auth::guard('nurse_middle')->user()->temporary_status == "PRN (Pro Re Nata /As Needed)") selected @endif>PRN (Pro Re Nata /As Needed)</option>
-                          <option value="Casual" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Casual") selected @endif>Casual</option>
-                          <option value="Locum tenens (temporary substitute)" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Locum tenens (temporary substitute)") selected @endif>Locum tenens (temporary substitute)</option>
-                          <option value="Seasonal (Short-Term for Peak Demand)" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Seasonal (Short-Term for Peak Demand)") selected @endif>Seasonal (Short-Term for Peak Demand)</option>
-                          <option value="Freelance (Temporary)" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Freelance (Temporary)") selected @endif>Freelance (Temporary)</option>
-                          <option value="Self-Employed (Temporary)" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Self-Employed (Temporary)") selected @endif>Self-Employed (Temporary)</option>
-                          <option value="Private Practice (Temporary)" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Private Practice (Temporary)") selected @endif>Private Practice (Temporary)</option>
-                          <option value="Internship" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Internship") selected @endif>Internship</option>
-                          <option value="Apprenticeship" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Apprenticeship") selected @endif>Apprenticeship</option>
-                          <option value="Residency" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Residency") selected @endif>Residency</option>
-                          <option value="Volunteer (Temporary)" @if(Auth::guard('nurse_middle')->user()->temporary_status == "Volunteer (Temporary)") selected @endif>Volunteer (Temporary)</option>
-
-
-                        </select>
+                        <input type="hidden" name="temphfield" class="temphfield" value="{{ Auth::guard('nurse_middle')->user()->temporary_status }}">
+                        
+                        <ul id="temporary_status_profession" style="display:none;">
+                          <li data-value="select">select</li>
+                          <li data-value="Full-time (Temporary)">Full-time (Temporary)</li>
+                          <li data-value="Part-time (Temporary)">Part-time (Temporary)</li>
+                          <li data-value="Agency Nurse/Midwife (Temporary)">Agency Nurse/Midwife (Temporary)</li>
+                          <li data-value="Staffing Agency Nurse (Temporary)">Staffing Agency Nurse (Temporary)</li>
+                          <li data-value="Private Healthcare Agency Nurse (Temporary)">Private Healthcare Agency Nurse (Temporary)</li>
+                          <li data-value="Travel">Travel</li>
+                          <li data-value="Per Diem (Daily Basis)">Per Diem (Daily Basis)</li>
+                          <li data-value="Float Pool & Relief Nursing (Multi-Department Work)">Float Pool & Relief Nursing (Multi-Department Work)
+                          <li data-value="On-Call (Immediate Availability)">On-Call (Immediate Availability)</li>
+                          <li data-value="PRN (Pro Re Nata /As Needed)">PRN (Pro Re Nata /As Needed)</li>
+                          <li data-value="Casual">Casual</li>
+                          <li data-value="Locum tenens (temporary substitute)">Locum tenens (temporary substitute)</li>
+                          <li data-value="Seasonal (Short-Term for Peak Demand)">Seasonal (Short-Term for Peak Demand)</li>
+                          <li data-value="Freelance (Temporary)">Freelance (Temporary)</li>
+                          <li data-value="Self-Employed (Temporary)">Self-Employed (Temporary)</li>
+                          <li data-value="Private Practice (Temporary)">Private Practice (Temporary)</li>
+                          <li data-value="Internship">Internship</li>
+                          <li data-value="Apprenticeship">Apprenticeship</li>
+                          <li data-value="Residency">Residency</li>
+                          <li data-value="Volunteer (Temporary)">Volunteer (Temporary)</li>
+                        </ul>
+                        <select class="js-example-basic-multiple" data-list-id="temporary_status_profession" name="temporary_status" id="temporary_status_profession"></select>
+                        <span id="reqemployeet_status" class="reqError text-danger valley"></span>
                       </div>
-                      <span id="reqemployee_status" class="reqError text-danger valley"></span>
+                      
                     </div>
-                    <div class="professional_unemplyeed" @if(Auth::guard('nurse_middle')->user()->unemployeed_status == NULL) style="display: none;" @endif>
+                    <div class="professional_unemplyeed" @if(Auth::guard('nurse_middle')->user()->current_employee_status != "Unemployed") style="display: none;" @endif>
                       <div class="form-group col-md-12">
                         <label class="form-label" for="input-1">Reason for Unemployment</label>
                         <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
@@ -844,15 +854,15 @@
                           <option value="Other (Please specify)" @if(Auth::guard('nurse_middle')->user()->unemployeed_status == "Other (Please specify)") selected @endif>Other (Please specify)</option>
                         </select>
                       </div>
-                      {{-- <span id="reqemployee_status" class="reqError text-danger valley"></span> --}}
+                      <span id="requnempreason" class="reqError text-danger valley"></span>
                     </div>
-                    <div class="form-group d-none specify_reason_div">
+                    <div class="form-group  @if(Auth::guard('nurse_middle')->user()->current_employee_status != "Unemployed") d-none @endif specify_reason_div">
                       <label class="form-label" for="input-1">Other (Please specify)</label>
                       
-                      <input class="form-control" type="text" name="specify_reason">
-                      {{-- <span id="reqfname-1" class="reqError text-danger valley"></span> --}}
+                      <input class="form-control" type="text" name="specify_reason" value="{{ Auth::guard('nurse_middle')->user()->unemployeed_reason }}">
+                      <span id="otherspecify_reason" class="reqError text-danger valley"></span>
                     </div>
-                    <div class="long_unemplyeed" @if(Auth::guard('nurse_middle')->user()->long_unemplyeed == NULL) style="display: none;" @endif>
+                    <div class="long_unemplyeed" @if(Auth::guard('nurse_middle')->user()->current_employee_status != "Unemployed") style="display: none;" @endif>
                       <div class="form-group col-md-12">
                         <label class="form-label" for="input-1">How long have you been unemployed?</label>
                         <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
@@ -865,8 +875,9 @@
                           <option value="More than 1 year" @if(Auth::guard('nurse_middle')->user()->long_unemplyeed == "More than 1 year") selected @endif>More than 1 year</option>
                           
                         </select>
+                        <span id="reqlong_unemp" class="reqError text-danger valley"></span>
                       </div>
-                      {{-- <span id="reqemployee_status" class="reqError text-danger valley"></span> --}}
+                      
                     </div>
                     <script type="text/javascript">
                       function reasonUnemployeement(value){
@@ -3213,8 +3224,7 @@
                               <span id="reqemployeementenddateexp-{{$i}}" class="reqError text-danger valley"></span>
                             </div>
                           </div>
-                          <div class="row">
-                            <div class="col-md-12">
+                          
                               <div class="form-group level-drp">
                                 <label class="form-label" for="input-1">Employment type</label>
                                 <select class="form-control emp_exp_type emp_exp_type-{{$i}}" name="employeement_type[{{$i}}]" onchange="ExpEmpStatus(this.value)">
@@ -3224,47 +3234,61 @@
                                 </select>
                                 <span id="reqemptype-{{$i}}" class="reqError text-danger valley"></span>
                               </div>
-                            </div>
-                          </div>
-                          <div class="exp_permanent" @if($data->permanent_status == NULL) style="display: none;" @endif>
+                            
+                          <div class="exp_permanent" @if($data->employeement_type != "Permanent") style="display: none;" @endif>
                             <div class="form-group col-md-12">
                               <label class="form-label" for="input-1">Permanent</label>
-                              <select class="form-input mr-10 select-active" name="permanent_status[{{$i}}]">
-                                <option value="">Select</option>
-                                <option value="Full-time" @if($data->permanent_status == "Full-time") selected @endif>Full-time</option>
-                                <option value="Part-time" @if($data->permanent_status == "Part-time") selected @endif>Part-time</option>
-                                <option value="Agency Nurse/Midwife" @if($data->permanent_status == "Agency Nurse/Midwife") selected @endif>Agency Nurse/Midwife</option>
-                                <option value="Freelance" @if($data->permanent_status == "Freelance") selected @endif>Freelance</option>
-                                <option value="Local" @if($data->permanent_status == "Local") selected @endif>Local</option>
-                                <option value="Volunteer" @if($data->permanent_status == "Volunteer") selected @endif>Volunteer</option>
-                              </select>
+                              <input type="hidden" name="perfieldexp" class="perfieldexp perfieldexp-{{ $i }}" value="{{ $data->permanent_status }}">
+                              <ul id="permanent_status_experience-{{ $i }}" style="display:none;">
+                                <li data-value="">select</li>
+                                <li data-value="Full-time (Permanent)">Full-time (Permanent)</li>
+                                <li data-value="Part-time (Permanent)">Part-time (Permanent)</li>
+                                <li data-value="Agency Nurse / Midwife (Permanent)">Agency Nurse / Midwife (Permanent)</li>
+                                <li data-value="Staffing Agency Nurse (Permanent)">Staffing Agency Nurse (Permanent)</li>
+                                <li data-value="Private Healthcare Agency Nurse (Permanent)">Private Healthcare Agency Nurse (Permanent)</li>
+                                <li data-value="Freelance (Permanent)">Freelance (Permanent)</li>
+                                <li data-value="Self-Employed (Permanent)">Self-Employed (Permanent)</li>
+                                <li data-value="Private Practice (Permanent)">Private Practice (Permanent)</li>
+                                <li data-value="Volunteer (Permanent)">Volunteer (Permanent)</li>
+                                
+                              </ul>
+                              <select class="js-example-basic-multiple permanent_exp permanent_exp-{{ $i }}" data-list-id="permanent_status_experience-{{ $i }}" name="permanent_status[{{$i}}]" id="permanent_status_experience"></select>
+                              <span id="reqemployeep_statusexp-{{ $i }}" class="reqError text-danger valley"></span>
                             </div>
-                            <span id="reqemployee_status" class="reqError text-danger valley"></span>
+                            
                           </div>
-                          <div class="exp_temporary" @if($data->temporary_status == NULL) style="display: none;" @endif>
+                          <div class="exp_temporary" @if($data->employeement_type != "Temporary") style="display: none;" @endif>
                             <div class="form-group col-md-12">
                               <label class="form-label" for="input-1">Temporary</label>
-                              <select class="form-input mr-10 select-active" name="temporary_status[{{$i}}]">
-                                <option value="">Select</option>
-                                <option value="Temporary" @if($data->temporary_status == "Temporary") selected @endif>Temporary</option>
-                                <option value="Contract" @if($data->temporary_status == "Contract") selected @endif>Contract</option>
-                                <option value="Term Contract" @if($data->temporary_status == "Term Contract") selected @endif>Term Contract</option>
-                                <option value="Travel" @if($data->temporary_status == "Travel") selected @endif>Travel</option>
-                                <option value="Per Diem" @if($data->temporary_status == "Per Diem") selected @endif>Per Diem</option>
-                                <option value="Local" @if($data->temporary_status == "Local") selected @endif>Local</option>
-                                <option value="On-Call" @if($data->temporary_status == "On-Call") selected @endif>On-Call</option>
-                                <option value="PRN (Pro Re Nata)" @if($data->temporary_status == "PRN (Pro Re Nata)") selected @endif>PRN (Pro Re Nata)</option>
-                                <option value="Casual" @if($data->temporary_status == "Casual") selected @endif>Casual</option>
-                                <option value="Locum tenens (temporary substitute)" @if($data->temporary_status == "Locum tenens (temporary substitute)") selected @endif>Locum tenens (temporary substitute)</option>
-                                <option value="Seasonal" @if($data->temporary_status == "Seasonal") selected @endif>Seasonal</option>
-                                <option value="Freelance" @if($data->temporary_status == "Freelance") selected @endif>Freelance</option>
-                                <option value="Internship" @if($data->temporary_status == "Internship") selected @endif>Internship</option>
-                                <option value="Apprenticeship" @if($data->temporary_status == "Apprenticeship") selected @endif>Apprenticeship</option>
-                                <option value="Residency" @if($data->temporary_status == "Residency") selected @endif>Residency</option>
-                                <option value="Volunteer" @if($data->temporary_status == "Volunteer") selected @endif>Volunteer</option>
-                              </select>
+                              <input type="hidden" name="temphfield" class="temphfieldexp temphfieldexp-{{ $i }}" value="{{ $data->temporary_status }}">
+                        
+                              <ul id="temporary_status_experience-{{ $i }}" style="display:none;">
+                                <li data-value="select">select</li>
+                                <li data-value="Full-time (Temporary)">Full-time (Temporary)</li>
+                                <li data-value="Part-time (Temporary)">Part-time (Temporary)</li>
+                                <li data-value="Agency Nurse/Midwife (Temporary)">Agency Nurse/Midwife (Temporary)</li>
+                                <li data-value="Staffing Agency Nurse (Temporary)">Staffing Agency Nurse (Temporary)</li>
+                                <li data-value="Private Healthcare Agency Nurse (Temporary)">Private Healthcare Agency Nurse (Temporary)</li>
+                                <li data-value="Travel">Travel</li>
+                                <li data-value="Per Diem (Daily Basis)">Per Diem (Daily Basis)</li>
+                                <li data-value="Float Pool & Relief Nursing (Multi-Department Work)">Float Pool & Relief Nursing (Multi-Department Work)
+                                <li data-value="On-Call (Immediate Availability)">On-Call (Immediate Availability)</li>
+                                <li data-value="PRN (Pro Re Nata /As Needed)">PRN (Pro Re Nata /As Needed)</li>
+                                <li data-value="Casual">Casual</li>
+                                <li data-value="Locum tenens (temporary substitute)">Locum tenens (temporary substitute)</li>
+                                <li data-value="Seasonal (Short-Term for Peak Demand)">Seasonal (Short-Term for Peak Demand)</li>
+                                <li data-value="Freelance (Temporary)">Freelance (Temporary)</li>
+                                <li data-value="Self-Employed (Temporary)">Self-Employed (Temporary)</li>
+                                <li data-value="Private Practice (Temporary)">Private Practice (Temporary)</li>
+                                <li data-value="Internship">Internship</li>
+                                <li data-value="Apprenticeship">Apprenticeship</li>
+                                <li data-value="Residency">Residency</li>
+                                <li data-value="Volunteer (Temporary)">Volunteer (Temporary)</li>
+                              </ul>
+                              <select class="js-example-basic-multiple temporary_exp temporary_exp-{{ $i }}" data-list-id="temporary_status_experience-{{ $i }}" name="temporary_status[{{$i}}]" id="temporary_status_experience"></select>
+                              <span id="reqemployeetexp_status-{{ $i }}" class="reqError text-danger valley"></span>
                             </div>
-                            <span id="reqemployee_status" class="reqError text-danger valley"></span>
+                            
                           </div>
                           <h6 class="emergency_text">
                             Detailed Job Descriptions
@@ -3723,62 +3747,72 @@
                           </div>
                         </div>
                         <br>
-                        <div class="row">
-                          <div class="col-md-12">
-                            <div class="form-group level-drp">
-                              <label class="form-label" for="input-1">Employment type</label>
-                              <select class="form-control emp_exp_type emp_exp_type-1" name="employeement_type[1]" onchange="ExpEmpStatus(this.value)">
-                                <option value="">select</option>
-                                <option value="Permanent">Permanent</option>
-                                <option value="Temporary">Temporary</option>
-                              </select>
-                              <span id="reqemptype-1" class="reqError text-danger valley"></span>
-                            </div>
-                          </div>
+                        
+                        <div class="form-group level-drp">
+                          <label class="form-label" for="input-1">Employment type</label>
+                          <select class="form-control emp_exp_type emp_exp_type-1" name="employeement_type[1]" onchange="ExpEmpStatus(this.value)">
+                            <option value="">select</option>
+                            <option value="Permanent">Permanent</option>
+                            <option value="Temporary">Temporary</option>
+                          </select>
+                          <span id="reqemptype-1" class="reqError text-danger valley"></span>
                         </div>
+                          
                         <div class="exp_permanent" style="display: none;">
                           <div class="form-group col-md-12">
                             <label class="form-label" for="input-1">Permanent</label>
                             <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
-                            <select class="form-input mr-10 select-active" name="permanent_status[1]">
-                              <option value="">Select</option>
-                              <option value="Full-time">Full-time</option>
-                              <option value="Part-time">Part-time</option>
-                              <option value="Agency Nurse/Midwife">Agency Nurse/Midwife</option>
-                              <option value="Freelance">Freelance</option>
-                              <option value="Local">Local</option>
-                              <option value="Volunteer">Volunteer</option>
-
-                            </select>
+                            
+                            <ul id="permanent_status_experience" style="display:none;">
+                              <li data-value="">select</li>
+                              <li data-value="Full-time (Permanent)">Full-time (Permanent)</li>
+                              <li data-value="2">Part-time (Permanent)</li>
+                              <li data-value="Agency Nurse / Midwife (Permanent)">Agency Nurse / Midwife (Permanent)</li>
+                              <li data-value="Staffing Agency Nurse (Permanent)">Staffing Agency Nurse (Permanent)</li>
+                              <li data-value="Private Healthcare Agency Nurse (Permanent)">Private Healthcare Agency Nurse (Permanent)</li>
+                              <li data-value="Freelance (Permanent)">Freelance (Permanent)</li>
+                              <li data-value="Self-Employed (Permanent)">Self-Employed (Permanent)</li>
+                              <li data-value="Private Practice (Permanent)">Private Practice (Permanent)</li>
+                              <li data-value="Volunteer (Permanent)">Volunteer (Permanent)</li>
+                              
+                            </ul>
+                            <select class="js-example-basic-multiple permanent_exp permanent_exp-1" data-list-id="permanent_status_experience" name="permanent_status[1]" id="permanent_status_experience"></select>
+                            <span id="reqemployeep_statusexp-1" class="reqError text-danger valley"></span>
                           </div>
-                          <span id="reqemployee_status" class="reqError text-danger valley"></span>
+                          
                         </div>
                         <div class="exp_temporary" style="display: none;">
                           <div class="form-group col-md-12">
                             <label class="form-label" for="input-1">Temporary</label>
-                            <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
-                            <select class="form-input mr-10 select-active" name="temporary_status[1]">
-                              <option value="">Select</option>
-                              <option value="Temporary">Temporary</option>
-                              <option value="Contract">Contract</option>
-                              <option value="Term Contract">Term Contract</option>
-                              <option value="Travel">Travel</option>
-                              <option value="Per Diem">Per Diem</option>
-                              <option value="Local">Local</option>
-                              <option value="On-Call">On-Call</option>
-                              <option value="PRN (Pro Re Nata)">PRN (Pro Re Nata)</option>
-                              <option value="Casual">Casual</option>
-                              <option value="Locum tenens (temporary substitute)">Locum tenens (temporary substitute)</option>
-                              <option value="Agency Nurse/Midwife">Agency Nurse/Midwife</option>
-                              <option value="Seasonal">Seasonal</option>
-                              <option value="Freelance">Freelance</option>
-                              <option value="Internship">Internship</option>
-                              <option value="Apprenticeship">Apprenticeship</option>
-                              <option value="Residency">Residency</option>
-                              <option value="Volunteer">Volunteer</option>
-                            </select>
+                            <input type="hidden" name="temphfield" class="temphfield" value="{{ Auth::guard('nurse_middle')->user()->temporary_status }}">
+                        
+                            <ul id="temporary_status_experience" style="display:none;">
+                              <li data-value="select">select</li>
+                              <li data-value="Full-time (Temporary)">Full-time (Temporary)</li>
+                              <li data-value="Part-time (Temporary)">Part-time (Temporary)</li>
+                              <li data-value="Agency Nurse/Midwife (Temporary)">Agency Nurse/Midwife (Temporary)</li>
+                              <li data-value="Staffing Agency Nurse (Temporary)">Staffing Agency Nurse (Temporary)</li>
+                              <li data-value="Private Healthcare Agency Nurse (Temporary)">Private Healthcare Agency Nurse (Temporary)</li>
+                              <li data-value="Travel">Travel</li>
+                              <li data-value="Per Diem (Daily Basis)">Per Diem (Daily Basis)</li>
+                              <li data-value="Float Pool & Relief Nursing (Multi-Department Work)">Float Pool & Relief Nursing (Multi-Department Work)
+                              <li data-value="On-Call (Immediate Availability)">On-Call (Immediate Availability)</li>
+                              <li data-value="PRN (Pro Re Nata /As Needed)">PRN (Pro Re Nata /As Needed)</li>
+                              <li data-value="Casual">Casual</li>
+                              <li data-value="Locum tenens (temporary substitute)">Locum tenens (temporary substitute)</li>
+                              <li data-value="Seasonal (Short-Term for Peak Demand)">Seasonal (Short-Term for Peak Demand)</li>
+                              <li data-value="Freelance (Temporary)">Freelance (Temporary)</li>
+                              <li data-value="Self-Employed (Temporary)">Self-Employed (Temporary)</li>
+                              <li data-value="Private Practice (Temporary)">Private Practice (Temporary)</li>
+                              <li data-value="Internship">Internship</li>
+                              <li data-value="Apprenticeship">Apprenticeship</li>
+                              <li data-value="Residency">Residency</li>
+                              <li data-value="Volunteer (Temporary)">Volunteer (Temporary)</li>
+                            </ul>
+                            <select class="js-example-basic-multiple temporary_exp temporary_exp-1" data-list-id="temporary_status_experience" name="temporary_status[1]" id="temporary_status_experience"></select>
+                            <span id="reqemployeetexp_status-1" class="reqError text-danger valley"></span>
                           </div>
-                          <span id="reqemployee_status" class="reqError text-danger valley"></span>
+                          
                         </div>
                         <h6 class="emergency_text">
                           Detailed Job Descriptions
@@ -7411,6 +7445,50 @@ if (!empty($interviewReferenceData)) {
     ////console.log("pro_cert_bls", pro_cert_rpn);
     $('.js-example-basic-multiple[data-list-id="rpn_data"]').select2().val(pro_cert_rpn).trigger('change');
   }
+
+  
+  if ($(".perhfield").val() != "") {
+    var perhfield = $(".perhfield").val();
+    
+    console.log("perhfield",$(".perhfield").val());
+    $('.js-example-basic-multiple[data-list-id="permanent_status_profession"]').select2().val(perhfield).trigger('change');
+    
+  }
+
+  if ($(".temphfield").val() != "") {
+    var temphfield = $(".temphfield").val();
+    
+    console.log("temphfield",$(".temphfield").val());
+    $('.js-example-basic-multiple[data-list-id="temporary_status_profession"]').select2().val(temphfield).trigger('change');
+    
+  }
+
+  var i = 1;
+  $(".perfieldexp").each(function(){
+
+    if ($(".perfieldexp-"+i).val() != "") {
+      var perhfield = $(".perfieldexp-"+i).val();
+      
+      console.log("perhfield",perhfield);
+      $('.js-example-basic-multiple[data-list-id="permanent_status_experience-'+i+'"]').select2().val(perhfield).trigger('change');
+      
+    }
+    i++;
+  });
+
+  var j = 1;
+
+  $(".temphfieldexp").each(function(){
+
+    if ($(".temphfieldexp-"+j).val() != "") {
+      var temphfieldexp = $(".temphfieldexp-"+j).val();
+      
+      console.log("temphfieldexp",temphfieldexp);
+      $('.js-example-basic-multiple[data-list-id="temporary_status_experience-'+j+'"]').select2().val(temphfieldexp).trigger('change');
+      
+    }
+    j++;
+  });
 
   // if ($(".pro_cert_nl").val() != "") {
   //   var pro_cert_nl = JSON.parse($(".pro_cert_nl").val());

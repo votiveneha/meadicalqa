@@ -8,6 +8,7 @@ use App\Models\ProfessionModel;
 use App\Models\EligibilityToWorkModel;
 use App\Models\WorkingChildrenCheckModel;
 use App\Models\PoliceCheckModel;
+use App\Models\OtherEvidance;
 
 
 use App\Http\Requests\AddnewsletterRequest;
@@ -2437,14 +2438,29 @@ class HomeController extends Controller
                     $vaccine->immunization_status = $immunization_statuses[$i];
                     $vaccine->evidence_type = $evidence_types[$i];
 
-
-                    if (isset($evidence_files[$i]) && $evidence_files[$i]->isValid()) {
-                        $filename = 'evidence_file_' . time() . '.' . $evidence_files[$i]->getClientOriginalExtension();
-                        $destinationPath = public_path() . '/uploads/evidence';
-                        $evidence_files[$i]->move($destinationPath, $filename);
-                        $vaccine->evidence_file = $filename;
-                    }
                     $vaccine->save();
+                    $other_id = $other_ids[$i];
+
+                   
+                    if (isset($evidence_files[$i]) && is_array($evidence_files[$i])) {
+                       
+                        foreach ($evidence_files[$i] as $file) {
+                            
+                            if ($file->isValid()) {
+                                $filename = 'evidence_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                                $originalName = $file->getClientOriginalName();
+                                $destinationPath = public_path('/uploads/evidence');
+                                $file->move($destinationPath, $filename);
+                                
+                                $others                  = new OtherEvidance();
+                                $others->other_vcc_id     = $other_id;
+                                $others->original_name    = $originalName;
+                                $others->evidance_file    = $filename;
+                                $others->created_at       = date('Y-m-d H:i:s');
+                                $others->save();
+                            }
+                        }
+                    }
                 }
             } else {
                 $vaccine = new OtherVaccineModel();
@@ -2453,16 +2469,38 @@ class HomeController extends Controller
                 $vaccine->immunization_status = $immunization_statuses[$i];
                 $vaccine->evidence_type = $evidence_types[$i];
                 $vaccine->is_declare = $request->is_declare=='on'?1:0;
-
-
-                if (isset($evidence_files[$i]) && $evidence_files[$i]->isValid()) {
-                    $filename = 'evidence_file_' . time() . '.' . $evidence_files[$i]->getClientOriginalExtension();
-                    $destinationPath = public_path() . '/uploads/evidence';
-                    $evidence_files[$i]->move($destinationPath, $filename);
-
-                    $vaccine->evidence_file = $filename;
-                }
+                
                 $vaccine->save();
+                $other_id = $vaccine->id;
+
+                // if (isset($evidence_files[$i]) && $evidence_files[$i]->isValid()) {
+                //     $filename = 'evidence_file_' . time() . '.' . $evidence_files[$i]->getClientOriginalExtension();
+                //     $destinationPath = public_path() . '/uploads/evidence';
+                //     $evidence_files[$i]->move($destinationPath, $filename);
+
+                //     $vaccine->evidence_file = $filename;
+                // }
+
+                if (isset($evidence_files[$i]) && is_array($evidence_files[$i])) {
+                        
+                    foreach ($evidence_files[$i] as $file) {
+                        if ($file->isValid()) {
+                            $filename = 'evidence_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                            $originalName = $file->getClientOriginalName();
+                            $destinationPath = public_path('/uploads/evidence');
+                            $file->move($destinationPath, $filename);
+                            
+
+                            $other                   = new OtherEvidance();
+                            $other->other_vcc_id     = $other_id;
+                            $other->original_name    = $originalName;
+                            $other->evidance_file    = $filename;
+                            $other->created_at       = date('Y-m-d H:i:s');
+                            $other->save();
+                        }
+                    }
+                }
+                
             }
         }
         /**[Other Vaccine End]**/
@@ -2596,6 +2634,22 @@ class HomeController extends Controller
         $id = $request->id;
 
         $vaccine = EvidanceFileModel::find($id);
+
+        if ($vaccine) {
+            $filePath = 'uploads/evidence/' . $vaccine->file_name;
+            if (Storage::exists($filePath)) {
+                Storage::delete($filePath);
+            }
+            $vaccine->delete();
+            return response()->json(['success' => true]);
+        }
+        return response()->json(['success' => false, 'message' => 'Vaccine not found']);
+    }
+    public function removeEvidance(Request $request)
+    {
+        $id=$request->id;
+
+        $vaccine = OtherEvidance::find($id);
 
         if ($vaccine) {
             $filePath = 'uploads/evidence/' . $vaccine->file_name;

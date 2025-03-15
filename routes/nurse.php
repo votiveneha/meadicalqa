@@ -121,6 +121,7 @@ Route::prefix('nurse')->name('nurse.')->namespace('App\Http\Controllers\nurse')-
     Route::post('/getContent', 'HomeController@getContent')->name('getContent');
     Route::any('/getVaccinationData', 'HomeController@getVaccinationData')->name('getVaccinationData');
     Route::any('/removeEvidanceFile','HomeController@removeEvidanceFile')->name('removeEvidanceFile');
+    Route::any('/removeEvidance','HomeController@removeEvidance')->name('removeEvidance');
 	
 	/**************[Work Clearance]**************/
   Route::any('/workClearances','ProfessionalController@workClearances')->name('workClearances');

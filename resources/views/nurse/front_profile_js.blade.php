@@ -1583,7 +1583,7 @@
                 $q++;
                 ?>
                 @endforeach
-               
+               </div>
             
                 <div class="form-group level-drp">
                     <label class="form-label" for="input-1">What is your Level of experience in this specialty?
@@ -1646,52 +1646,59 @@
                                     <option value="Permanent">Permanent</option>
                                     <option value="Temporary">Temporary</option>
                                 </select>
-                            <span id="reqemptype-${previous_employeers_head}" class="reqError text-danger valley"></span>
+                            <span id="reqemployeep_statusexp-${previous_employeers_head}" class="reqError text-danger valley"></span>
                         </div>
                     </div>
                 </div>
                 <div class="exp_permanent_${previous_employeers_head}" style="display: none;" >
                     <div class="form-group col-md-12">
                         <label class="form-label" for="input-1">Permanent</label>
-                        <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
-                        <select class="form-control" name="permanent_status[${previous_employeers_head}]">
-                        <option value="">Select</option>
-                        <option value="Full-time" @if(Auth::guard('nurse_middle')->user()->permanent_status == "Full-time") selected @endif>Full-time</option>
-                        <option value="Part-time" @if(Auth::guard('nurse_middle')->user()->permanent_status == "Part-time") selected @endif>Part-time</option>
-                        <option value="Agency Nurse/Midwife" @if(Auth::guard('nurse_middle')->user()->permanent_status == "Agency Nurse/Midwife") selected @endif>Agency Nurse/Midwife</option>
-                        <option value="Freelance" @if(Auth::guard('nurse_middle')->user()->permanent_status == "Freelance") selected @endif>Freelance</option>
-                        <option value="Local" @if(Auth::guard('nurse_middle')->user()->permanent_status == "Local") selected @endif>Local</option>
-                        <option value="Volunteer" @if(Auth::guard('nurse_middle')->user()->permanent_status == "Volunteer") selected @endif>Volunteer</option>
-
-                        </select>
+                        <ul id="permanent_status_experience" style="display:none;">
+                            <li data-value="">select</li>
+                            <li data-value="Full-time (Permanent)">Full-time (Permanent)</li>
+                            <li data-value="Part-time (Permanent)">Part-time (Permanent)</li>
+                            <li data-value="Agency Nurse / Midwife (Permanent)">Agency Nurse / Midwife (Permanent)</li>
+                            <li data-value="Staffing Agency Nurse (Permanent)">Staffing Agency Nurse (Permanent)</li>
+                            <li data-value="Private Healthcare Agency Nurse (Permanent)">Private Healthcare Agency Nurse (Permanent)</li>
+                            <li data-value="Freelance (Permanent)">Freelance (Permanent)</li>
+                            <li data-value="Self-Employed (Permanent)">Self-Employed (Permanent)</li>
+                            <li data-value="Private Practice (Permanent)">Private Practice (Permanent)</li>
+                            <li data-value="Volunteer (Permanent)">Volunteer (Permanent)</li>
+                            
+                        </ul>
+                        <select class="js-example-basic-multiple${previous_employeers_head} permanent_exp permanent_exp-${previous_employeers_head}" data-list-id="permanent_status_experience" name="permanent_status[${previous_employeers_head}]" id="permanent_status_experience"></select>
+                        <span id="reqemployeep_statusexp-${previous_employeers_head}" class="reqError text-danger valley"></span>
                     </div>
-                    <span id="reqemployee_status" class="reqError text-danger valley"></span>
+                    
                 </div>
                 <div class="exp_temporary_${previous_employeers_head}" style="display: none; >
                     <div class="form-group col-md-12">
                         <label class="form-label" for="input-1">Temporary</label>               
-                        <select class="form-control" name="temporary_status[${previous_employeers_head}]">
-                        <option value="">Select</option>
-                        <option value="Temporary">Temporary</option>
-                        <option value="Contract">Contract</option>
-                        <option value="Term Contract">Term Contract</option>
-                        <option value="Travel">Travel</option>
-                        <option value="Per Diem">Per Diem</option>
-                        <option value="Local">Local</option>
-                        <option value="On-Call">On-Call</option>
-                        <option value="PRN (Pro Re Nata)">PRN (Pro Re Nata)</option>
-                        <option value="Casual">Casual</option>
-                        <option value="Locum tenens (temporary substitute)">Locum tenens (temporary substitute)</option>
-                        <option value="Agency Nurse/Midwife">Agency Nurse/Midwife</option>
-                        <option value="Seasonal" >Seasonal</option>
-                        <option value="Freelance">Freelance</option>
-                        <option value="Internship">Internship</option>
-                        <option value="Apprenticeship">Apprenticeship</option>
-                        <option value="Residency">Residency</option>
-                        <option value="Volunteer">Volunteer</option>
-                        </select>
-                    </div>
-                    <span id="reqemployee_status" class="reqError text-danger valley"></span>
+                        <ul id="temporary_status_experience" style="display:none;">
+                          <li data-value="select">select</li>
+                          <li data-value="Full-time (Temporary)">Full-time (Temporary)</li>
+                          <li data-value="Part-time (Temporary)">Part-time (Temporary)</li>
+                          <li data-value="Agency Nurse/Midwife (Temporary)">Agency Nurse/Midwife (Temporary)</li>
+                          <li data-value="Staffing Agency Nurse (Temporary)">Staffing Agency Nurse (Temporary)</li>
+                          <li data-value="Private Healthcare Agency Nurse (Temporary)">Private Healthcare Agency Nurse (Temporary)</li>
+                          <li data-value="Travel">Travel</li>
+                          <li data-value="Per Diem (Daily Basis)">Per Diem (Daily Basis)</li>
+                          <li data-value="Float Pool & Relief Nursing (Multi-Department Work)">Float Pool & Relief Nursing (Multi-Department Work)
+                          <li data-value="On-Call (Immediate Availability)">On-Call (Immediate Availability)</li>
+                          <li data-value="PRN (Pro Re Nata /As Needed)">PRN (Pro Re Nata /As Needed)</li>
+                          <li data-value="Casual">Casual</li>
+                          <li data-value="Locum tenens (temporary substitute)">Locum tenens (temporary substitute)</li>
+                          <li data-value="Seasonal (Short-Term for Peak Demand)">Seasonal (Short-Term for Peak Demand)</li>
+                          <li data-value="Freelance (Temporary)">Freelance (Temporary)</li>
+                          <li data-value="Self-Employed (Temporary)">Self-Employed (Temporary)</li>
+                          <li data-value="Private Practice (Temporary)">Private Practice (Temporary)</li>
+                          <li data-value="Internship">Internship</li>
+                          <li data-value="Apprenticeship">Apprenticeship</li>
+                          <li data-value="Residency">Residency</li>
+                          <li data-value="Volunteer (Temporary)">Volunteer (Temporary)</li>
+                        </ul>
+                        <select class="js-example-basic-multiple${previous_employeers_head} temporary_exp temporary_exp-${previous_employeers_head}" data-list-id="temporary_status_experience" name="temporary_status[${previous_employeers_head}]" id="temporary_status_experience"></select>
+                        <span id="reqemployeetexp_status-${previous_employeers_head}" class="reqError text-danger valley"></span>
                 </div>
                 <h6 class="emergency_text">Detailed Job Descriptions</h6>
                 <div class="form-group level-drp">
@@ -1798,38 +1805,38 @@
             });
         });
 
-        // $('.js-example-basic-multiple' + previous_employeers_head).on('select2:open', function() {
-        //     var searchBoxHtml = `
-        //                     <div class="extra-search-container-${previous_employeers_head}">
-        //                     <input type="text" class="extra-search-box-${previous_employeers_head}" placeholder="Search...">
-        //                     <button class="clear-button" type="button">&times;</button>
-        //                     </div>`;
+        $('.js-example-basic-multiple' + previous_employeers_head).on('select2:open', function() {
+            var searchBoxHtml = `
+                            <div class="extra-search-container-${previous_employeers_head}">
+                            <input type="text" class="extra-search-box-${previous_employeers_head}" placeholder="Search...">
+                            <button class="clear-button" type="button">&times;</button>
+                            </div>`;
 
-        //     if ($('.select2-results').find('.extra-search-container-' + previous_employeers_head).length === 0) {
-        //         $('.select2-results').prepend(searchBoxHtml);
-        //     }
+            if ($('.select2-results').find('.extra-search-container-' + previous_employeers_head).length === 0) {
+                $('.select2-results').prepend(searchBoxHtml);
+            }
 
-        //     var $searchBox = $('.extra-search-box' + previous_employeers_head);
-        //     var $clearButton = $('.clear-button');
+            var $searchBox = $('.extra-search-box' + previous_employeers_head);
+            var $clearButton = $('.clear-button');
 
-        //     $searchBox.on('input', function() {
-        //         var searchTerm = $(this).val().toLowerCase();
-        //         $('.select2-results__option').each(function() {
-        //             var text = $(this).text().toLowerCase();
-        //             if (text.includes(searchTerm)) {
-        //                 $(this).show();
-        //             } else {
-        //                 $(this).hide();
-        //             }
-        //         });
-        //         $clearButton.toggle($searchBox.val().length > 0);
-        //     });
+            $searchBox.on('input', function() {
+                var searchTerm = $(this).val().toLowerCase();
+                $('.select2-results__option').each(function() {
+                    var text = $(this).text().toLowerCase();
+                    if (text.includes(searchTerm)) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+                $clearButton.toggle($searchBox.val().length > 0);
+            });
 
-        //     $clearButton.on('click', function() {
-        //         $searchBox.val('');
-        //         $searchBox.trigger('input');
-        //     });
-        // });
+            $clearButton.on('click', function() {
+                $searchBox.val('');
+                $searchBox.trigger('input');
+            });
+        });
 
 
 

@@ -217,7 +217,7 @@ i.fa.fa-file {
                         <!--[ADD OTHER VACCINE START]-->
                         <div class="row" id="vaccine-section-container">
                         <h6>Other Vaccination </h6>
-                        @php $ci = 1; @endphp
+                        @php $ci = 1; $p=0; @endphp
                         <?php $is_declare1=0; ?>
                               @if($other_vaccine)
                               
@@ -265,15 +265,19 @@ i.fa.fa-file {
 
                                   <div class="form-group level-drp">
                                       <label class="form-label" for="input-1">Upload Evidence</label>
-                                      <input class="form-control fileInputo" id="fileInputo" type="file" name="evidence_file[]">
+                                      <input class="form-control evidence-file" id="fileInputo" type="file" name="evidence_file[{{$p}}][]" multiple>
+                                      
+                                      <?php $other_evidance = DB::table("other_evidance")->where("other_vcc_id", $other->id)->get(); ?>
                                       <div id="fileListo" class="file-list">
-                                      @if($other->evidence_file!='')
+                                      @if($other_evidance!='')
+                                      @foreach($other_evidance as $evdance)
                                         <div class="file-item">
-                                          <a href="{{ asset('uploads/evidence/' . $other->evidence_file) }}" target="_blank"><i class="fa fa-file" aria-hidden="true"></i> {{$other->evidence_file}}</a>
-                                          <div class="close_btn close_btn-0 del_eve_f" other_id="{{$other->id}}" style="cursor: pointer;">
+                                          <a href="{{ asset('uploads/evidence/' . $evdance->evidance_file) }}" target="_blank"><i class="fa fa-file" aria-hidden="true"></i> {{$evdance->original_name}}</a>
+                                          <div class="close_btn close_btn-0 del_eve_f" other_id="{{$evdance->id}}" style="cursor: pointer;">
                                               <i class="fa fa-close" aria-hidden="true"></i>
                                           </div>
                                         </div>
+                                        @endforeach
                                         @endif
                                       </div>
                                       <span class="reqError text-danger valley"></span>
@@ -283,7 +287,7 @@ i.fa.fa-file {
                                 <a style="cursor: pointer;" class="remove-vaccine" other_id="{{$other->id}}">- Delete Vaccine</a>
                               </div>
                           </div>
-                          @php $ci++; @endphp
+                          @php $ci++; $p++; @endphp
                           @endforeach
                           @endif
                           </div>
@@ -352,13 +356,15 @@ i.fa.fa-file {
   $(document).ready(function(){
     $('.del_eve_f').on('click',function(){
       const other_id=$(this).attr('other_id');
+      const fileItem = $(this).closest('.file-item');
       $.ajax({
               url: "{{ url('/nurse') }}/removeEvidance",
               type: 'GET',
               data: { id: other_id }, // Pass the ID as a parameter
               success: function (response) {
 
-                  $(`.del_eve_f`).closest('.file-item').remove();
+                  //$(`.del_eve_f`).closest('.file-item').remove();
+                  fileItem.remove();
               },
               error: function (xhr, status, error) {
                   console.error(`Failed to fetch data for ID: `, error);
@@ -395,8 +401,10 @@ i.fa.fa-file {
 
 });
     $(document).ready(function () {
+      FileUploadOther();
         // Function to add a new vaccine section
         let i = <?php echo count($other_vaccine)+1 ?>;
+        let j = <?php echo count($other_vaccine) ?>;
         $('#add-vaccine').click(function () {
 
             $('#vaccine-section-container').append(`<div class="vaccine-section">
@@ -438,7 +446,8 @@ i.fa.fa-file {
 
                                   <div class="form-group level-drp">
                                       <label class="form-label" for="input-1">Upload Evidence</label>
-                                      <input class="form-control evidence-file" type="file" name="evidence_file[]">
+                                      <input class="form-control evidence-file" type="file" name="evidence_file[${j}][]" multiple>
+                                      <div id="fileListo" class="file-list"></div>
                                       <span class="reqError text-danger valley"></span>
                                   </div>
                               </div>
@@ -447,7 +456,9 @@ i.fa.fa-file {
                               </div>
 
                           </div>`);
-                          i++;
+                          FileUploadOther();
+                          i++; j++;
+                          
         });
 
         // Function to remove a vaccine section
@@ -469,7 +480,7 @@ i.fa.fa-file {
                 {
                     if (response.success) {
                         // On successful deletion from the database, remove the HTML
-                        alert('Vaccine removed successfully!');
+                        //alert('Vaccine removed successfully!');
                         $(this).closest('.vaccine-section').remove();
 
                         $('#vaccine-section-container .vaccine-section').each(function (index) {
@@ -497,7 +508,34 @@ i.fa.fa-file {
             i = $('#vaccine-section-container .vaccine-section').length + 1;
         }
   });
+    function FileUploadOther() {
+      $(".evidence-file").off("change").on("change", function (event) {
+          const fileInput = $(this);
+          const fileList = $("<div class='file-list'></div>");
+          //fileInput.siblings(".file-list").remove(); // Remove old file list
+          fileInput.after(fileList); // Append new file list
 
+          for (let file of event.target.files) {
+              const fileDiv = $("<div>").addClass("file-item");
+              const fileLink = $("<a>")
+                  .attr("href", URL.createObjectURL(file))
+                  .attr("target", "_blank")
+                  .html(`<i class="fa fa-file" aria-hidden="true"></i> ${file.name}`);
+
+              const closeButton = $("<div>").addClass("close_btn").css({
+                  "cursor": "pointer",
+                  "color": "red"
+              }).html('<i class="fa fa-close" aria-hidden="true"></i>');
+
+              closeButton.on("click", function () {
+                  $(this).parent().remove();
+              });
+
+              fileDiv.append(fileLink).append(closeButton);
+              fileList.append(fileDiv);
+          }
+      });
+  }
     });
 </script>
 
@@ -922,29 +960,6 @@ $('.js-example-basic-multiple').each(function() {
 
 
 
-
-  //This will add vaccination record
-  //  $(document).ready(function() {
-
-  //       // Dynamically generated checkbox selectors based on adjusted index
-  //       $(document).on('click', 'input[id^="evidence_re-1-0"]', function() {
-  //           // Check the value of the clicked checkbox
-  //           const checkboxId = $(this).attr('id');
-  //           const adjustedIndex = checkboxId.split('-')[1]; // Extract the index from the ID
-  //           var checkboxValue = $(this).val();
-
-  //           // If the checkbox is checked, show the hep-b message
-  //           if (checkboxValue == 'NSW Health Hepatitis B Vaccination Declaration form' && $(this).prop('checked')) {
-  //               $(".hep-b").show();
-  //           } else {
-  //               $(".hep-b").hide(); // Hide the .hep-b element if not checked
-  //           }
-
-  //       });
-
-  //   })
-
-
     //add remove file in the list of view
     function initializeFileUpload() {
     $(".fileInput").each(function () {
@@ -1031,142 +1046,150 @@ $(document).on('click', '.evidence-types', function() {
 
 
 
-
-
-
-
-
     //This will submmit the complete vaccination form
     function vaccinationForm()
     {
-    let isValid = true;
-    
-    $('.evidence-required').each(function () {
-        const groupName = $(this).attr('name'); // Get the name attribute of the group
-        const isChecked = $(`input[name="${groupName}"]:checked`).length > 0; // Check if any radio in the group is selected
-
-        if (!isChecked) {
-            $(this).closest('.col-md-12').find('.reqError').text('Evidence Type is required.');
-            isValid = false;
-        } else {
-            $(this).closest('.col-md-12').find('.reqError').text('');
-            isValid = true;
-        }
-    });
-
-
-    // Validate Vaccination Name
-    $('.vaccination-name').each(function () {
-        if ($(this).val().trim() === '') {
-            isValid = false;
-            $(this).next('.reqError').text('Vaccination name is required');
-        } else {
-            $(this).next('.reqError').text('');
-        }
-    });
-
-    // Validate Immunization Status
-    $('.immunization-status').each(function () {
-        if ($(this).val() === null || $(this).val().trim() === '') {
-            isValid = false;
-            $(this).next('.reqError').text('Please select an immunization status');
-        } else {
-            $(this).next('.reqError').text('');
-        }
-    });
-
-    // Validate Evidence Type
-    $('.evidence-type').each(function () {
-        if ($(this).val() === null || $(this).val().trim() === '') {
-            isValid = false;
-            $(this).next('.reqError').text('Please select an evidence type');
-        } else {
-            $(this).next('.reqError').text('');
-        }
-    });
-    $('.evidence-types').each(function () {
-        const groupName = $(this).attr('name'); // Get the name attribute of the group
-        const isChecked = $(`input[name="${groupName}"]:checked`).length > 0; // Check if any radio in the group is selected
-
-        if (!isChecked) {
-            $(this).closest('.col-md-12').find('.reqError').text('Evidence Type is required.');
-            isValid = false;
-        } else {
-            $(this).closest('.col-md-12').find('.reqError').text('');
-        }
-    });
-
-    $('.evidence-file').each(function () {
-        if ($(this).val().trim() === '') {
-            isValid = false;
-            $(this).next('.reqError').text('Please upload an evidence file');
-        } else {
-            $(this).next('.reqError').text('');
-        }
-    });
-    if (!$('#policy_confirm').is(':checked')) {
-      isValid = false;
-      $('#reqTxtconfirmationCheckboxPoliceCheckI').text('Please check this checkbox');
+      let isValid = true;
       
-    } else {
-        $('#reqTxtconfirmationCheckboxPoliceCheckI').text('');
+      $('.evidence-required').each(function () {
+          const groupName = $(this).attr('name'); // Get the name attribute of the group
+          const isChecked = $(`input[name="${groupName}"]:checked`).length > 0; // Check if any radio in the group is selected
+
+          if (!isChecked) {
+              $(this).closest('.col-md-12').find('.reqError').text('Evidence Type is required.');
+              isValid = false;
+          } else {
+              $(this).closest('.col-md-12').find('.reqError').text('');
+              isValid = true;
+          }
+      });
+
+
+      // Validate Vaccination Name
+      $('.vaccination-name').each(function () {
+          if ($(this).val().trim() === '') {
+              isValid = false;
+              $(this).next('.reqError').text('Vaccination name is required');
+          } else {
+              $(this).next('.reqError').text('');
+          }
+      });
+
+      // Validate Immunization Status
+      $('.immunization-status').each(function () {
+          if ($(this).val() === null || $(this).val().trim() === '') {
+              isValid = false;
+              $(this).next('.reqError').text('Please select an immunization status');
+          } else {
+              $(this).next('.reqError').text('');
+          }
+      });
+
+      // Validate Evidence Type
+      $('.evidence-type').each(function () {
+          if ($(this).val() === null || $(this).val().trim() === '') {
+              isValid = false;
+              $(this).next('.reqError').text('Please select an evidence type');
+          } else {
+              $(this).next('.reqError').text('');
+          }
+      });
+      $('.evidence-types').each(function () {
+          const groupName = $(this).attr('name'); // Get the name attribute of the group
+          const isChecked = $(`input[name="${groupName}"]:checked`).length > 0; // Check if any radio in the group is selected
+
+          if (!isChecked) {
+              $(this).closest('.col-md-12').find('.reqError').text('Evidence Type is required.');
+              isValid = false;
+          } else {
+              $(this).closest('.col-md-12').find('.reqError').text('');
+          }
+      });
+
+      // $('.evidence-file').each(function () {
+      //     if ($(this).val().trim() === '') {
+      //         isValid = false;
+      //         $(this).next('.reqError').text('Please upload an evidence file');
+      //     } else {
+      //         $(this).next('.reqError').text('');
+      //     }
+      // });
+      $('.vaccine-section').each(function () {
+            let fileInput = $(this).find('.evidence-file');
+            let existingFiles = $(this).find('.file-list .file-item').length;
+            let errorSpan = $(this).find('.reqError');
+            // Check if at least one file exists (either uploaded or from DB)
+            if (fileInput.val().trim() === '' && existingFiles === 0) {
+                //$(fileInput).next('.reqError').text('At least one evidence file is required.');
+                errorSpan.text('At least one evidence file is required.').show();
+                isValid = false;
+            } else {
+                $(fileInput).next('.reqError').text('');
+            }
+        });
+      if (!$('#policy_confirm').is(':checked')) {
+        isValid = false;
+        $('#reqTxtconfirmationCheckboxPoliceCheckI').text('Please check this checkbox');
         
-    }
-    // If validation fails, return false to prevent form submission
-    if (!isValid) {
-        return false;
-    }
-
-    //return true;
-//console.log(new FormData($('#vaccination_form')[0]));
-
-if(isValid==true){
-    $.ajax({
-      url: "{{ route('nurse.vaccinationForm') }}",
-      type: "POST",
-      cache: false,
-      contentType: false,
-      processData: false,
-      data: new FormData($('#vaccination_form')[0]),
-      dataType: 'json',
-      beforeSend: function() {
-        $('#submitVaccination').prop('disabled', true);
-        $('#submitVaccination').text('Process....');
-      },
-      success: function(res) {
-        $('#submitVaccination').prop('disabled', false);
-        $('#submitVaccination').text('Save Changes');
-
-        if (res.status == '1') {
+      } else {
+          $('#reqTxtconfirmationCheckboxPoliceCheckI').text('');
           
-          Swal.fire({
-            icon: 'success',
-            title: 'Success',
-            text: 'Vaccination Information Updated Successfully',
-          }).then(function() {
-            console.log("Redirecting...");
-            window.location.href = "{{ route('nurse.profileVaccination') }}?page=vaccinations";
-          });
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: res.message,
-          })
-        }
-
-      },
-      error: function(errorss) {
-        $('#submitProfession').prop('disabled', false);
-        $('#submitProfession').text('Save Changes');
-        for (var err in errorss.responseJSON.errors) {
-          $("#submitProfession").find("[name='" + err + "']").after("<div class='text-danger'>" + errorss.responseJSON.errors[err] + "</div>");
-        }
       }
-    });
-  }
-    return false;
-  }
+      // If validation fails, return false to prevent form submission
+      if (!isValid) {
+          return false;
+      }
+
+      //return true;
+      //console.log(new FormData($('#vaccination_form')[0]));
+
+      if(isValid==true){
+          $.ajax({
+            url: "{{ route('nurse.vaccinationForm') }}",
+            type: "POST",
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: new FormData($('#vaccination_form')[0]),
+            dataType: 'json',
+            beforeSend: function() {
+              $('#submitVaccination').prop('disabled', true);
+              $('#submitVaccination').text('Process....');
+            },
+            success: function(res) {
+              $('#submitVaccination').prop('disabled', false);
+              $('#submitVaccination').text('Save Changes');
+
+              if (res.status == '1') {
+                
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Success',
+                  text: 'Vaccination Information Updated Successfully',
+                }).then(function() {
+                  console.log("Redirecting...");
+                  window.location.href = "{{ route('nurse.profileVaccination') }}?page=vaccinations";
+                });
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: res.message,
+                })
+              }
+
+            },
+            error: function(errorss) {
+              $('#submitProfession').prop('disabled', false);
+              $('#submitProfession').text('Save Changes');
+              for (var err in errorss.responseJSON.errors) {
+                $("#submitProfession").find("[name='" + err + "']").after("<div class='text-danger'>" + errorss.responseJSON.errors[err] + "</div>");
+              }
+            }
+          });
+        }
+      return false;
+    }
 
 
   
