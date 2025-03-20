@@ -61,7 +61,9 @@
     <div class="container">
       <div class="text-center">
         <h2 class="section-title mb-10 wow animate__animated animate__fadeInUp">You're crucial!</h2>
-        <p class="font-lg color-text-paragraph-2 wow animate__animated animate__fadeInUp">Just via some simple steps, you will find your ideal candidates you’r looking for!</p>
+        {{-- <p class="font-lg color-text-paragraph-2 wow animate__animated animate__fadeInUp">Just via some simple steps, you will find your ideal candidates you’r looking for!" : You're crucial!</p> --}}
+        <p class="font-lg color-text-paragraph-2 wow animate__animated animate__fadeInUp">With just a few simple steps, you'll find the ideal nursing and midwifery jobs you are looking for!</p>
+
       </div>
       <div class="mt-70">
         <div class="row">
@@ -290,7 +292,7 @@
         <div class="col-lg-6 col-sm-12">
           <div class="box-image-job">
             <!-- <img class="img-job-1" alt="jobBox" src="{{ asset('nurse/assets/imgs/page/homepage1/img-chart.png')}}"> -->
-            <img class="img-job-2" alt="jobBox" src="{{ asset('nurse/assets/imgs/page/homepage1/img-chart.png')}}">
+            {{-- <img class="img-job-2" alt="jobBox" src="{{ asset('nurse/assets/imgs/page/homepage1/img-chart.png')}}"> --}}
             <figure class="wow animate__ animate__fadeIn animated" style="visibility: visible; animation-name: fadeIn;"><img alt="jobBox" src="{{ asset('nurse/assets/imgs/img1.png')}}"></figure>
           </div>
         </div>

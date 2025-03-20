@@ -21,7 +21,7 @@
         <div class="col-lg-6 col-sm-12">
         <div class="box-image-job p-5">
           <!-- <img class="img-job-1" alt="jobBox" src="{{ asset('nurse/assets/imgs/page/homepage1/img-chart.png')}}"> -->
-          <img class="img-job-2" alt="jobBox" src="{{ asset('nurse/assets/imgs/page/homepage1/img-chart.png')}}">
+          {{-- <img class="img-job-2" alt="jobBox" src="{{ asset('nurse/assets/imgs/page/homepage1/img-chart.png')}}"> --}}
           <figure class="wow animate__ animate__fadeIn animated" style="visibility: visible; animation-name: fadeIn;"><img alt="jobBox" src="{{ asset('nurse/assets/imgs/img1.png')}}"></figure>
         </div>
       </div>

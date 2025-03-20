@@ -819,14 +819,18 @@
       isValid = false;
     }
 
-    if ($('[name="long_unemployeed"]').val() == '') {
-      document.getElementById("reqlong_unemp").innerHTML = "* Please select how long have you been unemployed?";
-      isValid = false;
+    if($('.long_unemplyeed').is(':visible') == true){
+      if ($('[name="long_unemployeed"]').val() == '') {
+        document.getElementById("reqlong_unemp").innerHTML = "* Please select how long have you been unemployed?";
+        isValid = false;
+      }
     }
 
-    if ($('[name="unemployeement_reason"]').val() == '') {
-      document.getElementById("requnempreason").innerHTML = "* Please select Reason for Unemployment";
-      isValid = false;
+    if($('.professional_unemplyeed').is(':visible') == true){
+      if ($('[name="unemployeement_reason"]').val() == '') {
+        document.getElementById("requnempreason").innerHTML = "* Please select Reason for Unemployment";
+        isValid = false;
+      }
     }
 
     
@@ -838,7 +842,7 @@
       }
     }
 
-    if($('.professional_permanent').is(':visible')){
+    if($('.professional_permanent').is(':visible') == true){
       if ($('[name="permanent_status"]').val() == 'select') {
         
         document.getElementById("reqemployeep_status").innerHTML = "* Please select Permanent Status";
@@ -846,7 +850,7 @@
       }
     }
 
-    if($('.professional_temporary').is(':visible')){
+    if($('.professional_temporary').is(':visible') == true){
       if ($('[name="temporary_status"]').val() == 'select') {
         
         document.getElementById("reqemployeet_status").innerHTML = "* Please select Temporary Status";
@@ -868,7 +872,7 @@
       document.getElementById("reqdeclare_information").innerHTML = "* Please check this checkbox";
       isValid = false;
     }
-    //alert(isValid);
+    
     if (isValid == true) {
       $.ajax({
         url: "{{ route('nurse.updateProfession') }}",
@@ -1532,6 +1536,18 @@
 
   function updateExperience() {
     var isValid = true;
+
+    var o = 1;
+    $(".facworkname").each(function() {
+      if ($(".facworkname-" + o).length > 0) {
+        if ($(".facworkname-" + o).val() == '') {
+          document.getElementById("reqfaceworkname-" + o).innerHTML = "* Please enter the Facility / Workplace Name";
+          isValid = false;
+        }
+      }
+      o++;
+    });
+    
     var a = 1;
     $(".nurse_type_exp").each(function() {
       if ($(".nurse_type_exp_" + a).length > 0) {
@@ -1670,6 +1686,23 @@
           isValid = false;
         }
       }
+
+      var r = 1;
+      $(".show_positions-"+c+" .subpos_list").each(function() {
+        var subpos = $(this).val();
+        
+        var label_text = $(".pos_label-"+ c+subpos).text();
+        console.log("subpos",c+subpos);
+        if ($(".position_valid-" + c+subpos).length > 0) {
+          
+          if ($(".position_valid-" + c+subpos).val() == '') {
+            
+            document.getElementById("reqsubpositionheld-" + c+subpos).innerHTML = "* Please select the "+label_text;
+            isValid = false;
+          }
+        }
+        r++;
+      });
       c++;
     });
 
@@ -1762,6 +1795,32 @@
         }
       }
       k++;
+    });
+
+    var x = 1;
+    $(".permanent_exp").each(function() {
+      if ($(".permanent_exp-" + x).length > 0 && $(".exp_permanent-" + x).is(":visible") == true) {
+        
+        if ($(".permanent_exp-" + x).val() == 'select') {
+          
+          document.getElementById("reqemployeep_statusexp-" + x).innerHTML = "* Please select the Permanent Status";
+          isValid = false;
+        }
+      }
+      x++;
+    });
+
+    var y = 1;
+    $(".temporary_exp").each(function() {
+      if ($(".temporary_exp-" + y).length > 0 && $(".exp_temporary-" + y).is(":visible") == true) {
+        
+        if ($(".temporary_exp-" + y).val() == 'select') {
+          
+          document.getElementById("reqemployeetexp_status-" + y).innerHTML = "* Please select the Temporary Status";
+          isValid = false;
+        }
+      }
+      y++;
     });
 
     if (isValid == true) {

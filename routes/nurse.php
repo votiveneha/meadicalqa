@@ -86,6 +86,9 @@ Route::prefix('nurse')->name('nurse.')->namespace('App\Http\Controllers\nurse')-
     Route::post('/updateProfession', 'HomeController@updateProfession')->name('updateProfession');
     Route::post('/updateEducation', 'HomeController@updateEducation')->name('updateEducation');
     Route::post('/updateExperience', 'HomeController@updateExperience')->name('updateExperience');
+    Route::get('/getEmployeePositions', 'HomeController@getEmployeePositions')->name('getEmployeePositions');
+    Route::get('/getWorkplaceData', 'HomeController@getWorkplaceData')->name('getWorkplaceData');
+    Route::get('/getSubWorkplaceData', 'HomeController@getSubWorkplaceData')->name('getSubWorkplaceData');
     Route::post('/updateTraining', 'HomeController@updateTraining')->name('updateTraining');
     Route::post('/updateInterview', 'HomeController@updateInterview')->name('updateInterview');
     Route::post('/updatePreferences', 'HomeController@updatePreferences')->name('updatePreferences');

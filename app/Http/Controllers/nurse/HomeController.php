@@ -1816,12 +1816,52 @@ class HomeController extends Controller
         echo json_encode($json);
     }
 
+    public function getEmployeePositions(Request $request)
+    {
+        
+        $postion_id = $request->postion_id;
+        
+        $data['employee_positions'] = DB::table("employee_positions")->where("subposition_id",$postion_id)->orderBy('position_name', 'ASC')->get();
+        $position_name = DB::table("employee_positions")->where("position_id",$postion_id)->first();
+        //print_r(json_encode($data));
+        $data['position_name'] = $position_name->position_name;
+        $data['postion_id'] = $postion_id;
+        return json_encode($data);
+    }
+
+    public function getWorkplaceData(Request $request)
+    {
+        
+        $place_id = $request->place_id;
+        
+        $data['work_data'] = DB::table("work_enviornment_preferences")->where("sub_env_id",$place_id)->where("sub_envp_id",NULL)->orderBy('env_name', 'ASC')->get();
+        $environment_name = DB::table("work_enviornment_preferences")->where("prefer_id",$place_id)->first();
+        //print_r(json_encode($data));
+        $data['env_name'] = $environment_name->env_name;
+        $data['prefer_id'] = $place_id;
+        return json_encode($data);
+    }
+
+    public function getSubWorkplaceData(Request $request)
+    {
+        
+        $place_id = $request->place_id;
+        $subplace_id = $request->subplace_id;
+        $data['work_data'] = DB::table("work_enviornment_preferences")->where("sub_env_id",$place_id)->where("sub_envp_id",$subplace_id)->orderBy('env_name', 'ASC')->get();
+        $environment_name = DB::table("work_enviornment_preferences")->where("prefer_id",$subplace_id)->first();
+        //print_r($data);die;
+        $data['env_name'] = $environment_name->env_name;
+        $data['prefer_id'] = $place_id;
+        $data['subplace_id'] = $subplace_id;
+        return json_encode($data);
+    }
+
 
     public function updateExperience(Request $request)
     {
         $userId = $request->user_id;
 
-
+        $facility_workplace_name = $request->facility_workplace_name;
         $nurseTypes = $request->input('nurseType', []);
         $nursingType1 = $request->input('nursing_type_1', []);
         $nursingType2 = $request->input('nursing_type_2', []);
@@ -1842,7 +1882,8 @@ class HomeController extends Controller
         $surgical_operative_carep_1 =  $request->input('surgical_operative_carep_experience_1', []);
         $surgical_operative_carep_2 = $request->input('surgical_operative_carep_experience_2', []);
         $surgical_operative_carep_3 = $request->input('surgical_operative_carep_experience_3', []);
-        $positions_held = $request->input('positions_held', []);
+        $positions_held = $request->input('subpositions_held');
+        
         $start_date =  $request->input('start_date');
         $end_date = $request->input('end_date');
         $present_box = $request->input('present_box', []);
@@ -1853,6 +1894,7 @@ class HomeController extends Controller
         $type_of_evidence = $request->input('type_of_evidence', []);
         $level_of_exp = $request->input('exper_assistent_level', []);
         $permanent_status = $request->input('permanent_status');
+        $temporary_status = $request->input('temporary_status');
         $evdience = $request->file('upload_evidence');
         $sub_skills_compantancies1 = $request->input('sub_skills_compantancies-8', []);
         $sub_skills_compantancies2 = $request->input('sub_skills_compantancies-9', []);
@@ -1878,6 +1920,7 @@ class HomeController extends Controller
             } else {
                 $p_box = 0;
             }
+            $facility_workplace_name1 = $facility_workplace_name[$key] ?? null;
             $entryLevel = $nursingType1[$key] ?? null;
             $registered = $nursingType2[$key] ?? null;
             $advanced = $nursingType3[$key] ?? null;
@@ -1897,7 +1940,7 @@ class HomeController extends Controller
             $surgical_operative_carep_1_1 = $surgical_operative_carep_1[$key] ?? null;
             $surgical_operative_carep_2_1 = $surgical_operative_carep_2[$key] ?? null;
             $surgical_operative_carep_3_1 = $surgical_operative_carep_3[$key] ?? null;
-            $positions_held1 = $positions_held[$key] ?? null;
+            $positions_held1 = json_encode($positions_held[$key]) ?? null;
             $start_date1 = $start_date[$key] ?? '0000-00-00';
             $end_date1 = $end_date[$key] ?? '0000-00-00';
             $job_responeblities1 = $job_responeblities[$key] ?? null;
@@ -1949,6 +1992,7 @@ class HomeController extends Controller
                 // die;
 
                 $run = ExperienceModel::where('experience_id', $exp_id_1)->update([
+                    'facility_workplace_name' => $facility_workplace_name1,
                     'nurseType' => json_encode($nurseType),
                     'entry_level_nursing' => json_encode($entryLevel),
                     'registered_nurses' => json_encode($registered),
@@ -2006,6 +2050,7 @@ class HomeController extends Controller
                 }
                 $newExperience = new ExperienceModel();
                 $newExperience->user_id = $userId;
+                $newExperience->facility_workplace_name = $facility_workplace_name1;
                 $newExperience->nurseType = json_encode($nurseType);
                 $newExperience->entry_level_nursing = json_encode($entryLevel);
                 $newExperience->registered_nurses = json_encode($registered);

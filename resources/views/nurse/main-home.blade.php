@@ -236,7 +236,7 @@
           <div class="col-lg-4">
             <div class="box-step">
               <h1 class="number-element">3</h1>
-              <h4 class="mb-20">“Hospitals and Agencies<br class="d-none d-lg-block">save money</h4>
+              <h4 class="mb-20">Hospitals and Agencies<br class="d-none d-lg-block">save money</h4>
               <p class="font-sm color-text-paragraph-2">
                 Hospitals Save on travel nurse, overtime, and HR expenses
               </p>
@@ -336,7 +336,7 @@
         <div class="col-lg-6 col-sm-12">
           <div class="box-image-job">
             <!-- <img class="img-job-1" alt="jobBox"  src="{{ asset('nurse/assets/imgs/page/homepage1/img-chart.png')}}"> -->
-            <img class="img-job-2" alt="jobBox" src="{{ asset('nurse/assets/imgs/page/homepage1/img-chart.png')}}">
+            {{-- <img class="img-job-2" alt="jobBox" src="{{ asset('nurse/assets/imgs/page/homepage1/img-chart.png')}}"> --}}
             <figure class="wow animate__animated animate__fadeIn"><img alt="jobBox" src="{{ asset('nurse/assets/imgs/img1.png')}}"></figure>
           </div>
         </div>

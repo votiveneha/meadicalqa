@@ -60,8 +60,8 @@
   }
 
   .professional_temporary .select2-selection__arrow b,.professional_permanent .select2-selection__arrow b,
-  .exp_permanent .select2-selection__arrow b,.exp_temporary .select2-selection__arrow b{
-    margin-top: -10px !important;
+  .exp_permanent .select2-selection__arrow b,.exp_temporary .select2-selection__arrow b, .exp_permanent .select2-selection__arrow b,.professional_employee_status .select2-selection__arrow b{
+    margin-top: 0px !important;
   }
 </style>
 @endsection
@@ -771,7 +771,7 @@
                   </div>    -->
 
                     <div class="professional_bio professional_employee_status">
-                      <div class="form-group col-md-12">
+                      <div class="form-group level-drp col-md-12">
                         <label class="form-label" for="input-1">Current Employment Status</label>
                         <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
                         <select class="form-input mr-10 select-active" name="employee_status" onchange="employeeStatus(this.value)">
@@ -785,7 +785,7 @@
                       <span id="reqemployee_status" class="reqError text-danger valley"></span>
                     </div>
                     <div class="professional_permanent" @if(Auth::guard('nurse_middle')->user()->permanent_status == NULL) style="display: none;" @endif>
-                      <div class="form-group col-md-12">
+                      <div class="form-group level-drp col-md-12">
                         <label class="form-label" for="input-1">Permanent</label>
                         <input type="hidden" name="perhfield" class="perhfield" value="{{ Auth::guard('nurse_middle')->user()->permanent_status }}">
                         <ul id="permanent_status_profession" style="display:none;">
@@ -808,7 +808,7 @@
                     </div>
                     
                     <div class="professional_temporary" @if(Auth::guard('nurse_middle')->user()->temporary_status == NULL) style="display: none;" @endif>
-                      <div class="form-group col-md-12">
+                      <div class="form-group level-drp col-md-12">
                         <label class="form-label" for="input-1">Temporary</label>
                         <input type="hidden" name="temphfield" class="temphfield" value="{{ Auth::guard('nurse_middle')->user()->temporary_status }}">
                         
@@ -841,7 +841,7 @@
                       
                     </div>
                     <div class="professional_unemplyeed" @if(Auth::guard('nurse_middle')->user()->current_employee_status != "Unemployed") style="display: none;" @endif>
-                      <div class="form-group col-md-12">
+                      <div class="form-group level-drp col-md-12">
                         <label class="form-label" for="input-1">Reason for Unemployment</label>
                         <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
                         <select class="form-input mr-10 select-active unemployeement_reason" name="unemployeement_reason" id="unemployeement_reason" onchange="reasonUnemployeement(this.value)">
@@ -856,14 +856,14 @@
                       </div>
                       <span id="requnempreason" class="reqError text-danger valley"></span>
                     </div>
-                    <div class="form-group  @if(Auth::guard('nurse_middle')->user()->current_employee_status != "Unemployed") d-none @endif specify_reason_div">
+                    <div class="form-group  @if(Auth::guard('nurse_middle')->user()->unemployeed_status != "Other (Please specify)") d-none @endif specify_reason_div">
                       <label class="form-label" for="input-1">Other (Please specify)</label>
                       
                       <input class="form-control" type="text" name="specify_reason" value="{{ Auth::guard('nurse_middle')->user()->unemployeed_reason }}">
                       <span id="otherspecify_reason" class="reqError text-danger valley"></span>
                     </div>
                     <div class="long_unemplyeed" @if(Auth::guard('nurse_middle')->user()->current_employee_status != "Unemployed") style="display: none;" @endif>
-                      <div class="form-group col-md-12">
+                      <div class="form-group level-drp col-md-12">
                         <label class="form-label" for="input-1">How long have you been unemployed?</label>
                         <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
                         <select class="form-input mr-10 select-active long_unemployeed" name="long_unemployeed" id="long_unemployeed">
@@ -2915,6 +2915,32 @@
                         <h6 class="emergency_text previous_employeers_head">
                           Work Experience {{ $i }}
                         </h6>
+                        <div class="form-group level-drp">
+                          
+                          <label class="form-label" for="input-1">Facility / Workplace Type</label>
+                          <?php
+                            $workplace_data = DB::table('work_enviornment_preferences')->where("sub_env_id",0)->orderBy("env_name","asc")->get();
+                            
+                          ?>
+                          {{-- <input type="hidden" name="pos_hide" class="pos_hide pos_hide-{{ $i }}" value="{{ $p_arr }}"> --}}
+                          <ul id="wp_data-{{ $i }}" style="display:none;">
+                           
+                            @if(!empty($workplace_data))
+                            @foreach($workplace_data as $wp_data)
+                            <li data-value="{{ $wp_data->prefer_id }}">{{ $wp_data->env_name }}</li>
+                            @endforeach
+                            @endif
+                          </ul>
+                          <select class="js-example-basic-multiple" data-list-id="wp_data-{{ $i }}" name="positions_held[{{ $i }}]" id="wp_data-{{ $i }}" multiple onchange="getWpData('',{{ $i }})"></select>
+                          <span id="reqpositionheld-{{$i}}" class="reqError text-danger valley"></span>
+                        
+                        </div>
+                        <div class="wp_data-{{ $i }}"></div>
+                        <div class="form-group level-drp">
+                          <label class="form-label" for="input-1">Facility / Workplace Name</label>
+                          <input type="text" name="facility_workplace_name[{{ $i }}]" class="form-control facworkname facworkname-{{ $i }}" value="{{ $data->facility_workplace_name }}">
+                          <span id="reqfaceworkname-{{$i}}" class="reqError text-danger valley"></span>
+                        </div> 
                         <div class="form-group drp--clr nurse_exp_type nurse_exp_type-{{ $i }}">
                           <label class="form-label" for="input-1">Type of Nurse?</label>
                           <input type="hidden" name="user_id" class="user_id" value="{{ Auth::guard('nurse_middle')->user()->id }}">
@@ -3185,27 +3211,73 @@
                           </select>
                         </div>
                         <div class="form-group level-drp">
-                          <div class="form-group level-drp">
-                            <label class="form-label" for="input-1">Position Held</label>
-                            <select class="form-control pos_held pos_held_{{$i}}" name="positions_held[{{$i}}]">
-                              <option value="">select</option>
-                              <option value="Team Member" {{ 'Team Member' == $data->position_held ? 'selected' : '' }}>Team Member</option>
-                              <option value="Team Leader" {{ 'Team Leader' == $data->position_held ? 'selected' : '' }}>Team Leader</option>
-                              <option value="Educator" {{ 'Educator' == $data->position_held ? 'selected' : '' }}>Educator</option>
-                              <option value="Manager" {{ 'Manager' == $data->position_held ? 'selected' : '' }}>Manager</option>
-                              <option value="Clinical Specialist" {{ 'Clinical Specialist' == $data->position_held ? 'selected' : '' }}>Clinical Specialist</option>
-                              <option value="Charge Nurse" {{ 'Charge Nurse' == $data->position_held ? 'selected' : '' }}>Charge Nurse</option>
-                              <option value="Nurse Supervisor" {{ 'Nurse Supervisor' == $data->position_held ? 'selected' : '' }}>Nurse Supervisor</option>
-                              <option value="Nursing Director" {{ 'Nursing Director' == $data->position_held ? 'selected' : '' }}>Nursing Director</option>
-                              <option value="Assistant Director of Nursing" {{ 'Assistant Director of Nursing' == $data->position_held ? 'selected' : '' }}>Assistant Director of Nursing</option>
-                              <option value="Head Nurse" {{ 'Head Nurse' == $data->position_held ? 'selected' : '' }}>Head Nurse</option>
-                              <option value="Nurse Coordinator" {{ 'Nurse Coordinator' == $data->position_held ? 'selected' : '' }}>Nurse Coordinator</option>
-                              <option value="Staff Nurse" {{ 'Staff Nurse' == $data->position_held ? 'selected' : '' }}>Staff Nurse</option>
-                            </select>
-                            <span id="reqpositionheld-{{$i}}" class="reqError text-danger valley"></span>
-                          </div>
-                        </div>
+                          
+                          <label class="form-label" for="input-1">Position Held</label>
+                          <?php
+                            $employee_postion_data = DB::table('employee_positions')->where("subposition_id",0)->orderBy("position_name","asc")->get();
+                            $pos_data = (array)json_decode($data->position_held);
 
+                            $parr = array();
+                            if (!empty($pos_data)){
+                              foreach ($pos_data as $index => $pdata){
+                                $parr[] = $index;
+                              }
+                            }
+                            
+                            
+                            $x = 1;
+                            $p_arr = json_encode($parr);
+                          ?>
+                          <input type="hidden" name="pos_hide" class="pos_hide pos_hide-{{ $i }}" value="{{ $p_arr }}">
+                          <ul id="position_held_field-{{ $i }}" style="display:none;">
+                           
+                            @if(!empty($employee_postion_data))
+                            @foreach($employee_postion_data as $emp_data)
+                            <li data-value="{{ $emp_data->position_id }}">{{ $emp_data->position_name }}</li>
+                            @endforeach
+                            @endif
+                          </ul>
+                          <select class="js-example-basic-multiple addAll_removeAll_btn pos_held pos_held_{{ $i }}" data-list-id="position_held_field-{{ $i }}" name="positions_held[{{ $i }}]" id="position_held_field-{{ $i }}" multiple onchange="getPostions('',{{ $i }})"></select>
+                          <span id="reqpositionheld-{{$i}}" class="reqError text-danger valley"></span>
+                        
+                        </div>
+                        <div class="show_positions-{{ $i }}">
+                          @foreach ($parr as $par)
+                          <?php
+                            $employee_positions = DB::table("employee_positions")->where("subposition_id",$par)->orderBy('position_name', 'ASC')->get();
+                            $position_name = DB::table("employee_positions")->where("position_id",$par)->first();
+                            $subposdata = json_encode($pos_data[$par]);
+                            //print_r($subposdata);
+                          ?>
+                          @if($par != "34")
+                          <div class="subposdiv subposdiv-{{ $position_name->position_id }} form-group level-drp">
+                            <label class="form-label pos_label pos_label-{{ $i }}{{ $position_name->position_id }}" for="input-1">{{ $position_name->position_name }}</label>
+                            <input type="hidden" name="subpos" class="subpos subpos-{{ $position_name->position_id }}" value="{{ $i }}">
+                            <input type="hidden" name="subpos_list" class="subpos_list subpos_list-{{ $i }} subpos_list-{{ $i }}{{ $x }}" value="{{ $position_name->position_id }}">
+                            <input type="hidden" name="subposdata" class="subposdata-{{ $i }} subposdata-{{ $i }}{{ $x }}" value="{{ $subposdata }}">
+                            <ul id="subposition_held_field-{{ $i }}{{ $position_name->position_id }}" style="display:none;">
+                              @if(!empty($employee_positions))
+                              @foreach($employee_positions as $emp_pos)
+                              <li data-value="{{ $emp_pos->position_id }}">{{ $emp_pos->position_name }}</li>
+                              @endforeach
+                              @endif
+                            </ul>
+                            <select class="js-example-basic-multiple addAll_removeAll_btn position_valid-{{ $i }}{{ $position_name->position_id }}" data-list-id="subposition_held_field-{{ $i }}{{ $position_name->position_id }}" name="subpositions_held[{{ $i }}][{{ $position_name->position_id }}][]" multiple></select>
+                            <span id="reqsubpositionheld-{{ $i }}{{ $position_name->position_id }}" class="reqError text-danger valley"></span>
+                          </div>
+                          @else
+                          <div class="subposdiv subposdiv-{{ $position_name->position_id }} form-group level-drp">
+                            <label class="form-label pos_label pos_label-{{ $i }}{{ $position_name->position_id }}" for="input-1">Other</label>
+                            <input type="hidden" name="subpos_list" class="subpos_list subpos_list-'+k+'" value="34">
+                            <input type="text" name="subpositions_held[{{ $i }}][{{ $position_name->position_id }}][]" class="form-control position_other position_other-{{ $i }} position_valid-{{ $i }}{{ $position_name->position_id }}" value="<?php echo $pos_data[$par][0] ?>">
+                            <span id="reqsubpositionheld-{{ $i }}{{ $position_name->position_id }}" class="reqError text-danger valley"></span>
+                          </div>
+                          @endif
+                          <?php
+                            $x++;
+                          ?>
+                          @endforeach
+                        </div>
                         <div class="row">
                           <div class="col-md-6">
                             <div class="form-group level-drp">
@@ -3227,7 +3299,7 @@
                           
                               <div class="form-group level-drp">
                                 <label class="form-label" for="input-1">Employment type</label>
-                                <select class="form-control emp_exp_type emp_exp_type-{{$i}}" name="employeement_type[{{$i}}]" onchange="ExpEmpStatus(this.value)">
+                                <select class="form-control emp_exp_type emp_exp_type-{{$i}}" name="employeement_type[{{$i}}]" onchange="ExpEmpStatus(this.value,{{ $i }})">
                                   <option value="">select</option>
                                   <option value="Permanent" @if($data->employeement_type == "Permanent") selected @endif>Permanent</option>
                                   <option value="Temporary" @if($data->employeement_type == "Temporary") selected @endif>Temporary</option>
@@ -3235,8 +3307,8 @@
                                 <span id="reqemptype-{{$i}}" class="reqError text-danger valley"></span>
                               </div>
                             
-                          <div class="exp_permanent" @if($data->employeement_type != "Permanent") style="display: none;" @endif>
-                            <div class="form-group col-md-12">
+                          <div class="exp_permanent exp_permanent-{{$i}}" @if($data->employeement_type != "Permanent") style="display: none;" @endif>
+                            <div class="form-group level-drp col-md-12">
                               <label class="form-label" for="input-1">Permanent</label>
                               <input type="hidden" name="perfieldexp" class="perfieldexp perfieldexp-{{ $i }}" value="{{ $data->permanent_status }}">
                               <ul id="permanent_status_experience-{{ $i }}" style="display:none;">
@@ -3252,13 +3324,13 @@
                                 <li data-value="Volunteer (Permanent)">Volunteer (Permanent)</li>
                                 
                               </ul>
-                              <select class="js-example-basic-multiple permanent_exp permanent_exp-{{ $i }}" data-list-id="permanent_status_experience-{{ $i }}" name="permanent_status[{{$i}}]" id="permanent_status_experience"></select>
+                              <select class="js-example-basic-multiple permanent_exp permanent_exp-{{ $i }}" data-list-id="permanent_status_experience-1" name="permanent_status[{{$i}}]" id="permanent_status_experience"></select>
                               <span id="reqemployeep_statusexp-{{ $i }}" class="reqError text-danger valley"></span>
                             </div>
                             
                           </div>
-                          <div class="exp_temporary" @if($data->employeement_type != "Temporary") style="display: none;" @endif>
-                            <div class="form-group col-md-12">
+                          <div class="exp_temporary exp_temporary-{{ $i }}" @if($data->employeement_type != "Temporary") style="display: none;" @endif>
+                            <div class="form-group level-drp col-md-12">
                               <label class="form-label" for="input-1">Temporary</label>
                               <input type="hidden" name="temphfield" class="temphfieldexp temphfieldexp-{{ $i }}" value="{{ $data->temporary_status }}">
                         
@@ -3453,6 +3525,11 @@
                           <h6 class="emergency_text previous_employeers_head">
                             Work Experience 1
                           </h6>
+                          <div class="form-group level-drp">
+                            <label class="form-label" for="input-1">Facility / Workplace Name</label>
+                            <input type="text" name="facility_workplace_name[1]" class="form-control facworkname facworkname-1" value="{{ $data->facility_workplace_name }}">
+                            <span id="reqfaceworkname-1" class="reqError text-danger valley"></span>
+                          </div>  
                           <div class="form-group drp--clr">
                             <label class="form-label" for="input-1">Type of Nurse?</label>
                             <input type="hidden" name="user_id" class="user_id" value="{{ Auth::guard('nurse_middle')->user()->id }}">
@@ -3707,26 +3784,26 @@
                           </select>
                         </div>
                         <div class="form-group level-drp">
-                          <div class="form-group level-drp">
-                            <label class="form-label" for="input-1">Position Held</label>
-                            <select class="form-control pos_held pos_held_1" name="positions_held[1]">
-                              <option value="">select</option>
-                              <option value="Team Member">Team Member</option>
-                              <option value="Team Leader">Team Leader</option>
-                              <option value="Educator">Educator</option>
-                              <option value="Manager">Manager</option>
-                              <option value="Clinical Specialist">Clinical Specialist</option>
-                              <option value="Charge Nurse">Charge Nurse</option>
-                              <option value="Nurse Supervisor">Nurse Supervisor</option>
-                              <option value="Nursing Director">Nursing Director</option>
-                              <option value="Assistant Director of Nursing">Assistant Director of Nursing</option>
-                              <option value="Head Nurse">Head Nurse</option>
-                              <option value="Nurse Coordinator">Nurse Coordinator</option>
-                              <option value="Staff Nurse">Staff Nurse</option>
-                            </select>
-                            <span id="reqpositionheld-1" class="reqError text-danger valley"></span>
-                          </div>
+                          
+                          <label class="form-label" for="input-1">Position Held</label>
+                          <?php
+                            $employee_postion_data = DB::table('employee_positions')->where("subposition_id",0)->orderBy("position_name","asc")->get();
+                            
+                          ?>
+                          
+                          <ul id="position_held_field-1" style="display:none;">
+                           
+                            @if(!empty($employee_postion_data))
+                            @foreach($employee_postion_data as $emp_data)
+                            <li data-value="{{ $emp_data->position_id }}">{{ $emp_data->position_name }}</li>
+                            @endforeach
+                            @endif
+                          </ul>
+                          <select class="js-example-basic-multiple addAll_removeAll_btn pos_held pos_held_1" data-list-id="position_held_field-1" name="positions_held[1]" id="position_held_field-1" multiple onchange="getPostions('',1)"></select>
+                          <span id="reqpositionheld-1" class="reqError text-danger valley"></span>
+                        
                         </div>
+                        <div class="show_positions-1"></div>
                         <div class="row">
                           <div class="col-md-6">
                             <div class="form-group level-drp">
@@ -3750,7 +3827,7 @@
                         
                         <div class="form-group level-drp">
                           <label class="form-label" for="input-1">Employment type</label>
-                          <select class="form-control emp_exp_type emp_exp_type-1" name="employeement_type[1]" onchange="ExpEmpStatus(this.value)">
+                          <select class="form-control emp_exp_type emp_exp_type-1" name="employeement_type[1]" onchange="ExpEmpStatus(this.value,1)">
                             <option value="">select</option>
                             <option value="Permanent">Permanent</option>
                             <option value="Temporary">Temporary</option>
@@ -3758,8 +3835,8 @@
                           <span id="reqemptype-1" class="reqError text-danger valley"></span>
                         </div>
                           
-                        <div class="exp_permanent" style="display: none;">
-                          <div class="form-group col-md-12">
+                        <div class="exp_permanent-1 exp_permanent" style="display: none;">
+                          <div class="form-group level-drp col-md-12">
                             <label class="form-label" for="input-1">Permanent</label>
                             <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
                             
@@ -3781,8 +3858,8 @@
                           </div>
                           
                         </div>
-                        <div class="exp_temporary" style="display: none;">
-                          <div class="form-group col-md-12">
+                        <div class="exp_temporary-1 exp_temporary" style="display: none;">
+                          <div class="form-group level-drp col-md-12">
                             <label class="form-label" for="input-1">Temporary</label>
                             <input type="hidden" name="temphfield" class="temphfield" value="{{ Auth::guard('nurse_middle')->user()->temporary_status }}">
                         
@@ -7447,6 +7524,8 @@ if (!empty($interviewReferenceData)) {
   }
 
   
+
+  
   if ($(".perhfield").val() != "") {
     var perhfield = $(".perhfield").val();
     
@@ -7462,6 +7541,32 @@ if (!empty($interviewReferenceData)) {
     $('.js-example-basic-multiple[data-list-id="temporary_status_profession"]').select2().val(temphfield).trigger('change');
     
   }
+
+  var k = 1;
+  $(".pos_hide").each(function(){
+
+    if ($(".pos_hide-"+k).val() != "") {
+      var posfield = JSON.parse($(".pos_hide-"+k).val());
+      
+      console.log("posfield",posfield);
+      $('.js-example-basic-multiple[data-list-id="position_held_field-'+k+'"]').select2().val(posfield).trigger('change');
+      
+      var l = 1;
+      $(".subposdata-"+k).each(function(){
+        var position_id = $(".subpos_list-"+k+l).val();
+        console.log("position_id",k+position_id);
+        if ($(".subposdata-"+k+l).val() != "") {
+          var subposfield = JSON.parse($(".subposdata-"+k+l).val());
+          
+          console.log("subposfield",subposfield);
+          
+          $('.js-example-basic-multiple[data-list-id="subposition_held_field-'+k+position_id+'"]').select2().val(subposfield).trigger('change');
+        }
+        l++;
+      });
+    }
+    k++;
+  });
 
   var i = 1;
   $(".perfieldexp").each(function(){
@@ -7489,6 +7594,20 @@ if (!empty($interviewReferenceData)) {
     }
     j++;
   });
+
+  function ExpEmpStatus(value,i){
+    if (value == "Permanent") {
+        $(".exp_permanent-"+i).show();
+        $(".exp_temporary-"+i).hide();
+        $('.js-example-basic-multiple[data-list-id="temporary_status_experience-'+i+'"]').select2().val("select").trigger('change');
+    } else {
+        if (value == "Temporary") {
+            $(".exp_temporary-"+i).show();
+            $(".exp_permanent-"+i).hide();
+            $('.js-example-basic-multiple[data-list-id="permanent_status_experience-'+i+'"]').select2().val("select").trigger('change');
+        }
+    }
+  }
 
   // if ($(".pro_cert_nl").val() != "") {
   //   var pro_cert_nl = JSON.parse($(".pro_cert_nl").val());
