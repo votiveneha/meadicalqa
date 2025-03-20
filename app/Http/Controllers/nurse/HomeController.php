@@ -8,7 +8,6 @@ use App\Models\ProfessionModel;
 use App\Models\EligibilityToWorkModel;
 use App\Models\WorkingChildrenCheckModel;
 use App\Models\PoliceCheckModel;
-use App\Models\OtherEvidance;
 
 
 use App\Http\Requests\AddnewsletterRequest;
@@ -872,6 +871,7 @@ class HomeController extends Controller
 
     public function updateProfession(Request $request)
     {
+        
         $nurse_type = json_encode($request->nurseType);
         $nursing_type_1 = json_encode($request->nursing_type_1);
         $nursing_type_2 = json_encode($request->nursing_type_2);
@@ -910,7 +910,7 @@ class HomeController extends Controller
         } else {
             $permanent_status1 = "";
         }
-
+        //echo $permanent_status1;die;
         if ($employee_status == "Temporary") {
             $temporary_status1 = $temporary_status;
         } else {
@@ -1834,7 +1834,7 @@ class HomeController extends Controller
         
         $place_id = $request->place_id;
         
-        $data['work_data'] = DB::table("work_enviornment_preferences")->where("sub_env_id",$place_id)->where("sub_envp_id",NULL)->orderBy('env_name', 'ASC')->get();
+        $data['work_data'] = DB::table("work_enviornment_preferences")->where("sub_env_id",$place_id)->where("sub_envp_id","0")->orderBy('env_name', 'ASC')->get();
         $environment_name = DB::table("work_enviornment_preferences")->where("prefer_id",$place_id)->first();
         //print_r(json_encode($data));
         $data['env_name'] = $environment_name->env_name;
@@ -1883,7 +1883,8 @@ class HomeController extends Controller
         $surgical_operative_carep_2 = $request->input('surgical_operative_carep_experience_2', []);
         $surgical_operative_carep_3 = $request->input('surgical_operative_carep_experience_3', []);
         $positions_held = $request->input('subpositions_held');
-        
+        $subpwork = $request->input('subpwork');
+        //print_r($subpwork);die;
         $start_date =  $request->input('start_date');
         $end_date = $request->input('end_date');
         $present_box = $request->input('present_box', []);
@@ -1893,6 +1894,9 @@ class HomeController extends Controller
         $skills_compantancies = $request->input('skills_compantancies', []);
         $type_of_evidence = $request->input('type_of_evidence', []);
         $level_of_exp = $request->input('exper_assistent_level', []);
+        
+
+        
         $permanent_status = $request->input('permanent_status');
         $temporary_status = $request->input('temporary_status');
         $evdience = $request->file('upload_evidence');
@@ -1941,6 +1945,7 @@ class HomeController extends Controller
             $surgical_operative_carep_2_1 = $surgical_operative_carep_2[$key] ?? null;
             $surgical_operative_carep_3_1 = $surgical_operative_carep_3[$key] ?? null;
             $positions_held1 = json_encode($positions_held[$key]) ?? null;
+            $subpwork1 = json_encode($subpwork[$key]) ?? null;
             $start_date1 = $start_date[$key] ?? '0000-00-00';
             $end_date1 = $end_date[$key] ?? '0000-00-00';
             $job_responeblities1 = $job_responeblities[$key] ?? null;
@@ -2014,6 +2019,7 @@ class HomeController extends Controller
                     'neonatal_care' => json_encode($neonatal_care_1),
                     'paedia_surgical_preoperative' => json_encode($surgical_rowpad_box_1),
                     'position_held' => $positions_held1,
+                    'facility_workplace_type' => $subpwork1,
                     'employeement_start_date' => $start_date1,
                     'employeement_end_date' => $end_date1,
                     'responsiblities' => $job_responeblities1,
@@ -2483,29 +2489,14 @@ class HomeController extends Controller
                     $vaccine->immunization_status = $immunization_statuses[$i];
                     $vaccine->evidence_type = $evidence_types[$i];
 
-                    $vaccine->save();
-                    $other_id = $other_ids[$i];
 
-                   
-                    if (isset($evidence_files[$i]) && is_array($evidence_files[$i])) {
-                       
-                        foreach ($evidence_files[$i] as $file) {
-                            
-                            if ($file->isValid()) {
-                                $filename = 'evidence_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-                                $originalName = $file->getClientOriginalName();
-                                $destinationPath = public_path('/uploads/evidence');
-                                $file->move($destinationPath, $filename);
-                                
-                                $others                  = new OtherEvidance();
-                                $others->other_vcc_id     = $other_id;
-                                $others->original_name    = $originalName;
-                                $others->evidance_file    = $filename;
-                                $others->created_at       = date('Y-m-d H:i:s');
-                                $others->save();
-                            }
-                        }
+                    if (isset($evidence_files[$i]) && $evidence_files[$i]->isValid()) {
+                        $filename = 'evidence_file_' . time() . '.' . $evidence_files[$i]->getClientOriginalExtension();
+                        $destinationPath = public_path() . '/uploads/evidence';
+                        $evidence_files[$i]->move($destinationPath, $filename);
+                        $vaccine->evidence_file = $filename;
                     }
+                    $vaccine->save();
                 }
             } else {
                 $vaccine = new OtherVaccineModel();
@@ -2514,38 +2505,16 @@ class HomeController extends Controller
                 $vaccine->immunization_status = $immunization_statuses[$i];
                 $vaccine->evidence_type = $evidence_types[$i];
                 $vaccine->is_declare = $request->is_declare=='on'?1:0;
-                
-                $vaccine->save();
-                $other_id = $vaccine->id;
 
-                // if (isset($evidence_files[$i]) && $evidence_files[$i]->isValid()) {
-                //     $filename = 'evidence_file_' . time() . '.' . $evidence_files[$i]->getClientOriginalExtension();
-                //     $destinationPath = public_path() . '/uploads/evidence';
-                //     $evidence_files[$i]->move($destinationPath, $filename);
 
-                //     $vaccine->evidence_file = $filename;
-                // }
+                if (isset($evidence_files[$i]) && $evidence_files[$i]->isValid()) {
+                    $filename = 'evidence_file_' . time() . '.' . $evidence_files[$i]->getClientOriginalExtension();
+                    $destinationPath = public_path() . '/uploads/evidence';
+                    $evidence_files[$i]->move($destinationPath, $filename);
 
-                if (isset($evidence_files[$i]) && is_array($evidence_files[$i])) {
-                        
-                    foreach ($evidence_files[$i] as $file) {
-                        if ($file->isValid()) {
-                            $filename = 'evidence_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-                            $originalName = $file->getClientOriginalName();
-                            $destinationPath = public_path('/uploads/evidence');
-                            $file->move($destinationPath, $filename);
-                            
-
-                            $other                   = new OtherEvidance();
-                            $other->other_vcc_id     = $other_id;
-                            $other->original_name    = $originalName;
-                            $other->evidance_file    = $filename;
-                            $other->created_at       = date('Y-m-d H:i:s');
-                            $other->save();
-                        }
-                    }
+                    $vaccine->evidence_file = $filename;
                 }
-                
+                $vaccine->save();
             }
         }
         /**[Other Vaccine End]**/
@@ -2679,22 +2648,6 @@ class HomeController extends Controller
         $id = $request->id;
 
         $vaccine = EvidanceFileModel::find($id);
-
-        if ($vaccine) {
-            $filePath = 'uploads/evidence/' . $vaccine->file_name;
-            if (Storage::exists($filePath)) {
-                Storage::delete($filePath);
-            }
-            $vaccine->delete();
-            return response()->json(['success' => true]);
-        }
-        return response()->json(['success' => false, 'message' => 'Vaccine not found']);
-    }
-    public function removeEvidance(Request $request)
-    {
-        $id=$request->id;
-
-        $vaccine = OtherEvidance::find($id);
 
         if ($vaccine) {
             $filePath = 'uploads/evidence/' . $vaccine->file_name;
