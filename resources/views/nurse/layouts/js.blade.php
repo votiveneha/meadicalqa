@@ -819,18 +819,14 @@
       isValid = false;
     }
 
-    if($('.long_unemplyeed').is(':visible') == true){
-      if ($('[name="long_unemployeed"]').val() == '') {
-        document.getElementById("reqlong_unemp").innerHTML = "* Please select how long have you been unemployed?";
-        isValid = false;
-      }
+    if ($('[name="long_unemployeed"]').val() == '') {
+      document.getElementById("reqlong_unemp").innerHTML = "* Please select how long have you been unemployed?";
+      isValid = false;
     }
 
-    if($('.professional_unemplyeed').is(':visible') == true){
-      if ($('[name="unemployeement_reason"]').val() == '') {
-        document.getElementById("requnempreason").innerHTML = "* Please select Reason for Unemployment";
-        isValid = false;
-      }
+    if ($('[name="unemployeement_reason"]').val() == '') {
+      document.getElementById("requnempreason").innerHTML = "* Please select Reason for Unemployment";
+      isValid = false;
     }
 
     
@@ -842,7 +838,7 @@
       }
     }
 
-    if($('.professional_permanent').is(':visible') == true){
+    if($('.professional_permanent').is(':visible')){
       if ($('[name="permanent_status"]').val() == 'select') {
         
         document.getElementById("reqemployeep_status").innerHTML = "* Please select Permanent Status";
@@ -850,7 +846,7 @@
       }
     }
 
-    if($('.professional_temporary').is(':visible') == true){
+    if($('.professional_temporary').is(':visible')){
       if ($('[name="temporary_status"]').val() == 'select') {
         
         document.getElementById("reqemployeet_status").innerHTML = "* Please select Temporary Status";
@@ -872,7 +868,7 @@
       document.getElementById("reqdeclare_information").innerHTML = "* Please check this checkbox";
       isValid = false;
     }
-    
+    //alert(isValid);
     if (isValid == true) {
       $.ajax({
         url: "{{ route('nurse.updateProfession') }}",
@@ -1537,6 +1533,46 @@
   function updateExperience() {
     var isValid = true;
 
+    var s = 1;
+    $(".facworktype").each(function() {
+      if ($(".facworktype-" + s).length > 0) {
+        if ($(".facworktype-" + s).val() == '') {
+          document.getElementById("reqreqfacworktype-" + s).innerHTML = "* Please select the Facility / Workplace Type";
+          isValid = false;
+        }
+      }
+      var t = 1;
+      $(".wp_data-"+s+" .subwork_list-"+s).each(function() {
+        var work_valid = $(this).val();
+        console.log("work_valid",work_valid);
+        var work_label = $(".work_label-"+s+work_valid).text();
+        if ($(".work_valid-" + s+work_valid).length > 0) {
+          if ($(".work_valid-" + s+work_valid).val() == '') {
+            document.getElementById("reqsubwork-" + s+work_valid).innerHTML = "* Please select the "+work_label;
+            isValid = false;
+          }
+        }
+
+        var u = 0;
+        $(".wp_data-"+s+" .subpwork_list-"+s).each(function() {
+          var work_valid = $(this).val();
+          console.log("work_valid",work_valid);
+          var work_label = $(".pwork_label-"+s+work_valid).text();
+          if ($(".pwork_valid-" + s+work_valid).length > 0) {
+            if ($(".pwork_valid-" + s+work_valid).val() == '') {
+              document.getElementById("reqsubpwork-" + s+work_valid).innerHTML = "* Please select the "+work_label;
+              isValid = false;
+            }
+          }
+          u++;
+        });
+        t++;
+      });
+
+      
+      s++;
+    });
+    
     var o = 1;
     $(".facworkname").each(function() {
       if ($(".facworkname-" + o).length > 0) {
@@ -1706,6 +1742,13 @@
       c++;
     });
 
+
+    
+
+    
+
+    
+
     var d = 1;
     $(".employeement_start_date_exp").each(function() {
       if ($(".employeement_start_date_exp-" + d).length > 0) {
@@ -1727,6 +1770,8 @@
       }
       e++;
     });
+
+    
 
     var f = 1;
     $(".res-exp").each(function() {
@@ -1796,7 +1841,7 @@
       }
       k++;
     });
-
+    
     var x = 1;
     $(".permanent_exp").each(function() {
       if ($(".permanent_exp-" + x).length > 0 && $(".exp_permanent-" + x).is(":visible") == true) {
