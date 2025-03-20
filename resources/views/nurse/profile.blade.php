@@ -60,8 +60,8 @@
   }
 
   .professional_temporary .select2-selection__arrow b,.professional_permanent .select2-selection__arrow b,
-  .exp_permanent .select2-selection__arrow b,.exp_temporary .select2-selection__arrow b, .exp_permanent .select2-selection__arrow b,.professional_employee_status .select2-selection__arrow b{
-    margin-top: 0px !important;
+  .exp_permanent .select2-selection__arrow b,.exp_temporary .select2-selection__arrow b{
+    margin-top: -10px !important;
   }
 </style>
 @endsection
@@ -771,7 +771,7 @@
                   </div>    -->
 
                     <div class="professional_bio professional_employee_status">
-                      <div class="form-group level-drp col-md-12">
+                      <div class="form-group col-md-12">
                         <label class="form-label" for="input-1">Current Employment Status</label>
                         <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
                         <select class="form-input mr-10 select-active" name="employee_status" onchange="employeeStatus(this.value)">
@@ -785,7 +785,7 @@
                       <span id="reqemployee_status" class="reqError text-danger valley"></span>
                     </div>
                     <div class="professional_permanent" @if(Auth::guard('nurse_middle')->user()->permanent_status == NULL) style="display: none;" @endif>
-                      <div class="form-group level-drp col-md-12">
+                      <div class="form-group col-md-12">
                         <label class="form-label" for="input-1">Permanent</label>
                         <input type="hidden" name="perhfield" class="perhfield" value="{{ Auth::guard('nurse_middle')->user()->permanent_status }}">
                         <ul id="permanent_status_profession" style="display:none;">
@@ -808,7 +808,7 @@
                     </div>
                     
                     <div class="professional_temporary" @if(Auth::guard('nurse_middle')->user()->temporary_status == NULL) style="display: none;" @endif>
-                      <div class="form-group level-drp col-md-12">
+                      <div class="form-group col-md-12">
                         <label class="form-label" for="input-1">Temporary</label>
                         <input type="hidden" name="temphfield" class="temphfield" value="{{ Auth::guard('nurse_middle')->user()->temporary_status }}">
                         
@@ -841,7 +841,7 @@
                       
                     </div>
                     <div class="professional_unemplyeed" @if(Auth::guard('nurse_middle')->user()->current_employee_status != "Unemployed") style="display: none;" @endif>
-                      <div class="form-group level-drp col-md-12">
+                      <div class="form-group col-md-12">
                         <label class="form-label" for="input-1">Reason for Unemployment</label>
                         <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
                         <select class="form-input mr-10 select-active unemployeement_reason" name="unemployeement_reason" id="unemployeement_reason" onchange="reasonUnemployeement(this.value)">
@@ -856,14 +856,14 @@
                       </div>
                       <span id="requnempreason" class="reqError text-danger valley"></span>
                     </div>
-                    <div class="form-group  @if(Auth::guard('nurse_middle')->user()->unemployeed_status != "Other (Please specify)") d-none @endif specify_reason_div">
+                    <div class="form-group  @if(Auth::guard('nurse_middle')->user()->current_employee_status != "Unemployed") d-none @endif specify_reason_div">
                       <label class="form-label" for="input-1">Other (Please specify)</label>
                       
                       <input class="form-control" type="text" name="specify_reason" value="{{ Auth::guard('nurse_middle')->user()->unemployeed_reason }}">
                       <span id="otherspecify_reason" class="reqError text-danger valley"></span>
                     </div>
                     <div class="long_unemplyeed" @if(Auth::guard('nurse_middle')->user()->current_employee_status != "Unemployed") style="display: none;" @endif>
-                      <div class="form-group level-drp col-md-12">
+                      <div class="form-group col-md-12">
                         <label class="form-label" for="input-1">How long have you been unemployed?</label>
                         <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
                         <select class="form-input mr-10 select-active long_unemployeed" name="long_unemployeed" id="long_unemployeed">
@@ -2919,10 +2919,31 @@
                           
                           <label class="form-label" for="input-1">Facility / Workplace Type</label>
                           <?php
+                            $user_id = Auth::guard('nurse_middle')->user()->id;
                             $workplace_data = DB::table('work_enviornment_preferences')->where("sub_env_id",0)->orderBy("env_name","asc")->get();
+                            $facility_data = DB::table('user_experience')->where("user_id",$user_id)->first();
+
+                            if(!empty($facility_data)){
+                              $facility_type = (array)json_decode($facility_data->facility_workplace_type);
+                            }else{
+                              $facility_type = array();
+                            }
+
+                            $p_memb_arr = array();
+
+                            if(!empty($facility_type)){
+                              foreach ($facility_type as $index => $p_memb) {
+                            
+                                //print_r($p_memb);
+                                $p_memb_arr[] = $index;
+                                
+                              }
+                            }
+
+                            $p_memb_json = json_encode($p_memb_arr);
                             
                           ?>
-                          {{-- <input type="hidden" name="pos_hide" class="pos_hide pos_hide-{{ $i }}" value="{{ $p_arr }}"> --}}
+                          <input type="hidden" name="mainfactype" class="mainfactype mainfactype-{{ $i }}" value="{{ $p_memb_json }}">
                           <ul id="wp_data-{{ $i }}" style="display:none;">
                            
                             @if(!empty($workplace_data))
@@ -2931,16 +2952,83 @@
                             @endforeach
                             @endif
                           </ul>
-                          <select class="js-example-basic-multiple" data-list-id="wp_data-{{ $i }}" name="positions_held[{{ $i }}]" id="wp_data-{{ $i }}" multiple onchange="getWpData('',{{ $i }})"></select>
-                          <span id="reqpositionheld-{{$i}}" class="reqError text-danger valley"></span>
+                          <select class="js-example-basic-multiple addAll_removeAll_btn facworktype facworktype-{{ $i }}" data-list-id="wp_data-{{ $i }}" name="positions_held[{{ $i }}]" id="wp_data-{{ $i }}" multiple onchange="getWpData('',{{ $i }})"></select>
+                          <span id="reqreqfacworktype-{{$i}}" class="reqError text-danger valley"></span>
                         
                         </div>
-                        <div class="wp_data-{{ $i }}"></div>
+                        <div class="wp_data-{{ $i }}">
+                          @foreach ($p_memb_arr as $p_arr)
+                          <?php
+                            $subface_data = (array)$facility_type[$p_arr];
+                            $environment_list = DB::table("work_enviornment_preferences")->where("sub_env_id",$p_arr)->get();
+                            $environment_name = DB::table("work_enviornment_preferences")->where("prefer_id",$p_arr)->first();
+                            //print_r($subface_data);
+                            $p_memb_arr = array();
+
+                            if(!empty($subface_data)){
+                              foreach ($subface_data as $index => $s_data) {
+                            
+                                //print_r($p_memb);
+                                $p_memb_arr[] = $index;
+                                
+                              }
+                            }
+
+                            $p_memb_json = json_encode($p_memb_arr);
+                          ?>
+                          <div class="wp_main_div-{{ $p_arr }}"><div class="subworkdiv subworkdiv-{{ $p_arr }} form-group level-drp">
+                            <label class="form-label work_label work_label-{{ $i }}{{ $p_arr }}" for="input-1">{{ $environment_name->env_name }}</label>
+                            <input type="hidden" name="subwork" class="subwork subwork-{{ $p_arr }}" value="{{ $i }}">
+                            <input type="hidden" name="subwork_list" class="subwork_list subwork_list-{{ $i }}" value="{{ $p_arr }}">
+                            <input type="hidden" name="subworkjs" class="subworkjs-{{ $i }} subworkjs-{{ $i }}{{ $p_arr }}" value="{{ $p_memb_json }}">
+                            <ul id="subwork_field-{{ $i }}{{ $p_arr }}" style="display:none;">
+                              @if(!empty($environment_list))
+                              @foreach($environment_list as $env_list)
+                              <li data-value="{{ $env_list->prefer_id }}">{{ $env_list->env_name }}</li>
+                              
+                              @endforeach
+                              @endif
+                            </ul>
+                            <select class="js-example-basic-multiple addAll_removeAll_btn work_valid-{{ $i }} work_valid-{{ $i }}{{ $p_arr }}" data-list-id="subwork_field-{{ $i }}{{ $p_arr }}" name="subwork[{{ $i }}][{{ $p_arr }}][]" multiple></select>
+                            <span id="reqsubwork-{{ $i }}{{ $p_arr }}" class="reqError text-danger valley"></span>
+                            </div>
+                            <div class="showsubwpdata showsubwpdata-{{ $i }}{{ $p_arr }}">
+                              @foreach ($p_memb_arr as $p_arr1)
+                              <?php
+                                $subface_data1 = $subface_data[$p_arr1];
+                                $environment_list = DB::table("work_enviornment_preferences")->where("sub_env_id",$p_arr)->where("sub_envp_id",$p_arr1)->get();
+                                $environment_name = DB::table("work_enviornment_preferences")->where("prefer_id",$p_arr1)->first();
+                                //print_r($subface_data);
+                                
+
+                                $p_memb_json = json_encode($subface_data1);
+                              ?>
+                              <div class="subpworkdiv subpworkdiv-{{ $p_arr1 }} form-group level-drp">
+                                <label class="form-label pwork_label pwork_label-{{ $i }}{{ $p_arr1 }}" for="input-1">{{ $environment_name->env_name }}</label>
+                                <input type="hidden" name="subpwork" class="subpwork subpwork-{{ $p_arr1 }}" value="{{ $i }}">
+                                <input type="hidden" name="subpwork_list" class="subpwork_list subpwork_list-{{ $i }}" value="{{ $p_arr1 }}">
+                                <input type="hidden" name="subworkjs1" class="subworkjs1-{{ $i }} subworkjs1-{{ $i }}{{ $p_arr }}" value="{{ $p_memb_json }}">
+                                <ul id="subpwork_field-{{ $p_arr1 }}" style="display:none;">
+                                  @if(!empty($environment_list))
+                                  @foreach($environment_list as $env_list)
+                                  <li data-value="{{ $env_list->prefer_id }}">{{ $env_list->env_name }}</li>
+                                  
+                                  @endforeach
+                                  @endif
+                                </ul>
+                                <select class="js-example-basic-multiple pwork_valid-{{ $p_arr1 }} pwork_valid-{{ $i }}{{ $p_arr1 }}" data-list-id="subpwork_field-{{ $i }}{{ $p_arr1 }}" name="subpwork[{{ $i }}][{{ $p_arr }}][{{ $p_arr1 }}][]" multiple></select>
+                                <span id="reqsubpwork-{{ $i }}{{ $p_arr1 }}" class="reqError text-danger valley"></span>
+                              </div>
+                              @endforeach
+                            </div>
+                          </div>
+                          @endforeach
+                        </div>
                         <div class="form-group level-drp">
                           <label class="form-label" for="input-1">Facility / Workplace Name</label>
                           <input type="text" name="facility_workplace_name[{{ $i }}]" class="form-control facworkname facworkname-{{ $i }}" value="{{ $data->facility_workplace_name }}">
                           <span id="reqfaceworkname-{{$i}}" class="reqError text-danger valley"></span>
-                        </div> 
+                        </div>  
                         <div class="form-group drp--clr nurse_exp_type nurse_exp_type-{{ $i }}">
                           <label class="form-label" for="input-1">Type of Nurse?</label>
                           <input type="hidden" name="user_id" class="user_id" value="{{ Auth::guard('nurse_middle')->user()->id }}">
@@ -3237,7 +3325,7 @@
                             @endforeach
                             @endif
                           </ul>
-                          <select class="js-example-basic-multiple addAll_removeAll_btn pos_held pos_held_{{ $i }}" data-list-id="position_held_field-{{ $i }}" name="positions_held[{{ $i }}]" id="position_held_field-{{ $i }}" multiple onchange="getPostions('',{{ $i }})"></select>
+                          <select class="js-example-basic-multiple pos_held pos_held_{{ $i }}" data-list-id="position_held_field-{{ $i }}" name="positions_held[{{ $i }}]" id="position_held_field-{{ $i }}" multiple onchange="getPostions('',{{ $i }})"></select>
                           <span id="reqpositionheld-{{$i}}" class="reqError text-danger valley"></span>
                         
                         </div>
@@ -3247,7 +3335,8 @@
                             $employee_positions = DB::table("employee_positions")->where("subposition_id",$par)->orderBy('position_name', 'ASC')->get();
                             $position_name = DB::table("employee_positions")->where("position_id",$par)->first();
                             $subposdata = json_encode($pos_data[$par]);
-                            //print_r($subposdata);
+                           
+                            //print_r($pos_data[$par]);
                           ?>
                           @if($par != "34")
                           <div class="subposdiv subposdiv-{{ $position_name->position_id }} form-group level-drp">
@@ -3262,7 +3351,7 @@
                               @endforeach
                               @endif
                             </ul>
-                            <select class="js-example-basic-multiple addAll_removeAll_btn position_valid-{{ $i }}{{ $position_name->position_id }}" data-list-id="subposition_held_field-{{ $i }}{{ $position_name->position_id }}" name="subpositions_held[{{ $i }}][{{ $position_name->position_id }}][]" multiple></select>
+                            <select class="js-example-basic-multiple position_valid-{{ $i }}{{ $position_name->position_id }}" data-list-id="subposition_held_field-{{ $i }}{{ $position_name->position_id }}" name="subpositions_held[{{ $i }}][{{ $position_name->position_id }}][]" multiple></select>
                             <span id="reqsubpositionheld-{{ $i }}{{ $position_name->position_id }}" class="reqError text-danger valley"></span>
                           </div>
                           @else
@@ -3273,6 +3362,7 @@
                             <span id="reqsubpositionheld-{{ $i }}{{ $position_name->position_id }}" class="reqError text-danger valley"></span>
                           </div>
                           @endif
+
                           <?php
                             $x++;
                           ?>
@@ -3308,7 +3398,7 @@
                               </div>
                             
                           <div class="exp_permanent exp_permanent-{{$i}}" @if($data->employeement_type != "Permanent") style="display: none;" @endif>
-                            <div class="form-group level-drp col-md-12">
+                            <div class="form-group col-md-12">
                               <label class="form-label" for="input-1">Permanent</label>
                               <input type="hidden" name="perfieldexp" class="perfieldexp perfieldexp-{{ $i }}" value="{{ $data->permanent_status }}">
                               <ul id="permanent_status_experience-{{ $i }}" style="display:none;">
@@ -3324,13 +3414,13 @@
                                 <li data-value="Volunteer (Permanent)">Volunteer (Permanent)</li>
                                 
                               </ul>
-                              <select class="js-example-basic-multiple permanent_exp permanent_exp-{{ $i }}" data-list-id="permanent_status_experience-1" name="permanent_status[{{$i}}]" id="permanent_status_experience"></select>
+                              <select class="js-example-basic-multiple permanent_exp permanent_exp-{{ $i }}" data-list-id="permanent_status_experience-{{ $i }}" name="permanent_status[{{$i}}]" id="permanent_status_experience"></select>
                               <span id="reqemployeep_statusexp-{{ $i }}" class="reqError text-danger valley"></span>
                             </div>
                             
                           </div>
                           <div class="exp_temporary exp_temporary-{{ $i }}" @if($data->employeement_type != "Temporary") style="display: none;" @endif>
-                            <div class="form-group level-drp col-md-12">
+                            <div class="form-group col-md-12">
                               <label class="form-label" for="input-1">Temporary</label>
                               <input type="hidden" name="temphfield" class="temphfieldexp temphfieldexp-{{ $i }}" value="{{ $data->temporary_status }}">
                         
@@ -3799,7 +3889,7 @@
                             @endforeach
                             @endif
                           </ul>
-                          <select class="js-example-basic-multiple addAll_removeAll_btn pos_held pos_held_1" data-list-id="position_held_field-1" name="positions_held[1]" id="position_held_field-1" multiple onchange="getPostions('',1)"></select>
+                          <select class="js-example-basic-multiple pos_held pos_held_1" data-list-id="position_held_field-1" name="positions_held[1]" id="position_held_field-1" multiple onchange="getPostions('',1)"></select>
                           <span id="reqpositionheld-1" class="reqError text-danger valley"></span>
                         
                         </div>
@@ -3836,7 +3926,7 @@
                         </div>
                           
                         <div class="exp_permanent-1 exp_permanent" style="display: none;">
-                          <div class="form-group level-drp col-md-12">
+                          <div class="form-group col-md-12">
                             <label class="form-label" for="input-1">Permanent</label>
                             <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
                             
@@ -3859,7 +3949,7 @@
                           
                         </div>
                         <div class="exp_temporary-1 exp_temporary" style="display: none;">
-                          <div class="form-group level-drp col-md-12">
+                          <div class="form-group col-md-12">
                             <label class="form-label" for="input-1">Temporary</label>
                             <input type="hidden" name="temphfield" class="temphfield" value="{{ Auth::guard('nurse_middle')->user()->temporary_status }}">
                         
@@ -7542,6 +7632,8 @@ if (!empty($interviewReferenceData)) {
     
   }
 
+  
+  
   var k = 1;
   $(".pos_hide").each(function(){
 
@@ -7567,6 +7659,7 @@ if (!empty($interviewReferenceData)) {
     }
     k++;
   });
+  
 
   var i = 1;
   $(".perfieldexp").each(function(){
@@ -7593,6 +7686,46 @@ if (!empty($interviewReferenceData)) {
       
     }
     j++;
+  });
+
+  var u = 1;
+
+  $(".mainfactype").each(function(){
+
+    if ($(".mainfactype-"+u).val() != "") {
+      var mainfactype = JSON.parse($(".mainfactype-"+u).val());
+      
+      console.log("mainfactype",mainfactype);
+      $('.js-example-basic-multiple[data-list-id="wp_data-'+u+'"]').select2().val(mainfactype).trigger('change');
+      $(".subwork_list-"+u).each(function(){
+      var subwork_list_val = $(this).val();
+        if ($(".subworkjs-"+u+subwork_list_val).val() != "") {
+          
+          var subfactype = JSON.parse($(".subworkjs-"+u+subwork_list_val).val());
+          
+          console.log("subfactype",subfactype);
+          $('.js-example-basic-multiple[data-list-id="subwork_field-'+u+subwork_list_val+'"]').select2().val(subfactype).trigger('change');
+          $(".subpwork_list-"+u).each(function(){
+            var subwork_list_val = $(this).val();
+            if ($(".subworkjs1-"+u+subwork_list_val).val() != "") {
+              
+              var subfactype = JSON.parse($(".subworkjs1-"+u+subwork_list_val).val());
+              
+              console.log("subfactype1",subfactype);
+              $('.js-example-basic-multiple[data-list-id="subpwork_field-'+u+subwork_list_val+'"]').select2().val(subfactype).trigger('change');
+              
+            }
+            
+          });
+        }
+
+        
+        
+      });
+    }
+
+    
+    u++;
   });
 
   function ExpEmpStatus(value,i){
