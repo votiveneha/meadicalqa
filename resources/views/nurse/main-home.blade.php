@@ -143,7 +143,7 @@
             </div>
           </div>
         </a>
-       
+        @endforeach
         @if($trendingData2)
         @foreach ($trendingData2 as $key => $items)
         <a href='{{ route("nurse.login") }}'>
@@ -156,7 +156,7 @@
         </a>
         @endforeach
         @endif
-        @endforeach
+        
         @else
         @if ($trendingData2)
         @foreach ($trendingData2 as $key => $item)

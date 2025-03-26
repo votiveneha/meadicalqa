@@ -1834,7 +1834,7 @@ class HomeController extends Controller
         
         $place_id = $request->place_id;
         
-        $data['work_data'] = DB::table("work_enviornment_preferences")->where("sub_env_id",$place_id)->where("sub_envp_id",NULL)->orderBy('env_name', 'ASC')->get();
+        $data['work_data'] = DB::table("work_enviornment_preferences")->where("sub_env_id",$place_id)->where("sub_envp_id",0)->orderBy('env_name', 'ASC')->get();
         $environment_name = DB::table("work_enviornment_preferences")->where("prefer_id",$place_id)->first();
         //print_r(json_encode($data));
         $data['env_name'] = $environment_name->env_name;
@@ -1883,6 +1883,10 @@ class HomeController extends Controller
         $surgical_operative_carep_2 = $request->input('surgical_operative_carep_experience_2', []);
         $surgical_operative_carep_3 = $request->input('surgical_operative_carep_experience_3', []);
         $positions_held = $request->input('subpositions_held');
+
+        $subwork = $request->input('subwork');
+        
+        $subpwork = $request->input('subworkthlevel');
         
         $start_date =  $request->input('start_date');
         $end_date = $request->input('end_date');
@@ -1941,6 +1945,7 @@ class HomeController extends Controller
             $surgical_operative_carep_2_1 = $surgical_operative_carep_2[$key] ?? null;
             $surgical_operative_carep_3_1 = $surgical_operative_carep_3[$key] ?? null;
             $positions_held1 = json_encode($positions_held[$key]) ?? null;
+            $subpwork1 = json_encode($subpwork[$key]) ?? null;
             $start_date1 = $start_date[$key] ?? '0000-00-00';
             $end_date1 = $end_date[$key] ?? '0000-00-00';
             $job_responeblities1 = $job_responeblities[$key] ?? null;
@@ -1949,7 +1954,7 @@ class HomeController extends Controller
             $skills_compantancies1 = $skills_compantancies[$key] ?? null;
             $type_of_evidence1 = $type_of_evidence[$key] ?? null;
             $level_of_exp1 = $level_of_exp[$key] ?? null;
-            $permanent_status1 = $permanent_status[$key] ?? null;
+            $permanent_status1 = $permanent_status[$key+1] ?? null;
             $temporary_status1 = $temporary_status[$key] ?? null;
             $sub_skills_compantancies1_1 = $sub_skills_compantancies1[$key] ?? null;
             $sub_skills_compantancies2_1 = $sub_skills_compantancies2[$key] ?? null;
@@ -2014,6 +2019,7 @@ class HomeController extends Controller
                     'neonatal_care' => json_encode($neonatal_care_1),
                     'paedia_surgical_preoperative' => json_encode($surgical_rowpad_box_1),
                     'position_held' => $positions_held1,
+                    'facility_workplace_type' => $subpwork1,
                     'employeement_start_date' => $start_date1,
                     'employeement_end_date' => $end_date1,
                     'responsiblities' => $job_responeblities1,
@@ -2072,6 +2078,7 @@ class HomeController extends Controller
                 $newExperience->neonatal_care = json_encode($neonatal_care_1);
                 $newExperience->paedia_surgical_preoperative = json_encode($surgical_rowpad_box_1);
                 $newExperience->position_held = $positions_held1;
+                $newExperience->facility_workplace_type = $subpwork1;
                 $newExperience->employeement_start_date = $start_date1;
                 $newExperience->employeement_end_date = $end_date1;
                 $newExperience->responsiblities = $job_responeblities1;
@@ -2116,29 +2123,29 @@ class HomeController extends Controller
         $phone_no = $request->phone_no;
         $reference_relationship = $request->reference_relationship;
         $worked_together = $request->worked_together;
-        $position_with_referee = $request->position_with_referee;
+        $position_with_referee = $request->subpositions_heldr;
         $start_date = $request->start_date;
         $end_date = $request->end_date;
         $still_working = $request->still_working1;
         $reference_no = $request->reference_no;
-        //print_r($still_working);die;
+        //print_r($position_with_referee);die;
         $getrefereedata = DB::table("referee")->where("user_id", $user_id)->get();
 
         $referee_no_array = array();
 
         foreach ($getrefereedata as $r_data) {
-            $referee_no_array[] = $r_data->referee_no;
+            $referee_no_array[] = $r_data->email;
         }
 
-
+        //print_r($referee_no_array);die;
         for ($i = 0; $i < count($first_name); $i++) {
-            if (in_array($i + 1, $referee_no_array)) {
+            if (in_array($email[$i], $referee_no_array)) {
                 // if (isset($still_working[$i])) {
                 //     $working = 1;
                 // } else {
                 //     $working = 0;
                 // }
-                $run = AddReferee::where('user_id', $user_id)->where('referee_no', $i + 1)->update(['first_name' => $first_name[$i], 'last_name' => $last_name[$i], 'email' => $email[$i], 'phone_no' => $phone_no[$i], 'relationship' => $reference_relationship[$i], 'worked_together' => $worked_together[$i], 'position_with_referee' => $position_with_referee[$i], 'start_date' => $start_date[$i], 'end_date' => $end_date[$i], 'still_working' => $still_working[$i], 'is_declare' => 1]);
+                $run = AddReferee::where('user_id', $user_id)->where('email', $email[$i])->update(['first_name' => $first_name[$i], 'last_name' => $last_name[$i], 'email' => $email[$i], 'phone_no' => $phone_no[$i], 'relationship' => $reference_relationship[$i], 'worked_together' => $worked_together[$i], 'position_with_referee' => json_encode($position_with_referee[$i+1]), 'start_date' => $start_date[$i], 'end_date' => $end_date[$i], 'still_working' => $still_working[$i], 'is_declare' => 1]);
             } else {
                 if (isset($still_working[$i])) {
                     $working = 1;
@@ -2154,7 +2161,7 @@ class HomeController extends Controller
                 $referee->phone_no = $phone_no[$i];
                 $referee->relationship = $reference_relationship[$i];
                 $referee->worked_together = $worked_together[$i];
-                $referee->position_with_referee = $position_with_referee[$i];
+                $referee->position_with_referee = json_encode($position_with_referee[$i+1]);
                 $referee->start_date = $start_date[$i];
                 $referee->end_date = $end_date[$i];
                 $referee->still_working = $working;

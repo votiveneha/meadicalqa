@@ -1537,6 +1537,47 @@
   function updateExperience() {
     var isValid = true;
 
+    var s = 1;
+    $(".facworktype").each(function() {
+      if ($(".facworktype-" + s).length > 0) {
+        if ($(".facworktype-" + s).val() == '') {
+          document.getElementById("reqfacworktype-" + s).innerHTML = "* Please select the Facility / Workplace Type";
+          isValid = false;
+        }
+      }
+      var t = 1;
+      $(".wp_data-"+s+" .subwork_list-"+s).each(function() {
+        var work_valid = $(this).val();
+        console.log("work_valid",work_valid);
+        var work_label = $(".work_label-"+s+work_valid).text();
+        if ($(".work_valid-" + s+work_valid).length > 0) {
+          if ($(".work_valid-" + s+work_valid).val() == '') {
+            document.getElementById("reqsubwork-" + s+work_valid).innerHTML = "* Please select the "+work_label;
+            isValid = false;
+          }
+        }
+
+        var u = 0;
+        $(".wp_data-"+s+" .subpwork_list-"+s).each(function() {
+          var work_valid = $(this).val();
+          console.log("work_valid",work_valid);
+          var work_label = $(".pwork_label-"+s+work_valid).text();
+          if ($(".pwork_valid-" + s+work_valid).length > 0) {
+            if ($(".pwork_valid-" + s+work_valid).val() == '') {
+              document.getElementById("reqsubpwork-" + s+work_valid).innerHTML = "* Please select the "+work_label;
+              isValid = false;
+            }
+          }
+          u++;
+        });
+        t++;
+      });
+
+      
+      s++;
+    });
+
+
     var o = 1;
     $(".facworkname").each(function() {
       if ($(".facworkname-" + o).length > 0) {
@@ -1591,6 +1632,19 @@
         y++;
       }
       
+    });
+
+    var p = 1;
+    $(".neonatal_exp").each(function(i,val) {
+      if($(".neonatal_row_exp_"+p).hasClass("d-none") == false){
+        
+        if ($(".neonatal_exp_"+p).val() == '') {
+          document.getElementById("reqneonatal-"+p).innerHTML = "* Please select the Neonatal Care";
+          isValid = false;
+        }
+        
+      }
+      p++;
     });
 
     var z = 1;
@@ -1659,6 +1713,31 @@
       });
       u++;
     });
+
+    var x = 1;
+    $(".padsurgical_specialities_input").each(function(i,val) {
+      
+      
+      $(".padsurgical_specialities_input-"+x).each(function(i,val) {
+        var ntypeval = $(this).val();
+        var st_value = x.toString()+ntypeval.toString();
+        if($(".padsurgicalspeciality_exps_"+st_value).hasClass("d-none") == false){
+          
+          
+          var label_name = $(".padsurgicalspeciality_name_label-"+st_value).text();
+          
+          if ($(".padsurgicalspecialities-"+st_value).val() == '') {
+            console.log("xsurgicalpad",st_value);
+            document.getElementById("reqpadsurgicalspecialities-"+st_value).innerHTML = "* Please select the "+label_name;
+            isValid = false;
+          }
+          
+        }
+      });
+      x++;
+    });
+
+    
 
     if ($(".exp_declare_information").prop('checked') == false) {
       document.getElementById("reqdeclare_information_exp").innerHTML = "* Please check this checkbox";
@@ -1770,8 +1849,24 @@
           isValid = false;
         }
       }
+      var u = 1;
+      $(".area_skills-"+i).each(function() {
+        var val = $(this).val();
+        var label = $(".analy_skill_label-"+i+val).text();
+        console.log("val",val);
+        if ($(".analy_skill_"+i+val).hasClass("d-none") == false) {
+          if ($(".spc_comp-" +i+val).val() == '') {
+            document.getElementById("reqanaskills-"+i+val).innerHTML = "* Please select the "+label;
+            isValid = false;
+          }
+        }
+        
+        u++;
+      });
       i++;
     });
+
+    
 
 
     var j = 1;
@@ -2609,6 +2704,34 @@
       }
       m++;
 
+    });
+
+    var c = 1;
+    $(".pos_heldr").each(function() {
+      if ($(".pos_heldr_" + c).length > 0) {
+        if ($(".pos_heldr_" + c).val() == '') {
+          document.getElementById("reqposworked-" + c).innerHTML = "* Please select your position when you worked with this referee?";
+          isValid = false;
+        }
+      }
+
+      var r = 1;
+      $(".show_positionsr-"+c+" .subpos_list").each(function() {
+        var subpos = $(this).val();
+        
+        var label_text = $(".show_positionsr-"+c+" .pos_label-"+ c+subpos).text();
+        console.log("subpos",c+subpos);
+        if ($(".position_validr-" + c+subpos).length > 0) {
+          
+          if ($(".position_validr-" + c+subpos).val() == '') {
+            
+            document.getElementById("reqsubpositionheldr-" + c+subpos).innerHTML = "* Please select the "+label_text;
+            isValid = false;
+          }
+        }
+        r++;
+      });
+      c++;
     });
 
     var a = 1;

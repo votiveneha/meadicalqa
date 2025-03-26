@@ -59,6 +59,13 @@
     color: #fff;
   }
 
+  form#reference_form ul.select2-selection__rendered {
+    box-shadow: none;
+    max-height: inherit;
+    border: none;
+    position: relative;
+  }
+
   .professional_temporary .select2-selection__arrow b,.professional_permanent .select2-selection__arrow b,
   .exp_permanent .select2-selection__arrow b,.exp_temporary .select2-selection__arrow b, .exp_permanent .select2-selection__arrow b,.professional_employee_status .select2-selection__arrow b{
     margin-top: 0px !important;
@@ -2919,10 +2926,27 @@
                           
                           <label class="form-label" for="input-1">Facility / Workplace Type</label>
                           <?php
+                            $user_id = Auth::guard('nurse_middle')->user()->id;
                             $workplace_data = DB::table('work_enviornment_preferences')->where("sub_env_id",0)->orderBy("env_name","asc")->get();
+                            $facility_type = (array)json_decode($data->facility_workplace_type);
+
+                            //print_r($facility_type);
+
+                            $p_memb_arr = array();
+
+                            if(!empty($facility_type)){
+                              foreach ($facility_type as $index => $p_memb) {
+                            
+                                //print_r($p_memb);
+                                $p_memb_arr[] = $index;
+                                
+                              }
+                            }
+
+                            $p_memb_json = json_encode($p_memb_arr);
                             
                           ?>
-                          {{-- <input type="hidden" name="pos_hide" class="pos_hide pos_hide-{{ $i }}" value="{{ $p_arr }}"> --}}
+                          <input type="hidden" name="mainfactype" class="mainfactype mainfactype-{{ $i }}" value="{{ $p_memb_json }}">
                           <ul id="wp_data-{{ $i }}" style="display:none;">
                            
                             @if(!empty($workplace_data))
@@ -2931,11 +2955,96 @@
                             @endforeach
                             @endif
                           </ul>
-                          <select class="js-example-basic-multiple" data-list-id="wp_data-{{ $i }}" name="positions_held[{{ $i }}]" id="wp_data-{{ $i }}" multiple onchange="getWpData('',{{ $i }})"></select>
-                          <span id="reqpositionheld-{{$i}}" class="reqError text-danger valley"></span>
+                          <select class="js-example-basic-multiple addAll_removeAll_btn facworktype facworktype-{{ $i }}" data-list-id="wp_data-{{ $i }}" name="positions_held[{{ $i }}]" id="wp_data-{{ $i }}" multiple onchange="getWpData('',{{ $i }})"></select>
+                          <span id="reqfacworktype-{{$i}}" class="reqError text-danger valley"></span>
                         
                         </div>
-                        <div class="wp_data-{{ $i }}"></div>
+                        <div class="wp_data-{{ $i }}">
+                          @foreach ($p_memb_arr as $p_arr)
+                          <?php
+                            $subface_data = (array)$facility_type[$p_arr];
+                            $environment_list = DB::table("work_enviornment_preferences")->where("sub_env_id",$p_arr)->where("sub_envp_id","0")->get();
+                            $environment_name = DB::table("work_enviornment_preferences")->where("prefer_id",$p_arr)->first();
+                            
+                            $p_memb_arr = array();
+
+                            if (array_key_exists(0, $subface_data)){
+                              if(!empty($subface_data)){
+                                foreach ($subface_data as $index => $s_data) {
+                              
+                                  //print_r($p_memb);
+                                  $p_memb_arr[] = $s_data;
+                                  
+                                }
+                              }
+                            }else{
+                              if(!empty($subface_data)){
+                                foreach ($subface_data as $index => $s_data) {
+                              
+                                  //print_r($p_memb);
+                                  $p_memb_arr[] = $index;
+                                  
+                                }
+                              }
+                            }
+                            
+
+                            
+                            //print_r($p_memb_arr);
+                            $p_memb_json = json_encode($p_memb_arr);
+                          ?>
+                          <div class="wp_main_div-{{ $p_arr }}"><div class="subworkdiv subworkdiv-{{ $p_arr }} form-group level-drp">
+                            <label class="form-label work_label work_label-{{ $i }}{{ $p_arr }}" for="input-1">{{ $environment_name->env_name }}</label>
+                            <input type="hidden" name="subwork" class="subwork subwork-{{ $p_arr }}" value="{{ $i }}">
+                            <input type="hidden" name="subwork_list" class="subwork_list subwork_list-{{ $i }}" value="{{ $p_arr }}">
+                            <input type="hidden" name="subworkjs" class="subworkjs-{{ $i }} subworkjs-{{ $i }}{{ $p_arr }}" value="{{ $p_memb_json }}">
+                            <ul id="subwork_field-{{ $i }}{{ $p_arr }}" style="display:none;">
+                              @if(!empty($environment_list))
+                              @foreach($environment_list as $env_list)
+                              <li data-value="{{ $env_list->prefer_id }}">{{ $env_list->env_name }}</li>
+                              
+                              @endforeach
+                              @endif
+                            </ul>
+                            <select class="js-example-basic-multiple addAll_removeAll_btn work_valid-{{ $i }} work_valid-{{ $i }}{{ $p_arr }}" data-list-id="subwork_field-{{ $i }}{{ $p_arr }}" name="subworkthlevel[{{ $i }}][{{ $p_arr }}][]" onchange="getWpSubData('',{{ $i }},{{ $p_arr }})" multiple></select>
+                            <span id="reqsubwork-{{ $i }}{{ $p_arr }}" class="reqError text-danger valley"></span>
+                            </div>
+                            <div class="showsubwpdata showsubwpdata-{{ $i }}{{ $p_arr }}">
+                              @if(array_key_exists(0, $subface_data) == false)
+                              @if(!empty($p_memb_arr))
+                              @foreach ($p_memb_arr as $p_arr1)
+                              <?php
+                                $subface_data1 = $subface_data[$p_arr1];
+                                $environment_list = DB::table("work_enviornment_preferences")->where("sub_env_id",$p_arr)->where("sub_envp_id",$p_arr1)->get();
+                                $environment_name = DB::table("work_enviornment_preferences")->where("prefer_id",$p_arr1)->first();
+                                
+                                
+
+                                $p_memb_json = json_encode($subface_data1);
+                              ?>
+                              <div class="subpworkdiv subpworkdiv-{{ $p_arr1 }} form-group level-drp">
+                                <label class="form-label pwork_label pwork_label-{{ $i }}{{ $p_arr1 }}" for="input-1">{{ $environment_name->env_name }}</label>
+                                <input type="hidden" name="subpwork" class="subpwork subpwork-{{ $p_arr1 }}" value="{{ $i }}">
+                                <input type="hidden" name="subpwork_list" class="subpwork_list subpwork_list-{{ $i }}" value="{{ $p_arr1 }}">
+                                <input type="hidden" name="subworkjs1" class="subworkjs1-{{ $i }} subworkjs1-{{ $i }}{{ $p_arr1 }}" value="{{ $p_memb_json }}">
+                                <ul id="subpwork_field-{{ $i }}{{ $p_arr1 }}" style="display:none;">
+                                  @if(!empty($environment_list))
+                                  @foreach($environment_list as $env_list)
+                                  <li data-value="{{ $env_list->prefer_id }}">{{ $env_list->env_name }}</li>
+                                  
+                                  @endforeach
+                                  @endif
+                                </ul>
+                                <select class="js-example-basic-multiple addAll_removeAll_btn pwork_valid-{{ $p_arr1 }} pwork_valid-{{ $i }}{{ $p_arr1 }}" data-list-id="subpwork_field-{{ $i }}{{ $p_arr1 }}" name="subworkthlevel[{{ $i }}][{{ $p_arr }}][{{ $p_arr1 }}][]" multiple></select>
+                                <span id="reqsubpwork-{{ $i }}{{ $p_arr1 }}" class="reqError text-danger valley"></span>
+                              </div>
+                              @endforeach
+                              @endif
+                              @endif
+                            </div>
+                          </div>
+                          @endforeach
+                        </div>
                         <div class="form-group level-drp">
                           <label class="form-label" for="input-1">Facility / Workplace Name</label>
                           <input type="text" name="facility_workplace_name[{{ $i }}]" class="form-control facworkname facworkname-{{ $i }}" value="{{ $data->facility_workplace_name }}">
@@ -3162,7 +3271,8 @@
                               <li data-value="{{ $ssd->id }}">{{ $ssd->name }}</li>
                               @endforeach
                             </ul>
-                            <select class="js-example-basic-multiple addAll_removeAll_btn neonatal_exp_{{ $i }}" data-list-id="neonatal_care_expe" name="neonatal_care_experience[1][]" multiple="multiple"></select>
+                            <select class="js-example-basic-multiple addAll_removeAll_btn neonatal_exp neonatal_exp_{{ $i }}" data-list-id="neonatal_care_expe" name="neonatal_care_experience[1][]" multiple="multiple"></select>
+                            <span id="reqneonatal-{{ $i }}" class="reqError text-danger valley"></span>
                           </div>
                           <?php
                           $speciality_surgical_datap = DB::table("speciality")->where('parent', '285')->get();
@@ -3181,17 +3291,19 @@
                           }
                           ?>
                           <input type="hidden" name="speciality_result" class="surgical_rowp_result_experience-{{ $i }}-{{ $q }}" value="{{ $ssd->id }}">
-                          <div class="surgical_rowp_exp_{{$i}} surgicalpad_row_experience-{{ $ssd->id }} surgical_rowp_exp-{{ $q }}-{{$i}} form-group drp--clr {{$getd}} drpdown-set col-md-4">
-                            <label class="form-label" for="input-1">{{ $ssd->name }}</label>
+                          <div class="surgical_rowp_exp_{{$i}} surgicalpad_row_experience-{{ $ssd->id }} surgical_rowp_exp-{{ $q }}-{{$i}} form-group drp--clr {{$getd}} drpdown-set padsurgicalspeciality_exps_{{ $i }}{{ $q }} col-md-4">
+                            <label class="form-label padsurgicalspeciality_name_label-{{$i}}{{ $q }}" for="input-1">{{ $ssd->name }}</label>
                             <?php
                             $speciality_surgicalsub_data = DB::table("speciality")->where('parent', $ssd->id)->orderBy('name')->get();
                             ?>
+                            <input type="hidden" name="surgical_specialities_input" class="padsurgical_specialities_input padsurgical_specialities_input-{{$i}}" value="{{ $q }}">
                             <ul id="surgical_operative_carep_exp-{{ $q }}" style="display:none;">
                               @foreach($speciality_surgicalsub_data as $sssd)
                               <li data-value="{{ $sssd->id }}">{{ $sssd->name }}</li>
                               @endforeach
                             </ul>
-                            <select class="js-example-basic-multiple addAll_removeAll_btn surgi_{{$ssd->id}}_{{$i}}" data-list-id="surgical_operative_carep_exp-{{ $q }}" name="surgical_operative_carep_experience_{{ $q }}[1][]" multiple="multiple"></select>
+                            <select class="padsurgicalspecialities-{{$i}} padsurgicalspecialities-{{$i}}{{ $q }} js-example-basic-multiple addAll_removeAll_btn surgi_{{$ssd->id}}_{{$i}}" data-list-id="surgical_operative_carep_exp-{{ $q }}" name="surgical_operative_carep_experience_{{ $q }}[1][]" multiple="multiple"></select>
+                            <span id="reqpadsurgicalspecialities-{{$i}}{{ $q }}" class="reqError text-danger valley"></span>
                           </div>
                           <?php
                           $q++;
@@ -3202,6 +3314,7 @@
                           <label class="form-label" for="input-1">What is your Level of experience in this specialty?
                           </label>
                           <select class="form-input mr-10 select-active" name="exper_assistent_level[{{$i}}]">
+                            <option value="select">select</option>
                             @for($l = 1; $l <= 30; $l++)
                               <option value="{{ $l }}" {{ $l == $data->assistent_level ? 'selected' : '' }}>
                               {{ $l }}{{ $l == 1 ? 'st' : ($l == 2 ? 'nd' : ($l == 3 ? 'rd' : 'th')) }}
@@ -3393,65 +3506,72 @@
                           </div>
                           <span id="reqexpertiseexp-{{ $i }}" class="reqError text-danger valley"></span>
 
-                          <div class="form-group level-drp @if($data->inter_and_em_skill == 'null') d-none @endif interpersonal_{{$i}}">
+                          <div class="form-group level-drp @if($data->inter_and_em_skill == 'null') d-none @endif interpersonal_{{$i}} analy_skill_{{ $i }}8">
                             <input type="hidden" value="{{ $data->inter_and_em_skill }}" id="inter_and_em_skill{{ $i }}">
-                            <label class="form-label" for="input-1">Interpersonal and Emotional Skills</label>
+                            <label class="form-label analy_skill_label-{{ $i }}8" for="input-1">Interpersonal and Emotional Skills</label>
                             <?php
                             $skills = DB::table("skills")->where("parent_id", "8")->get();
                             ?>
+                            <input type="hidden" value="8" class="area_skills-{{ $i }}">
                             <ul id="inter_and_em_skill" style="display:none;">
                               @foreach($skills as $cert)
                               <li data-value="{{ $cert->id }}">{{ $cert->name }}</li>
                               @endforeach
                             </ul>
-                            <select class="js-example-basic-multiple addAll_removeAll_btn inter_and_em_skill_{{ $i }}" data-list-id="inter_and_em_skill" name="sub_skills_compantancies-8[{{$i}}][]" multiple="multiple"></select>
+                            <select class="js-example-basic-multiple addAll_removeAll_btn spc_comp spc_comp-{{ $i }}8 inter_and_em_skill_{{ $i }}" data-list-id="inter_and_em_skill" name="sub_skills_compantancies-8[{{$i}}][]" multiple="multiple"></select>
+                            <span id="reqanaskills-{{ $i }}8" class="reqError text-danger valley"></span>
                           </div>
-                          <span id="reqexpertise" class="reqError text-danger valley"></span>
+                          
 
-                          <div class="form-group level-drp @if($data->org_and_any_skill == 'null') d-none @endif analy_skill_{{$i}}">
+                          <div class="form-group level-drp @if($data->org_and_any_skill == 'null') d-none @endif analy_skill_{{$i}} analy_skill_{{ $i }}9">
                             <input type="hidden" value="{{ $data->org_and_any_skill }}" id="org_and_any_skill{{ $i }}">
-                            <label class="form-label" for="input-1">Organizational and Analytical Skills</label>
+                            <label class="form-label analy_skill_label-{{ $i }}9" for="input-1">Organizational and Analytical Skills</label>
                             <?php
                             $skills = DB::table("skills")->where("parent_id", "9")->get();
                             ?>
+                            <input type="hidden" value="9" class="area_skills-{{ $i }}">
                             <ul id="org_and_any_skill" style="display:none;">
                               @foreach($skills as $cert)
                               <li data-value="{{ $cert->id }}">{{ $cert->name }}</li>
                               @endforeach
                             </ul>
-                            <select class="js-example-basic-multiple addAll_removeAll_btn org_and_any_skill_{{ $i }}" data-list-id="org_and_any_skill" name="sub_skills_compantancies-9[{{$i}}][]" multiple="multiple"></select>
+                            <select class="js-example-basic-multiple addAll_removeAll_btn spc_comp spc_comp-{{ $i }}9 org_and_any_skill_{{ $i }}" data-list-id="org_and_any_skill" name="sub_skills_compantancies-9[{{$i}}][]" multiple="multiple"></select>
+                            <span id="reqanaskills-{{ $i }}9" class="reqError text-danger valley"></span>
                           </div>
-                          <span id="reqexpertise" class="reqError text-danger valley"></span>
+                          
 
-                          <div class="form-group level-drp @if($data->lead_and_ment_skill === 'null') d-none @endif leader_skill_{{$i}}">
+                          <div class="form-group level-drp @if($data->lead_and_ment_skill === 'null') d-none @endif leader_skill_{{$i}} analy_skill_{{$i}}10">
                             <input type="hidden" value="{{ $data->lead_and_ment_skill }}" id="lead_and_ment_skill_{{ $i }}">
-                            <label class="form-label" for="input-1">Leadership and Mentorship Skills</label>
+                            <label class="form-label analy_skill_label-{{ $i }}10" for="input-1">Leadership and Mentorship Skills</label>
                             <?php
                             $skills = DB::table("skills")->where("parent_id", "10")->get();
                             ?>
+                            <input type="hidden" value="10" class="area_skills-{{ $i }}">
                             <ul id="lead_and_ment_skill1" style="display:none;">
                               @foreach($skills as $cert)
                               <li data-value="{{ $cert->id }}">{{ $cert->name }}</li>
                               @endforeach
                             </ul>
-                            <select class="js-example-basic-multiple addAll_removeAll_btn lead_and_ment_skill_{{ $i }}" data-list-id="lead_and_ment_skill1" name="sub_skills_compantancies-10[{{$i}}][]" multiple="multiple"></select>
+                            <select class="js-example-basic-multiple addAll_removeAll_btn spc_comp spc_comp-{{ $i }}10 lead_and_ment_skill_{{ $i }}" data-list-id="lead_and_ment_skill1" name="sub_skills_compantancies-10[{{$i}}][]" multiple="multiple"></select>
+                            <span id="reqanaskills-{{ $i }}10" class="reqError text-danger valley"></span>
                           </div>
-                          <span id="reqexpertise" class="reqError text-danger valley"></span>
+                          
 
-                          <div class="form-group level-drp  @if($data->tech_and_soft_pro == 'null')  d-none @endif tech_skill_{{$i}}">
+                          <div class="form-group level-drp  @if($data->tech_and_soft_pro == 'null')  d-none @endif tech_skill_{{$i}} analy_skill_{{$i}}11">
                             <input type="hidden" value="{{ $data->tech_and_soft_pro }}" id="tech_and_soft_pro_{{ $i }}">
-                            <label class="form-label" for="input-1">Technology and Software Proficiency</label>
+                            <label class="form-label analy_skill_label-{{ $i }}11" for="input-1">Technology and Software Proficiency</label>
                             <?php
                             $skills = DB::table("skills")->where("parent_id", "11")->get();
                             ?>
+                            <input type="hidden" value="11" class="area_skills-{{ $i }}">
                             <ul id="tech_and_soft_pro" style="display:none;">
                               @foreach($skills as $cert)
                               <li data-value="{{ $cert->id }}">{{ $cert->name }}</li>
                               @endforeach
                             </ul>
-                            <select class="js-example-basic-multiple addAll_removeAll_btn tech_and_soft_pro{{ $i }}" data-list-id="tech_and_soft_pro" name="sub_skills_compantancies-11[{{$i}}][]" multiple="multiple"></select>
+                            <select class="js-example-basic-multiple addAll_removeAll_btn spc_comp spc_comp-{{ $i }}11 tech_and_soft_pro{{ $i }}" data-list-id="tech_and_soft_pro" name="sub_skills_compantancies-11[{{$i}}][]" multiple="multiple"></select>
+                            <span id="reqanaskills-{{ $i }}11" class="reqError text-danger valley"></span>
                           </div>
-                          <span id="reqexpertise" class="reqError text-danger valley"></span>
                           <div class="form-group level-drp">
                             <input type="hidden" value="{{ $data->evidence_type }}" id="evidence_type_{{ $i }}">
                             <label class="form-label" for="input-1">Type of evidence</label>
@@ -3525,6 +3645,29 @@
                           <h6 class="emergency_text previous_employeers_head">
                             Work Experience 1
                           </h6>
+                          <div class="form-group level-drp">
+                          
+                            <label class="form-label" for="input-1">Facility / Workplace Type</label>
+                            <?php
+                              $user_id = Auth::guard('nurse_middle')->user()->id;
+                              $workplace_data = DB::table('work_enviornment_preferences')->where("sub_env_id",0)->orderBy("env_name","asc")->get();
+                              
+                              
+                            ?>
+                            
+                            <ul id="wp_data-1" style="display:none;">
+                             
+                              @if(!empty($workplace_data))
+                              @foreach($workplace_data as $wp_data)
+                              <li data-value="{{ $wp_data->prefer_id }}">{{ $wp_data->env_name }}</li>
+                              @endforeach
+                              @endif
+                            </ul>
+                            <select class="js-example-basic-multiple addAll_removeAll_btn facworktype facworktype-1" data-list-id="wp_data-1" name="positions_held[1]" multiple onchange="getWpData('',1)"></select>
+                            <span id="reqfacworktype-1" class="reqError text-danger valley"></span>
+                          
+                          </div>
+                          <div class="wp_data-1"></div>
                           <div class="form-group level-drp">
                             <label class="form-label" for="input-1">Facility / Workplace Name</label>
                             <input type="text" name="facility_workplace_name[1]" class="form-control facworkname facworkname-1" value="{{ $data->facility_workplace_name }}">
@@ -3737,7 +3880,7 @@
                           $speciality_surgical_datamater = DB::table("speciality")->where('parent', '250')->get();
 
                           ?>
-                          <div class="neonatal_row_experience form-group drp--clr drpdown-set d-none col-md-12 surgicalp_experience-13">
+                          <div class="neonatal_row_exp form-group drp--clr drpdown-set d-none col-md-12 surgicalp_experience-13">
                             <label class="form-label surgicalprelabel-13" for="input-1">Neonatal Care:</label>
                             <input type="hidden" name="surgicalp_input" class="surgicalp_input surgicalp_input-1" value="3">
                             <ul id="neonatal_care_experience" style="display:none;">
@@ -3745,8 +3888,8 @@
                               <li data-value="{{ $ssd->id }}">{{ $ssd->name }}</li>
                               @endforeach
                             </ul>
-                            <select class="surgicalspec-1 surgicalspec-13 js-example-basic-multiple addAll_removeAll_btn" data-list-id="neonatal_care_experience" name="neonatal_care_experience[1][]" multiple="multiple"></select>
-                            <span id="reqnsurgicalspecialities-13" class="reqError text-danger valley"></span>
+                            <select class="surgicalspec-1 surgicalspec-13 js-example-basic-multiple neonatal_exp neonatal_exp_1 addAll_removeAll_btn" data-list-id="neonatal_care_experience" name="neonatal_care_experience[1][]" multiple="multiple"></select>
+                            <span id="reqneonatal-1" class="reqError text-danger valley"></span>
                           </div>
                           <div class="neonatal_care_experience_level"></div>
                           <?php
@@ -3755,17 +3898,19 @@
                           ?>
                           @foreach($speciality_surgical_datap as $ssd)
                           <input type="hidden" name="speciality_result" class="surgical_rowp_result_experience-{{ $q }}" value="{{ $ssd->id }}">
-                          <div class="surgical_rowp_experience surgicalpad_row_experience-{{ $ssd->id }} surgical_rowp_experience-{{ $q }} form-group drp--clr d-none drpdown-set col-md-4">
-                            <label class="form-label" for="input-1">{{ $ssd->name }}</label>
+                          <div class="surgical_rowp_experience surgicalpad_row_experience-{{ $ssd->id }} surgical_rowp_experience-{{ $q }} form-group drp--clr d-none drpdown-set padsurgicalspeciality_exps_1{{ $q }} col-md-4">
+                            <label class="form-label padsurgicalspeciality_name_label-1{{ $q }}" for="input-1">{{ $ssd->name }}</label>
                             <?php
                             $speciality_surgicalsub_data = DB::table("speciality")->where('parent', $ssd->id)->orderBy('name')->get();
                             ?>
+                            <input type="hidden" name="surgical_specialities_input" class="padsurgical_specialities_input padsurgical_specialities_input-1" value="{{ $q }}">
                             <ul id="surgical_operative_carep_experience-{{ $q }}" style="display:none;">
                               @foreach($speciality_surgicalsub_data as $sssd)
                               <li data-value="{{ $sssd->id }}">{{ $sssd->name }}</li>
                               @endforeach
                             </ul>
-                            <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_operative_carep_experience-{{ $q }}" name="surgical_operative_carep_experience_{{ $q }}[1][]" multiple="multiple"></select>
+                            <select class="padsurgicalspecialities-1 padsurgicalspecialities-1{{ $q }} js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgical_operative_carep_experience-{{ $q }}" name="surgical_operative_carep_experience_{{ $q }}[1][]" multiple="multiple"></select>
+                            <span id="reqpadsurgicalspecialities-1{{ $q }}" class="reqError text-danger valley"></span>
                           </div>
                           <?php
                           $q++;
@@ -3778,7 +3923,9 @@
                         <div class="form-group level-drp">
                           <label class="form-label" for="input-1">What is your Level of experience in this specialty?
                           </label>
+                          
                           <select class="form-input mr-10 select-active" name="exper_assistent_level[1]">
+                            <option value="select">select</option>
                             @for($i = 1; $i <= 30; $i++) <option value="{{ $i }}">{{ $i }}{{ $i == 1 ? 'st' : ($i == 2 ? 'nd' : ($i == 3 ? 'rd' : 'th')) }} Year</option>
                               @endfor
                           </select>
@@ -4015,7 +4162,7 @@
 
                   var new_date = year + "-" + month1 + "-" + day1;
 
-                  document.getElementsByClassName("employeement_end_date-" + i)[0].setAttribute('min', new_date);
+                  document.getElementsByClassName("employeement_end_date_exp-" + i)[0].setAttribute('min', new_date);
                 }
 
                 var i = 1;
@@ -4043,7 +4190,7 @@
                   }
                   var year = start_date1.getFullYear();
                   var new_date = year + "-" + month1 + "-" + day1;
-                  document.getElementsByClassName("employeement_end_date-" + i)[0].setAttribute('min', new_date);
+                  document.getElementsByClassName("employeement_end_date_exp-" + i)[0].setAttribute('min', new_date);
                   i++;
                 });
               </script>
@@ -4146,11 +4293,72 @@
                       </div>
                       <div class="row">
 
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                           <div class="form-group level-drp">
                             <label class="form-label" for="input-1">What was your position when you worked with this referee?</label>
-                            <input class="form-control position_with_referee position_with_referee-{{ $i }}" type="text" name="position_with_referee[]" value="{{ $referee_data->position_with_referee }}">
-                            <span id="reqpositionreferee-{{ $i }}" class="reqError text-danger valley"></span>
+                            <?php
+                              $employee_postion_data = DB::table('employee_positions')->where("subposition_id",0)->orderBy("position_name","asc")->get();
+                              $pos_data = (array)json_decode($referee_data->position_with_referee);
+
+                              $parr = array();
+                              if (!empty($pos_data)){
+                                foreach ($pos_data as $index => $pdata){
+                                  $parr[] = $index;
+                                }
+                              }
+                              
+                              
+                              $x = 1;
+                              $p_arr1 = json_encode($parr);
+                            ?>
+                            <input type="hidden" name="pos_hider" class="pos_hider pos_hider-{{ $i }}" value="{{ $p_arr1 }}">
+                            <ul id="position_held_fieldr-{{ $i }}" style="display:none;">
+                           
+                              @if(!empty($employee_postion_data))
+                              @foreach($employee_postion_data as $emp_data)
+                              <li data-value="{{ $emp_data->position_id }}">{{ $emp_data->position_name }}</li>
+                              @endforeach
+                              @endif
+                            </ul>
+                            <select class="js-example-basic-multiple addAll_removeAll_btn pos_heldr pos_heldr_{{ $i }}" data-list-id="position_held_fieldr-{{ $i }}" name="positions_heldr[{{ $i }}]" id="position_held_fieldr-{{ $i }}" multiple onchange="getPostionsr('',{{ $i }})"></select>
+                            <span id="reqposworked-{{ $i }}" class="reqError text-danger valley"></span>
+                          </div>
+                          <div class="show_positionsr-{{ $i }}">
+                            @foreach ($parr as $par)
+                            <?php
+                              $employee_positions = DB::table("employee_positions")->where("subposition_id",$par)->orderBy('position_name', 'ASC')->get();
+                              $position_name = DB::table("employee_positions")->where("position_id",$par)->first();
+                              $subposdata = json_encode($pos_data[$par]);
+                              //print_r($subposdata);
+                            ?>
+                            @if($par != "34")
+                            <div class="subposdiv subposdiv-{{ $position_name->position_id }} form-group level-drp">
+                              <label class="form-label pos_label pos_label-{{ $i }}{{ $position_name->position_id }}" for="input-1">{{ $position_name->position_name }}</label>
+                              <input type="hidden" name="subpos" class="subpos subpos-{{ $position_name->position_id }}" value="{{ $i }}">
+                              <input type="hidden" name="subpos_list" class="subpos_list subpos_list-{{ $i }} subpos_list-{{ $i }}{{ $x }}" value="{{ $position_name->position_id }}">
+                              <input type="hidden" name="subposdatar" class="subposdatar-{{ $i }} subposdatar-{{ $i }}{{ $x }}" value="{{ $subposdata }}">
+                              <ul id="subposition_held_fieldr-{{ $i }}{{ $position_name->position_id }}" style="display:none;">
+                                @if(!empty($employee_positions))
+                                @foreach($employee_positions as $emp_pos)
+                                <li data-value="{{ $emp_pos->position_id }}">{{ $emp_pos->position_name }}</li>
+                                @endforeach
+                                @endif
+                              </ul>
+                              <select class="js-example-basic-multiple addAll_removeAll_btn position_validr-{{ $i }}{{ $position_name->position_id }}" data-list-id="subposition_held_fieldr-{{ $i }}{{ $position_name->position_id }}" name="subpositions_heldr[{{ $i }}][{{ $position_name->position_id }}][]" multiple></select>
+                              <span id="reqsubpositionheldr-{{ $i }}{{ $position_name->position_id }}" class="reqError text-danger valley"></span>
+                            </div>
+                            @else
+                            <div class="subposdiv subposdiv-{{ $position_name->position_id }} form-group level-drp">
+                              <label class="form-label pos_label pos_label-{{ $i }}{{ $position_name->position_id }}" for="input-1">Other</label>
+                              <input type="hidden" name="subpos_list" class="subpos_list subpos_list-'+k+'" value="34">
+                              <input type="text" name="subpositions_heldr[{{ $i }}][{{ $position_name->position_id }}][]" class="form-control position_other position_other-{{ $i }} position_valid-{{ $i }}{{ $position_name->position_id }}" value="<?php echo $pos_data[$par][0] ?>">
+                              <span id="reqsubpositionheld-{{ $i }}{{ $position_name->position_id }}" class="reqError text-danger valley"></span>
+                            </div>
+                            @endif
+                            <?php
+                              $x++;
+                            ?>
+                            @endforeach
                           </div>
                         </div>
                       </div>
@@ -4273,12 +4481,25 @@
                     </div>
                     <div class="row">
 
-                      <div class="col-md-6">
+                      <div class="col-md-12">
                         <div class="form-group level-drp">
                           <label class="form-label" for="input-1">What was your position when you worked with this referee?</label>
-                          <input class="form-control position_with_referee position_with_referee-1" type="text" name="position_with_referee[]">
-                          <span id="reqpositionreferee-1" class="reqError text-danger valley"></span>
+                          <?php
+                            $employee_postion_data = DB::table('employee_positions')->where("subposition_id",0)->orderBy("position_name","asc")->get();
+                            
+                          ?>
+                          <ul id="position_held_fieldr-1" style="display:none;">
+                         
+                            @if(!empty($employee_postion_data))
+                            @foreach($employee_postion_data as $emp_data)
+                            <li data-value="{{ $emp_data->position_id }}">{{ $emp_data->position_name }}</li>
+                            @endforeach
+                            @endif
+                          </ul>
+                          <select class="js-example-basic-multiple addAll_removeAll_btn pos_heldr pos_heldr_1" data-list-id="position_held_fieldr-1" name="position_with_referee[1]" id="position_held_fieldr-1" multiple onchange="getPostionsr('',1)"></select>
+                          <span id="reqposworked-1" class="reqError text-danger valley"></span>
                         </div>
+                        <div class="show_positionsr-1"></div>
                       </div>
                     </div>
                     <div class="row">
@@ -4299,7 +4520,7 @@
                         <div class="form-group level-drp working-1">
                           <label class="form-label" for="input-1">End Date</label>
                           <input class="form-control end_date end_date-1" type="date" name="end_date[]" onkeydown="return false">
-                          <span id="reqempsdate" class="reqError text-danger valley"></span>
+                          <span id="reqrefereeedate-1" class="reqError text-danger valley"></span>
                         </div>
                       </div>
                     </div>
@@ -4322,6 +4543,11 @@
 
                 </form>
               </div>
+              <?php
+                $employee_postion_data = DB::table('employee_positions')->where("subposition_id",0)->orderBy("position_name","asc")->get();
+                $emp_data = json_encode($employee_postion_data)
+                //print_r(json_encode($employee_postion_data));
+              ?>
               <script type="text/javascript">
                 function startDate(i) {
                   var start_date = $(".start_date-" + i).val();
@@ -4392,10 +4618,21 @@
 
                 function add_another_referee() {
                   var referee_div_count = $(".referee_no").length;
+                  var emp_data = `<?php echo $emp_data; ?>`;
+                  var new_emp_data = JSON.parse(emp_data);
+                  var ap = "ap";
+                  var ref_text = "";
+                  for(var j=0;j<new_emp_data.length;j++){
+                  
+                    ref_text += "<li data-value='"+new_emp_data[j].position_id+"'>"+new_emp_data[j].position_name+"</li>"; 
+                  
+                  }
+
+                  console.log("emp_data", new_emp_data);
                   ////console.log("licence_div_count", referee_div_count);
                   referee_div_count++;
-                  $(".reference_form").append('<div class="referee_data referee_data-' + referee_div_count + '"><h6 class="mt-0 color-brand-1 mb-20 referee_no">REFEREE ' + referee_div_count + '</h6><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">First name</label><input class="form-control first_name first_name-' + referee_div_count + '" type="text" name="first_name[]"><span id="reqfname-' + referee_div_count + '" class="reqError text-danger valley"></span></div></div><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Last name</label><input class="form-control last_name last_name-' + referee_div_count + '" type="text" name="last_name[]"><span id="reqlname-' + referee_div_count + '" class="reqError text-danger valley"></span></div></div></div><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Email</label><input class="form-control reference_email reference_email-' + referee_div_count + '" type="text" name="email[]"><span id="reqemail-' + referee_div_count + '" class="reqError text-danger valley"></span></div></div><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Phone number</label><input class="form-control phone_no phone_no-' + referee_div_count + '" type="text" name="phone_no[]"><span id="reqphoneno-' + referee_div_count + '" class="reqError text-danger valley"></span></div></div></div><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Referee relationship to you</label><select class="form-input reference_relationship reference_relationship-' + referee_div_count + '" name="reference_relationship[]"><option value="" data-select2-id="9">select</option><option value="Worked in Same Group">Worked in Same Group</option><option value="Referee Managed Me">Referee Managed Me</option><option value="I Managed Referee">I Managed Referee</option><option value="Worked Together on a Project">Worked Together on a Project</option><option value="Worked Together in Different Departments">Worked Together in Different Departments</option><option value="Colleague">Colleague</option><option value="Peer Mentor">Peer Mentor</option><option value="Clinical Supervisor">Clinical Supervisor</option><option value="Educational Supervisor">Educational Supervisor</option><option value="Preceptor">Preceptor</option><option value="Instructor or Teacher">Instructor or Teacher</option><option value="Collaborated on Research">Collaborated on Research</option><option value="Clinical Educator">Clinical Educator</option><option value="Patient Advocate">Patient Advocate</option><option value="Coordinated Care Together">Coordinated Care Together</option><option value="Advisory Role">Advisory Role</option><option value="Worked Together on Committees">Worked Together on Committees</option><option value="Consultant Relationship">Consultant Relationship</option><option value="Professional Mentor">Professional Mentor</option><option value="Team Leader">Team Leader</option><option value="Subordinate in a Leadership Role">Subordinate in a Leadership Role</option><option value="Provided Professional Development Support">Provided Professional Development Support</option><option value="Oversaw my Certification Process">Oversaw my Certification Process</option><option value="External Collaborator">External Collaborator</option><option value="Other">Other</option></select><span id="reqreferencerel-' + referee_div_count + '" class="reqError text-danger valley"></span></div></div><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">You worked together at:</label><input class="form-control worked_together worked_together-' + referee_div_count + '" type="text" name="worked_together[]"><span id="reqworked_together-' + referee_div_count + '" class="reqError text-danger valley"></span></div></div></div><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">What was your position when you worked with this referee?</label><input class="form-control position_with_referee position_with_referee-' + referee_div_count + '" type="text" name="position_with_referee[]"><span id="reqpositionreferee-' + referee_div_count + '" class="reqError text-danger valley"></span></div></div></div><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Start Date</label><input class="form-control start_date start_date-' + referee_div_count + '" type="date" name="start_date[]" onchange="startDate(' + referee_div_count + ')" onkeydown="return false"><span id="reqrefereesdate-' + referee_div_count + '" class="reqError text-danger valley"></span><div class="declaration_box"><input type="hidden" name="still_working1[]" class="still_working1-'+referee_div_count+'" value="0" /><input class="still_working still_working-' + referee_div_count + '" type="checkbox" name="still_working[]" onclick="stillWorking(' + referee_div_count + ')">I am still working with this referee<span id="reqstillworking-' + referee_div_count + '" class="reqError text-danger valley"></span></div></div></div><div class="col-md-6"><div class="form-group level-drp working-' + referee_div_count + '"><label class="form-label" for="input-1">End Date</label><input class="form-control end_date end_date-' + referee_div_count + '" type="date" name="end_date[]" onkeydown="return false"><span id="reqrefereeedate-' + referee_div_count + '" class="reqError text-danger valley"></span></div></div><div class="row"><div class="col-md-6"><div class="add_new_certification_div mb-3 mt-3"><a style="cursor: pointer;" class="deleteReferee">- Delete Referee</a></div></div></div></div>');
-
+                  $(".reference_form").append('<div class="referee_data referee_data-' + referee_div_count + '"><h6 class="mt-0 color-brand-1 mb-20 referee_no">REFEREE ' + referee_div_count + '</h6><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">First name</label><input class="form-control first_name first_name-' + referee_div_count + '" type="text" name="first_name[]"><span id="reqfname-' + referee_div_count + '" class="reqError text-danger valley"></span></div></div><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Last name</label><input class="form-control last_name last_name-' + referee_div_count + '" type="text" name="last_name[]"><span id="reqlname-' + referee_div_count + '" class="reqError text-danger valley"></span></div></div></div><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Email</label><input class="form-control reference_email reference_email-' + referee_div_count + '" type="text" name="email[]"><span id="reqemail-' + referee_div_count + '" class="reqError text-danger valley"></span></div></div><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Phone number</label><input class="form-control phone_no phone_no-' + referee_div_count + '" type="text" name="phone_no[]"><span id="reqphoneno-' + referee_div_count + '" class="reqError text-danger valley"></span></div></div></div><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Referee relationship to you</label><select class="form-input reference_relationship reference_relationship-' + referee_div_count + '" name="reference_relationship[]"><option value="" data-select2-id="9">select</option><option value="Worked in Same Group">Worked in Same Group</option><option value="Referee Managed Me">Referee Managed Me</option><option value="I Managed Referee">I Managed Referee</option><option value="Worked Together on a Project">Worked Together on a Project</option><option value="Worked Together in Different Departments">Worked Together in Different Departments</option><option value="Colleague">Colleague</option><option value="Peer Mentor">Peer Mentor</option><option value="Clinical Supervisor">Clinical Supervisor</option><option value="Educational Supervisor">Educational Supervisor</option><option value="Preceptor">Preceptor</option><option value="Instructor or Teacher">Instructor or Teacher</option><option value="Collaborated on Research">Collaborated on Research</option><option value="Clinical Educator">Clinical Educator</option><option value="Patient Advocate">Patient Advocate</option><option value="Coordinated Care Together">Coordinated Care Together</option><option value="Advisory Role">Advisory Role</option><option value="Worked Together on Committees">Worked Together on Committees</option><option value="Consultant Relationship">Consultant Relationship</option><option value="Professional Mentor">Professional Mentor</option><option value="Team Leader">Team Leader</option><option value="Subordinate in a Leadership Role">Subordinate in a Leadership Role</option><option value="Provided Professional Development Support">Provided Professional Development Support</option><option value="Oversaw my Certification Process">Oversaw my Certification Process</option><option value="External Collaborator">External Collaborator</option><option value="Other">Other</option></select><span id="reqreferencerel-' + referee_div_count + '" class="reqError text-danger valley"></span></div></div><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">You worked together at:</label><input class="form-control worked_together worked_together-' + referee_div_count + '" type="text" name="worked_together[]"><span id="reqworked_together-' + referee_div_count + '" class="reqError text-danger valley"></span></div></div></div><div class="row"><div class="col-md-12"><div class="form-group level-drp"><label class="form-label" for="input-1">What was your position when you worked with this referee?</label><ul id="position_held_fieldr-' + referee_div_count + '" style="display:none;">'+ref_text+'</ul><select class="js-example-basic-multiple'+referee_div_count+' addAll_removeAll_btn pos_heldr pos_heldr_' + referee_div_count + '" data-list-id="position_held_fieldr-' + referee_div_count + '" name="position_with_referee[' + referee_div_count + ']" id="position_held_fieldr-' + referee_div_count + '" onchange="getPostionsr(\''+ap+'\',\'' + referee_div_count + '\')" multiple></select></div><div class="show_positionsr-' + referee_div_count + '"></div></div></div><div class="row"><div class="col-md-6"><div class="form-group level-drp"><label class="form-label" for="input-1">Start Date</label><input class="form-control start_date start_date-' + referee_div_count + '" type="date" name="start_date[]" onchange="startDate(' + referee_div_count + ')" onkeydown="return false"><span id="reqrefereesdate-' + referee_div_count + '" class="reqError text-danger valley"></span><div class="declaration_box"><input type="hidden" name="still_working1[]" class="still_working1-'+referee_div_count+'" value="0" /><input class="still_working still_working-' + referee_div_count + '" type="checkbox" name="still_working[]" onclick="stillWorking(' + referee_div_count + ')">I am still working with this referee<span id="reqstillworking-' + referee_div_count + '" class="reqError text-danger valley"></span></div></div></div><div class="col-md-6"><div class="form-group level-drp working-' + referee_div_count + '"><label class="form-label" for="input-1">End Date</label><input class="form-control end_date end_date-' + referee_div_count + '" type="date" name="end_date[]" onkeydown="return false"><span id="reqrefereeedate-' + referee_div_count + '" class="reqError text-danger valley"></span></div></div><div class="row"><div class="col-md-6"><div class="add_new_certification_div mb-3 mt-3"><a style="cursor: pointer;" class="deleteReferee">- Delete Referee</a></div></div></div></div>');
+                  selectTwoFunction(referee_div_count);
                 }
               </script>
               <div class="tab-pane fade" id="tab-mandtraining" role="tabpanel" aria-labelledby="tab-educert" style="display: none">
@@ -5938,6 +6175,7 @@
                         @endif
                       </div>
                     </div>
+                   
                     <div class="another_education">
                       <h6 class="emergency_text mt-2">Other Continuing Education
                       </h6>
@@ -5949,9 +6187,11 @@
                       }
                       $i = 1;
                       $l = 0;
+                      
                       ?>
 
                       @if(!empty($additional_edu_data))
+                      
                       @foreach($additional_edu_data as $edu_data)
                       <div class="eductiondiv eduction_div_{{ $i }} row another_edu_div">
                         <div class="form-group col-md-6">
@@ -6030,9 +6270,9 @@
                         $user_id = Auth::guard('nurse_middle')->user()->id;
                         ?>
                         <div class="col-md-12">
-                          <div class="add_new_cmp_training_div mb-3 mt-3"><a style="cursor: pointer;" class="delete_countinuing_education" data-index="{{ $a_data->other_tra_id }}">- Delete Continuing Education</a></div>
+                          <div class="add_new_cmp_training_div mb-3 mt-3"><a style="cursor: pointer;" class="delete_countinuing_education" data-index="{{ $edu_data->other_edu_id }}">- Delete Continuing Education</a></div>
                         </div>
-                      </div>
+                      </div> 
                       <?php
                       $i++;
                       ?>
@@ -7568,6 +7808,32 @@ if (!empty($interviewReferenceData)) {
     k++;
   });
 
+  var k = 1;
+  $(".pos_hider").each(function(){
+
+    if ($(".pos_hider-"+k).val() != "") {
+      var posfield = JSON.parse($(".pos_hider-"+k).val());
+      
+      console.log("posfield",posfield);
+      $('.js-example-basic-multiple[data-list-id="position_held_fieldr-'+k+'"]').select2().val(posfield).trigger('change');
+      
+      var l = 1;
+      $(".subposdatar-"+k).each(function(){
+        var position_id = $(".show_positionsr-"+k+" .subpos_list-"+k+l).val();
+        console.log("position_id",position_id);
+        if ($(".subposdatar-"+k+l).val() != "") {
+          var subposfield = JSON.parse($(".subposdatar-"+k+l).val());
+          
+          console.log("subposfieldr","subposition_held_fieldr-"+k+position_id);
+          
+          $('.js-example-basic-multiple[data-list-id="subposition_held_fieldr-'+k+position_id+'"]').select2().val(subposfield).trigger('change');
+        }
+        l++;
+      });
+    }
+    k++;
+  });
+
   var i = 1;
   $(".perfieldexp").each(function(){
 
@@ -7593,6 +7859,46 @@ if (!empty($interviewReferenceData)) {
       
     }
     j++;
+  });
+
+  var u = 1;
+
+  $(".mainfactype").each(function(){
+
+    if ($(".mainfactype-"+u).val() != "") {
+      var mainfactype = JSON.parse($(".mainfactype-"+u).val());
+      
+      console.log("mainfactype",mainfactype);
+      $('.js-example-basic-multiple[data-list-id="wp_data-'+u+'"]').select2().val(mainfactype).trigger('change');
+      $(".subwork_list-"+u).each(function(){
+      var subwork_list_val = $(this).val();
+        if ($(".subworkjs-"+u+subwork_list_val).val() != "") {
+          
+          var subfactype = JSON.parse($(".subworkjs-"+u+subwork_list_val).val());
+          
+          console.log("subfactype",subfactype);
+          $('.js-example-basic-multiple[data-list-id="subwork_field-'+u+subwork_list_val+'"]').select2().val(subfactype).trigger('change');
+          $(".subpwork_list-"+u).each(function(){
+            var subwork_list_val = $(this).val();
+            if ($(".subworkjs1-"+u+subwork_list_val).val() != "") {
+              
+              var subfactype = JSON.parse($(".subworkjs1-"+u+subwork_list_val).val());
+              
+              console.log("subfactype1",subfactype);
+              $('.js-example-basic-multiple[data-list-id="subpwork_field-'+u+subwork_list_val+'"]').select2().val(subfactype).trigger('change');
+              
+            }
+            
+          });
+        }
+
+        
+        
+      });
+    }
+
+    
+    u++;
   });
 
   function ExpEmpStatus(value,i){
@@ -7933,18 +8239,19 @@ if (!empty($interviewReferenceData)) {
 
             // Create submenu HTML
             var dropdownHtml = `
-            <div class="form-group level-drp">
-              <label class="form-label" for="input-1">${skills[0].parent_name}</label>
+            <div class="form-group level-drp analy_skill_1">
+              <label class="form-label analy_skill_label-1${skills[0].parent_id}" for="input-1">${skills[0].parent_name}</label>
               <ul id="skills_compantancies-${skills[0].parent_id}" style="display:none;">
                 ${skills_data}
               </ul>
-              <select class="js-example-basic-multiple1 addAll_removeAll_btn" 
+              <input type="hidden" value="${skills[0].parent_id}" class="area_skills-1">
+              <select class="js-example-basic-multiple1 addAll_removeAll_btn spc_comp spc_comp-1${skills[0].parent_id}" 
                       data-list-id="skills_compantancies-${skills[0].parent_id}" 
                       name="sub_skills_compantancies-${skills[0].parent_id}[1][]" multiple="multiple">
               </select>
+              <span id="reqanaskills-1${skills[0].parent_id}" class="reqError text-danger valley"></span>
             </div>
           `;
-
             // Append the new dropdown
             $(".skills_compantancies_dropdowns").append(dropdownHtml);
 

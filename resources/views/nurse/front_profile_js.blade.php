@@ -1329,7 +1329,30 @@
         $(".previous_employeers").append(`
             <div class="work_exp work_exp_${previous_employeers_head}">
                <h6 class="emergency_text previous_employeers_head">Work Experience ${previous_employeers_head}</h6>
-                <div class="form-group level-drp">
+               <div class="form-group level-drp">
+                          
+                    <label class="form-label" for="input-1">Facility / Workplace Type</label>
+                    <?php
+                    $user_id = Auth::guard('nurse_middle')->user()->id;
+                    $workplace_data = DB::table('work_enviornment_preferences')->where("sub_env_id",0)->orderBy("env_name","asc")->get();
+                    
+                    
+                    ?>
+                    
+                    <ul id="wp_data-${previous_employeers_head}" style="display:none;">
+                    
+                    @if(!empty($workplace_data))
+                    @foreach($workplace_data as $wp_data)
+                    <li data-value="{{ $wp_data->prefer_id }}">{{ $wp_data->env_name }}</li>
+                    @endforeach
+                    @endif
+                    </ul>
+                    <select class="js-example-basic-multiple${previous_employeers_head} addAll_removeAll_btn facworktype facworktype-${previous_employeers_head}" data-list-id="wp_data-${previous_employeers_head}" name="positions_held[${previous_employeers_head}]" multiple onchange="getWpData('ap',${previous_employeers_head})"></select>
+                    <span id="reqfacworktype-${previous_employeers_head}" class="reqError text-danger valley"></span>
+                
+                </div> 
+                <div class="wp_data-${previous_employeers_head}"></div>
+               <div class="form-group level-drp">
                     <label class="form-label" for="input-1">Facility / Workplace Name</label>
                     <input type="text" name="facility_workplace_name[${previous_employeers_head}]" class="form-control facworkname facworkname-${previous_employeers_head}">
                     <span id="reqfaceworkname-${previous_employeers_head}" class="reqError text-danger valley"></span>
@@ -1545,7 +1568,7 @@
                 $speciality_surgical_datamater = DB::table("speciality")->where('parent', '250')->get();
 
                 ?>
-                <div class="neonatal_row_experience-${previous_employeers_head} form-group drp--clr drpdown-set d-none col-md-12">
+                <div class="neonatal_row_exp_${previous_employeers_head} form-group drp--clr drpdown-set d-none col-md-12">
                     <label class="form-label" for="input-1">Neonatal Care:</label>
 
                     <ul id="neonatal_care_experience-${previous_employeers_head}" style="display:none;">
@@ -1553,7 +1576,8 @@
                     <li data-value="{{ $ssd->id }}">{{ $ssd->name }}</li>
                     @endforeach
                     </ul>
-                    <select class="js-example-basic-multiple${previous_employeers_head} addAll_removeAll_btn" data-list-id="neonatal_care_experience-${previous_employeers_head}" name="neonatal_care_experience[${previous_employeers_head}][]" multiple="multiple"></select>
+                    <select class="js-example-basic-multiple${previous_employeers_head} neonatal_exp neonatal_exp_${previous_employeers_head} addAll_removeAll_btn" data-list-id="neonatal_care_experience-${previous_employeers_head}" name="neonatal_care_experience[${previous_employeers_head}][]" multiple="multiple"></select>
+                    <span id="reqneonatal-${previous_employeers_head}" class="reqError text-danger valley"></span>
                 </div>
                 <div class="neonatal_care_experience_level-${previous_employeers_head}"></div>
                 <?php
@@ -1562,17 +1586,19 @@
                 ?>
                 @foreach($speciality_surgical_datap as $ssd)
                 <input type="hidden" name="speciality_result" class="surgical_rowp_result_experience-${previous_employeers_head}-{{ $q }}" value="{{ $ssd->id }}">
-                <div class="surgical_rowp_experience-${previous_employeers_head} surgicalpad_row_experience-{{ $ssd->id }} surgical_rowp_experience-${previous_employeers_head}-{{ $q }} form-group drp--clr d-none drpdown-set col-md-4">
-                    <label class="form-label" for="input-1">{{ $ssd->name }}</label>
+                <div class="surgical_rowp_experience-${previous_employeers_head} surgicalpad_row_experience-{{ $ssd->id }} surgical_rowp_experience-${previous_employeers_head}-{{ $q }} form-group drp--clr d-none padsurgicalspeciality_exps_${previous_employeers_head}{{ $q }} drpdown-set col-md-4">
+                    <label class="form-label padsurgicalspeciality_name_label-${previous_employeers_head}{{ $q }}" for="input-1">{{ $ssd->name }}</label>
                     <?php
                     $speciality_surgicalsub_data = DB::table("speciality")->where('parent', $ssd->id)->orderBy('name')->get();
                     ?>
+                    <input type="hidden" name="surgical_specialities_input" class="padsurgical_specialities_input padsurgical_specialities_input-${previous_employeers_head}" value="{{ $q }}">
                     <ul id="surgical_operative_carep_experience-${previous_employeers_head}-{{ $q }}" style="display:none;">
                     @foreach($speciality_surgicalsub_data as $sssd)
                     <li data-value="{{ $sssd->id }}">{{ $sssd->name }}</li>
                     @endforeach
                     </ul>
-                    <select class="js-example-basic-multiple${previous_employeers_head} addAll_removeAll_btn" data-list-id="surgical_operative_carep_experience-${previous_employeers_head}-{{ $q }}" name="surgical_operative_carep_experience_{{ $q }}[${previous_employeers_head}][]" multiple="multiple"></select>
+                    <select class="padsurgicalspecialities-${previous_employeers_head} padsurgicalspecialities-${previous_employeers_head}{{ $q }} js-example-basic-multiple${previous_employeers_head} addAll_removeAll_btn" data-list-id="surgical_operative_carep_experience-${previous_employeers_head}-{{ $q }}" name="surgical_operative_carep_experience_{{ $q }}[${previous_employeers_head}][]" multiple="multiple"></select>
+                    <span id="reqpadsurgicalspecialities-${previous_employeers_head}{{ $q }}" class="reqError text-danger valley"></span>
                 </div>
                 <?php
                 $q++;
@@ -1584,6 +1610,7 @@
                     <label class="form-label" for="input-1">What is your Level of experience in this specialty?
                     </label>
                     <select class="form-control mr-10 select-active" name="exper_assistent_level[${previous_employeers_head}]">
+                        <option value="select">select</option>
                         @for($i = 1; $i <= 30; $i++) <option value="{{ $i }}">{{ $i }}{{ $i == 1 ? 'st' : ($i == 2 ? 'nd' : ($i == 3 ? 'rd' : 'th')) }} Year</option>
                         @endfor
                     </select>
@@ -1793,57 +1820,7 @@
         });
 
 
-        $('.js-example-basic-multiple' + previous_employeers_head).each(function() {
-            let listId1 = $(this).data('list-id');
-            //alert(listId);
-            let items1 = [];
-            //console.log("listId1", listId1);
-            $('#' + listId1 + ' li').each(function() {
-                //console.log("value1", $(this).text());
-                items1.push({
-                    id: $(this).data('value'),
-                    text: $(this).text()
-                });
-            });
-            //console.log("items1", items1);
-            $(this).select2({
-                data: items1
-            });
-        });
-
-        $('.js-example-basic-multiple' + previous_employeers_head).on('select2:open', function() {
-            var searchBoxHtml = `
-                            <div class="extra-search-container-${previous_employeers_head}">
-                            <input type="text" class="extra-search-box-${previous_employeers_head}" placeholder="Search...">
-                            <button class="clear-button" type="button">&times;</button>
-                            </div>`;
-
-            if ($('.select2-results').find('.extra-search-container-' + previous_employeers_head).length === 0) {
-                $('.select2-results').prepend(searchBoxHtml);
-            }
-
-            var $searchBox = $('.extra-search-box' + previous_employeers_head);
-            var $clearButton = $('.clear-button');
-
-            $searchBox.on('input', function() {
-                var searchTerm = $(this).val().toLowerCase();
-                $('.select2-results__option').each(function() {
-                    var text = $(this).text().toLowerCase();
-                    if (text.includes(searchTerm)) {
-                        $(this).show();
-                    } else {
-                        $(this).hide();
-                    }
-                });
-                $clearButton.toggle($searchBox.val().length > 0);
-            });
-
-            $clearButton.on('click', function() {
-                $searchBox.val('');
-                $searchBox.trigger('input');
-            });
-        });
-
+        
 
 
         // Add an additional search box and extra buttons to the dropdown
@@ -1880,6 +1857,61 @@
                 $currentDropdown.val(null).trigger("change");
             });
         });
+
+        $('.js-example-basic-multiple' + previous_employeers_head).on('select2:open', function() {
+            var searchBoxHtml = `
+                            <div class="extra-search-container">
+                            <input type="text" class="extra-search-box-${previous_employeers_head}" placeholder="Search...">
+                            <button class="clear-button" type="button">&times;</button>
+                            </div>`;
+
+            if ($('.select2-results').find('.extra-search-container-' + previous_employeers_head).length === 0) {
+                $('.select2-results').prepend(searchBoxHtml);
+            }
+
+            var $searchBox = $('.extra-search-box-' + previous_employeers_head);
+            var $clearButton = $('.clear-button');
+
+            $searchBox.on('input', function() {
+                var searchTerm = $(this).val().toLowerCase();
+                $('.select2-results__option').each(function() {
+                    var text = $(this).text().toLowerCase();
+                    if (text.includes(searchTerm)) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+                $clearButton.toggle($searchBox.val().length > 0);
+            });
+
+            $clearButton.on('click', function() {
+                $searchBox.val('');
+                $searchBox.trigger('input');
+            });
+        });
+
+        $('.js-example-basic-multiple' + previous_employeers_head).each(function() {
+            let listId1 = $(this).data('list-id');
+            //alert(listId);
+            let items1 = [];
+            //console.log("listId1", listId1);
+            $('#' + listId1 + ' li').each(function() {
+                //console.log("value1", $(this).text());
+                items1.push({
+                    id: $(this).data('value'),
+                    text: $(this).text()
+                });
+            });
+            //console.log("items1", items1);
+            $(this).select2({
+                data: items1
+            });
+        });
+
+
+
+        
 
 
 
@@ -2173,16 +2205,18 @@
 
                             // Create new dropdown HTML
                             let dropdownHtml = `
-                        <div class="form-group level-drp">
-                            <label class="form-label">${skills[0].parent_name}</label>
+                        <div class="form-group level-drp analy_skill_${previous_employeers_head}">
+                            <label class="form-label analy_skill_label-${previous_employeers_head}${skills[0].parent_id}">${skills[0].parent_name}</label>
                             <ul id="${dropdownId}" style="display:none;">
                                 ${skills_data}
                             </ul>
-                            <select class="js-example-basic-multiple${previous_employeers_head} addAll_removeAll_btn"
+                            <input type="hidden" value="${skills[0].parent_id}" class="area_skills-${previous_employeers_head}">
+                            <select class="js-example-basic-multiple${previous_employeers_head} spc_comp spc_comp-${previous_employeers_head}${skills[0].parent_id} addAll_removeAll_btn"
                                     data-list-id="${dropdownId}"
                                     name="sub_skills_compantancies-${skills[0].parent_id}[${previous_employeers_head}][]"
                                     multiple="multiple">
                             </select>
+                            <span id="reqanaskills-${previous_employeers_head}${skills[0].parent_id}" class="reqError text-danger valley"></span>
                         </div>
                     `;
 
@@ -2260,53 +2294,66 @@
 
     function getWpData(ap, k){
         if(ap == 'ap'){
-            var selectedValues = $('.js-example-basic-multiple'+k+'[data-list-id="position_held_field-'+k+'"]').val();
+            var selectedValues = $('.js-example-basic-multiple'+k+'[data-list-id="wp_data-'+k+'"]').val();
         }else{
             var selectedValues = $('.js-example-basic-multiple[data-list-id="wp_data-'+k+'"]').val();
         }
+
+        console.log("selectedValueswp",selectedValues);
 
         $(".wp_data-"+k+" .subwork_list").each(function(i,val){
             var val1 = $(val).val();
             console.log("val",val1);
             if(selectedValues.includes(val1) == false){
-                $(".subworkdiv-"+val1).remove();
+                $(".wp_main_div-"+val1).remove();
                 
             }
         });
 
         for(var i=0;i<selectedValues.length;i++){
-            $.ajax({
-                type: "GET",
-                url: "{{ url('/nurse/getWorkplaceData') }}",
-                data: {place_id:selectedValues[i]},
-                cache: false,
-                success: function(data){
-                    var data1 = JSON.parse(data);
-                    console.log("data1",data1);
+            if($(".wp_data-"+k+" .wp_main_div-"+selectedValues[i]).length < 1){
+                $.ajax({
+                    type: "GET",
+                    url: "{{ url('/nurse/getWorkplaceData') }}",
+                    data: {place_id:selectedValues[i]},
+                    cache: false,
+                    success: function(data){
+                        var data1 = JSON.parse(data);
+                        console.log("data1",data1);
 
-                    var wp_text = "";
-                    for(var j=0;j<data1.work_data.length;j++){
-                    
-                        wp_text += "<li data-value='"+data1.work_data[j].prefer_id+"'>"+data1.work_data[j].env_name+"</li>"; 
-                    
-                    }
-                    
-                    var ap = "ap";
-                    $(".wp_data-"+k).append('\<div class="subworkdiv subworkdiv-'+data1.prefer_id+' form-group level-drp">\
-                        <label class="form-label work_label work_label-'+k+data1.prefer_id+'" for="input-1">'+data1.env_name+'</label>\
-                        <input type="hidden" name="subwork" class="subwork subwork-'+data1.prefer_id+'" value="'+k+'">\
-                        <input type="hidden" name="subwork_list" class="subwork_list subwork_list-'+k+'" value="'+data1.prefer_id+'">\
-                        <ul id="subwork_field-'+k+data1.prefer_id+'" style="display:none;">'+wp_text+'</ul>\
-                        <select class="js-example-basic-multiple'+k+data1.prefer_id+' work_valid-'+k+data1.prefer_id+'" data-list-id="subwork_field-'+k+data1.prefer_id+'" name="subwork['+k+']['+data1.prefer_id+'][]" onchange="getWpSubData(\''+ap+'\',\''+k+'\',\''+data1.prefer_id+'\')" multiple></select>\
-                        <span id="reqsubwork-'+k+data1.prefer_id+'" class="reqError text-danger valley"></span>\
-                        <div class="showsubwpdata showsubwpdata-'+k+data1.prefer_id+'"></div>\
-                    </div>');
+                        var wp_text = "";
+                        for(var j=0;j<data1.work_data.length;j++){
+                        
+                            wp_text += "<li data-value='"+data1.work_data[j].prefer_id+"'>"+data1.work_data[j].env_name+"</li>"; 
+                        
+                        }
+                        
+                        var ap = "ap";
+                        $(".wp_data-"+k).append('\<div class="wp_main_div wp_main_div-'+data1.prefer_id+'"><div class="subworkdiv subworkdiv-'+data1.prefer_id+' form-group level-drp">\
+                            <label class="form-label work_label work_label-'+k+data1.prefer_id+'" for="input-1">'+data1.env_name+'</label>\
+                            <input type="hidden" name="subwork" class="subwork subwork-'+data1.prefer_id+'" value="'+k+'">\
+                            <input type="hidden" name="subwork_list" class="subwork_list subwork_list-'+k+'" value="'+data1.prefer_id+'">\
+                            <ul id="subwork_field-'+k+data1.prefer_id+'" style="display:none;">'+wp_text+'</ul>\
+                            <select class="js-example-basic-multiple'+k+data1.prefer_id+' addAll_removeAll_btn work_valid-'+k+' work_valid-'+k+data1.prefer_id+'" data-list-id="subwork_field-'+k+data1.prefer_id+'" name="subworkthlevel['+k+']['+data1.prefer_id+'][]" onchange="getWpSubData(\''+ap+'\',\''+k+'\',\''+data1.prefer_id+'\')" multiple></select>\
+                            <span id="reqsubwork-'+k+data1.prefer_id+'" class="reqError text-danger valley"></span>\
+                            </div><div class="showsubwpdata showsubwpdata-'+k+data1.prefer_id+'"></div></div>');
 
-                    selectTwoFunction(k+data1.prefer_id);
-                }    
-            });            
+                            let $fields = $(".wp_data-"+k+" .wp_main_div");
+
+                            let sortedFields = $fields.sort(function (a, b) {
+                                return $(a).find(".work_label").text().localeCompare($(b).find(".work_label").text());
+                            });
+
+                            $(".wp_data-"+k).append(sortedFields);
+                        
+                        selectTwoFunction(k+data1.prefer_id);
+                    }    
+                });            
+            }
         }
     }
+
+    
 
     function getWpSubData(ap,k,l){
         if(ap == 'ap'){
@@ -2317,45 +2364,67 @@
 
         console.log("selectedValues",selectedValues);
 
-        // $(".wp_data-"+k+" .subwork_list").each(function(i,val){
-        //     var val1 = $(val).val();
-        //     console.log("val",val1);
-        //     if(selectedValues.includes(val1) == false){
-        //         $(".subworkdiv-"+val1).remove();
+        $(".showsubwpdata-"+k+l+" .subpwork_list").each(function(i,val){
+            var val1 = $(val).val();
+            console.log("val",val1);
+            if(selectedValues.includes(val1) == false){
+                $(".subpworkdiv-"+val1).remove();
                 
-        //     }
-        // });
+            }
+        });
+
+        var ne_st = k.toString() + l.toString();
+        
+        if($.trim($(".showsubwpdata-"+ne_st).html()) != ''){
+           $('.js-example-basic-multiple[data-list-id="subwork_field-'+k+l+'"]').removeAttr("name");
+        }
 
         for(var i=0;i<selectedValues.length;i++){
-            $.ajax({
-                type: "GET",
-                url: "{{ url('/nurse/getSubWorkplaceData') }}",
-                data: {place_id:l,subplace_id:selectedValues[i]},
-                cache: false,
-                success: function(data){
-                    var data1 = JSON.parse(data);
-                    console.log("data1",data1);
+            if($(".showsubwpdata-"+k+l+" .subpworkdiv-"+selectedValues[i]).length < 1){
+                $.ajax({
+                    type: "GET",
+                    url: "{{ url('/nurse/getSubWorkplaceData') }}",
+                    data: {place_id:l,subplace_id:selectedValues[i]},
+                    cache: false,
+                    success: function(data){
+                        var data1 = JSON.parse(data);
+                        console.log("data1",data1);
+                        
+                            
+                        if(data1.work_data.length > 0){
+                            var wp_text = "";
+                            for(var j=0;j<data1.work_data.length;j++){
+                            
+                                wp_text += "<li data-value='"+data1.work_data[j].prefer_id+"'>"+data1.work_data[j].env_name+"</li>"; 
+                            
+                            }
+                            
+                            $('.js-example-basic-multiple'+k+l+'[data-list-id="subwork_field-'+k+l+'"]').removeAttr("name");
+                            
+                            
+                            var ap = "";
+                            $(".showsubwpdata-"+k+l).append('\<div class="subpworkdiv subpworkdiv-'+data1.subplace_id+' form-group level-drp">\
+                                <label class="form-label pwork_label pwork_label-'+k+data1.subplace_id+'" for="input-1">'+data1.env_name+'</label>\
+                                <input type="hidden" name="subpwork" class="subpwork subpwork-'+data1.subplace_id+'" value="'+k+'">\
+                                <input type="hidden" name="subpwork_list" class="subpwork_list subpwork_list-'+k+'" value="'+data1.subplace_id+'">\
+                                <ul id="subpwork_field-'+k+data1.subplace_id+'" style="display:none;">'+wp_text+'</ul>\
+                                <select class="js-example-basic-multiple'+k+data1.subplace_id+' pwork_valid-'+k+' pwork_valid-'+k+data1.subplace_id+'" data-list-id="subpwork_field-'+k+data1.subplace_id+'" name="subworkthlevel['+k+']['+l+']['+data1.subplace_id+'][]" multiple></select>\
+                                <span id="reqsubpwork-'+k+data1.subplace_id+'" class="reqError text-danger valley"></span>\
+                            </div>');
 
-                    var wp_text = "";
-                    for(var j=0;j<data1.work_data.length;j++){
-                    
-                        wp_text += "<li data-value='"+data1.work_data[j].prefer_id+"'>"+data1.work_data[j].env_name+"</li>"; 
-                    
-                    }
-                    
-                    var ap = "";
-                    $(".showsubwpdata-"+k+l).append('\<div class="subpworkdiv subpworkdiv-'+data1.prefer_id+' form-group level-drp">\
-                        <label class="form-label pwork_label pwork_label-'+k+data1.prefer_id+'" for="input-1">'+data1.env_name+'</label>\
-                        <input type="hidden" name="subpwork" class="subpwork subpwork-'+data1.prefer_id+'" value="'+k+'">\
-                        <input type="hidden" name="subpwork_list" class="subpwork_list subpwork_list-'+k+'" value="'+data1.prefer_id+'">\
-                        <ul id="subpwork_field-'+data1.prefer_id+'" style="display:none;">'+wp_text+'</ul>\
-                        <select class="js-example-basic-multiple'+k+data1.prefer_id+' pwork_valid-'+k+data1.prefer_id+'" data-list-id="subpwork_field-'+data1.prefer_id+'" name="subpwork['+k+']['+data1.prefer_id+'][]" onchange="getWpSubpData(\''+ap+'\',\''+k+'\')" multiple></select>\
-                        <span id="reqsubpwork-'+k+data1.prefer_id+'" class="reqError text-danger valley"></span>\
-                    </div>');
+                            let $fields = $(".showsubwpdata-"+k+l+" .subpworkdiv");
 
-                    selectTwoFunction(k+data1.prefer_id);
-                }    
-            });            
+                            let sortedFields = $fields.sort(function (a, b) {
+                                return $(a).find(".pwork_label").text().localeCompare($(b).find(".pwork_label").text());
+                            });
+
+                            $(".showsubwpdata-"+k+l).append(sortedFields);
+
+                            selectTwoFunction(k+data1.subplace_id);
+                        }
+                    }    
+                });            
+            }
         }
     }
 
@@ -2432,6 +2501,88 @@
                 });
            }
         }
+        
+    }
+
+    function getPostionsr(ap, k){
+        
+        if(ap == 'ap'){
+            var selectedValues = $('.js-example-basic-multiple'+k+'[data-list-id="position_held_fieldr-'+k+'"]').val();
+        }else{
+            var selectedValues = $('.js-example-basic-multiple[data-list-id="position_held_fieldr-'+k+'"]').val();
+        }
+        
+        console.log("selectedValues",selectedValues);
+
+        $(".show_positionsr-"+k+" .subpos_list").each(function(i,val){
+            var val1 = $(val).val();
+            console.log("val",val1);
+            if(selectedValues.includes(val1) == false){
+                $(".subposdiv-"+val1).remove();
+                
+            }
+        });
+
+
+        
+        for(var i=0;i<selectedValues.length;i++){
+            if($(".show_positionsr-"+k+" .subposdiv-"+selectedValues[i]).length < 1){
+
+                
+                    //$("#submitExperience").attr("disabled", true);
+                    $.ajax({
+                        type: "GET",
+                        url: "{{ url('/nurse/getEmployeePositions') }}",
+                        data: {postion_id:selectedValues[i]},
+                        cache: false,
+                        success: function(data){
+                            var data1 = JSON.parse(data);
+                            console.log("data1",data1);
+                            
+                            var pos_text = "";
+                            for(var j=0;j<data1.employee_positions.length;j++){
+                            
+                                pos_text += "<li data-value='"+data1.employee_positions[j].position_id+"'>"+data1.employee_positions[j].position_name+"</li>"; 
+                            
+                            }
+                            
+                            if(data1.postion_id != "34"){
+
+                                $(".show_positionsr-"+k).append('\<div class="subposdiv subposdiv-'+data1.postion_id+' form-group level-drp">\
+                                <label class="form-label pos_label pos_label-'+k+data1.postion_id+'" for="input-1">'+data1.position_name+'</label>\
+                                <input type="hidden" name="subpos" class="subpos subpos-'+data1.postion_id+'" value="'+k+'">\
+                                <input type="hidden" name="subpos_list" class="subpos_list subpos_list-'+k+'" value="'+data1.postion_id+'">\
+                                <ul id="subposition_held_fieldr-'+data1.postion_id+'" style="display:none;">'+pos_text+'</ul>\
+                                <select class="js-example-basic-multiple'+k+data1.postion_id+' addAll_removeAll_btn position_validr-'+k+data1.postion_id+'" data-list-id="subposition_held_fieldr-'+data1.postion_id+'" name="subpositions_heldr['+k+']['+data1.postion_id+'][]" id="subposition_held_field-{{ $i }}" multiple></select>\
+                                <span id="reqsubpositionheldr-'+k+data1.postion_id+'" class="reqError text-danger valley"></span>\
+                                </div>');
+                            }else{
+                                $(".show_positionsr-"+k).append('<div class="subposdiv subposdiv-'+data1.postion_id+' form-group level-drp">\
+                                <label class="form-label pos_label pos_label-'+k+data1.postion_id+'" for="input-1">Other</label>\
+                                <input type="hidden" name="subpos_list" class="subpos_list subpos_list-'+k+'" value="34">\
+                                <input type="text" name="subpositions_heldr['+k+']['+data1.postion_id+'][]" class="form-control position_other position_other-'+k+' position_validr-'+k+data1.postion_id+'">\
+                                <span id="reqsubpositionheldr-'+k+data1.postion_id+'" class="reqError text-danger valley"></span>\
+                                </div>');
+                            }
+                            
+                            let $fields = $(".show_positionsr-"+k+" .subposdiv");
+
+                            let sortedFields = $fields.sort(function (a, b) {
+                                return $(a).find(".pos_label").text().localeCompare($(b).find(".pos_label").text());
+                            });
+
+                            $(".show_positionsr-"+k).append(sortedFields);
+
+                            selectTwoFunction(k+data1.postion_id);
+                            
+
+                            //$("#submitExperience").removeAttr("disabled");
+                        }
+                    });
+                
+            }
+        }
+        
         
     }
 
