@@ -1954,7 +1954,7 @@ class HomeController extends Controller
             $skills_compantancies1 = $skills_compantancies[$key] ?? null;
             $type_of_evidence1 = $type_of_evidence[$key] ?? null;
             $level_of_exp1 = $level_of_exp[$key] ?? null;
-            $permanent_status1 = $permanent_status[$key+1] ?? null;
+            $permanent_status1 = $permanent_status[$key] ?? null;
             $temporary_status1 = $temporary_status[$key] ?? null;
             $sub_skills_compantancies1_1 = $sub_skills_compantancies1[$key] ?? null;
             $sub_skills_compantancies2_1 = $sub_skills_compantancies2[$key] ?? null;

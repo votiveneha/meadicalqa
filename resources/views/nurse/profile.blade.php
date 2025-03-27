@@ -3437,7 +3437,7 @@
                                 <li data-value="Volunteer (Permanent)">Volunteer (Permanent)</li>
                                 
                               </ul>
-                              <select class="js-example-basic-multiple permanent_exp permanent_exp-{{ $i }}" data-list-id="permanent_status_experience-1" name="permanent_status[{{$i}}]" id="permanent_status_experience"></select>
+                              <select class="js-example-basic-multiple permanent_exp permanent_exp-{{ $i }}" data-list-id="permanent_status_experience-{{$i}}" name="permanent_status[{{$i}}]" id="permanent_status_experience"></select>
                               <span id="reqemployeep_statusexp-{{ $i }}" class="reqError text-danger valley"></span>
                             </div>
                             
@@ -3880,7 +3880,7 @@
                           $speciality_surgical_datamater = DB::table("speciality")->where('parent', '250')->get();
 
                           ?>
-                          <div class="neonatal_row_exp form-group drp--clr drpdown-set d-none col-md-12 surgicalp_experience-13">
+                          <div class="neonatal_row_exp_1 form-group drp--clr drpdown-set d-none col-md-12 surgicalp_experience-13">
                             <label class="form-label surgicalprelabel-13" for="input-1">Neonatal Care:</label>
                             <input type="hidden" name="surgicalp_input" class="surgicalp_input surgicalp_input-1" value="3">
                             <ul id="neonatal_care_experience" style="display:none;">
@@ -3987,7 +3987,7 @@
                             <label class="form-label" for="input-1">Permanent</label>
                             <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
                             
-                            <ul id="permanent_status_experience" style="display:none;">
+                            <ul id="permanent_status_experience-1" style="display:none;">
                               <li data-value="">select</li>
                               <li data-value="Full-time (Permanent)">Full-time (Permanent)</li>
                               <li data-value="2">Part-time (Permanent)</li>
@@ -4000,7 +4000,7 @@
                               <li data-value="Volunteer (Permanent)">Volunteer (Permanent)</li>
                               
                             </ul>
-                            <select class="js-example-basic-multiple permanent_exp permanent_exp-1" data-list-id="permanent_status_experience" name="permanent_status[1]" id="permanent_status_experience"></select>
+                            <select class="js-example-basic-multiple permanent_exp permanent_exp-1" data-list-id="permanent_status_experience-1" name="permanent_status[1]" id="permanent_status_experience"></select>
                             <span id="reqemployeep_statusexp-1" class="reqError text-danger valley"></span>
                           </div>
                           
@@ -4010,7 +4010,7 @@
                             <label class="form-label" for="input-1">Temporary</label>
                             <input type="hidden" name="temphfield" class="temphfield" value="{{ Auth::guard('nurse_middle')->user()->temporary_status }}">
                         
-                            <ul id="temporary_status_experience" style="display:none;">
+                            <ul id="temporary_status_experience-1" style="display:none;">
                               <li data-value="select">select</li>
                               <li data-value="Full-time (Temporary)">Full-time (Temporary)</li>
                               <li data-value="Part-time (Temporary)">Part-time (Temporary)</li>
@@ -4033,7 +4033,7 @@
                               <li data-value="Residency">Residency</li>
                               <li data-value="Volunteer (Temporary)">Volunteer (Temporary)</li>
                             </ul>
-                            <select class="js-example-basic-multiple temporary_exp temporary_exp-1" data-list-id="temporary_status_experience" name="temporary_status[1]" id="temporary_status_experience"></select>
+                            <select class="js-example-basic-multiple temporary_exp temporary_exp-1" data-list-id="temporary_status_experience-1" name="temporary_status[1]" id="temporary_status_experience"></select>
                             <span id="reqemployeetexp_status-1" class="reqError text-danger valley"></span>
                           </div>
                           
@@ -8280,7 +8280,7 @@ if (!empty($interviewReferenceData)) {
     });
 
     // Remove dropdowns for deselected IDs
-    if (selectedValues && selectedValues.length > 0) {
+    // if (selectedValues && selectedValues.length > 0) {
       $('.skills_compantancies_dropdowns .js-example-basic-multiple1').each(function() {
         let listId = $(this).data('list-id');
         let id = listId.replace('skills_compantancies-', '');
@@ -8288,7 +8288,7 @@ if (!empty($interviewReferenceData)) {
           $(this).closest('.form-group').remove();
         }
       });
-    }
+    // }
   });
 
   // Function to initialize Select2 for dynamically created select elements
@@ -8728,7 +8728,7 @@ if (!empty($interviewReferenceData)) {
 
 
     //     $(".neonatal_row").wrapAll("<div class='col-md-12 row neonatal_row_data'>");
-    $(".neonatal_row_experience").insertAfter("#specility_level_experience-3");
+    $(".neonatal_row_exp_1").insertAfter("#specility_level_experience-3");
 
     //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
 
@@ -8736,9 +8736,9 @@ if (!empty($interviewReferenceData)) {
     //$('.result--show .form-group').addClass('d-none');
 
     if (selectedValues.includes('250')) {
-      $('.neonatal_row_experience').removeClass('d-none');
+      $('.neonatal_row_exp_1').removeClass('d-none');
     } else {
-      $('.neonatal_row_experience').addClass('d-none');
+      $('.neonatal_row_exp_1').addClass('d-none');
       $('.js-example-basic-multiple[data-list-id="neonatal_care_experience"]').select2().val(null).trigger('change');
     }
 
