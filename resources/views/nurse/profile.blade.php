@@ -6457,52 +6457,7 @@
                   </div>
                 </form>
               </div>
-              <div class="tab-pane fade" id="tab-work-preferences" role="tabpanel" aria-labelledby="tab-interview-references" style="display: none">
-                <h3 class="mt-30 color-brand-1 mb-50">Job Search Preferences</h3>
-                <?php
-                $workpreferenceData = DB::table("work_preferences")->where("user_id", Auth::guard('nurse_middle')->user()->id)->first();
-                ?>
-                <form id="workpreference_form" method="POST" onsubmit="return updateWorkPreference()">
-                  @csrf
-                  <input type="hidden" name="user_id" value="{{ Auth::guard('nurse_middle')->user()->id }}">
-                  <div class="form-group level-drp">
-                    <label class="form-label" for="input-1">Desired Job Roles </label>
-                    <input type="hidden" name="desired_job_roles" class="desired_job_roles" value="@if(!empty($workpreferenceData)){{ $workpreferenceData->desired_job_role }}@endif">
-                    <?php
-                    $practitioner_type = DB::table("practitioner_type")->get();
-                    ?>
-                    <ul id="des_job_role" style="display:none;">
-                      @foreach($practitioner_type as $cert)
-                      <li data-value="{{ $cert->id }}">{{ $cert->name }}</li>
-                      @endforeach
-
-                    </ul>
-                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="des_job_role" name="des_job_role[]" multiple="multiple"></select>
-
-                  </div>
-                  <span id="reqjobroles" class="reqError text-danger valley"></span>
-                  <div class="form-group level-drp">
-                    <label class="form-label" for="input-1">Salary Expectations</label>
-                    <input type="text" name="salary_expectation" class="form-control" value="@if(!empty($workpreferenceData)){{ $workpreferenceData->salary_expectations }}@endif">
-                    <span id="reqsalaryexp" class="reqError text-danger valley"></span>
-                  </div>
-                  <div class="form-group level-drp">
-                    <label class="form-label" for="input-1">Benefits Preferences </label>
-                    <input type="hidden" name="benefit_preferences" class="benefit_preferences" value="@if(!empty($workpreferenceData)){{ $workpreferenceData->benefits_preferences }}@endif">
-
-                    <ul id="benefit_prefer" style="display:none;">
-                      <li data-value="Health insurance">Health insurance</li>
-                      <li data-value="Retirement plans">Retirement plans</li>
-                    </ul>
-                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="benefit_prefer" name="benefit_prefer[]" multiple="multiple"></select>
-
-                  </div>
-                  <span id="reqbenefitsprefer" class="reqError text-danger valley"></span>
-                  <div class="box-button mt-15">
-                    <button class="btn btn-apply-big font-md font-bold" type="submit" id="submitWorkPreferences" @if(!email_verified()) disabled @endif>Save Changes</button>
-                  </div>
-                </form>
-              </div>
+              
               <div class="tab-pane fade" id="tab-addition-information" role="tabpanel" aria-labelledby="tab-interview-references" style="display: none">
                 <?php
                 $InfoData = DB::table("additional_information")->where("user_id", Auth::guard('nurse_middle')->user()->id)->first();
@@ -7658,15 +7613,7 @@ if (!empty($interviewReferenceData)) {
   //   $('.js-example-basic-multiple[data-list-id="type_of_evidence"]').select2().val(evidence_type).trigger('change');
   // }
 
-  if ($(".desired_job_roles").val() != "") {
-    var desired_job_roles = JSON.parse($(".desired_job_roles").val());
-    $('.js-example-basic-multiple[data-list-id="des_job_role"]').select2().val(desired_job_roles).trigger('change');
-  }
-
-  if ($(".benefit_preferences").val() != "") {
-    var benefit_preferences = JSON.parse($(".benefit_preferences").val());
-    $('.js-example-basic-multiple[data-list-id="benefit_prefer"]').select2().val(benefit_preferences).trigger('change');
-  }
+  
 
   if ($(".vaccination_r").val() != "") {
     var vaccination_record = JSON.parse($(".vaccination_r").val());

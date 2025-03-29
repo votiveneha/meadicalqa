@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Mar 27, 2025 at 11:54 PM
+-- Generation Time: Mar 28, 2025 at 11:59 PM
 -- Server version: 10.6.21-MariaDB
 -- PHP Version: 7.4.33
 
@@ -732,7 +732,36 @@ INSERT INTO `employeement_type_preferences` (`emp_prefer_id`, `emp_type`, `sub_p
 (29, 'Internship', 2, '2025-03-27 09:58:27', '2025-03-27 09:58:27'),
 (30, 'Apprenticeship', 2, '2025-03-27 09:58:27', '2025-03-27 09:58:27'),
 (31, 'Residency', 2, '2025-03-27 09:58:27', '2025-03-27 09:58:27'),
-(32, 'Volunteer (Temporary)', 2, '2025-03-27 09:58:27', '2025-03-27 09:58:27');
+(32, 'Volunteer (Temporary)', 2, '2025-03-27 09:58:27', '2025-03-27 09:58:27'),
+(33, 'Full-time (Permanent)', 3, '2025-03-28 08:37:21', '2025-03-28 08:37:21'),
+(34, 'Part-time (Permanent)', 3, '2025-03-28 08:37:21', '2025-03-28 08:37:21'),
+(35, 'Full-time (Temporary)', 3, '2025-03-28 08:37:21', '2025-03-28 08:37:21'),
+(36, 'Part-time (Temporary)', 3, '2025-03-28 08:37:21', '2025-03-28 08:37:21'),
+(37, 'Agency Nurse / Midwife (Permanent)', 3, '2025-03-28 08:37:21', '2025-03-28 08:37:21'),
+(38, 'Staffing Agency Nurse (Permanent)', 3, '2025-03-28 08:37:21', '2025-03-28 08:37:21'),
+(39, 'Private Healthcare Agency Nurse (Permanent)', 3, '2025-03-28 08:37:21', '2025-03-28 08:37:21'),
+(40, 'Agency Nurse/Midwife (Temporary)', 3, '2025-03-28 08:37:21', '2025-03-28 08:37:21'),
+(41, 'Staffing Agency Nurse (Temporary)', 3, '2025-03-28 08:37:21', '2025-03-28 08:37:21'),
+(42, 'Private Healthcare Agency Nurse (Temporary)', 3, '2025-03-28 08:37:21', '2025-03-28 08:37:21'),
+(43, 'Travel', 3, '2025-03-28 08:37:21', '2025-03-28 08:37:21'),
+(44, 'Per Diem (Daily Basis)', 3, '2025-03-28 08:37:21', '2025-03-28 08:37:21'),
+(45, 'Float Pool & Relief Nursing (Multi-Department Work)', 3, '2025-03-28 08:37:21', '2025-03-28 08:37:21'),
+(46, 'On-Call (Immediate Availability)', 3, '2025-03-28 08:37:21', '2025-03-28 08:37:21'),
+(47, 'PRN (Pro Re Nata /As Needed)', 3, '2025-03-28 08:37:21', '2025-03-28 08:37:21'),
+(48, 'Casual', 3, '2025-03-28 08:37:21', '2025-03-28 08:37:21'),
+(49, 'Locum tenens (temporary substitute)', 3, '2025-03-28 08:37:21', '2025-03-28 08:37:21'),
+(50, 'Seasonal (Short-Term for Peak Demand)', 3, '2025-03-28 08:37:21', '2025-03-28 08:37:21'),
+(51, 'Freelance (Permanent)', 3, '2025-03-28 08:37:21', '2025-03-28 08:37:21'),
+(52, 'Self-Employed (Permanent)', 3, '2025-03-28 08:37:21', '2025-03-28 08:37:21'),
+(53, 'Private Practice (Permanent)', 3, '2025-03-28 08:37:21', '2025-03-28 08:37:21'),
+(54, 'Freelance (Temporary)', 3, '2025-03-28 08:37:21', '2025-03-28 08:37:21'),
+(55, 'Self-Employed (Temporary)', 3, '2025-03-28 08:37:21', '2025-03-28 08:37:21'),
+(56, 'Private Practice (Temporary)', 3, '2025-03-28 08:37:21', '2025-03-28 08:37:21'),
+(57, 'Internship', 3, '2025-03-28 08:37:21', '2025-03-28 08:37:21'),
+(58, 'Apprenticeship', 3, '2025-03-28 08:37:21', '2025-03-28 08:37:21'),
+(59, 'Residency', 3, '2025-03-28 08:37:21', '2025-03-28 08:37:21'),
+(60, 'Volunteer (Permanent)', 3, '2025-03-28 08:37:21', '2025-03-28 08:37:21'),
+(61, 'Volunteer (Temporary)', 3, '2025-03-28 08:37:21', '2025-03-28 08:37:21');
 
 -- --------------------------------------------------------
 
@@ -9371,6 +9400,8 @@ CREATE TABLE `work_preferences` (
   `user_id` int(11) NOT NULL,
   `sector_preferences` text DEFAULT NULL,
   `work_environment_preferences` text DEFAULT NULL,
+  `emptype_preferences` text DEFAULT NULL,
+  `work_shift_preferences` text DEFAULT NULL,
   `salary_expectations` text NOT NULL,
   `benefits_preferences` text NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
@@ -9381,10 +9412,97 @@ CREATE TABLE `work_preferences` (
 -- Dumping data for table `work_preferences`
 --
 
-INSERT INTO `work_preferences` (`work_prefer_id`, `user_id`, `sector_preferences`, `work_environment_preferences`, `salary_expectations`, `benefits_preferences`, `created_at`, `updated_at`) VALUES
-(1, 197, 'Private', '{\"1\":{\"199\":{\"237\":[\"424\"],\"239\":[\"433\"]},\"213\":[\"314\",\"315\"]}}', '', '', '2025-03-27 01:12:06', '2025-03-27 04:17:27'),
-(2, 173, 'Public & Government', NULL, '', '', '2025-03-27 13:03:43', '2025-03-27 13:30:40'),
-(3, 179, 'Private', NULL, '', '', '2025-03-27 13:38:49', '2025-03-27 13:38:49');
+INSERT INTO `work_preferences` (`work_prefer_id`, `user_id`, `sector_preferences`, `work_environment_preferences`, `emptype_preferences`, `work_shift_preferences`, `salary_expectations`, `benefits_preferences`, `created_at`, `updated_at`) VALUES
+(1, 197, 'Private', '{\"1\":{\"199\":{\"237\":[\"424\"],\"239\":[\"433\"]},\"213\":[\"314\",\"315\"]}}', NULL, NULL, '', '', '2025-03-27 01:12:06', '2025-03-27 04:17:27'),
+(3, 179, 'Public & Government', NULL, '{\"2\":[\"14\"]}', NULL, '', '', '2025-03-27 13:38:49', '2025-03-28 09:10:06'),
+(4, 196, 'Private', '{\"1\":{\"199\":{\"236\":[\"418\"]},\"215\":[\"319\"],\"213\":[\"314\"]}}', '{\"3\":[\"34\",\"37\"]}', '{\"1\":[\"12\"],\"2\":[\"18\",\"21\"],\"3\":[\"30\"],\"4\":[\"33\"],\"5\":[\"41\"],\"6\":[\"47\"],\"7\":[\"56\"],\"8\":[\"59\"],\"9\":[\"66\"]}', '', '', '2025-03-28 05:11:53', '2025-03-28 10:53:53');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `work_shift_preferences`
+--
+
+CREATE TABLE `work_shift_preferences` (
+  `work_shift_id` int(11) NOT NULL,
+  `shift_name` text DEFAULT NULL,
+  `shift_id` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `work_shift_preferences`
+--
+
+INSERT INTO `work_shift_preferences` (`work_shift_id`, `shift_name`, `shift_id`, `created_at`, `updated_at`) VALUES
+(1, 'Standard Shift Types', 0, '2025-03-28 09:03:36', '2025-03-28 09:03:36'),
+(2, 'Shift Length Preferences', 0, '2025-03-28 09:03:36', '2025-03-28 09:03:36'),
+(3, 'Work Schedule Preferences', 0, '2025-03-28 09:03:36', '2025-03-28 09:03:36'),
+(4, 'Weekly Work Patterns', 0, '2025-03-28 09:03:36', '2025-03-28 09:03:36'),
+(5, 'Shift Rotation & Cycle Preferences', 0, '2025-03-28 09:03:36', '2025-03-28 09:03:36'),
+(6, 'Specialty & Non-Traditional Shift Preferences', 0, '2025-03-28 09:03:36', '2025-03-28 09:03:36'),
+(7, 'Maternity & Midwifery Shift Preferences', 0, '2025-03-28 09:03:36', '2025-03-28 09:03:36'),
+(8, 'Days Off Preferences', 0, '2025-03-28 09:03:36', '2025-03-28 09:03:36'),
+(9, 'Specific Preferences for Days Off', 0, '2025-03-28 09:03:36', '2025-03-28 09:03:36'),
+(10, 'Day Shift', 1, '2025-03-28 09:03:36', '2025-03-28 09:03:36'),
+(11, 'Evening Shift', 1, '2025-03-28 09:03:36', '2025-03-28 09:03:36'),
+(12, 'Night Shift (Graveyard Shift)', 1, '2025-03-28 09:03:36', '2025-03-28 09:03:36'),
+(13, 'Morning Shifts Only', 1, '2025-03-28 09:03:36', '2025-03-28 09:03:36'),
+(14, 'Afternoon/Evening Shifts Only', 1, '2025-03-28 09:03:36', '2025-03-28 09:03:36'),
+(15, 'Rotating Shifts (Day, Evening, Night Rotation)', 1, '2025-03-28 09:03:36', '2025-03-28 09:03:36'),
+(16, 'Split Shift (Two Separate Work Periods in One Day)', 1, '2025-03-28 09:03:36', '2025-03-28 09:03:36'),
+(17, 'Short Shifts (Prefers shifts shorter than 8 hours.)', 2, '2025-03-28 09:03:36', '2025-03-28 09:03:36'),
+(18, '4-Hour Shift', 2, '2025-03-28 09:03:36', '2025-03-28 09:03:36'),
+(19, '6-Hour Shift', 2, '2025-03-28 09:03:36', '2025-03-28 09:03:36'),
+(20, '8-Hour Shift (Standard Nursing Shift)', 2, '2025-03-28 09:03:36', '2025-03-28 09:03:36'),
+(21, '10-Hour Shift', 2, '2025-03-28 09:03:36', '2025-03-28 09:03:36'),
+(22, '12-Hour Shift (Common in Hospitals)', 2, '2025-03-28 09:03:36', '2025-03-28 09:03:36'),
+(23, '16-Hour Shift (Double Shift)', 2, '2025-03-28 09:03:36', '2025-03-28 09:03:36'),
+(24, '24-Hour Shift (Emergency, On-Call, or Rural Nursing)', 2, '2025-03-28 09:03:36', '2025-03-28 09:03:36'),
+(25, 'Extended Shifts (Prefers longer shifts, e.g., 12-16 hours, to reduce workdays per week.)', 2, '2025-03-28 09:03:36', '2025-03-28 09:03:36'),
+(26, 'Fixed Schedule (Same Shift Every Day)', 3, '2025-03-28 09:03:36', '2025-03-28 09:03:36'),
+(27, 'Fixed Part-Time Schedule (Set working days each week, e.g., Monday, Wednesday, Friday only)', 3, '2025-03-28 09:03:36', '2025-03-28 09:03:36'),
+(28, 'Flexible Schedule (Ability to Choose Shifts or change availability weekly)', 3, '2025-03-28 09:03:36', '2025-03-28 09:03:36'),
+(29, 'Flexible Part-Time (Availability varies week to week)', 3, '2025-03-28 09:03:36', '2025-03-28 09:03:36'),
+(30, 'Rotating Schedule (Shifts change periodically, e.g., day shift one week, night shift the next.)', 3, '2025-03-28 09:03:36', '2025-03-28 09:03:36'),
+(31, '5 Days per Week (Standard Work Week)', 4, '2025-03-28 09:03:36', '2025-03-28 09:03:36'),
+(32, '4 Days per Week (Extended Hours per Shift)', 4, '2025-03-28 09:03:36', '2025-03-28 09:03:36'),
+(33, '3 Days per Week (Common for 12-Hour Shift Workers)', 4, '2025-03-28 09:03:36', '2025-03-28 09:03:36'),
+(34, '2 Days per Week (Part-Time)', 4, '2025-03-28 09:03:37', '2025-03-28 09:03:37'),
+(35, 'Alternating Weekends', 4, '2025-03-28 09:03:37', '2025-03-28 09:03:37'),
+(36, 'Weekend-Only Schedule', 4, '2025-03-28 09:03:37', '2025-03-28 09:03:37'),
+(37, 'Fixed Shift (Same Schedule Every Week)', 5, '2025-03-28 09:03:37', '2025-03-28 09:03:37'),
+(38, 'Rotating Shift (Alternates Between Day, Evening, and Night)', 5, '2025-03-28 09:03:37', '2025-03-28 09:03:37'),
+(39, 'Weekly Rotation (Shift Changes Weekly)', 5, '2025-03-28 09:03:37', '2025-03-28 09:03:37'),
+(40, 'Bi-Weekly Rotation (Shift Changes Every Two Weeks)', 5, '2025-03-28 09:03:37', '2025-03-28 09:03:37'),
+(41, 'Monthly Rotation (Shift Changes Monthly)', 5, '2025-03-28 09:03:37', '2025-03-28 09:03:37'),
+(42, 'Self-Scheduling (Nurses Choose Their Own Shifts)', 5, '2025-03-28 09:03:37', '2025-03-28 09:03:37'),
+(43, 'Overtime Shifts', 6, '2025-03-28 09:03:37', '2025-03-28 09:03:37'),
+(44, 'Double Shifts (Two Consecutive Shifts in One Day)', 6, '2025-03-28 09:03:37', '2025-03-28 09:03:37'),
+(45, 'Split Shifts (Two Shorter Shifts in One Day)', 6, '2025-03-28 09:03:37', '2025-03-28 09:03:37'),
+(46, 'Back-to-Back Shifts (Multiple Shifts with Short Rest)', 6, '2025-03-28 09:03:37', '2025-03-28 09:03:37'),
+(47, 'Block Scheduling (Works several consecutive days, then has multiple days off, e.g., 7 days on, 7 days off.)', 6, '2025-03-28 09:03:37', '2025-03-28 09:03:37'),
+(48, 'Rapid Response / Emergency Coverage Shifts', 6, '2025-03-28 09:03:37', '2025-03-28 09:03:37'),
+(49, 'Travel Nursing Shifts', 6, '2025-03-28 09:03:37', '2025-03-28 09:03:37'),
+(50, 'Seasonal Shifts (High-Demand Periods)', 6, '2025-03-28 09:03:37', '2025-03-28 09:03:37'),
+(51, 'Live-In Shifts (24-Hour Care) (For Home Health & Midwifery)', 6, '2025-03-28 09:03:37', '2025-03-28 09:03:37'),
+(52, 'Event-Based Shifts (Concerts, Festivals, Sports)', 6, '2025-03-28 09:03:37', '2025-03-28 09:03:37'),
+(53, 'On-Call Birth Attendance Shifts', 7, '2025-03-28 09:03:37', '2025-03-28 09:03:37'),
+(54, 'Home Birth & Private Midwifery Shifts', 7, '2025-03-28 09:03:37', '2025-03-28 09:03:37'),
+(55, 'Labor & Delivery Rotating Shifts', 7, '2025-03-28 09:03:37', '2025-03-28 09:03:37'),
+(56, 'Postpartum Care Shifts', 7, '2025-03-28 09:03:37', '2025-03-28 09:03:37'),
+(57, 'Neonatal Intensive Care (NICU) Shifts', 7, '2025-03-28 09:03:37', '2025-03-28 09:03:37'),
+(58, 'Weekends Off', 8, '2025-03-28 09:03:37', '2025-03-28 09:03:37'),
+(59, 'Weekdays Off', 8, '2025-03-28 09:03:37', '2025-03-28 09:03:37'),
+(60, 'Rotating Days Off', 8, '2025-03-28 09:03:37', '2025-03-28 09:03:37'),
+(61, 'Specific Days Off', 8, '2025-03-28 09:03:37', '2025-03-28 09:03:37'),
+(62, 'Public Holidays Off', 9, '2025-03-28 09:03:37', '2025-03-28 09:03:37'),
+(63, 'Religious or Cultural Holidays Off', 9, '2025-03-28 09:03:37', '2025-03-28 09:03:37'),
+(64, 'School Holidays Off', 9, '2025-03-28 09:03:37', '2025-03-28 09:03:37'),
+(65, 'Alternate Weekends Off', 9, '2025-03-28 09:03:37', '2025-03-28 09:03:37'),
+(66, 'One Weekend Day Off', 9, '2025-03-28 09:03:37', '2025-03-28 09:03:37'),
+(67, 'Special Occasions Off', 9, '2025-03-28 09:03:37', '2025-03-28 09:03:37');
 
 --
 -- Indexes for dumped tables
@@ -9749,6 +9867,12 @@ ALTER TABLE `work_preferences`
   ADD PRIMARY KEY (`work_prefer_id`);
 
 --
+-- Indexes for table `work_shift_preferences`
+--
+ALTER TABLE `work_shift_preferences`
+  ADD PRIMARY KEY (`work_shift_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -9822,7 +9946,7 @@ ALTER TABLE `emergency_contact`
 -- AUTO_INCREMENT for table `employeement_type_preferences`
 --
 ALTER TABLE `employeement_type_preferences`
-  MODIFY `emp_prefer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `emp_prefer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- AUTO_INCREMENT for table `employee_positions`
@@ -10098,7 +10222,13 @@ ALTER TABLE `work_evidance`
 -- AUTO_INCREMENT for table `work_preferences`
 --
 ALTER TABLE `work_preferences`
-  MODIFY `work_prefer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `work_prefer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `work_shift_preferences`
+--
+ALTER TABLE `work_shift_preferences`
+  MODIFY `work_shift_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

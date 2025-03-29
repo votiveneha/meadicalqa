@@ -166,6 +166,9 @@ Route::prefix('nurse')->name('nurse.')->namespace('App\Http\Controllers\nurse')-
   Route::post('/updateWorkPreferences', 'WorkPreferencesController@updateWorkPreferences')->name('updateWorkPreferences');
   Route::get('/employeement_type_preferences', 'WorkPreferencesController@employeement_type_preferences')->name('employeement_type_preferences');
   Route::get('/getEmpData', 'WorkPreferencesController@getEmpData')->name('getEmpData');
+  Route::post('/updateEmpTypePreferences', 'WorkPreferencesController@updateEmpTypePreferences')->name('updateEmpTypePreferences');
+  Route::get('/WorkShiftPreferences', 'WorkPreferencesController@WorkShiftPreferences')->name('WorkShiftPreferences');
+  Route::post('/updateShiftPreferences', 'WorkPreferencesController@updateShiftPreferences')->name('updateShiftPreferences');
   
   /**************[Interview Preferences]**************/
   Route::any('/interview','ProfessionalController@interview')->name('interview');

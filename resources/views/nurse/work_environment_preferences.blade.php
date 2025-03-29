@@ -132,7 +132,12 @@
                                 $user_id = Auth::guard('nurse_middle')->user()->id;
                                 $workplace_data = DB::table('work_enviornment_preferences')->where("sub_env_id",0)->orderBy("env_name","asc")->get();
                                 
-                                $facility_type = (array)json_decode($work_preferences_data->work_environment_preferences);
+                                if(!empty($work_preferences_data)){
+                                  $facility_type = (array)json_decode($work_preferences_data->work_environment_preferences);
+                                }else{
+                                  $facility_type = array();
+                                }
+                                
                                 
 
                                 $p_memb_arr = array();
@@ -196,7 +201,7 @@
                                 //print_r($p_memb_arr);
                                 $p_memb_json = json_encode($p_memb_arr);
                             ?>
-                            <div class="wp_main_div-{{ $p_arr }}"><div class="subworkdiv subworkdiv-{{ $p_arr }} form-group level-drp">
+                            <div class="wp_main_div wp_main_div-{{ $p_arr }}"><div class="subworkdiv subworkdiv-{{ $p_arr }} form-group level-drp">
                                 <label class="form-label work_label work_label-1{{ $p_arr }}" for="input-1">{{ $environment_name->env_name }}</label>
                                 <input type="hidden" name="subwork" class="subwork subwork-{{ $p_arr }}" value="1">
                                 <input type="hidden" name="subwork_list" class="subwork_list subwork_list-1" value="{{ $p_arr }}">
@@ -502,6 +507,15 @@
 
       return false;
     }
+
+    let $fields = $(".wp_data-1 .wp_main_div");
+
+    let sortedFields = $fields.sort(function (a, b) {
+        return $(a).find(".work_label").text().localeCompare($(b).find(".work_label").text());
+    });
+    
+
+    $(".wp_data-1").append(sortedFields);
 
 </script>
 <script>

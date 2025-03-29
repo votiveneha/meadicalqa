@@ -59,7 +59,7 @@
     color: #fff;
   }
 
-  form#employeementtype_form ul.select2-selection__rendered {
+  form#shift_preferences_form ul.select2-selection__rendered {
     box-shadow: none;
     max-height: inherit;
     border: none;
@@ -108,49 +108,47 @@
 
                     
                     <div class="card shadow-sm border-0 p-4 mt-30">
-                      <h3 class="mt-0 color-brand-1 mb-2">Employment type preferences</h3>
-                      
-                      <form id="employeementtype_form" method="POST" onsubmit="return update_emptype_preferences()">
+                      <h3 class="mt-0 color-brand-1 mb-2">Work-Life Balance & Shift Preferences</h3>
+    
+                      <form id="shift_preferences_form" method="POST" onsubmit="return shift_preferences_form()">
                         @csrf
                         <input type="hidden" name="user_id" value="{{ Auth::guard('nurse_middle')->user()->id }}">
-
+                        @if(!empty($shift_preferences_data))
+                        @foreach ($shift_preferences_data as $shift_data)
                         <div class="form-group level-drp">
-                            <label class="form-label" for="input-1">Employment type Preferences
-                            </label>
-                            <select class="form-input mr-10 select-active emptype_prefer" name="emptype_preferences" onchange="empType(this.value)">
-                              <option value="">select</option>
-                              @if(!empty($employeement_type_preferences))
-                              @foreach($employeement_type_preferences as $emptype_data)
-                              <option value="{{ $emptype_data->emp_prefer_id }}" @if(!empty($emptypeid) && $emptypeid == $emptype_data->emp_prefer_id) selected @endif>{{ $emptype_data->emp_type }}</option>
-                              @endforeach
-                              @endif
-                            </select>
-                            <span id='reqemptype_prefer' class='reqError text-danger valley'></span>
+                          <label class="form-label shift_label shift_label-{{ $shift_data->work_shift_id }}" for="input-1">{{ $shift_data->shift_name }}
+                          </label>
+                          <?php
+                            $subshift_preferences_data = DB::table("work_shift_preferences")->where("shift_id",$shift_data->work_shift_id)->get();
+                            if(!empty($work_preferences_data)){
+                                $shiftpreferences = (array)json_decode($work_preferences_data->work_shift_preferences);
+                            }else{
+                                $shiftpreferences = array();
+                            }
+                            
+                            if(!empty($shiftpreferences)){
+                                $shiftprefer_data = json_encode($shiftpreferences[$shift_data->work_shift_id]);
+                            }else{
+                                $shiftprefer_data = '';
+                            }
+                          ?>
+                          <input type="hidden" name="shift_prefer_input" class="shift_prefer_input shift_prefer_input-{{ $shift_data->work_shift_id }}" value="{{ $shift_data->work_shift_id }}">
+                          <input type="hidden" name="shift_data" class="shift_data shift_data-{{ $shift_data->work_shift_id }}" value="{{ $shiftprefer_data }}">
+                          <ul id="shift_preferences-{{ $shift_data->work_shift_id }}" style="display:none;">
+                             
+                            @if(!empty($subshift_preferences_data))
+                            @foreach($subshift_preferences_data as $shiftprefer)
+                            <li data-value="{{ $shiftprefer->work_shift_id }}">{{ $shiftprefer->shift_name }}</li>
+                            @endforeach
+                            @endif
+                          </ul>
+                          <select class="js-example-basic-multiple addAll_removeAll_btn shift_prefer_valid shift_prefer_valid-{{ $shift_data->work_shift_id }}" data-list-id="shift_preferences-{{ $shift_data->work_shift_id }}" name="shift_preferences[{{ $shift_data->work_shift_id }}][]" multiple></select>
+                          <span id='reqshift_preferences-{{ $shift_data->work_shift_id }}' class='reqError text-danger valley'></span>
                         </div>
-                        
-                        <div class="emp_data">
-                          @if(!empty($emptypearr))
-                          
-                          <div class="emptype_main_div emptype_main_div-{{ $emptypeid }}">
-                            <div class="emptypediv emptypediv-{{ $emptypeid }} form-group level-drp">
-                              <label class="form-label emptype_label emptype_label-{{ $emptypeid }}" for="input-1">{{ $subemployeement_name }}</label>
-                              <input type="hidden" class="subemptype" value='<?php echo $emptypearr; ?>'>
-                              <ul id="emptype_field-{{ $emptypeid }}" style="display:none;">
-                                @if(!empty($subemployeement_type_preferences))
-                                @foreach($subemployeement_type_preferences as $subemptype_data)
-                                <li data-value="{{ $subemptype_data->emp_prefer_id }}">{{ $subemptype_data->emp_type }}</li>  
-                                @endforeach
-                                @endif
-                              </ul>
-                              <select class="js-example-basic-multiple addAll_removeAll_btn emptype_valid-1" data-list-id="emptype_field-{{ $emptypeid }}" name="emptypelevel[{{ $emptypeid }}][]" multiple></select>
-                              <span id="reqemptype-1" class="reqError text-danger valley"></span>
-                            </div>
-                          </div>
-                          @endif
-                          
-                        </div>
+                        @endforeach
+                        @endif
                         <div class="box-button mt-15">
-                          <button class="btn btn-apply-big font-md font-bold" type="submit" id="submitEmptypePreferences">Save Changes</button>
+                          <button class="btn btn-apply-big font-md font-bold" type="submit" id="submitShiftPreferences">Save Changes</button>
                         </div>
                       </form>
     
@@ -287,89 +285,55 @@
         });
     });
 
-    if ($(".subemptype").length > 0) {
-      //console.log("reference_relationship-" + m, $(".reference_relationship-" + m).val());
-      var empid = "<?php echo $emptypeid; ?>";
-      if ($(".subemptype").val() != "") {
-        var subemptype = JSON.parse($(".subemptype").val());
-        console.log("subemptype",subemptype);
-        $('.js-example-basic-multiple[data-list-id="emptype_field-'+empid+'"]').select2().val(subemptype).trigger('change');
-      }
-    }
-    
+    $(".shift_prefer_input").each(function(){
+        var val = $(this).val();
+        if ($(".shift_data-"+val).val() != "") {
+            var shift_data = JSON.parse($(".shift_data-"+val).val());
+            console.log("shift_data",shift_data);
+            $('.js-example-basic-multiple[data-list-id="shift_preferences-'+val+'"]').select2().val(shift_data).trigger('change');
+        }
+    });
 </script>
 <script type="text/javascript">
-    function empType(value){
-        
-        //alert(value);
-        //console.log("selectedValueswp",selectedValues);
-        $.ajax({
-            type: "GET",
-            url: "{{ url('/nurse/getEmpData') }}",
-            data: {sub_prefer_id:value},
-            cache: false,
-            success: function(data){
-                const emp_prefer_data = JSON.parse(data);
-                console.log("emp_prefer_data",emp_prefer_data);
+    
 
-                var emp_text = "";
-                for(var j=0;j<emp_prefer_data.employeement_type_preferences.length;j++){
-                
-                    emp_text += "<li data-value='"+emp_prefer_data.employeement_type_preferences[j].emp_prefer_id+"'>"+emp_prefer_data.employeement_type_preferences[j].emp_type+"</li>"; 
-                
-                }
-                
-                $(".emp_data").html('\<div class="emptype_main_div emptype_main_div-'+value+'"><div class="emptypediv emptypediv-'+value+' form-group level-drp">\
-                    <label class="form-label emptype_label emptype_label-'+value+'" for="input-1">'+emp_prefer_data.employeement_type_name+'</label>\
-                    <ul id="emptype_field-'+value+'" style="display:none;">'+emp_text+'</ul>\
-                    <select class="js-example-basic-multiple'+value+' addAll_removeAll_btn emptype_valid-1" data-list-id="emptype_field-'+value+'" name="emptypelevel['+value+'][]" multiple></select>\
-                    <span id="reqemptype-1" class="reqError text-danger valley"></span>\
-                    </div></div>');
-
-                    
-                
-                selectTwoFunction(value);
-            }
-        });
-        
-    }
-
-    function update_emptype_preferences() {
+    function shift_preferences_form() {
       var isValid = true;
 
-      if ($(".emptype_prefer").val() == '') {
-        document.getElementById("reqemptype_prefer").innerHTML = "* Please select the Employment type Preferences";
-        isValid = false;
-      }
+      $(".shift_prefer_input").each(function(){
+        var val = $(this).val();
+        var label = $(".shift_label-"+val).text();
+        console.log("val",val);
+        if ($('.shift_prefer_valid-'+val).val() == '') {
 
-      if ($(".emptype_valid-1").val() == '') {
-        var label = $(".emptype_label").text(); 
-        document.getElementById("reqemptype-1").innerHTML = "* Please select the "+label;
-        isValid = false;
-      }
+            document.getElementById("reqshift_preferences-"+val).innerHTML = "* Please select the "+label;
+            isValid = false;
+
+        }
+      });
 
 
       if (isValid == true) {
         $.ajax({
-        url: "{{ route('nurse.updateEmpTypePreferences') }}",
+        url: "{{ route('nurse.updateShiftPreferences') }}",
         type: "POST",
         cache: false,
         contentType: false,
         processData: false,
-        data: new FormData($('#employeementtype_form')[0]),
+        data: new FormData($('#shift_preferences_form')[0]),
         dataType: 'json',
         beforeSend: function() {
-          $('#submitEmptypePreferences').prop('disabled', true);
-          $('#submitEmptypePreferences').text('Process....');
+          $('#submitShiftPreferences').prop('disabled', true);
+          $('#submitShiftPreferences').text('Process....');
         },
         success: function(res) {
           if (res.status == '1') {
             Swal.fire({
               icon: 'success',
               title: 'Success',
-              text: 'Employment Type Preferences Updated Successfully',
+              text: 'Work-Life Balance & Shift Preferences Updated Successfully',
             }).then(function() {
-              window.location.href = "{{ route('nurse.employeement_type_preferences') }}?page=employeement_type_preferences";
+              window.location.href = "{{ route('nurse.WorkShiftPreferences') }}?page=WorkShiftPreferences";
             });
           } else {
             Swal.fire({
@@ -380,11 +344,11 @@
           }
         },
         error: function(errorss) {
-          $('#submitEmptypePreferences').prop('disabled', false);
-          $('#submitEmptypePreferences').text('Save Changes');
+          $('#submitShiftPreferences').prop('disabled', false);
+          $('#submitShiftPreferences').text('Save Changes');
           console.log("errorss", errorss);
           for (var err in errorss.responseJSON.errors) {
-            $("#submitEmptypePreferences").find("[name='" + err + "']").after("<div class='text-danger'>" + errorss.responseJSON.errors[err] + "</div>");
+            $("#submitShiftPreferences").find("[name='" + err + "']").after("<div class='text-danger'>" + errorss.responseJSON.errors[err] + "</div>");
           }
         }
       
