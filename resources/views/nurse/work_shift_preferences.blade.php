@@ -115,12 +115,12 @@
                         <input type="hidden" name="user_id" value="{{ Auth::guard('nurse_middle')->user()->id }}">
                         @if(!empty($shift_preferences_data))
                         @foreach ($shift_preferences_data as $shift_data)
-                        <div class="form-group level-drp">
+                        <div class="form-group level-drp work_prefer_div-{{ $shift_data->work_shift_id }}">
                           <label class="form-label shift_label shift_label-{{ $shift_data->work_shift_id }}" for="input-1">{{ $shift_data->shift_name }}
                           </label>
                           <?php
-                            $subshift_preferences_data = DB::table("work_shift_preferences")->where("shift_id",$shift_data->work_shift_id)->get();
-                            if(!empty($work_preferences_data)){
+                            $subshift_preferences_data = DB::table("work_shift_preferences")->where("shift_id",$shift_data->work_shift_id)->where("sub_shift_id",NULL)->get();
+                            if(!empty($work_preferences_data) && $work_preferences_data->work_shift_preferences != NULL){
                                 $shiftpreferences = (array)json_decode($work_preferences_data->work_shift_preferences);
                             }else{
                                 $shiftpreferences = array();
@@ -144,6 +144,51 @@
                           </ul>
                           <select class="js-example-basic-multiple addAll_removeAll_btn shift_prefer_valid shift_prefer_valid-{{ $shift_data->work_shift_id }}" data-list-id="shift_preferences-{{ $shift_data->work_shift_id }}" name="shift_preferences[{{ $shift_data->work_shift_id }}][]" multiple></select>
                           <span id='reqshift_preferences-{{ $shift_data->work_shift_id }}' class='reqError text-danger valley'></span>
+                        </div>
+                        <?php
+                          
+                          //print_r();
+                          if(!empty($work_preferences_data) && $work_preferences_data->subwork_shift_preferences != NULL){
+
+                              $subshiftpreferences = (array)json_decode($work_preferences_data->subwork_shift_preferences);
+                          }else{
+                              $subshiftpreferences = array();
+                          }
+                          //print_r($subshiftpreferences);
+
+                          if(!empty($shiftpreferences) && isset($subshiftpreferences[$shift_data->work_shift_id])){
+                              $subshiftprefer_data = (array)$subshiftpreferences[$shift_data->work_shift_id];
+                          }else{
+                              $subshiftprefer_data = '';
+                          }
+                          //print_r($subshiftprefer_data);
+                        ?>
+                        <div class='subworkpre-{{ $shift_data->work_shift_id }}'>
+                          @if(!empty($subshiftprefer_data))
+                          @foreach ($subshiftprefer_data as $index=>$shift_data1)
+                          <?php
+                            $subshift_preferences_name = DB::table("work_shift_preferences")->where("work_shift_id",$index)->first();
+                            $subshift_preferences_data1 = DB::table("work_shift_preferences")->where("shift_id",$shift_data->work_shift_id)->where("sub_shift_id",$index)->get();
+                            $subprefer = json_encode($subshiftprefer_data[$index]);
+                          ?>
+                          <div class="subworkpre_div subworkpre_div-{{ $index }}">
+                            <div class="subworkformdiv subworkformdiv-{{ $index }} form-group level-drp">
+                              <label class="form-label subpre_label subpre_label-{{ $index }}" for="input-1">{{ $subshift_preferences_name->shift_name }}</label>
+                              <input type="hidden" name="subwork_list" class="subwork_list subwork_list-{{ $shift_data->work_shift_id }}" value="{{ $index }}">
+                              <input type="hidden" name="subshift_data1" class="subshift_data1 subshift_data1-{{ $index }}" value="{{ $subprefer }}">
+                              <ul id="subpre_field-{{ $index }}" style="display:none;">
+                                @if(!empty($subshift_preferences_data1))
+                                @foreach($subshift_preferences_data1 as $shiftprefer)
+                                <li data-value="{{ $shiftprefer->work_shift_id }}">{{ $shiftprefer->shift_name }}</li>
+                                @endforeach
+                                @endif
+                              </ul>
+                              <select class="js-example-basic-multiple addAll_removeAll_btn pre_valid-{{ $index }} pre_valid-{{ $index }}" data-list-id="subpre_field-{{ $index }}" name="shift_preferences1[{{ $shift_data->work_shift_id }}][{{ $index }}][]" multiple></select>
+                              <span id="reqsubprework-{{ $index }}" class="reqError text-danger valley"></span>
+                            </div>
+                          </div>
+                          @endforeach
+                          @endif
                         </div>
                         @endforeach
                         @endif
@@ -290,8 +335,79 @@
         if ($(".shift_data-"+val).val() != "") {
             var shift_data = JSON.parse($(".shift_data-"+val).val());
             console.log("shift_data",shift_data);
+            
             $('.js-example-basic-multiple[data-list-id="shift_preferences-'+val+'"]').select2().val(shift_data).trigger('change');
-        }
+            $(".subwork_list").each(function(){
+              var val12 = $(this).val();
+              if ($(".subshift_data1-"+val12).val() != "") {
+                var shift_data1 = JSON.parse($(".subshift_data1-"+val12).val());
+                console.log("shift_data1",shift_data1);
+                
+                $('.js-example-basic-multiple[data-list-id="subpre_field-'+val12+'"]').select2().val(shift_data1).trigger('change');
+            
+            
+              }
+            });
+        
+          }
+        $('.js-example-basic-multiple[data-list-id="shift_preferences-'+val+'"]').on('change', function() {
+          let selectedValues = $(this).val();
+          console.log("selectedValues",selectedValues);
+
+          $(".subworkpre-"+val+" .subwork_list").each(function(i,val13){
+            var val12 = $(val13).val();
+            console.log("val",val12);
+            if(selectedValues.includes(val12) == false){
+                $(".subworkpre_div-"+val12).remove();
+                
+            }
+          });
+          //$("<div class='subworkpre-"+val+"'></div>").insertAfter(".work_prefer_div-"+val);
+          for(var i=0;i<selectedValues.length;i++){
+            if($(".subworkpre-"+val+" .subworkpre_div-"+selectedValues[i]).length < 1){
+              $.ajax({
+                type: "GET",
+                url: "{{ url('/nurse/getSubWorkData') }}",
+                data: {shift_id:val,sub_shift_id:selectedValues[i]},
+                cache: false,
+                success: function(data){
+                  var data1 = JSON.parse(data);
+                  if(data1.shift_preferences_data.length > 0){
+                    
+                    console.log("data1",data1);
+
+                    var work_text = "";
+                    for(var j=0;j<data1.shift_preferences_data.length;j++){
+                      //console.log("data",data1.country_organiztions[j].organization_id);
+                      work_text += "<li data-value='"+data1.shift_preferences_data[j].work_shift_id+"'>"+data1.shift_preferences_data[j].shift_name+"</li>"; 
+                      
+                    }
+                    
+                    
+                    
+                    $(".subworkpre-"+val).append('\<div class="subworkpre_div subworkpre_div-'+data1.sub_shift_id+'"><div class="subworkformdiv subworkformdiv-'+data1.sub_shift_id+' form-group level-drp">\
+                              <label class="form-label subpre_label subpre_label-'+data1.sub_shift_id+'" for="input-1">'+data1.shift_preferences_name+'</label>\
+                              <input type="hidden" name="subwork_list" class="subwork_list subwork_list-'+val+'" value="'+data1.sub_shift_id+'">\
+                              <ul id="subpre_field-'+data1.sub_shift_id+'" style="display:none;">'+work_text+'</ul>\
+                              <select class="js-example-basic-multiple'+data1.sub_shift_id+' addAll_removeAll_btn pre_valid-'+data1.sub_shift_id+' pre_valid-'+data1.sub_shift_id+'" data-list-id="subpre_field-'+data1.sub_shift_id+'" name="shift_preferences1['+val+']['+data1.sub_shift_id+'][]" multiple></select>\
+                              <span id="reqsubprework-'+data1.sub_shift_id+'" class="reqError text-danger valley"></span>\
+                              </div></div>');
+
+                    selectTwoFunction(data1.sub_shift_id);          
+                  }
+                  
+
+                  // var work_text = "";
+                  // for(var j=0;j<data1.shift_preferences_data.length;j++){
+                  //   //console.log("data",data1.country_organiztions[j].organization_id);
+                  //   work_text += "<li data-value='"+data1.country_organiztions[j].organization_id+"'>"+data1.country_organiztions[j].organization_country+"</li>"; 
+                    
+                  // }
+                }
+              });
+            }
+          }
+        });
     });
 </script>
 <script type="text/javascript">
@@ -309,6 +425,21 @@
             document.getElementById("reqshift_preferences-"+val).innerHTML = "* Please select the "+label;
             isValid = false;
 
+        }
+
+        if($(".subwork_list-"+val).length > 0){
+          
+          $(".subwork_list").each(function(){
+            var val12 = $(this).val();
+            var label = $(".subpre_label-"+val12).text();
+            
+            if ($('.pre_valid-'+val12).val() == '') {
+
+              document.getElementById("reqsubprework-"+val12).innerHTML = "* Please select the "+label;
+              isValid = false;
+
+            }
+          });
         }
       });
 

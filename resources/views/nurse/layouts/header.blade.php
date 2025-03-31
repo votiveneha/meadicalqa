@@ -110,7 +110,7 @@
 
               <li>
 
-                <a class="{{ request()->is('nurse/sector_preferences') ?'active':'' }} {{ request()->is('nurse/work_environment_preferences') ?'active':'' }} {{ request()->is('nurse/employeement_type_preferences') ?'active':'' }}  hover-up " href='{{ route("nurse.sector_preferences") }}?page=sector_preferences'>Work Preferences & Flexibility</a>
+                <a class="{{ request()->is('nurse/sector_preferences') ?'active':'' }} {{ request()->is('nurse/work_environment_preferences') ?'active':'' }} {{ request()->is('nurse/employeement_type_preferences') ?'active':'' }} {{ request()->is('nurse/WorkShiftPreferences') ?'active':'' }} {{ request()->is('nurse/position_preferences') ?'active':'' }}  hover-up " href='{{ route("nurse.sector_preferences") }}?page=sector_preferences'>Work Preferences & Flexibility</a>
 
               </li>
 

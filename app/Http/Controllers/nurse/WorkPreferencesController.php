@@ -185,21 +185,87 @@ class WorkPreferencesController extends Controller{
         return view('nurse.work_shift_preferences')->with($data);
     }
 
+    public function getSubWorkData(Request $request)
+    {
+        $shift_id = $request->shift_id;
+        $sub_shift_id = $request->sub_shift_id;
+
+        $data['shift_preferences_data'] = DB::table("work_shift_preferences")->where("shift_id",$shift_id)->where("sub_shift_id",$sub_shift_id)->get();
+        //print_r($data['shift_preferences_data']);die;
+        
+        if(!empty($data['shift_preferences_data'])){
+            $shift_preferences_name = DB::table("work_shift_preferences")->where("shift_id",$shift_id)->where("work_shift_id",$sub_shift_id)->first();
+            $data['shift_preferences_name'] = $shift_preferences_name->shift_name;
+            $data['sub_shift_id'] = $sub_shift_id;
+            return json_encode($data);
+        }
+        
+    }
+
     public function updateShiftPreferences(Request $request)
     {
         $user_id = $request->user_id;
         $workshift_preferences = json_encode($request->shift_preferences);
+
+        if(isset($request->shift_preferences1)){
+            $subworkshift_preferences = json_encode($request->shift_preferences1);
+        }else{
+            $subworkshift_preferences = '';
+        }
 
         $work_preferences_data = WorkPreferencesModel::where("user_id",$user_id)->first();
 
         //print_r($work_preferences_data);
 
         if(!empty($work_preferences_data)){
-            $run = WorkPreferencesModel::where('user_id',$user_id)->update(['work_shift_preferences'=>$workshift_preferences]);
+            $run = WorkPreferencesModel::where('user_id',$user_id)->update(['work_shift_preferences'=>$workshift_preferences,'subwork_shift_preferences'=>$subworkshift_preferences]);
         }else{
             $work_preferences = new WorkPreferencesModel();
             $work_preferences->user_id = $user_id;
             $work_preferences->work_shift_preferences = $workshift_preferences;
+            $work_preferences->subwork_shift_preferences = $subworkshift_preferences;
+            $run = $work_preferences->save();
+        }
+
+        if ($run) {
+            $json['status'] = 1;
+            
+        } else {
+            $json['status'] = 0;
+            
+        }
+
+        echo json_encode($json);
+    }
+
+    public function position_preferences()
+    {
+        $user_id = Auth::guard('nurse_middle')->user()->id;
+        $data['shift_preferences_data'] = DB::table("work_shift_preferences")->where("shift_id","0")->get();
+        $data['work_preferences_data'] = WorkPreferencesModel::where("user_id",$user_id)->first();
+        
+        return view('nurse.position_preferences')->with($data);
+    }
+
+    public function updatePositionPreferences(Request $request)
+    {
+        $user_id = $request->user_id;
+        $subpositions_held = json_encode($request->subpositions_held);
+        
+
+        
+
+        $work_preferences_data = WorkPreferencesModel::where("user_id",$user_id)->first();
+
+        //print_r($work_preferences_data);
+
+        if(!empty($work_preferences_data)){
+            $run = WorkPreferencesModel::where('user_id',$user_id)->update(['position_preferences'=>$subpositions_held]);
+        }else{
+            $work_preferences = new WorkPreferencesModel();
+            $work_preferences->user_id = $user_id;
+            $work_preferences->position_preferences = $subpositions_held;
+            
             $run = $work_preferences->save();
         }
 

@@ -59,7 +59,7 @@
     color: #fff;
   }
 
-  form#employeementtype_form ul.select2-selection__rendered {
+  form#position_preferences_form ul.select2-selection__rendered {
     box-shadow: none;
     max-height: inherit;
     border: none;
@@ -108,49 +108,87 @@
 
                     
                     <div class="card shadow-sm border-0 p-4 mt-30">
-                      <h3 class="mt-0 color-brand-1 mb-2">Employment type preferences</h3>
-                      
-                      <form id="employeementtype_form" method="POST" onsubmit="return update_emptype_preferences()">
+                      <h3 class="mt-0 color-brand-1 mb-2">Position Preferences</h3>
+    
+                      <form id="position_preferences_form" method="POST" onsubmit="return update_position_preferences()">
                         @csrf
                         <input type="hidden" name="user_id" value="{{ Auth::guard('nurse_middle')->user()->id }}">
 
                         <div class="form-group level-drp">
-                            <label class="form-label" for="input-1">Employment type Preferences
-                            </label>
-                            <select class="form-input mr-10 select-active emptype_prefer" name="emptype_preferences" onchange="empType(this.value)">
-                              <option value="">select</option>
-                              @if(!empty($employeement_type_preferences))
-                              @foreach($employeement_type_preferences as $emptype_data)
-                              <option value="{{ $emptype_data->emp_prefer_id }}" @if(!empty($emptypeid) && $emptypeid == $emptype_data->emp_prefer_id) selected @endif>{{ $emptype_data->emp_type }}</option>
-                              @endforeach
-                              @endif
-                            </select>
-                            <span id='reqemptype_prefer' class='reqError text-danger valley'></span>
-                        </div>
-                        
-                        <div class="emp_data">
-                          @if(!empty($emptypearr))
                           
-                          <div class="emptype_main_div emptype_main_div-{{ $emptypeid }}">
-                            <div class="emptypediv emptypediv-{{ $emptypeid }} form-group level-drp">
-                              <label class="form-label emptype_label emptype_label-{{ $emptypeid }}" for="input-1">{{ $subemployeement_name }}</label>
-                              <input type="hidden" class="subemptype" value='<?php echo $emptypearr; ?>'>
-                              <ul id="emptype_field-{{ $emptypeid }}" style="display:none;">
-                                @if(!empty($subemployeement_type_preferences))
-                                @foreach($subemployeement_type_preferences as $subemptype_data)
-                                <li data-value="{{ $subemptype_data->emp_prefer_id }}">{{ $subemptype_data->emp_type }}</li>  
+                            <label class="form-label" for="input-1">Position Preferences</label>
+                            <?php
+                                $employee_postion_data = DB::table('employee_positions')->where("subposition_id",0)->orderBy("position_name","asc")->get();
+                                
+                                if(!empty($work_preferences_data) && $work_preferences_data->position_preferences != NULL){
+                                    $pos_data = (array)json_decode($work_preferences_data->position_preferences);
+                                }else{
+                                    $pos_data = array();
+                                }
+                                
+
+                                $parr = array();
+                                if (!empty($pos_data)){
+                                    foreach ($pos_data[1] as $index => $pdata){
+                                        $parr[] = $index;
+                                    }
+                                }
+                                
+                                $x = 1;
+                                $p_arr = json_encode($parr);
+                            ?>
+                            <input type="hidden" name="pos_hide" class="pos_hide pos_hide-1" value="{{ $p_arr }}">
+                            <ul id="position_held_field-1" style="display:none;">
+                                
+                                @if(!empty($employee_postion_data))
+                                @foreach($employee_postion_data as $emp_data)
+                                @if($emp_data->position_name != "Other")
+                                <li data-value="{{ $emp_data->position_id }}">{{ $emp_data->position_name }}</li>
+                                @endif
                                 @endforeach
                                 @endif
-                              </ul>
-                              <select class="js-example-basic-multiple addAll_removeAll_btn emptype_valid-1" data-list-id="emptype_field-{{ $emptypeid }}" name="emptypelevel[{{ $emptypeid }}][]" multiple></select>
-                              <span id="reqemptype-1" class="reqError text-danger valley"></span>
-                            </div>
-                          </div>
-                          @endif
+                            </ul>
+                            <select class="js-example-basic-multiple addAll_removeAll_btn pos_held pos_held_1" data-list-id="position_held_field-1" name="positions_held[1]" id="position_held_field-1" multiple onchange="getPostions('',1)"></select>
+                            <span id="reqpositionheld-1" class="reqError text-danger valley"></span>
+                            
+                        </div>
+                        <div class="show_positions-1">
+                            @if(!empty($parr))
+                            @foreach ($parr as $par)
+                          <?php
+                            $employee_positions = DB::table("employee_positions")->where("subposition_id",$par)->orderBy('position_name', 'ASC')->get();
+                            $position_name = DB::table("employee_positions")->where("position_id",$par)->first();
+                            $subposdata = (array)$pos_data[1];
+                            $subposdata1 = json_encode($subposdata[$par]);
+                           
+                            //print_r($subposdata1);
+                          ?>
                           
+                          <div class="subposdiv subposdiv-{{ $position_name->position_id }} form-group level-drp">
+                            <label class="form-label pos_label pos_label-1{{ $position_name->position_id }}" for="input-1">{{ $position_name->position_name }}</label>
+                            <input type="hidden" name="subpos" class="subpos subpos-{{ $position_name->position_id }}" value="1">
+                            <input type="hidden" name="subpos_list" class="subpos_list subpos_list-1 subpos_list-1{{ $x }}" value="{{ $position_name->position_id }}">
+                            <input type="hidden" name="subposdata" class="subposdata-1 subposdata-1{{ $x }}" value="{{ $subposdata1 }}">
+                            <ul id="subposition_held_field-1{{ $position_name->position_id }}" style="display:none;">
+                              @if(!empty($employee_positions))
+                              @foreach($employee_positions as $emp_pos)
+                              <li data-value="{{ $emp_pos->position_id }}">{{ $emp_pos->position_name }}</li>
+                              @endforeach
+                              @endif
+                            </ul>
+                            <select class="js-example-basic-multiple addAll_removeAll_btn position_valid-1{{ $position_name->position_id }}" data-list-id="subposition_held_field-1{{ $position_name->position_id }}" name="subpositions_held[1][{{ $position_name->position_id }}][]" multiple></select>
+                            <span id="reqsubpositionheld-1{{ $position_name->position_id }}" class="reqError text-danger valley"></span>
+                          </div>
+                          
+
+                          <?php
+                            $x++;
+                          ?>
+                          @endforeach
+                          @endif
                         </div>
                         <div class="box-button mt-15">
-                          <button class="btn btn-apply-big font-md font-bold" type="submit" id="submitEmptypePreferences">Save Changes</button>
+                          <button class="btn btn-apply-big font-md font-bold" type="submit" id="submitPositionPreferences">Save Changes</button>
                         </div>
                       </form>
     
@@ -287,93 +325,73 @@
         });
     });
 
-    if ($(".subemptype").length > 0) {
-      //console.log("reference_relationship-" + m, $(".reference_relationship-" + m).val());
-      var empid = "<?php echo $emptypeid; ?>";
-      if ($(".subemptype").val() != "") {
-        var subemptype = JSON.parse($(".subemptype").val());
-        console.log("subemptype",subemptype);
-        $('.js-example-basic-multiple[data-list-id="emptype_field-'+empid+'"]').select2().val(subemptype).trigger('change');
-      }
-    }
-    
+    if ($(".pos_hide-1").val() != "") {
+      var posfield = JSON.parse($(".pos_hide-1").val());
+      
+      console.log("posfield",posfield);
+      $('.js-example-basic-multiple[data-list-id="position_held_field-1"]').select2().val(posfield).trigger('change');
+      var l = 1;
+      $(".subposdata-1").each(function(){
+        var position_id = $(".subpos_list-1"+l).val();
+        //console.log("position_id",k+position_id);
+        if ($(".subposdata-1"+l).val() != "") {
+          var subposfield = JSON.parse($(".subposdata-1"+l).val());
+          
+          console.log("subposfield",subposfield);
+          
+          $('.js-example-basic-multiple[data-list-id="subposition_held_field-1'+position_id+'"]').select2().val(subposfield).trigger('change');
+        }
+        l++;
+      });  
+    }  
 </script>
 <script type="text/javascript">
-    function empType(value){
-        
-        //alert(value);
-        //console.log("selectedValueswp",selectedValues);
-        if(value != ""){
-          $.ajax({
-              type: "GET",
-              url: "{{ url('/nurse/getEmpData') }}",
-              data: {sub_prefer_id:value},
-              cache: false,
-              success: function(data){
-                  const emp_prefer_data = JSON.parse(data);
-                  console.log("emp_prefer_data",emp_prefer_data);
+    
 
-                  var emp_text = "";
-                  for(var j=0;j<emp_prefer_data.employeement_type_preferences.length;j++){
-                  
-                      emp_text += "<li data-value='"+emp_prefer_data.employeement_type_preferences[j].emp_prefer_id+"'>"+emp_prefer_data.employeement_type_preferences[j].emp_type+"</li>"; 
-                  
-                  }
-                  
-                  $(".emp_data").html('\<div class="emptype_main_div emptype_main_div-'+value+'"><div class="emptypediv emptypediv-'+value+' form-group level-drp">\
-                      <label class="form-label emptype_label emptype_label-'+value+'" for="input-1">'+emp_prefer_data.employeement_type_name+'</label>\
-                      <ul id="emptype_field-'+value+'" style="display:none;">'+emp_text+'</ul>\
-                      <select class="js-example-basic-multiple'+value+' addAll_removeAll_btn emptype_valid-1" data-list-id="emptype_field-'+value+'" name="emptypelevel['+value+'][]" multiple></select>\
-                      <span id="reqemptype-1" class="reqError text-danger valley"></span>\
-                      </div></div>');
-
-                      
-                  
-                  selectTwoFunction(value);
-              }
-          });
-        }else{
-          $(".emp_data").html("");
-        }
-        
-    }
-
-    function update_emptype_preferences() {
+    function update_position_preferences() {
       var isValid = true;
 
-      if ($(".emptype_prefer").val() == '') {
-        document.getElementById("reqemptype_prefer").innerHTML = "* Please select the Employment type Preferences";
+      if ($('.pos_held_1').val() == '') {
+
+        document.getElementById("reqpositionheld-1").innerHTML = "* Please select the Position Preferences.";
         isValid = false;
+
       }
 
-      if ($(".emptype_valid-1").val() == '') {
-        var label = $(".emptype_label").text(); 
-        document.getElementById("reqemptype-1").innerHTML = "* Please select the "+label;
-        isValid = false;
-      }
+      if($(".subpos_list").length > 0){
+        $(".subpos_list").each(function(){
+            var val = $(this).val();
+            var pos_label = $(".pos_label-1"+val).text();
+            if ($('.position_valid-1'+val).val() == '') {
 
+                document.getElementById("reqsubpositionheld-1"+val).innerHTML = "* Please select the "+pos_label;
+                isValid = false;
+
+            }
+        });
+      }
 
       if (isValid == true) {
         $.ajax({
-        url: "{{ route('nurse.updateEmpTypePreferences') }}",
+        url: "{{ route('nurse.updatePositionPreferences') }}",
         type: "POST",
         cache: false,
         contentType: false,
         processData: false,
-        data: new FormData($('#employeementtype_form')[0]),
+        data: new FormData($('#position_preferences_form')[0]),
         dataType: 'json',
         beforeSend: function() {
-          $('#submitEmptypePreferences').prop('disabled', true);
-          $('#submitEmptypePreferences').text('Process....');
+          $('#submitPositionPreferences').prop('disabled', true);
+          $('#submitPositionPreferences').text('Process....');
         },
         success: function(res) {
           if (res.status == '1') {
             Swal.fire({
               icon: 'success',
               title: 'Success',
-              text: 'Employment Type Preferences Updated Successfully',
+              text: 'Position Preferences Updated Successfully',
             }).then(function() {
-              window.location.href = "{{ route('nurse.employeement_type_preferences') }}?page=employeement_type_preferences";
+              window.location.href = "{{ route('nurse.position_preferences') }}?page=position_preferences";
             });
           } else {
             Swal.fire({
@@ -384,11 +402,11 @@
           }
         },
         error: function(errorss) {
-          $('#submitEmptypePreferences').prop('disabled', false);
-          $('#submitEmptypePreferences').text('Save Changes');
+          $('#submitPositionPreferences').prop('disabled', false);
+          $('#submitPositionPreferences').text('Save Changes');
           console.log("errorss", errorss);
           for (var err in errorss.responseJSON.errors) {
-            $("#submitEmptypePreferences").find("[name='" + err + "']").after("<div class='text-danger'>" + errorss.responseJSON.errors[err] + "</div>");
+            $("#submitSectorPreferences").find("[name='" + err + "']").after("<div class='text-danger'>" + errorss.responseJSON.errors[err] + "</div>");
           }
         }
       
