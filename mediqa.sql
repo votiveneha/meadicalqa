@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Mar 31, 2025 at 11:57 PM
+-- Generation Time: Apr 01, 2025 at 08:41 AM
 -- Server version: 10.6.21-MariaDB
 -- PHP Version: 7.4.33
 
@@ -3029,6 +3029,34 @@ INSERT INTO `referee` (`referee_id`, `referee_no`, `user_id`, `first_name`, `las
 (50, 4, 196, 'cx', 'eer', 'cxcx@gmail.com', '343434', 'Instructor or Teacher', 'intomoniyo', 'manager', '2025-03-26', '2025-04-05', 1, 1, '2025-03-05 13:19:11', '2025-03-05 13:34:00'),
 (53, 5, 196, 'fdf', 'cvcv', 'ere@gmail.com', '1234569878785', 'Referee Managed Me', 'intomoniyo', 'manager', '2025-03-25', '2025-03-25', 0, 1, '2025-03-05 13:33:29', '2025-03-05 13:34:00'),
 (60, 1, 173, 'aew', '3422', 'neha32343434@gmail.com', '343434', 'Worked Together in Different Departments', 'intomoniyoere', '{\"2\":[\"18\",\"25\"]}', '2025-03-28', '2025-03-31', 1, 1, '2025-03-25 09:04:02', '2025-03-25 09:04:02');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `salary_expectation`
+--
+
+CREATE TABLE `salary_expectation` (
+  `salary_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `payment_frequency` text DEFAULT NULL,
+  `salary_range` text DEFAULT NULL,
+  `fixed_salary` float DEFAULT NULL,
+  `negotiable_salary` text DEFAULT NULL,
+  `hourly_salary` text DEFAULT NULL,
+  `weekly_salary` text DEFAULT NULL,
+  `monthly_salary` text DEFAULT NULL,
+  `annual_salary` text DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `salary_expectation`
+--
+
+INSERT INTO `salary_expectation` (`salary_id`, `user_id`, `payment_frequency`, `salary_range`, `fixed_salary`, `negotiable_salary`, `hourly_salary`, `weekly_salary`, `monthly_salary`, `annual_salary`, `created_at`, `updated_at`) VALUES
+(8, 196, 'hourly', '20 - 150', NULL, '1', '20-150', '800-6000', '3464-25980', '41600-312000', '2025-04-01 13:29:58', '2025-04-01 13:29:58');
 
 -- --------------------------------------------------------
 
@@ -10099,6 +10127,12 @@ ALTER TABLE `referee`
   ADD PRIMARY KEY (`referee_id`);
 
 --
+-- Indexes for table `salary_expectation`
+--
+ALTER TABLE `salary_expectation`
+  ADD PRIMARY KEY (`salary_id`);
+
+--
 -- Indexes for table `seo`
 --
 ALTER TABLE `seo`
@@ -10468,6 +10502,12 @@ ALTER TABLE `professional_organization`
 --
 ALTER TABLE `referee`
   MODIFY `referee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+
+--
+-- AUTO_INCREMENT for table `salary_expectation`
+--
+ALTER TABLE `salary_expectation`
+  MODIFY `salary_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `seo`

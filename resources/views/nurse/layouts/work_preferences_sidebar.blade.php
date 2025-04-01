@@ -53,7 +53,7 @@
         <li><a class="{{ request()->is('nurse/position_preferences') ?'active':'' }} btn btn-border recruitment-icon mb-20 profile_tabs" href="{{ route('nurse.position_preferences', ['page' => 'position_preferences']) }}"><i class="fi fi-rr-id-badge"></i> Position Preferences</a></li>
         <li><a class="{{ request()->is('nurse/benefitsPreferences') ?'active':'' }} btn btn-border recruitment-icon mb-20 profile_tabs" href="{{ route('nurse.benefitsPreferences', ['page' => 'benefitsPreferences']) }}"><i class="fi fi-rr-shield-check"></i> Benefits Preferences</a></li>
         <li><a class="{{ request()->is('nurse/locationPreferences') ?'active':'' }} btn btn-border recruitment-icon mb-20 profile_tabs" href="{{ route('nurse.locationPreferences', ['page' => 'locationPreferences']) }}"><i class="fi fi-rr-building"></i> Location Preferences</a></li>
-        <li><a class="btn btn-border recruitment-icon mb-20 profile_tabs" href="#" aria-controls="tab-my-profile-setting" aria-selected="false"><i class="fi fi-rr-money"></i> Salary Expectation</a></li>
+        <li><a class="{{ request()->is('nurse/salaryExpectations') ?'active':'' }} btn btn-border recruitment-icon mb-20 profile_tabs" href="{{ route('nurse.salaryExpectations', ['page' => 'salaryExpectations']) }}"><i class="fi fi-rr-money"></i> Salary Expectation</a></li>
         
         <div class="mt-0 mb-20 logout-line"><a class="link-red font-md" href="{{ route('nurse.logout') }}"><i class="fa-solid fa-arrow-right-from-bracket me-2"></i> Log Out</a></div>
       </ul>

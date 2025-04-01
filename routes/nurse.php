@@ -176,6 +176,8 @@ Route::prefix('nurse')->name('nurse.')->namespace('App\Http\Controllers\nurse')-
   Route::post('/updateBenefitsPreferences', 'WorkPreferencesController@updateBenefitsPreferences')->name('updateBenefitsPreferences');
   Route::get('/locationPreferences', 'WorkPreferencesController@locationPreferences')->name('locationPreferences');
   Route::post('/updateLocationPreferences', 'WorkPreferencesController@updateLocationPreferences')->name('updateLocationPreferences');
+  Route::get('/salaryExpectations', 'WorkPreferencesController@salaryExpectations')->name('salaryExpectations');
+  Route::post('/updatesalaryExpectations', 'WorkPreferencesController@updatesalaryExpectations')->name('updatesalaryExpectations');
   
   /**************[Interview Preferences]**************/
   Route::any('/interview','ProfessionalController@interview')->name('interview');

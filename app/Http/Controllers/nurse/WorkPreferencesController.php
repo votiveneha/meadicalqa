@@ -27,6 +27,7 @@ use File;
 use App\Services\Admins\SpecialityServices;
 use Illuminate\Support\Facades\Storage;
 use App\Models\WorkPreferencesModel;
+use App\Models\SalaryExpectation;
 
 class WorkPreferencesController extends Controller{
 
@@ -365,5 +366,48 @@ class WorkPreferencesController extends Controller{
         }
 
         echo json_encode($json);
+    }
+
+    public function salaryExpectations()
+    {
+        $user_id = Auth::guard('nurse_middle')->user()->id;
+        $data['salary_expectation_data'] = SalaryExpectation::where("user_id",$user_id)->first();
+        return view('nurse.salary_expectations')->with($data);
+    }
+
+    public function updatesalaryExpectations(Request $request)
+    {
+        $user_id = $request->user_id;
+        $payment_frequency = $request->payment_frequency;
+        $salary_range = $request->salary_range;
+        $fixed_salary_amount = $request->fixed_salary_amount;
+        $negotiable_salary = isset($request->negotiable_salary)?1:0;
+        $hourly_salary_amount = $request->hourly_salary_amount;
+        $weekly_salary_amount = $request->weekly_salary_amount;
+        $monthly_salary_amount = $request->monthly_salary_amount;
+        $annual_salary_amount = $request->annual_salary_amount;
+
+        $salary_expectation = new SalaryExpectation();
+        $salary_expectation->user_id = $user_id;
+        $salary_expectation->payment_frequency = $payment_frequency;
+        $salary_expectation->salary_range = $salary_range;
+        $salary_expectation->fixed_salary = $fixed_salary_amount;
+        $salary_expectation->negotiable_salary = $negotiable_salary;
+        $salary_expectation->hourly_salary = $hourly_salary_amount;
+        $salary_expectation->weekly_salary = $weekly_salary_amount;
+        $salary_expectation->monthly_salary = $monthly_salary_amount;
+        $salary_expectation->annual_salary = $annual_salary_amount;
+        $run = $salary_expectation->save();
+
+        if ($run) {
+            $json['status'] = 1;
+            
+        } else {
+            $json['status'] = 0;
+            
+        }
+
+        echo json_encode($json);
+        
     }
 }
