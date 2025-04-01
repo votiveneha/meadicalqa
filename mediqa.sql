@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Mar 30, 2025 at 11:56 PM
+-- Generation Time: Mar 31, 2025 at 11:57 PM
 -- Server version: 10.6.21-MariaDB
 -- PHP Version: 7.4.33
 
@@ -188,6 +188,66 @@ INSERT INTO `awards_recognition_submission` (`award_reg_id`, `user_id`, `award_i
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `benefits_preferences`
+--
+
+CREATE TABLE `benefits_preferences` (
+  `benefits_id` int(11) NOT NULL,
+  `benefits_name` text DEFAULT NULL,
+  `subbenefit_id` int(11) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `benefits_preferences`
+--
+
+INSERT INTO `benefits_preferences` (`benefits_id`, `benefits_name`, `subbenefit_id`, `created_at`, `updated_at`) VALUES
+(1, 'Financial & Salary-Related Benefits', 0, '2025-03-31 05:29:35', '2025-03-31 05:29:35'),
+(2, 'Work-Life Balance & Leave Benefits', 0, '2025-03-31 05:29:35', '2025-03-31 05:29:35'),
+(3, 'Continuing Education & Career Development Benefits', 0, '2025-03-31 05:29:35', '2025-03-31 05:29:35'),
+(4, 'Insurance & Health Benefits', 0, '2025-03-31 05:29:35', '2025-03-31 05:29:35'),
+(5, 'Retirement & Financial Security Benefits', 0, '2025-03-31 05:29:35', '2025-03-31 05:29:35'),
+(6, 'Travel, Housing & Work Support Benefits', 0, '2025-03-31 05:29:35', '2025-03-31 05:29:35'),
+(7, 'Special Perks & Additional Benefits', 0, '2025-03-31 05:29:36', '2025-03-31 05:29:36'),
+(8, 'Competitive Salary', 1, '2025-03-31 05:29:36', '2025-03-31 05:29:36'),
+(9, 'Overtime Pay', 1, '2025-03-31 05:29:36', '2025-03-31 05:29:36'),
+(10, 'Shift Differential Pay', 1, '2025-03-31 05:29:36', '2025-03-31 05:29:36'),
+(11, 'Bonuses & Incentives', 1, '2025-03-31 05:29:36', '2025-03-31 05:29:36'),
+(12, 'Profit-Sharing or Commission-Based Pay', 1, '2025-03-31 05:29:36', '2025-03-31 05:29:36'),
+(13, 'Flexible Scheduling', 2, '2025-03-31 05:29:36', '2025-03-31 05:29:36'),
+(14, 'Paid Time Off (PTO)', 2, '2025-03-31 05:29:36', '2025-03-31 05:29:36'),
+(15, 'Annual Leave/Vacation Days', 2, '2025-03-31 05:29:36', '2025-03-31 05:29:36'),
+(16, 'Sick Leave', 2, '2025-03-31 05:29:36', '2025-03-31 05:29:36'),
+(17, 'Parental Leave (Maternity/Paternity/Adoption Leave)', 2, '2025-03-31 05:29:36', '2025-03-31 05:29:36'),
+(18, 'Bereavement Leave', 2, '2025-03-31 05:29:36', '2025-03-31 05:29:36'),
+(19, 'Sabbatical Leave', 2, '2025-03-31 05:29:37', '2025-03-31 05:29:37'),
+(20, 'CPD (Continuing Professional Development) Opportunities', 3, '2025-03-31 05:29:37', '2025-03-31 05:29:37'),
+(21, 'Tuition Reimbursement', 3, '2025-03-31 05:29:37', '2025-03-31 05:29:37'),
+(22, 'Conference & Workshop Sponsorships', 3, '2025-03-31 05:29:37', '2025-03-31 05:29:37'),
+(23, 'Career Growth Programs', 3, '2025-03-31 05:29:37', '2025-03-31 05:29:37'),
+(24, 'Private Health Insurance', 4, '2025-03-31 05:29:37', '2025-03-31 05:29:37'),
+(25, 'Disability Insurance', 4, '2025-03-31 05:29:37', '2025-03-31 05:29:37'),
+(26, 'Life Insurance', 4, '2025-03-31 05:29:37', '2025-03-31 05:29:37'),
+(27, 'Workers’ Compensation Insurance', 4, '2025-03-31 05:29:37', '2025-03-31 05:29:37'),
+(28, 'Superannuation/Retirement Contributions', 5, '2025-03-31 05:29:37', '2025-03-31 05:29:37'),
+(29, 'Pension Plan', 5, '2025-03-31 05:29:37', '2025-03-31 05:29:37'),
+(30, 'Employee Stock Ownership Plan (ESOP)', 5, '2025-03-31 05:29:37', '2025-03-31 05:29:37'),
+(31, 'Relocation Assistance', 6, '2025-03-31 05:29:37', '2025-03-31 05:29:37'),
+(32, 'Housing Allowance or Accommodation Provided', 6, '2025-03-31 05:29:37', '2025-03-31 05:29:37'),
+(33, 'Commuter Benefits (Transport Reimbursement or Parking Pass)', 6, '2025-03-31 05:29:37', '2025-03-31 05:29:37'),
+(34, 'Company Car or Fuel Allowance', 6, '2025-03-31 05:29:37', '2025-03-31 05:29:37'),
+(35, 'Childcare Assistance', 6, '2025-03-31 05:29:37', '2025-03-31 05:29:37'),
+(36, 'Free Meals or Meal Stipend', 7, '2025-03-31 05:29:37', '2025-03-31 05:29:37'),
+(37, 'Gym Membership or Wellness Programs', 7, '2025-03-31 05:29:37', '2025-03-31 05:29:37'),
+(38, 'Mental Health Support & Counseling Services', 7, '2025-03-31 05:29:37', '2025-03-31 05:29:37'),
+(39, 'Pet Insurance', 7, '2025-03-31 05:29:38', '2025-03-31 05:29:38'),
+(40, 'Team-Building Events & Social Activities', 7, '2025-03-31 05:29:38', '2025-03-31 05:29:38');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `contact_us`
 --
 
@@ -213,6 +273,268 @@ INSERT INTO `contact_us` (`id`, `name`, `lastname`, `email`, `phone_code_id`, `p
 (3, 'r43r', '43rft34', 'infowider11@gmail.com', 251, 4353, 'dscf', '2024-04-25 02:46:08', '2024-04-25 02:46:08'),
 (4, 'ff', 'eer', 'votivephp.neha@gmail.com', 101, 9131403180, 'df dsf', '2024-08-21 01:50:56', '2024-08-21 01:50:56'),
 (5, 'Charles', 'S.', 'pat@aneesho.com', 250, 8102440753, 'Do you need help with graphic design - brochures, banners, flyers, advertisements, social media posts, logos etc.? \r\n\r\nWe charge a low fixed monthly fee. Let me know if you\'re interested and would like to see our portfolio.', '2025-02-25 12:28:21', '2025-02-25 12:28:21');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `countries`
+--
+
+CREATE TABLE `countries` (
+  `id` int(11) NOT NULL,
+  `iso` char(2) NOT NULL,
+  `name` varchar(80) NOT NULL,
+  `nicename` varchar(80) NOT NULL,
+  `iso3` char(3) DEFAULT NULL,
+  `numcode` smallint(6) DEFAULT NULL,
+  `phonecode` int(5) NOT NULL,
+  `other` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `countries`
+--
+
+INSERT INTO `countries` (`id`, `iso`, `name`, `nicename`, `iso3`, `numcode`, `phonecode`, `other`) VALUES
+(1, 'AF', 'AFGHANISTAN', 'Afghanistan', 'AFG', 4, 93, 0),
+(2, 'AL', 'ALBANIA', 'Albania', 'ALB', 8, 355, 0),
+(3, 'DZ', 'ALGERIA', 'Algeria', 'DZA', 12, 213, 0),
+(4, 'AS', 'AMERICAN SAMOA', 'American Samoa', 'ASM', 16, 1684, 0),
+(5, 'AD', 'ANDORRA', 'Andorra', 'AND', 20, 376, 0),
+(6, 'AO', 'ANGOLA', 'Angola', 'AGO', 24, 244, 0),
+(7, 'AI', 'ANGUILLA', 'Anguilla', 'AIA', 660, 1264, 0),
+(8, 'AQ', 'ANTARCTICA', 'Antarctica', NULL, NULL, 0, 0),
+(9, 'AG', 'ANTIGUA AND BARBUDA', 'Antigua and Barbuda', 'ATG', 28, 1268, 0),
+(10, 'AR', 'ARGENTINA', 'Argentina', 'ARG', 32, 54, 0),
+(11, 'AM', 'ARMENIA', 'Armenia', 'ARM', 51, 374, 0),
+(12, 'AW', 'ARUBA', 'Aruba', 'ABW', 533, 297, 0),
+(14, 'AT', 'AUSTRIA', 'Austria', 'AUT', 40, 43, 0),
+(15, 'AZ', 'AZERBAIJAN', 'Azerbaijan', 'AZE', 31, 994, 0),
+(16, 'BS', 'BAHAMAS', 'Bahamas', 'BHS', 44, 1242, 0),
+(17, 'BH', 'BAHRAIN', 'Bahrain', 'BHR', 48, 973, 0),
+(18, 'BD', 'BANGLADESH', 'Bangladesh', 'BGD', 50, 880, 0),
+(19, 'BB', 'BARBADOS', 'Barbados', 'BRB', 52, 1246, 0),
+(20, 'BY', 'BELARUS', 'Belarus', 'BLR', 112, 375, 0),
+(21, 'BE', 'BELGIUM', 'Belgium', 'BEL', 56, 32, 0),
+(22, 'BZ', 'BELIZE', 'Belize', 'BLZ', 84, 501, 0),
+(23, 'BJ', 'BENIN', 'Benin', 'BEN', 204, 229, 0),
+(24, 'BM', 'BERMUDA', 'Bermuda', 'BMU', 60, 1441, 0),
+(25, 'BT', 'BHUTAN', 'Bhutan', 'BTN', 64, 975, 0),
+(26, 'BO', 'BOLIVIA', 'Bolivia', 'BOL', 68, 591, 0),
+(27, 'BA', 'BOSNIA AND HERZEGOVINA', 'Bosnia and Herzegovina', 'BIH', 70, 387, 0),
+(28, 'BW', 'BOTSWANA', 'Botswana', 'BWA', 72, 267, 0),
+(29, 'BV', 'BOUVET ISLAND', 'Bouvet Island', NULL, NULL, 0, 0),
+(30, 'BR', 'BRAZIL', 'Brazil', 'BRA', 76, 55, 0),
+(31, 'IO', 'BRITISH INDIAN OCEAN TERRITORY', 'British Indian Ocean Territory', NULL, NULL, 246, 0),
+(32, 'BN', 'BRUNEI DARUSSALAM', 'Brunei Darussalam', 'BRN', 96, 673, 0),
+(33, 'BG', 'BULGARIA', 'Bulgaria', 'BGR', 100, 359, 0),
+(34, 'BF', 'BURKINA FASO', 'Burkina Faso', 'BFA', 854, 226, 0),
+(35, 'BI', 'BURUNDI', 'Burundi', 'BDI', 108, 257, 0),
+(36, 'KH', 'CAMBODIA', 'Cambodia', 'KHM', 116, 855, 0),
+(37, 'CM', 'CAMEROON', 'Cameroon', 'CMR', 120, 237, 0),
+(39, 'CV', 'CAPE VERDE', 'Cape Verde', 'CPV', 132, 238, 0),
+(40, 'KY', 'CAYMAN ISLANDS', 'Cayman Islands', 'CYM', 136, 1345, 0),
+(41, 'CF', 'CENTRAL AFRICAN REPUBLIC', 'Central African Republic', 'CAF', 140, 236, 0),
+(42, 'TD', 'CHAD', 'Chad', 'TCD', 148, 235, 0),
+(43, 'CL', 'CHILE', 'Chile', 'CHL', 152, 56, 0),
+(44, 'CN', 'CHINA', 'China', 'CHN', 156, 86, 0),
+(45, 'CX', 'CHRISTMAS ISLAND', 'Christmas Island', NULL, NULL, 61, 0),
+(46, 'CC', 'COCOS (KEELING) ISLANDS', 'Cocos (Keeling) Islands', NULL, NULL, 672, 0),
+(47, 'CO', 'COLOMBIA', 'Colombia', 'COL', 170, 57, 0),
+(48, 'KM', 'COMOROS', 'Comoros', 'COM', 174, 269, 0),
+(49, 'CG', 'CONGO', 'Congo', 'COG', 178, 242, 0),
+(50, 'CD', 'CONGO, THE DEMOCRATIC REPUBLIC OF THE', 'Congo, the Democratic Republic of the', 'COD', 180, 242, 0),
+(51, 'CK', 'COOK ISLANDS', 'Cook Islands', 'COK', 184, 682, 0),
+(52, 'CR', 'COSTA RICA', 'Costa Rica', 'CRI', 188, 506, 0),
+(53, 'CI', 'COTE D\'IVOIRE', 'Cote D\'Ivoire', 'CIV', 384, 225, 0),
+(54, 'HR', 'CROATIA', 'Croatia', 'HRV', 191, 385, 0),
+(55, 'CU', 'CUBA', 'Cuba', 'CUB', 192, 53, 0),
+(56, 'CY', 'CYPRUS', 'Cyprus', 'CYP', 196, 357, 0),
+(57, 'CZ', 'CZECH REPUBLIC', 'Czech Republic', 'CZE', 203, 420, 0),
+(58, 'DK', 'DENMARK', 'Denmark', 'DNK', 208, 45, 0),
+(59, 'DJ', 'DJIBOUTI', 'Djibouti', 'DJI', 262, 253, 0),
+(60, 'DM', 'DOMINICA', 'Dominica', 'DMA', 212, 1767, 0),
+(61, 'DO', 'DOMINICAN REPUBLIC', 'Dominican Republic', 'DOM', 214, 1809, 0),
+(62, 'EC', 'ECUADOR', 'Ecuador', 'ECU', 218, 593, 0),
+(63, 'EG', 'EGYPT', 'Egypt', 'EGY', 818, 20, 0),
+(64, 'SV', 'EL SALVADOR', 'El Salvador', 'SLV', 222, 503, 0),
+(65, 'GQ', 'EQUATORIAL GUINEA', 'Equatorial Guinea', 'GNQ', 226, 240, 0),
+(66, 'ER', 'ERITREA', 'Eritrea', 'ERI', 232, 291, 0),
+(67, 'EE', 'ESTONIA', 'Estonia', 'EST', 233, 372, 0),
+(68, 'ET', 'ETHIOPIA', 'Ethiopia', 'ETH', 231, 251, 0),
+(69, 'FK', 'FALKLAND ISLANDS (MALVINAS)', 'Falkland Islands (Malvinas)', 'FLK', 238, 500, 0),
+(70, 'FO', 'FAROE ISLANDS', 'Faroe Islands', 'FRO', 234, 298, 0),
+(71, 'FJ', 'FIJI', 'Fiji', 'FJI', 242, 679, 0),
+(72, 'FI', 'FINLAND', 'Finland', 'FIN', 246, 358, 0),
+(73, 'FR', 'FRANCE', 'France', 'FRA', 250, 33, 0),
+(74, 'GF', 'FRENCH GUIANA', 'French Guiana', 'GUF', 254, 594, 0),
+(75, 'PF', 'FRENCH POLYNESIA', 'French Polynesia', 'PYF', 258, 689, 0),
+(76, 'TF', 'FRENCH SOUTHERN TERRITORIES', 'French Southern Territories', NULL, NULL, 0, 0),
+(77, 'GA', 'GABON', 'Gabon', 'GAB', 266, 241, 0),
+(78, 'GM', 'GAMBIA', 'Gambia', 'GMB', 270, 220, 0),
+(79, 'GE', 'GEORGIA', 'Georgia', 'GEO', 268, 995, 0),
+(80, 'DE', 'GERMANY', 'Germany', 'DEU', 276, 49, 0),
+(81, 'GH', 'GHANA', 'Ghana', 'GHA', 288, 233, 0),
+(82, 'GI', 'GIBRALTAR', 'Gibraltar', 'GIB', 292, 350, 0),
+(83, 'GR', 'GREECE', 'Greece', 'GRC', 300, 30, 0),
+(84, 'GL', 'GREENLAND', 'Greenland', 'GRL', 304, 299, 0),
+(85, 'GD', 'GRENADA', 'Grenada', 'GRD', 308, 1473, 0),
+(86, 'GP', 'GUADELOUPE', 'Guadeloupe', 'GLP', 312, 590, 0),
+(87, 'GU', 'GUAM', 'Guam', 'GUM', 316, 1671, 0),
+(88, 'GT', 'GUATEMALA', 'Guatemala', 'GTM', 320, 502, 0),
+(89, 'GN', 'GUINEA', 'Guinea', 'GIN', 324, 224, 0),
+(90, 'GW', 'GUINEA-BISSAU', 'Guinea-Bissau', 'GNB', 624, 245, 0),
+(91, 'GY', 'GUYANA', 'Guyana', 'GUY', 328, 592, 0),
+(92, 'HT', 'HAITI', 'Haiti', 'HTI', 332, 509, 0),
+(93, 'HM', 'HEARD ISLAND AND MCDONALD ISLANDS', 'Heard Island and Mcdonald Islands', NULL, NULL, 0, 0),
+(94, 'VA', 'HOLY SEE (VATICAN CITY STATE)', 'Holy See (Vatican City State)', 'VAT', 336, 39, 0),
+(95, 'HN', 'HONDURAS', 'Honduras', 'HND', 340, 504, 0),
+(97, 'HU', 'HUNGARY', 'Hungary', 'HUN', 348, 36, 0),
+(98, 'IS', 'ICELAND', 'Iceland', 'ISL', 352, 354, 0),
+(99, 'IN', 'INDIA', 'India', 'IND', 356, 91, 0),
+(100, 'ID', 'INDONESIA', 'Indonesia', 'IDN', 360, 62, 0),
+(101, 'IR', 'IRAN, ISLAMIC REPUBLIC OF', 'Iran, Islamic Republic of', 'IRN', 364, 98, 0),
+(102, 'IQ', 'IRAQ', 'Iraq', 'IRQ', 368, 964, 0),
+(104, 'IL', 'ISRAEL', 'Israel', 'ISR', 376, 972, 0),
+(105, 'IT', 'ITALY', 'Italy', 'ITA', 380, 39, 0),
+(107, 'JP', 'JAPAN', 'Japan', 'JPN', 392, 81, 0),
+(108, 'JO', 'JORDAN', 'Jordan', 'JOR', 400, 962, 0),
+(109, 'KZ', 'KAZAKHSTAN', 'Kazakhstan', 'KAZ', 398, 7, 0),
+(110, 'KE', 'KENYA', 'Kenya', 'KEN', 404, 254, 0),
+(111, 'KI', 'KIRIBATI', 'Kiribati', 'KIR', 296, 686, 0),
+(112, 'KP', 'KOREA, DEMOCRATIC PEOPLE\'S REPUBLIC OF', 'Korea, Democratic People\'s Republic of', 'PRK', 408, 850, 0),
+(113, 'KR', 'KOREA, REPUBLIC OF', 'Korea, Republic of', 'KOR', 410, 82, 0),
+(114, 'KW', 'KUWAIT', 'Kuwait', 'KWT', 414, 965, 0),
+(115, 'KG', 'KYRGYZSTAN', 'Kyrgyzstan', 'KGZ', 417, 996, 0),
+(116, 'LA', 'LAO PEOPLE\'S DEMOCRATIC REPUBLIC', 'Lao People\'s Democratic Republic', 'LAO', 418, 856, 0),
+(117, 'LV', 'LATVIA', 'Latvia', 'LVA', 428, 371, 0),
+(118, 'LB', 'LEBANON', 'Lebanon', 'LBN', 422, 961, 0),
+(119, 'LS', 'LESOTHO', 'Lesotho', 'LSO', 426, 266, 0),
+(120, 'LR', 'LIBERIA', 'Liberia', 'LBR', 430, 231, 0),
+(121, 'LY', 'LIBYAN ARAB JAMAHIRIYA', 'Libyan Arab Jamahiriya', 'LBY', 434, 218, 0),
+(122, 'LI', 'LIECHTENSTEIN', 'Liechtenstein', 'LIE', 438, 423, 0),
+(123, 'LT', 'LITHUANIA', 'Lithuania', 'LTU', 440, 370, 0),
+(124, 'LU', 'LUXEMBOURG', 'Luxembourg', 'LUX', 442, 352, 0),
+(125, 'MO', 'MACAO', 'Macao', 'MAC', 446, 853, 0),
+(126, 'MK', 'MACEDONIA, THE FORMER YUGOSLAV REPUBLIC OF', 'Macedonia, the Former Yugoslav Republic of', 'MKD', 807, 389, 0),
+(127, 'MG', 'MADAGASCAR', 'Madagascar', 'MDG', 450, 261, 0),
+(128, 'MW', 'MALAWI', 'Malawi', 'MWI', 454, 265, 0),
+(129, 'MY', 'MALAYSIA', 'Malaysia', 'MYS', 458, 60, 0),
+(130, 'MV', 'MALDIVES', 'Maldives', 'MDV', 462, 960, 0),
+(131, 'ML', 'MALI', 'Mali', 'MLI', 466, 223, 0),
+(132, 'MT', 'MALTA', 'Malta', 'MLT', 470, 356, 0),
+(133, 'MH', 'MARSHALL ISLANDS', 'Marshall Islands', 'MHL', 584, 692, 0),
+(134, 'MQ', 'MARTINIQUE', 'Martinique', 'MTQ', 474, 596, 0),
+(135, 'MR', 'MAURITANIA', 'Mauritania', 'MRT', 478, 222, 0),
+(136, 'MU', 'MAURITIUS', 'Mauritius', 'MUS', 480, 230, 0),
+(137, 'YT', 'MAYOTTE', 'Mayotte', NULL, NULL, 269, 0),
+(138, 'MX', 'MEXICO', 'Mexico', 'MEX', 484, 52, 0),
+(139, 'FM', 'MICRONESIA, FEDERATED STATES OF', 'Micronesia, Federated States of', 'FSM', 583, 691, 0),
+(140, 'MD', 'MOLDOVA, REPUBLIC OF', 'Moldova, Republic of', 'MDA', 498, 373, 0),
+(141, 'MC', 'MONACO', 'Monaco', 'MCO', 492, 377, 0),
+(142, 'MN', 'MONGOLIA', 'Mongolia', 'MNG', 496, 976, 0),
+(143, 'MS', 'MONTSERRAT', 'Montserrat', 'MSR', 500, 1664, 0),
+(144, 'MA', 'MOROCCO', 'Morocco', 'MAR', 504, 212, 0),
+(145, 'MZ', 'MOZAMBIQUE', 'Mozambique', 'MOZ', 508, 258, 0),
+(146, 'MM', 'MYANMAR', 'Myanmar', 'MMR', 104, 95, 0),
+(147, 'NA', 'NAMIBIA', 'Namibia', 'NAM', 516, 264, 0),
+(148, 'NR', 'NAURU', 'Nauru', 'NRU', 520, 674, 0),
+(149, 'NP', 'NEPAL', 'Nepal', 'NPL', 524, 977, 0),
+(150, 'NL', 'NETHERLANDS', 'Netherlands', 'NLD', 528, 31, 0),
+(151, 'AN', 'NETHERLANDS ANTILLES', 'Netherlands Antilles', 'ANT', 530, 599, 0),
+(152, 'NC', 'NEW CALEDONIA', 'New Caledonia', 'NCL', 540, 687, 0),
+(154, 'NI', 'NICARAGUA', 'Nicaragua', 'NIC', 558, 505, 0),
+(155, 'NE', 'NIGER', 'Niger', 'NER', 562, 227, 0),
+(156, 'NG', 'NIGERIA', 'Nigeria', 'NGA', 566, 234, 0),
+(157, 'NU', 'NIUE', 'Niue', 'NIU', 570, 683, 0),
+(158, 'NF', 'NORFOLK ISLAND', 'Norfolk Island', 'NFK', 574, 672, 0),
+(159, 'MP', 'NORTHERN MARIANA ISLANDS', 'Northern Mariana Islands', 'MNP', 580, 1670, 0),
+(160, 'NO', 'NORWAY', 'Norway', 'NOR', 578, 47, 0),
+(161, 'OM', 'OMAN', 'Oman', 'OMN', 512, 968, 0),
+(162, 'PK', 'PAKISTAN', 'Pakistan', 'PAK', 586, 92, 0),
+(163, 'PW', 'PALAU', 'Palau', 'PLW', 585, 680, 0),
+(164, 'PS', 'PALESTINIAN TERRITORY, OCCUPIED', 'Palestinian Territory, Occupied', NULL, NULL, 970, 0),
+(165, 'PA', 'PANAMA', 'Panama', 'PAN', 591, 507, 0),
+(166, 'PG', 'PAPUA NEW GUINEA', 'Papua New Guinea', 'PNG', 598, 675, 0),
+(167, 'PY', 'PARAGUAY', 'Paraguay', 'PRY', 600, 595, 0),
+(168, 'PE', 'PERU', 'Peru', 'PER', 604, 51, 0),
+(169, 'PH', 'PHILIPPINES', 'Philippines', 'PHL', 608, 63, 0),
+(170, 'PN', 'PITCAIRN', 'Pitcairn', 'PCN', 612, 0, 0),
+(171, 'PL', 'POLAND', 'Poland', 'POL', 616, 48, 0),
+(172, 'PT', 'PORTUGAL', 'Portugal', 'PRT', 620, 351, 0),
+(173, 'PR', 'PUERTO RICO', 'Puerto Rico', 'PRI', 630, 1787, 0),
+(174, 'QA', 'QATAR', 'Qatar', 'QAT', 634, 974, 0),
+(175, 'RE', 'REUNION', 'Reunion', 'REU', 638, 262, 0),
+(176, 'RO', 'ROMANIA', 'Romania', 'ROM', 642, 40, 0),
+(177, 'RU', 'RUSSIAN FEDERATION', 'Russian Federation', 'RUS', 643, 70, 0),
+(178, 'RW', 'RWANDA', 'Rwanda', 'RWA', 646, 250, 0),
+(179, 'SH', 'SAINT HELENA', 'Saint Helena', 'SHN', 654, 290, 0),
+(180, 'KN', 'SAINT KITTS AND NEVIS', 'Saint Kitts and Nevis', 'KNA', 659, 1869, 0),
+(181, 'LC', 'SAINT LUCIA', 'Saint Lucia', 'LCA', 662, 1758, 0),
+(182, 'PM', 'SAINT PIERRE AND MIQUELON', 'Saint Pierre and Miquelon', 'SPM', 666, 508, 0),
+(183, 'VC', 'SAINT VINCENT AND THE GRENADINES', 'Saint Vincent and the Grenadines', 'VCT', 670, 1784, 0),
+(184, 'WS', 'SAMOA', 'Samoa', 'WSM', 882, 684, 0),
+(185, 'SM', 'SAN MARINO', 'San Marino', 'SMR', 674, 378, 0),
+(186, 'ST', 'SAO TOME AND PRINCIPE', 'Sao Tome and Principe', 'STP', 678, 239, 0),
+(187, 'SA', 'SAUDI ARABIA', 'Saudi Arabia', 'SAU', 682, 966, 0),
+(188, 'SN', 'SENEGAL', 'Senegal', 'SEN', 686, 221, 0),
+(189, 'CS', 'SERBIA AND MONTENEGRO', 'Serbia and Montenegro', NULL, NULL, 381, 0),
+(190, 'SC', 'SEYCHELLES', 'Seychelles', 'SYC', 690, 248, 0),
+(191, 'SL', 'SIERRA LEONE', 'Sierra Leone', 'SLE', 694, 232, 0),
+(193, 'SK', 'SLOVAKIA', 'Slovakia', 'SVK', 703, 421, 0),
+(194, 'SI', 'SLOVENIA', 'Slovenia', 'SVN', 705, 386, 0),
+(195, 'SB', 'SOLOMON ISLANDS', 'Solomon Islands', 'SLB', 90, 677, 0),
+(196, 'SO', 'SOMALIA', 'Somalia', 'SOM', 706, 252, 0),
+(198, 'GS', 'SOUTH GEORGIA AND THE SOUTH SANDWICH ISLANDS', 'South Georgia and the South Sandwich Islands', NULL, NULL, 0, 0),
+(199, 'ES', 'SPAIN', 'Spain', 'ESP', 724, 34, 0),
+(200, 'LK', 'SRI LANKA', 'Sri Lanka', 'LKA', 144, 94, 0),
+(201, 'SD', 'SUDAN', 'Sudan', 'SDN', 736, 249, 0),
+(202, 'SR', 'SURINAME', 'Suriname', 'SUR', 740, 597, 0),
+(203, 'SJ', 'SVALBARD AND JAN MAYEN', 'Svalbard and Jan Mayen', 'SJM', 744, 47, 0),
+(204, 'SZ', 'SWAZILAND', 'Swaziland', 'SWZ', 748, 268, 0),
+(205, 'SE', 'SWEDEN', 'Sweden', 'SWE', 752, 46, 0),
+(206, 'CH', 'SWITZERLAND', 'Switzerland', 'CHE', 756, 41, 0),
+(207, 'SY', 'SYRIAN ARAB REPUBLIC', 'Syrian Arab Republic', 'SYR', 760, 963, 0),
+(208, 'TW', 'TAIWAN, PROVINCE OF CHINA', 'Taiwan, Province of China', 'TWN', 158, 886, 0),
+(209, 'TJ', 'TAJIKISTAN', 'Tajikistan', 'TJK', 762, 992, 0),
+(210, 'TZ', 'TANZANIA, UNITED REPUBLIC OF', 'Tanzania, United Republic of', 'TZA', 834, 255, 0),
+(211, 'TH', 'THAILAND', 'Thailand', 'THA', 764, 66, 0),
+(212, 'TL', 'TIMOR-LESTE', 'Timor-Leste', NULL, NULL, 670, 0),
+(213, 'TG', 'TOGO', 'Togo', 'TGO', 768, 228, 0),
+(214, 'TK', 'TOKELAU', 'Tokelau', 'TKL', 772, 690, 0),
+(215, 'TO', 'TONGA', 'Tonga', 'TON', 776, 676, 0),
+(216, 'TT', 'TRINIDAD AND TOBAGO', 'Trinidad and Tobago', 'TTO', 780, 1868, 0),
+(217, 'TN', 'TUNISIA', 'Tunisia', 'TUN', 788, 216, 0),
+(218, 'TR', 'TURKEY', 'Turkey', 'TUR', 792, 90, 0),
+(219, 'TM', 'TURKMENISTAN', 'Turkmenistan', 'TKM', 795, 7370, 0),
+(220, 'TC', 'TURKS AND CAICOS ISLANDS', 'Turks and Caicos Islands', 'TCA', 796, 1649, 0),
+(221, 'TV', 'TUVALU', 'Tuvalu', 'TUV', 798, 688, 0),
+(222, 'UG', 'UGANDA', 'Uganda', 'UGA', 800, 256, 0),
+(223, 'UA', 'UKRAINE', 'Ukraine', 'UKR', 804, 380, 0),
+(224, 'AE', 'UNITED ARAB EMIRATES', 'United Arab Emirates', 'ARE', 784, 971, 0),
+(227, 'UM', 'UNITED STATES MINOR OUTLYING ISLANDS', 'United States Minor Outlying Islands', NULL, NULL, 1, 0),
+(228, 'UY', 'URUGUAY', 'Uruguay', 'URY', 858, 598, 0),
+(229, 'UZ', 'UZBEKISTAN', 'Uzbekistan', 'UZB', 860, 998, 0),
+(230, 'VU', 'VANUATU', 'Vanuatu', 'VUT', 548, 678, 0),
+(231, 'VE', 'VENEZUELA', 'Venezuela', 'VEN', 862, 58, 0),
+(232, 'VN', 'VIET NAM', 'Viet Nam', 'VNM', 704, 84, 0),
+(233, 'VG', 'VIRGIN ISLANDS, BRITISH', 'Virgin Islands, British', 'VGB', 92, 1284, 0),
+(234, 'VI', 'VIRGIN ISLANDS, U.S.', 'Virgin Islands, U.s.', 'VIR', 850, 1340, 0),
+(235, 'WF', 'WALLIS AND FUTUNA', 'Wallis and Futuna', 'WLF', 876, 681, 0),
+(236, 'EH', 'WESTERN SAHARA', 'Western Sahara', 'ESH', 732, 212, 0),
+(237, 'YE', 'YEMEN', 'Yemen', 'YEM', 887, 967, 0),
+(238, 'ZM', 'ZAMBIA', 'Zambia', 'ZMB', 894, 260, 0),
+(239, 'ZW', 'ZIMBABWE', 'Zimbabwe', 'ZWE', 716, 263, 0),
+(240, '', 'Australia', '', NULL, NULL, 0, 1),
+(241, '', 'Canada', '', NULL, NULL, 0, 1),
+(242, '', 'Hong Kong', '', NULL, NULL, 0, 1),
+(243, '', 'Ireland', '', NULL, NULL, 0, 1),
+(244, '', 'Jamaica', '', NULL, NULL, 0, 1),
+(245, '', 'New Zealand', '', NULL, NULL, 0, 1),
+(246, '', 'Singapore', '', NULL, NULL, 0, 1),
+(247, '', 'South Africa', '', NULL, NULL, 0, 1),
+(248, '', 'United Kingdom', '', NULL, NULL, 0, 1),
+(249, '', 'United States', '', NULL, NULL, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -9406,6 +9728,8 @@ CREATE TABLE `work_preferences` (
   `position_preferences` text DEFAULT NULL,
   `salary_expectations` text NOT NULL,
   `benefits_preferences` text NOT NULL,
+  `countries` text DEFAULT NULL,
+  `other_countries` text DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -9414,10 +9738,11 @@ CREATE TABLE `work_preferences` (
 -- Dumping data for table `work_preferences`
 --
 
-INSERT INTO `work_preferences` (`work_prefer_id`, `user_id`, `sector_preferences`, `work_environment_preferences`, `emptype_preferences`, `work_shift_preferences`, `subwork_shift_preferences`, `position_preferences`, `salary_expectations`, `benefits_preferences`, `created_at`, `updated_at`) VALUES
-(1, 197, 'Private', '{\"1\":{\"199\":{\"237\":[\"424\"],\"239\":[\"433\"]},\"213\":[\"314\",\"315\"]}}', NULL, NULL, NULL, NULL, '', '', '2025-03-27 01:12:06', '2025-03-27 04:17:27'),
-(3, 179, 'Public & Government', NULL, '{\"2\":[\"14\"]}', NULL, NULL, NULL, '', '', '2025-03-27 13:38:49', '2025-03-28 09:10:06'),
-(4, 196, 'Private', '{\"1\":{\"199\":{\"236\":[\"418\"]},\"215\":[\"319\"],\"213\":[\"314\"]}}', '{\"3\":[\"34\",\"37\"]}', '{\"1\":[\"12\"],\"2\":[\"18\",\"21\"],\"3\":[\"30\"],\"4\":[\"33\"],\"5\":[\"41\"],\"6\":[\"47\"],\"7\":[\"56\"],\"8\":[\"59\"],\"9\":[\"66\"]}', '', '{\"1\":{\"3\":[\"28\",\"33\"],\"1\":[\"11\"]}}', '', '', '2025-03-28 05:11:53', '2025-03-29 13:01:21');
+INSERT INTO `work_preferences` (`work_prefer_id`, `user_id`, `sector_preferences`, `work_environment_preferences`, `emptype_preferences`, `work_shift_preferences`, `subwork_shift_preferences`, `position_preferences`, `salary_expectations`, `benefits_preferences`, `countries`, `other_countries`, `created_at`, `updated_at`) VALUES
+(1, 197, 'Private', '{\"1\":{\"199\":{\"237\":[\"424\"],\"239\":[\"433\"]},\"213\":[\"314\",\"315\"]}}', NULL, NULL, NULL, NULL, '', '', NULL, NULL, '2025-03-27 01:12:06', '2025-03-27 04:17:27'),
+(3, 179, 'Public & Government', NULL, '{\"2\":[\"14\"]}', NULL, NULL, NULL, '', '', NULL, NULL, '2025-03-27 13:38:49', '2025-03-28 09:10:06'),
+(4, 196, 'Private', '{\"1\":{\"199\":{\"236\":[\"418\"]},\"215\":[\"319\"],\"213\":[\"314\"]}}', '{\"3\":[\"34\",\"37\"]}', '{\"1\":[\"12\"],\"2\":[\"18\",\"21\"],\"3\":[\"30\"],\"4\":[\"33\"],\"5\":[\"41\"],\"6\":[\"47\"],\"7\":[\"56\"],\"8\":[\"59\"],\"9\":[\"66\"]}', '', '{\"1\":{\"3\":[\"28\",\"33\"],\"1\":[\"11\"]}}', '', '{\"1\":[\"10\"],\"2\":[\"16\"],\"3\":[\"22\",\"23\"],\"4\":[\"26\"],\"5\":[\"29\"],\"6\":[\"33\"],\"7\":[\"39\"]}', NULL, NULL, '2025-03-28 05:11:53', '2025-03-31 06:31:28'),
+(5, 173, NULL, NULL, NULL, NULL, NULL, NULL, '', '', '[\"242\"]', '', '2025-03-31 13:07:31', '2025-03-31 13:07:51');
 
 -- --------------------------------------------------------
 
@@ -9549,9 +9874,21 @@ ALTER TABLE `awards_recognition_submission`
   ADD PRIMARY KEY (`award_reg_id`);
 
 --
+-- Indexes for table `benefits_preferences`
+--
+ALTER TABLE `benefits_preferences`
+  ADD PRIMARY KEY (`benefits_id`);
+
+--
 -- Indexes for table `contact_us`
 --
 ALTER TABLE `contact_us`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `countries`
+--
+ALTER TABLE `countries`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -9917,10 +10254,22 @@ ALTER TABLE `awards_recognition_submission`
   MODIFY `award_reg_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
+-- AUTO_INCREMENT for table `benefits_preferences`
+--
+ALTER TABLE `benefits_preferences`
+  MODIFY `benefits_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+
+--
 -- AUTO_INCREMENT for table `contact_us`
 --
 ALTER TABLE `contact_us`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `countries`
+--
+ALTER TABLE `countries`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=250;
 
 --
 -- AUTO_INCREMENT for table `country`
@@ -10232,7 +10581,7 @@ ALTER TABLE `work_evidance`
 -- AUTO_INCREMENT for table `work_preferences`
 --
 ALTER TABLE `work_preferences`
-  MODIFY `work_prefer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `work_prefer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `work_shift_preferences`

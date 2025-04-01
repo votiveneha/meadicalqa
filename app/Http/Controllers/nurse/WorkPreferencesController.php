@@ -279,4 +279,91 @@ class WorkPreferencesController extends Controller{
 
         echo json_encode($json);
     }
+
+    public function benefitsPreferences()
+    {
+        $user_id = Auth::guard('nurse_middle')->user()->id;
+        $data['benefits_preferences_data'] = DB::table("benefits_preferences")->where("subbenefit_id","0")->get();
+        $data['work_preferences_data'] = WorkPreferencesModel::where("user_id",$user_id)->first();
+        
+        return view('nurse.benefits_preferences')->with($data);
+    }
+
+    public function updateBenefitsPreferences(Request $request)
+    {
+        $user_id = $request->user_id;
+        $benefits_preferences = json_encode($request->benefits_preferences);
+        
+
+        $work_preferences_data = WorkPreferencesModel::where("user_id",$user_id)->first();
+
+        //print_r($work_preferences_data);
+
+        if(!empty($work_preferences_data)){
+            $run = WorkPreferencesModel::where('user_id',$user_id)->update(['benefits_preferences'=>$benefits_preferences]);
+        }else{
+            $work_preferences = new WorkPreferencesModel();
+            $work_preferences->user_id = $user_id;
+            $work_preferences->benefits_preferences = $benefits_preferences;
+            
+            $run = $work_preferences->save();
+        }
+
+        if ($run) {
+            $json['status'] = 1;
+            
+        } else {
+            $json['status'] = 0;
+            
+        }
+
+        echo json_encode($json);
+    }
+
+    public function locationPreferences()
+    {
+        $user_id = Auth::guard('nurse_middle')->user()->id;
+        $data['countries_data'] = DB::table("countries")->where("other","1")->get();
+        $data['countries_data_other'] = DB::table("countries")->where("other","!=","1")->get();
+        $data['work_preferences_data'] = WorkPreferencesModel::where("user_id",$user_id)->first();
+        return view('nurse.location_preferences')->with($data);
+    }
+
+    public function updateLocationPreferences(Request $request)
+    {
+        $user_id = $request->user_id;
+        $countries = json_encode($request->countries);
+        
+        
+        //print_r($request->other_countries);die;
+        if($request->other_countries != NULL){
+            $other_countries1 = json_encode($request->other_countries);
+        }else{
+            $other_countries1 = '';
+        }
+
+        $work_preferences_data = WorkPreferencesModel::where("user_id",$user_id)->first();
+
+        //print_r($work_preferences_data);
+
+        if(!empty($work_preferences_data)){
+            $run = WorkPreferencesModel::where('user_id',$user_id)->update(['countries'=>$countries,'other_countries'=>$other_countries1]);
+        }else{
+            $work_preferences = new WorkPreferencesModel();
+            $work_preferences->user_id = $user_id;
+            $work_preferences->countries = $countries;
+            $work_preferences->other_countries = $other_countries1;
+            $run = $work_preferences->save();
+        }
+
+        if ($run) {
+            $json['status'] = 1;
+            
+        } else {
+            $json['status'] = 0;
+            
+        }
+
+        echo json_encode($json);
+    }
 }

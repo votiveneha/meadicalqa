@@ -172,6 +172,10 @@ Route::prefix('nurse')->name('nurse.')->namespace('App\Http\Controllers\nurse')-
   Route::get('/getSubWorkData', 'WorkPreferencesController@getSubWorkData')->name('getSubWorkData');
   Route::get('/position_preferences', 'WorkPreferencesController@position_preferences')->name('position_preferences');
   Route::post('/updatePositionPreferences', 'WorkPreferencesController@updatePositionPreferences')->name('updatePositionPreferences');
+  Route::get('/benefitsPreferences', 'WorkPreferencesController@benefitsPreferences')->name('benefitsPreferences');
+  Route::post('/updateBenefitsPreferences', 'WorkPreferencesController@updateBenefitsPreferences')->name('updateBenefitsPreferences');
+  Route::get('/locationPreferences', 'WorkPreferencesController@locationPreferences')->name('locationPreferences');
+  Route::post('/updateLocationPreferences', 'WorkPreferencesController@updateLocationPreferences')->name('updateLocationPreferences');
   
   /**************[Interview Preferences]**************/
   Route::any('/interview','ProfessionalController@interview')->name('interview');
