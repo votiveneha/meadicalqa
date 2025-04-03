@@ -169,7 +169,7 @@ input:checked + .slider:before {
                         @csrf
                         <input type="hidden" name="user_id" value="{{ Auth::guard('nurse_middle')->user()->id }}">
 
-                        <div class="form-group level-drp">
+                        <div class="form-group level-drp payment_frequency_div" @if(!empty($salary_expectation_data) && $salary_expectation_data->fixed_salary != NULL) style="pointer-events: none; opacity: 0.5;" @endif>
                           <label class="form-label" for="input-1">Payment Frequency
                           </label>
                           <select class="form-input mr-10 select-active payment_frequency" name="payment_frequency" onchange="changeFrequency(this.value)">
@@ -179,12 +179,12 @@ input:checked + .slider:before {
                             <option value="monthly" @if(!empty($salary_expectation_data) && $salary_expectation_data->payment_frequency == "monthly") selected @endif>Monthly</option>
                             <option value="annually" @if(!empty($salary_expectation_data) && $salary_expectation_data->payment_frequency == "annually") selected @endif>Annually</option>
                           </select>
-                          <span id='reqsector_preferences' class='reqError text-danger valley'></span>
+                          <span id='reqpayment_frequency' class='reqError text-danger valley'></span>
 
                           
                         </div>
                         
-                        <div class="form-group level-drp">
+                        <div class="form-group level-drp salary_range_div" @if(!empty($salary_expectation_data) && $salary_expectation_data->fixed_salary != NULL) style="pointer-events: none; opacity: 0.5;" @endif @if(!empty($salary_expectation_data) && $salary_expectation_data->payment_frequency == "annually" || $salary_expectation_data->payment_frequency == "monthly" || $salary_expectation_data->payment_frequency == "weekly") style="pointer-events: none;" @endif>
                             <label class="form-label" for="input-1">Salary range</label>
                             <p>Selected Salary Range: <span id="amount"></span></p>
                             <?php
@@ -200,7 +200,7 @@ input:checked + .slider:before {
                         </div>
                         
                         <div class="form-group level-drp">
-                          <label class="form-label" for="input-1">Or enter a fixed amount</label>
+                          <label class="form-label" for="input-1">Or enter a fixed amount(in $)</label>
                           <input type="text" name="fixed_salary_amount" class="form-control fixed_salary_amount" value="@if(!empty($salary_expectation_data) && $salary_expectation_data->fixed_salary != NULL) {{ $salary_expectation_data->fixed_salary }} @endif">
                         </div>
                         <div class="">
@@ -220,7 +220,7 @@ input:checked + .slider:before {
                         </div>
                         <div class="form-group level-drp">
                           <label class="form-label" for="input-1">Monthly Salary</label>
-                          <input type="text" name="monthly_salary_amount" class="form-control monthly_salary_amount" value="@if(!empty($salary_expectation_data) && $salary_expectation_data->monthly_salary != NULL) {{ $salary_expectation_data->monthly_salary }} @endif"" readonly>
+                          <input type="text" name="monthly_salary_amount" class="form-control monthly_salary_amount" value="@if(!empty($salary_expectation_data) && $salary_expectation_data->monthly_salary != NULL) {{ $salary_expectation_data->monthly_salary }} @endif" readonly>
                         </div>
                         <div class="form-group level-drp">
                           <label class="form-label" for="input-1">Annual Salary</label>
@@ -381,7 +381,7 @@ input:checked + .slider:before {
                 max: salaryRanges.annually.max,
                 values: range.values
             });
-            $("#amount").text(range.values[0] + " - " + range.values[1]);
+            $("#amount").text("$"+range.values[0] + " - $" + range.values[1]);
             $(".salary_range").val(range.values[0] + " - " + range.values[1]);
             const hoursPerWeek = 40;
             const weeksPerYear = 52;
@@ -400,11 +400,11 @@ input:checked + .slider:before {
               annualMax = hourlyMax * hoursPerWeek * weeksPerYear;
               console.log("monthlyMin",monthlyMin);
               console.log("monthlyMax",monthlyMax);
-              $(".hourly_salary_amount").val(hourlyMin+"-"+hourlyMax);
-              $(".weekly_salary_amount").val(weeklyMin+"-"+weeklyMax);
-              $(".monthly_salary_amount").val(monthlyMin+"-"+monthlyMax);
-              $(".annual_salary_amount").val(annualMin+"-"+annualMax);
-
+              $(".hourly_salary_amount").val("$"+hourlyMin+"- $"+hourlyMax);
+              $(".weekly_salary_amount").val("$"+weeklyMin+"- $"+weeklyMax);
+              $(".monthly_salary_amount").val("$"+monthlyMin+"- $"+monthlyMax);
+              $(".annual_salary_amount").val("$"+annualMin+"-"+annualMax);
+              $(".salary_range_div").css("pointer-events","");
             }
 
             if(frequency == "weekly"){
@@ -420,11 +420,11 @@ input:checked + .slider:before {
               annualMax = hourlyMax * hoursPerWeek * weeksPerYear;
               console.log("monthlyMin",monthlyMin);
               console.log("monthlyMax",monthlyMax);
-              $(".hourly_salary_amount").val(hourlyMin+"-"+hourlyMax);
-              $(".weekly_salary_amount").val(weeklyMin+"-"+weeklyMax);
-              $(".monthly_salary_amount").val(monthlyMin+"-"+monthlyMax);
-              $(".annual_salary_amount").val(annualMin+"-"+annualMax);
-
+              $(".hourly_salary_amount").val("$"+hourlyMin+"- $"+hourlyMax);
+              $(".weekly_salary_amount").val("$"+weeklyMin+"- $"+weeklyMax);
+              $(".monthly_salary_amount").val("$"+monthlyMin+"- $"+monthlyMax);
+              $(".annual_salary_amount").val("$"+annualMin+"- $"+annualMax);
+              $(".salary_range_div").css("pointer-events","none");
             }
 
             if(frequency == "monthly"){
@@ -441,11 +441,11 @@ input:checked + .slider:before {
               annualMax = hourlyMax * hoursPerWeek * weeksPerYear;
               console.log("monthlyMin",monthlyMin);
               console.log("monthlyMax",monthlyMax);
-              $(".hourly_salary_amount").val(Math.round(hourlyMin)+"-"+Math.round(hourlyMax));
-              $(".weekly_salary_amount").val(Math.round(weeklyMin)+"-"+Math.round(weeklyMax));
-              $(".monthly_salary_amount").val(Math.round(monthlyMin)+"-"+Math.round(monthlyMax));
-              $(".annual_salary_amount").val(Math.round(annualMin)+"-"+Math.round(annualMax));
-
+              $(".hourly_salary_amount").val("$"+Math.round(hourlyMin)+"- $"+Math.round(hourlyMax));
+              $(".weekly_salary_amount").val("$"+Math.round(weeklyMin)+"- $"+Math.round(weeklyMax));
+              $(".monthly_salary_amount").val("$"+Math.round(monthlyMin)+"- $"+Math.round(monthlyMax));
+              $(".annual_salary_amount").val("$"+Math.round(annualMin)+"- $"+Math.round(annualMax));
+              $(".salary_range_div").css("pointer-events","none");
             }
 
             if(frequency == "annually"){
@@ -462,16 +462,26 @@ input:checked + .slider:before {
               
               console.log("monthlyMin",monthlyMin);
               console.log("monthlyMax",monthlyMax);
-              $(".hourly_salary_amount").val(Math.round(hourlyMin)+"-"+Math.round(hourlyMax));
-              $(".weekly_salary_amount").val(Math.round(weeklyMin)+"-"+Math.round(weeklyMax));
-              $(".monthly_salary_amount").val(Math.round(monthlyMin)+"-"+Math.round(monthlyMax));
-              $(".annual_salary_amount").val(Math.round(annualMin)+"-"+Math.round(annualMax));
-
+              $(".hourly_salary_amount").val("$"+Math.round(hourlyMin)+"- $"+Math.round(hourlyMax));
+              $(".weekly_salary_amount").val("$"+Math.round(weeklyMin)+"- $"+Math.round(weeklyMax));
+              $(".monthly_salary_amount").val("$"+Math.round(monthlyMin)+"- $"+Math.round(monthlyMax));
+              $(".annual_salary_amount").val("$"+Math.round(annualMin)+"- $"+Math.round(annualMax));
+              $(".salary_range_div").css("pointer-events","none");
             }
+            
+            
+            //$(".salary_range_div").css("opacity","0.5");
 
         }
 
-        var salary_range = JSON.parse('<?php echo $salary_range; ?>');
+        var sal_range = '<?php echo $salary_range; ?>';
+        if(sal_range != ""){
+          var salary_range = JSON.parse('<?php echo $salary_range; ?>');
+        }else{
+          var salary_range = [];
+        }
+
+        
         if(salary_range.length > 0){
           var salary_range1 = salary_range;
         }else{
@@ -485,11 +495,34 @@ input:checked + .slider:before {
                 values: salary_range1,
                 slide: function(event, ui) {
                   console.log("ui",ui);
-                    $("#amount").text(ui.values[0] + " - " + ui.values[1]);
-                    $(".salary_range").val(ui.values[0] + " - " + ui.values[1]);
+                  $("#amount").text("$"+ui.values[0] + " - " + "$"+ui.values[1]);
+                  $(".salary_range").val(ui.values[0] + " - " + ui.values[1]);
+                  $(".payment_frequency_div .select2-container").remove();
+                  $('.payment_frequency').select2().val("hourly").trigger('change');
+                  $(".fixed_salary_amount").val("");
+                  const hoursPerWeek = 40;
+                  const weeksPerYear = 52;
+                  const weeksPerMonth = 4.33;
+                  //$(".payment_frequency").val("hourly");
+                  let hourlyMin = ui.values[0];
+                  let hourlyMax = ui.values[1];
+                  let weeklyMin, weeklyMax,monthlyMin, monthlyMax, annualMin, annualMax;
+
+                  weeklyMin = hourlyMin * hoursPerWeek;
+                  weeklyMax = hourlyMax * hoursPerWeek;
+                  monthlyMin = hourlyMin * hoursPerWeek * weeksPerMonth;
+                  monthlyMax = hourlyMax * hoursPerWeek * weeksPerMonth;
+                  annualMin = hourlyMin * hoursPerWeek * weeksPerYear;
+                  annualMax = hourlyMax * hoursPerWeek * weeksPerYear;
+                  console.log("monthlyMin",monthlyMin);
+                  console.log("monthlyMax",monthlyMax);
+                  $(".hourly_salary_amount").val("$"+Math.round(hourlyMin)+"- $"+Math.round(hourlyMax));
+                  $(".weekly_salary_amount").val("$"+Math.round(weeklyMin)+"- $"+Math.round(weeklyMax));
+                  $(".monthly_salary_amount").val("$"+Math.round(monthlyMin)+"- $"+Math.round(monthlyMax));
+                  $(".annual_salary_amount").val("$"+Math.round(annualMin)+"- $"+Math.round(annualMax));
                 }
             });
-            $("#amount").text($("#slider").slider("values", 0) + " - " + $("#slider").slider("values", 1));
+            $("#amount").text("$"+$("#slider").slider("values", 0) + " - $" + $("#slider").slider("values", 1));
 
             
           function changeFrequency(value){
@@ -505,6 +538,44 @@ input:checked + .slider:before {
                   console.log("Unchecked: OFF");
               }
           });
+
+          $(".fixed_salary_amount").on("keyup",function(){
+            $(".payment_frequency_div .select2-container").remove();
+            $('.payment_frequency').select2().val("hourly").trigger('change');
+            $(".salary_range_div").css("pointer-events","none");
+            $(".salary_range_div").css("opacity","0.5");
+            $(".salary_range").prop("disabled", true);
+            $(".payment_frequency_div").css("pointer-events","none");
+            $(".payment_frequency_div").css("opacity","0.5");
+            var value = $(this).val();
+            if(value == ""){
+              $(".salary_range_div").css("pointer-events","");
+              $(".salary_range_div").css("opacity","");
+              $(".salary_range").prop("disabled", false);
+              $(".payment_frequency_div").css("pointer-events","");
+              $(".payment_frequency_div").css("opacity","");
+            }
+
+            const hoursPerWeek = 40;
+            const weeksPerYear = 52;
+            const weeksPerMonth = 4.33;
+
+            let hourlyMin = value;
+            
+            let weeklyMin, monthlyMin, annualMin;
+
+            weeklyMin = hourlyMin * hoursPerWeek;
+            
+            monthlyMin = hourlyMin * hoursPerWeek * weeksPerMonth;
+            
+            annualMin = hourlyMin * hoursPerWeek * weeksPerYear;
+            
+            
+            $(".hourly_salary_amount").val("$"+hourlyMin);
+            $(".weekly_salary_amount").val("$"+weeklyMin);
+            $(".monthly_salary_amount").val("$"+monthlyMin);
+            $(".annual_salary_amount").val("$"+annualMin);
+          });
     
 </script>
 <script type="text/javascript">
@@ -513,12 +584,12 @@ input:checked + .slider:before {
     function salary_expectations_form() {
       var isValid = true;
 
-      if ($('[name="sector_preferences"]').val() == '') {
+      // if ($('[name="payment_frequency"]').val() == '') {
 
-        document.getElementById("reqsector_preferences").innerHTML = "* Please select the sector preferences.";
-        isValid = false;
+      //   document.getElementById("reqpayment_frequency").innerHTML = "* Please select the Payment Frequency.";
+      //   isValid = false;
 
-      }
+      // }
 
       if (isValid == true) {
         $.ajax({

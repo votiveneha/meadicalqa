@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Apr 01, 2025 at 08:41 AM
+-- Generation Time: Apr 03, 2025 at 12:08 AM
 -- Server version: 10.6.21-MariaDB
 -- PHP Version: 7.4.33
 
@@ -3056,7 +3056,8 @@ CREATE TABLE `salary_expectation` (
 --
 
 INSERT INTO `salary_expectation` (`salary_id`, `user_id`, `payment_frequency`, `salary_range`, `fixed_salary`, `negotiable_salary`, `hourly_salary`, `weekly_salary`, `monthly_salary`, `annual_salary`, `created_at`, `updated_at`) VALUES
-(8, 196, 'hourly', '20 - 150', NULL, '1', '20-150', '800-6000', '3464-25980', '41600-312000', '2025-04-01 13:29:58', '2025-04-01 13:29:58');
+(8, 196, 'annually', '41600 - 312000', NULL, '1', '$20- $150', '$801- $6005', '$3467- $26000', '$41600- $312000', '2025-04-01 13:29:58', '2025-04-02 13:18:07'),
+(9, 173, 'hourly', NULL, 50, '1', '$50', '$2000', '$8660', '$104000', '2025-04-02 08:53:52', '2025-04-02 09:46:15');
 
 -- --------------------------------------------------------
 
@@ -10507,7 +10508,7 @@ ALTER TABLE `referee`
 -- AUTO_INCREMENT for table `salary_expectation`
 --
 ALTER TABLE `salary_expectation`
-  MODIFY `salary_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `salary_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `seo`
