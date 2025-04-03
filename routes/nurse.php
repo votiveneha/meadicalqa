@@ -159,6 +159,13 @@ Route::prefix('nurse')->name('nurse.')->namespace('App\Http\Controllers\nurse')-
   Route::post('/deleteEvidenceImg', 'ProfessionalController@deleteEvidenceImg')->name('deleteEvidenceImg');
   Route::post('/deleteAwardEvidenceImg', 'ProfessionalController@deleteAwardEvidenceImg')->name('deleteAwardEvidenceImg');
   
+ /**************[Language Skills]**************/
+ Route::get('/language_skills', 'LanguageSkillsContoller@index')->name('language_skills');
+ Route::get('/getLanguagesData', 'LanguageSkillsContoller@getLanguagesData')->name('getLanguagesData');
+ Route::get('/getSubLanguagesData', 'LanguageSkillsContoller@getSubLanguagesData')->name('getSubLanguagesData');
+ Route::get('/getTestLanguagesData', 'LanguageSkillsContoller@getTestLanguagesData')->name('getTestLanguagesData');
+ Route::post('/updateLanguageSkills', 'LanguageSkillsContoller@updateLanguageSkills')->name('updateLanguageSkills');
+ 
   /**************[Work Preferences & Flexibility]**************/
   Route::get('/sector_preferences', 'WorkPreferencesController@index')->name('sector_preferences');
   Route::post('/updateSectorPreferences', 'WorkPreferencesController@updateSectorPreferences')->name('updateSectorPreferences');

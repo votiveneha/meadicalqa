@@ -38,7 +38,7 @@
       $get_progress_status = round($get_profile_status / 14 * 100);
 
       ?>
-      <div class="chart" id="graph1" data-percent="1" data-color="#000"></div>
+      {{-- <div class="chart" id="graph1" data-percent="1" data-color="#000"></div> --}}
     </div>
 
     
