@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Apr 03, 2025 at 08:34 AM
+-- Generation Time: Apr 07, 2025 at 12:03 AM
 -- Server version: 10.6.21-MariaDB
 -- PHP Version: 7.4.33
 
@@ -1622,7 +1622,7 @@ CREATE TABLE `language_skills` (
 --
 
 INSERT INTO `language_skills` (`language_skills_id`, `user_id`, `langprof_level`, `english_prof_cert`, `other_prof_cert`, `specialized_lang_skills`, `created_at`, `updated_at`) VALUES
-(1, 196, '{\"6\":{\"109\":\"Fluent\"},\"1\":\"dere er er\"}', '{\"185\":{\"\'score_level\'\":\"334\",\"\'expiring_date\'\":\"2025-04-30\"}}', '{\"190\":{\"\'score_level\'\":\"e e33\",\"\'expiring_date\'\":\"2025-05-13\"}}', 'null', '2025-04-03 05:12:25', '2025-04-03 05:12:25');
+(2, 196, '{\"3\":{\"19\":\"Conversational\"},\"8\":{\"171\":\"Fluent\"}}', '{\"183\":{\"score_level\":\"erer\",\"expiring_date\":\"2025-04-29\",\"evidence_imgs\":\"[\\\"HomeController_bk.php\\\"]\"}}', '{\"189\":{\"score_level\":\"vbber\",\"expiring_date\":\"2025-05-05\",\"evidence_imgs\":\"[\\\"ProfessionalController.php\\\",\\\"WorkPreferencesController.php\\\"]\",\"engevimg\":{}}}', '{\"192\":{\"evidence_imgs\":\"[\\\"Controller.php\\\",\\\"HomeController.php\\\"]\"}}', '2025-04-04 13:45:57', '2025-04-04 13:45:57');
 
 -- --------------------------------------------------------
 
@@ -10638,7 +10638,7 @@ ALTER TABLE `languages`
 -- AUTO_INCREMENT for table `language_skills`
 --
 ALTER TABLE `language_skills`
-  MODIFY `language_skills_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `language_skills_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `level_year`

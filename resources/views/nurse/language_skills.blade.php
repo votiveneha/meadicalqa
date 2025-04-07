@@ -151,6 +151,7 @@
                             @endif
                           </ul>
                           <select class="js-example-basic-multiple addAll_removeAll_btn main_languages_valid" data-list-id="main_languages" name="main_languages[]" multiple></select>
+                          <span id='reqshiftlanguage' class='reqError text-danger valley'></span>
                         </div>
                         <div class="sub_languages_div">
                           @foreach ($lang_arr as $l_arr)
@@ -187,22 +188,24 @@
                                 @endforeach
                                 @endif
                               </ul>
-                              <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="sub_lang_dropdown-{{ $l_arr }}" name="sub_languages[]" multiple="multiple"></select>
+                              <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="sub_lang_dropdown-{{ $l_arr }}" name="sub_languages[]" onchange="getProficiency('ap',{{ $l_arr }})" multiple="multiple"></select>
                             </div>
                             <div class="lang_proficiency_level-{{ $l_arr }}">
                               @foreach ($sub_lang_arr as $subl_arr)
                               <?php
                                 $sublanguage_name = DB::table("languages")->where("language_id",$subl_arr)->first();
+                                $prof_level = (array)$sub_lang[$subl_arr];
+                                //print_r($prof_level);
                               ?>
                               <div class="sublangprofdiv sublangprofdiv-{{ $subl_arr }} form-group level-drp">
                                 <label class="form-label" for="input-1">Proficiency Level ({{ $sublanguage_name->language_name }})</label>
                                 <input type="hidden" name="sublangprof_list" class="sublangprof_list sublangprof_list-{{ $subl_arr }}" value="{{ $subl_arr }}">
                                 <select class="form-input mr-10 select-active" name="langprof_level[{{ $l_arr }}][{{ $subl_arr }}]">
                                   <option value="">select</option>
-                                  <option value="Basic">Basic</option>
-                                  <option value="Conversational">Conversational</option>
-                                  <option value="Fluent">Fluent</option>
-                                  <option value="Native">Native</option>
+                                  <option value="Basic" @if($prof_level[0] == "Basic") selected @endif>Basic</option>
+                                  <option value="Conversational" @if($prof_level[0] == "Conversational") selected @endif>Conversational</option>
+                                  <option value="Fluent" @if($prof_level[0] == "Fluent") selected @endif>Fluent</option>
+                                  <option value="Native" @if($prof_level[0] == "Native") selected @endif>Native</option>
                                 </select>
                               </div>
                               @endforeach
@@ -261,12 +264,89 @@
                             @endif
                           </ul>
                           <select class="js-example-basic-multiple addAll_removeAll_btn test_languages_valid" data-list-id="test_languages" name="main_languages[]" multiple></select>
+                          <span id='reqengtest' class='reqError text-danger valley'></span>
                         </div>
-                        <div class="tests_div"></div>
+                        <div class="tests_div">
+                          @foreach ($eng_arr as $earr)
+                            <?php
+                              $engdata = (array)$english_data[$earr];
+                              $eng_prof_name = DB::table("languages")->where("language_id",$earr)->first();
+                              $user_id = Auth::guard('nurse_middle')->user()->id;
+                              
+                              //print_r($engdata['score_level']);
+                            ?>
+                            <div class="test_level_div test_level_div-{{ $earr }}">
+                              <div class="strong_text inslabtext"><strong>{{ $eng_prof_name->language_name }}</strong></div>
+                              <input type="hidden" name="engprof_list" class="engprof_list engprof_list-{{ $earr }}" value="{{ $earr }}">
+                              <div class="form-group level-drp">
+                                <label class="form-label" for="input-1">Score / Level Obtained</label>
+                                <input type="text" name="english_prof_cert[{{ $earr }}][score_level]" class="form-control fixed_salary_amount" value="@if(isset($engdata['score_level'])){{ $engdata['score_level'] }}@endif">
+                              </div>
+                              <div class="form-group level-drp">
+                                <label class="form-label" for="input-1">Expiring date</label>
+                                <input type="date" name="english_prof_cert[{{ $earr }}][expiring_date]" class="form-control fixed_salary_amount" value="@if(isset($engdata['expiring_date'])){{ $engdata['expiring_date'] }}@endif">
+                              </div>
+                              <div class="form-group level-drp">
+                                  <label class="form-label" for="input-1">Upload Evidence</label>
+                                  <input type="hidden" name="english_prof_cert[{{ $earr }}][evidence_imgs]" class="english_prof_cert-{{ $earr }}" value="@if(isset($engdata['evidence_imgs'])){{ $engdata['evidence_imgs'] }}@endif">
+                                  <input class="form-control upload_evidence upload_evidence-{{ $earr }}" type="file" name="" onchange="changeEvidenceImg({{ $user_id }},{{ $earr }},'english_prof_cert')" multiple="">
+                                  <div class="lang_evidence-{{ $earr }}">
+                                    <?php
+                                      if(isset($engdata['evidence_imgs'])){
+                                        $evidence_imgs = (array)json_decode($engdata['evidence_imgs']);
+                                        //$evorgimg = $evidence_imgs[$p_arr2];
+                                        //print_r($evorgimg);
+                                        $i = 0;
+                                        ?>
+                                        @if(!empty($evidence_imgs))
+                                        @foreach ($evidence_imgs as $ev_img)
+                                        <div class="trans_img trans_img-{{ $i+1 }}">
+                                          <a href=""><i class="fa fa-file" aria-hidden="true"></i>{{ $ev_img }}</a>
+                                          <div class="close_btn close_btn-' + i + '" onclick="deletelangEvidenceImg({{ $i+1 }},{{ $user_id }},'{{ $ev_img }}',{{ $earr }},'english_prof_cert')" style="cursor: pointer;"><i class="fa fa-close" aria-hidden="true"></i></div>
+                                        </div>
+                                        <?php
+                                          $i++;
+                                        ?>
+                                        @endforeach
+                                        @endif
+                                        <?php
+                                      }
+                                      //print_r($evidence_imgs);
+                                    ?>
+                                  </div>
+                              </div>
+                            </div>
+                          @endforeach
+                        </div>
                         
                         <div class="form-group level-drp">
                           <label class="form-label" for="input-1">Other Language Proficiency Certifications
                           </label>
+                          <?php
+                            if(!empty($language_skills) && $language_skills->other_prof_cert != NULL){
+                              $other_prof_data = json_decode($language_skills->other_prof_cert);
+                              
+                            }else{
+                              $other_prof_data = array(); 
+                            }
+
+                            $otherprof_data = (array)$other_prof_data;
+                            //print_r($lang_data);
+
+                            $other_prof_arr = array();
+
+                            if(!empty($other_prof_data)){
+                              foreach ($other_prof_data as $index=>$otherdata) {
+                              
+                                //print_r($p_memb);
+                                $other_prof_arr[] = $index;
+                                
+                              }
+                            }
+                          
+                            $other_prof_json = json_encode($other_prof_arr);
+                          ?>
+                          <input type="hidden" name="other_proflang" class="other_proflang" value='<?php echo $other_prof_json; ?>'>
                           <ul id="other_test_languages" style="display:none;">
                              
                             @if(!empty($other_test_data))
@@ -275,12 +355,88 @@
                             @endforeach
                             @endif
                           </ul>
-                          <select class="js-example-basic-multiple addAll_removeAll_btn test_languages_valid" data-list-id="other_test_languages" name="main_languages[]" multiple></select>
+                          <select class="js-example-basic-multiple addAll_removeAll_btn other_languages_valid" data-list-id="other_test_languages" name="main_languages[]" multiple></select>
+                          <span id='reqothertest' class='reqError text-danger valley'></span>
                         </div>
-                        <div class="other_tests_div"></div>
+                        <div class="other_tests_div">
+                          @foreach ($other_prof_arr as $otherarr)
+                            <?php
+                              $otherdata = (array)$otherprof_data[$otherarr];
+                              $other_prof_name = DB::table("languages")->where("language_id",$otherarr)->first();
+                              
+                              //print_r($engdata['score_level']);
+                            ?>
+                          <div class="othertest_level_div othertest_level_div-{{ $otherarr }}">
+                            <div class="strong_text inslabtext"><strong>{{ $other_prof_name->language_name }}</strong></div>
+                            <input type="hidden" name="otherengprof_list" class="otherengprof_list otherengprof_list-{{ $otherarr }}" value="{{ $otherarr }}">
+                            <div class="form-group level-drp">
+                              <label class="form-label" for="input-1">Score / Level Obtained</label>
+                              <input type="text" name="otherlangprof[{{ $otherarr }}][score_level]" class="form-control fixed_salary_amount" value="@if(isset($otherdata['score_level'])){{ $otherdata['score_level'] }}@endif">
+                            </div>
+                            <div class="form-group level-drp">
+                              <label class="form-label" for="input-1">Expiring date</label>
+                              <input type="date" name="otherlangprof[{{ $otherarr }}][expiring_date]" class="form-control fixed_salary_amount" value="@if(isset($otherdata['expiring_date'])){{ $otherdata['expiring_date'] }}@endif">
+                            </div>
+                            <div class="form-group level-drp">
+                                <label class="form-label" for="input-1">Upload Evidence</label>
+                                <input type="hidden" name="otherlangprof[{{ $otherarr }}][evidence_imgs]" class="other_prof_cert-{{ $otherarr }}" value="@if(isset($otherdata['evidence_imgs'])){{ $otherdata['evidence_imgs'] }}@endif">
+                                <input class="form-control upload_evidence upload_evidence-{{ $otherarr }}" type="file" name="" onchange="changeEvidenceImg({{ $user_id }},{{ $otherarr }},'other_prof_cert')" multiple="">
+                                <div class="lang_evidence-{{ $otherarr }}">
+                                  <?php
+                                    if(isset($otherdata['evidence_imgs'])){
+                                      $evidence_imgs = (array)json_decode($otherdata['evidence_imgs']);
+                                      //$evorgimg = $evidence_imgs[$p_arr2];
+                                      //print_r($evidence_imgs);
+                                      $i = 0;
+                                      ?>
+                                      @if(!empty($evidence_imgs))
+                                      @foreach ($evidence_imgs as $ev_img)
+                                      <div class="trans_img trans_img-{{ $i+1 }}">
+                                        <a href=""><i class="fa fa-file" aria-hidden="true"></i>{{ $ev_img }}</a>
+                                        <div class="close_btn close_btn-' + i + '" onclick="deletelangEvidenceImg({{ $i+1 }},{{ $user_id }},'{{ $ev_img }}',{{ $otherarr }},'other_prof_cert')" style="cursor: pointer;"><i class="fa fa-close" aria-hidden="true"></i></div>
+                                      </div>
+                                      <?php
+                                        $i++;
+                                      ?>
+                                      @endforeach
+                                      @endif
+                                      <?php
+                                    }
+                                    //print_r($evidence_imgs);
+                                  ?>
+                                </div>
+                            </div>
+                          </div>
+                          @endforeach
+                        </div>
                         <div class="form-group level-drp">
                           <label class="form-label" for="input-1">Specialized Language Skills
                           </label>
+                          <?php
+                            if(!empty($language_skills) && $language_skills->specialized_lang_skills != NULL){
+                              $specialized_lang_data = json_decode($language_skills->specialized_lang_skills);
+                              
+                            }else{
+                              $specialized_lang_data = array(); 
+                            }
+
+                            $specialized_langskills = (array)$specialized_lang_data;
+                            //print_r($lang_data);
+
+                            $specialized_langarr = array();
+
+                            if(!empty($specialized_lang_data)){
+                              foreach ($specialized_lang_data as $index=>$specializeddata) {
+                              
+                                //print_r($p_memb);
+                                $specialized_langarr[] = $index;
+                                
+                              }
+                            }
+                          
+                            $specialized_lang_json = json_encode($specialized_langarr);
+                          ?>
+                          <input type="hidden" name="specialized_lang_skills" class="specialized_lang_skills" value='<?php echo $specialized_lang_json; ?>'>
                           <ul id="specialized_languages" style="display:none;">
                              
                             @if(!empty($specialized_lang_skills))
@@ -289,11 +445,51 @@
                             @endforeach
                             @endif
                           </ul>
-                          <select class="js-example-basic-multiple addAll_removeAll_btn test_languages_valid" data-list-id="specialized_languages" name="main_languages[]" multiple></select>
+                          <select class="js-example-basic-multiple addAll_removeAll_btn specialized_languages_valid" data-list-id="specialized_languages" name="main_languages[]" multiple></select>
+                          <span id='reqspecializedskills' class='reqError text-danger valley'></span>
                         </div>
                         <div class="specialized_languages_div">
-                          
-
+                          @foreach($specialized_langarr as $speclangarr)
+                          <?php
+                              $specializeddata = (array)$specialized_langskills[$speclangarr];
+                              $specialized_lang_name = DB::table("languages")->where("language_id",$speclangarr)->first();
+                              
+                              //print_r($engdata['score_level']);
+                            ?>
+                          <div class="specialized_level_div specialized_level_div-{{ $speclangarr }}">
+                            <div class="strong_text inslabtext"><strong>{{ $specialized_lang_name->language_name }}</strong></div>
+                            <input type="hidden" name="specialized_level_list" class="specialized_level_list specialized_level_list-{{ $speclangarr }}" value="{{ $speclangarr }}">
+                            <div class="form-group level-drp">
+                              <label class="form-label" for="input-1">Upload Evidence</label>
+                              <input type="hidden" name="specialized_lang_skills[{{ $speclangarr }}][evidence_imgs]" class="specialized_lang_skills-{{ $speclangarr }}" value="@if(isset($specializeddata['evidence_imgs'])){{ $specializeddata['evidence_imgs'] }}@endif">
+                              <input class="form-control upload_evidence upload_evidence-{{ $speclangarr }}" type="file" name="" onchange="changeEvidenceImg({{ $user_id }},{{ $speclangarr }},'specialized_lang_skills')" multiple="">
+                              <div class="lang_evidence-{{ $speclangarr }}">
+                                <?php
+                                    if(isset($specializeddata['evidence_imgs'])){
+                                      $evidence_imgs = (array)json_decode($specializeddata['evidence_imgs']);
+                                      //$evorgimg = $evidence_imgs[$p_arr2];
+                                      //print_r($evidence_imgs);
+                                      $i = 0;
+                                      ?>
+                                      @if(!empty($evidence_imgs))
+                                      @foreach ($evidence_imgs as $ev_img)
+                                      <div class="trans_img trans_img-{{ $i+1 }}">
+                                        <a href=""><i class="fa fa-file" aria-hidden="true"></i>{{ $ev_img }}</a>
+                                        <div class="close_btn close_btn-' + i + '" onclick="deletelangEvidenceImg({{ $i+1 }},{{ $user_id }},'{{ $ev_img }}',{{ $speclangarr }},'specialized_lang_skills')" style="cursor: pointer;"><i class="fa fa-close" aria-hidden="true"></i></div>
+                                      </div>
+                                      <?php
+                                        $i++;
+                                      ?>
+                                      @endforeach
+                                      @endif
+                                      <?php
+                                    }
+                                    //print_r($evidence_imgs);
+                                  ?>
+                              </div>
+                            </div>
+                          </div>
+                          @endforeach
                         </div>
                         <div class="box-button mt-15">
                           <button class="btn btn-apply-big font-md font-bold" type="submit" id="submitLanguageSkills">Save Changes</button>
@@ -437,15 +633,21 @@
       var englang = JSON.parse($(".englang").val());
       console.log("englang",englang);
       $('.js-example-basic-multiple[data-list-id="test_languages"]').select2().val(englang).trigger('change');
-      // $(".sublang_list").each(function(){
-      //   var val = $(this).val();
-      //   console.log("sublang",$(".sublang-"+val).val());
-      //   if ($(".sublang-"+val).val() != undefined || $(".sublang-"+val).val() != "") {
-      //     var sublang = JSON.parse($(".sublang-"+val).val());
-      //     console.log("sublang",sublang);
-      //     $('.js-example-basic-multiple[data-list-id="sub_lang_dropdown-'+val+'"]').select2().val(sublang).trigger('change');
-      //   }
-      // });
+      
+    }
+
+    if ($(".other_proflang").val() != "") {
+      var other_proflang = JSON.parse($(".other_proflang").val());
+      console.log("englang",other_proflang);
+      $('.js-example-basic-multiple[data-list-id="other_test_languages"]').select2().val(other_proflang).trigger('change');
+      
+    }
+
+    if ($(".specialized_lang_skills").val() != "") {
+      var specialized_lang_skills = JSON.parse($(".specialized_lang_skills").val());
+      console.log("specialized_lang_skills",specialized_lang_skills);
+      $('.js-example-basic-multiple[data-list-id="specialized_languages"]').select2().val(specialized_lang_skills).trigger('change');
+      
     }
 
     if ($(".mainlang").val() != "") {
@@ -462,9 +664,69 @@
       });
     }
 
+    function changeEvidenceImg(user_id,language_id,name_arr) {
     
-</script>
-<script type="text/javascript">
+      var files = $('.upload_evidence-'+language_id)[0].files;
+      console.log("files", files);
+      var form_data = "";
+      form_data = new FormData();
+
+      for (var i = 0; i < files.length; i++) {
+        form_data.append(name_arr+"["+language_id+"][]", files[i], files[i]['name']);
+      }
+
+      form_data.append("user_id", user_id);
+      form_data.append("language_id", language_id);
+      form_data.append("img_field", name_arr);
+      form_data.append("_token", '{{ csrf_token() }}');
+      
+      $.ajax({
+        type: "post",
+        url: "{{ route('nurse.uploadlangEvidenceImgs') }}",
+        cache: false,
+        contentType: false,
+        processData: false,
+        async: true,
+        data: form_data,
+
+        success: function(data) {
+          $("."+name_arr+"-"+language_id).val(data);
+          var image_array = JSON.parse(data);
+          console.log("evidence_imgs", image_array.length);
+          var htmlData = '';
+          for (var i = 0; i < image_array.length; i++) {
+            //console.log("degree_transcript", image_array[i]);
+            var img_name = image_array[i];
+            console.log("img_name", 'deleteImg(' + (i + 1) + ',' + user_id + ',"' + img_name + '")');
+            htmlData += '<div class="trans_img trans_img-' + (i + 1) + '"><a href="{{ url("/public") }}/uploads/education_degree/' + img_name + '" target="_blank"><i class="fa fa-file" aria-hidden="true"></i>' + image_array[i] + '</a><div class="close_btn close_btn-' + i + '" onclick="deletelangEvidenceImg(' + (i + 1) + ',' + user_id + ',\'' + img_name + '\','+language_id+'\,\''+name_arr+'\')" style="cursor: pointer;"><i class="fa fa-close" aria-hidden="true"></i></div></div>';
+          }
+          $(".lang_evidence-"+language_id).html(htmlData);
+        }
+      });
+    }
+
+    function deletelangEvidenceImg(i, user_id, img,language_id,name_arr) {
+      $.ajax({
+        type: "post",
+        url: "{{ route('nurse.deletelangEvidenceImg') }}",
+        data: {
+          user_id: user_id,
+          img: img,
+          language_id: language_id,
+          img_field: name_arr,
+          _token: '{{ csrf_token() }}'
+        },
+        cache: false,
+        success: function(data) {
+          if (data == 1) {
+            $(".lang_evidence-"+language_id+" .trans_img-" + i).remove();
+          }
+        }
+      });
+    }
+
+    
+
     $('.js-example-basic-multiple[data-list-id="main_languages"]').on('change', function() {
         let selectedValues = $(this).val();
         console.log("selectedValues",selectedValues);
@@ -544,7 +806,7 @@
       }
 
       console.log("selectedValues",selectedValues);
-
+      
       $(".lang_proficiency_level-"+language_id+" .sublangprof_list").each(function(i,val){
           var val1 = $(val).val();
           console.log("val",val1);
@@ -607,23 +869,24 @@
               success: function(data){
                 var data1 = JSON.parse(data);
                 console.log("data",data1.test_language_data.language_name);
-                var score_level = "score_level";
-                var expiring_date = "expiring_date";
-                var engevimg = "engevimg";
+                var user_id = "<?php echo Auth::guard('nurse_middle')->user()->id; ?>";
+                var eng_prof = "english_prof_cert";
                 $(".tests_div").append('\<div class="test_level_div test_level_div-'+data1.language_id+'">\
                   <div class="strong_text inslabtext"><strong>'+data1.test_language_data.language_name+'</strong></div>\
                   <input type="hidden" name="engprof_list" class="engprof_list engprof_list-'+data1.language_id+'" value="'+data1.language_id+'">\
                   <div class="form-group level-drp">\
                     <label class="form-label" for="input-1">Score / Level Obtained</label>\
-                    <input type="text" name="english_prof_cert['+data1.language_id+'][\''+score_level+'\']" class="form-control fixed_salary_amount" value="">\
+                    <input type="text" name="english_prof_cert['+data1.language_id+'][score_level]" class="form-control fixed_salary_amount" value="">\
                   </div>\
                   <div class="form-group level-drp">\
                     <label class="form-label" for="input-1">Expiring date</label>\
-                    <input type="date" name="english_prof_cert['+data1.language_id+'][\''+expiring_date+'\']" class="form-control fixed_salary_amount" value="">\
+                    <input type="date" name="english_prof_cert['+data1.language_id+'][expiring_date]" class="form-control fixed_salary_amount" value="">\
                   </div>\
                   <div class="form-group level-drp">\
-                      <label class="form-label" for="input-1">Upload Evidence</label>\
-                      <input class="form-control" type="file" name="english_prof_cert['+data1.language_id+'][\''+engevimg+'\']" multiple="">\
+                    <label class="form-label" for="input-1">Upload Evidence</label>\
+                    <input type="hidden" name="english_prof_cert['+data1.language_id+'][evidence_imgs]" class="english_prof_cert-'+data1.language_id+'">\
+                    <input class="form-control upload_evidence upload_evidence-'+data1.language_id+'" type="file" name="" onchange="changeEvidenceImg(\''+user_id+'\',\''+data1.language_id+'\',\''+eng_prof+'\')" multiple="">\
+                    <div class="lang_evidence-'+data1.language_id+'"></div>\
                   </div>\
                 </div>');
 
@@ -656,9 +919,7 @@
 
         for(var i=0;i<selectedValues.length;i++){
           if($(".other_tests_div .othertest_level_div-"+selectedValues[i]).length < 1){
-            var score_level = "score_level";
-            var expiring_date = "expiring_date";
-            var engevimg = "engevimg";
+            
             $.ajax({
               type: "GET",
               url: "{{ url('/nurse/getTestLanguagesData') }}",
@@ -667,21 +928,24 @@
               success: function(data){
                 var data1 = JSON.parse(data);
                 console.log("data",data1.test_language_data.language_name);
-
+                var user_id = "<?php echo Auth::guard('nurse_middle')->user()->id; ?>";
+                var eng_prof = "other_prof_cert";
                 $(".other_tests_div").append('\<div class="othertest_level_div othertest_level_div-'+data1.language_id+'">\
                   <div class="strong_text inslabtext"><strong>'+data1.test_language_data.language_name+'</strong></div>\
                   <input type="hidden" name="otherengprof_list" class="otherengprof_list otherengprof_list-'+data1.language_id+'" value="'+data1.language_id+'">\
                   <div class="form-group level-drp">\
                     <label class="form-label" for="input-1">Score / Level Obtained</label>\
-                    <input type="text" name="otherlangprof['+data1.language_id+'][\''+score_level+'\']" class="form-control fixed_salary_amount" value="">\
+                    <input type="text" name="otherlangprof['+data1.language_id+'][score_level]" class="form-control fixed_salary_amount" value="">\
                   </div>\
                   <div class="form-group level-drp">\
                     <label class="form-label" for="input-1">Expiring date</label>\
-                    <input type="date" name="otherlangprof['+data1.language_id+'][\''+expiring_date+'\']" class="form-control fixed_salary_amount" value="">\
+                    <input type="date" name="otherlangprof['+data1.language_id+'][expiring_date]" class="form-control fixed_salary_amount" value="">\
                   </div>\
                   <div class="form-group level-drp">\
-                      <label class="form-label" for="input-1">Upload Evidence</label>\
-                      <input class="form-control" type="file" name="otherlangprof['+data1.language_id+'][\''+engevimg+'\']" multiple="">\
+                    <label class="form-label" for="input-1">Upload Evidence</label>\
+                    <input type="hidden" name="otherlangprof['+data1.language_id+'][evidence_imgs]" class="other_prof_cert-'+data1.language_id+'" value="">\
+                    <input class="form-control upload_evidence upload_evidence-'+data1.language_id+'" type="file" name="otherlangprof['+data1.language_id+'][engevimg]" onchange="changeEvidenceImg(\''+user_id+'\',\''+data1.language_id+'\',\''+eng_prof+'\')" multiple="">\
+                    <div class="lang_evidence-'+data1.language_id+'"></div>\
                   </div>\
                 </div>');
 
@@ -722,13 +986,16 @@
               success: function(data){
                 var data1 = JSON.parse(data);
                 console.log("data",data1.test_language_data.language_name);
-                var engevimg = "engevimg";
+                var user_id = "<?php echo Auth::guard('nurse_middle')->user()->id; ?>";
+                var eng_prof = "specialized_lang_skills";
                 $(".specialized_languages_div").append('\<div class="specialized_level_div specialized_level_div-'+data1.language_id+'">\
                   <div class="strong_text inslabtext"><strong>'+data1.test_language_data.language_name+'</strong></div>\
                   <input type="hidden" name="specialized_level_list" class="specialized_level_list specialized_level_list-'+data1.language_id+'" value="'+data1.language_id+'">\
                   <div class="form-group level-drp">\
-                      <label class="form-label" for="input-1">Upload Evidence</label>\
-                      <input class="form-control" type="file" name="specialized_lang_skills['+data1.language_id+'][\''+engevimg+'\']" multiple="">\
+                    <label class="form-label" for="input-1">Upload Evidence</label>\
+                    <input type="hidden" name="specialized_lang_skills['+data1.language_id+'][evidence_imgs]" class="specialized_lang_skills-'+data1.language_id+'" value="">\
+                    <input class="form-control upload_evidence upload_evidence-'+data1.language_id+'" type="file" name="" onchange="changeEvidenceImg(\''+user_id+'\',\''+data1.language_id+'\',\''+eng_prof+'\')" multiple="">\
+                    <div class="lang_evidence-'+data1.language_id+'"></div>\
                   </div>\
                 </div>');
 
@@ -749,9 +1016,30 @@
     function update_language_skills() {
       var isValid = true;
 
-      if ($('[name="sector_preferences"]').val() == '') {
+      if ($('[name="main_languages[]"]').val() == '') {
 
-        document.getElementById("reqsector_preferences").innerHTML = "* Please select the sector preferences.";
+        document.getElementById("reqshiftlanguage").innerHTML = "* Please select the Language.";
+        isValid = false;
+
+      }
+
+      if ($('.test_languages_valid').val() == '') {
+
+        document.getElementById("reqengtest").innerHTML = "* Please select the English Proficiency Tests.";
+        isValid = false;
+
+      }
+
+      if ($('.other_languages_valid').val() == '') {
+
+        document.getElementById("reqothertest").innerHTML = "* Please select the English Proficiency Tests.";
+        isValid = false;
+
+      }
+
+      if ($('.specialized_languages_valid').val() == '') {
+
+        document.getElementById("reqspecializedskills").innerHTML = "* Please select the Specialized Language Skills.";
         isValid = false;
 
       }

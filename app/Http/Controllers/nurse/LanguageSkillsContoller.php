@@ -77,14 +77,22 @@ class LanguageSkillsContoller extends Controller{
         $other_prof_cert = json_encode($request->otherlangprof);
         $specialized_lang_skills = json_encode($request->specialized_lang_skills);
 
+        //print_r($english_prof_cert);die;
+        $language_skills_data = LanguageSkillsModel::where("user_id",$user_id)->first();
+
         //print_r($english_prof_cert);
-        $language_skills = new LanguageSkillsModel();
-        $language_skills->user_id = $user_id;
-        $language_skills->langprof_level = $langprof_level;
-        $language_skills->english_prof_cert = $english_prof_cert;
-        $language_skills->other_prof_cert = $other_prof_cert;
-        $language_skills->specialized_lang_skills = $specialized_lang_skills;
-        $run = $language_skills->save();
+        if(!empty($language_skills_data)){
+
+            $run = LanguageSkillsModel::where('user_id',$user_id)->update(['langprof_level'=>$langprof_level,'english_prof_cert'=>$english_prof_cert,'other_prof_cert'=>$other_prof_cert,'specialized_lang_skills'=>$specialized_lang_skills]);
+        }else{
+            $language_skills = new LanguageSkillsModel();
+            $language_skills->user_id = $user_id;
+            $language_skills->langprof_level = $langprof_level;
+            $language_skills->english_prof_cert = $english_prof_cert;
+            $language_skills->other_prof_cert = $other_prof_cert;
+            $language_skills->specialized_lang_skills = $specialized_lang_skills;
+            $run = $language_skills->save();
+        }
 
         if ($run) {
             $json['status'] = 1;
@@ -96,5 +104,122 @@ class LanguageSkillsContoller extends Controller{
 
         echo json_encode($json);
     }
+
+    public function uploadlangEvidenceImgs(Request $request)
+    {
+        $img_field = $request->img_field;
+        $files = $request->file($img_field);
+        $language_id = $request->language_id;
+        $user_id = $request->user_id;
+
+        $getLangdata = LanguageSkillsModel::where("user_id", $user_id)->first();
+
+        if(!empty($getLangdata)){
+            if($img_field == "english_prof_cert"){
+                $langprocert = $getLangdata->english_prof_cert;
+                $getLangImgs = (array)json_decode($langprocert);
+            }
+
+            if($img_field == "other_prof_cert"){
+                $langprocert = $getLangdata->other_prof_cert;
+                $getLangImgs = (array)json_decode($langprocert);
+            }
+
+            if($img_field == "specialized_lang_skills"){
+                $langprocert = $getLangdata->specialized_lang_skills;
+                $getLangImgs = (array)json_decode($langprocert);
+            }
+        }else{
+            $langprocert = '';
+            $getLangImgs = array();
+        }
+        
+        if(isset($getLangImgs[$language_id])){
+            $getLangImg = $getLangImgs[$language_id];
+        }else{
+            $getLangImg = array();
+        }
+        
+        //print_r($getLangImg->score_level);
+
+        if (!empty($getLangdata) && $langprocert != NULL && isset($getLangImg->evidence_imgs)) {
+            $langimg = (array)json_decode($getLangImg->evidence_imgs);
+            //print_r($langimg);
+            $langimgs = Helpers::multipleFileUpload($files[$language_id], $langimg);
+        }else{
+            $langimgs = Helpers::multipleFileUpload($files[$language_id], '');
+            //$img_arr = json_decode($langimgs);
+        }
+
+        if(isset($getLangImgs[$language_id])){
+            $getLangImg->evidence_imgs = $langimgs;
+        }
+        
+        //print_r($getLangImgs);
+
+        $run = LanguageSkillsModel::where('user_id', $user_id)->update([$img_field => json_encode($getLangImgs)]);
+        return $langimgs;
+    }
+
+    public function deletelangEvidenceImg(Request $request)
+    {
+        $img_field = $request->img_field;
+        $user_id = $request->user_id;
+        $language_id = $request->language_id;
+        $img = $request->img;
+
+        $getLangdata = LanguageSkillsModel::where("user_id", $user_id)->first();
+        if($img_field == "english_prof_cert"){
+            $langprocert = $getLangdata->english_prof_cert;
+            $getLangImgs = (array)json_decode($langprocert);
+        }
+
+        if($img_field == "other_prof_cert"){
+            $langprocert = $getLangdata->other_prof_cert;
+            $getLangImgs = (array)json_decode($langprocert);
+        }
+
+        if($img_field == "specialized_lang_skills"){
+            $langprocert = $getLangdata->specialized_lang_skills;
+            $getLangImgs = (array)json_decode($langprocert);
+        }
+
+        $getLangImg = $getLangImgs[$language_id];
+        //print_r($getLangImg->score_level);
+
+        if (!empty($getLangdata) && $langprocert != NULL && isset($getLangImg->evidence_imgs)) {
+            $getEvidenceimg = (array)json_decode($getLangImg->evidence_imgs);
+
+            $img_index = array_search($img, $getEvidenceimg);
+
+            array_splice($getEvidenceimg, $img_index, 1);
+
+            
+            if (!empty($getEvidenceimg)) {
+                $EvidenceimgData = $getEvidenceimg;
+            } else {
+                $EvidenceimgData = array();
+            }
+
+            //print_r($EvidenceimgData);
+            // $getEvidenceimg = $EvidenceimgData;
+            $getLangImg->evidence_imgs = json_encode($EvidenceimgData);
+           
+            $deleteData = LanguageSkillsModel::where('user_id', $user_id)->update([$img_field => json_encode($getLangImgs)]);
+
+            $destinationPath = public_path() . '/uploads/education_degree/' . $img;
+
+            if (File::exists($destinationPath)) {
+                File::delete($destinationPath);
+            }
+
+        }else{
+            $deleteData = 1;
+        }
+
+        if ($deleteData) {
+            return 1;
+        }
+    }    
 
 }
