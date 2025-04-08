@@ -65,6 +65,43 @@
     border: none;
     position: relative;
   }
+
+  .sublang_main_div select{
+    padding: 5px;
+    border: 1px solid #dddddd;
+    height: 50px;
+  }
+
+  .custom-select-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.custom-select {
+  width: 100%;
+  padding: 10px;
+  appearance: none; /* Remove native arrow */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+/* Custom arrow */
+.custom-select-wrapper::after {
+  content: "▼";
+  position: absolute;
+  top: 76%;
+  right: 10px;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: black;
+  height: 36px !important;
+  width: 20px;
+}
+
 </style>
 @endsection
 
@@ -188,7 +225,8 @@
                                 @endforeach
                                 @endif
                               </ul>
-                              <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="sub_lang_dropdown-{{ $l_arr }}" name="sub_languages[]" onchange="getProficiency('ap',{{ $l_arr }})" multiple="multiple"></select>
+                              <select class="js-example-basic-multiple addAll_removeAll_btn sub_lang_valid-{{ $l_arr }}" data-list-id="sub_lang_dropdown-{{ $l_arr }}" name="sub_languages[]" onchange="getProficiency('ap',{{ $l_arr }})" multiple="multiple"></select>
+                              <span id="reqsublangvalid-{{ $l_arr }}" class="reqError text-danger valley"></span>
                             </div>
                             <div class="lang_proficiency_level-{{ $l_arr }}">
                               @foreach ($sub_lang_arr as $subl_arr)
@@ -197,17 +235,19 @@
                                 $prof_level = (array)$sub_lang[$subl_arr];
                                 //print_r($prof_level);
                               ?>
-                              <div class="sublangprofdiv sublangprofdiv-{{ $subl_arr }} form-group level-drp">
-                                <label class="form-label" for="input-1">Proficiency Level ({{ $sublanguage_name->language_name }})</label>
+                              <div class="custom-select-wrapper sublangprofdiv sublangprofdiv-{{ $subl_arr }} form-group level-drp" style="margin-bottom: 5px;">
+                                <label class="form-label subproflabel-{{ $subl_arr }}" for="input-1">Proficiency Level ({{ $sublanguage_name->language_name }})</label>
                                 <input type="hidden" name="sublangprof_list" class="sublangprof_list sublangprof_list-{{ $subl_arr }}" value="{{ $subl_arr }}">
-                                <select class="form-input mr-10 select-active" name="langprof_level[{{ $l_arr }}][{{ $subl_arr }}]">
+                                <select class="langprof_level_valid-{{ $subl_arr }} custom-select form-input mr-10 langprof_level_valid-{{ $subl_arr }}" name="langprof_level[{{ $l_arr }}][{{ $subl_arr }}]">
                                   <option value="">select</option>
                                   <option value="Basic" @if($prof_level[0] == "Basic") selected @endif>Basic</option>
                                   <option value="Conversational" @if($prof_level[0] == "Conversational") selected @endif>Conversational</option>
                                   <option value="Fluent" @if($prof_level[0] == "Fluent") selected @endif>Fluent</option>
                                   <option value="Native" @if($prof_level[0] == "Native") selected @endif>Native</option>
                                 </select>
+                                
                               </div>
+                              <span id="reqproflevelvalid-{{ $subl_arr }}" class="reqError text-danger valley"></span>
                               @endforeach
                             </div>
                           </div>
@@ -216,8 +256,10 @@
                           <div class="sublang_main_div sublang_main_div-{{ $l_arr }}">
                             <div class="sub_lang_div sub_lang_div-{{ $l_arr }} form-group level-drp">
                               <label class="form-label sub_lang_label sub_lang_label-{{ $l_arr }}" for="input-1">{{ $language_data->language_name }}</label>
-                              <input type="hidden" name="sublang_list" class="sublang_list sublang_list-{{ $l_arr }}" value="{{ $l_arr }}">
-                              <input type="text" name="langprof_level[{{ $l_arr }}]" class="form-control fixed_salary_amount" value="{{ $sub_lang_text }}">
+                              <input type="hidden" name="sublang_list" class="sub_lang_valid-{{ $l_arr }} sublang_list sublang_list-{{ $l_arr }}" value="{{ $l_arr }}">
+                              <input type="text" name="langprof_level[{{ $l_arr }}]" class="sub_lang_valid-{{ $l_arr }} form-control fixed_salary_amount" value="{{ $sub_lang_text }}">
+                              
+                              <span id="reqsublangvalid-{{ $l_arr }}" class="reqError text-danger valley"></span>
                             </div>
                           </div>
                           @endif
@@ -280,11 +322,13 @@
                               <input type="hidden" name="engprof_list" class="engprof_list engprof_list-{{ $earr }}" value="{{ $earr }}">
                               <div class="form-group level-drp">
                                 <label class="form-label" for="input-1">Score / Level Obtained</label>
-                                <input type="text" name="english_prof_cert[{{ $earr }}][score_level]" class="form-control fixed_salary_amount" value="@if(isset($engdata['score_level'])){{ $engdata['score_level'] }}@endif">
+                                <input type="text" name="english_prof_cert[{{ $earr }}][score_level]" class="form-control fixed_salary_amount testscore_level_valid-{{ $earr }}" value="{{ $engdata['score_level'] }}">
+                                <span id="reqtestscore_level-{{ $earr }}" class="reqError text-danger valley"></span>
                               </div>
                               <div class="form-group level-drp">
                                 <label class="form-label" for="input-1">Expiring date</label>
-                                <input type="date" name="english_prof_cert[{{ $earr }}][expiring_date]" class="form-control fixed_salary_amount" value="@if(isset($engdata['expiring_date'])){{ $engdata['expiring_date'] }}@endif">
+                                <input type="date" name="english_prof_cert[{{ $earr }}][expiring_date]" class="form-control fixed_salary_amount testexpiring_date_valid-{{ $earr }}" value="{{ $engdata['expiring_date'] }}">
+                                <span id="reqtestexpiring_date-{{ $earr }}" class="reqError text-danger valley"></span>
                               </div>
                               <div class="form-group level-drp">
                                   <label class="form-label" for="input-1">Upload Evidence</label>
@@ -371,11 +415,13 @@
                             <input type="hidden" name="otherengprof_list" class="otherengprof_list otherengprof_list-{{ $otherarr }}" value="{{ $otherarr }}">
                             <div class="form-group level-drp">
                               <label class="form-label" for="input-1">Score / Level Obtained</label>
-                              <input type="text" name="otherlangprof[{{ $otherarr }}][score_level]" class="form-control fixed_salary_amount" value="@if(isset($otherdata['score_level'])){{ $otherdata['score_level'] }}@endif">
+                              <input type="text" name="otherlangprof[{{ $otherarr }}][score_level]" class="form-control fixed_salary_amount otherscore_level_valid-{{ $otherarr }}" value="{{ $otherdata['score_level'] }}">
+                              <span id="reqotherscore_level-{{ $otherarr }}" class="reqError text-danger valley"></span>
                             </div>
                             <div class="form-group level-drp">
                               <label class="form-label" for="input-1">Expiring date</label>
-                              <input type="date" name="otherlangprof[{{ $otherarr }}][expiring_date]" class="form-control fixed_salary_amount" value="@if(isset($otherdata['expiring_date'])){{ $otherdata['expiring_date'] }}@endif">
+                              <input type="date" name="otherlangprof[{{ $otherarr }}][expiring_date]" class="form-control fixed_salary_amount otherexpiring_date_valid-{{ $otherarr }}" value="{{ $otherdata['expiring_date'] }}">
+                              <span id="reqotherexpiring_date-{{ $otherarr }}" class="reqError text-danger valley"></span>
                             </div>
                             <div class="form-group level-drp">
                                 <label class="form-label" for="input-1">Upload Evidence</label>
@@ -757,7 +803,8 @@
                             <div class="sub_lang_div sub_lang_div-'+data1.main_language_data.language_id+' form-group level-drp">\
                             <label class="form-label sub_lang_label sub_lang_label-'+data1.main_language_data.language_id+'" for="input-1">'+data1.main_language_data.language_name+'</label>\
                             <input type="hidden" name="sublang_list" class="sublang_list sublang_list-'+data1.main_language_data.language_id+'" value="'+data1.main_language_data.language_id+'">\
-                            <input type="text" name="langprof_level['+data1.main_language_data.language_id+']" class="form-control fixed_salary_amount" value="">\
+                            <input type="text" name="langprof_level['+data1.main_language_data.language_id+']" class="form-control fixed_salary_amount sub_lang_valid-'+data1.main_language_data.language_id+'" value="">\
+                            <span id="reqsublangvalid-'+data1.main_language_data.language_id+'" class="reqError text-danger valley"></span>\
                             </div></div>');
                         }else{
                           if(data1.main_language_data.language_field == "dropdown"){
@@ -773,7 +820,8 @@
                                 <label class="form-label sub_lang_label sub_lang_label-'+data1.main_language_data.language_id+'" for="input-1">'+data1.main_language_data.language_name+'</label>\
                                 <input type="hidden" name="sublang_list" class="sublang_list sublang_list-'+data1.main_language_data.language_id+'" value="'+data1.main_language_data.language_id+'">\
                                 <ul id="sub_lang_dropdown-'+data1.main_language_data.language_id+'" style="display:none;">'+sublang_text+'</ul>\
-                                <select class="js-example-basic-multiple'+data1.main_language_data.language_id+' addAll_removeAll_btn" data-list-id="sub_lang_dropdown-'+data1.main_language_data.language_id+'" name="sub_languages[]" onchange="getProficiency(\''+ap+'\',\''+data1.main_language_data.language_id+'\')" multiple="multiple"></select>\
+                                <select class="js-example-basic-multiple'+data1.main_language_data.language_id+' sub_lang_valid-'+data1.main_language_data.language_id+' addAll_removeAll_btn" data-list-id="sub_lang_dropdown-'+data1.main_language_data.language_id+'" name="sub_languages[]" onchange="getProficiency(\''+ap+'\',\''+data1.main_language_data.language_id+'\')" multiple="multiple"></select>\
+                                <span id="reqsublangvalid-'+data1.main_language_data.language_id+'" class="reqError text-danger valley"></span>\
                               </div>\
                               <div class="lang_proficiency_level-'+data1.main_language_data.language_id+'"></div>\
                               </div>\
@@ -826,17 +874,19 @@
               var data1 = JSON.parse(data);
               console.log("data",data1.sub_language_data.language_name);
 
-              $(".lang_proficiency_level-"+language_id).append('<div class="sublangprofdiv sublangprofdiv-'+data1.sub_language_data.language_id+' form-group level-drp">\
-                  <label class="form-label" for="input-1">Proficiency Level ('+data1.sub_language_data.language_name+')</label>\
+              $(".lang_proficiency_level-"+language_id).append('<div class="custom-select-wrapper sublangprofdiv sublangprofdiv-'+data1.sub_language_data.language_id+' form-group level-drp" style="margin-bottom: 5px;">\
+                  <label class="form-label subproflabel-'+data1.sub_language_data.language_id+'" for="input-1">Proficiency Level ('+data1.sub_language_data.language_name+')</label>\
                   <input type="hidden" name="sublangprof_list" class="sublangprof_list sublangprof_list-'+data1.sub_language_data.language_id+'" value="'+data1.sub_language_data.language_id+'">\
-                  <select class="form-input mr-10 select-active" name="langprof_level['+language_id+']['+data1.sub_language_data.language_id+']">\
+                  <select class="custom-select form-input mr-10 select-active langprof_level_valid-'+data1.sub_language_data.language_id+'" name="langprof_level['+language_id+']['+data1.sub_language_data.language_id+']">\
                     <option value="">select</option>\
                     <option value="Basic">Basic</option>\
                     <option value="Conversational">Conversational</option>\
                     <option value="Fluent">Fluent</option>\
                     <option value="Native">Native</option>\
                   </select>\
-                </div>');
+                  </div>\
+                  <span id="reqproflevelvalid-'+data1.sub_language_data.language_id+'" class="reqError text-danger valley"></span>\
+                  ');
             }
           });  
         }
@@ -876,11 +926,13 @@
                   <input type="hidden" name="engprof_list" class="engprof_list engprof_list-'+data1.language_id+'" value="'+data1.language_id+'">\
                   <div class="form-group level-drp">\
                     <label class="form-label" for="input-1">Score / Level Obtained</label>\
-                    <input type="text" name="english_prof_cert['+data1.language_id+'][score_level]" class="form-control fixed_salary_amount" value="">\
+                    <input type="text" name="english_prof_cert['+data1.language_id+'][score_level]" class="form-control fixed_salary_amount testscore_level_valid-'+data1.language_id+'" value="">\
+                    <span id="reqtestscore_level-'+data1.language_id+'" class="reqError text-danger valley"></span>\
                   </div>\
                   <div class="form-group level-drp">\
                     <label class="form-label" for="input-1">Expiring date</label>\
-                    <input type="date" name="english_prof_cert['+data1.language_id+'][expiring_date]" class="form-control fixed_salary_amount" value="">\
+                    <input type="date" name="english_prof_cert['+data1.language_id+'][expiring_date]" class="form-control fixed_salary_amount testexpiring_date_valid-'+data1.language_id+'" value="">\
+                    <span id="reqtestexpiring_date-'+data1.language_id+'" class="reqError text-danger valley"></span>\
                   </div>\
                   <div class="form-group level-drp">\
                     <label class="form-label" for="input-1">Upload Evidence</label>\
@@ -935,11 +987,13 @@
                   <input type="hidden" name="otherengprof_list" class="otherengprof_list otherengprof_list-'+data1.language_id+'" value="'+data1.language_id+'">\
                   <div class="form-group level-drp">\
                     <label class="form-label" for="input-1">Score / Level Obtained</label>\
-                    <input type="text" name="otherlangprof['+data1.language_id+'][score_level]" class="form-control fixed_salary_amount" value="">\
+                    <input type="text" name="otherlangprof['+data1.language_id+'][score_level]" class="form-control fixed_salary_amount otherscore_level_valid-'+data1.language_id+'" value="">\
+                    <span id="reqotherscore_level-'+data1.language_id+'" class="reqError text-danger valley"></span>\
                   </div>\
                   <div class="form-group level-drp">\
                     <label class="form-label" for="input-1">Expiring date</label>\
-                    <input type="date" name="otherlangprof['+data1.language_id+'][expiring_date]" class="form-control fixed_salary_amount" value="">\
+                    <input type="date" name="otherlangprof['+data1.language_id+'][expiring_date]" class="form-control fixed_salary_amount otherexpiring_date_valid-'+data1.language_id+'" value="">\
+                    <span id="reqotherexpiring_date-'+data1.language_id+'" class="reqError text-danger valley"></span>\
                   </div>\
                   <div class="form-group level-drp">\
                     <label class="form-label" for="input-1">Upload Evidence</label>\
@@ -1022,6 +1076,77 @@
         isValid = false;
 
       }
+
+      
+      $(".sublang_list").each(function() {
+        var val = $(this).val();
+        var label = $(".sub_lang_label-"+val).text();
+        console.log("val",val);
+        if ($(".sub_lang_valid-" + val).length > 0) {
+          if ($(".sub_lang_valid-" + val).val() == '') {
+            
+            document.getElementById("reqsublangvalid-" + val).innerHTML = "* Please select the "+label;
+            isValid = false;
+          }
+        }
+      });
+
+      $(".sublangprof_list").each(function() {
+        var val = $(this).val();
+        var label = $(".subproflabel-"+val).text();
+        console.log("val",val);
+        if ($(".langprof_level_valid-" + val).length > 0) {
+          if ($(".langprof_level_valid-" + val).val() == '') {
+            
+            document.getElementById("reqproflevelvalid-" + val).innerHTML = "* Please select the "+label;
+            isValid = false;
+          }
+        }
+      });
+
+      $(".engprof_list").each(function() {
+        var val = $(this).val();
+        
+        console.log("val",val);
+        if ($(".testscore_level_valid-" + val).length > 0) {
+          if ($(".testscore_level_valid-" + val).val() == '') {
+            
+            document.getElementById("reqtestscore_level-" + val).innerHTML = "* Please select the Score / Level Obtained";
+            isValid = false;
+          }
+        }
+
+        if ($(".testexpiring_date_valid-" + val).length > 0) {
+          if ($(".testexpiring_date_valid-" + val).val() == '') {
+            
+            document.getElementById("reqtestexpiring_date-" + val).innerHTML = "* Please enter the Expiring date";
+            isValid = false;
+          }
+        }
+        
+      });
+
+      $(".otherengprof_list").each(function() {
+        var val = $(this).val();
+        
+        console.log("val",val);
+        if ($(".otherscore_level_valid-" + val).length > 0) {
+          if ($(".otherscore_level_valid-" + val).val() == '') {
+            
+            document.getElementById("reqotherscore_level-" + val).innerHTML = "* Please select the Score / Level Obtained";
+            isValid = false;
+          }
+        }
+
+        if ($(".otherexpiring_date_valid-" + val).length > 0) {
+          if ($(".otherexpiring_date_valid-" + val).val() == '') {
+            
+            document.getElementById("reqotherexpiring_date-" + val).innerHTML = "* Please enter the Expiring date";
+            isValid = false;
+          }
+        }
+        
+      });
 
       if ($('.test_languages_valid').val() == '') {
 

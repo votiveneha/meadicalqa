@@ -7331,7 +7331,7 @@ if (!empty($interviewReferenceData)) {
 <script>
   $(document).ready(function() {
     // Add an additional search box to the dropdown
-    $('.js-example-basic-multiple').on('select2:open', function() {
+    $('.addAll_removeAll_btn').on('select2:open', function() {
 
       var searchBoxHtml = `
               <div class="extra-search-container">
@@ -8268,6 +8268,39 @@ if (!empty($interviewReferenceData)) {
           $currentDropdown.val(null).trigger('change');
         });
       }
+
+      var searchBoxHtml = `
+                <div class="extra-search-container">
+                    <input type="text" class="extra-search-box" placeholder="Search...">
+                    <button class="clear-button" type="button">&times;</button>
+                </div>`;
+            
+            if ($('.select2-results').find('.extra-search-container').length === 0) {
+                $('.select2-results').prepend(searchBoxHtml);
+            }
+
+            var $searchBox = $('.extra-search-box');
+            var $clearButton = $('.clear-button');
+
+            $searchBox.on('input', function() {
+
+                var searchTerm = $(this).val().toLowerCase();
+                $('.select2-results__option').each(function() {
+                    var text = $(this).text().toLowerCase();
+                    if (text.includes(searchTerm)) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+
+                $clearButton.toggle($searchBox.val().length > 0);
+            });
+
+            $clearButton.on('click', function() {
+                $searchBox.val('');
+                $searchBox.trigger('input');
+            });
     });
   }
 

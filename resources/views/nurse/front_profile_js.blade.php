@@ -2274,6 +2274,39 @@
                         $dropdown.val(null).trigger('change');
                     });
                 }
+
+                var searchBoxHtml = `
+                <div class="extra-search-container">
+                    <input type="text" class="extra-search-box" placeholder="Search...">
+                    <button class="clear-button" type="button">&times;</button>
+                </div>`;
+            
+            if ($('.select2-results').find('.extra-search-container').length === 0) {
+                $('.select2-results').prepend(searchBoxHtml);
+            }
+
+            var $searchBox = $('.extra-search-box');
+            var $clearButton = $('.clear-button');
+
+            $searchBox.on('input', function() {
+
+                var searchTerm = $(this).val().toLowerCase();
+                $('.select2-results__option').each(function() {
+                    var text = $(this).text().toLowerCase();
+                    if (text.includes(searchTerm)) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+
+                $clearButton.toggle($searchBox.val().length > 0);
+            });
+
+            $clearButton.on('click', function() {
+                $searchBox.val('');
+                $searchBox.trigger('input');
+            });
             });
         }
 
@@ -2408,7 +2441,7 @@
                                 <input type="hidden" name="subpwork" class="subpwork subpwork-'+data1.subplace_id+'" value="'+k+'">\
                                 <input type="hidden" name="subpwork_list" class="subpwork_list subpwork_list-'+k+'" value="'+data1.subplace_id+'">\
                                 <ul id="subpwork_field-'+k+data1.subplace_id+'" style="display:none;">'+wp_text+'</ul>\
-                                <select class="js-example-basic-multiple'+k+data1.subplace_id+' pwork_valid-'+k+' pwork_valid-'+k+data1.subplace_id+'" data-list-id="subpwork_field-'+k+data1.subplace_id+'" name="subworkthlevel['+k+']['+l+']['+data1.subplace_id+'][]" multiple></select>\
+                                <select class="js-example-basic-multiple'+k+data1.subplace_id+' addAll_removeAll_btn pwork_valid-'+k+' pwork_valid-'+k+data1.subplace_id+'" data-list-id="subpwork_field-'+k+data1.subplace_id+'" name="subworkthlevel['+k+']['+l+']['+data1.subplace_id+'][]" multiple></select>\
                                 <span id="reqsubpwork-'+k+data1.subplace_id+'" class="reqError text-danger valley"></span>\
                             </div>');
 
@@ -2619,7 +2652,7 @@
                 $currentDropdown.val(null).trigger('change');
             });
         });
-        $('.js-example-basic-multiple'+select_id).on('select2:open', function() {
+        $('.addAll_removeAll_btn').on('select2:open', function() {
             var searchBoxHtml = `
                 <div class="extra-search-container">
                     <input type="text" class="extra-search-box" placeholder="Search...">
