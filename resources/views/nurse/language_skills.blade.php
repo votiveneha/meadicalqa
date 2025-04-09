@@ -334,6 +334,7 @@
                                   <label class="form-label" for="input-1">Upload Evidence</label>
                                   <input type="hidden" name="english_prof_cert[{{ $earr }}][evidence_imgs]" class="english_prof_cert-{{ $earr }}" value="@if(isset($engdata['evidence_imgs'])){{ $engdata['evidence_imgs'] }}@endif">
                                   <input class="form-control upload_evidence upload_evidence-{{ $earr }}" type="file" name="" onchange="changeEvidenceImg({{ $user_id }},{{ $earr }},'english_prof_cert')" multiple="">
+                                  <span id="requploadevidence-{{ $earr }}" class="reqError text-danger valley"></span>
                                   <div class="lang_evidence-{{ $earr }}">
                                     <?php
                                       if(isset($engdata['evidence_imgs'])){
@@ -427,6 +428,7 @@
                                 <label class="form-label" for="input-1">Upload Evidence</label>
                                 <input type="hidden" name="otherlangprof[{{ $otherarr }}][evidence_imgs]" class="other_prof_cert-{{ $otherarr }}" value="@if(isset($otherdata['evidence_imgs'])){{ $otherdata['evidence_imgs'] }}@endif">
                                 <input class="form-control upload_evidence upload_evidence-{{ $otherarr }}" type="file" name="" onchange="changeEvidenceImg({{ $user_id }},{{ $otherarr }},'other_prof_cert')" multiple="">
+                                <span id="requploadevidence-{{ $otherarr }}" class="reqError text-danger valley"></span>
                                 <div class="lang_evidence-{{ $otherarr }}">
                                   <?php
                                     if(isset($otherdata['evidence_imgs'])){
@@ -509,6 +511,7 @@
                               <label class="form-label" for="input-1">Upload Evidence</label>
                               <input type="hidden" name="specialized_lang_skills[{{ $speclangarr }}][evidence_imgs]" class="specialized_lang_skills-{{ $speclangarr }}" value="@if(isset($specializeddata['evidence_imgs'])){{ $specializeddata['evidence_imgs'] }}@endif">
                               <input class="form-control upload_evidence upload_evidence-{{ $speclangarr }}" type="file" name="" onchange="changeEvidenceImg({{ $user_id }},{{ $speclangarr }},'specialized_lang_skills')" multiple="">
+                              <span id="requploadevidence-{{ $speclangarr }}" class="reqError text-danger valley"></span>
                               <div class="lang_evidence-{{ $speclangarr }}">
                                 <?php
                                     if(isset($specializeddata['evidence_imgs'])){
@@ -938,6 +941,7 @@
                     <label class="form-label" for="input-1">Upload Evidence</label>\
                     <input type="hidden" name="english_prof_cert['+data1.language_id+'][evidence_imgs]" class="english_prof_cert-'+data1.language_id+'">\
                     <input class="form-control upload_evidence upload_evidence-'+data1.language_id+'" type="file" name="" onchange="changeEvidenceImg(\''+user_id+'\',\''+data1.language_id+'\',\''+eng_prof+'\')" multiple="">\
+                    <span id="requploadevidence-'+data1.language_id+'" class="reqError text-danger valley"></span>\
                     <div class="lang_evidence-'+data1.language_id+'"></div>\
                   </div>\
                 </div>');
@@ -999,6 +1003,7 @@
                     <label class="form-label" for="input-1">Upload Evidence</label>\
                     <input type="hidden" name="otherlangprof['+data1.language_id+'][evidence_imgs]" class="other_prof_cert-'+data1.language_id+'" value="">\
                     <input class="form-control upload_evidence upload_evidence-'+data1.language_id+'" type="file" name="otherlangprof['+data1.language_id+'][engevimg]" onchange="changeEvidenceImg(\''+user_id+'\',\''+data1.language_id+'\',\''+eng_prof+'\')" multiple="">\
+                    <span id="requploadevidence-'+data1.language_id+'" class="reqError text-danger valley"></span>\
                     <div class="lang_evidence-'+data1.language_id+'"></div>\
                   </div>\
                 </div>');
@@ -1123,6 +1128,16 @@
             isValid = false;
           }
         }
+
+        if ($(".upload_evidence-" + val).length > 0) {
+          var upload_evidence = $.trim($(".lang_evidence-" + val).text());
+          console.log("upload_evidence",$.trim($(".lang_evidence-" + val).text()));
+          if (upload_evidence == '') {
+            console.log("upload_evidence",val);
+            document.getElementById("requploadevidence-" + val).innerHTML = "* Please add at least one evidence document";
+            isValid = false;
+          }
+        }
         
       });
 
@@ -1145,8 +1160,34 @@
             isValid = false;
           }
         }
+
+        if ($(".upload_evidence-" + val).length > 0) {
+          var upload_evidence = $.trim($(".lang_evidence-" + val).text());
+          console.log("upload_evidence",$.trim($(".lang_evidence-" + val).text()));
+          if (upload_evidence == '') {
+            console.log("upload_evidence",val);
+            document.getElementById("requploadevidence-" + val).innerHTML = "* Please add at least one evidence document";
+            isValid = false;
+          }
+        }
         
       });
+
+      $(".specialized_level_list").each(function() {
+        var val = $(this).val();
+        
+        console.log("val",val);
+        if ($(".upload_evidence-" + val).length > 0) {
+          var upload_evidence = $.trim($(".lang_evidence-" + val).text());
+          console.log("upload_evidence",$.trim($(".lang_evidence-" + val).text()));
+          if (upload_evidence == '') {
+            console.log("upload_evidence",val);
+            document.getElementById("requploadevidence-" + val).innerHTML = "* Please add at least one evidence document";
+            isValid = false;
+          }
+        }
+
+      });  
 
       if ($('.test_languages_valid').val() == '') {
 
@@ -1168,6 +1209,8 @@
         isValid = false;
 
       }
+
+      
 
       if (isValid == true) {
         $.ajax({
