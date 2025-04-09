@@ -45,7 +45,7 @@
     
     <div class="box-nav-tabs nav-tavs-profile mb-5 p-0 profile-icns">
       <ul class="nav" role="tablist">
-        <li><a class="btn btn-border aboutus-icon mb-20 profile_tabs" href="#"><i class="fi fi-rr-percentage"></i>Match Percentage</a></li>
+        <li><a class="{{ request()->is('nurse/match_percentage') ?'active':'' }} btn btn-border aboutus-icon mb-20 profile_tabs" href="{{ route('nurse.match_percentage', ['page' => 'match_percentage']) }}"><i class="fi fi-rr-percentage"></i>Match Percentage</a></li>
         <li><a class="{{ request()->is('nurse/sector_preferences') ?'active':'' }} btn btn-border recruitment-icon mb-20 profile_tabs" href="{{ route('nurse.sector_preferences', ['page' => 'sector_preferences']) }}"><i class="fi fi-rr-stethoscope"></i> Sector Preferences</a></li>
         <li><a class="{{ request()->is('nurse/work_environment_preferences') ?'active':'' }} btn btn-border recruitment-icon mb-20 profile_tabs" href="{{ route('nurse.work_environment_preferences', ['page' => 'work_environment_preferences']) }}"><i class="fi fi-rr-handshake"></i> Work Environment Preferences</a></li>
         <li><a class="{{ request()->is('nurse/employeement_type_preferences') ?'active':'' }} btn btn-border recruitment-icon mb-20 profile_tabs" href="{{ route('nurse.employeement_type_preferences', ['page' => 'employeement_type_preferences']) }}"><i class="fi fi-rr-briefcase"></i> Employment type Preferences</a></li>
