@@ -417,4 +417,176 @@ class WorkPreferencesController extends Controller{
         echo json_encode($json);
         
     }
+
+    public function match_percentage()
+    {
+        $user_id = Auth::guard('nurse_middle')->user()->id;
+        //$data['work_preferences_data'] = WorkPreferencesModel::where("user_id",$user_id)->first();
+        $data['score'] = $this->calculateCategory1Score($user_id);
+        $data['score_percent'] = $data['score']/15*100;
+
+        $data['specialities_score'] = $this->calculatespecialitiesScore($user_id);
+        return view('nurse.match_percentage')->with($data);
+    }
+
+    public function calculateCategory1Score($user_id){
+        $user_data = DB::table("users")->where("id",$user_id)->first();
+        //print_r(json_decode($user_data->nurseType));die;
+        $nurseType = json_decode($user_data->nurseType);
+        $nurse_role = array();
+        if($user_data->entry_level_nursing != "null"){
+            $nurse_role1 = json_decode($user_data->entry_level_nursing);
+        }else{
+            $nurse_role1 = array();
+        }
+
+        if($user_data->registered_nurses != "null"){
+            $nurse_role2 = json_decode($user_data->registered_nurses);
+        }else{
+            $nurse_role2 = array();
+        }
+        
+        if($user_data->advanced_practioner != "null"){
+            $nurse_role3 = json_decode($user_data->advanced_practioner);
+        }else{
+            $nurse_role3 = array();
+        }
+
+        if($user_data->nurse_prac != "null"){
+            $nurse_role4 = json_decode($user_data->nurse_prac);
+        }else{
+            $nurse_role4 = array();
+        }
+
+        $merged = array_merge($nurse_role1, $nurse_role2, $nurse_role3, $nurse_role4);
+
+        $nt_name = array();
+        foreach($nurseType as $nt){
+            $nt_data = DB::table("practitioner_type")->where("id",$nt)->first();
+            $nt_name[] = $nt_data->name;
+        }
+
+        $nt_role = array();
+        foreach($merged as $nr){
+            $nr_data = DB::table("practitioner_type")->where("id",$nr)->first();
+            //echo $nr;
+            $nt_role[] = $nr_data->name;
+        }
+        
+        //print_r($nt_role);
+        $nurseProfile = array("categories"=>$nt_name,"special_roles"=>$nt_role);
+
+        $jobsData = DB::table("jobs")->get();
+        //print_r($nurseProfile);
+        $jobcat_arr = array();
+        foreach($jobsData as $jdata){
+            $jobcat_arr[] = $jdata->job_category;
+            
+        }
+
+        $jobrole_arr = array();
+        foreach($jobsData as $jdata){
+            $jobrole_arr[] = $jdata->job_role;
+            
+        }
+        
+        $jobRequirements = array("categories"=>$jobcat_arr,"special_roles"=>$jobrole_arr);
+
+        return $score = $this->calculateTypeOfNurseAndRoleScore($jobRequirements, $nurseProfile);
+    }
+
+    function calculateTypeOfNurseAndRoleScore($job, $nurse, $categoryWeight = 15) {
+        $hierarchy = [
+            'Entry level nursing' => 1,
+            'Registered Nurses (RNs)' => 2,
+            'Advanced Practice Registered Nurses (APRNs)' => 3,
+            'Nurse Practitioner (NP):' => 4
+        ];
+        // print_r($job)."<br>";
+        // print_r($nurse);
+        // --- Nurse Category Matching ---
+        $jobCategories = $job['categories']; // array
+        $nurseCategories = $nurse['categories']; // array
+        $categoryMatchScores = [];
+        
+        foreach ($jobCategories as $jobCat) {
+            $jobCat = trim($jobCat);
+            $bestScore = 0;
+    
+            foreach ($nurseCategories as $nurseCat) {
+                $nurseCat = trim($nurseCat);
+                if ($nurseCat === $jobCat) {
+                    $bestScore = max($bestScore, 1.0);
+                } elseif (
+                    isset($hierarchy[$nurseCat], $hierarchy[$jobCat]) &&
+                    $hierarchy[$nurseCat] > $hierarchy[$jobCat]
+                ) {
+                    $bestScore = max($bestScore, 0.7); // overqualified
+                }
+            }
+    
+            $categoryMatchScores[] = $bestScore;
+        }
+        //print_r($categoryMatchScores);
+        $avgCategoryScore = count($categoryMatchScores) > 0
+            ? array_sum($categoryMatchScores) / count($categoryMatchScores)
+            : 0;
+    
+        // --- Special Role Matching ---
+        $jobRoles = array_map('strtolower', $job['special_roles']);
+        
+        $nurseRoles = array_map('strtolower', $nurse['special_roles']);
+
+        $roles = DB::table("practitioner_type")->whereIn("parent",array(1,2,3,179))->get();
+        $rarr = array();
+        foreach($roles as $rdata){
+            $rarr[] = $rdata->name;
+        }
+        
+        $relatedRoles = $rarr;
+
+    
+        $roleMatchScores = [];
+        foreach ($job['special_roles'] as $jobRole) {
+            //$jobRoleLower = strtolower($jobRole);
+            $bestScore = 0;
+            foreach ($nurse['special_roles'] as $nurseRole) {
+                //$nurseRoleLower = strtolower($nurseRole);
+                if ($nurseRole === $jobRole) {
+                    $bestScore = 1.0;
+                } elseif (in_array($nurseRole, $relatedRoles)) {
+                    $bestScore = max($bestScore, 0.5);
+                }
+            }
+            $roleMatchScores[] = $bestScore;
+        }
+
+        //print_r($roleMatchScores);
+    
+        $avgRoleScore = count($roleMatchScores) > 0
+            ? array_sum($roleMatchScores) / count($roleMatchScores)
+            : 0;
+    
+        // --- Flexibility Score ---
+        $maxNurseLevel = max(array_map(fn($c) => $hierarchy[$c] ?? 0, $nurse['categories']));
+        $maxJobLevel = max(array_map(fn($c) => $hierarchy[$c] ?? 0, $job['categories']));
+        $flexibilityScore = $maxNurseLevel > $maxJobLevel ? 0.7 : 0.0;
+    
+        // --- Final Score ---
+        $averageScore = ($avgCategoryScore + $avgRoleScore + $flexibilityScore) / 3;
+        return $averageScore * $categoryWeight;
+    }
+
+    public function calculatespecialitiesScore($user_id){
+        $jobSpecialities = DB::table("jobs")->get();
+        $jobSpecArr = array();
+        foreach($jobSpecialities as $jSpecialities){
+            $jobSpec = json_decode($jSpecialities->job_specialities);
+            foreach($jobSpec as $jSpec){
+                $jobSpecArr[] = $jSpec;
+            }
+
+        }
+        //print_r($jobSpecArr);
+    }
 }
