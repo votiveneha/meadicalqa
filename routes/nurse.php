@@ -169,6 +169,7 @@ Route::prefix('nurse')->name('nurse.')->namespace('App\Http\Controllers\nurse')-
   Route::post('/deletelangEvidenceImg', 'LanguageSkillsContoller@deletelangEvidenceImg')->name('deletelangEvidenceImg');   
   
   /**************[Work Preferences & Flexibility]**************/
+  Route::get('/match_percentage', 'WorkPreferencesController@match_percentage')->name('match_percentage');
   Route::get('/sector_preferences', 'WorkPreferencesController@index')->name('sector_preferences');
   Route::post('/updateSectorPreferences', 'WorkPreferencesController@updateSectorPreferences')->name('updateSectorPreferences');
   Route::get('/work_environment_preferences', 'WorkPreferencesController@work_environment_preferences')->name('work_environment_preferences');
