@@ -147,7 +147,7 @@ i.fa.fa-file {
                 {
                   if($work_eligibility['residency']=='Australian Citizen')
                   {
-                    $support_document0=$work_eligibility['support_document'];
+                    $support_document0='';
                   }
                   if($work_eligibility['residency']=='Permanent Resident')
                   {
@@ -204,15 +204,17 @@ i.fa.fa-file {
 
                       <div class="form-group">
                         <label class="form-label" for="input-1">Upload Evidence</label>
-                        <input type="file" name="upload_evidence0" id="{{$support_document0==''?'upload_evidence0':''}}" class="form-control h-100 fileInput">
+                        <input type="file" name="upload_evidence0[]" id="{{$support_document0==''?'upload_evidence0':''}}" class="form-control h-100 fileInput" multiple>
                         <div id="fileList" class="file-list">
-                          <?php if($support_document0!=''){ ?>  
-                            <div class="file-item">
-                                <a href="{{ asset('uploads/support_document/' . $support_document0) }}" target="_blank"><i class="fa fa-file" aria-hidden="true"></i> {{$work_eligibility['original_file_name']}}</a>
-                                <div class="close_btn close_btn-0 del_eve" eve_id="{{$support_document0}}" style="cursor: pointer;">
+                          <?php if(!empty($work_evidence)){ ?>  
+                            @foreach ($work_evidence as $work_imgs)
+                              <div class="file-item file-item-{{ $work_imgs->id }}">
+                                <a href="{{ asset('uploads/support_document/' . $support_document0) }}" target="_blank"><i class="fa fa-file" aria-hidden="true"></i> {{ $work_imgs->original_name }}</a>
+                                <div class="close_btn close_btn-0 del_eve del_eve-{{ $work_imgs->id }}" eve_id="{{ $work_imgs->id }}" style="cursor: pointer;"">
                                     <i class="fa fa-close" aria-hidden="true"></i>
                                 </div>
                             </div>
+                            @endforeach
                           <?php } ?>
                         </div>
                         <span id="reqasupport_document" class="reqError text-danger valley"></span>
@@ -355,7 +357,7 @@ i.fa.fa-file {
                       
                       <div class="form-group">
                         <label class="form-label" for="input-1">Upload Evidence</label>
-                        <input type="file" name="upload_evidence2" id="{{$support_document2==''?'upload_evidence2':''}}" class="form-control h-100 fileInput" >
+                        <input type="file" name="upload_evidence2" id="{{$support_document2==''?'upload_evidence2':''}}" class="form-control h-100 fileInput" multiple>
                         <div id="fileList" class="file-list">
                           <?php if($support_document2!=''){ ?>  
                             <div class="file-item">
@@ -741,6 +743,25 @@ if (!empty($interviewReferenceData)) {
       }
     });
   });
+
+  
+  // function deleteEvidence(img_id) {
+  //     $.ajax({
+  //       type: "post",
+  //       url: "{{ route('nurse.deleteClearenceEvidenceImg') }}",
+  //       data: {
+  //         img_id: img_id,
+          
+  //         _token: '{{ csrf_token() }}'
+  //       },
+  //       cache: false,
+  //       success: function(data) {
+  //         if (data == 1) {
+  //           $(".file-item-"+img_id).remove();
+  //         }
+  //       }
+  //     });
+  //   }
   
     
   function changeResidency()
@@ -1963,17 +1984,13 @@ if (!empty($interviewReferenceData)) {
 
   function initializeFileUpload() {
     $(".fileInput").each(function () {
+        
         const fileInput = $(this);
         const fileList = fileInput.siblings(".file-list"); // Select the correct file list
         const selectedFiles = new DataTransfer(); // Maintain a single file
-
+        
         fileInput.off("change").on("change", function (event) {
-            // Clear previously selected files
-            selectedFiles.items.clear();
-            fileList.empty(); // Remove existing file preview
-
-            if (event.target.files.length > 0) {
-                const file = event.target.files[0]; // Only take the first file
+          Array.from(event.target.files).forEach((file) => {
                 selectedFiles.items.add(file);
 
                 // Create a file item container
@@ -1981,34 +1998,41 @@ if (!empty($interviewReferenceData)) {
 
                 // Create a link to the file with the file name
                 const fileLink = $("<a>")
-                    .attr("href", URL.createObjectURL(file)) // Create Blob URL
+                    .attr("href", URL.createObjectURL(file))  // Use Blob URL to link the file
                     .attr("target", "_blank")
                     .html(`<i class="fa fa-file" aria-hidden="true"></i> ${file.name}`);
 
                 // Create the close button
-                const closeButton = $("<div>").addClass("close_btn").css({
-                    "cursor": "pointer",
-                    "color": "red"
-                });
+                const closeButton = $("<div>").addClass("close_btn close_btn-0").css("cursor", "pointer");
                 const closeIcon = $("<i>").addClass("fa fa-close").attr("aria-hidden", "true");
 
                 // Append the close icon to the close button
                 closeButton.append(closeIcon);
 
-                // Remove the selected file when close button is clicked
+                // Add event listener to remove the file item when clicked
                 closeButton.on("click", function () {
-                    selectedFiles.items.clear(); // Remove file from DataTransfer
-                    fileInput[0].files = selectedFiles.files; // Update file input
-                    fileList.empty(); // Clear UI
+                    for (let i = 0; i < selectedFiles.items.length; i++) {
+                        if (selectedFiles.items[i].getAsFile().name === file.name) {
+                            selectedFiles.items.remove(i);
+                            break;
+                        }
+                    }
+                    fileInput[0].files = selectedFiles.files;
+
+                    // Remove the file div from the list
+                    fileDiv.remove();
                 });
 
-                // Append elements
+                // Append the link and close button to the file div
                 fileDiv.append(fileLink).append(closeButton);
-                fileList.append(fileDiv);
-            }
 
-            // Update the file input with the modified FileList (only one file)
+                // Append the file div to the file list container
+                fileList.append(fileDiv);
+            });
+
+            // Update the file input with the modified FileList
             fileInput[0].files = selectedFiles.files;
+            
         });
     });
 }
