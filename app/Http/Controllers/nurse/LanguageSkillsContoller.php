@@ -85,6 +85,7 @@ class LanguageSkillsContoller extends Controller{
 
             $run = LanguageSkillsModel::where('user_id',$user_id)->update(['langprof_level'=>$langprof_level,'english_prof_cert'=>$english_prof_cert,'other_prof_cert'=>$other_prof_cert,'specialized_lang_skills'=>$specialized_lang_skills]);
         }else{
+            $user_stage = update_user_stage($user_id);
             $language_skills = new LanguageSkillsModel();
             $language_skills->user_id = $user_id;
             $language_skills->langprof_level = $langprof_level;

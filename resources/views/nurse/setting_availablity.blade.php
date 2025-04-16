@@ -95,25 +95,25 @@
               </div>
             </div>
             @endif
-            @if(!email_verified())
+            {{-- @if(!email_verified())
             <div class="alert alert-success mt-2" role="alert">
               <span class="d-flex align-items-center justify-content-center ">Please verify your email first to access your account </span>
             </div>
-            @endif
+            @endif --}}
 
             <div class="tab-content">
                 <?php $user_id=''; $i = 0;?>
 
                 <div class="tab-pane fade" id="tab-my-profile-setting">
 
-                    @if(email_verified())
+                    {{-- @if(email_verified())
                     @if(!account_verified())
     
                     <div class="alert alert-success mt-2" role="alert">
                       <span class="d-flex align-items-center justify-content-center ">Your profile is in under review, Generally, it takes 2-3 business days. Until you can not make chnages in your profile setting. </span>
                     </div>
                     @endif
-                    @endif
+                    @endif --}}
                     <div class="card shadow-sm border-0 p-4 mt-30">
                       <h3 class="mt-0 color-brand-1 mb-2">Setting & Availability</h3>
     
@@ -194,7 +194,7 @@
                             {{-- <span id="any_help" class="reqError text-danger valley"></span> --}}
                         </div>
                         <div class="d-flex align-items-center justify-content-between">
-                          <button onclick="doprofessionSeting_update()" @if(!email_verified()) disabled @elseif(!account_verified()) disabled @endif class="btn btn-default px-5 py-8  rounded-2 mb-0 submit-btn-120" type="submit"><span class="resetpassword">Update Setting</span>
+                          <button onclick="doprofessionSeting_update()" @if(!email_verified()) disabled @endif class="btn btn-default px-5 py-8  rounded-2 mb-0 submit-btn-120" type="submit"><span class="resetpassword">Update Setting</span>
                             <div class="spinner-border submit-btn-1" role="status" style="display:none;">
                               <span class="sr-only">Loading...</span>
                             </div>

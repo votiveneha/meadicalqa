@@ -49,8 +49,10 @@ class WorkPreferencesController extends Controller{
         //print_r($work_preferences_data);
 
         if(!empty($work_preferences_data)){
+            $user_stage = update_user_stage($user_id);
             $run = WorkPreferencesModel::where('user_id',$user_id)->update(['sector_preferences'=>$sector_preferences]);
         }else{
+            $user_stage = update_user_stage($user_id);
             $work_preferences = new WorkPreferencesModel();
             $work_preferences->user_id = $user_id;
             $work_preferences->sector_preferences = $sector_preferences;
@@ -86,8 +88,10 @@ class WorkPreferencesController extends Controller{
         //print_r($work_preferences_data);
 
         if(!empty($work_preferences_data)){
+            $user_stage = update_user_stage($user_id);
             $run = WorkPreferencesModel::where('user_id',$user_id)->update(['work_environment_preferences'=>$subworkthlevel]);
         }else{
+            $user_stage = update_user_stage($user_id);
             $work_preferences = new WorkPreferencesModel();
             $work_preferences->user_id = $user_id;
             $work_preferences->work_environment_preferences = $subworkthlevel;
@@ -158,8 +162,10 @@ class WorkPreferencesController extends Controller{
         //print_r($work_preferences_data);
 
         if(!empty($work_preferences_data)){
+            $user_stage = update_user_stage($user_id);
             $run = WorkPreferencesModel::where('user_id',$user_id)->update(['emptype_preferences'=>$emptypelevel]);
         }else{
+            $user_stage = update_user_stage($user_id);
             $work_preferences = new WorkPreferencesModel();
             $work_preferences->user_id = $user_id;
             $work_preferences->emptype_preferences = $emptypelevel;
@@ -219,8 +225,10 @@ class WorkPreferencesController extends Controller{
         //print_r($work_preferences_data);
 
         if(!empty($work_preferences_data)){
+            $user_stage = update_user_stage($user_id);
             $run = WorkPreferencesModel::where('user_id',$user_id)->update(['work_shift_preferences'=>$workshift_preferences,'subwork_shift_preferences'=>$subworkshift_preferences]);
         }else{
+            $user_stage = update_user_stage($user_id);
             $work_preferences = new WorkPreferencesModel();
             $work_preferences->user_id = $user_id;
             $work_preferences->work_shift_preferences = $workshift_preferences;
@@ -261,8 +269,10 @@ class WorkPreferencesController extends Controller{
         //print_r($work_preferences_data);
 
         if(!empty($work_preferences_data)){
+            $user_stage = update_user_stage($user_id);
             $run = WorkPreferencesModel::where('user_id',$user_id)->update(['position_preferences'=>$subpositions_held]);
         }else{
+            $user_stage = update_user_stage($user_id);
             $work_preferences = new WorkPreferencesModel();
             $work_preferences->user_id = $user_id;
             $work_preferences->position_preferences = $subpositions_held;
@@ -301,8 +311,10 @@ class WorkPreferencesController extends Controller{
         //print_r($work_preferences_data);
 
         if(!empty($work_preferences_data)){
+            $user_stage = update_user_stage($user_id);
             $run = WorkPreferencesModel::where('user_id',$user_id)->update(['benefits_preferences'=>$benefits_preferences]);
         }else{
+            $user_stage = update_user_stage($user_id);
             $work_preferences = new WorkPreferencesModel();
             $work_preferences->user_id = $user_id;
             $work_preferences->benefits_preferences = $benefits_preferences;
@@ -348,8 +360,10 @@ class WorkPreferencesController extends Controller{
         //print_r($work_preferences_data);
 
         if(!empty($work_preferences_data)){
+            $user_stage = update_user_stage($user_id);
             $run = WorkPreferencesModel::where('user_id',$user_id)->update(['countries'=>$countries,'other_countries'=>$other_countries1]);
         }else{
+            $user_stage = update_user_stage($user_id);
             $work_preferences = new WorkPreferencesModel();
             $work_preferences->user_id = $user_id;
             $work_preferences->countries = $countries;
@@ -372,6 +386,7 @@ class WorkPreferencesController extends Controller{
     {
         $user_id = Auth::guard('nurse_middle')->user()->id;
         $data['salary_expectation_data'] = SalaryExpectation::where("user_id",$user_id)->first();
+        //print_r($data['salary_expectation_data']);die;
         return view('nurse.salary_expectations')->with($data);
     }
 
@@ -391,8 +406,10 @@ class WorkPreferencesController extends Controller{
 
 
         if(!empty($salary_expectation_data)){
+            $user_stage = update_user_stage($user_id);
             $run = SalaryExpectation::where('user_id',$user_id)->update(['payment_frequency'=>$payment_frequency,'salary_range'=>$salary_range,'fixed_salary'=>$fixed_salary_amount,'negotiable_salary'=>$negotiable_salary,'hourly_salary'=>$hourly_salary_amount,'weekly_salary'=>$weekly_salary_amount,'monthly_salary'=>$monthly_salary_amount,'annual_salary'=>$annual_salary_amount]);
         }else{
+            $user_stage = update_user_stage($user_id);
             $salary_expectation = new SalaryExpectation();
             $salary_expectation->user_id = $user_id;
             $salary_expectation->payment_frequency = $payment_frequency;

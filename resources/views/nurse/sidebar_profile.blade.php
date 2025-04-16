@@ -1,3 +1,27 @@
+<style>
+ 
+  .support-button {
+    background-color: #000000;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-left: 10px;
+  }
+  
+  
+  .support-button:hover {
+    background-color: #000000;
+    color:white;
+    transform: translateY(-1px);
+  }
+  
+  
+</style>
 <div class="sidebar_profile">
   <div class="box-company-profile mb-20">
     <div class="image-compay-rel">
@@ -68,7 +92,10 @@
       <!-- <li><a href="#experience" id="experience_info" class="btn btn-border aboutus-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-my-menu4" aria-selected="true"><i class="fi fi-rr-chart-histogram"></i>  Financial Details</a></li> -->
 
       {{-- <li><a href="{{ route('nurse.my-profile', ['page' => 'additional_info']) }}" id="additional_info" class="btn btn-border recruitment-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-myclearance-jobs" aria-selected="false"><i class="fi fi-rr-guide-alt"></i> Additional Information</a></li> --}}
-      <div class="mt-0 mb-20 logout-line"><a class="link-red font-md" href="{{ route('nurse.logout') }}"><i class="fa-solid fa-arrow-right-from-bracket me-2"></i> Log Out</a></div>
+      <div class="mt-0 mb-20 logout-line">
+        <a class="link-red font-md" href="{{ route('nurse.logout') }}"><i class="fa-solid fa-arrow-right-from-bracket me-2"></i> Log Out</a>
+        <a class="support-button font-md" href="{{ route('contact') }}">Need support?</a>
+      </div>
     </ul>
   </div>
 </div>

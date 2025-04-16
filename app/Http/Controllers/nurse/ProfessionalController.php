@@ -48,7 +48,9 @@ use App\Models\VaccinationFrontModel;
 use App\Models\AdditionalInfo;
 use App\Models\ProfessionalAssocialtionModel;
 use App\Models\SubClassModel;
+use App\Models\WorkEvidenceModel;
 use App\Repository\Eloquent\SpecialityRepository;
+
 
 class ProfessionalController extends Controller
 {
@@ -75,26 +77,47 @@ class ProfessionalController extends Controller
                                     ->orderBy('id') 
                                     ->get();
 
-        $work_eligibility   = EligibilityToWorkModel::where('user_id', $user_id)->first();                     
+        $work_eligibility   = EligibilityToWorkModel::where('user_id', $user_id)->first();   
+        if(!empty($work_eligibility)){
+            $work_evidence   = WorkEvidenceModel::where('type_id', $work_eligibility->id)->where('evidance_type', "1")->get();
+        }else{
+            $work_evidence   = '';
+        }  
+        //print_r($work_evidence);die;
+        // echo "<pre>";        
+        // print_r($work_evidence);  die;         
         $ndis               = NdisWorker::where('user_id', $user_id)->first();              
+        
+        if(!empty($ndis)){
+            $work_evidence_ndis   = WorkEvidenceModel::where('type_id', $ndis->id)->where('evidance_type', "2")->get();  
+        }else{
+            $work_evidence_ndis   = '';
+        }   
         $ww_child           = WorkingChildrenCheckModel::where('user_id', $user_id)->get();
         $policy_check       = PoliceCheckModel::where('user_id', $user_id)->first();
+        
+        if(!empty($policy_check)){
+            $work_evidence_police   = WorkEvidenceModel::where('type_id', $policy_check->id)->where('evidance_type', "4")->get(); 
+        }else{
+            $work_evidence_police   = '';
+        }   
         $specialize         = SpecializedClearance::where('user_id', $user_id)->get();
         
 
-        return view('nurse.work_clearances',compact('visaSubclasses','visaholderSubclasses','work_eligibility','ndis','ww_child','policy_check','specialize'));
+        return view('nurse.work_clearances',compact('visaSubclasses','visaholderSubclasses','work_eligibility','work_evidence','ndis','work_evidence_ndis','ww_child','policy_check','work_evidence_police','specialize'));
     }
     public function update_eligibility_to_work(Request $request)
     {
         //This function is for update the eligibility to work for nurse
         $lastRecord = EligibilityToWorkModel::where('user_id', Auth::guard('nurse_middle')->user()->id)->first();
-        if($lastRecord)
-        {
-            $professioninsert['original_file_name'] = $lastRecord['original_file_name'];
-            $professioninsert['support_document']=$lastRecord['support_document'];
+        // if($lastRecord)
+        // {
+        //     $professioninsert['original_file_name'] = $lastRecord['original_file_name'];
+        //     $professioninsert['support_document']=$lastRecord['support_document'];
 
-            $lastRecord->delete();
-        }
+        //     $lastRecord->delete();
+        // }
+        $user_stage = update_user_stage(Auth::guard('nurse_middle')->user()->id);
         $professioninsert['user_id'] =  Auth::guard('nurse_middle')->user()->id;
         $professioninsert['residency'] = $request->residency;
 
@@ -154,37 +177,94 @@ class ProfessionalController extends Controller
         
         $professioninsert['status'] = '0';
         $professioninsert['created_at'] = Carbon::now('Asia/Kolkata');
+        $evidence_files = $request->file('upload_evidence0', []);
+        $evidence_files1 = $request->file('upload_evidence1', []);
+        $evidence_files2 = $request->file('upload_evidence2', []);
 
-        if ($request->hasFile('upload_evidence0')) 
-        {
-            $filename = 'evidence_file_' . time() . '.' . $request->upload_evidence0->getClientOriginalExtension();
-            $destinationPath = public_path() . '/uploads/support_document';
-            $request->upload_evidence0->move($destinationPath, $filename);
-
-            $professioninsert['original_file_name'] = $request->file('upload_evidence0')->getClientOriginalName();
-            $professioninsert['support_document']=$filename;
-        }
-        if ($request->hasFile('upload_evidence1')) 
-        {
-            $filename = 'evidence_file_' . time() . '.' . $request->upload_evidence1->getClientOriginalExtension();
-            $destinationPath = public_path() . '/uploads/support_document';
-            $request->upload_evidence1->move($destinationPath, $filename);
-
-            $professioninsert['original_file_name'] = $request->file('upload_evidence1')->getClientOriginalName();
-            $professioninsert['support_document']=$filename;
-        }
-        if ($request->hasFile('upload_evidence2')) 
-        {
-            $filename = 'evidence_file_' . time() . '.' . $request->upload_evidence2->getClientOriginalExtension();
-            $destinationPath = public_path() . '/uploads/support_document';
-            $request->upload_evidence2->move($destinationPath, $filename);
-
-            $professioninsert['original_file_name'] = $request->file('upload_evidence2')->getClientOriginalName();
-            $professioninsert['support_document']=$filename;
-        }
         //echo "<pre>";print_r($professioninsert);die();
+        // print_r($lastRecord);
+        // echo $request->residency."=>".$lastRecord->residency;
+        
+        if(!empty($lastRecord) && $request->residency == $lastRecord->residency){
+            $work_model = EligibilityToWorkModel::find($lastRecord->id);
+            $run = $work_model->update($professioninsert);
+            $type_id = $lastRecord->id;
+        }else{
+            if(!empty($lastRecord)){
+                $deleteImgData = WorkEvidenceModel::where("type_id",$lastRecord->id)->delete();
+                $lastRecord->delete();
+            }
+            
+            
+            $run = EligibilityToWorkModel::insertGetId($professioninsert);
+            $type_id = $run;
+        }
 
-        $run = EligibilityToWorkModel::insert($professioninsert);
+        
+        if (isset($evidence_files) && is_array($evidence_files)) {
+                        
+            foreach ($evidence_files as $file) {
+                if ($file->isValid()) {
+                    $filename = 'evidence_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                    $originalName = $file->getClientOriginalName();
+                    $destinationPath = public_path('/uploads/evidence');
+                    $file->move($destinationPath, $filename);
+                    
+
+                    $work                   = new WorkEvidenceModel();
+                    $work->type_id     = $type_id;
+                    $work->original_name    = $originalName;
+                    $work->evidence_file    = $filename;
+                    $work->evidance_type    = "1";
+                    $work->created_at       = date('Y-m-d H:i:s');
+                    $work->save();
+                }
+            }
+        }
+
+        if (isset($evidence_files1) && is_array($evidence_files1)) {
+                        
+            foreach ($evidence_files1 as $file) {
+                if ($file->isValid()) {
+                    $filename = 'evidence_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                    $originalName = $file->getClientOriginalName();
+                    $destinationPath = public_path('/uploads/evidence');
+                    $file->move($destinationPath, $filename);
+                    
+
+                    $work                   = new WorkEvidenceModel();
+                    $work->type_id     = $type_id;
+                    $work->original_name    = $originalName;
+                    $work->evidence_file    = $filename;
+                    $work->evidance_type    = "1";
+                    $work->created_at       = date('Y-m-d H:i:s');
+                    $work->save();
+                }
+            }
+        }
+
+        if (isset($evidence_files2) && is_array($evidence_files2)) {
+                        
+            foreach ($evidence_files2 as $file) {
+                if ($file->isValid()) {
+                    $filename = 'evidence_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                    $originalName = $file->getClientOriginalName();
+                    $destinationPath = public_path('/uploads/evidence');
+                    $file->move($destinationPath, $filename);
+                    
+
+                    $work                   = new WorkEvidenceModel();
+                    $work->type_id     = $type_id;
+                    $work->original_name    = $originalName;
+                    $work->evidence_file    = $filename;
+                    $work->evidance_type    = "1";
+                    $work->created_at       = date('Y-m-d H:i:s');
+                    $work->save();
+                }
+            }
+        }
+
+        
         if ($run) {
             $json['status'] = 1;
             $json['url'] = url('nurse/workClearances') . "?page=work_clearances";
@@ -202,27 +282,43 @@ class ProfessionalController extends Controller
        $ndis['state_id']= $request->ndis_state;
        $ndis['clearance_number']= $request->ndis_worker_clearance_number;
        $ndis['expiry_date']= $request->ndis_expiry_date;
+       $evidence_files = $request->file('ndis_evidence', []);
        
-       if ($request->hasFile('ndis_evidence')) 
-        {
-            $filename = 'evidence_file_' . time() . '.' . $request->ndis_evidence->getClientOriginalExtension();
-            $destinationPath = public_path() . '/uploads/support_document';
-            $request->ndis_evidence->move($destinationPath, $filename);
-
-            $ndis['original_file_name'] = $request->file('ndis_evidence')->getClientOriginalName();
-            $ndis['evidence_file']=$filename;
-        }
+       
         
         $lastRecord = NdisWorker::where('user_id', Auth::guard('nurse_middle')->user()->id)->first();
         if($lastRecord)
         {
             $run=$lastRecord->update($ndis);
+            $type_id = $lastRecord->id;
         }
         else
         {
             $ndis['created_at']= now();
             $ndis['user_id'] = Auth::guard('nurse_middle')->user()->id; 
-            $run= NdisWorker::create($ndis);
+            $run= NdisWorker::insertGetId($ndis);
+            $type_id = $run;
+        }
+
+        if (isset($evidence_files) && is_array($evidence_files)) {
+                        
+            foreach ($evidence_files as $file) {
+                if ($file->isValid()) {
+                    $filename = 'evidence_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                    $originalName = $file->getClientOriginalName();
+                    $destinationPath = public_path('/uploads/evidence');
+                    $file->move($destinationPath, $filename);
+                    
+
+                    $work                   = new WorkEvidenceModel();
+                    $work->type_id     = $type_id;
+                    $work->original_name    = $originalName;
+                    $work->evidence_file    = $filename;
+                    $work->evidance_type    = "2";
+                    $work->created_at       = date('Y-m-d H:i:s');
+                    $work->save();
+                }
+            }
         }
 
         if ($run) {
@@ -247,6 +343,7 @@ class ProfessionalController extends Controller
         $wwcc_expiry_date   = $request->input('wwcc_expiry_date', []);
         $wwcc_evidence      = $request->file('wwcc_evidence', []);
         $wwcc_id            = $request->input('wwcc_id', []);
+        $evidence_files = $request->file('wwcc_evidence', []);
         
         for ($i = 0; $i < count($wwcc_state); $i++) {
             if (isset($wwcc_id[$i])) 
@@ -258,15 +355,29 @@ class ProfessionalController extends Controller
                     $wwcc->expiry_date      = $wwcc_expiry_date[$i];
 
 
-                    if (isset($wwcc_evidence[$i]) && $wwcc_evidence[$i]->isValid()) {
-                        $filename = 'evidence_file_' . time() . '.' . $wwcc_evidence[$i]->getClientOriginalExtension();
-                        $destinationPath = public_path() . '/uploads/support_document';
-                        $wwcc_evidence[$i]->move($destinationPath, $filename);
-    
-                        $wwcc->evidence_original_name = $wwcc_evidence[$i]->getClientOriginalName();
-                        $wwcc->wwcc_evidence = $filename;
-                    }
                     $run= $wwcc->save();
+                    $type_id = $wwcc->id;
+
+                    if (isset($evidence_files) && is_array($evidence_files)) {
+                        
+                        foreach ($evidence_files as $file) {
+                            if ($file->isValid()) {
+                                $filename = 'evidence_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                                $originalName = $file->getClientOriginalName();
+                                $destinationPath = public_path('/uploads/evidence');
+                                $file->move($destinationPath, $filename);
+                                
+            
+                                $work                   = new WorkEvidenceModel();
+                                $work->type_id     = $type_id;
+                                $work->original_name    = $originalName;
+                                $work->evidence_file    = $filename;
+                                $work->evidance_type    = "3";
+                                $work->created_at       = date('Y-m-d H:i:s');
+                                $work->save();
+                            }
+                        }
+                    }
                 }
             }
             else
@@ -278,18 +389,32 @@ class ProfessionalController extends Controller
                 $wwcc->clearance_number = $clearance_number[$i];
                 $wwcc->expiry_date      = $wwcc_expiry_date[$i];
 
-
-                if (isset($wwcc_evidence[$i]) && $wwcc_evidence[$i]->isValid()) {
-                    $filename = 'evidence_file_' . time() . '.' . $wwcc_evidence[$i]->getClientOriginalExtension();
-                    $destinationPath = public_path() . '/uploads/support_document';
-                    $wwcc_evidence[$i]->move($destinationPath, $filename);
-
-                    $wwcc->evidence_original_name = $wwcc_evidence[$i]->getClientOriginalName();
-                    $wwcc->wwcc_evidence = $filename;
-                }
                 $wwcc->status = 1;
                 $wwcc->created_at = Carbon::now('Asia/Kolkata');
                 $run =$wwcc->save();
+
+                $type_id = $wwcc->id;
+
+                if (isset($evidence_files) && is_array($evidence_files)) {
+                    
+                    foreach ($evidence_files as $file) {
+                        if ($file->isValid()) {
+                            $filename = 'evidence_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                            $originalName = $file->getClientOriginalName();
+                            $destinationPath = public_path('/uploads/evidence');
+                            $file->move($destinationPath, $filename);
+                            
+        
+                            $work                   = new WorkEvidenceModel();
+                            $work->type_id     = $type_id;
+                            $work->original_name    = $originalName;
+                            $work->evidence_file    = $filename;
+                            $work->evidance_type    = "3";
+                            $work->created_at       = date('Y-m-d H:i:s');
+                            $work->save();
+                        }
+                    }
+                }
                 
             }
         }
@@ -304,8 +429,7 @@ class ProfessionalController extends Controller
         }
 
         echo json_encode($json);
-    }
-    public function removeWwcc(Request $request)
+    }    public function removeWwcc(Request $request)
     {
         //This function is for ajax for remove wwcc from db
         $id = $request->id;
@@ -327,16 +451,9 @@ class ProfessionalController extends Controller
     {
         $policy['issuance_date'] = $request->issuance_date;
         $policy['is_declare'] = $request->is_declare=='on'?1:0;
+        $evidence_files = $request->file('clearance_document', []);
         
-        if ($request->hasFile('clearance_document')) 
-        {
-            $filename = 'evidence_file_' . time() . '.' . $request->clearance_document->getClientOriginalExtension();
-            $destinationPath = public_path() . '/uploads/support_document';
-            $request->clearance_document->move($destinationPath, $filename);
-
-            $policy['original_file_name'] = $request->file('clearance_document')->getClientOriginalName();
-            $policy['evidence_file']=$filename;
-        }
+        
         
         $lastRecord = PoliceCheckModel::where('user_id', Auth::guard('nurse_middle')->user()->id)->first();
         if($lastRecord)
@@ -348,7 +465,28 @@ class ProfessionalController extends Controller
             $policy['created_at']= Carbon::now('Asia/Kolkata');
             $policy['user_id'] = Auth::guard('nurse_middle')->user()->id; 
             $policy['status'] = '0';
-            $run= PoliceCheckModel::create($policy);
+            $run= PoliceCheckModel::insertGetId($policy);
+
+            if (isset($evidence_files) && is_array($evidence_files)) {
+                        
+                foreach ($evidence_files as $file) {
+                    if ($file->isValid()) {
+                        $filename = 'evidence_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                        $originalName = $file->getClientOriginalName();
+                        $destinationPath = public_path('/uploads/evidence');
+                        $file->move($destinationPath, $filename);
+                        
+    
+                        $work                   = new WorkEvidenceModel();
+                        $work->type_id     = $run;
+                        $work->original_name    = $originalName;
+                        $work->evidence_file    = $filename;
+                        $work->evidance_type    = "4";
+                        $work->created_at       = date('Y-m-d H:i:s');
+                        $work->save();
+                    }
+                }
+            }
         }
 
         if ($run) {
@@ -375,6 +513,7 @@ class ProfessionalController extends Controller
         $clearance_expiry_date  = $request->input('clearance_expiry_date',[]);
         $clearance_evidence     = $request->file('clearance_evidence', []);
         $s_clearance_id         = $request->input('s_clearance_id', []);
+        $evidence_files = $request->file('clearance_evidence', []);
 
         for ($i = 0; $i < count($clearance_state); $i++) {
 
@@ -387,16 +526,29 @@ class ProfessionalController extends Controller
                     $specialized->clearance_number      = $clearance_number[$i];
                     $specialized->clearance_expiry_date = $clearance_expiry_date[$i];
 
-
-                    if (isset($clearance_evidence[$i]) && $clearance_evidence[$i]->isValid()) {
-                        $filename = 'evidence_file_' . time() . '.' . $clearance_evidence[$i]->getClientOriginalExtension();
-                        $destinationPath = public_path() . '/uploads/support_document';
-                        $clearance_evidence[$i]->move($destinationPath, $filename);
-    
-                        $specialized->clearance_original_name = $clearance_evidence[$i]->getClientOriginalName();
-                        $specialized->clearance_evidence = $filename;
-                    }
                     $run= $specialized->save();
+                    $lastId = $specialized->id;
+
+                    if (isset($evidence_files) && is_array($evidence_files)) {
+                            
+                        foreach ($evidence_files as $file) {
+                            if ($file->isValid()) {
+                                $filename = 'evidence_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                                $originalName = $file->getClientOriginalName();
+                                $destinationPath = public_path('/uploads/evidence');
+                                $file->move($destinationPath, $filename);
+                                
+            
+                                $work                   = new WorkEvidenceModel();
+                                $work->type_id     = $lastId;
+                                $work->original_name    = $originalName;
+                                $work->evidence_file    = $filename;
+                                $work->evidance_type    = "5";
+                                $work->created_at       = date('Y-m-d H:i:s');
+                                $work->save();
+                            }
+                        }
+                    }
                 }
             }
             else
@@ -410,17 +562,32 @@ class ProfessionalController extends Controller
                 $specialized->clearance_expiry_date = $clearance_expiry_date[$i];
 
 
-                if (isset($clearance_evidence[$i]) && $clearance_evidence[$i]->isValid()) {
-                    $filename = 'evidence_file_' . time() . '.' . $clearance_evidence[$i]->getClientOriginalExtension();
-                    $destinationPath = public_path() . '/uploads/support_document';
-                    $clearance_evidence[$i]->move($destinationPath, $filename);
-
-                    $specialized->clearance_original_name = $clearance_evidence[$i]->getClientOriginalName();
-                    $specialized->clearance_evidence = $filename;
-                }
+                
                 
                 $specialized->created_at = Carbon::now('Asia/Kolkata');
                 $run =$specialized->save();
+                $lastId = $specialized->id;
+
+                if (isset($evidence_files) && is_array($evidence_files)) {
+                        
+                    foreach ($evidence_files as $file) {
+                        if ($file->isValid()) {
+                            $filename = 'evidence_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                            $originalName = $file->getClientOriginalName();
+                            $destinationPath = public_path('/uploads/evidence');
+                            $file->move($destinationPath, $filename);
+                            
+        
+                            $work                   = new WorkEvidenceModel();
+                            $work->type_id     = $lastId;
+                            $work->original_name    = $originalName;
+                            $work->evidence_file    = $filename;
+                            $work->evidance_type    = "5";
+                            $work->created_at       = date('Y-m-d H:i:s');
+                            $work->save();
+                        }
+                    }
+                }
                 
             }
         }
@@ -435,37 +602,37 @@ class ProfessionalController extends Controller
 
         echo json_encode($json);
    }
-    public function removeSpecialized(Request $request)
-    {
-        $id = $request->id;
+   public function removeSpecialized(Request $request)
+   {
+       $id = $request->id;
 
-        $specialed = SpecializedClearance::find($id);
+       $specialed = SpecializedClearance::find($id);
 
-        if ($specialed) {
-            $filePath = 'uploads/support_document/' . $specialed->clearance_evidence;
-            if (Storage::exists($filePath)) {
-                Storage::delete($filePath);
-            }
-            $specialed->delete();
-            return response()->json(['success' => true]);
-        }
-        return response()->json(['success' => false, 'message' => 'Specialized Clearance not found']);
-    }
+       if ($specialed) {
+           $filePath = 'uploads/support_document/' . $specialed->clearance_evidence;
+           if (Storage::exists($filePath)) {
+               Storage::delete($filePath);
+           }
+           $specialed->delete();
+           return response()->json(['success' => true]);
+       }
+       return response()->json(['success' => false, 'message' => 'Specialized Clearance not found']);
+   }
 
     public function removeEligibilityFile(Request $request)
     {
-        $user_id = Auth::guard('nurse_middle')->user()->id;
-        $work = EligibilityToWorkModel::where('user_id', $user_id)->first();
+        $img_id = $request->id;
+        $work = WorkEvidenceModel::where('id', $img_id)->first();
         if ($work) {
-            $filePath = 'uploads/support_document/' . $work->support_document;
+            $filePath = 'uploads/support_document/' . $work->evidence_file;
       
             if (Storage::exists($filePath)) {
                 Storage::delete($filePath);
             }
         
-            $work->support_document = null; 
-            $work->original_file_name= null; 
-            $work->save();
+            
+
+            $deleteImgData = WorkEvidenceModel::where("id",$img_id)->where("evidance_type","1")->delete();
 
             return response()->json(['success' => true, 'message' => 'File removed successfully']);
         }
@@ -474,8 +641,8 @@ class ProfessionalController extends Controller
 
     public function removendisFile(Request $request)
     {
-        $user_id = Auth::guard('nurse_middle')->user()->id;
-        $work = NdisWorker::where('user_id', $user_id)->first();
+        $img_id = $request->id;
+        $work = WorkEvidenceModel::where('id', $img_id)->first();
         if ($work) {
             $filePath = 'uploads/support_document/' . $work->evidence_file;
       
@@ -483,9 +650,7 @@ class ProfessionalController extends Controller
                 Storage::delete($filePath);
             }
         
-            $work->evidence_file = null; 
-            $work->original_file_name= null; 
-            $work->save();
+            $deleteImgData = WorkEvidenceModel::where("id",$img_id)->where("evidance_type","2")->delete();
 
             return response()->json(['success' => true, 'message' => 'File removed successfully']);
         }
@@ -494,9 +659,9 @@ class ProfessionalController extends Controller
 
     public function removewwccFile(Request $request)
     {
-        $id = $request->id;
+        $img_id = $request->id;
+        $work = WorkEvidenceModel::where('id', $img_id)->first();
 
-        $work = WorkingChildrenCheckModel::find($id);
         if ($work) {
             $filePath = 'uploads/support_document/' . $work->wwcc_evidence;
       
@@ -504,9 +669,7 @@ class ProfessionalController extends Controller
                 Storage::delete($filePath);
             }
         
-            $work->wwcc_evidence = null; 
-            $work->evidence_original_name= null; 
-            $work->save();
+            $deleteImgData = WorkEvidenceModel::where("id",$img_id)->where("evidance_type","3")->delete();
 
             return response()->json(['success' => true, 'message' => 'File removed successfully']);
         }
@@ -515,8 +678,8 @@ class ProfessionalController extends Controller
 
     public function removePolicyFile(Request $request)
     {
-        $user_id = Auth::guard('nurse_middle')->user()->id;
-        $work = PoliceCheckModel::where('user_id', $user_id)->first();
+        $img_id = $request->id;
+        $work = WorkEvidenceModel::where('id', $img_id)->first();
         if ($work) {
             $filePath = 'uploads/support_document/' . $work->evidence_file;
       
@@ -524,9 +687,7 @@ class ProfessionalController extends Controller
                 Storage::delete($filePath);
             }
         
-            $work->evidence_file = null; 
-            $work->original_file_name= null; 
-            $work->save();
+            $deleteImgData = WorkEvidenceModel::where("id",$img_id)->where("evidance_type","4")->delete();
 
             return response()->json(['success' => true, 'message' => 'File removed successfully']);
         }
@@ -535,9 +696,8 @@ class ProfessionalController extends Controller
 
     public function removeSpecializedFile(Request $request)
     {
-        $id = $request->id;
-
-        $work = SpecializedClearance::find($id);
+        $img_id = $request->id;
+        $work = WorkEvidenceModel::where('id', $img_id)->first();
         if ($work) {
             $filePath = 'uploads/support_document/' . $work->clearance_evidence;
       
@@ -545,9 +705,7 @@ class ProfessionalController extends Controller
                 Storage::delete($filePath);
             }
         
-            $work->clearance_evidence = null; 
-            $work->clearance_original_name= null; 
-            $work->save();
+            $deleteImgData = WorkEvidenceModel::where("id",$img_id)->where("evidance_type","5")->delete();
 
             return response()->json(['success' => true, 'message' => 'File removed successfully']);
         }
@@ -624,6 +782,7 @@ class ProfessionalController extends Controller
     public function updateProfessionalMembership(Request $request)
     {
         $user_id = $request->user_id;
+        
         $organization_country = $request->organization_country;
         $country_organization = $request->country_organization;
         $subcountry_organization = $request->subcountry_organization;
@@ -722,7 +881,7 @@ class ProfessionalController extends Controller
             
             $run = 1;
         }else{
-            
+            $user_stage = update_user_stage($user_id);
             if($profmemaward == "Yes"){
                 $img_arr = array();
                 if(!empty($subcountry_organization)){

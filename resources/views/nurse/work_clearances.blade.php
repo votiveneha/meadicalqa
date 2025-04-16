@@ -129,11 +129,11 @@ i.fa.fa-file {
                 </div>
               </div>
             @endif
-            @if(!email_verified())
+            {{-- @if(!email_verified())
               <div class="alert alert-success mt-2" role="alert">
                 <span class="d-flex align-items-center justify-content-center ">Please verify your email first to access your account </span>
               </div>
-            @endif
+            @endif --}}
 
             
               <?php
@@ -204,18 +204,25 @@ i.fa.fa-file {
 
                       <div class="form-group">
                         <label class="form-label" for="input-1">Upload Evidence</label>
-                        <input type="file" name="upload_evidence0" id="{{$support_document0==''?'upload_evidence0':''}}" class="form-control h-100 fileInput">
+                        <input type="file" name="upload_evidence0[]" id="{{$support_document0==''?'upload_evidence0':''}}" class="form-control h-100 fileInput" multiple>
+                        <span id="reqasupport_document" class="reqError text-danger valley"></span>
                         <div id="fileList" class="file-list">
-                          <?php if($support_document0!=''){ ?>  
-                            <div class="file-item">
-                                <a href="{{ asset('uploads/support_document/' . $support_document0) }}" target="_blank"><i class="fa fa-file" aria-hidden="true"></i> {{$work_eligibility['original_file_name']}}</a>
-                                <div class="close_btn close_btn-0 del_eve" eve_id="{{$support_document0}}" style="cursor: pointer;">
+                          <?php if(count($work_evidence)>0){
+                            $wevdata = DB::table("eligibility_to_work")->where("id",$work_evidence[0]->type_id)->first();
+                            ?>  
+                            @if($wevdata->residency == "Australian Citizen")
+                            @foreach ($work_evidence as $work_imgs)
+                              <div class="file-item file-item-{{ $work_imgs->id }}">
+                                <a href="{{ asset('uploads/support_document/' . $work_imgs->evidence_file) }}" target="_blank"><i class="fa fa-file" aria-hidden="true"></i> {{ $work_imgs->original_name }}</a>
+                                <div class="close_btn close_btn-0 del_eve del_eve-{{ $work_imgs->id }}" eve_id="{{ $work_imgs->id }}" style="cursor: pointer;"">
                                     <i class="fa fa-close" aria-hidden="true"></i>
                                 </div>
                             </div>
+                            @endforeach
+                            @endif
                           <?php } ?>
                         </div>
-                        <span id="reqasupport_document" class="reqError text-danger valley"></span>
+                        
                       </div>
                     </div>
 
@@ -279,18 +286,25 @@ i.fa.fa-file {
                       
                       <div class="form-group">
                         <label class="form-label" for="input-1">Upload Evidence</label>
-                        <input type="file" name="upload_evidence1" id="{{$support_document1==''?'upload_evidence1':''}}" class="form-control h-100 fileInput" >
+                        <input type="file" name="upload_evidence1[]" id="{{$support_document1==''?'upload_evidence1':''}}" class="form-control h-100 fileInput" multiple>
+                        <span id="reqasupport_document" class="reqError text-danger valley"></span>
                         <div id="fileList" class="file-list">
-                          <?php if($support_document1!=''){ ?>  
+                          <?php if(count($work_evidence)>0){
+                            $wevdata = DB::table("eligibility_to_work")->where("id",$work_evidence[0]->type_id)->first();
+                            ?>  
+                            @if($wevdata->residency == "Permanent Resident")
+                            @foreach ($work_evidence as $work_imgs)
                             <div class="file-item">
-                                <a href="{{ asset('uploads/support_document/' . $support_document1) }}" target="_blank"><i class="fa fa-file" aria-hidden="true"></i> {{$work_eligibility['original_file_name']}}</a>
-                                <div class="close_btn close_btn-0 del_eve" eve_id="{{$support_document1}}" style="cursor: pointer;">
+                                <a href="{{ asset('uploads/support_document/' . $work_imgs->evidence_file) }}" target="_blank"><i class="fa fa-file" aria-hidden="true"></i> {{ $work_imgs->original_name }}</a>
+                                <div class="close_btn close_btn-0 del_eve del_eve-{{ $work_imgs->id }}" eve_id="{{ $work_imgs->id }}" style="cursor: pointer;">
                                     <i class="fa fa-close" aria-hidden="true"></i>
                                 </div>
                             </div>
+                            @endforeach
+                            @endif
                           <?php } ?>
                         </div>
-                        <span id="reqasupport_document" class="reqError text-danger valley"></span>
+                        
                       </div>
                     </div>
                     
@@ -355,18 +369,26 @@ i.fa.fa-file {
                       
                       <div class="form-group">
                         <label class="form-label" for="input-1">Upload Evidence</label>
-                        <input type="file" name="upload_evidence2" id="{{$support_document2==''?'upload_evidence2':''}}" class="form-control h-100 fileInput" >
+                        <input type="file" name="upload_evidence2[]" id="{{$support_document2==''?'upload_evidence2':''}}" class="form-control h-100 fileInput" multiple>
+                        <span id="reqasupport_document" class="reqError text-danger valley"></span>
                         <div id="fileList" class="file-list">
-                          <?php if($support_document2!=''){ ?>  
+                          <?php if(count($work_evidence)>0){
+                            $wevdata = DB::table("eligibility_to_work")->where("id",$work_evidence[0]->type_id)->first();
+                            ?>  
+                            @if($wevdata->residency == "Visa Holder")
+                            @foreach ($work_evidence as $work_imgs)
                             <div class="file-item">
-                                <a href="{{ asset('uploads/support_document/' . $support_document2) }}" target="_blank"><i class="fa fa-file" aria-hidden="true"></i> {{$work_eligibility['original_file_name']}}</a>
-                                <div class="close_btn close_btn-0 del_eve" eve_id="{{$support_document2}}" style="cursor: pointer;">
+                                <a href="{{ asset('uploads/support_document/' . $work_imgs->evidence_file) }}" target="_blank"><i class="fa fa-file" aria-hidden="true"></i>{{ $work_imgs->original_name }}</a>
+                                <div class="close_btn close_btn-0 del_eve del_eve-{{ $work_imgs->id }}" eve_id="{{ $work_imgs->id }}" style="cursor: pointer;">
                                     <i class="fa fa-close" aria-hidden="true"></i>
                                 </div>
                             </div>
+                            
+                            @endforeach
+                            @endif
                           <?php } ?>
                         </div>
-                        <span id="reqasupport_document" class="reqError text-danger valley"></span>
+                        
                       </div>
 
                     </div>
@@ -428,16 +450,18 @@ i.fa.fa-file {
 
                       <div class="form-group ">
                         <label class="font-sm color-text-mutted mb-10">Upload Evidence*</label>
-                        <input class="form-control fileInput" type="file" name="ndis_evidence" id="{{ $ndis!=''?($ndis['evidence_file']!=''?'':'ndis_evidence'):'ndis_evidence'}}">
+                        <input class="form-control fileInput" type="file" name="ndis_evidence[]" id="{{ $ndis!=''?($ndis['evidence_file']!=''?'':'ndis_evidence'):'ndis_evidence'}}" multiple>
                         <span id="reqTxtclearance_expiry_dataI" class="reqError text-danger valley"></span>
                         <div id="fileList" class="file-list">
-                          <?php if($ndis!=''){ if($ndis['evidence_file']!=''){ ?>  
+                          <?php if($ndis!=''){ if(!empty($work_evidence_ndis)){ ?>  
+                            @foreach ($work_evidence_ndis as $work_imgs)
                             <div class="file-item">
-                                <a href="{{ asset('uploads/support_document/' . $ndis['evidence_file']) }}" target="_blank"><i class="fa fa-file" aria-hidden="true"></i> {{$ndis['original_file_name']}}</a>
-                                <div class="close_btn close_btn-0 del_ndis_eve" eve_id="{{$ndis['evidence_file']}}" style="cursor: pointer;">
+                                <a href="{{ asset('uploads/support_document/' . $work_imgs->evidence_file) }}" target="_blank"><i class="fa fa-file" aria-hidden="true"></i> {{ $work_imgs->original_name }}</a>
+                                <div class="close_btn close_btn-0 del_ndis_eve" eve_id="{{ $work_imgs->id }}" style="cursor: pointer;">
                                     <i class="fa fa-close" aria-hidden="true"></i>
                                 </div>
                             </div>
+                            @endforeach
                           <?php } } ?>
                         </div>
                         
@@ -468,7 +492,9 @@ i.fa.fa-file {
                       @php
                       $state_data =state_name_array( 'AU');
                       @endphp
-                      
+                      <?php
+                        $ww_child_count = count($ww_child);
+                      ?>
                       <div id="wwcc_more" >
                         <?php if($ww_child!=''){
                           $k=1;
@@ -508,15 +534,20 @@ i.fa.fa-file {
 
                           <div class="form-group ">
                             <label class="font-sm color-text-mutted mb-10">Upload Evidence*</label>
-                            <input class="form-control fileInput {{ $work_child->wwcc_evidence==''?'wwcc_evidence':'' }}" type="file" name="wwcc_evidence[]" value="{{ $work_child->evidence_original_name }}">
+                            <input class="form-control fileInput {{ $work_child->wwcc_evidence==''?'wwcc_evidence':'' }}" type="file" name="wwcc_evidence[]" value="{{ $work_child->evidence_original_name }}" multiple>
+                            <?php
+                              $work_evidence_ww   = DB::table("work_evidance")->where('type_id', $work_child->id)->get();
+                            ?>
                             <div id="fileList" class="file-list">
-                            <?php if($work_child->wwcc_evidence!=''){ ?>  
+                              <?php if(!empty($work_evidence_ww)){ ?>  
+                                @foreach ($work_evidence_ww as $work_imgs)
                                 <div class="file-item">
-                                    <a href="{{ asset('uploads/support_document/' . $work_child->wwcc_evidence) }}" target="_blank"><i class="fa fa-file" aria-hidden="true"></i> {{$work_child->evidence_original_name}}</a>
-                                    <div class="close_btn close_btn-0 del_wwcc_eve" eve_id="{{ $work_child->id }}" style="cursor: pointer;">
+                                    <a href="{{ asset('uploads/support_document/' . $work_imgs->evidence_file) }}" target="_blank"><i class="fa fa-file" aria-hidden="true"></i> {{$work_imgs->original_name}}</a>
+                                    <div class="close_btn close_btn-0 del_wwcc_eve" eve_id="{{ $work_imgs->id }}" style="cursor: pointer;">
                                         <i class="fa fa-close" aria-hidden="true"></i>
                                     </div>
                                 </div>
+                                @endforeach
                               <?php } ?>
                             </div>
                             
@@ -530,7 +561,13 @@ i.fa.fa-file {
                         <?php $k++;  } } ?>
                       </div>
                       <div class="add_new_certification_div mb-3 mt-3">
-                            <a style="cursor: pointer;" id="add-wwcc">+ Add Another WWCC </a>
+                            <a style="cursor: pointer;" id="add-wwcc">+ 
+                              @if ($ww_child_count>0)
+                              Add another WWCC
+                              @else
+                              Add a WWCC 
+                              @endif
+                              </a>
                       </div>
 
                       <div class="col-md-3">
@@ -570,16 +607,19 @@ i.fa.fa-file {
                       
                       <div class="form-group">
                         <label class="form-label" for="input-1">Police Clearance</label>
-                        <input type="file" name="clearance_document" id="{{$evidence_file!=''?($evidence_file!=''?'':'clearance_document'):'clearance_document'}}" class="form-control fileInput">
+                        <input type="file" name="clearance_document[]" id="{{$evidence_file!=''?($evidence_file!=''?'':'clearance_document'):'clearance_document'}}" class="form-control fileInput" multiple>
                         <span id="reqTxtimage_support_documentI" class="reqError text-danger valley"></span>
                         <div id="fileList" class="file-list">
-                          <?php if($evidence_file!=''){ ?>  
+                          
+                          <?php if(!empty($work_evidence_police)){ ?>
+                            @foreach ($work_evidence_police as $work_imgs)
                             <div class="file-item">
-                                <a href="{{ asset('uploads/support_document/' . $evidence_file) }}" target="_blank"><i class="fa fa-file" aria-hidden="true"></i> {{$policy_check['original_file_name']}}</a>
-                                <div class="close_btn close_btn-0 del_pc_eve" eve_id="{{$evidence_file}}" style="cursor: pointer;">
+                                <a href="{{ asset('uploads/support_document/' . $work_imgs->evidence_file) }}" target="_blank"><i class="fa fa-file" aria-hidden="true"></i> {{ $work_imgs->original_name }}</a>
+                                <div class="close_btn close_btn-0 del_pc_eve" eve_id="{{ $work_imgs->id }}" style="cursor: pointer;">
                                     <i class="fa fa-close" aria-hidden="true"></i>
                                 </div>
                             </div>
+                            @endforeach
                           <?php } ?>
                         </div>
 
@@ -621,6 +661,9 @@ i.fa.fa-file {
                       @endphp
                       
                       <div id="specialized_more" >
+                        <?php
+                          $specialize_count = count($specialize);
+                          ?>
                         <?php if($specialize!=''){
                           $s=1;
                           foreach($specialize as $svalue){ ?>
@@ -662,16 +705,21 @@ i.fa.fa-file {
 
                           <div class="form-group ">
                             <label class="font-sm color-text-mutted mb-10">Upload Evidence*</label>
-                            <input class="form-control fileInput {{$svalue->clearance_evidence==''?'clearance_evidence':''}}" type="file" name="clearance_evidence[]">
+                            <input class="form-control fileInput {{$svalue->clearance_evidence==''?'clearance_evidence':''}}" type="file" name="clearance_evidence[]" multiple>
                             
+                            <?php
+                              $work_evidence_specialized   = DB::table("work_evidance")->where('type_id', $svalue->id)->get(); 
+                            ?>
                             <div id="fileList" class="file-list">
-                              <?php if($svalue->clearance_evidence!=''){ ?>  
+                              <?php if(!empty($work_evidence_specialized)){ ?>  
+                                @foreach ($work_evidence_specialized as $work_imgs)
                                 <div class="file-item">
-                                    <a href="{{ asset('uploads/support_document/' . $svalue->clearance_evidence) }}" target="_blank"><i class="fa fa-file" aria-hidden="true"></i> {{$svalue->clearance_evidence}}</a>
-                                    <div class="close_btn close_btn-0 del_sc_eve" eve_id="{{$svalue->id}}" style="cursor: pointer;">
+                                    <a href="{{ asset('uploads/support_document/' . $work_imgs->evidence_file) }}" target="_blank"><i class="fa fa-file" aria-hidden="true"></i> {{$work_imgs->original_name}}</a>
+                                    <div class="close_btn close_btn-0 del_sc_eve" eve_id="{{$work_imgs->id}}" style="cursor: pointer;">
                                         <i class="fa fa-close" aria-hidden="true"></i>
                                     </div>
                                 </div>
+                                @endforeach
                               <?php } ?>
                             </div>
                           </div>
@@ -684,7 +732,13 @@ i.fa.fa-file {
                         <?php $s++;  } } ?>
                       </div>
                       <div class="add_new_certification_div mb-3 mt-3">
-                            <a style="cursor: pointer;" id="add-specialized">+ Add Another Specialized Clearance </a>
+                            <a style="cursor: pointer;" id="add-specialized">+ 
+                              @if($specialize_count>0)
+                              Add another Specialized Clearances
+                              @else
+                              Add a Specialized Clearances
+                              @endif
+                            </a>
                       </div>
 
                       <div class="col-md-3">
@@ -880,6 +934,7 @@ if (!empty($interviewReferenceData)) {
         
         let i = <?php echo count($ww_child)+1 ?>;
         $('#add-wwcc').click(function(){
+          $(this).text("+ Add another WWCC");
           $('#wwcc_more').append(`<div class="add_wwcc" >
                           <h6>WWCC ${i}</h6>
                           <div class="col-md-12">
@@ -912,7 +967,7 @@ if (!empty($interviewReferenceData)) {
 
                           <div class="form-group ">
                             <label class="font-sm color-text-mutted mb-10">Upload Evidence*</label>
-                            <input class="form-control wwcc_evidence fileInput" type="file" name="wwcc_evidence[]" >
+                            <input class="form-control wwcc_evidence fileInput" type="file" name="wwcc_evidence[]" multiple>
                             <div id="fileList" class="file-list"></div>
                           </div>
                           
@@ -968,8 +1023,12 @@ if (!empty($interviewReferenceData)) {
         //speacilized clearence add more section 
         
         let l = <?php echo count($specialize)+1 ?>;
+
+        let specialized_div_count = $("#specialized_more .add_specialized").length;
+        console.log("specialized_div_count",specialized_div_count);
         
         $('#add-specialized').click(function(){
+          $(this).text("+ Add another Specialized Clearances");
           $('#specialized_more').append(
             `<div class="add_specialized" >
                           <h6>Specialized Clearances ${l}</h6>
@@ -1009,7 +1068,7 @@ if (!empty($interviewReferenceData)) {
 
                           <div class="form-group ">
                             <label class="font-sm color-text-mutted mb-10">Upload Evidence*</label>
-                            <input class="form-control clearance_evidence fileInput" type="file" name="clearance_evidence[]">
+                            <input class="form-control clearance_evidence fileInput" type="file" name="clearance_evidence[]" multiple>
 
                             <div id="fileList" class="file-list"></div>
                           </div>
@@ -1178,8 +1237,9 @@ if (!empty($interviewReferenceData)) {
         $('#aus_evidence_type').next('.reqError').text('');
       }
       if($('#upload_evidence0')[0]){
+        
         if ($('#upload_evidence0')[0].files.length === 0) {
-          
+          console.log("upload_evidence0",$('#upload_evidence0')[0].files.length);
             isValid = false;
             $('#upload_evidence0').next('.reqError').text('Please upload an evidence file');
         } else {
@@ -1963,17 +2023,13 @@ if (!empty($interviewReferenceData)) {
 
   function initializeFileUpload() {
     $(".fileInput").each(function () {
+        
         const fileInput = $(this);
         const fileList = fileInput.siblings(".file-list"); // Select the correct file list
         const selectedFiles = new DataTransfer(); // Maintain a single file
-
+        
         fileInput.off("change").on("change", function (event) {
-            // Clear previously selected files
-            selectedFiles.items.clear();
-            fileList.empty(); // Remove existing file preview
-
-            if (event.target.files.length > 0) {
-                const file = event.target.files[0]; // Only take the first file
+          Array.from(event.target.files).forEach((file) => {
                 selectedFiles.items.add(file);
 
                 // Create a file item container
@@ -1981,34 +2037,41 @@ if (!empty($interviewReferenceData)) {
 
                 // Create a link to the file with the file name
                 const fileLink = $("<a>")
-                    .attr("href", URL.createObjectURL(file)) // Create Blob URL
+                    .attr("href", URL.createObjectURL(file))  // Use Blob URL to link the file
                     .attr("target", "_blank")
                     .html(`<i class="fa fa-file" aria-hidden="true"></i> ${file.name}`);
 
                 // Create the close button
-                const closeButton = $("<div>").addClass("close_btn").css({
-                    "cursor": "pointer",
-                    "color": "red"
-                });
+                const closeButton = $("<div>").addClass("close_btn close_btn-0").css("cursor", "pointer");
                 const closeIcon = $("<i>").addClass("fa fa-close").attr("aria-hidden", "true");
 
                 // Append the close icon to the close button
                 closeButton.append(closeIcon);
 
-                // Remove the selected file when close button is clicked
+                // Add event listener to remove the file item when clicked
                 closeButton.on("click", function () {
-                    selectedFiles.items.clear(); // Remove file from DataTransfer
-                    fileInput[0].files = selectedFiles.files; // Update file input
-                    fileList.empty(); // Clear UI
+                    for (let i = 0; i < selectedFiles.items.length; i++) {
+                        if (selectedFiles.items[i].getAsFile().name === file.name) {
+                            selectedFiles.items.remove(i);
+                            break;
+                        }
+                    }
+                    fileInput[0].files = selectedFiles.files;
+
+                    // Remove the file div from the list
+                    fileDiv.remove();
                 });
 
-                // Append elements
+                // Append the link and close button to the file div
                 fileDiv.append(fileLink).append(closeButton);
-                fileList.append(fileDiv);
-            }
 
-            // Update the file input with the modified FileList (only one file)
+                // Append the file div to the file list container
+                fileList.append(fileDiv);
+            });
+
+            // Update the file input with the modified FileList
             fileInput[0].files = selectedFiles.files;
+            
         });
     });
 }

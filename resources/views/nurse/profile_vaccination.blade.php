@@ -139,11 +139,11 @@ i.fa.fa-file {
               </div>
             </div>
             @endif
-            @if(!email_verified())
+            {{-- @if(!email_verified())
             <div class="alert alert-success mt-2" role="alert">
               <span class="d-flex align-items-center justify-content-center ">Please verify your email first to access your account </span>
             </div>
-            @endif
+            @endif --}}
 
             <div class="bbb">
 

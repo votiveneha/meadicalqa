@@ -150,11 +150,11 @@ input:checked + .slider:before {
               </div>
             </div>
             @endif
-            @if(!email_verified())
+            {{-- @if(!email_verified())
             <div class="alert alert-success mt-2" role="alert">
               <span class="d-flex align-items-center justify-content-center ">Please verify your email first to access your account </span>
             </div>
-            @endif
+            @endif --}}
 
             <div class="tab-content">
                 <?php $user_id=''; $i = 0;?>
@@ -184,7 +184,7 @@ input:checked + .slider:before {
                           
                         </div>
                         
-                        <div class="form-group level-drp salary_range_div" @if(!empty($salary_expectation_data) && $salary_expectation_data->fixed_salary != NULL) style="pointer-events: none; opacity: 0.5;" @endif @if(!empty($salary_expectation_data) && $salary_expectation_data->payment_frequency == "annually" || $salary_expectation_data->payment_frequency == "monthly" || $salary_expectation_data->payment_frequency == "weekly") style="pointer-events: none;" @endif>
+                        <div class="form-group level-drp salary_range_div" @if(!empty($salary_expectation_data) && $salary_expectation_data->fixed_salary != NULL) style="pointer-events: none; opacity: 0.5;" @endif @if(!empty($salary_expectation_data) && $salary_expectation_data->payment_frequency == "annually") style="pointer-events: none;" @else  @if(!empty($salary_expectation_data) && $salary_expectation_data->payment_frequency == "monthly") style="pointer-events: none;" @else  @if(!empty($salary_expectation_data) && $salary_expectation_data->payment_frequency == "weekly") style="pointer-events: none;" @endif @endif @endif>
                             <label class="form-label" for="input-1">Salary range</label>
                             <p>Selected Salary Range: <span id="amount"></span></p>
                             <?php
@@ -227,7 +227,7 @@ input:checked + .slider:before {
                           <input type="text" name="annual_salary_amount" class="form-control annual_salary_amount" value="@if(!empty($salary_expectation_data) && $salary_expectation_data->annual_salary != NULL) {{ $salary_expectation_data->annual_salary }} @endif" readonly>
                         </div>
                         <div class="box-button mt-15">
-                          <button class="btn btn-apply-big font-md font-bold" type="submit" id="submitSalaryExpectations">Save Changes</button>
+                          <button class="btn btn-apply-big font-md font-bold" type="submit" id="submitSalaryExpectations" @if(!email_verified()) disabled  @endif>Save Changes</button>
                         </div>
                       </form>
     

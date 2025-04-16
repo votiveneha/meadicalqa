@@ -95,11 +95,11 @@
               </div>
             </div>
             @endif
-            @if(!email_verified())
+            {{-- @if(!email_verified())
             <div class="alert alert-success mt-2" role="alert">
               <span class="d-flex align-items-center justify-content-center ">Please verify your email first to access your account </span>
             </div>
-            @endif
+            @endif --}}
 
             <div class="tab-content">
                 <?php $user_id=''; $i = 0;?>
@@ -188,7 +188,7 @@
                           @endif
                         </div>
                         <div class="box-button mt-15">
-                          <button class="btn btn-apply-big font-md font-bold" type="submit" id="submitPositionPreferences">Save Changes</button>
+                          <button class="btn btn-apply-big font-md font-bold" type="submit" id="submitPositionPreferences" @if(!email_verified()) disabled  @endif>Save Changes</button>
                         </div>
                       </form>
     

@@ -70,6 +70,31 @@
   .exp_permanent .select2-selection__arrow b,.exp_temporary .select2-selection__arrow b, .exp_permanent .select2-selection__arrow b,.professional_employee_status .select2-selection__arrow b{
     margin-top: 0px !important;
   }
+
+  .support-button {
+    background-color: #000000;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-left: 10px;
+  }
+  
+  
+  .support-button:hover {
+    background-color: #000000;
+    color:white;
+    transform: translateY(-1px);
+  }
+
+  span.d-flex.align-items-center.justify-content-center {
+    font-size: 13px;
+    gap: 15px;
+  }
 </style>
 @endsection
 
@@ -196,7 +221,10 @@
                 <li><a href="#work_preferences" id="work_preferences" class="btn btn-border recruitment-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-myclearance-jobs" aria-selected="false"><i class="fi fi-rr-magnifying-glass-wave"></i>Job Search Preferences</a></li>
                 <li><a href="#testimonial_reviews" id="testimonial_reviews" class="btn btn-border recruitment-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-myclearance-jobs" aria-selected="false"><i class="fi fi-rr-feedback-review"></i> Testimonials and Reviews</a></li>
                 <li><a href="#additional_info" id="additional_info" class="btn btn-border recruitment-icon mb-20" data-bs-toggle="tab" role="tab" aria-controls="tab-myclearance-jobs" aria-selected="false"><i class="fi fi-rr-guide-alt"></i> Additional Information</a></li> --}}
-                <div class="mt-0 mb-20 logout-line"><a class="link-red font-md" href="{{ route("nurse.logout") }}"><i class="fa-solid fa-arrow-right-from-bracket me-2"></i> Log Out</a></div>
+                <div class="mt-0 mb-20 logout-line">
+                  <a class="link-red font-md" href="{{ route('nurse.logout') }}"><i class="fa-solid fa-arrow-right-from-bracket me-2"></i> Log Out</a>
+                  <a class="support-button font-md" href="{{ route('contact') }}">Need support?</a>
+                </div>
               </ul>
             </div>
           </div>
@@ -219,11 +247,11 @@
               </div>
             </div>
             @endif
-            @if(!email_verified())
+            {{-- @if(!email_verified())
             <div class="alert alert-success mt-2" role="alert">
               <span class="d-flex align-items-center justify-content-center ">Please verify your email first to access your account </span>
             </div>
-            @endif
+            @endif --}}
 
             <div class="tab-content">
               <div class="tab-pane fade show active" id="tab-my-profile" role="tabpanel" aria-labelledby="tab-my-profile" style="display: none">

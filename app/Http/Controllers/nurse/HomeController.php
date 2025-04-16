@@ -520,8 +520,26 @@ class HomeController extends Controller
                         Session::put('user_id', $r->id);
                         Auth::guard('nurse_middle')->attempt(['email' => $r->email, 'password' => $r->ps]);
                     }
-                    if (Auth::guard('nurse_middle')->user()) {
-                    }
+                    
+                    $currentDate = date("Y-m-d");
+
+                    $to = "info@mediqa.com.au";
+
+                    $mailData = [
+
+                        'subject' => 'New Nurse',
+    
+                        'email' => $to,
+    
+    
+                        'body' => '<p>Dear Mediqa Team,</p><p>A new Nurse/Midwife has successfully verified their email on Mediqa.</p><br><p>User Details:  </p><p>- Name: '.$r->name." ".$r->lastname.'</p><p>- Email: '.$r->email.'</p><p>- Verification Date: '.$currentDate.'</p><br><p>This is an automated notification to confirm that the users email has been successfully verified.</p><p>Best regards,</p><p>Mediqa System</p>',
+    
+    
+                    ];
+    
+                    
+                    Mail::to($to)->send(new \App\Mail\DemoMail($mailData));
+                    
                     if ($run) {
                         $msg = "Email has been Verified Successfully";
                         $message = '<h6 style="color:green">Your email address has been verified successfully. Now You can access to you account!</h6>';
@@ -864,6 +882,8 @@ class HomeController extends Controller
             } else {
                 return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
             }
+            $id = Auth::guard('nurse_middle')->user()->id;
+            $user_stage = update_user_stage($id);
         } catch (\Exception $e) {
             log::error('Error in SettingController/updateProfile :' . $e->getMessage() . 'in line' . $e->getLine());
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
@@ -916,6 +936,8 @@ class HomeController extends Controller
         } else {
             $temporary_status1 = "";
         }
+
+        $user_stage = update_user_stage($request->user_id);
 
         $post = User::find($request->user_id);
         $post->nurseType = $nurse_type;
@@ -1024,6 +1046,7 @@ class HomeController extends Controller
         $institution = $request->institution;
 
         $user_id = $request->user_id;
+        
         $graduation_start_date = $request->graduation_start_date;
 
         $professional_certification = json_encode($request->professional_certification);
@@ -1764,7 +1787,7 @@ class HomeController extends Controller
 
             $run = EducationModel::where('user_id', $user_id)->update(['institution' => $institution, 'graduate_start_date' => $graduation_start_date, 'professional_certifications' => $professional_certification, 'licence_number' => $license_number, 'country' => $country, 'state' => $state, 'expiration_date' => $expiration_date, 'training_courses' => $training_courses, 'training_workshops' => $training_workshop, 'complete_status' => 1, 'declaration_status' => $declare_information, 'acls_data' => $acls_data_json, 'bls_data' => $bls_data_json, 'cpr_data' => $cpr_data_json, 'nrp_data' => $nrp_data_json, 'pals_data' => $pls_data_json, 'rn_data' => $rn_data_json, 'np_data' => $np_data_json, 'cna_data' => $cn_data_json, 'lpn_data' => $lpn_data_json, 'crna_data' => $crna_data_json, 'cnm_data' => $cnm_data_json, 'ons_data' => $ons_data_json, 'msw_data' => $msw_data_json, 'ain_data' => $ain_data_json, 'rpn_data' => $rpn_data_json, 'nl_data' => $nl_data, 'additional_certification' => $new_certificate_json]);
         } else {
-
+            $user_stage = update_user_stage($user_id);
             $post = new EducationModel();
             $post->user_id = $user_id;
 
@@ -1860,7 +1883,7 @@ class HomeController extends Controller
     public function updateExperience(Request $request)
     {
         $userId = $request->user_id;
-
+        
         $facility_workplace_name = $request->facility_workplace_name;
         $nurseTypes = $request->input('nurseType', []);
         $nursingType1 = $request->input('nursing_type_1', []);
@@ -2040,7 +2063,7 @@ class HomeController extends Controller
                     'declaration_status' => $dec_status
                 ]);
             } else {
-
+                $user_stage = update_user_stage($userId);
                 if (isset($evi1) && is_iterable($evi1)) {
                     $dtran = []; // Initialize the array to hold file names
 
@@ -2117,6 +2140,7 @@ class HomeController extends Controller
     {
 
         $user_id = $request->user_id;
+        
         $first_name = $request->first_name;
         $last_name = $request->last_name;
         $email = $request->email;
@@ -2147,6 +2171,7 @@ class HomeController extends Controller
                 // }
                 $run = AddReferee::where('user_id', $user_id)->where('email', $email[$i])->update(['first_name' => $first_name[$i], 'last_name' => $last_name[$i], 'email' => $email[$i], 'phone_no' => $phone_no[$i], 'relationship' => $reference_relationship[$i], 'worked_together' => $worked_together[$i], 'position_with_referee' => json_encode($position_with_referee[$i+1]), 'start_date' => $start_date[$i], 'end_date' => $end_date[$i], 'still_working' => $still_working[$i], 'is_declare' => 1]);
             } else {
+                $user_stage = update_user_stage($user_id);
                 if (isset($still_working[$i])) {
                     $working = 1;
                 } else {
@@ -2474,7 +2499,7 @@ class HomeController extends Controller
     {
         //This function is for add /update the vaccination record for user
         $user_id = Auth::guard('nurse_middle')->user()->id;
-
+        
         /**[Other Vaccine Start]**/
         $other_ids              = $request->input('other_id', []);
         $vaccination_names      = $request->input('vaccination_name', []);
@@ -2515,6 +2540,7 @@ class HomeController extends Controller
                     }
                 }
             } else {
+                $user_stage = update_user_stage($user_id);
                 $vaccine = new OtherVaccineModel();
                 $vaccine->user_id = $user_id;
                 $vaccine->vaccination_name = $vaccination_names[$i];
@@ -2987,6 +3013,7 @@ class HomeController extends Controller
     public function updateTraining(Request $request)
     {
         $user_id = $request->user_id;
+        
         $start_date = $request->start_date;
         $end_date = $request->end_date;
         $institution = $request->institution;
@@ -3371,6 +3398,7 @@ class HomeController extends Controller
                 'declaration_status' =>  $declare_information_man,
             ]);
         } else {
+            $user_stage = update_user_stage($user_id);
             $post = new MandatoryTrainModel();
             $post->user_id = $user_id;
             $post->start_date   = $start_date;
@@ -3789,7 +3817,7 @@ class HomeController extends Controller
         $update['any_help'] = json_encode($request->any_help);
         $update['updated_at'] = Carbon::now('Asia/Kolkata');
         $run = User::where('id', Auth::guard('nurse_middle')->user()->id)->update($update);
-
+        $user_stage = update_user_stage(Auth::guard('nurse_middle')->user()->id);
         if ($run) {
             $json['status'] = 1;
             $json['url'] = url('nurse/my-profile');

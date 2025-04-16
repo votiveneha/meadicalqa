@@ -219,6 +219,34 @@ function account_verified()
                 return true;
         }
 }
+
+function update_user_stage($user_id)
+{
+     $user_data = User::where("id",$user_id)->first();   
+     //print_r($user_data);
+     if(!empty($user_data) && $user_data->user_stage == 1){
+        DB::table("users")->where("id",$user_id)->update(["user_stage"=>"5"]); 
+
+        // $to = "votivephp.neha@gmail.com";
+
+        // $mailData = [
+
+        //         'subject' => 'In-progress Nurse Profile',
+
+        //         'email' => $to,
+
+
+        //         'body' => '<p>Hello  ' . $request->fullname . ' ' . $request->lastname . ', </p><p>Welcome and thank you for registering.</p>  <p>Click the link below to verify your account. </p><p><a href="' . $verificationUrl . '">Verify Now</a></p><p>If the above link doesn\'t work, copy and paste the link below into your browser.</p><p>' . $verificationUrl . '</p>',
+
+
+        // ];
+
+        // $randnum = rand(1111111111, 9999999999);
+        // Mail::to($to)->send(new \App\Mail\DemoMail($mailData));
+     }   
+       
+}
+
 function getUserNameById($id)
 {
         $lastRecord = User::where('id',$id)->first();

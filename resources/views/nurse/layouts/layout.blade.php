@@ -22,6 +22,12 @@
 	
     
      <title>{{ env('APP_NAME') }}</title>
+     <style>
+      span.d-flex.align-items-center.justify-content-center {
+        font-size: 13px;
+        gap: 15px;
+      }
+     </style>
   </head>
 
 <body class="home">
