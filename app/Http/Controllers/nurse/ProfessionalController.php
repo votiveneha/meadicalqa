@@ -81,7 +81,7 @@ class ProfessionalController extends Controller
         if(!empty($work_eligibility)){
             $work_evidence   = WorkEvidenceModel::where('type_id', $work_eligibility->id)->where('evidance_type', "1")->get();
         }else{
-            $work_evidence   = '';
+            $work_evidence   = array();
         }  
         //print_r($work_evidence);die;
         // echo "<pre>";        
@@ -91,7 +91,7 @@ class ProfessionalController extends Controller
         if(!empty($ndis)){
             $work_evidence_ndis   = WorkEvidenceModel::where('type_id', $ndis->id)->where('evidance_type', "2")->get();  
         }else{
-            $work_evidence_ndis   = '';
+            $work_evidence_ndis   = array();
         }   
         $ww_child           = WorkingChildrenCheckModel::where('user_id', $user_id)->get();
         $policy_check       = PoliceCheckModel::where('user_id', $user_id)->first();
@@ -99,7 +99,7 @@ class ProfessionalController extends Controller
         if(!empty($policy_check)){
             $work_evidence_police   = WorkEvidenceModel::where('type_id', $policy_check->id)->where('evidance_type', "4")->get(); 
         }else{
-            $work_evidence_police   = '';
+            $work_evidence_police   = array();
         }   
         $specialize         = SpecializedClearance::where('user_id', $user_id)->get();
         
@@ -117,7 +117,7 @@ class ProfessionalController extends Controller
 
         //     $lastRecord->delete();
         // }
-        $user_stage = update_user_stage(Auth::guard('nurse_middle')->user()->id);
+        
         $professioninsert['user_id'] =  Auth::guard('nurse_middle')->user()->id;
         $professioninsert['residency'] = $request->residency;
 
@@ -197,6 +197,7 @@ class ProfessionalController extends Controller
             
             
             $run = EligibilityToWorkModel::insertGetId($professioninsert);
+            $user_stage = update_user_stage(Auth::guard('nurse_middle')->user()->id,"Checks and Clearances(Residency and Work Eligibility)");
             $type_id = $run;
         }
 
@@ -297,6 +298,7 @@ class ProfessionalController extends Controller
             $ndis['created_at']= now();
             $ndis['user_id'] = Auth::guard('nurse_middle')->user()->id; 
             $run= NdisWorker::insertGetId($ndis);
+            $user_stage = update_user_stage(Auth::guard('nurse_middle')->user()->id,"Checks and Clearances(NDIS Worker Screening Check)");
             $type_id = $run;
         }
 
@@ -394,7 +396,7 @@ class ProfessionalController extends Controller
                 $run =$wwcc->save();
 
                 $type_id = $wwcc->id;
-
+                $user_stage = update_user_stage(Auth::guard('nurse_middle')->user()->id,"Checks and Clearances(Working With Children Check (WWCC))");
                 if (isset($evidence_files) && is_array($evidence_files)) {
                     
                     foreach ($evidence_files as $file) {
@@ -467,6 +469,7 @@ class ProfessionalController extends Controller
             $policy['status'] = '0';
             $run= PoliceCheckModel::insertGetId($policy);
 
+            $user_stage = update_user_stage(Auth::guard('nurse_middle')->user()->id,"Checks and Clearances(Police Clearance)");
             if (isset($evidence_files) && is_array($evidence_files)) {
                         
                 foreach ($evidence_files as $file) {
@@ -567,7 +570,8 @@ class ProfessionalController extends Controller
                 $specialized->created_at = Carbon::now('Asia/Kolkata');
                 $run =$specialized->save();
                 $lastId = $specialized->id;
-
+                $user_stage = update_user_stage(Auth::guard('nurse_middle')->user()->id,"Checks and Clearances(Specialized Clearances)");
+                
                 if (isset($evidence_files) && is_array($evidence_files)) {
                         
                     foreach ($evidence_files as $file) {
@@ -881,7 +885,7 @@ class ProfessionalController extends Controller
             
             $run = 1;
         }else{
-            $user_stage = update_user_stage($user_id);
+            $user_stage = update_user_stage($user_id,"Professional Memberships & Awards");
             if($profmemaward == "Yes"){
                 $img_arr = array();
                 if(!empty($subcountry_organization)){

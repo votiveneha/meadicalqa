@@ -220,30 +220,106 @@ function account_verified()
         }
 }
 
-function update_user_stage($user_id)
+function completeProfile()
 {
-     $user_data = User::where("id",$user_id)->first();   
-     //print_r($user_data);
-     if(!empty($user_data) && $user_data->user_stage == 1){
-        DB::table("users")->where("id",$user_id)->update(["user_stage"=>"5"]); 
+        if(Auth::guard('nurse_middle')->user()->user_stage=='4'){
+                return false;
+        }else{
+                return true;
+        }
+}
 
-        // $to = "votivephp.neha@gmail.com";
+function update_user_stage($user_id,$tab_name)
+{
+        $user_data = User::where("id",$user_id)->first();   
+        $reg_date = $user_data->created_at;
 
-        // $mailData = [
+        $date = new DateTime($reg_date);
 
-        //         'subject' => 'In-progress Nurse Profile',
+        
 
-        //         'email' => $to,
+        // Format to get only the date
+        $onlyDate = $date->format('Y-m-d');
+        //print_r($user_data);
+        if(!empty($user_data) && $user_data->user_stage == 1){
+                DB::table("users")->where("id",$user_id)->update(["user_stage"=>"5"]); 
+
+                $to = "info@mediqa.com.au";
+
+                
+
+                $mailData = [
+
+                        'subject' => 'In-progress Nurse Profile',
+
+                        'email' => $to,
 
 
-        //         'body' => '<p>Hello  ' . $request->fullname . ' ' . $request->lastname . ', </p><p>Welcome and thank you for registering.</p>  <p>Click the link below to verify your account. </p><p><a href="' . $verificationUrl . '">Verify Now</a></p><p>If the above link doesn\'t work, copy and paste the link below into your browser.</p><p>' . $verificationUrl . '</p>',
+                        'body' => '<p>Dear Mediqa Team,</p><p>A new Nurse/Midwife has started filling their profile on Mediqa.</p><br><p>User Details:  </p><p>- Name: '.$user_data->name." ".$user_data->lastname.'</p><p>- Email: ['.$user_data->email.']</p><p>- Registration Date: '.$onlyDate.'</p><p>- Profile Progress: '.$tab_name.'</p><br><p>This is an automated notification to inform you of new user activity.</p>',
 
 
-        // ];
+                ];
 
-        // $randnum = rand(1111111111, 9999999999);
-        // Mail::to($to)->send(new \App\Mail\DemoMail($mailData));
-     }   
+                
+                Mail::to($to)->send(new \App\Mail\DemoMail($mailData));
+        }   
+
+        $tab_data = DB::table("updated_tab_name")->where("user_id",$user_id)->where("tab_name",$tab_name)->first();
+        
+        $tab_date = Carbon::now('Asia/Kolkata');
+        if(empty($tab_data)){
+                DB::table("updated_tab_name")->insert(["tab_name"=>$tab_name,"user_id"=>$user_id,"created_at"=>$tab_date]);      
+        }
+
+        $tab_count = DB::table("updated_tab_name")->where("user_id",$user_id)->get();
+        
+        if(count($tab_count) == 15){
+                
+                User::where("id",$user_id)->update(["user_stage"=>"4"]);
+
+                $to = $user_data->email;
+
+                
+                $mailData = [
+
+                        'subject' => 'Your Mediqa Profile is Complete',
+
+                        'email' => $to,
+
+
+                        'body' => '<p>Dear '.$user_data->name." ".$user_data->lastname.',</p><p>Congratulations! You have successfully completed your profile on Mediqa.</p><p>Your profile is now ready for review, and once approved, you will be able to:</p><p>- Apply for job opportunities.<br>- Connect with healthcare facilities and agencies.<br>- Receive interview requests and offers that match your skills and preferences.</p><p><strong>Next Steps:</strong></p><p>- Our team will review your profile for approval.<br>- You will receive an email once your profile has been approved.</p><p>If you have any questions, feel free to contact us at <a href="mailto:info@mediqa.com.au">info@mediqa.com.au</a></p><p>Thank you for being part of Mediqa. We look forward to helping you find the best nursing opportunities!</p>',
+
+
+                ];
+
+                
+                Mail::to($to)->send(new \App\Mail\DemoMail($mailData));
+
+                $to1 = "info@mediqa.com.au";
+
+                $last_tab_date = DB::table("updated_tab_name")->where("user_id",$user_id)->orderBy("tab_id","DESC")->get();
+
+                $last_date = $last_tab_date[0]->created_at;
+
+                $date1 = new DateTime($last_date);
+
+                // Format to get only the date
+                $onlyDate1 = $date1->format('Y-m-d');
+                $mailData = [
+
+                        'subject' => 'Completed Profile – Review Required for Approval',
+
+                        'email' => $to1,
+
+
+                        'body' => '<p>Dear Mediqa Team,</p><p>A user has successfully completed and saved all 11 tabs of their profile on Mediqa and is now awaiting review for approval.</p><br><p>User Details:</p><p>- Name: '.$user_data->name." ".$user_data->lastname.'<br>- Email: '.$user_data->email.'<br>- Registration Date: '.$onlyDate.'<br>- Completion Date: '.$onlyDate1.'</p><br><p>Please review the user\'s profile and approve it as necessary.</p>',
+
+
+                ];
+
+                
+                Mail::to($to1)->send(new \App\Mail\DemoMail($mailData));
+        }
        
 }
 

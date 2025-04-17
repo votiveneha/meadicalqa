@@ -33,9 +33,9 @@ class AuthServices
             $companyinsert['post_code'] = $request->post_code;
             
             
-            $companyinsert['bio'] = $request->bio;
+            //$companyinsert['bio'] = $request->bio;
             $companyinsert['personal_website'] = $request->website;
-            $companyinsert['bio'] = $request->bio;
+            //$companyinsert['bio'] = $request->bio;
            
             $companyinsert['country'] = $request->country;
             $companyinsert['state'] = $request->state;
@@ -50,7 +50,7 @@ class AuthServices
             //$companyinsert['user_stage'] = "5";
             $companyinsert['basic_info_status'] = "1";
             $companyinsert['nationality'] = $request->nationality;
-            $companyinsert['created_at'] = Carbon::now('Asia/Kolkata');
+            //$companyinsert['created_at'] = Carbon::now('Asia/Kolkata');
 
             $id = Auth::guard('nurse_middle')->user()->id;
             return  $this->adminRepository->updateadminProfile(['id' => $id], $companyinsert);
