@@ -24,6 +24,29 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://kit.fontawesome.com/107d2907de.js" crossorigin="anonymous"></script>
+    <style>
+        .back_arrow {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: #f1f1f1;
+            color: #333;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.2s, color 0.2s;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+            margin-bottom: 15px;
+        }
+
+        .back_arrow:hover {
+            background-color: #e0e0e0;
+            color: #000000;
+        }
+
+    </style>
 </head>
 
 <body>

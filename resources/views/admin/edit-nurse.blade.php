@@ -66,6 +66,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
 
 <div class="container-fluid">
+    <div class="back_arrow" onclick="history.back()" title="Go Back">
+        <i class="fa fa-arrow-left"></i>
+    </div>
     <div class="card bg-light-info shadow-none position-relative overflow-hidden">
         <div class="card-body px-4 py-3">
             <div class="row align-items-center">

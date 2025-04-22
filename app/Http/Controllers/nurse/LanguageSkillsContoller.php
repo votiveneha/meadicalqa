@@ -76,6 +76,7 @@ class LanguageSkillsContoller extends Controller{
         $english_prof_cert = json_encode($request->english_prof_cert);
         $other_prof_cert = json_encode($request->otherlangprof);
         $specialized_lang_skills = json_encode($request->specialized_lang_skills);
+        $declaration_status = $request->professional_declare_information;
 
         //print_r($english_prof_cert);die;
         $language_skills_data = LanguageSkillsModel::where("user_id",$user_id)->first();
@@ -83,7 +84,7 @@ class LanguageSkillsContoller extends Controller{
         //print_r($english_prof_cert);
         if(!empty($language_skills_data)){
 
-            $run = LanguageSkillsModel::where('user_id',$user_id)->update(['langprof_level'=>$langprof_level,'english_prof_cert'=>$english_prof_cert,'other_prof_cert'=>$other_prof_cert,'specialized_lang_skills'=>$specialized_lang_skills]);
+            $run = LanguageSkillsModel::where('user_id',$user_id)->update(['langprof_level'=>$langprof_level,'english_prof_cert'=>$english_prof_cert,'other_prof_cert'=>$other_prof_cert,'specialized_lang_skills'=>$specialized_lang_skills,'declare_info'=>$declaration_status]);
         }else{
             $user_stage = update_user_stage($user_id,"Language Skills");
             $language_skills = new LanguageSkillsModel();
@@ -92,6 +93,7 @@ class LanguageSkillsContoller extends Controller{
             $language_skills->english_prof_cert = $english_prof_cert;
             $language_skills->other_prof_cert = $other_prof_cert;
             $language_skills->specialized_lang_skills = $specialized_lang_skills;
+            $language_skills->declare_info = $declaration_status;
             $run = $language_skills->save();
         }
 

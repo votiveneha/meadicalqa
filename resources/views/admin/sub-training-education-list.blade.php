@@ -3,6 +3,9 @@
 @php
 $nameSpeciality = str_replace("'", "", $mantraining->name);
 @endphp
+<div class="back_arrow" onclick="history.back()" title="Go Back">
+    <i class="fa fa-arrow-left"></i>
+</div>
 <x-card-component parentHeading="Mandatory Training and Education Subtype ({{$nameSpeciality}})" childHeading="Mandatory Training and Education Subtype" parentUrl="{{route('admin.dashboard')}}" />
     <div class="card w-100  overflow-hidden ">
         <div class="card-header pb-0 p-4">

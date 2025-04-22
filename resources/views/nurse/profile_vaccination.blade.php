@@ -139,6 +139,22 @@ i.fa.fa-file {
               </div>
             </div>
             @endif
+            @if(!completeProfile())
+            <div class="container-fluid">
+              <div class="alert alert-warning mt-2" role="alert">
+                <span class="d-flex align-items-center justify-content-center "><img src="{{ asset('nurse/assets/imgs/info.png') }}" width="25px;" alt="info" class="mx-2">Thank you for completing your profile.<br>We are currently reviewing your details and will get in touch with you shortly.
+                </span>
+              </div>
+            </div>
+            @endif
+            @if(!approvedProfile())
+            <div class="container-fluid">
+              <div class="alert alert-warning mt-2" role="alert">
+                <span class="d-flex align-items-center justify-content-center "><img src="{{ asset('nurse/assets/imgs/info.png') }}" width="25px;" alt="info" class="mx-2">Congratulations! Your profile has been successfully approved.<br>You can now apply for jobs, connect with employers, and receive interview requests.
+                </span>
+              </div>
+            </div>
+            @endif
             {{-- @if(!email_verified())
             <div class="alert alert-success mt-2" role="alert">
               <span class="d-flex align-items-center justify-content-center ">Please verify your email first to access your account </span>

@@ -229,6 +229,15 @@ function completeProfile()
         }
 }
 
+function approvedProfile()
+{
+        if(Auth::guard('nurse_middle')->user()->user_stage=='2'){
+                return false;
+        }else{
+                return true;
+        }
+}
+
 function update_user_stage($user_id,$tab_name)
 {
         $user_data = User::where("id",$user_id)->first();   
@@ -244,7 +253,7 @@ function update_user_stage($user_id,$tab_name)
         if(!empty($user_data) && $user_data->user_stage == 1){
                 DB::table("users")->where("id",$user_id)->update(["user_stage"=>"5"]); 
 
-                $to = "info@mediqa.com.au";
+                $to = "votivetester.vijendra@gmail.com";
 
                 
 
@@ -273,7 +282,7 @@ function update_user_stage($user_id,$tab_name)
 
         $tab_count = DB::table("updated_tab_name")->where("user_id",$user_id)->get();
         
-        if(count($tab_count) == 15){
+        if(count($tab_count) == 15 && empty($tab_data)){
                 
                 User::where("id",$user_id)->update(["user_stage"=>"4"]);
 
@@ -295,7 +304,7 @@ function update_user_stage($user_id,$tab_name)
                 
                 Mail::to($to)->send(new \App\Mail\DemoMail($mailData));
 
-                $to1 = "info@mediqa.com.au";
+                $to1 = "votivetester.vijendra@gmail.com";
 
                 $last_tab_date = DB::table("updated_tab_name")->where("user_id",$user_id)->orderBy("tab_id","DESC")->get();
 

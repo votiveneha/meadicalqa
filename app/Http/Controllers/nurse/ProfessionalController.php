@@ -942,6 +942,7 @@ class ProfessionalController extends Controller
                 }
                 
             }else{
+                
                 if($award_question == "Yes"){
                     
                     $img_arr = array();
@@ -970,7 +971,7 @@ class ProfessionalController extends Controller
                 }else{
                     $post = new ProfessionalAssocialtionModel();
                     $post->user_id = $user_id;
-                    $post->membership_question = $inst_org;
+                    $post->membership_question = $profmemaward;
                     $post->award_question = $profmemaward;
                     $post->declare_info = $declaration_status;
                     $run = $post->save();

@@ -80,12 +80,12 @@ class NurseServices
             if ($run == 1) {
                 $body = 'Hello, ' . $userData->name . ' ' . $userData->lastname;
                 if($request->status == 2){
-                    $body .= '<p>Your profile has been successfully validated!<br>You can now apply for all jobs and receive interview requests from healthcare facilities, nursing agencies, and individuals seeking nurse care at home.</p>';
+                    $body .= '<p>We are pleased to inform you that your profile on Mediqa has been approved by our team.</p><p>You can now:</p><p>- Apply for job opportunities<br>- Connect with healthcare facilities and agencies<br>- Access all features of Mediqa</p><p>Next Steps:</p><p>- Log in to your account:<a href="https://mediqa.com.au/nurse/login">Mediqa</a><br>- Keep your profile updated for better job matches<br></p><p>If you have any questions, feel free to contact us at info@mediqa.com.au.</p>';
                 }else{
                     $body .= '<p>We regret to inform you that your account request has been rejected due to <b>'.$request->reasonData.'.</b><br><br> Please contact us for further information.';
                 }
                 if($request->status == 2){
-                        $subject = 'Your Account Request  has been  Approved!';
+                        $subject = 'Your Profile Has Been Approved on Mediqa';
                     }else{
                         $subject = 'Your Account has been Rejected!';
                     }
@@ -171,7 +171,7 @@ class NurseServices
 
                  if($request->status == 2){
                   
-                 $body .= '<p>This is to inform you that your account has been blocked.';
+                 $body .= '<p>This is to inform you that your account has been blocked.<p><strong>Reason:</strong><br>'.$request->reason_val.'</p>';
                   $mailData = [
                     'subject' =>  'Block',
                     'email' =>$userData->email,
@@ -187,7 +187,7 @@ class NurseServices
                     $mailData = [
                     'subject' =>  'Unblock',
                     'email' =>$userData->email,
-                    'body' => '1',
+                    'body' => $body,
                   ];
 
                   $sendMail = Mail::to($userData->email)->send(new \App\Mail\DemoMail($mailData));

@@ -79,22 +79,11 @@ class NurseController extends Controller
     {
         try {
             $body = 'Dear ' . $request->name;
-            $body .= '<p>We hope this message finds you well!</p>';
-            $body .= '<p>We noticed that your profile is not yet complete. Completing your profile will allow you to access a wide range of job opportunities from healthcare facilities, agencies, and individuals seeking nursing care at home.</p>';
-            $body .= '<p>To unlock these opportunities, please take a few minutes to finish your profile. Here’s what you need to do:</p>';
-            $body .= '<ul><li style="list-style-type:none;margin-left: -23px;">- Log in to your <a href="' . url('/nurse') . '/login">account</li>';
-            $body .= '<li style="list-style-type:none">- Complete all required sections, including your experience, specialties, and certifications.</li>';
-            $body .= '<li style="list-style-type:none">- Submit your profile for approval.</li></ul>';
-            $body .= "<p>Once approved, you'll be able to:</p>";
-            $body .= '<ul><li style="list-style-type:none">- Apply for various shifts and permanent positions.</li>';
-            $body .= '<li style="list-style-type:none">- Make your profile visible to potential employers.</li>';
-            $body .= '<li style="list-style-type:none">- Receive interview requests and offers tailored to your preferences.</li></ul>';
-            $body .= "<p>Don't miss out on the chance to advance your career and find the perfect nursing job for you!</p>";
-            $body .= '<p>If you have any questions or need assistance, feel free to contact us at <a href="' . url('/contact') . '">Contact</a></p>';
-            $body .= '<p>Thank you for being a part of our community, and we look forward to seeing your completed profile soon!</p>';
+            $body .= '<p>We hope this message finds you well.</p><p>We noticed that your profile is not yet complete. Finishing your profile will allow you to access a wide range of job opportunities from healthcare facilities, agencies, and individuals seeking nursing care at home.</p><p>To unlock these opportunities, please take a few minutes to complete your profile:</p><p>- Log in to your account:<a href="https://mediqa.com.au/nurse/login">Mediqa</a><br>- Fill in the remaining sections of your profile<br>- Submit your profile for approval.</p><p><strong>Once approved, you will be able to:</strong></p><p>- Apply for various shifts and permanent positions.<br>- Make your profile visible to potential employers.<br>- Receive interview requests and offers tailored to your preferences.</p><p>If you need any assistance, feel free to reach out to us at info@mediqa.com.au</p><p>Thank you for being part of our community. We look forward to seeing your completed profile soon.</p>';
+            
 
 
-            $subject = 'Complete Your Profile to Access Exciting Job Opportunities!';
+            $subject = 'Complete Your Profile to Access Nursing Job Opportunities';
 
             $mailData = [
                 'subject' =>  $subject,

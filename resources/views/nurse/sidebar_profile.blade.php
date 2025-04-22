@@ -41,25 +41,9 @@
   <div class="profile-chklst">
     <span>Profile basics</span>
     <?php
-    $get_myprofile_status = DB::table("users")->where("id", Auth::guard('nurse_middle')->user()->id)->first();
-    $get_educert_status = DB::table("user_education_cerification")->where("user_id", Auth::guard('nurse_middle')->user()->id)->first();
+      $get_myprofile_status = DB::table("updated_tab_name")->where("user_id", Auth::guard('nurse_middle')->user()->id)->get();
 
-    if (!empty($get_educert_status)) {
-      $get_educert_status1 = $get_educert_status->complete_status;
-    } else {
-      $get_educert_status1 = 0;
-    }
-
-    $get_experience_status = DB::table("user_experience")->where("user_id", Auth::guard('nurse_middle')->user()->id)->first();
-
-    if (!empty($get_experience_status)) {
-      $get_experience_status1 = $get_experience_status->complete_status;
-    } else {
-      $get_experience_status1 = 0;
-    }
-
-    $get_profile_status = $get_myprofile_status->basic_info_status + $get_myprofile_status->professional_info_status + $get_educert_status1 + $get_experience_status1;
-    $get_progress_status = round($get_profile_status / 14 * 100);
+      $get_progress_status = round(count($get_myprofile_status)/15 * 100);
 
     ?>
     <div class="chart" id="graph1" data-percent="<?php echo $get_progress_status; ?>" data-color="#000"></div>
