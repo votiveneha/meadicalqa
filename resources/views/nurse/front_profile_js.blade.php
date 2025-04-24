@@ -1554,7 +1554,7 @@
                 $p = 1;
                 ?>
 
-                <div class="surgicalobs_row_experience-${previous_employeers_head} form-group drp--clr d-none drpdown-set col-md-12">
+                <div class="surgicalobs_row_experience-${previous_employeers_head} surgicalobs_row_experience-${previous_employeers_head} form-group drp--clr d-none drpdown-set col-md-12">
                     <label class="form-label" for="input-1">Surgical Obstetrics and Gynecology (OB/GYN):</label>
 
                     <ul id="surgicalobs_row_data_experience-${previous_employeers_head}" style="display:none;">
@@ -1562,13 +1562,14 @@
                     <li data-value="{{ $ssd->id }}">{{ $ssd->name }}</li>
                     @endforeach
                     </ul>
-                    <select class="js-example-basic-multiple${previous_employeers_head} addAll_removeAll_btn" data-list-id="surgicalobs_row_data_experience-${previous_employeers_head}" name="surgical_obs_care_exp[${previous_employeers_head}][]" multiple="multiple"></select>
+                    <select class="js-example-basic-multiple${previous_employeers_head} surgicalobstrics surgicalobstrics-${previous_employeers_head} addAll_removeAll_btn" data-list-id="surgicalobs_row_data_experience-${previous_employeers_head}" name="surgical_obs_care_exp[${previous_employeers_head}][]" multiple="multiple"></select>
+                    <span id="reqsurgicalobstrics-${previous_employeers_head}" class="reqError text-danger valley"></span>
                 </div>
                 <?php
                 $speciality_surgical_datamater = DB::table("speciality")->where('parent', '250')->get();
 
                 ?>
-                <div class="neonatal_row_exp_${previous_employeers_head} form-group drp--clr drpdown-set d-none col-md-12">
+                <div class="neonatal_row_experience-${previous_employeers_head} neonatal_row_exp_${previous_employeers_head} form-group drp--clr drpdown-set d-none col-md-12">
                     <label class="form-label" for="input-1">Neonatal Care:</label>
 
                     <ul id="neonatal_care_experience-${previous_employeers_head}" style="display:none;">
@@ -1606,14 +1607,15 @@
                 @endforeach
                </div>
             
-                <div class="form-group level-drp">
+                <div class="form-group level-drp level_exp_field-${previous_employeers_head}">
                     <label class="form-label" for="input-1">What is your Level of experience in this specialty?
                     </label>
-                    <select class="form-control mr-10 select-active" name="exper_assistent_level[${previous_employeers_head}]">
+                    <select class="form-control mr-10 select-active reqlevelexp reqlevelexp-${previous_employeers_head}" name="exper_assistent_level[${previous_employeers_head}]">
                         <option value="select">select</option>
                         @for($i = 1; $i <= 30; $i++) <option value="{{ $i }}">{{ $i }}{{ $i == 1 ? 'st' : ($i == 2 ? 'nd' : ($i == 3 ? 'rd' : 'th')) }} Year</option>
                         @endfor
                     </select>
+                    <span id="reqlevelexp-${previous_employeers_head}" class="reqError text-danger valley"></span>
                 </div>
             
                 <div class="form-group level-drp">

@@ -113,7 +113,9 @@
                 <a class="{{ request()->is('nurse/sector_preferences') ?'active':'' }} {{ request()->is('nurse/work_environment_preferences') ?'active':'' }} {{ request()->is('nurse/employeement_type_preferences') ?'active':'' }} {{ request()->is('nurse/WorkShiftPreferences') ?'active':'' }} {{ request()->is('nurse/position_preferences') ?'active':'' }} {{ request()->is('nurse/benefitsPreferences') ?'active':'' }} {{ request()->is('nurse/locationPreferences') ?'active':'' }} {{ request()->is('nurse/salaryExpectations') ?'active':'' }} hover-up " href='{{ route("nurse.sector_preferences") }}?page=sector_preferences'>Work Preferences & Flexibility</a>
 
               </li>
-
+              <li>
+                <a class="hover-up" href="#">Match Percentage</a>
+              </li>
             </ul>
           </nav>
           <div class="burger-icon burger-icon-white">

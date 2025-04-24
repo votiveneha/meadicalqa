@@ -95,6 +95,30 @@
     font-size: 13px;
     gap: 15px;
   }
+
+  @media only screen and (min-width:1050px) and (max-width:1350px)  {
+   
+    .support-button {
+    background-color: #000000;
+    color: white;
+    border: none;
+    padding: 10px 8px;
+    border-radius: 20px;
+    font-size: 13px !important;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-left: 10px;
+}
+
+.logout-line .font-md {
+    font-size: 13px !important;
+    line-height: 24px !important;
+}
+
+  }
+
+
 </style>
 @endsection
 
@@ -3282,14 +3306,15 @@
                           $p = 1;
                           ?>
                           <input type="hidden" name="surgical_ob_result_experience" class="surgical_ob_result_experience_{{$i}}" value="{{ $data->surgical_obstrics_gynacology }}">
-                          <div class="surgicalobs_div surgicalobs_row_exp_{{$i}} form-group drp--clr d-none drpdown-set col-md-12">
+                          <div class="surgicalobs_div surgicalobs_row_experience-{{$i}} surgicalobs_row_exp_{{$i}} form-group drp--clr d-none drpdown-set col-md-12">
                             <label class="form-label" for="input-1">Surgical Obstetrics and Gynecology (OB/GYN):</label>
                             <ul id="surgicalobs_row_data_experience_{{$i}}" style="display:none;">
                               @foreach($speciality_surgical_datamater as $ssd)
                               <li data-value="{{ $ssd->id }}">{{ $ssd->name }}</li>
                               @endforeach
                             </ul>
-                            <select class="js-example-basic-multiple addAll_removeAll_btn surgicalobs_row_{{$i}}" data-list-id="surgicalobs_row_data_experience_{{$i}}" name="surgical_obs_care_exp[1][]" multiple="multiple"></select>
+                            <select class="js-example-basic-multiple surgicalobstrics surgicalobstrics-{{$i}} addAll_removeAll_btn surgicalobs_row_{{$i}}" data-list-id="surgicalobs_row_data_experience_{{$i}}" name="surgical_obs_care_exp[1][]" multiple="multiple"></select>
+                            <span id="reqsurgicalobstrics-{{$i}}" class="reqError text-danger valley"></span>
                           </div>
                           <?php
                           $speciality_surgical_datamater = DB::table("speciality")->where('parent', '250')->get();
@@ -3342,10 +3367,10 @@
                           ?>
                           @endforeach
                         </div>
-                        <div class="form-group level-drp">
+                        <div class="form-group level-drp level_exp_field-{{ $i }}">
                           <label class="form-label" for="input-1">What is your Level of experience in this specialty?
                           </label>
-                          <select class="form-input mr-10 select-active" name="exper_assistent_level[{{$i}}]">
+                          <select class="form-input mr-10 select-active reqlevelexp reqlevelexp-{{$i}}" name="exper_assistent_level[{{$i}}]">
                             <option value="select">select</option>
                             @for($l = 1; $l <= 30; $l++)
                               <option value="{{ $l }}" {{ $l == $data->assistent_level ? 'selected' : '' }}>
@@ -3354,6 +3379,7 @@
                               </option>
                               @endfor
                           </select>
+                          <span id="reqlevelexp-{{$i}}" class="reqError text-danger valley"></span>
                         </div>
                         <div class="form-group level-drp">
                           
@@ -3427,7 +3453,7 @@
                           <div class="col-md-6">
                             <div class="form-group level-drp">
                               <label class="form-label" for="input-1">Employment Start Date</label>
-                              <input class="form-control employeement_start_date_exp employeement_start_date_exp-{{$i}}" value="{{ $data->employeement_start_date }}" type="date" name="start_date[{{$i}}]" onchange="changeEmployeementEndDate('{{$i}}')" onkeydown="return false">
+                              <input class="form-control employeement_start_date_exp employeement_start_date_exp-{{$i}}" value="{{ $data->employeement_start_date }}" type="date" name="start_date[{{$i}}]" onchange="changeEmployeementEndDate('{{$i}}')">
                               <span id="reqempsdateexp-{{$i}}" class="reqError text-danger valley"></span>
                             </div>
                             <div class="declaration_box mt-2 mb-2">
@@ -3437,7 +3463,7 @@
                           <div class="col-md-6 empl_end_date-{{$i}} {{ ($data->pre_box_status == 1) ? 'd-none' : '' }} ">
                             <div class="form-group level-drp">
                               <label class="form-label" for="input-1">Employment End Date</label>
-                              <input class="form-control employeement_end_date_exp employeement_end_date_exp-{{$i}}" type="date" value="{{ $data->employeement_end_date }}" name="end_date[{{ $i }}]" onkeydown="return false">
+                              <input class="form-control employeement_end_date_exp employeement_end_date_exp-{{$i}}" type="date" value="{{ $data->employeement_end_date }}" name="end_date[{{ $i }}]">
                               <span id="reqemployeementenddateexp-{{$i}}" class="reqError text-danger valley"></span>
                             </div>
                           </div>
@@ -3899,14 +3925,16 @@
                           $speciality_surgical_datamater = DB::table("speciality")->where('parent', '233')->get();
                           $p = 1;
                           ?>
-                          <div class="surgicalobs_row_experience form-group drp--clr d-none drpdown-set col-md-12">
+                          <div class="surgicalobs_row_experience surgicalobs_row_experience-1 form-group drp--clr d-none drpdown-set col-md-12">
                             <label class="form-label" for="input-1">Surgical Obstetrics and Gynecology (OB/GYN):</label>
+
                             <ul id="surgicalobs_row_data_experience" style="display:none;">
                               @foreach($speciality_surgical_datamater as $ssd)
                               <li data-value="{{ $ssd->id }}">{{ $ssd->name }}</li>
                               @endforeach
                             </ul>
-                            <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="surgicalobs_row_data_experience" name="surgical_obs_care_exp[1][]" multiple="multiple"></select>
+                            <select class="js-example-basic-multiple surgicalobstrics surgicalobstrics-1 addAll_removeAll_btn" data-list-id="surgicalobs_row_data_experience" name="surgical_obs_care_exp[1][]" multiple="multiple"></select>
+                            <span id="reqsurgicalobstrics-1" class="reqError text-danger valley"></span>
                           </div>
                           <?php
                           $speciality_surgical_datamater = DB::table("speciality")->where('parent', '250')->get();
@@ -3914,7 +3942,7 @@
                           ?>
                           <div class="neonatal_row_exp_1 form-group drp--clr drpdown-set d-none col-md-12 surgicalp_experience-13">
                             <label class="form-label surgicalprelabel-13" for="input-1">Neonatal Care:</label>
-                            <input type="hidden" name="surgicalp_input" class="surgicalp_input surgicalp_input-1" value="3">
+                            {{-- <input type="hidden" name="surgicalp_input" class="surgicalp_input surgicalp_input-1" value="3"> --}}
                             <ul id="neonatal_care_experience" style="display:none;">
                               @foreach($speciality_surgical_datamater as $ssd)
                               <li data-value="{{ $ssd->id }}">{{ $ssd->name }}</li>
@@ -3952,15 +3980,16 @@
                           <div class="surgical_operative_carep_level_two"></div>
                           <div class="surgical_operative_carep_level_three"></div>
                         </div>
-                        <div class="form-group level-drp">
+                        <div class="form-group level-drp level_exp_field-1">
                           <label class="form-label" for="input-1">What is your Level of experience in this specialty?
                           </label>
                           
-                          <select class="form-input mr-10 select-active" name="exper_assistent_level[1]">
+                          <select class="form-input mr-10 select-active reqlevelexp reqlevelexp-1" name="exper_assistent_level[1]">
                             <option value="select">select</option>
                             @for($i = 1; $i <= 30; $i++) <option value="{{ $i }}">{{ $i }}{{ $i == 1 ? 'st' : ($i == 2 ? 'nd' : ($i == 3 ? 'rd' : 'th')) }} Year</option>
                               @endfor
                           </select>
+                          <span id="reqlevelexp-1" class="reqError text-danger valley"></span>
                         </div>
                         <div class="form-group level-drp">
                           
@@ -3987,7 +4016,7 @@
                           <div class="col-md-6">
                             <div class="form-group level-drp">
                               <label class="form-label" for="input-1">Employment Start Date</label>
-                              <input class="form-control employeement_start_date_exp employeement_start_date_exp-1" type="date" name="start_date[1]" onchange="changeEmployeementEndDate(1)" onkeydown="return false">
+                              <input class="form-control employeement_start_date_exp employeement_start_date_exp-1" type="date" name="start_date[1]" onchange="changeEmployeementEndDate(1)">
                               <span id="reqempsdateexp-1" class="reqError text-danger valley"></span>
                             </div>
                             <div class="declaration_box mt-2 mb-2">
@@ -3997,7 +4026,7 @@
                           <div class="col-md-6 empl_end_date-1">
                             <div class="form-group level-drp">
                               <label class="form-label" for="input-1">Employment End Date</label>
-                              <input class="form-control employeement_end_date_exp employeement_end_date_exp-1" type="date" name="end_date[1]" onkeydown="return false">
+                              <input class="form-control employeement_end_date_exp employeement_end_date_exp-1" type="date" name="end_date[1]">
                               <span id="reqemployeementenddateexp-1" class="reqError text-danger valley"></span>
                             </div>
                           </div>

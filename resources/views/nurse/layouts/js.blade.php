@@ -1647,6 +1647,32 @@
       p++;
     });
 
+    var q = 1;
+    $(".surgicalobstrics").each(function(i,val) {
+      if($(".surgicalobs_row_experience-"+q).hasClass("d-none") == false){
+        
+        if ($(".surgicalobstrics-"+q).val() == '') {
+          document.getElementById("reqsurgicalobstrics-"+q).innerHTML = "* Please select the Surgical Obstetrics and Gynecology (OB/GYN)";
+          isValid = false;
+        }
+        
+      }
+      q++;
+    });
+
+    var t = 1;
+    $(".reqlevelexp").each(function(i,val) {
+      
+        
+        if ($(".reqlevelexp-"+t).val() == 'select') {
+          document.getElementById("reqlevelexp-"+t).innerHTML = "* Please select the Level of experience in this specialty";
+          isValid = false;
+        }
+        
+      
+      t++;
+    });
+
     var z = 1;
     $(".type_specialities_input").each(function(i,val) {
       
