@@ -180,6 +180,7 @@
                           }
                           
                           
+                          
                           $o_data = (array)$organization_data;
                           $p_memb_arr = array();
 
@@ -1659,42 +1660,42 @@ $(".show_submembership_type-"+country_org+organization_id1+organization_id).appe
   //   $('.js-example-basic-multiple[data-list-id="des_profession_association"]').select2().val(organization_name).trigger('change');
   // }
  
-  if ($(".org_country").val() != "") {
-    var org_country = JSON.parse($(".org_country").val());
-    $('.js-example-basic-multiple[data-list-id="organization_country"]').select2().val(org_country).trigger('change');
+  // if ($(".org_country").val() != "") {
+  //   var org_country = JSON.parse($(".org_country").val());
+  //   $('.js-example-basic-multiple[data-list-id="organization_country"]').select2().val(org_country).trigger('change');
     
-    for(var i=0;i<org_country.length;i++){
-      if ($(".country_org-"+org_country[i]).val() != "") {
-        var suborg_country = JSON.parse($(".country_org-"+org_country[i]).val());
-        $('.js-example-basic-multiple[data-list-id="country_organization-'+org_country[i]+'"]').select2().val(suborg_country).trigger('change');
+  //   for(var i=0;i<org_country.length;i++){
+  //     if ($(".country_org-"+org_country[i]).val() != "") {
+  //       var suborg_country = JSON.parse($(".country_org-"+org_country[i]).val());
+  //       $('.js-example-basic-multiple[data-list-id="country_organization-'+org_country[i]+'"]').select2().val(suborg_country).trigger('change');
         
-        for(var j=0;j<suborg_country.length;j++){
-          var scountorg = org_country[i].toString() + suborg_country[j].toString();
-          if ($(".subcountry_org-"+scountorg).val() != "") {
-            var subsuborg_country = JSON.parse($(".subcountry_org-"+scountorg).val());
+  //       for(var j=0;j<suborg_country.length;j++){
+  //         var scountorg = org_country[i].toString() + suborg_country[j].toString();
+  //         if ($(".subcountry_org-"+scountorg).val() != "") {
+  //           var subsuborg_country = JSON.parse($(".subcountry_org-"+scountorg).val());
             
-            console.log("subsuborg_country"+scountorg,subsuborg_country);
-            $('.js-example-basic-multiple[data-list-id="subcountry_organization-'+scountorg+'"]').select2().val(subsuborg_country).trigger('change');
+  //           console.log("subsuborg_country"+scountorg,subsuborg_country);
+  //           $('.js-example-basic-multiple[data-list-id="subcountry_organization-'+scountorg+'"]').select2().val(subsuborg_country).trigger('change');
             
-            for(var k=0;k<subsuborg_country.length;k++){
-              if ($(".memb_type_input-"+subsuborg_country[k]).val() != "") {
-                var membership_type = JSON.parse($(".memb_type_input-"+subsuborg_country[k]).val());
-                $('.js-example-basic-multiple[data-list-id="membership_type-'+subsuborg_country[k]+'"]').select2().val(membership_type).trigger('change');
+  //           for(var k=0;k<subsuborg_country.length;k++){
+  //             if ($(".memb_type_input-"+subsuborg_country[k]).val() != "") {
+  //               var membership_type = JSON.parse($(".memb_type_input-"+subsuborg_country[k]).val());
+  //               $('.js-example-basic-multiple[data-list-id="membership_type-'+subsuborg_country[k]+'"]').select2().val(membership_type).trigger('change');
 
-                for(var l=0;l<membership_type.length;l++){
-                  var submembership_type = JSON.parse($(".submemb_type_input-"+subsuborg_country[k]+"-"+membership_type[l]).val());
+  //               for(var l=0;l<membership_type.length;l++){
+  //                 var submembership_type = JSON.parse($(".submemb_type_input-"+subsuborg_country[k]+"-"+membership_type[l]).val());
                   
-                  $('.js-example-basic-multiple[data-list-id="submembership_type-'+membership_type[l]+"-"+subsuborg_country[k]+'"]').select2().val(submembership_type).trigger('change');
-                }
-              }
+  //                 $('.js-example-basic-multiple[data-list-id="submembership_type-'+membership_type[l]+"-"+subsuborg_country[k]+'"]').select2().val(submembership_type).trigger('change');
+  //               }
+  //             }
               
-            }
+  //           }
 
-          }
-        }
-      }  
-    }
-  }
+  //         }
+  //       }
+  //     }  
+  //   }
+  // }
 
   if ($(".awards_recognition_input").val() != "") {
     var awards_recognition_input = JSON.parse($(".awards_recognition_input").val());

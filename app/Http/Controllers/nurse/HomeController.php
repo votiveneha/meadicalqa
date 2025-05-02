@@ -1990,32 +1990,13 @@ class HomeController extends Controller
             if ($exp_id_1) {
                 // echo "test";
                 // die;
-                $dtran = []; // Initialize the array to hold files
+                $oldfile2 = json_decode($oldfile1, true);
 
-                // Check if evidence files exist and are valid
-                if (isset($evi1) && !empty($evi1)) {
-                    $oldfile2 = json_decode($oldfile1, true);
-                    // Add old files if they exist
-                    if (count($oldfile2) > 0) {
-                        if (is_array($oldfile2)) {
-                            $dtran = array_merge($dtran, $oldfile2); // Merge existing old files
-                        } else {
-                            $dtran[] = $oldfile1; // Add single old file if not in an array
-                        }
-                    }
-
-                    // Process new evidence files
-                    foreach ($evi1 as $dtrans) {
-                        $destinationPath = public_path() . '/uploads/evidence';
-                        $dtrans->move($destinationPath, $dtrans->getClientOriginalName());
-                        $degree_transcript = $dtrans->getClientOriginalName();
-                        $dtran[] = $degree_transcript;
-                    }
-                }
-
-                // If no files were added to $dtran, set it to null
-                if (empty($dtran)) {
-                    $dtran = [];
+                if(!empty($evi1)){
+                    
+                    $expimgs = Helpers::multipleFileUpload($evi1, $oldfile2);
+                }else{
+                    $expimgs = Helpers::multipleFileUpload('', $oldfile2);
                 }
 
                 // print_r($dtran);
@@ -2054,7 +2035,7 @@ class HomeController extends Controller
                     'evidence_type' => json_encode($type_of_evidence1),
                     'permanent_status' => $permanent_status1,
                     'temporary_status' => $temporary_status1,
-                    'upload_evidence' => json_encode($dtran),
+                    'upload_evidence' => $expimgs,
                     'sub_skills_compantancies' => json_encode($sub_skills_compantancies1),
                     'assistent_level' => $level_of_exp1,
                     'pre_box_status' => $p_box,

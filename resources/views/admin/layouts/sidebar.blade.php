@@ -268,6 +268,33 @@
          </a>
        </li>
        <li class="sidebar-item">
+        <a class="sidebar-link" href="#" aria-expanded="false">
+          <span>
+            <i class="ti ti-seo-edit"></i>
+          </span>
+          <span class="hide-menu">Professional Membership Management</span>
+        </a>
+        <ul aria-expanded="false" class="collapse first-level">
+          <li class="sidebar-item">
+            <a href="{{route('admin.organization_country_list')}}" class="sidebar-link">
+              <div class="round-16 d-flex align-items-center justify-content-center">
+                <i class="ti ti-circle"></i>
+              </div>
+              <span class="hide-menu">Country List</span>
+            </a>
+          </li>
+          <li class="sidebar-item">
+            <a href="{{route('admin.membershipType')}}" class="sidebar-link">
+              <div class="round-16 d-flex align-items-center justify-content-center">
+                <i class="ti ti-circle"></i>
+              </div>
+              <span class="hide-menu">Membership Type</span>
+            </a>
+          </li>
+
+        </ul>
+      </li>
+       <li class="sidebar-item">
          <a class="sidebar-link" href="{{route('admin.contact-list')}}" aria-expanded="false">
            <span>
              <i class="ti ti-aperture"></i>

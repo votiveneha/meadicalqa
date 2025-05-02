@@ -1824,7 +1824,7 @@
 
     var e = 1;
     $(".employeement_end_date_exp").each(function() {
-      if ($(".employeement_end_date_exp-" + e).length > 0) {
+      if ($(".empl_end_date-"+e).is(':visible') == true) {
         if ($(".employeement_end_date_exp-" + e).val() == '') {
           document.getElementById("reqemployeementenddateexp-" + e).innerHTML = "* Please enter the employment end date";
           isValid = false;

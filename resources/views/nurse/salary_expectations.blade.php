@@ -184,7 +184,7 @@ input:checked + .slider:before {
                           
                         </div>
                         
-                        <div class="form-group level-drp salary_range_div" @if(!empty($salary_expectation_data) && $salary_expectation_data->fixed_salary != NULL) style="pointer-events: none; opacity: 0.5;" @endif @if(!empty($salary_expectation_data) && $salary_expectation_data->payment_frequency == "annually") style="pointer-events: none;" @else  @if(!empty($salary_expectation_data) && $salary_expectation_data->payment_frequency == "monthly") style="pointer-events: none;" @else  @if(!empty($salary_expectation_data) && $salary_expectation_data->payment_frequency == "weekly") style="pointer-events: none;" @endif @endif @endif>
+                        <div class="form-group level-drp salary_range_div">
                             <label class="form-label" for="input-1">Salary range</label>
                             <p>Selected Salary Range: <span id="amount"></span></p>
                             <?php
@@ -370,108 +370,116 @@ input:checked + .slider:before {
             monthly: { min: 3467, max: 26000, values: [3467, 26000] },
             annually: { min: 41600, max: 312000, values: [41600, 312000] }
         };
+        
+        
+        function calculateSalary(frequency,salary1, salary2){
+          const hoursPerWeek = 40;
+          const weeksPerYear = 52;
+          const weeksPerMonth = 4.33;
 
+          if(frequency == "hourly"){
+            let hourlyMin = salary1;
+            let hourlyMax = salary2;
+            let weeklyMin, weeklyMax,monthlyMin, monthlyMax, annualMin, annualMax;
+
+            weeklyMin = hourlyMin * hoursPerWeek;
+            weeklyMax = hourlyMax * hoursPerWeek;
+            monthlyMin = hourlyMin * hoursPerWeek * weeksPerMonth;
+            monthlyMax = hourlyMax * hoursPerWeek * weeksPerMonth;
+            annualMin = hourlyMin * hoursPerWeek * weeksPerYear;
+            annualMax = hourlyMax * hoursPerWeek * weeksPerYear;
+            console.log("monthlyMin",monthlyMin);
+            console.log("monthlyMax",monthlyMax);
+            $(".hourly_salary_amount").val("$"+Math.round(hourlyMin)+"- $"+Math.round(hourlyMax));
+            $(".weekly_salary_amount").val("$"+Math.round(weeklyMin)+"- $"+Math.round(weeklyMax));
+            $(".monthly_salary_amount").val("$"+Math.round(monthlyMin)+"- $"+Math.round(monthlyMax));
+            $(".annual_salary_amount").val("$"+Math.round(annualMin)+"- $"+Math.round(annualMax));
+            $(".salary_range_div").css("pointer-events","");
+          }
+
+          if(frequency == "weekly"){
+            let weeklyMin = salary1;
+            let weeklyMax = salary2;
+            let hourlyMin, hourlyMax,monthlyMin, monthlyMax, annualMin, annualMax;
+
+            hourlyMin = weeklyMin/40;
+            hourlyMax = weeklyMax/40;
+            monthlyMin = hourlyMin * hoursPerWeek * weeksPerMonth;
+            monthlyMax = hourlyMax * hoursPerWeek * weeksPerMonth;
+            annualMin = hourlyMin * hoursPerWeek * weeksPerYear;
+            annualMax = hourlyMax * hoursPerWeek * weeksPerYear;
+            console.log("monthlyMin",monthlyMin);
+            console.log("monthlyMax",monthlyMax);
+            $(".hourly_salary_amount").val("$"+Math.round(hourlyMin)+"- $"+Math.round(hourlyMax));
+            $(".weekly_salary_amount").val("$"+Math.round(weeklyMin)+"- $"+Math.round(weeklyMax));
+            $(".monthly_salary_amount").val("$"+Math.round(monthlyMin)+"- $"+Math.round(monthlyMax));
+            $(".annual_salary_amount").val("$"+Math.round(annualMin)+"- $"+Math.round(annualMax));
+            
+          }
+
+          if(frequency == "monthly"){
+            let monthlyMin = salary1;
+            let monthlyMax = salary2;
+            let hourlyMin, hourlyMax,weeklyMin, weeklyMax, annualMin, annualMax;
+
+            
+            weeklyMin = monthlyMin/4.33;
+            weeklyMax = monthlyMax/4.33;
+            hourlyMin = weeklyMin/40;
+            hourlyMax = weeklyMax/40;
+            annualMin = hourlyMin * hoursPerWeek * weeksPerYear;
+            annualMax = hourlyMax * hoursPerWeek * weeksPerYear;
+            console.log("monthlyMin",monthlyMin);
+            console.log("monthlyMax",monthlyMax);
+            $(".hourly_salary_amount").val("$"+Math.round(hourlyMin)+"- $"+Math.round(hourlyMax));
+            $(".weekly_salary_amount").val("$"+Math.round(weeklyMin)+"- $"+Math.round(weeklyMax));
+            $(".monthly_salary_amount").val("$"+Math.round(monthlyMin)+"- $"+Math.round(monthlyMax));
+            $(".annual_salary_amount").val("$"+Math.round(annualMin)+"- $"+Math.round(annualMax));
+            
+          }
+
+          if(frequency == "annually"){
+            let annualMin = salary1;
+            let annualMax = salary2;
+            let hourlyMin, hourlyMax,weeklyMin, weeklyMax, monthlyMin, monthlyMax;
+
+            monthlyMin = annualMin/12;
+            monthlyMax = annualMax/12;
+            weeklyMin = monthlyMin/4.33;
+            weeklyMax = monthlyMax/4.33;
+            hourlyMin = weeklyMin/40;
+            hourlyMax = weeklyMax/40;
+            
+            console.log("monthlyMin",monthlyMin);
+            console.log("monthlyMax",monthlyMax);
+            $(".hourly_salary_amount").val("$"+Math.round(hourlyMin)+"- $"+Math.round(hourlyMax));
+            $(".weekly_salary_amount").val("$"+Math.round(weeklyMin)+"- $"+Math.round(weeklyMax));
+            $(".monthly_salary_amount").val("$"+Math.round(monthlyMin)+"- $"+Math.round(monthlyMax));
+            $(".annual_salary_amount").val("$"+Math.round(annualMin)+"- $"+Math.round(annualMax));
+            
+          }
+        }
         
 
         function updateSlider(range,frequency) {
             console.log("range",range);
             $("#slider").slider({
                 range: true,
-                min: salaryRanges.hourly.min,
-                max: salaryRanges.annually.max,
-                values: range.values
+                min: salaryRanges[frequency].min,
+                max: salaryRanges[frequency].max,
+                values: range.values,
+                slide: function(event, ui) {
+                  console.log("ui1",ui.values);
+                  
+
+                  $("#amount").text("$"+ui.values[0] + " - $" + ui.values[1]);
+                  $(".salary_range").val(ui.values[0] + " - " + ui.values[1]);
+                  calculateSalary(frequency,ui.values[0],ui.values[1]);
+                  
+                }  
             });
             $("#amount").text("$"+range.values[0] + " - $" + range.values[1]);
             $(".salary_range").val(range.values[0] + " - " + range.values[1]);
-            const hoursPerWeek = 40;
-            const weeksPerYear = 52;
-            const weeksPerMonth = 4.33;
-            
-            if(frequency == "hourly"){
-              let hourlyMin = salaryRanges.hourly.min;
-              let hourlyMax = salaryRanges.hourly.max;
-              let weeklyMin, weeklyMax,monthlyMin, monthlyMax, annualMin, annualMax;
-
-              weeklyMin = hourlyMin * hoursPerWeek;
-              weeklyMax = hourlyMax * hoursPerWeek;
-              monthlyMin = hourlyMin * hoursPerWeek * weeksPerMonth;
-              monthlyMax = hourlyMax * hoursPerWeek * weeksPerMonth;
-              annualMin = hourlyMin * hoursPerWeek * weeksPerYear;
-              annualMax = hourlyMax * hoursPerWeek * weeksPerYear;
-              console.log("monthlyMin",monthlyMin);
-              console.log("monthlyMax",monthlyMax);
-              $(".hourly_salary_amount").val("$"+hourlyMin+"- $"+hourlyMax);
-              $(".weekly_salary_amount").val("$"+weeklyMin+"- $"+weeklyMax);
-              $(".monthly_salary_amount").val("$"+monthlyMin+"- $"+monthlyMax);
-              $(".annual_salary_amount").val("$"+annualMin+"-"+annualMax);
-              $(".salary_range_div").css("pointer-events","");
-            }
-
-            if(frequency == "weekly"){
-              let weeklyMin = salaryRanges.weekly.min;
-              let weeklyMax = salaryRanges.weekly.max;
-              let hourlyMin, hourlyMax,monthlyMin, monthlyMax, annualMin, annualMax;
-
-              hourlyMin = weeklyMin/40;
-              hourlyMax = weeklyMax/40;
-              monthlyMin = hourlyMin * hoursPerWeek * weeksPerMonth;
-              monthlyMax = hourlyMax * hoursPerWeek * weeksPerMonth;
-              annualMin = hourlyMin * hoursPerWeek * weeksPerYear;
-              annualMax = hourlyMax * hoursPerWeek * weeksPerYear;
-              console.log("monthlyMin",monthlyMin);
-              console.log("monthlyMax",monthlyMax);
-              $(".hourly_salary_amount").val("$"+hourlyMin+"- $"+hourlyMax);
-              $(".weekly_salary_amount").val("$"+weeklyMin+"- $"+weeklyMax);
-              $(".monthly_salary_amount").val("$"+monthlyMin+"- $"+monthlyMax);
-              $(".annual_salary_amount").val("$"+annualMin+"- $"+annualMax);
-              $(".salary_range_div").css("pointer-events","none");
-            }
-
-            if(frequency == "monthly"){
-              let monthlyMin = salaryRanges.weekly.min;
-              let monthlyMax = salaryRanges.weekly.max;
-              let hourlyMin, hourlyMax,weeklyMin, weeklyMax, annualMin, annualMax;
-
-              
-              weeklyMin = monthlyMin/4.33;
-              weeklyMax = monthlyMax/4.33;
-              hourlyMin = weeklyMin/40;
-              hourlyMax = weeklyMax/40;
-              annualMin = hourlyMin * hoursPerWeek * weeksPerYear;
-              annualMax = hourlyMax * hoursPerWeek * weeksPerYear;
-              console.log("monthlyMin",monthlyMin);
-              console.log("monthlyMax",monthlyMax);
-              $(".hourly_salary_amount").val("$"+Math.round(hourlyMin)+"- $"+Math.round(hourlyMax));
-              $(".weekly_salary_amount").val("$"+Math.round(weeklyMin)+"- $"+Math.round(weeklyMax));
-              $(".monthly_salary_amount").val("$"+Math.round(monthlyMin)+"- $"+Math.round(monthlyMax));
-              $(".annual_salary_amount").val("$"+Math.round(annualMin)+"- $"+Math.round(annualMax));
-              $(".salary_range_div").css("pointer-events","none");
-            }
-
-            if(frequency == "annually"){
-              let annualMin = salaryRanges.annually.min;
-              let annualMax = salaryRanges.annually.max;
-              let hourlyMin, hourlyMax,weeklyMin, weeklyMax, monthlyMin, monthlyMax;
-
-              monthlyMin = annualMin/12;
-              monthlyMax = annualMax/12;
-              weeklyMin = monthlyMin/4.33;
-              weeklyMax = monthlyMax/4.33;
-              hourlyMin = weeklyMin/40;
-              hourlyMax = weeklyMax/40;
-              
-              console.log("monthlyMin",monthlyMin);
-              console.log("monthlyMax",monthlyMax);
-              $(".hourly_salary_amount").val("$"+Math.round(hourlyMin)+"- $"+Math.round(hourlyMax));
-              $(".weekly_salary_amount").val("$"+Math.round(weeklyMin)+"- $"+Math.round(weeklyMax));
-              $(".monthly_salary_amount").val("$"+Math.round(monthlyMin)+"- $"+Math.round(monthlyMax));
-              $(".annual_salary_amount").val("$"+Math.round(annualMin)+"- $"+Math.round(annualMax));
-              $(".salary_range_div").css("pointer-events","none");
-            }
-            
-            
-            //$(".salary_range_div").css("opacity","0.5");
-
         }
 
         var sal_range = '<?php echo $salary_range; ?>';
@@ -487,39 +495,53 @@ input:checked + .slider:before {
         }else{
           var salary_range1 = [0,0];
         }
-        console.log("salary_range",salary_range);
+        
+        
+            var salary_min = "<?php echo $salary_min; ?>";
+            var salary_min1 = salary_min.replace(/\s+/g, '');
+            var salary_max = "<?php echo $salary_max; ?>";
+            var salarymax1 = salary_max.replace(/\s+/g, '');
+            
+
+            console.log("salary_range",[salary_min1,salarymax1]);
+
+            var payment_frequency = $(".payment_frequency").val();
+            if(payment_frequency == ""){
+              var salary_min2 = 20;
+              var salarymax2 = 150;
+            }
+
+            if(payment_frequency == "hourly"){
+              var salary_min2 = 20;
+              var salarymax2 = 150;
+            }
+
+            if(payment_frequency == "weekly"){
+              var salary_min2 = 800;
+              var salarymax2 = 6000
+            }
+
+            if(payment_frequency == "monthly"){
+              var salary_min2 = 3467;
+              var salarymax2 = 26000
+            }
+
+            if(payment_frequency == "annually"){
+              var salary_min2 = 41600;
+              var salarymax2 = 312000
+            }
+
             $("#slider").slider({
                 range: true,
-                min: 0,
-                max: salaryRanges.annually.max,
-                values: salary_range1,
+                min: salary_min2,
+                max: salarymax2,
+                values: [salary_min1,salarymax1],
                 slide: function(event, ui) {
                   console.log("ui",ui);
                   $("#amount").text("$"+ui.values[0] + " - " + "$"+ui.values[1]);
                   $(".salary_range").val(ui.values[0] + " - " + ui.values[1]);
-                  $(".payment_frequency_div .select2-container").remove();
-                  $('.payment_frequency').select2().val("hourly").trigger('change');
-                  $(".fixed_salary_amount").val("");
-                  const hoursPerWeek = 40;
-                  const weeksPerYear = 52;
-                  const weeksPerMonth = 4.33;
-                  //$(".payment_frequency").val("hourly");
-                  let hourlyMin = ui.values[0];
-                  let hourlyMax = ui.values[1];
-                  let weeklyMin, weeklyMax,monthlyMin, monthlyMax, annualMin, annualMax;
-
-                  weeklyMin = hourlyMin * hoursPerWeek;
-                  weeklyMax = hourlyMax * hoursPerWeek;
-                  monthlyMin = hourlyMin * hoursPerWeek * weeksPerMonth;
-                  monthlyMax = hourlyMax * hoursPerWeek * weeksPerMonth;
-                  annualMin = hourlyMin * hoursPerWeek * weeksPerYear;
-                  annualMax = hourlyMax * hoursPerWeek * weeksPerYear;
-                  console.log("monthlyMin",monthlyMin);
-                  console.log("monthlyMax",monthlyMax);
-                  $(".hourly_salary_amount").val("$"+Math.round(hourlyMin)+"- $"+Math.round(hourlyMax));
-                  $(".weekly_salary_amount").val("$"+Math.round(weeklyMin)+"- $"+Math.round(weeklyMax));
-                  $(".monthly_salary_amount").val("$"+Math.round(monthlyMin)+"- $"+Math.round(monthlyMax));
-                  $(".annual_salary_amount").val("$"+Math.round(annualMin)+"- $"+Math.round(annualMax));
+                  calculateSalary("<?php echo $payment_frequency; ?>",ui.values[0],ui.values[1]);
+                  
                 }
             });
             $("#amount").text("$"+$("#slider").slider("values", 0) + " - $" + $("#slider").slider("values", 1));
@@ -527,6 +549,8 @@ input:checked + .slider:before {
             
           function changeFrequency(value){
             
+            console.log("salaryRanges",salaryRanges[value].min);
+            calculateSalary(value,salaryRanges[value].min,salaryRanges[value].max);
             updateSlider(salaryRanges[value],value);
 
           }
@@ -540,8 +564,8 @@ input:checked + .slider:before {
           });
 
           $(".fixed_salary_amount").on("keyup",function(){
-            $(".payment_frequency_div .select2-container").remove();
-            $('.payment_frequency').select2().val("hourly").trigger('change');
+            // $(".payment_frequency_div .select2-container").remove();
+            // $('.payment_frequency').select2().val("hourly").trigger('change');
             $(".salary_range_div").css("pointer-events","none");
             $(".salary_range_div").css("opacity","0.5");
             $(".salary_range").prop("disabled", true);
@@ -556,25 +580,88 @@ input:checked + .slider:before {
               $(".payment_frequency_div").css("opacity","");
             }
 
+            var payment_frequency = $(".payment_frequency").val();
+
             const hoursPerWeek = 40;
             const weeksPerYear = 52;
             const weeksPerMonth = 4.33;
+            console.log("payment_frequency",payment_frequency);
+            if(payment_frequency == "hourly"){
+              
 
-            let hourlyMin = value;
-            
-            let weeklyMin, monthlyMin, annualMin;
+              let hourlyMin = value;
+              
+              let weeklyMin, monthlyMin, annualMin;
 
-            weeklyMin = hourlyMin * hoursPerWeek;
-            
-            monthlyMin = hourlyMin * hoursPerWeek * weeksPerMonth;
-            
-            annualMin = hourlyMin * hoursPerWeek * weeksPerYear;
-            
-            
-            $(".hourly_salary_amount").val("$"+hourlyMin);
-            $(".weekly_salary_amount").val("$"+weeklyMin);
-            $(".monthly_salary_amount").val("$"+monthlyMin);
-            $(".annual_salary_amount").val("$"+annualMin);
+              weeklyMin = hourlyMin * hoursPerWeek;
+              
+              monthlyMin = hourlyMin * hoursPerWeek * weeksPerMonth;
+              
+              annualMin = hourlyMin * hoursPerWeek * weeksPerYear;
+              
+              
+              $(".hourly_salary_amount").val("$"+Math.round(hourlyMin));
+              $(".weekly_salary_amount").val("$"+Math.round(weeklyMin));
+              $(".monthly_salary_amount").val("$"+Math.round(monthlyMin));
+              $(".annual_salary_amount").val("$"+Math.round(annualMin));
+            }
+
+            if(payment_frequency == "weekly"){
+              let weeklyMin = value;
+              
+              let hourlyMin, monthlyMin, annualMin;
+
+              hourlyMin = weeklyMin/40;
+
+              monthlyMin = hourlyMin * hoursPerWeek * weeksPerMonth;
+              
+              annualMin = hourlyMin * hoursPerWeek * weeksPerYear;
+              
+              
+              $(".hourly_salary_amount").val("$"+Math.round(hourlyMin));
+              $(".weekly_salary_amount").val("$"+Math.round(weeklyMin));
+              $(".monthly_salary_amount").val("$"+Math.round(monthlyMin));
+              $(".annual_salary_amount").val("$"+Math.round(annualMin));
+            }
+
+            if(payment_frequency == "monthly"){
+              let monthlyMin = value;
+              
+              let hourlyMin, weeklyMin, annualMin;
+
+              weeklyMin = monthlyMin/4.33;
+              
+              hourlyMin = weeklyMin/40;
+              
+              annualMin = hourlyMin * hoursPerWeek * weeksPerYear;
+              
+              
+              
+              $(".hourly_salary_amount").val("$"+Math.round(hourlyMin));
+              $(".weekly_salary_amount").val("$"+Math.round(weeklyMin));
+              $(".monthly_salary_amount").val("$"+Math.round(monthlyMin));
+              $(".annual_salary_amount").val("$"+Math.round(annualMin));
+            }
+
+            if(payment_frequency == "annually"){
+              let annualMin = value;
+              
+              let hourlyMin, weeklyMin, monthlyMin;
+
+              monthlyMin = annualMin/12;
+              
+              weeklyMin = monthlyMin/4.33;
+              
+              hourlyMin = weeklyMin/40;
+              
+              
+              
+              
+              $(".hourly_salary_amount").val("$"+Math.round(hourlyMin));
+              $(".weekly_salary_amount").val("$"+Math.round(weeklyMin));
+              $(".monthly_salary_amount").val("$"+Math.round(monthlyMin));
+              $(".annual_salary_amount").val("$"+Math.round(annualMin));
+            }
           });
     
 </script>
@@ -583,13 +670,13 @@ input:checked + .slider:before {
 
     function salary_expectations_form() {
       var isValid = true;
+      
+      if ($('[name="payment_frequency"]').val() == '') {
 
-      // if ($('[name="payment_frequency"]').val() == '') {
+        document.getElementById("reqpayment_frequency").innerHTML = "* Please select the Payment Frequency.";
+        isValid = false;
 
-      //   document.getElementById("reqpayment_frequency").innerHTML = "* Please select the Payment Frequency.";
-      //   isValid = false;
-
-      // }
+      }
 
       if (isValid == true) {
         $.ajax({

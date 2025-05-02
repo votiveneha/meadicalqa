@@ -212,7 +212,16 @@ Route::prefix('/admin')->name('admin.')->namespace('App\Http\Controllers\admin')
     Route::post('/removeSpecialized', 'NurseController@removeSpecialized')->name('removeSpecialized');
 
      /************[Professional Membership & Awards]*************/
-     Route::any('/professionalMembership','NurseController@professionalMembership')->name('professionalMembership');
-
+    Route::any('/professionalMembership','NurseController@professionalMembership')->name('professionalMembership');
+    Route::get('/organization_country_list','ProfessionalMembership@countryList')->name('organization_country_list');
+    Route::post('/addCountry', 'ProfessionalMembership@addCountry')->name('addCountry');
+    Route::post('/getCountry', 'ProfessionalMembership@getCountry')->name('getCountry');
+    Route::post('/updateCountry', 'ProfessionalMembership@updateCountry')->name('updateCountry');
+    Route::post('/deleteCountry', 'ProfessionalMembership@deleteCountry')->name('deleteCountry');
+    Route::get('/suborganization_country_list/{id}','ProfessionalMembership@subcountryList')->name('suborganization_country_list'); 
+    Route::get('/suborganization_country/{id}/{country_id}','ProfessionalMembership@subcountry')->name('suborganization_country');
+    Route::get('/membershipType', 'ProfessionalMembership@membershipType')->name('membershipType'); 
+    Route::get('/submembershipType/{id}', 'ProfessionalMembership@subMemberList')->name('submembershipType'); 
+    Route::post('/addMembershipType', 'ProfessionalMembership@addMembershipType')->name('addMembershipType');
   });
 });

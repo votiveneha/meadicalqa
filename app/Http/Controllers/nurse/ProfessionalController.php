@@ -731,7 +731,7 @@ class ProfessionalController extends Controller
     {
         
         $organization_id = $request->organization_id;
-        $data['country_organiztions'] = DB::table("professional_organization")->where("country_organiztions",'like','%'.$organization_id.',%')->where("sub_organiztions","0")->orderBy('organization_country', 'ASC')->get();
+        $data['country_organiztions'] = DB::table("professional_organization")->where("country_organiztions",$organization_id)->where("sub_organiztions","0")->orderBy('organization_country', 'ASC')->get();
         $country_name = DB::table("professional_organization")->where("organization_id",$organization_id)->first();
         //print_r(json_encode($data));
         $data['country_name'] = $country_name->organization_name;

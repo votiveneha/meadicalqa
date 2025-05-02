@@ -114,7 +114,7 @@
 
               </li>
               <li>
-                <a class="hover-up" href="#">Match Percentage</a>
+                <a class="{{ request()->is('nurse/match_percentage') ?'active':'' }} hover-up" href="{{ route("nurse.match_percentage") }}">Match Percentage</a>
               </li>
             </ul>
           </nav>

@@ -65,6 +65,44 @@
     border: none;
     position: relative;
   }
+
+  .location-card {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 10px;
+      margin-bottom: 10px;
+      position: relative;
+      background: #f9f9f9;
+    }
+    .remove-btn {
+      position: absolute;
+      top: 5px;
+      right: 10px;
+      cursor: pointer;
+      color: #000000;
+      font-weight: bold;
+    }
+    #suggestions, .multi-suggestions {
+      border: 1px solid #ccc;
+      max-height: 150px;
+      overflow-y: auto;
+      display: none;
+      background: #fff;
+      position: absolute;
+      z-index: 10;
+    }
+    #suggestions div, .multi-suggestions div {
+      padding: 8px;
+      cursor: pointer;
+    }
+    #suggestions div:hover, .multi-suggestions div:hover {
+      background-color: #eee;
+    }
+
+    .form-group #singleDistance,.form-group .multiDistance{
+      height: auto;
+    }
+    
 </style>
 @endsection
 
@@ -108,77 +146,190 @@
 
                     
                     <div class="card shadow-sm border-0 p-4 mt-30">
-                      <h3 class="mt-0 color-brand-1 mb-2">International</h3>
-                      <div class="work_preferences_text">
-                        <p>
-                            You are open to international relocation.
-
-    
-                        </p>
-                        <p>
-                            Mediqa currently has connections with a network of facilities in 10 countries, and we are actively working to expand our reach even further. Take advantage of this opportunity to connect with international employers and secure interviews with healthcare facilities abroad.
-
-    
-                        </p>
-                      </div>  
+                      
                       <form id="location_preferences_form" method="POST" onsubmit="return update_location_preferences()">
                         @csrf
                         <input type="hidden" name="user_id" value="{{ Auth::guard('nurse_middle')->user()->id }}">
-
-                        <div class="form-group level-drp">
-                          <label class="form-label" for="input-1">Countries
+                        <h3 class="mt-0 color-brand-1 mb-2">Location Preferences</h3>
+                        <div class="form-check  mt-1  mb-2">
+                          <input class="form-check-input" type="radio" value="Current Location area (not willing to relocate)" id="current_location" name="location_status" @if(!empty($work_preferences_data) && $work_preferences_data->location_status == "Current Location area (not willing to relocate)") checked @endif>
+                          <label class="form-check-label" for="location_status">
+                            Current Location area (not willing to relocate)
                           </label>
-                          <?php
-                            if(!empty($work_preferences_data)){
-                                $countries_data_work = $work_preferences_data->countries;
-                                
-                            }else{
-                                $countries_data_work = ''; 
-                            }
-                            
-                            
-                            
-                          ?>
-                          <input type="hidden" name="country_data" class="country_data" value='<?php echo $countries_data_work; ?>'>
-                          <ul id="countries_data" style="display:none;">
-                            
-                            @if(!empty($countries_data))
-                            @foreach($countries_data as $cdata)
-                            <li data-value="{{ $cdata->id }}">{{ $cdata->name }}</li>
-                            @endforeach
-                            <li data-value="Other">Other</li>
-                            @endif
-                          </ul>
-                          <select class="js-example-basic-multiple addAll_removeAll_btn countvalid" data-list-id="countries_data" name="countries[]" multiple></select>
-                          <span id='reqcountry_preferences' class='reqError text-danger valley'></span>
                         </div>
-                        <?php
-                            if(!empty($work_preferences_data) && $work_preferences_data->other_countries != NULL){
-                                $countries_data_work_other = $work_preferences_data->other_countries;
-                                
-                            }else{
-                                $countries_data_work_other = ''; 
-                            }
-                            
-                            
-                            
-                        ?>
-                        <div class="form-group level-drp @if(empty($countries_data_work_other)) d-none @endif countries_other_div">
-                            <label class="form-label" for="input-1">Other
+                        <div class="form-check  mt-1  mb-2">
+                          <input class="form-check-input" type="radio" value="Multiple locations area (relocation within your country)" id="multiple_location" name="location_status" @if(!empty($work_preferences_data) && $work_preferences_data->location_status == "Multiple locations area (relocation within your country)") checked @endif>
+                          <label class="form-check-label" for="location_status">
+                            Multiple locations area (relocation within your country)
+                          </label>
+                        </div>
+                        <div class="form-check  mt-1  mb-2">
+                          <input class="form-check-input" type="radio" value="International relocation" id="international_location" name="location_status" @if(!empty($work_preferences_data) && $work_preferences_data->location_status == "International relocation") checked @endif>
+                          <label class="form-check-label" for="location_status">
+                            International relocation
+                          </label>
+                        </div>
+
+                        <div class="location_finder current_location @if(empty($work_preferences_data) || $work_preferences_data->location_status != "Current Location area (not willing to relocate)") d-none @endif">
+                          <h6 class="emergency_text">
+                            Current Location area
+                          </h6>
+                          
+                          <div class="work_preferences_text">
+                            <p>
+                              You are not willing to relocate.
+                            </p>
+                          </div>  
+                          <div class="form-check mt-3">
+                            <input class="form-check-input" type="checkbox" id="autoDetect" name="autodetect_location" @if(!empty($work_preferences_data) && $work_preferences_data->auto_detect_location == "1") checked @endif>
+                            <label class="form-check-label" for="autodetect_location">
+                              Auto-Detect My Current Location
                             </label>
+                          </div>
+                          <div class="form-group level-drp">
+                            <label class="form-label" for="input-1">Preferred Location</label>
+                            <input type="text" name="prefered_location" id="singleLocationInput" class="form-control prefered_location" value="@if(!empty($work_preferences_data)) {{ $work_preferences_data->prefered_location_current }} @endif">
+                            <span id="reqprefered_location" class="reqError text-danger valley"></span>
+                            <div id="suggestions"></div>
                             
-                          <input type="hidden" name="country_data_other" class="country_data_other" value='<?php echo $countries_data_work_other; ?>'>
-                            <ul id="countries_data_other" style="display:none;">
+                          </div> 
+                          <div class="form-group level-drp">
+                            <label class="form-label" for="input-1">Maximum Travel Distance</label>
+                            <?php
+                                    
+                             
+                              if(!empty($work_preferences_data) && $work_preferences_data->prefered_distance != NULL){
+                                $distance = explode(" ", $work_preferences_data->prefered_distance);
+                                $distance1 = $distance[0];
+                              }else{
+                                $distance1 = '5';
+                              }
+                            ?>
+                            <input type="range" id="singleDistance" min="5" max="50" step="5" value="{{ $distance1 }}">
+                            <input type="hidden" name="singleDistance" class="singleDistanceValue" value="@if(!empty($work_preferences_data) && $work_preferences_data->prefered_distance != NULL) {{ $work_preferences_data->prefered_distance }} @else 5 km @endif">
+                            <span id="singleDistanceValue">@if(!empty($work_preferences_data) && $work_preferences_data->prefered_distance != NULL) {{ $work_preferences_data->prefered_distance }} @else 5 km @endif</span>
+                          </div> 
+                        </div>
+                        <div class="location_finder multiple_location @if(empty($work_preferences_data) || $work_preferences_data->location_status != "Multiple locations area (relocation within your country)") d-none @endif">
+                          <h6 class="emergency_text">
+                            Multiple locations area
+                          </h6>
+                          
+                          <div class="work_preferences_text">
+                            <p>
+                              You are open to relocation within your country.
+                            </p>
+                          </div>  
+                          <div id="multipleLocationsFields" class="section">
+                            <div class="add_new_certification_div mb-3 mt-3">
+                              <a style="cursor: pointer;" onclick="addLocation()">+ Add Location</a>
+                            </div>
                             
-                                @if(!empty($countries_data_other))
-                                @foreach($countries_data_other as $cdata_other)
-                                <li data-value="{{ $cdata_other->id }}">{{ ucfirst($cdata_other->nicename) }}</li>
-                                @endforeach
+                            <div id="locationsContainer">
+                              @if(!empty($work_preferences_data) && $work_preferences_data->prefered_location != NULL)
+                              <?php
+                                $prefered_location = json_decode($work_preferences_data->prefered_location);
+                                $i = 1;
+                              ?>
+                              @foreach ($prefered_location as $pre_loc)
+                              <div class="location-card" id="locationCard{{ $i }}">
+                                <div class="form-group level-drp">
+                                  <div class="remove-btn" onclick="removeLocation('locationCard{{ $i }}')">x</div>
+                                  <label class="form-label" for="input-1">Location:</label>
+                                  <input type="text" placeholder="Type location..." name="multiLocationInput[]" value="{{ $pre_loc->location }}" class="form-control multiLocationInput" data-id="{{ $i }}" autocomplete="off">
+                                  <div class="multi-suggestions" id="suggestions-{{ $i }}"></div>
+                                </div>
                                 
-                                @endif
+                                <div class="form-group level-drp travel_distance{{ $i }}">
+                                  <label class="form-label" for="input-1">Travel Distance:</label>
+                                  <?php
+                                    
+                                    $distance = explode(" ", $pre_loc->distance);
+                                  ?>
+                                  <input type="range" min="5" max="50" step="5" value="{{ $distance[0] }}" class="multiDistance">
+                                  <input type="hidden" class="multiDistanceRange" name="multiDistance[]" value="{{ $pre_loc->distance }}">
+                                  <span class="multiDistanceValue">{{ $pre_loc->distance }}</span>
+                                </div>
+                              </div>
+                              @endforeach
+                              @endif
+                            </div>
+                          </div>
+                        </div>
+                        <div class="location_finder internation_relocation @if(empty($work_preferences_data) || $work_preferences_data->location_status != "International relocation") d-none @endif">
+                          <h6 class="emergency_text">
+                            International relocation
+                          </h6>
+                          
+                          <div class="work_preferences_text">
+                            <p>
+                                You are open to international relocation.
+
+        
+                            </p>
+                            <p>
+                                Mediqa currently has connections with a network of facilities in 10 countries, and we are actively working to expand our reach even further. Take advantage of this opportunity to connect with international employers and secure interviews with healthcare facilities abroad.
+
+        
+                            </p>
+                          </div>  
+                          
+
+                          <div class="form-group level-drp">
+                            <label class="form-label" for="input-1">Countries
+                            </label>
+                            <?php
+                              if(!empty($work_preferences_data)){
+                                  $countries_data_work = $work_preferences_data->countries;
+                                  
+                              }else{
+                                  $countries_data_work = ''; 
+                              }
+                              
+                              
+                              
+                            ?>
+                            <input type="hidden" name="country_data" class="country_data" value='<?php echo $countries_data_work; ?>'>
+                            <ul id="countries_data" style="display:none;">
+                              
+                              @if(!empty($countries_data))
+                              @foreach($countries_data as $cdata)
+                              <li data-value="{{ $cdata->id }}">{{ $cdata->name }}</li>
+                              @endforeach
+                              <li data-value="Other">Other</li>
+                              @endif
                             </ul>
-                            <select class="js-example-basic-multiple addAll_removeAll_btn othercountvalid" data-list-id="countries_data_other" name="other_countries[]" multiple></select>
-                            <span id='reqothercountry_preferences' class='reqError text-danger valley'></span>
+                            <select class="js-example-basic-multiple addAll_removeAll_btn countvalid" data-list-id="countries_data" name="countries[]" multiple></select>
+                            <span id='reqcountry_preferences' class='reqError text-danger valley'></span>
+                          </div>
+                          <?php
+                              if(!empty($work_preferences_data) && $work_preferences_data->other_countries != NULL){
+                                  $countries_data_work_other = $work_preferences_data->other_countries;
+                                  
+                              }else{
+                                  $countries_data_work_other = ''; 
+                              }
+                              
+                              
+                              
+                          ?>
+                          <div class="form-group level-drp @if(empty($countries_data_work_other)) d-none @endif countries_other_div">
+                              <label class="form-label" for="input-1">Other
+                              </label>
+                              
+                            <input type="hidden" name="country_data_other" class="country_data_other" value='<?php echo $countries_data_work_other; ?>'>
+                              <ul id="countries_data_other" style="display:none;">
+                              
+                                  @if(!empty($countries_data_other))
+                                  @foreach($countries_data_other as $cdata_other)
+                                  <li data-value="{{ $cdata_other->id }}">{{ ucfirst($cdata_other->nicename) }}</li>
+                                  @endforeach
+                                  
+                                  @endif
+                              </ul>
+                              <select class="js-example-basic-multiple addAll_removeAll_btn othercountvalid" data-list-id="countries_data_other" name="other_countries[]" multiple></select>
+                              <span id='reqothercountry_preferences' class='reqError text-danger valley'></span>
+                          </div>
                         </div>
                         <div class="box-button mt-15">
                           <button class="btn btn-apply-big font-md font-bold" type="submit" id="submitLocationPreferences" @if(!email_verified()) disabled  @endif>Save Changes</button>
@@ -318,6 +469,24 @@
         });
     });
 
+    $("#international_location").click(function() {
+      $(".location_finder").addClass("d-none");
+      $(".internation_relocation").removeClass("d-none");
+      
+    });
+
+    $("#multiple_location").click(function() {
+      $(".location_finder").addClass("d-none");
+      $(".multiple_location").removeClass("d-none");
+      
+    });
+
+    $("#current_location").click(function() {
+      $(".location_finder").addClass("d-none");
+      $(".current_location").removeClass("d-none");
+      
+    });
+
     if ($(".country_data").val() != "") {
         var countvalid = JSON.parse($(".country_data").val());
         $('.js-example-basic-multiple[data-list-id="countries_data"]').select2().val(countvalid).trigger('change');
@@ -346,18 +515,43 @@
     function update_location_preferences() {
       var isValid = true;
 
-      if ($(".countvalid").val() == '') {
+      if($(".internation_relocation").hasClass("d-none") == false){
+        if ($(".countvalid").val() == '') {
 
-        document.getElementById("reqcountry_preferences").innerHTML = "* Please select the countries.";
-        isValid = false;
+          document.getElementById("reqcountry_preferences").innerHTML = "* Please select the countries.";
+          isValid = false;
 
+        }
+
+        if ($(".countries_other_div").hasClass("d-none") == false && $(".othercountvalid").val() == '') {
+
+          document.getElementById("reqothercountry_preferences").innerHTML = "* Please select the other countries.";
+          isValid = false;
+
+        }
       }
 
-      if ($(".countries_other_div").hasClass("d-none") == false && $(".othercountvalid").val() == '') {
+      if($(".current_location").hasClass("d-none") == false){
+        if ($.trim($(".prefered_location").val()) == '') {
 
-        document.getElementById("reqothercountry_preferences").innerHTML = "* Please select the other countries.";
-        isValid = false;
+          document.getElementById("reqprefered_location").innerHTML = "* Please enter the location";
+          isValid = false;
 
+        }
+      }
+      
+      if($(".multiple_location").hasClass("d-none") == false){
+        var i = 1;
+        $(".multiLocationInput").each(function(){
+          if ($.trim($(".multiLocationInput-"+i).val()) == '') {
+
+            document.getElementById("reqprefered_location-"+i).innerHTML = "* Please enter the location";
+            isValid = false;
+
+          }
+          i++;
+        });
+        
       }
 
       if (isValid == true) {
@@ -406,6 +600,181 @@
     }
 
 </script>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+const workAreaRadios = document.getElementsByName('workArea');
+const currentLocationFields = document.getElementById('currentLocationFields');
+const multipleLocationsFields = document.getElementById('multipleLocationsFields');
+const internationalFields = document.getElementById('internationalFields');
+const autoDetect = document.getElementById('autoDetect');
+const singleLocationInput = document.getElementById('singleLocationInput');
+const suggestions = document.getElementById('suggestions');
+const singleDistance = document.getElementById('singleDistance');
+const singleDistanceValue = document.getElementById('singleDistanceValue');
+const locationsContainer = document.getElementById('locationsContainer');
+
+
+
+
+// Handle Work Area Selection
+workAreaRadios.forEach(radio => {
+  radio.addEventListener('change', () => {
+    if (radio.checked) {
+      if (radio.value === 'current') {
+        currentLocationFields.style.display = 'block';
+        multipleLocationsFields.style.display = 'none';
+        internationalFields.style.display = 'none';
+      } else if (radio.value === 'multiple') {
+        currentLocationFields.style.display = 'none';
+        multipleLocationsFields.style.display = 'block';
+        internationalFields.style.display = 'none';
+      } else {
+        currentLocationFields.style.display = 'none';
+        multipleLocationsFields.style.display = 'none';
+        internationalFields.style.display = 'block';
+      }
+    }
+  });
+});
+
+// Update Distance Slider
+singleDistance.addEventListener('input', () => {
+  singleDistanceValue.textContent = singleDistance.value === '50' ? '50 km+' : `${singleDistance.value} km`;
+  $(".singleDistanceValue").val(singleDistance.value === '50' ? '50 km+' : `${singleDistance.value} km`);
+});
+
+// Auto-Detect Location
+autoDetect.addEventListener('change', () => {
+  if (autoDetect.checked && navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(async (position) => {
+      const { latitude, longitude } = position.coords;
+      const res = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`);
+      const data = await res.json();
+      singleLocationInput.value = data.display_name || 'Detected Location';
+    }, (err) => {
+      alert('Could not detect your location.');
+      console.error(err);
+    });
+  }
+});
+
+// Smart Search Suggestions for Single Location
+singleLocationInput.addEventListener('input', async (e) => {
+  const query = e.target.value;
+  if (query.length < 3) {
+    suggestions.style.display = 'none';
+    return;
+  }
+
+  const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`);
+  const results = await res.json();
+
+  suggestions.innerHTML = '';
+  if (results.length > 0) {
+    results.forEach(location => {
+      const div = document.createElement('div');
+      div.textContent = location.display_name;
+      div.addEventListener('click', () => {
+        singleLocationInput.value = location.display_name;
+        suggestions.style.display = 'none';
+      });
+      suggestions.appendChild(div);
+    });
+    suggestions.style.display = 'block';
+  } else {
+    suggestions.style.display = 'none';
+  }
+});
+
+var id = 1;
+$("#locationsContainer .location-card").each(function(){
+  var card = document.getElementById("locationCard"+id);
+  console.log("card",card);
+  const input = card.querySelector(".multiLocationInput");
+  const suggestions = card.querySelector(`#suggestions-${id}`);
+  setupAutocomplete(input, suggestions);
+
+  const slider = card.querySelector(".multiDistance");
+  const display = card.querySelector(".multiDistanceValue");
+  slider.addEventListener("input", () => {
+    display.textContent = slider.value === "50" ? "50 km+" : `${slider.value} km`;
+  });
+  id++;
+});
+
+
+// Add Multiple Location Cards
+function addLocation() {
+  let id = $("#locationsContainer .location-card").length;
+  id++;
+  const container = document.getElementById("locationsContainer");
+
+  const card = document.createElement("div");
+  card.className = "location-card";
+  card.id = `loc${id}`;
+  card.innerHTML = `
+    <div class="form-group">
+      <div class="remove-btn" onclick="removeLocation('loc${id}')">x</div>
+      <label>Location</label>
+      <input type="text" class="form-control multiLocationInput multiLocationInput-${id}" name="multiLocationInput[]" placeholder="Type location..." data-id="${id}">
+      <div class="multi-suggestions" id="suggestions-${id}"></div>
+      <span id="reqprefered_location-${id}" class="reqError text-danger valley"></span>
+    </div>
+    <div class="form-group">
+    <label>Travel Distance</label>
+    <input type="range" class="multiDistance" min="5" max="50" step="5" value="15">
+    <input type="hidden" class="multiDistanceRange" name="multiDistance[]" value="25 km">
+    <span class="multiDistanceValue">15 km</span>
+    </div>
+  `;
+  container.appendChild(card);
+  console.log("card",card);
+  const input = card.querySelector(".multiLocationInput");
+  const suggestions = card.querySelector(`#suggestions-${id}`);
+  setupAutocomplete(input, suggestions);
+
+  const slider = card.querySelector(".multiDistance");
+  const display = card.querySelector(".multiDistanceValue");
+  slider.addEventListener("input", () => {
+    display.textContent = slider.value === "50" ? "50 km+" : `${slider.value} km`;
+  });
+}
+
+// Remove Location
+function removeLocation(id) {
+  
+  document.getElementById(id).remove();
+}
+
+// ======= Smart search & location autocomplete =======
+function setupAutocomplete(inputElement, suggestionsElement) {
+  inputElement.addEventListener("input", async function () {
+    const query = inputElement.value;
+    if (query.length < 3) {
+      suggestionsElement.innerHTML = '';
+      suggestionsElement.style.display = 'none';
+      return;
+    }
+
+    const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`);
+    const results = await res.json();
+    suggestionsElement.innerHTML = '';
+
+    results.forEach(place => {
+      const div = document.createElement('div');
+      div.textContent = place.display_name;
+      div.addEventListener('click', () => {
+        inputElement.value = place.display_name;
+        suggestionsElement.innerHTML = '';
+        suggestionsElement.style.display = 'none';
+      });
+      suggestionsElement.appendChild(div);
+    });
+    suggestionsElement.style.display = results.length ? 'block' : 'none';
+  });
+}
+
+</script>
 <script>
 
     function printErrorMsg(msg) {
@@ -419,65 +788,6 @@
     }
   </script>
   
-  <script>
-    jQuery(document).ready(function() {
   
-      var el;
-      var options;
-      var canvas;
-      var span;
-      var ctx;
-      var radius;
-  
-      var createCanvasVariable = function(id) { // get canvas
-        el = document.getElementById(id);
-      };
-  
-      var createAllVariables = function() {
-        options = {
-          percent: el.getAttribute('data-percent') || 25,
-          size: el.getAttribute('data-size') || 165,
-          lineWidth: el.getAttribute('data-line') || 10,
-          rotate: el.getAttribute('data-rotate') || 0,
-          color: el.getAttribute('data-color')
-        };
-  
-        canvas = document.createElement('canvas');
-        span = document.createElement('span');
-        span.textContent = options.percent + '%';
-  
-        if (typeof(G_vmlCanvasManager) !== 'undefined') {
-          G_vmlCanvasManager.initElement(canvas);
-        }
-  
-        ctx = canvas.getContext('2d');
-        canvas.width = canvas.height = options.size;
-  
-        el.appendChild(span);
-        el.appendChild(canvas);
-  
-        ctx.translate(options.size / 2, options.size / 2); // change center
-        ctx.rotate((-1 / 2 + options.rotate / 180) * Math.PI); // rotate -90 deg
-  
-        radius = (options.size - options.lineWidth) / 2;
-      };
-      var drawCircle = function(color, lineWidth, percent) {
-        percent = Math.min(Math.max(0, percent || 1), 1);
-        ctx.beginPath();
-        ctx.arc(0, 0, radius, 0, Math.PI * 2 * percent, false);
-        ctx.strokeStyle = color;
-        ctx.lineCap = 'square'; // butt, round or square
-        ctx.lineWidth = lineWidth;
-        ctx.stroke();
-      };
-      var drawNewGraph = function(id) {
-        el = document.getElementById(id);
-        createAllVariables();
-        drawCircle('#efefef', options.lineWidth, 100 / 100);
-        drawCircle(options.color, options.lineWidth, options.percent / 100);
-      };
-      drawNewGraph('graph1');
-    });
-  
-  </script>
+
 @endsection
