@@ -142,13 +142,18 @@
 
                                 $p_memb_arr = array();
 
-                                if(!empty($facility_type)){
+                                if(!empty($facility_type) && !in_array("444", (array)$facility_type[1])){
                                     foreach ($facility_type[1] as $index => $p_memb) {
                                     
                                         //print_r($p_memb);
                                         $p_memb_arr[] = $index;
                                         
                                     }
+                                }else{
+                                  if(isset($facility_type[1])){
+                                    $p_memb_arr[] = $facility_type[1];
+                                  }
+                                  
                                 }
 
                                 $p_memb_json = json_encode($p_memb_arr);
@@ -162,11 +167,12 @@
                               @endforeach
                               @endif
                             </ul>
-                            <select class="js-example-basic-multiple addAll_removeAll_btn facworktype facworktype-1" data-list-id="wp_data-1" name="positions_held[1]" multiple onchange="getWpData('',1)"></select>
+                            <select class="js-example-basic-multiple addAll_removeAll_btn facworktype facworktype-1" data-list-id="wp_data-1" name="subworkthlevel[1][]" multiple onchange="getWpData('',1)"></select>
                             <span id="reqfacworktype" class="reqError text-danger valley"></span>
                           
                         </div>
                         <div class="wp_data-1">
+                            @if(isset($facility_type[1]) && !in_array("444", (array)$facility_type[1]))
                             @foreach ($p_memb_arr as $p_arr)
                             <?php
                                 $sdata = (array)$facility_type[1];
@@ -252,6 +258,7 @@
                                 </div>
                             </div>
                             @endforeach
+                            @endif
                         </div>
                         <div class="box-button mt-15">
                           <button class="btn btn-apply-big font-md font-bold" type="submit" id="submitWorkPreferences" @if(!email_verified()) disabled  @endif>Save Changes</button>

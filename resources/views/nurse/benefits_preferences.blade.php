@@ -126,7 +126,8 @@
                                 $benefitspreferences = array();
                             }
                             
-                            if(!empty($benefitspreferences)){
+                            $benefitsprefer_data = '';
+                            if(!empty($benefitspreferences) && isset($benefitspreferences[$benefits_data->benefits_id])){
                                 $benefitsprefer_data = json_encode($benefitspreferences[$benefits_data->benefits_id]);
                             }else{
                                 $benefitsprefer_data = '';
@@ -305,18 +306,18 @@
     function benefits_preferences_form() {
         var isValid = true;
 
-        $(".benefits_input").each(function(){
-            var val = $(this).val();
-            var label = $(".benefits_label-"+val).text();
-            console.log("val",val);
-            if ($('.benefits_prefer_valid-'+val).val() == '') {
+        // $(".benefits_input").each(function(){
+        //     var val = $(this).val();
+        //     var label = $(".benefits_label-"+val).text();
+        //     console.log("val",val);
+        //     if ($('.benefits_prefer_valid-'+val).val() == '') {
 
-                document.getElementById("reqbenefits_preferences-"+val).innerHTML = "* Please select the "+label;
-                isValid = false;
+        //         document.getElementById("reqbenefits_preferences-"+val).innerHTML = "* Please select the "+label;
+        //         isValid = false;
 
-            }
+        //     }
 
-        });
+        // });
 
 
         if (isValid == true) {

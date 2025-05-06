@@ -78,7 +78,7 @@ class LanguageSkillsContoller extends Controller{
         $specialized_lang_skills = json_encode($request->specialized_lang_skills);
         $declaration_status = $request->professional_declare_information;
 
-        //print_r($english_prof_cert);die;
+        //print_r($langprof_level);die;
         $language_skills_data = LanguageSkillsModel::where("user_id",$user_id)->first();
 
         //print_r($english_prof_cert);

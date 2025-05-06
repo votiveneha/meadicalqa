@@ -200,7 +200,7 @@ input:checked + .slider:before {
                         </div>
                         
                         <div class="form-group level-drp">
-                          <label class="form-label" for="input-1">Or enter a fixed amount(in $)</label>
+                          <label class="form-label" for="input-1">Or enter a fixed amount in AUD</label>
                           <input type="text" name="fixed_salary_amount" class="form-control fixed_salary_amount" value="@if(!empty($salary_expectation_data) && $salary_expectation_data->fixed_salary != NULL) {{ $salary_expectation_data->fixed_salary }} @endif">
                         </div>
                         <div class="">
@@ -208,8 +208,12 @@ input:checked + .slider:before {
                           <label class="switch">
                             <input type="checkbox" id="toggleCheckbox" name="negotiable_salary" @if(!empty($salary_expectation_data) && $salary_expectation_data->negotiable_salary == "1") checked @endif>
                             <span class="slider"></span>
+                            
                           </label>
-                        </div>
+                          
+                          <div class="helper_text @if(empty($salary_expectation_data) || $salary_expectation_data->negotiable_salary == 0) d-none @endif"><strong>You have selected a negotiable salary. We will show you jobs both within and outside your preferred range.</strong></div>
+                          
+                        </div><br>
                         <div class="form-group level-drp">
                           <label class="form-label" for="input-1">Hourly Salary</label>
                           <input type="text" name="hourly_salary_amount" class="form-control hourly_salary_amount" value="@if(!empty($salary_expectation_data) && $salary_expectation_data->hourly_salary != NULL) {{ $salary_expectation_data->hourly_salary }} @endif" readonly>
@@ -471,14 +475,18 @@ input:checked + .slider:before {
                 slide: function(event, ui) {
                   console.log("ui1",ui.values);
                   
-
-                  $("#amount").text("$"+ui.values[0] + " - $" + ui.values[1]);
+                  if(ui.values[1] == "150" || ui.values[1] == "6000" || ui.values[1] == "26000" || ui.values[1] == "312000"){
+                    $("#amount").text("$"+ui.values[0] + " - $" + ui.values[1] + "+");
+                  }else{
+                    $("#amount").text("$"+ui.values[0] + " - $" + ui.values[1]);
+                  }
+                  
                   $(".salary_range").val(ui.values[0] + " - " + ui.values[1]);
                   calculateSalary(frequency,ui.values[0],ui.values[1]);
                   
                 }  
             });
-            $("#amount").text("$"+range.values[0] + " - $" + range.values[1]);
+            $("#amount").text("$"+range.values[0] + " - $" + range.values[1] + "+");
             $(".salary_range").val(range.values[0] + " - " + range.values[1]);
         }
 
@@ -503,7 +511,7 @@ input:checked + .slider:before {
             var salarymax1 = salary_max.replace(/\s+/g, '');
             
 
-            console.log("salary_range",[salary_min1,salarymax1]);
+            
 
             var payment_frequency = $(".payment_frequency").val();
             if(payment_frequency == ""){
@@ -537,14 +545,30 @@ input:checked + .slider:before {
                 max: salarymax2,
                 values: [salary_min1,salarymax1],
                 slide: function(event, ui) {
-                  console.log("ui",ui);
-                  $("#amount").text("$"+ui.values[0] + " - " + "$"+ui.values[1]);
-                  $(".salary_range").val(ui.values[0] + " - " + ui.values[1]);
-                  calculateSalary("<?php echo $payment_frequency; ?>",ui.values[0],ui.values[1]);
                   
+                  if(ui.values[1] == "150" || ui.values[1] == "6000" || ui.values[1] == "26000" || ui.values[1] == "312000"){
+                    console.log("ui",ui.values[1]);
+                    $("#amount").text("$"+ui.values[0] + " - $" + ui.values[1] + "+");
+                  }else{
+                    $("#amount").text("$"+ui.values[0] + " - $" + ui.values[1]);
+                  }
+                  
+                  $(".salary_range").val(ui.values[0] + " - " + ui.values[1]);
+                  
+                  calculateSalary("<?php echo $payment_frequency; ?>",ui.values[0],ui.values[1]);
+
+                 
                 }
             });
-            $("#amount").text("$"+$("#slider").slider("values", 0) + " - $" + $("#slider").slider("values", 1));
+            //$("#amount").text("$"+$("#slider").slider("values", 0) + " - $" + $("#slider").slider("values", 1));
+            if(salarymax1 == "150" || salarymax1 == "6000" || salarymax1 == "26000" || salarymax1 == "312000"){
+              //console.log("salary_range",[$("#slider").slider("values", 0),$("#slider").slider("values", 1)]);
+                $("#amount").text("$"+$("#slider").slider("values", 0) + " - $" + $("#slider").slider("values", 1) + "+");
+              }else{
+                
+                $("#amount").text("$"+$("#slider").slider("values", 0) + " - $" + $("#slider").slider("values", 1));
+              }
+            
 
             
           function changeFrequency(value){
@@ -558,8 +582,10 @@ input:checked + .slider:before {
           $('#toggleCheckbox').change(function() {
               if ($(this).is(':checked')) {
                   console.log("Checked: ON");
+                  $(".helper_text").removeClass("d-none");
               } else {
                   console.log("Unchecked: OFF");
+                  $(".helper_text").addClass("d-none");
               }
           });
 

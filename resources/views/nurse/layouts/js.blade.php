@@ -1609,7 +1609,7 @@
         var st_value = x.toString()+ntypeval.toString();
         if($(".nursing_exps_"+st_value).hasClass("d-none") == false){
           
-          console.log("x",st_value);
+          console.log("st_value_exp",st_value);
           var label_name = $(".nursing_type_label-"+st_value).text();
           
           if ($(".subtype_nurses-" +st_value).val() == '') {

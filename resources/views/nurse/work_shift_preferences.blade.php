@@ -126,7 +126,7 @@
                                 $shiftpreferences = array();
                             }
                             
-                            if(!empty($shiftpreferences)){
+                            if(!empty($shiftpreferences) && isset($shiftpreferences[$shift_data->work_shift_id])){
                                 $shiftprefer_data = json_encode($shiftpreferences[$shift_data->work_shift_id]);
                             }else{
                                 $shiftprefer_data = '';
@@ -419,12 +419,14 @@
       $(".shift_prefer_input").each(function(){
         var val = $(this).val();
         var label = $(".shift_label-"+val).text();
-        console.log("val",val);
-        if ($('.shift_prefer_valid-'+val).val() == '') {
+        if(val != 6 && val != 7 && val != 8 && val != 9){
+          console.log("val",val);
+          if ($('.shift_prefer_valid-'+val).val() == '') {
 
-            document.getElementById("reqshift_preferences-"+val).innerHTML = "* Please select the "+label;
-            isValid = false;
+              document.getElementById("reqshift_preferences-"+val).innerHTML = "* Please select the "+label;
+              isValid = false;
 
+          }
         }
 
         if($(".subwork_list-"+val).length > 0){

@@ -128,10 +128,15 @@
                                 
 
                                 $parr = array();
-                                if (!empty($pos_data)){
+                                if (!empty($pos_data) && !in_array("35", (array)$pos_data[1])){
                                     foreach ($pos_data[1] as $index => $pdata){
                                         $parr[] = $index;
                                     }
+                                }else{
+                                  if(isset($pos_data[1])){
+                                    $parr[] = $pos_data[1];
+                                  }
+                                  
                                 }
                                 
                                 $x = 1;
@@ -148,12 +153,12 @@
                                 @endforeach
                                 @endif
                             </ul>
-                            <select class="js-example-basic-multiple addAll_removeAll_btn pos_held pos_held_1" data-list-id="position_held_field-1" name="positions_held[1]" id="position_held_field-1" multiple onchange="getPostions('',1)"></select>
+                            <select class="js-example-basic-multiple addAll_removeAll_btn pos_held pos_held_1" data-list-id="position_held_field-1" name="subpositions_held[1][]" id="position_held_field-1" multiple onchange="getPostions('',1)"></select>
                             <span id="reqpositionheld-1" class="reqError text-danger valley"></span>
                             
                         </div>
                         <div class="show_positions-1">
-                            @if(!empty($parr))
+                            @if(isset($pos_data[1]) && !in_array("35", (array)$pos_data[1]))
                             @foreach ($parr as $par)
                           <?php
                             $employee_positions = DB::table("employee_positions")->where("subposition_id",$par)->orderBy('position_name', 'ASC')->get();

@@ -220,7 +220,8 @@
                               if(!empty($language_data) && $language_data->language_field == "dropdown"){
                                 $sub_lang_arr[] = $index;
                               }else{
-                                $sub_lang_text = $sub_lang[0];
+                                $sub_lang_arr[] = $index;
+                                //$sub_lang_text = $sub_lang[0];
                               }
                               
                             }
@@ -252,7 +253,7 @@
                                 //print_r($prof_level);
                               ?>
                               <div class="custom-select-wrapper sublangprofdiv sublangprofdiv-{{ $subl_arr }} form-group level-drp" style="margin-bottom: 5px;">
-                                <label class="form-label subproflabel-{{ $subl_arr }}" for="input-1">Proficiency Level ({{ $sublanguage_name->language_name }})</label>
+                                <label class="form-label subproflabel-{{ $subl_arr }}" for="input-1">Proficiency Level ({{ $language_data->language_name }})</label>
                                 <input type="hidden" name="sublangprof_list" class="sublangprof_list sublangprof_list-{{ $subl_arr }}" value="{{ $subl_arr }}">
                                 <select class="langprof_level_valid-{{ $subl_arr }} custom-select form-input mr-10 langprof_level_valid-{{ $subl_arr }}" name="langprof_level[{{ $l_arr }}][{{ $subl_arr }}]">
                                   <option value="">select</option>
@@ -273,11 +274,34 @@
                             <div class="sub_lang_div sub_lang_div-{{ $l_arr }} form-group level-drp">
                               <label class="form-label sub_lang_label sub_lang_label-{{ $l_arr }}" for="input-1">{{ $language_data->language_name }}</label>
                               <input type="hidden" name="sublang_list" class="sub_lang_valid-{{ $l_arr }} sublang_list sublang_list-{{ $l_arr }}" value="{{ $l_arr }}">
-                              <input type="text" name="langprof_level[{{ $l_arr }}]" class="sub_lang_valid-{{ $l_arr }} form-control fixed_salary_amount" value="{{ $sub_lang_text }}">
+                              <input type="text" name="sub_languages[]" class="sub_lang_valid-{{ $l_arr }} form-control fixed_salary_amount" onkeyup="getProficiency_text('ap',{{ $l_arr }})" value="@if(isset($sub_lang_arr[0])){{ $sub_lang_arr[0] }}@endif">
                               
                               <span id="reqsublangvalid-{{ $l_arr }}" class="reqError text-danger valley"></span>
                             </div>
+                            <div class="lang_proficiency_level-{{ $l_arr }}">
+                              @foreach ($sub_lang_arr as $subl_arr)
+                              <?php
+                                $sublanguage_name = DB::table("languages")->where("language_id",$subl_arr)->first();
+                                $prof_level = (array)$sub_lang[$subl_arr];
+                                //print_r($prof_level);
+                              ?>
+                              <div class="custom-select-wrapper sublangprofdiv sublangprofdiv-{{ $subl_arr }} form-group level-drp" style="margin-bottom: 5px;">
+                                <label class="form-label subproflabel-{{ $subl_arr }}" for="input-1">Proficiency Level ({{ $language_data->language_name }})</label>
+                                <input type="hidden" name="sublangprof_list" class="sublangprof_list sublangprof_list-{{ $subl_arr }}" value="{{ $subl_arr }}">
+                                <select class="langprof_level_valid-{{ $subl_arr }} custom-select form-input mr-10 langprof_level_valid-{{ $subl_arr }}" name="langprof_level[{{ $l_arr }}][{{ $subl_arr }}]">
+                                  <option value="">select</option>
+                                  <option value="Basic" @if($prof_level[0] == "Basic") selected @endif>Basic</option>
+                                  <option value="Conversational" @if($prof_level[0] == "Conversational") selected @endif>Conversational</option>
+                                  <option value="Fluent" @if($prof_level[0] == "Fluent") selected @endif>Fluent</option>
+                                  <option value="Native" @if($prof_level[0] == "Native") selected @endif>Native</option>
+                                </select>
+                                
+                              </div>
+                              <span id="reqproflevelvalid-{{ $subl_arr }}" class="reqError text-danger valley"></span>
+                              @endforeach
+                            </div>
                           </div>
+                          
                           @endif
                           
                           @endforeach
@@ -500,7 +524,7 @@
                           
                             $specialized_lang_json = json_encode($specialized_langarr);
                           ?>
-                          <input type="hidden" name="specialized_lang_skills" class="specialized_lang_skills" value='<?php echo $specialized_lang_json; ?>'>
+                          <input type="hidden" name="specialized_lang_skills_hidden" class="specialized_lang_skills" value='<?php echo $specialized_lang_json; ?>'>
                           <ul id="specialized_languages" style="display:none;">
                              
                             @if(!empty($specialized_lang_skills))
@@ -522,7 +546,7 @@
                             ?>
                           <div class="specialized_level_div specialized_level_div-{{ $speclangarr }}">
                             <div class="strong_text inslabtext"><strong>{{ $specialized_lang_name->language_name }}</strong></div>
-                            <input type="hidden" name="specialized_level_list" class="specialized_level_list specialized_level_list-{{ $speclangarr }}" value="{{ $speclangarr }}">
+                            <input type="hidden" name="specialized_level_list_hidden" class="specialized_level_list specialized_level_list-{{ $speclangarr }}" value="{{ $speclangarr }}">
                             <div class="form-group level-drp">
                               <label class="form-label" for="input-1">Upload Evidence</label>
                               <input type="hidden" name="specialized_lang_skills[{{ $speclangarr }}][evidence_imgs]" class="specialized_lang_skills-{{ $speclangarr }}" value="@if(isset($specializeddata['evidence_imgs'])){{ $specializeddata['evidence_imgs'] }}@endif">
@@ -806,7 +830,7 @@
             var val1 = $(val).val();
             console.log("val",val1);
             if(selectedValues.includes(val1) == false){
-                $(".sub_lang_div-"+val1).remove();
+              $(".sublang_main_div-"+val1).remove();
                 
                 
             }
@@ -823,14 +847,16 @@
                         var data1 = JSON.parse(data);
                         console.log("data",data1.main_language_data.language_field);
                         if(data1.main_language_data.language_field == "text"){
-
+                            var ap = '';
                             $(".sub_languages_div").append('\<div class="sublang_main_div sublang_main_div-'+data1.main_language_data.language_id+'">\
                             <div class="sub_lang_div sub_lang_div-'+data1.main_language_data.language_id+' form-group level-drp">\
                             <label class="form-label sub_lang_label sub_lang_label-'+data1.main_language_data.language_id+'" for="input-1">'+data1.main_language_data.language_name+'</label>\
                             <input type="hidden" name="sublang_list" class="sublang_list sublang_list-'+data1.main_language_data.language_id+'" value="'+data1.main_language_data.language_id+'">\
-                            <input type="text" name="langprof_level['+data1.main_language_data.language_id+']" class="form-control fixed_salary_amount sub_lang_valid-'+data1.main_language_data.language_id+'" value="">\
+                            <input type="text" name="sub_languages[]" class="form-control fixed_salary_amount sub_lang_valid-'+data1.main_language_data.language_id+'" onkeyup="getProficiency_text(\''+ap+'\',\''+data1.main_language_data.language_id+'\')" value="">\
                             <span id="reqsublangvalid-'+data1.main_language_data.language_id+'" class="reqError text-danger valley"></span>\
-                            </div></div>');
+                            </div>\
+                            <div class="lang_proficiency_level-'+data1.main_language_data.language_id+'"></div>\
+                            </div>');
                         }else{
                           if(data1.main_language_data.language_field == "dropdown"){
                             var sublang_text = "";
@@ -871,7 +897,39 @@
         
     });
 
+    function getProficiency_text(ap,language_id){
+      var val = $(".sub_lang_valid-"+language_id).val();
+      
+      if($(".lang_proficiency_level-"+language_id+" .sublangprofdiv-"+language_id).length < 1){
+          $.ajax({
+            type: "GET",
+            url: "{{ url('/nurse/getSubLanguagesData') }}",
+            data: {language_id:language_id},
+            cache: false,
+            success: function(data){
+              var data1 = JSON.parse(data);
+              console.log("data",data1.sub_language_data.language_name);
+
+              $(".lang_proficiency_level-"+language_id).append('<div class="custom-select-wrapper sublangprofdiv sublangprofdiv-'+language_id+' form-group level-drp" style="margin-bottom: 5px;">\
+                  <label class="form-label subproflabel-'+language_id+'" for="input-1">Proficiency Level ('+data1.sub_language_data.language_name+')</label>\
+                  <input type="hidden" name="sublangprof_list" class="sublangprof_list sublangprof_list-'+language_id+'" value="'+language_id+'">\
+                  <select class="custom-select form-input mr-10 select-active langprof_level_valid-'+language_id+'" name="langprof_level['+language_id+']['+val+']">\
+                    <option value="">select</option>\
+                    <option value="Basic">Basic</option>\
+                    <option value="Conversational">Conversational</option>\
+                    <option value="Fluent">Fluent</option>\
+                    <option value="Native">Native</option>\
+                  </select>\
+                  </div>\
+                  <span id="reqproflevelvalid-'+language_id+'" class="reqError text-danger valley"></span>\
+                  ');
+            }
+          });  
+        }
+    }
+
     function getProficiency(ap,language_id){
+      
       if(ap == 'ap'){
           var selectedValues = $('.js-example-basic-multiple[data-list-id="sub_lang_dropdown-'+language_id+'"]').val();
       }else{
@@ -1211,26 +1269,26 @@
 
       });  
 
-      if ($('.test_languages_valid').val() == '') {
+      // if ($('.test_languages_valid').val() == '') {
 
-        document.getElementById("reqengtest").innerHTML = "* Please select the English Proficiency Tests.";
-        isValid = false;
+      //   document.getElementById("reqengtest").innerHTML = "* Please select the English Proficiency Tests.";
+      //   isValid = false;
 
-      }
+      // }
 
-      if ($('.other_languages_valid').val() == '') {
+      // if ($('.other_languages_valid').val() == '') {
 
-        document.getElementById("reqothertest").innerHTML = "* Please select the English Proficiency Tests.";
-        isValid = false;
+      //   document.getElementById("reqothertest").innerHTML = "* Please select the English Proficiency Tests.";
+      //   isValid = false;
 
-      }
+      // }
 
-      if ($('.specialized_languages_valid').val() == '') {
+      // if ($('.specialized_languages_valid').val() == '') {
 
-        document.getElementById("reqspecializedskills").innerHTML = "* Please select the Specialized Language Skills.";
-        isValid = false;
+      //   document.getElementById("reqspecializedskills").innerHTML = "* Please select the Specialized Language Skills.";
+      //   isValid = false;
 
-      }
+      // }
 
       if ($(".professional_declare_information").prop('checked') == false) {
       

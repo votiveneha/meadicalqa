@@ -219,7 +219,8 @@
                           <?php
                             //print_r($o_data[$p_arr]);
                             $country_name = DB::table("professional_organization")->where("organization_id",$p_arr)->first();
-                            $organization_list = DB::table("professional_organization")->where("country_organiztions",'like','%'.$p_arr.',%')->where("sub_organiztions","0")->orderBy('organization_country', 'ASC')->get();
+                            $organization_list = DB::table("professional_organization")->where("country_organiztions",$p_arr)->where("sub_organiztions","0")->orderBy('organization_country', 'ASC')->get();
+                            
                             $os_data = (array)$o_data[$p_arr];
                             $sub_count_arr = array();
 
@@ -269,9 +270,9 @@
                               $p_memb_json = json_encode($subsub_count_arr);
                             
                             ?>
-                            <div class="sub_country_div sub_country_div-{{ $p_arr1 }}" data-name="{{ $country_name->organization_country }}">
+                            <div class="sub_country_div sub_country_div-{{ $p_arr1 }}" data-name="@if(!empty($country_name)){{ $country_name->organization_country }}@endif">
                             <div class="form-group level-drp o_country_div-{{ $p_arr }} o_subcountry_div-{{ $p_arr1 }} o_subcountry_div-{{ $p_arr1 }} organization_subcountry_div organization_subcountry_div-{{ $p_arr1 }}">
-                              <label class="form-label organization_subcountry_label organization_subcountry_label-{{ $p_arr }}{{ $p_arr1 }}" for="input-1">{{ $country_name->organization_country }}</label>
+                              <label class="form-label organization_subcountry_label organization_subcountry_label-{{ $p_arr }}{{ $p_arr1 }}" for="input-1">@if(!empty($country_name)){{ $country_name->organization_country }}@endif</label>
                               <input type="hidden" name="subcountry_org_list" class="subcountry_org_list subcountry_org_list-{{ $p_arr1 }}" value='{{ $p_arr1 }}'>
                               <input type="hidden" name="subcountry_org" class="subcountry_org-{{ $p_arr }}{{ $p_arr1 }}" value='<?php echo $p_memb_json; ?>'>
                               <ul id="subcountry_organization-{{ $p_arr }}{{ $p_arr1 }}" style="display:none;">
@@ -304,7 +305,7 @@
                               ?>
                               <div class="membership_type_div-{{ $p_arr2 }}">
                               <div class="form-group level-drp o_subcountry_div-{{ $p_arr1 }} o_country_div-{{ $p_arr }} membership_type_div membership_type_div-{{ $p_arr2 }}">
-                                <label class="form-label membership_type_label membership_type_label-{{ $p_arr }}{{ $p_arr2 }}" for="input-1">Membership Type({{ $country_name->organization_country }})</label>
+                                <label class="form-label membership_type_label membership_type_label-{{ $p_arr }}{{ $p_arr2 }}" for="input-1">Membership Type(@if(!empty($country_name)){{ $country_name->organization_country }}@endif)</label>
                                 <input type="hidden" name="subsubcountry_org_list" class="subsubcountry_org_list subsubcountry_org_list-{{ $p_arr2 }}" value='{{ $p_arr2 }}'>
                                 <input type="hidden" name="memb_type_input" class="memb_type_input-{{ $p_arr2 }}" value='<?php echo $p_memb_json; ?>'>
                                 <ul id="membership_type-{{ $p_arr2 }}" style="display:none;">
@@ -1660,42 +1661,42 @@ $(".show_submembership_type-"+country_org+organization_id1+organization_id).appe
   //   $('.js-example-basic-multiple[data-list-id="des_profession_association"]').select2().val(organization_name).trigger('change');
   // }
  
-  // if ($(".org_country").val() != "") {
-  //   var org_country = JSON.parse($(".org_country").val());
-  //   $('.js-example-basic-multiple[data-list-id="organization_country"]').select2().val(org_country).trigger('change');
+  if ($(".org_country").val() != "") {
+    var org_country = JSON.parse($(".org_country").val());
+    $('.js-example-basic-multiple[data-list-id="organization_country"]').select2().val(org_country).trigger('change');
     
-  //   for(var i=0;i<org_country.length;i++){
-  //     if ($(".country_org-"+org_country[i]).val() != "") {
-  //       var suborg_country = JSON.parse($(".country_org-"+org_country[i]).val());
-  //       $('.js-example-basic-multiple[data-list-id="country_organization-'+org_country[i]+'"]').select2().val(suborg_country).trigger('change');
+    for(var i=0;i<org_country.length;i++){
+      if ($(".country_org-"+org_country[i]).val() != "") {
+        var suborg_country = JSON.parse($(".country_org-"+org_country[i]).val());
+        $('.js-example-basic-multiple[data-list-id="country_organization-'+org_country[i]+'"]').select2().val(suborg_country).trigger('change');
         
-  //       for(var j=0;j<suborg_country.length;j++){
-  //         var scountorg = org_country[i].toString() + suborg_country[j].toString();
-  //         if ($(".subcountry_org-"+scountorg).val() != "") {
-  //           var subsuborg_country = JSON.parse($(".subcountry_org-"+scountorg).val());
+        for(var j=0;j<suborg_country.length;j++){
+          var scountorg = org_country[i].toString() + suborg_country[j].toString();
+          if ($(".subcountry_org-"+scountorg).val() != "") {
+            var subsuborg_country = JSON.parse($(".subcountry_org-"+scountorg).val());
             
-  //           console.log("subsuborg_country"+scountorg,subsuborg_country);
-  //           $('.js-example-basic-multiple[data-list-id="subcountry_organization-'+scountorg+'"]').select2().val(subsuborg_country).trigger('change');
+            console.log("subsuborg_country"+scountorg,subsuborg_country);
+            $('.js-example-basic-multiple[data-list-id="subcountry_organization-'+scountorg+'"]').select2().val(subsuborg_country).trigger('change');
             
-  //           for(var k=0;k<subsuborg_country.length;k++){
-  //             if ($(".memb_type_input-"+subsuborg_country[k]).val() != "") {
-  //               var membership_type = JSON.parse($(".memb_type_input-"+subsuborg_country[k]).val());
-  //               $('.js-example-basic-multiple[data-list-id="membership_type-'+subsuborg_country[k]+'"]').select2().val(membership_type).trigger('change');
+            for(var k=0;k<subsuborg_country.length;k++){
+              if ($(".memb_type_input-"+subsuborg_country[k]).val() != "") {
+                var membership_type = JSON.parse($(".memb_type_input-"+subsuborg_country[k]).val());
+                $('.js-example-basic-multiple[data-list-id="membership_type-'+subsuborg_country[k]+'"]').select2().val(membership_type).trigger('change');
 
-  //               for(var l=0;l<membership_type.length;l++){
-  //                 var submembership_type = JSON.parse($(".submemb_type_input-"+subsuborg_country[k]+"-"+membership_type[l]).val());
+                for(var l=0;l<membership_type.length;l++){
+                  var submembership_type = JSON.parse($(".submemb_type_input-"+subsuborg_country[k]+"-"+membership_type[l]).val());
                   
-  //                 $('.js-example-basic-multiple[data-list-id="submembership_type-'+membership_type[l]+"-"+subsuborg_country[k]+'"]').select2().val(submembership_type).trigger('change');
-  //               }
-  //             }
+                  $('.js-example-basic-multiple[data-list-id="submembership_type-'+membership_type[l]+"-"+subsuborg_country[k]+'"]').select2().val(submembership_type).trigger('change');
+                }
+              }
               
-  //           }
+            }
 
-  //         }
-  //       }
-  //     }  
-  //   }
-  // }
+          }
+        }
+      }  
+    }
+  }
 
   if ($(".awards_recognition_input").val() != "") {
     var awards_recognition_input = JSON.parse($(".awards_recognition_input").val());

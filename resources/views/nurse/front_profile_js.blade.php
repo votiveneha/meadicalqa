@@ -2346,7 +2346,7 @@
         });
 
         for(var i=0;i<selectedValues.length;i++){
-            if($(".wp_data-"+k+" .wp_main_div-"+selectedValues[i]).length < 1){
+            if($(".wp_data-"+k+" .wp_main_div-"+selectedValues[i]).length < 1 && selectedValues[i] != "444"){
                 $.ajax({
                     type: "GET",
                     url: "{{ url('/nurse/getWorkplaceData') }}",
@@ -2362,6 +2362,8 @@
                             wp_text += "<li data-value='"+data1.work_data[j].prefer_id+"'>"+data1.work_data[j].env_name+"</li>"; 
                         
                         }
+
+                        $('.js-example-basic-multiple[data-list-id="wp_data-1"]').removeAttr("name");
                         
                         var ap = "ap";
                         $(".wp_data-"+k).append('\<div class="wp_main_div wp_main_div-'+data1.prefer_id+'"><div class="subworkdiv subworkdiv-'+data1.prefer_id+' form-group level-drp">\
@@ -2483,7 +2485,7 @@
         });
 
         for(var i=0;i<selectedValues.length;i++){
-            if($(".show_positions-"+k+" .subposdiv-"+selectedValues[i]).length < 1){
+            if($(".show_positions-"+k+" .subposdiv-"+selectedValues[i]).length < 1 && selectedValues[i] != "35"){
                 $("#submitExperience").attr("disabled", true);
                 $.ajax({
                     type: "GET",
@@ -2500,6 +2502,8 @@
                             pos_text += "<li data-value='"+data1.employee_positions[j].position_id+"'>"+data1.employee_positions[j].position_name+"</li>"; 
                         
                         }
+
+                        $('.js-example-basic-multiple[data-list-id="position_held_field-1"]').removeAttr("name");
                         
                         if(data1.postion_id != "34"){
 

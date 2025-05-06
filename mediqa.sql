@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: May 02, 2025 at 12:14 AM
+-- Generation Time: May 05, 2025 at 11:58 PM
 -- Server version: 10.6.21-MariaDB
 -- PHP Version: 7.4.33
 
@@ -1145,7 +1145,8 @@ INSERT INTO `employee_positions` (`position_id`, `position_name`, `subposition_i
 (31, 'Lecturer', '3', '2025-03-15 06:27:12', '2025-03-15 06:27:12'),
 (32, 'Preceptor', '3', '2025-03-15 06:27:12', '2025-03-15 06:27:12'),
 (33, 'Mentor', '3', '2025-03-15 06:27:12', '2025-03-15 06:27:12'),
-(34, 'Other', '0', '2025-03-18 09:56:32', '2025-03-18 09:56:32');
+(34, 'Other', '0', '2025-03-18 09:56:32', '2025-03-18 09:56:32'),
+(35, 'All/No Preference', '0', '2025-05-05 07:25:19', '2025-05-05 07:25:19');
 
 -- --------------------------------------------------------
 
@@ -1653,7 +1654,7 @@ INSERT INTO `language_skills` (`language_skills_id`, `user_id`, `langprof_level`
 (3, 203, '{\"1\":\"dere er er\"}', '{\"183\":{\"score_level\":\"34\",\"expiring_date\":\"2025-04-30\",\"evidence_imgs\":\"[\\\"forget-password.blade.php\\\"]\"}}', '{\"190\":{\"score_level\":\"dfd\",\"expiring_date\":\"2025-04-28\",\"evidence_imgs\":\"[\\\"front_profile_js.blade.php\\\"]\"}}', '{\"192\":{\"evidence_imgs\":\"[\\\"employeement_type_preferences.blade.php\\\"]\"}}', 1, '2025-04-16 10:35:42', '2025-04-17 12:24:56'),
 (5, 202, '{\"5\":{\"72\":\"Basic\"}}', '{\"182\":{\"score_level\":\"ghgffgbfbghfhfghhcggfcgg\",\"expiring_date\":\"1996-12-04\",\"evidence_imgs\":\"[\\\"download.jpeg\\\",\\\"download.png\\\",\\\"hg9xBr1721293815.png\\\",\\\"images (1).jpeg\\\",\\\"images (3).jpeg\\\",\\\"images.jpeg\\\"]\"}}', '{\"188\":{\"score_level\":\"kykiukukuykukukukukuykuikuikkk\",\"expiring_date\":\"1996-12-04\",\"evidence_imgs\":\"[\\\"download.jpeg\\\",\\\"download.png\\\",\\\"hg9xBr1721293815.png\\\",\\\"images (1).jpeg\\\",\\\"images (3).jpeg\\\",\\\"images.jpeg\\\"]\",\"engevimg\":{}}}', '{\"191\":{\"evidence_imgs\":\"[\\\"download.jpeg\\\",\\\"download.png\\\",\\\"hg9xBr1721293815.png\\\",\\\"images (1).jpeg\\\"]\"}}', 1, '2025-04-21 11:05:12', '2025-04-21 11:05:12'),
 (6, 206, '{\"5\":{\"72\":\"Basic\"}}', '{\"182\":{\"score_level\":\"ghgffgbfbghfhfghhcggfcgg\",\"expiring_date\":\"1996-12-04\",\"evidence_imgs\":\"[\\\"download.png\\\"]\"}}', '{\"188\":{\"score_level\":\"kykiukukuykukukukukuykuikuikkk\",\"expiring_date\":\"1996-12-04\",\"evidence_imgs\":\"[\\\"download.png\\\"]\",\"engevimg\":{}}}', '{\"191\":{\"evidence_imgs\":\"[\\\"download.png\\\"]\"}}', 1, '2025-04-22 10:22:11', '2025-04-22 10:22:11'),
-(7, 205, '{\"6\":{\"128\":\"Conversational\"}}', '{\"183\":{\"score_level\":\"sds\",\"expiring_date\":\"2025-04-30\",\"evidence_imgs\":\"[\\\"HomeController_new_bk.php\\\"]\"}}', '{\"187\":{\"score_level\":\"fdd\",\"expiring_date\":\"2025-04-28\",\"evidence_imgs\":\"[\\\"HomeController_dec6.php\\\"]\",\"engevimg\":{}}}', '{\"191\":{\"evidence_imgs\":\"[\\\"WorkPreferencesController.php\\\"]\"}}', 1, '2025-04-25 12:36:54', '2025-04-25 12:36:54');
+(9, 205, '{\"5\":{\"83\":\"Fluent\"},\"1\":{\"ererer e\":\"Basic\"}}', 'null', 'null', 'null', 1, '2025-05-05 13:29:21', '2025-05-05 13:29:21');
 
 -- --------------------------------------------------------
 
@@ -2960,10 +2961,10 @@ INSERT INTO `professional_membership` (`membership_id`, `user_id`, `membership_q
 (88, 194, 'Yes', 'Yes', NULL, '{\"1\":{\"293\":{\"43\":{\"1\":[\"14\"]}},\"17\":{\"46\":{\"4\":[\"31\"]}}}}', NULL, NULL, NULL, NULL, NULL, 'null', '{\"43\":\"2025-03-05\",\"46\":\"2025-03-06\"}', '{\"43\":\"Active - Current Member\",\"46\":\"Active - Current Member\"}', '{\"1\":{\"46\":\"uuuuuuu\"}}', '{\"46\":[\"CERTIFICATIONS SAMPLE.pdf\",\"DIPLOMA SAMPLE.docx\"],\"43\":[\"CERTIFICATIONS SAMPLE.pdf\",\"DIPLOMA SAMPLE.pdf\",\"TRANSCRIPT SAMPLE.pdf\"]}', '{\"46\":[\"TRANSCRIPT SAMPLE.pdf\",\"CERTIFICATIONS SAMPLE.pdf\",\"DIPLOMA SAMPLE.docx\",\"DIPLOMA SAMPLE.pdf\"]}', 1, '2025-03-03 06:52:27', '2025-03-18 09:17:11'),
 (90, 101, NULL, '', NULL, 'null', NULL, NULL, NULL, NULL, NULL, 'null', 'null', 'null', 'null', '{\"43\":[\"CERTIFICATIONS SAMPLE.pdf\",\"DIPLOMA SAMPLE.docx\",\"DIPLOMA SAMPLE.pdf\",\"TRANSCRIPT SAMPLE.pdf\"],\"271\":[\"CERTIFICATIONS SAMPLE.pdf\",\"DIPLOMA SAMPLE.docx\",\"DIPLOMA SAMPLE.pdf\",\"TRANSCRIPT SAMPLE.pdf\"],\"89\":[\"CERTIFICATIONS SAMPLE.pdf\",\"DIPLOMA SAMPLE.docx\",\"DIPLOMA SAMPLE.pdf\",\"TRANSCRIPT SAMPLE.pdf\"]}', NULL, NULL, '2025-03-04 07:12:23', '2025-03-04 07:22:48'),
 (95, 196, 'Yes', 'Yes', NULL, '{\"5\":{\"71\":{\"131\":{\"2\":[\"18\"]}}}}', NULL, NULL, NULL, NULL, NULL, 'null', '{\"131\":\"2025-03-31\"}', '{\"131\":\"Pending Membership Approval\"}', '{\"4\":{\"29\":\"wewew\"}}', '{\"131\":\"\"}', '{\"29\":[\"blue_stick 1.png\",\"image_five.jpg\"]}', 1, '2025-03-12 09:01:51', '2025-03-12 12:33:02'),
-(96, 179, 'Yes', 'No', NULL, '{\"2\":{\"14\":{\"70\":{\"1\":[\"14\"]}}}}', NULL, NULL, NULL, NULL, NULL, 'null', '{\"70\":\"1996-12-04\"}', '{\"70\":\"Lapsed Member\"}', NULL, '{\"70\":[\"download.jpg\",\"20171225_160738.jpg\"]}', '[]', 1, '2025-03-12 13:30:36', '2025-04-21 11:08:00'),
+(96, 179, 'Yes', 'No', NULL, '{\"2\":{\"340\":{\"70\":{\"1\":[\"14\"]}}}}', NULL, NULL, NULL, NULL, NULL, 'null', '{\"70\":\"1996-12-04\"}', '{\"70\":\"Lapsed Member\"}', NULL, '{\"70\":[\"download.jpg\",\"20171225_160738.jpg\"]}', '[]', 1, '2025-03-12 13:30:36', '2025-04-21 11:08:00'),
 (99, 203, 'No', 'No', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2025-04-17 12:49:31', '2025-04-17 12:49:31'),
 (100, 202, 'Yes', 'Yes', NULL, '{\"2\":{\"15\":{\"272\":{\"1\":[\"11\"]}}}}', NULL, NULL, NULL, NULL, NULL, NULL, '{\"272\":\"1996-12-04\"}', '{\"272\":\"Active - Current Member\"}', '{\"3\":{\"48\":\"fuhjhviuguygcygcygcygcv\"}}', '{\"272\":[\"download.png\"]}', '{\"48\":[\"download.jpeg\",\"download.png\",\"hg9xBr1721293815.png\"]}', 1, '2025-04-21 11:59:01', '2025-04-21 11:59:01'),
-(101, 206, 'Yes', 'Yes', NULL, '{\"1\":{\"15\":{\"43\":{\"1\":[\"16\"]}}}}', NULL, NULL, NULL, NULL, NULL, NULL, '{\"43\":\"1996-12-04\"}', '{\"43\":\"Active - Current Member\"}', '{\"2\":{\"47\":\"ndhydjjgjhgdj\"}}', '{\"43\":[\"download.png\"]}', '{\"47\":[\"download.png\"]}', 1, '2025-04-22 10:21:21', '2025-04-22 10:21:21'),
+(101, 206, 'Yes', 'Yes', NULL, '{\"1\":{\"293\":{\"43\":{\"1\":[\"16\"]}}}}', NULL, NULL, NULL, NULL, NULL, NULL, '{\"43\":\"1996-12-04\"}', '{\"43\":\"Active - Current Member\"}', '{\"2\":{\"47\":\"ndhydjjgjhgdj\"}}', '{\"43\":[\"download.png\"]}', '{\"47\":[\"download.png\"]}', 1, '2025-04-22 10:21:21', '2025-04-22 10:21:21'),
 (103, 205, 'Yes', 'No', NULL, '{\"5\":{\"264\":{\"134\":{\"2\":[\"17\"]}}}}', NULL, NULL, NULL, NULL, NULL, NULL, '{\"134\":\"2025-05-27\"}', '{\"134\":\"Expired Member\"}', NULL, '{\"134\":[\"ManTrainingServices.php\"]}', NULL, 1, '2025-05-01 13:39:33', '2025-05-01 13:39:33');
 
 -- --------------------------------------------------------
@@ -2995,11 +2996,6 @@ INSERT INTO `professional_organization` (`organization_id`, `organization_countr
 (8, 'South Africa', 'South African Organizations', '0', NULL),
 (9, 'United Kingdom', 'British Organizations', '0', NULL),
 (10, 'United States', 'American Organizations', '0', NULL),
-(11, 'Nursing-Specific Organizations', NULL, '1,2,3,4,5,6,7,8,9,10,', '0'),
-(12, 'Midwifery-Specific Organizations1', 'organization_name', '1,2,3,4,5,6,7,8,9,10,', '0'),
-(13, 'Specialty and Focus Area Organizations', NULL, '1,2,3,4,5,6,7,8,9,10,', '0'),
-(14, 'Indigenous Health and Advocacy Organizations', NULL, '1,2,', '0'),
-(15, 'Allied Health and Cross-Disciplinary Organizations', NULL, '1,2,3,4,5,6,7,8,9,10,', '0'),
 (16, 'Councils and Other Regulatory Bodies', NULL, '1', '0'),
 (17, 'International and Collaborative Organizations (Australian Chapter/Representation)', NULL, '1', '0'),
 (18, 'Australian College of Nursing (ACN)\r\n', NULL, '1', '290'),
@@ -3400,7 +3396,7 @@ INSERT INTO `salary_expectation` (`salary_id`, `user_id`, `payment_frequency`, `
 (8, 196, 'annually', '41600 - 312000', NULL, '1', '$20- $150', '$801- $6005', '$3467- $26000', '$41600- $312000', '2025-04-01 13:29:58', '2025-04-02 13:18:07'),
 (9, 173, 'hourly', NULL, 50, '1', '$50', '$2000', '$8660', '$104000', '2025-04-02 08:53:52', '2025-04-02 09:46:15'),
 (10, 201, 'weekly', '800 - 6000', NULL, '1', '$20- $150', '$800- $6000', '$3464- $25980', '$41600- $312000', '2025-04-15 06:51:50', '2025-04-15 06:51:50'),
-(11, 205, 'hourly', '30 - 144', NULL, '1', '$30- $144', '$1200- $5760', '$5196- $24940.8', '$62400-299520', '2025-04-29 13:17:42', '2025-04-29 13:44:34');
+(12, 194, 'hourly', NULL, NULL, '0', '$60- $150', '$2400- $6000', '$10392- $25980', '$124800- $312000', '2025-05-02 05:47:31', '2025-05-05 13:00:02');
 
 -- --------------------------------------------------------
 
@@ -3896,7 +3892,7 @@ INSERT INTO `speciality` (`id`, `name`, `parent`, `is_featured`, `status`, `crea
 (390, 'Disability – Adults', 4, 0, '1', '2024-07-15 11:43:42', '2024-07-15 11:43:42', '0000-00-00 00:00:00'),
 (391, 'Disability – Children', 4, 0, '1', '2024-07-15 11:43:42', '2024-07-15 11:43:42', '0000-00-00 00:00:00'),
 (392, 'Maternal and Child Health', 4, 0, '1', '2024-07-15 11:43:42', '2024-07-15 11:43:42', '0000-00-00 00:00:00'),
-(393, 'Palliative Care', 4, 0, '1', '2024-07-15 11:43:42', '2024-07-15 11:43:42', '0000-00-00 00:00:00'),
+(393, 'Palliative Care (community)', 4, 0, '1', '2024-07-15 11:43:42', '2025-05-05 14:26:16', '0000-00-00 00:00:00'),
 (394, 'Toxicology', 1, 0, '1', '2024-07-17 12:10:36', '2024-07-17 12:10:36', NULL),
 (395, 'Trauma', 1, 0, '1', '2024-07-17 12:10:47', '2024-07-17 12:10:47', NULL),
 (396, 'Upper Gastrointestinal', 1, 0, '1', '2024-07-17 12:11:00', '2024-07-17 12:11:00', NULL),
@@ -3912,7 +3908,9 @@ INSERT INTO `speciality` (`id`, `name`, `parent`, `is_featured`, `status`, `crea
 (406, 'Perinatal Care', 3, 0, '1', '2024-07-17 12:23:07', '2024-07-17 12:23:07', NULL),
 (407, 'Perinatal Mental Health', 3, 0, '1', '2024-07-17 12:23:19', '2024-07-17 12:23:19', NULL),
 (408, 'NOPEs:', 398, 0, '1', '2024-08-08 10:35:48', '2024-08-08 10:35:48', '2025-03-17 05:45:36'),
-(409, 'NOPEs(NOP):', 408, 0, '1', '2024-08-08 10:37:45', '2024-08-08 10:37:45', '2025-03-17 05:45:53');
+(409, 'NOPEs(NOP):', 408, 0, '1', '2024-08-08 10:37:45', '2024-08-08 10:37:45', '2025-03-17 05:45:53'),
+(415, 'Palliative care (at home)', 4, 0, '1', '2025-05-05 14:34:58', '2025-05-05 14:34:58', NULL),
+(416, 'Home Care Nursing', 4, 0, '1', '2025-05-05 14:40:14', '2025-05-05 14:41:22', NULL);
 
 -- --------------------------------------------------------
 
@@ -8985,7 +8983,8 @@ INSERT INTO `updated_tab_name` (`tab_id`, `tab_name`, `user_id`, `created_at`) V
 (68, 'Mandatory Training and Continuing Education', 205, '2025-04-25 16:25:17'),
 (69, 'Professional Memberships & Awards', 205, '2025-04-25 17:38:39'),
 (70, 'Language Skills', 205, '2025-04-25 18:06:54'),
-(71, 'Vaccinations', 205, '2025-04-25 18:32:25');
+(71, 'Vaccinations', 205, '2025-04-25 18:32:25'),
+(72, 'Language Skills', 194, '2025-05-05 19:00:38');
 
 -- --------------------------------------------------------
 
@@ -9317,21 +9316,19 @@ INSERT INTO `user_experience` (`experience_id`, `user_id`, `facility_workplace_t
 (83, 188, '', NULL, '', 'Educator', '2025-02-23', '2025-02-26', 'Temporary', NULL, 'ssdsds ewe', 'd sdsd', '[\"9\"]', NULL, 1, '[\"Award\"]', '[\"image_three.jpg\"]', 'null', '[\"1\"]', 'null', '[\"3\"]', 'null', 'null', '[\"241\"]', 'null', '[\"22\"]', 'null', '2025-02-19 06:30:02', '2025-02-19 06:30:02', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, NULL, NULL, 0, '[]', 'null', NULL, 'null', '[\"24\"]', 'null', 'null', 1),
 (84, 188, '', NULL, '', 'Nurse Coordinator', '2025-02-27', '2025-02-28', 'Permanent', NULL, 'dsd', 'sd we', '[\"10\"]', NULL, 1, '[\"Transcript\"]', '[\"image_three.jpg\"]', 'null', '[\"1\"]', 'null', '[\"3\"]', 'null', 'null', '[\"242\"]', 'null', '[\"21\"]', 'null', '2025-02-19 06:49:03', '2025-02-19 06:49:03', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, NULL, 'Agency Nurse/Midwife', 0, '[]', 'null', NULL, 'null', 'null', '[\"30\"]', 'null', 1),
 (85, 192, '', NULL, '', 'Staff Nurse', '2025-02-27', '2025-02-28', 'Permanent', NULL, 'a', 'a', '[\"8\"]', NULL, 1, '[\"Award\"]', '[]', '[\"252\"]', '[\"2\"]', 'null', '[\"1\"]', '[\"8\"]', 'null', 'null', 'null', 'null', 'null', '2025-02-25 02:02:24', '2025-02-25 02:25:03', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, NULL, 'Part-time', 1, '[]', 'null', '1', 'null', 'null', 'null', 'null', 1),
-(94, 194, '{\"199\":{\"240\":[\"441\"]}}', 'qwsdeees', '', '{\"3\":[\"28\"]}', '2025-02-24', '2025-03-03', 'Temporary', NULL, 'qwer', 'qwer', '[\"8\"]', NULL, 1, '[\"Certificate\"]', '[\"CERTIFICATIONS SAMPLE.pdf\",\"DIPLOMA SAMPLE.docx\"]', 'null', '[\"2\",\"1\",\"3\"]', 'null', '[\"1\",\"2\",\"3\",\"4\"]', '[\"96\"]', '[\"233\"]', '[\"250\",\"285\"]', 'null', 'null', 'null', '2025-03-04 08:57:47', '2025-05-02 04:10:14', '[\"97\"]', 'null', 'null', 'null', '[\"400\"]', 'null', 'null', 'null', 'null', NULL, 'Full-time (Temporary)', 'select', 0, '{\"1\":[\"12\"],\"2\":[\"16\"],\"3\":[\"13\"]}', '[\"234\"]', '1', '[\"12\"]', 'null', 'null', 'null', 1),
+(94, 194, '{\"199\":{\"240\":[\"441\"]}}', 'qwsdeees', '', '{\"3\":[\"28\"]}', '2025-02-24', '2025-03-03', 'Temporary', NULL, 'qwer', 'qwer', '[\"8\"]', NULL, 1, '[\"Certificate\"]', '[\"CERTIFICATIONS SAMPLE.pdf\",\"DIPLOMA SAMPLE.docx\"]', 'null', '[\"2\",\"1\",\"3\"]', 'null', '[\"1\",\"2\",\"3\",\"4\"]', '[\"96\"]', '[\"233\"]', '[\"250\",\"285\"]', 'null', 'null', 'null', '2025-03-04 08:57:47', '2025-05-02 06:29:21', '[\"97\"]', 'null', 'null', 'null', '[\"400\"]', 'null', 'null', 'null', 'null', NULL, 'Full-time (Temporary)', 'select', 0, '{\"1\":[\"12\"],\"2\":[\"16\"],\"3\":[\"13\"]}', '[\"234\"]', '1', '[\"12\"]', 'null', 'null', 'null', 1),
 (110, 173, '{\"201\":[\"253\"]}', 'wee ere', '', '{\"2\":[\"18\"]}', '2025-03-17', '2025-04-05', 'Permanent', NULL, 'fd', 'dre', '[\"9\"]', NULL, 1, '[\"Award\"]', '[]', 'null', '[\"1\"]', 'null', '[\"3\"]', 'null', 'null', '[\"250\"]', 'null', '[\"20\"]', 'null', '2025-03-26 06:20:28', '2025-03-26 06:32:49', 'null', 'null', 'null', 'null', '[\"402\"]', 'null', 'null', 'null', 'null', NULL, 'select', 'Agency Nurse / Midwife (Permanent)', 0, '[]', 'null', '3', 'null', '[\"24\",\"25\"]', 'null', 'null', 1),
 (111, 173, '{\"213\":[\"314\"]}', 'fd', '', '{\"1\":[\"11\"]}', '2025-03-28', '2025-03-29', 'Permanent', NULL, 'dsdss', 'swswe w', '[\"10\"]', NULL, 1, '[\"Certificate\"]', '[]', 'null', '[\"1\"]', 'null', '[\"2\"]', 'null', '[\"205\"]', 'null', 'null', '[\"22\"]', 'null', '2025-03-26 06:32:17', '2025-03-26 06:32:49', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, 'select', 'Full-time (Permanent)', 0, '[]', 'null', '14', 'null', 'null', '[\"30\"]', 'null', 1),
-(112, 194, '{\"197\":{\"220\":[\"344\"]}}', 'qwert', '', '{\"3\":[\"28\"]}', '2025-04-02', '2025-04-10', 'Permanent', NULL, 'aaa', 'aaa', '[\"8\"]', NULL, 1, '[\"Award\"]', '[\"CERTIFICATIONS SAMPLE.pdf\",\"DIPLOMA SAMPLE.pdf\",\"TRANSCRIPT SAMPLE.pdf\"]', 'null', '[\"3\"]', 'null', '[\"1\"]', '[\"7\"]', 'null', 'null', 'null', 'null', 'null', '2025-04-07 11:24:13', '2025-05-02 04:10:14', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, 'select', 'Private Healthcare Agency Nurse (Permanent)', 0, '{\"1\":[\"12\"],\"2\":[\"16\"],\"3\":[\"13\"]}', 'null', '10', '[\"16\"]', 'null', 'null', 'null', 1),
-(113, 194, '{\"199\":{\"237\":[\"422\"]}}', 'qaz', '', '{\"2\":[\"23\"]}', '2025-03-31', '2025-04-09', 'Permanent', NULL, 'qwert', 'qwert66', '[\"8\"]', NULL, 1, '[\"Award\"]', '', 'null', '[\"3\"]', 'null', '[\"1\"]', '[\"96\"]', 'null', 'null', 'null', 'null', '[\"179\"]', '2025-04-07 11:38:42', '2025-05-02 04:10:14', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, 'select', 'Full-time (Permanent)', 1, '{\"1\":[\"12\"],\"2\":[\"16\"],\"3\":[\"13\"]}', 'null', '15', '[\"13\"]', 'null', 'null', 'null', 1),
+(112, 194, '{\"197\":{\"220\":[\"344\"]}}', 'qwert', '', '{\"3\":[\"28\"]}', '2025-04-02', '2025-04-10', 'Permanent', NULL, 'aaa', 'aaa', '[\"8\"]', NULL, 1, '[\"Award\"]', '[\"CERTIFICATIONS SAMPLE.pdf\",\"DIPLOMA SAMPLE.pdf\",\"TRANSCRIPT SAMPLE.pdf\"]', 'null', '[\"3\"]', 'null', '[\"1\"]', '[\"7\"]', 'null', 'null', 'null', 'null', 'null', '2025-04-07 11:24:13', '2025-05-02 06:29:21', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, 'select', 'Private Healthcare Agency Nurse (Permanent)', 0, '{\"1\":[\"12\"],\"2\":[\"16\"],\"3\":[\"13\"]}', 'null', '10', '[\"16\"]', 'null', 'null', 'null', 1),
+(113, 194, '{\"199\":{\"237\":[\"422\"]}}', 'qaz', '', '{\"2\":[\"23\"]}', '2025-03-31', '2025-04-09', 'Permanent', NULL, 'qwert', 'qwert66', '[\"8\"]', NULL, 1, '[\"Award\"]', 'null', 'null', '[\"3\"]', 'null', '[\"1\"]', '[\"96\"]', 'null', 'null', 'null', 'null', '[\"179\"]', '2025-04-07 11:38:42', '2025-05-02 06:29:21', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, 'select', 'Full-time (Permanent)', 1, '{\"1\":[\"12\"],\"2\":[\"16\"],\"3\":[\"13\"]}', 'null', '15', '[\"13\"]', 'null', 'null', 'null', 1),
 (114, 203, '{\"201\":[\"249\"]}', 'qwsdeee', '', '{\"2\":[\"25\"]}', '2025-04-28', '2025-05-07', 'Permanent', NULL, 'wwe', 'sdwew', '[\"10\"]', NULL, 1, '[\"Certificate\"]', '[\"employeement_type_preferences.blade.php\"]', 'null', '[\"1\"]', 'null', '[\"2\"]', 'null', '[\"205\"]', 'null', 'null', '[\"21\"]', 'null', '2025-04-16 10:20:59', '2025-04-16 10:20:59', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, 'select', '2', 0, '[]', 'null', '4', 'null', 'null', '[\"30\"]', 'null', 1),
 (115, 202, '{\"199\":{\"240\":[\"441\"]}}', 'hyjjtjjtfj', '', '{\"3\":[\"28\"]}', '2025-04-01', '2025-04-01', 'Permanent', NULL, 'vrbrnrbjkrbrjvbrknbrbrvijrbvjnhr', 'gvtgrtbtbtgbvgfvdgfbtbbvtg', '[\"9\"]', NULL, 1, '[\"Award\"]', '[\"download.jpeg\",\"download.png\"]', '[\"252\"]', '[\"2\"]', 'null', '[\"1\"]', '[\"6\"]', 'null', 'null', 'null', 'null', 'null', '2025-04-21 11:56:28', '2025-04-21 11:56:28', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, 'select', 'Full-time (Permanent)', 1, '[]', 'null', '1', 'null', '[\"23\"]', 'null', 'null', 1),
 (116, 206, '{\"199\":{\"240\":[\"443\"]},\"215\":[\"320\"]}', 'hyjjtjjtfj', '', '{\"3\":[\"28\",\"31\"]}', '2025-04-30', '2025-04-30', 'Permanent', NULL, 'bbfgnghnxbhgmnhfndn', 'hnhgngmnhjmhfmmfmnfmf', '[\"8\"]', NULL, 1, '[\"Statutory Declaration\"]', '[\"download.jpeg\",\"download.png\",\"hg9xBr1721293815.png\",\"images (1).jpeg\"]', 'null', '[\"1\"]', 'null', '[\"1\"]', '[\"7\"]', 'null', 'null', 'null', '[\"19\"]', 'null', '2025-04-22 09:50:00', '2025-04-22 09:50:00', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, 'select', 'Full-time (Permanent)', 1, '{\"1\":[\"13\"]}', 'null', '1', '[\"13\"]', 'null', 'null', 'null', 1),
 (117, 179, '{\"199\":{\"240\":[\"439\"]}}', 'hyjjtjjtfj', '', '{\"3\":[\"31\"]}', '1996-12-04', '0000-00-00', 'Permanent', NULL, 'htfcjhfjuhhtfdkuhvyjgdchtfdxujy', 'hfchfklhnlijghtvxfth', '[\"8\"]', NULL, 1, '[\"Statement of Service\"]', '[\"HomeController_dec_5.php\"]', '[\"252\"]', '[\"2\"]', 'null', '[\"1\",\"2\",\"3\",\"4\"]', '[\"6\",\"7\",\"8\",\"9\",\"10\",\"11\",\"12\",\"13\",\"14\",\"15\",\"16\",\"17\",\"18\",\"19\",\"20\",\"21\",\"22\",\"23\",\"24\",\"25\",\"26\",\"27\",\"28\",\"29\",\"30\",\"31\",\"32\",\"33\",\"34\",\"35\",\"36\",\"37\",\"38\",\"39\",\"40\",\"41\",\"42\",\"43\",\"44\",\"45\",\"46\",\"47\",\"48\",\"49\",\"50\",\"51\",\"52\",\"53\",\"54\",\"55\",\"56\",\"57\",\"58\",\"59\",\"60\",\"61\",\"62\",\"63\",\"64\",\"65\",\"66\",\"67\",\"68\",\"69\",\"70\",\"71\",\"72\",\"73\",\"74\",\"75\",\"76\",\"77\",\"78\",\"79\",\"80\",\"81\",\"82\",\"83\",\"84\",\"85\",\"86\",\"87\",\"88\",\"89\",\"90\",\"91\",\"92\",\"93\",\"94\",\"95\",\"96\",\"394\",\"395\",\"396\",\"397\",\"398\"]', '[\"201\",\"202\",\"203\",\"204\",\"205\",\"206\",\"207\",\"208\",\"209\",\"210\",\"211\",\"212\",\"213\",\"214\",\"215\",\"216\",\"217\",\"218\",\"219\",\"220\",\"221\",\"222\",\"223\",\"224\",\"225\",\"226\",\"227\",\"228\",\"229\",\"230\",\"231\",\"232\",\"233\",\"399\"]', '[\"239\",\"240\",\"241\",\"242\",\"243\",\"244\",\"245\",\"246\",\"247\",\"248\",\"249\",\"250\",\"255\",\"256\",\"257\",\"258\",\"259\",\"260\",\"261\",\"262\",\"263\",\"264\",\"265\",\"266\",\"267\",\"268\",\"269\",\"270\",\"271\",\"272\",\"273\",\"274\",\"275\",\"276\",\"277\",\"278\",\"279\",\"280\",\"281\",\"282\",\"283\",\"284\",\"285\",\"404\",\"405\",\"406\",\"407\"]', '[\"384\",\"385\",\"386\",\"387\",\"388\",\"389\",\"390\",\"391\",\"392\",\"393\"]', 'null', 'null', '2025-04-23 12:23:34', '2025-04-24 10:26:03', '[\"97\",\"98\",\"99\"]', '[\"101\",\"102\",\"103\",\"104\",\"105\",\"106\",\"107\",\"108\",\"109\",\"110\",\"111\",\"112\",\"113\",\"114\",\"115\",\"116\",\"118\"]', '[\"120\",\"121\",\"122\",\"123\",\"124\",\"125\",\"126\",\"127\",\"128\",\"129\",\"130\",\"131\",\"132\",\"133\",\"134\",\"135\",\"136\",\"137\",\"138\",\"139\",\"140\",\"141\",\"142\",\"143\",\"144\",\"145\",\"146\",\"147\",\"148\",\"149\",\"150\",\"151\",\"152\",\"153\",\"154\",\"155\",\"156\"]', '[\"158\",\"159\",\"160\",\"161\",\"162\",\"163\",\"164\",\"165\",\"166\",\"167\",\"168\",\"169\",\"170\",\"171\",\"172\",\"173\",\"174\",\"175\",\"176\",\"177\",\"178\",\"179\",\"180\",\"181\",\"182\",\"183\",\"184\",\"185\",\"186\",\"187\",\"188\",\"189\",\"190\",\"191\",\"192\",\"193\",\"194\"]', '[\"400\",\"401\",\"402\",\"403\"]', '[\"286\",\"287\",\"288\"]', '[\"290\",\"291\",\"292\",\"293\",\"294\",\"295\",\"296\",\"297\",\"298\",\"299\",\"300\",\"301\",\"302\",\"303\",\"304\"]', '[\"306\",\"307\",\"309\",\"308\",\"310\",\"311\",\"312\",\"313\",\"314\",\"315\",\"316\",\"317\",\"318\",\"319\",\"320\",\"321\",\"322\",\"323\",\"324\",\"325\",\"328\",\"326\",\"329\",\"327\",\"330\",\"331\",\"332\",\"333\",\"334\",\"335\",\"336\",\"337\",\"338\",\"339\",\"340\",\"341\"]', '[\"346\",\"343\",\"344\",\"345\",\"347\",\"348\",\"349\",\"350\",\"352\",\"353\",\"354\",\"355\",\"356\",\"357\",\"358\",\"359\",\"360\",\"361\",\"362\",\"365\",\"363\",\"366\",\"364\",\"367\",\"368\",\"369\",\"370\",\"371\",\"372\",\"373\",\"374\",\"375\",\"377\",\"378\",\"376\",\"351\"]', NULL, 'select', 'Agency Nurse / Midwife (Permanent)', 1, '{\"1\":[\"12\"],\"3\":[\"12\"]}', '[\"234\",\"235\",\"236\",\"237\"]', '3', '[\"12\"]', 'null', 'null', 'null', 1),
-(122, 205, '{\"215\":[\"319\"]}', 'wee ere', '', '{\"2\":[\"25\"]}', '2025-04-27', '0000-00-00', 'Permanent', NULL, 'ssssd', 'sdsd', '[\"9\"]', NULL, 1, '[\"Award\"]', '[\"Controller.php\",\"HomeController.php\",\"HomeController_7_dec.php\",\"WorkPreferencesController.php\"]', 'null', '[\"1\"]', 'null', '[\"3\"]', 'null', 'null', '[\"243\"]', 'null', '[\"19\"]', 'null', '2025-04-23 12:44:25', '2025-04-24 08:52:29', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, 'select', 'Agency Nurse / Midwife (Permanent)', 1, '[]', 'null', '4', 'null', '[\"26\"]', 'null', 'null', 1),
-(123, 205, '{\"197\":{\"218\":[\"332\"]}}', 'fd', '', '{\"1\":[\"12\"]}', '2025-04-28', '2025-05-04', 'Permanent', NULL, 'dfdf', 'rer', '[\"10\"]', NULL, 1, '[\"Award\"]', '[\"HomeController_new_bk.php\",\"ProfessionalController.php\"]', 'null', '[\"1\"]', 'null', '[\"2\"]', 'null', '[\"205\"]', 'null', 'null', '[\"22\"]', 'null', '2025-04-23 12:45:52', '2025-04-24 08:52:29', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, 'select', 'Part-time (Permanent)', 0, '[]', 'null', '13', 'null', 'null', '[\"30\"]', 'null', 1),
-(124, 205, '{\"215\":[\"321\"]}', 'cvc', '', '{\"1\":[\"11\"]}', '2025-05-07', '2025-06-11', 'Permanent', NULL, 'awse', 'sds', '[\"9\"]', NULL, 1, '[\"Award\",\"Transcript\"]', '[\"HomeController_new_bk.php\",\"LanguageSkillsContoller.php\"]', 'null', '[\"3\"]', 'null', '[\"2\"]', 'null', '[\"204\"]', 'null', 'null', 'null', '[\"174\"]', '2025-04-24 05:56:52', '2025-04-24 08:52:29', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, 'select', 'Staffing Agency Nurse (Permanent)', 0, '[]', 'null', '2', 'null', '[\"25\"]', 'null', 'null', 1),
 (128, 179, '{\"197\":{\"227\":[\"370\"]}}', 'vcv', '', '{\"1\":[\"11\"]}', '2025-04-29', '0000-00-00', 'Permanent', NULL, 'dre', 'er e rer', '[\"9\"]', NULL, 1, '[\"Certificate\"]', '[\"HomeController_dec_5.php\",\"HomeController_dec6.php\",\"LanguageSkillsContoller.php\",\"MandatortrainingController.php\",\"ProfessionalController.php\",\"Controller.php\",\"HomeController.php\",\"download.jpeg\",\"download.png\",\"hg9xBr1721293815.png\",\"Houase1.jpeg\",\"Houase2.jpeg\",\"Houase3.jpeg\"]', 'null', '[\"1\"]', 'null', '[\"2\"]', 'null', '[\"205\"]', 'null', 'null', '[\"22\"]', 'null', '2025-04-24 08:40:36', '2025-04-24 10:26:03', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, 'select', 'Part-time (Permanent)', 1, '{\"1\":[\"12\"],\"3\":[\"12\"]}', 'null', '13', 'null', '[\"26\"]', 'null', 'null', 1),
-(129, 205, '{\"201\":[\"256\"]}', 'wew', '', '{\"1\":[\"11\"]}', '2025-04-29', '0000-00-00', 'Permanent', NULL, 'df d', 'd dfd wewew', '[\"10\"]', NULL, 1, '[\"Certificate\"]', '[\"HomeController_23_jan.php\",\"HomeController_bk.php\",\"HomeController_dec_5.php\",\"HomeController_dec6.php\"]', 'null', '[\"3\"]', 'null', '[\"3\"]', 'null', 'null', '[\"243\"]', 'null', 'null', '[\"285\"]', '2025-04-24 08:46:17', '2025-04-24 08:52:29', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, 'select', 'Agency Nurse / Midwife (Permanent)', 1, '[]', 'null', '12', 'null', 'null', '[\"30\"]', 'null', 1),
-(130, 179, '{\"199\":{\"240\":[\"441\"]}}', 'rbthttbthbn', '', '{\"3\":[\"30\"]}', '1996-12-04', '0000-00-00', 'Permanent', NULL, 'gedgtgggg', 'gsgggggg', '[\"8\"]', NULL, 1, '[\"Statement of Service\"]', '[\"download.jpeg\",\"download.png\",\"hg9xBr1721293815.png\",\"Houase1.jpeg\",\"Houase2.jpeg\",\"Houase3.jpeg\"]', '[\"252\"]', '[\"2\"]', 'null', '[\"1\"]', '[\"6\"]', 'null', 'null', 'null', 'null', 'null', '2025-04-24 09:32:39', '2025-04-24 10:26:03', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, 'select', 'Agency Nurse / Midwife (Permanent)', 1, '{\"1\":[\"12\"],\"3\":[\"12\"]}', 'null', '1', '[\"12\"]', 'null', 'null', 'null', 1);
+(130, 179, '{\"199\":{\"240\":[\"441\"]}}', 'rbthttbthbn', '', '{\"3\":[\"30\"]}', '1996-12-04', '0000-00-00', 'Permanent', NULL, 'gedgtgggg', 'gsgggggg', '[\"8\"]', NULL, 1, '[\"Statement of Service\"]', '[\"download.jpeg\",\"download.png\",\"hg9xBr1721293815.png\",\"Houase1.jpeg\",\"Houase2.jpeg\",\"Houase3.jpeg\"]', '[\"252\"]', '[\"2\"]', 'null', '[\"1\"]', '[\"6\"]', 'null', 'null', 'null', 'null', 'null', '2025-04-24 09:32:39', '2025-04-24 10:26:03', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, 'select', 'Agency Nurse / Midwife (Permanent)', 1, '{\"1\":[\"12\"],\"3\":[\"12\"]}', 'null', '1', '[\"12\"]', 'null', 'null', 'null', 1),
+(131, 205, '{\"205\":[\"290\"]}', 'hyjjtjjtfj', '', '{\"2\":[\"25\"]}', '2025-05-26', '2025-06-06', 'Permanent', NULL, 'zsds', 'dde re', '[\"11\"]', NULL, 1, '[\"Transcript\"]', '[\"MembershipServices.php\"]', '[\"5\"]', '[\"2\",\"1\",\"3\"]', '[\"184\"]', '[\"1\",\"2\",\"3\",\"4\"]', '[\"6\",\"7\",\"8\",\"9\",\"10\",\"11\",\"12\",\"13\",\"14\",\"15\",\"16\",\"17\",\"18\",\"19\",\"20\",\"21\",\"22\",\"23\",\"24\",\"25\",\"26\",\"27\",\"28\",\"29\",\"30\",\"31\",\"32\",\"33\",\"34\",\"35\",\"36\",\"37\",\"38\",\"39\",\"40\",\"41\",\"42\",\"43\",\"44\",\"45\",\"46\",\"47\",\"48\",\"49\",\"50\",\"51\",\"52\",\"53\",\"54\",\"55\",\"56\",\"57\",\"58\",\"59\",\"60\",\"61\",\"62\",\"63\",\"64\",\"65\",\"66\",\"67\",\"68\",\"69\",\"70\",\"71\",\"72\",\"73\",\"74\",\"75\",\"76\",\"77\",\"78\",\"79\",\"80\",\"81\",\"82\",\"83\",\"84\",\"85\",\"86\",\"87\",\"88\",\"89\",\"90\",\"91\",\"92\",\"93\",\"94\",\"95\",\"96\",\"394\",\"395\",\"396\",\"397\",\"398\"]', '[\"205\"]', '[\"239\",\"240\",\"241\",\"242\",\"243\",\"244\",\"245\",\"246\",\"247\",\"248\",\"249\",\"250\",\"255\",\"256\",\"257\",\"258\",\"259\",\"260\",\"261\",\"262\",\"263\",\"264\",\"265\",\"266\",\"267\",\"268\",\"269\",\"270\",\"271\",\"272\",\"273\",\"274\",\"275\",\"276\",\"277\",\"278\",\"279\",\"280\",\"281\",\"282\",\"283\",\"284\",\"285\",\"404\",\"405\",\"406\",\"407\"]', '[\"388\"]', '[\"20\"]', '[\"173\",\"174\",\"282\",\"290\",\"285\",\"281\",\"273\",\"232\",\"303\",\"283\",\"176\",\"234\",\"233\",\"280\",\"271\",\"276\",\"275\",\"272\",\"304\",\"305\",\"279\",\"306\",\"284\",\"175\",\"286\",\"307\",\"270\",\"277\",\"178\",\"179\",\"289\",\"288\",\"177\",\"274\",\"291\"]', '2025-05-02 09:16:54', '2025-05-02 11:05:25', '[\"97\",\"98\",\"99\"]', '[\"105\"]', '[\"122\",\"123\",\"124\"]', '[\"160\",\"161\",\"162\"]', '[\"401\",\"402\"]', '[\"286\",\"287\",\"288\"]', '[\"292\",\"293\"]', '[\"308\",\"310\"]', '[\"345\"]', NULL, 'select', 'Agency Nurse / Midwife (Permanent)', 0, '[]', 'null', '2', 'null', 'null', 'null', '[\"33\"]', 1),
+(132, 205, '{\"197\":{\"229\":[\"381\"]}}', 'vcv', '', '{\"2\":[\"25\"]}', '2025-05-28', '2025-05-28', 'Temporary', NULL, 'xcd', 'errer', '[\"9\"]', NULL, 1, '[\"Award\"]', '[\"ManTrainingServices.php\",\"SeoController.php\"]', '[\"254\"]', '[\"2\",\"1\",\"3\"]', '[\"184\"]', '[\"1\",\"2\",\"3\",\"4\"]', '[\"6\",\"7\",\"8\",\"9\",\"10\",\"11\",\"12\",\"13\",\"14\",\"15\",\"16\",\"17\",\"18\",\"19\",\"20\",\"21\",\"22\",\"23\",\"24\",\"25\",\"26\",\"27\",\"28\",\"29\",\"30\",\"31\",\"32\",\"33\",\"34\",\"35\",\"36\",\"37\",\"38\",\"39\",\"40\",\"41\",\"42\",\"43\",\"44\",\"45\",\"46\",\"47\",\"48\",\"49\",\"50\",\"51\",\"52\",\"53\",\"54\",\"55\",\"56\",\"57\",\"58\",\"59\",\"60\",\"61\",\"62\",\"63\",\"64\",\"65\",\"66\",\"67\",\"68\",\"69\",\"70\",\"71\",\"72\",\"73\",\"74\",\"75\",\"76\",\"77\",\"78\",\"79\",\"80\",\"81\",\"82\",\"83\",\"84\",\"85\",\"86\",\"87\",\"88\",\"89\",\"90\",\"91\",\"92\",\"93\",\"94\",\"95\",\"96\",\"394\",\"395\",\"396\",\"397\",\"398\"]', '[\"201\",\"202\",\"203\",\"204\",\"205\",\"206\",\"207\",\"208\",\"209\",\"210\",\"211\",\"212\",\"213\",\"214\",\"215\",\"216\",\"217\",\"218\",\"219\",\"220\",\"221\",\"222\",\"223\",\"224\",\"225\",\"226\",\"227\",\"228\",\"229\",\"230\",\"231\",\"232\",\"233\",\"399\"]', '[\"239\",\"240\",\"241\",\"242\",\"243\",\"244\",\"245\",\"246\",\"247\",\"248\",\"249\",\"250\",\"255\",\"256\",\"257\",\"258\",\"259\",\"260\",\"261\",\"262\",\"263\",\"264\",\"265\",\"266\",\"267\",\"268\",\"269\",\"270\",\"271\",\"272\",\"273\",\"274\",\"275\",\"276\",\"277\",\"278\",\"279\",\"280\",\"281\",\"282\",\"283\",\"284\",\"285\",\"404\",\"405\",\"406\",\"407\"]', '[\"388\"]', '[\"21\"]', '[\"173\",\"174\",\"282\",\"290\",\"285\",\"281\",\"273\",\"232\",\"303\",\"283\",\"176\",\"234\",\"233\",\"280\",\"271\",\"276\",\"275\",\"272\",\"304\",\"305\",\"279\",\"306\",\"284\",\"175\",\"286\",\"307\",\"270\",\"277\",\"178\",\"179\",\"289\",\"288\",\"177\",\"274\",\"291\"]', '2025-05-02 09:16:54', '2025-05-02 11:05:25', '[\"97\",\"98\",\"99\"]', '[\"103\"]', '[\"124\"]', '[\"162\"]', '[\"402\"]', '[\"288\"]', 'null', 'null', '[\"347\"]', NULL, 'Staffing Agency Nurse (Temporary)', 'select', 0, '[]', '[\"236\"]', '12', 'null', '[\"25\"]', 'null', 'null', 1);
 
 -- --------------------------------------------------------
 
@@ -10155,7 +10152,8 @@ INSERT INTO `work_enviornment_preferences` (`prefer_id`, `env_name`, `sub_env_id
 (440, 'Low-Income & Subsidized Aged Care Housing', 199, 240),
 (441, 'Aged Care Advocacy & Support Services', 199, 240),
 (442, 'Community-Based Aged Care Centers', 199, 240),
-(443, 'Companion & Social Support Services', 199, 240);
+(443, 'Companion & Social Support Services', 199, 240),
+(444, 'All/No Preference', 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -10268,8 +10266,8 @@ INSERT INTO `work_preferences` (`work_prefer_id`, `user_id`, `sector_preferences
 (4, 196, 'Private', '{\"1\":{\"199\":{\"236\":[\"418\"]},\"215\":[\"319\"],\"213\":[\"314\"]}}', '{\"3\":[\"34\",\"37\"]}', '{\"1\":[\"12\"],\"2\":[\"18\",\"21\"],\"3\":[\"30\"],\"4\":[\"33\"],\"5\":[\"41\"],\"6\":[\"47\"],\"7\":[\"56\"],\"8\":[\"59\"],\"9\":[\"66\"]}', '', '{\"1\":{\"3\":[\"28\",\"33\"],\"1\":[\"11\"]}}', '', '{\"1\":[\"10\"],\"2\":[\"16\"],\"3\":[\"22\",\"23\"],\"4\":[\"26\"],\"5\":[\"29\"],\"6\":[\"33\"],\"7\":[\"39\"]}', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-03-28 05:11:53', '2025-03-31 06:31:28'),
 (5, 173, NULL, NULL, NULL, NULL, NULL, NULL, '', '', NULL, NULL, NULL, NULL, NULL, '[\"242\"]', '', '2025-03-31 13:07:31', '2025-03-31 13:07:51'),
 (6, 203, 'Public & Government', NULL, NULL, NULL, NULL, NULL, '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-04-15 13:34:02', '2025-04-15 13:34:02'),
-(8, 205, NULL, NULL, NULL, NULL, NULL, NULL, '', '', 'Current Location area (not willing to relocate)', 'Indore City, Indore, Juni Indore Tahsil, Indore, Madhya Pradesh, 452001, India', NULL, '5 km', 1, '', '', '2025-04-29 09:46:50', '2025-04-29 09:46:50'),
-(9, 194, 'Public Government & Private', '{\"1\":{\"199\":{\"238\":[\"431\",\"430\",\"432\",\"426\",\"427\",\"429\",\"428\"]}}}', '{\"3\":[\"33\",\"34\",\"35\",\"36\",\"37\",\"38\",\"39\",\"40\",\"41\",\"42\",\"43\",\"44\",\"45\",\"46\",\"47\",\"48\",\"49\",\"50\",\"51\",\"52\",\"53\",\"54\",\"55\",\"56\",\"57\",\"58\",\"59\",\"60\",\"61\"]}', '{\"1\":[\"10\"],\"2\":[\"19\"],\"3\":[\"26\"],\"4\":[\"31\"],\"5\":[\"37\"],\"6\":[\"46\"],\"7\":[\"55\"],\"8\":[\"61\"],\"9\":[\"64\"]}', '{\"8\":{\"61\":[\"68\"]}}', '{\"1\":{\"3\":[\"30\"]}}', '', '{\"1\":[\"8\"],\"2\":[\"13\"],\"3\":[\"20\"],\"4\":[\"24\"],\"5\":[\"28\"],\"6\":[\"34\"],\"7\":[\"37\"]}', 'Multiple locations area (relocation within your country)', '', '[{\"location\":\"City of Perth, Western Australia, Australia\",\"distance\":\"25 km\"},{\"location\":\"Melbourne, City of Melbourne, Victoria, Australia\",\"distance\":\"25 km\"},{\"location\":\"Sydn, Liman AVM, 17 Eyl\\u00fcl Mahallesi, Band\\u0131rma, Bal\\u0131kesir, Marmara Region, 10200, Turkey\",\"distance\":\"25 km\"}]', '', 0, '', '', '2025-05-02 04:18:00', '2025-05-02 04:46:24');
+(9, 194, 'Public Government & Private', '{\"1\":{\"199\":{\"238\":[\"431\",\"430\",\"432\",\"426\",\"427\",\"429\",\"428\"]}}}', '{\"3\":[\"33\",\"34\",\"35\",\"36\",\"37\",\"38\",\"39\",\"40\",\"41\",\"42\",\"43\",\"44\",\"45\",\"46\",\"47\",\"48\",\"49\",\"50\",\"51\",\"52\",\"53\",\"54\",\"55\",\"56\",\"57\",\"58\",\"59\",\"60\",\"61\"]}', '{\"1\":[\"10\"],\"2\":[\"19\"],\"3\":[\"26\"],\"4\":[\"31\"],\"5\":[\"37\"]}', '', '{\"1\":{\"3\":[\"30\"]}}', '', '{\"1\":[\"8\"],\"2\":[\"13\"],\"3\":[\"20\"]}', 'Multiple locations area (relocation within your country)', '', '[{\"location\":\"City of Perth, Western Australia, Australia\",\"distance\":\"25 km\"},{\"location\":\"Melbourne, City of Melbourne, Victoria, Australia\",\"distance\":\"25 km\"},{\"location\":\"Sydn, Liman AVM, 17 Eyl\\u00fcl Mahallesi, Band\\u0131rma, Bal\\u0131kesir, Marmara Region, 10200, Turkey\",\"distance\":\"25 km\"}]', '', 0, '', '', '2025-05-02 04:18:00', '2025-05-05 13:11:47'),
+(10, 205, NULL, '{\"1\":[\"444\"]}', NULL, '{\"1\":[\"12\"],\"2\":[\"19\"],\"3\":[\"27\"],\"4\":[\"33\"],\"5\":[\"41\"]}', '', '{\"1\":[\"35\"]}', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-05-05 06:03:52', '2025-05-05 08:53:38');
 
 -- --------------------------------------------------------
 
@@ -10862,7 +10860,7 @@ ALTER TABLE `employeement_type_preferences`
 -- AUTO_INCREMENT for table `employee_positions`
 --
 ALTER TABLE `employee_positions`
-  MODIFY `position_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `position_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `evidance_file`
@@ -10904,7 +10902,7 @@ ALTER TABLE `languages`
 -- AUTO_INCREMENT for table `language_skills`
 --
 ALTER TABLE `language_skills`
-  MODIFY `language_skills_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `language_skills_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `level_year`
@@ -11036,7 +11034,7 @@ ALTER TABLE `referee`
 -- AUTO_INCREMENT for table `salary_expectation`
 --
 ALTER TABLE `salary_expectation`
-  MODIFY `salary_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `salary_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `seo`
@@ -11060,7 +11058,7 @@ ALTER TABLE `speacilaized_clearance`
 -- AUTO_INCREMENT for table `speciality`
 --
 ALTER TABLE `speciality`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=411;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=417;
 
 --
 -- AUTO_INCREMENT for table `states`
@@ -11078,7 +11076,7 @@ ALTER TABLE `sub_job_specialities`
 -- AUTO_INCREMENT for table `updated_tab_name`
 --
 ALTER TABLE `updated_tab_name`
-  MODIFY `tab_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
+  MODIFY `tab_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -11096,7 +11094,7 @@ ALTER TABLE `user_education_cerification`
 -- AUTO_INCREMENT for table `user_experience`
 --
 ALTER TABLE `user_experience`
-  MODIFY `experience_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=131;
+  MODIFY `experience_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=133;
 
 --
 -- AUTO_INCREMENT for table `vaccination`
@@ -11144,7 +11142,7 @@ ALTER TABLE `working_children_check`
 -- AUTO_INCREMENT for table `work_enviornment_preferences`
 --
 ALTER TABLE `work_enviornment_preferences`
-  MODIFY `prefer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=444;
+  MODIFY `prefer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=445;
 
 --
 -- AUTO_INCREMENT for table `work_evidance`
@@ -11156,7 +11154,7 @@ ALTER TABLE `work_evidance`
 -- AUTO_INCREMENT for table `work_preferences`
 --
 ALTER TABLE `work_preferences`
-  MODIFY `work_prefer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `work_prefer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `work_shift_preferences`
