@@ -232,5 +232,14 @@ Route::prefix('/admin')->name('admin.')->namespace('App\Http\Controllers\admin')
     Route::post('/updateAwards', 'ProfessionalMembership@updateAwards')->name('updateAwards');
     Route::post('/deleteAwards', 'ProfessionalMembership@deleteAwards')->name('deleteAwards');
     Route::get('/subAwardsList/{id}', 'ProfessionalMembership@subAwardsList')->name('subAwardsList');
+
+    /************[Language Skills]*************/
+    Route::get('/language_list','LanguageSkillsController@language_list')->name('language_list');
+    Route::post('/addLanguages', 'LanguageSkillsController@addLanguages')->name('addLanguages');
+    Route::post('/getLanguages', 'LanguageSkillsController@getLanguages')->name('getLanguages');
+    Route::post('/updateLanguages', 'LanguageSkillsController@updateLanguages')->name('updateLanguages');
+    Route::post('/deleteLanguages', 'LanguageSkillsController@deleteLanguages')->name('deleteLanguages');
+    Route::get('/sub_language_list/{id}','LanguageSkillsController@sub_language_list')->name('sub_language_list');
+    Route::get('/certification_list','LanguageSkillsController@certification_list')->name('certification_list');
   });
 });

@@ -301,7 +301,33 @@
           </li>
         </ul>
       </li>
-
+      <li class="sidebar-item">
+        <a class="sidebar-link" href="#" aria-expanded="false">
+          <span>
+            <i class="ti ti-seo-edit"></i>
+          </span>
+          <span class="hide-menu">Language Skills Management</span>
+        </a>
+        <ul aria-expanded="false" class="collapse first-level">
+          <li class="sidebar-item">
+            <a href="{{route('admin.language_list')}}" class="sidebar-link">
+              <div class="round-16 d-flex align-items-center justify-content-center">
+                <i class="ti ti-circle"></i>
+              </div>
+              <span class="hide-menu">Language List</span>
+            </a>
+          </li>
+          <li class="sidebar-item">
+            <a href="{{route('admin.certification_list')}}" class="sidebar-link">
+              <div class="round-16 d-flex align-items-center justify-content-center">
+                <i class="ti ti-circle"></i>
+              </div>
+              <span class="hide-menu">Language Proficiency<br> Certifications</span>
+            </a>
+          </li>
+          
+        </ul>
+      </li>
        <li class="sidebar-item">
          <a class="sidebar-link" href="{{route('admin.contact-list')}}" aria-expanded="false">
            <span>
