@@ -272,7 +272,7 @@
           <span>
             <i class="ti ti-seo-edit"></i>
           </span>
-          <span class="hide-menu">Professional Membership Management</span>
+          <span class="hide-menu">Professional Membership<br> Management</span>
         </a>
         <ul aria-expanded="false" class="collapse first-level">
           <li class="sidebar-item">
@@ -291,9 +291,17 @@
               <span class="hide-menu">Membership Type</span>
             </a>
           </li>
-
+          <li class="sidebar-item">
+            <a href="{{route('admin.awards_list')}}" class="sidebar-link">
+              <div class="round-16 d-flex align-items-center justify-content-center">
+                <i class="ti ti-circle"></i>
+              </div>
+              <span class="hide-menu">Awards & Recognitions</span>
+            </a>
+          </li>
         </ul>
       </li>
+
        <li class="sidebar-item">
          <a class="sidebar-link" href="{{route('admin.contact-list')}}" aria-expanded="false">
            <span>

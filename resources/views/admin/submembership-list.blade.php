@@ -82,24 +82,19 @@
                 <form id="AddCountry"  onsubmit="return addCountry()">
                     @csrf
                     <div class="modal-header d-flex align-items-center">
-                        <h4 class="modal-title" id="myModalLabel">Add Country </h4>
+                        <h4 class="modal-title" id="myModalLabel">Add Membership Type </h4>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="category">Organization Country </label>
-                            <input type="hidden" name="country_organiztions" value="0">
-                            <input type="hidden" name="sub_organiztions" value="">
-                            <input type="text" class="form-control" placeholder="Write country name" name="country"
-                                id="country">
-                            <span id="CountryErr" class="text-danger"></span>
+                            <label for="category">Membership Type </label>
+                            
+                            <input type="hidden" name="sub_membershiptype" value="{{ $membership_id }}">
+                            <input type="text" class="form-control" placeholder="Write membership type" name="membership_type"
+                                id="membership_type">
+                            <span id="membership_typeErr" class="text-danger"></span>
                         </div>
-                        <div class="form-group mt-3">
-                            <label for="category">Organization Name </label>
-                            <input type="text" class="form-control" placeholder="Write organization name" name="organization_name"
-                                id="organization_name">
-                            <span id="OrgNameErr" class="text-danger"></span>
-                        </div>
+                        
                     </div>
                     <div class="modal-footer pt-0">
                         <button type="submit" class="btn btn-primary font-medium waves-effect" id="signup_btn_btn"
@@ -115,29 +110,24 @@
         <!-- /.modal-dialog -->
     </div>
     
-    <div class="modal fade" id="edit_country" tabindex="-1" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal fade" id="edit_membership_type" tabindex="-1" aria-labelledby="mySmallModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <form id="EditCountry"  onsubmit="return editCountry()">
+                <form id="EditMembership"  onsubmit="return editCountry()">
                     @csrf
                     <div class="modal-header d-flex align-items-center">
-                        <h4 class="modal-title" id="myModalLabel">Edit Country </h4>
+                        <h4 class="modal-title" id="myModalLabel">Edit Membership Type </h4>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="category">Country </label>
+                            <label for="category">Membership Type </label>
                             <input type="hidden" name="id" value="" id="edit_id" />
-                            <input type="text" class="form-control" placeholder="Write Country name" name="country"
-                                id="country_name_edit">
-                            <span id="editCountryErr" class="text-danger"></span>
+                            <input type="text" class="form-control" placeholder="Write Membership Type" name="membership_type"
+                                id="membership_type_edit">
+                            <span id="editmembership_typeErr" class="text-danger"></span>
                         </div>
-                        <div class="form-group mt-3">
-                            <label for="category">Organization Name </label>
-                            <input type="text" class="form-control" placeholder="Write organization name" name="organization_name"
-                                id="edit_organization_name">
-                            <span id="editOrgNameErr" class="text-danger"></span>
-                        </div>
+                        
                     </div>
                     <div class="modal-footer pt-0">
                         <button type="submit" class="btn btn-primary font-medium waves-effect" id="edit_signup_btn_btn"
@@ -159,7 +149,7 @@
         function addCountry() {
             
             $.ajax({
-                url: "{{ route('admin.addCountry') }}",
+                url: "{{ route('admin.addMembershipType') }}",
                 type: "POST",
                 cache: false,
                 contentType: false,
@@ -180,7 +170,7 @@
                             title: 'Success',
                             text: res.message,
                         }).then(function() {
-                            window.location.href = '{{ route("admin.organization_country_list") }}';
+                            window.location.href = '{{ route("admin.submembershipType", ["id" => $membership_id]) }}';
                         });
                     } else {
                         Swal.fire({
@@ -196,11 +186,11 @@
                     if (error.responseJSON.errors) {
                         console.log("errors",error.responseJSON.errors);
                         if (error.responseJSON.errors) {
-                            $('#CountryErr').text(error.responseJSON.errors.country[0]);
-                            $('#OrgNameErr').text(error.responseJSON.errors.organization_name[0]);
+                            $('#membership_typeErr').text(error.responseJSON.errors.membership_type[0]);
+                            
                         } else {
-                            $('#CountryErr').text('');
-                            $('#OrgNameErr').text('');
+                            $('#membership_typeErr').text('');
+                            
                         }
                         
                     }
@@ -212,12 +202,12 @@
         function editCountry() {
             
             $.ajax({
-                url: "{{ route('admin.updateCountry') }}",
+                url: "{{ route('admin.updateMembership') }}",
                 type: "POST",
                 cache: false,
                 contentType: false,
                 processData: false,
-                data: new FormData($('#EditCountry')[0]),
+                data: new FormData($('#EditMembership')[0]),
                 dataType: 'json',
                 beforeSend: function() {
                     $('#edit_signup_btn_btn').prop('disabled', true);
@@ -233,7 +223,7 @@
                             title: 'Success',
                             text: res.message,
                         }).then(function() {
-                            window.location.href = '{{ route("admin.organization_country_list") }}';
+                            window.location.href = '{{ route("admin.submembershipType", ["id" => $membership_id]) }}';
                         });
                     } else {
                         Swal.fire({
@@ -250,11 +240,11 @@
                     if (error.responseJSON.errors) {
                         console.log("errors",error.responseJSON.errors);
                         if (error.responseJSON.errors) {
-                            $('#editCountryErr').text(error.responseJSON.errors.country[0]);
-                            $('#editOrgNameErr').text(error.responseJSON.errors.organization_name[0]);
+                            $('#editmembership_typeErr').text(error.responseJSON.errors.membership_type[0]);
+                            
                         } else {
-                            $('#editCountryErr').text('');
-                            $('#editOrgNameErr').text('');
+                            $('#editmembership_typeErr').text('');
+                            
                         }
                         
                     }
@@ -267,7 +257,7 @@
         function deleteCountry(id) {
             Swal.fire({
                 title: 'Are you sure?',
-                text: 'Do you want to delete Country ?',
+                text: 'Do you want to delete Membership ?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Yes',
@@ -276,7 +266,7 @@
                 if (result.isConfirmed) {
                     $.ajax({
                         type: 'POST',
-                        url: "{{ route('admin.deleteCountry') }}",
+                        url: "{{ route('admin.deleteMembership') }}",
                         data: {
                             id: id,
                             _token: '{{ csrf_token() }}'
@@ -316,7 +306,7 @@
         function getCountry(id) {
             
             $.ajax({
-                url: "{{ route('admin.getCountry') }}",
+                url: "{{ route('admin.getMembership') }}",
                 type: "POST",
                 data: {
                      id: id,
@@ -325,10 +315,9 @@
                 dataType: 'json',
                 success: function(res) {
                     console.log("res",res.organization_country);
-                    $('#country_name_edit').val(res.organization_country);
-                    $('#edit_organization_name').val(res.organization_name);
-                    $('#edit_id').val(res.organization_id);
-                    $('#edit_country').modal('show');
+                    $('#membership_type_edit').val(res.membership_name);
+                    $('#edit_id').val(res.membership_id);
+                    $('#edit_membership_type').modal('show');
                 },
                 error: function(error) {
                     console.log("errorr-", error);

@@ -3346,7 +3346,7 @@
     }
 
     // Function to delete the work experience section
-    function deletevdiImg(i, user_id, img, imgid) {
+    function deletevdiImg(m, i, user_id, img, imgid) {
         $.ajax({
             type: "post",
             url: "{{route('nurse.deleteEvidence')}}",
@@ -3359,7 +3359,7 @@
             cache: false,
             success: function(data) {
                 if (data == 1) {
-                    $(".trans_img-" + i).remove();
+                    $(".fileList_"+m+" .trans_img-" + i).remove();
                 }
             }
         });

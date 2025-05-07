@@ -1069,7 +1069,7 @@ class WorkPreferencesController extends Controller{
         }
 
         $user_languages_data = DB::table("language_skills")->where("user_id",$user_id)->first();
-
+        //print_r($user_languages_data);
         $lang_arr = array();
         if(!empty($user_languages_data) && $user_languages_data->langprof_level != NULL){
             $langprof_level = json_decode($user_languages_data->langprof_level);
@@ -1079,7 +1079,10 @@ class WorkPreferencesController extends Controller{
                     
                     $language_data = DB::table("languages")->where("language_id",$index)->first();
                     
-                    $lang_arr[] = $language_data->language_name;
+                    if(!empty($language_data) && $language_data->language_name != NULL){
+                        $lang_arr[] = $language_data->language_name;
+                    }
+                    
                 
                 }
                     
@@ -1180,19 +1183,32 @@ class WorkPreferencesController extends Controller{
 
         
         $work_preferences = DB::table("work_preferences")->where("user_id",$user_id)->first();
-        $sector_preference = $work_preferences->sector_preferences;
-        $environment_preferences = json_decode($work_preferences->work_environment_preferences);
-        $employment_type = json_decode($work_preferences->emptype_preferences);
-        $shift_prefs = (array)json_decode($work_preferences->work_shift_preferences);
-        $position_prefs = json_decode($work_preferences->position_preferences);
-        $benefit_preferences = json_decode($work_preferences->benefits_preferences);
+        if ($work_preferences) {
+            $sector_preference = $work_preferences->sector_preferences;
+            $environment_preferences = json_decode($work_preferences->work_environment_preferences);
+            $employment_type = json_decode($work_preferences->emptype_preferences);
+            $shift_prefs = (array)json_decode($work_preferences->work_shift_preferences);
+            $position_prefs = json_decode($work_preferences->position_preferences);
+            $benefit_preferences = json_decode($work_preferences->benefits_preferences);
+        } else {
+            // Handle the case where there are no preferences for the given user_id
+            // For example, you can set defaults or display an error message
+            $sector_preference = null;
+            $environment_preferences = null;
+            $employment_type = null;
+            $shift_prefs = null;
+            $position_prefs = null;
+            $benefit_preferences = null;
+        
+            // Optionally, log or notify about the missing preferences record
+        }
 
         $env_arr = array();
         if(!empty($environment_preferences)){
             foreach($environment_preferences as $env_prefer){
                 foreach($env_prefer as $e_prefer){
                     
-                    foreach($e_prefer as $e_pre){
+                    foreach((array)$e_prefer as $e_pre){
                         
                         
                         if (is_array($e_pre)) {
@@ -1234,7 +1250,7 @@ class WorkPreferencesController extends Controller{
             
             foreach($position_prefs as $pos_prefs){
                 foreach($pos_prefs as $pos_pref){
-                    foreach($pos_pref as $ppref){
+                    foreach((array)$pos_pref as $ppref){
 
                         if (is_numeric($ppref)) {
                         
@@ -1626,7 +1642,7 @@ class WorkPreferencesController extends Controller{
             $total = count($jobRequirements['specialty_experience']);
             foreach ($jobRequirements['specialty_experience'] as $specialty => $minYears) {
                 if (isset($nurseProfile['specialty_experience'][$specialty])) {
-                    $nurseYears = $nurseProfile['specialty_experience'][$specialty];
+                    echo $nurseYears = isset($nurseProfile['specialty_experience'][$specialty])? (float)$nurseProfile['specialty_experience'][$specialty] : 0;
                     $matchRatio = min($nurseYears / $minYears, 1); // cap at 1
                     $matched += $matchRatio;
                 }

@@ -3676,7 +3676,7 @@
                               @foreach($evi_img as $tranimg)
                               <div class="trans_img trans_img-{{ $m }}">
                                 <a href="{{ url('/public/uploads/evidence') }}/{{ $tranimg }}" target="_blank"><i class="fa fa-file"></i>{{ $tranimg }}</a>
-                                <div class="close_btn close_btn-{{ $i }}" onclick="deletevdiImg('{{ $m }}','{{ $user_id }}','{{ $tranimg }}','{{ $getid }}')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
+                                <div class="close_btn close_btn-{{ $i }}" onclick="deletevdiImg('{{ $i }}','{{ $m }}','{{ $user_id }}','{{ $tranimg }}','{{ $getid }}')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
                               </div>
                               <?php
                               $m++;

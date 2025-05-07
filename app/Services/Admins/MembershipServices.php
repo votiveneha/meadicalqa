@@ -87,6 +87,91 @@ class MembershipServices
         }
     }
 
+    public function updateMembership($data)
+    {
+        try {
+
+            $allData['membership_name'] = $data['membership_type'];
+            $id = $data['id'];
+            $run= $this->membershipRepository->updateMembership(['membership_id' => $id], $allData);
+            if ($run) {
+                return response()->json(['status' => '2', 'message' => __('message.statusTwo', ['parameter' => 'Membership Type'])]);
+            } else {
+                return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+            }
+        } catch (\Exception $e) {
+            Log::error('Error in DegreeServices/updateDegree(): ' . $e->getMessage());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+
+    public function deleteMembership($request)
+    {
+        try {
+            $run = $this->membershipRepository->deleteMembership(['membership_id'=>$request->id]);
+            if ($run) {
+                return response()->json(['status' => '2', 'message' => __('message.statusThree', ['parameter' => 'Membership Type'])]);
+            } else {
+                return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+            }
+        } catch (\Exception $e) {
+            Log::error('Error in DegreeServices/deleteDegree(): ' . $e->getMessage());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+
+    public function addAwards($data)
+    {
+        try {
+            $allData['award_name'] = $data['award_name'];
+            $allData['sub_award_id'] = $data['awards_id'];
+            
+            $run = $this->membershipRepository->createAwards($allData);
+            
+            if ($run) {
+                return response()->json(['status' => '2', 'message' => __('message.statusOne', ['parameter' => 'Awards'])]);
+            } else {
+                return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+            }
+        } catch (\Exception $e) {
+            Log::error('Error in MembershipServices/addCountry(): ' . $e->getMessage());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+
+    public function updateAwards($data)
+    {
+        try {
+
+            $allData['award_name'] = $data['award_name'];
+            $id = $data['id'];
+            $run= $this->membershipRepository->updateAwards(['award_id' => $id], $allData);
+            if ($run) {
+                return response()->json(['status' => '2', 'message' => __('message.statusTwo', ['parameter' => 'Awards'])]);
+            } else {
+                return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+            }
+        } catch (\Exception $e) {
+            Log::error('Error in DegreeServices/updateDegree(): ' . $e->getMessage());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+
+    public function deleteAwards($request)
+    {
+        try {
+            $run = $this->membershipRepository->deleteAwards(['award_id'=>$request->id]);
+            if ($run) {
+                return response()->json(['status' => '2', 'message' => __('message.statusThree', ['parameter' => 'Awards'])]);
+            } else {
+                return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+            }
+        } catch (\Exception $e) {
+            Log::error('Error in DegreeServices/deleteDegree(): ' . $e->getMessage());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+
  
 
         

@@ -20,7 +20,27 @@
     transform: translateY(-1px);
   }
   
-  
+  @media only screen and (min-width:1050px) and (max-width:1350px)  {
+   
+   .support-button {
+   background-color: #000000;
+   color: white;
+   border: none;
+   padding: 10px 8px;
+   border-radius: 20px;
+   font-size: 13px !important;
+   font-weight: 500;
+   cursor: pointer;
+   transition: background-color 0.3s ease, transform 0.2s ease;
+   margin-left: 10px;
+}
+
+.logout-line .font-md {
+   font-size: 13px !important;
+   line-height: 24px !important;
+}
+
+ }
 </style>
 <div class="sidebar_profile">
   <div class="box-company-profile mb-20">

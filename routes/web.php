@@ -223,5 +223,14 @@ Route::prefix('/admin')->name('admin.')->namespace('App\Http\Controllers\admin')
     Route::get('/membershipType', 'ProfessionalMembership@membershipType')->name('membershipType'); 
     Route::get('/submembershipType/{id}', 'ProfessionalMembership@subMemberList')->name('submembershipType'); 
     Route::post('/addMembershipType', 'ProfessionalMembership@addMembershipType')->name('addMembershipType');
+    Route::post('/getMembership', 'ProfessionalMembership@getMembership')->name('getMembership'); 
+    Route::post('/updateMembership', 'ProfessionalMembership@updateMembership')->name('updateMembership');
+    Route::post('/deleteMembership', 'ProfessionalMembership@deleteMembership')->name('deleteMembership');
+    Route::get('/awards_list','ProfessionalMembership@awards_list')->name('awards_list');
+    Route::post('/addAwards', 'ProfessionalMembership@addAwards')->name('addAwards');
+    Route::post('/getAwards', 'ProfessionalMembership@getAwards')->name('getAwards');
+    Route::post('/updateAwards', 'ProfessionalMembership@updateAwards')->name('updateAwards');
+    Route::post('/deleteAwards', 'ProfessionalMembership@deleteAwards')->name('deleteAwards');
+    Route::get('/subAwardsList/{id}', 'ProfessionalMembership@subAwardsList')->name('subAwardsList');
   });
 });
