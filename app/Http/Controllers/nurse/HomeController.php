@@ -1924,7 +1924,7 @@ class HomeController extends Controller
         $level_of_exp = $request->input('exper_assistent_level', []);
         $permanent_status = $request->input('permanent_status');
         $temporary_status = $request->input('temporary_status');
-        $evdience = $request->file('upload_evidence');
+        $evdience = $request->input('upload_evidence');
         $sub_skills_compantancies1 = $request->input('sub_skills_compantancies-8', []);
         $sub_skills_compantancies2 = $request->input('sub_skills_compantancies-9', []);
         $sub_skills_compantancies3 = $request->input('sub_skills_compantancies-10', []);
@@ -1992,12 +1992,12 @@ class HomeController extends Controller
                 // die;
                 $oldfile2 = json_decode($oldfile1, true);
 
-                if(!empty($evi1)){
+                // if(!empty($evi1)){
                     
-                    $expimgs = Helpers::multipleFileUpload($evi1, $oldfile2);
-                }else{
-                    $expimgs = Helpers::multipleFileUpload('', $oldfile2);
-                }
+                //     $expimgs = Helpers::multipleFileUpload($evi1, $oldfile2);
+                // }else{
+                //     $expimgs = Helpers::multipleFileUpload('', $oldfile2);
+                // }
 
                 // print_r($dtran);
                 // die;
@@ -2035,7 +2035,7 @@ class HomeController extends Controller
                     'evidence_type' => json_encode($type_of_evidence1),
                     'permanent_status' => $permanent_status1,
                     'temporary_status' => $temporary_status1,
-                    'upload_evidence' => $expimgs,
+                    'upload_evidence' => $evi1,
                     'sub_skills_compantancies' => json_encode($sub_skills_compantancies1),
                     'assistent_level' => $level_of_exp1,
                     'pre_box_status' => $p_box,
@@ -2047,19 +2047,7 @@ class HomeController extends Controller
                 ]);
             } else {
                 $user_stage = update_user_stage($userId,"Experience");
-                if (isset($evi1) && is_iterable($evi1)) {
-                    $dtran = []; // Initialize the array to hold file names
-
-                    foreach ($evi1 as $dtrans) {
-                        // Check if the individual file is valid
-                        if ($dtrans->isValid()) {
-                            $destinationPath = public_path() . '/uploads/evidence';
-                            $dtrans->move($destinationPath, $dtrans->getClientOriginalName());
-                            $degree_transcript = $dtrans->getClientOriginalName();
-                            $dtran[] = $degree_transcript; // Add the file name to the array
-                        }
-                    }
-                }
+                
                 $newExperience = new ExperienceModel();
                 $newExperience->user_id = $userId;
                 $newExperience->facility_workplace_name = $facility_workplace_name1;
@@ -2094,7 +2082,7 @@ class HomeController extends Controller
                 $newExperience->evidence_type =  json_encode($type_of_evidence1);
                 $newExperience->permanent_status = $permanent_status1;
                 $newExperience->temporary_status = $temporary_status1;
-                $newExperience->upload_evidence  = json_encode($dtran);
+                $newExperience->upload_evidence  = $evi1;
                 $newExperience->sub_skills_compantancies = json_encode($sub_skills_compantancies1);
                 $newExperience->assistent_level = $level_of_exp1;
                 $newExperience->pre_box_status = $p_box;
@@ -3728,6 +3716,32 @@ class HomeController extends Controller
         }
         return response()->json(['success' => false, 'message' => 'Vaccine not found']);
     }
+    public function uploadExpImgs(Request $request){
+        $files = $request->file('exp_evidence');
+        $exp_id = $request->exp_id;
+        $user_id = $request->user_id;
+        
+        $getMembdata = DB::table("user_experience")->where("experience_id", $exp_id)->where("user_id", $user_id)->first();
+        
+        if ($getMembdata && $getMembdata->upload_evidence) {
+            $membimg = (array)json_decode($getMembdata->upload_evidence);
+            
+            
+            $membimgs = Helpers::multipleFileUpload($files, $membimg);
+
+            
+        } else {
+            $membimgs = Helpers::multipleFileUpload($files, '');
+            
+        }
+ 
+        //print_r(json_decode($membimgs));die;
+        
+        $run = ExperienceModel::where("experience_id", $exp_id)->where('user_id', $user_id)->update(['upload_evidence' => $membimgs]);
+
+        return $membimgs;
+    }
+
     public function deleteEvidence(Request $request)
     {
         $user_id = $request->user_id;
@@ -3740,51 +3754,36 @@ class HomeController extends Controller
             ->where("experience_id", $imgid)
             ->first();
 
-        if (!$getEXPDATA) {
-            return response()->json(['error' => 'Experience data not found'], 404);
-        }
+        if(!empty($getEXPDATA)){
+            $getEvidenceimg = (array)json_decode($getEXPDATA->upload_evidence);
 
-        // Convert the object to an array
-        $getEXPDATA = (array) $getEXPDATA;
+            $img_index = array_search($img, $getEvidenceimg);
 
-        // Decode the 'upload_evidence' field if it's JSON-encoded
-        $getimgData = json_decode($getEXPDATA['upload_evidence'], true);
+            array_splice($getEvidenceimg, $img_index, 1);
 
-        if (!is_array($getimgData)) {
-            $getimgData = [];
-        }
+            if (!empty($getEvidenceimg)) {
+                $EvidenceimgData = $getEvidenceimg;
+            } else {
+                $EvidenceimgData = '';
+            }
 
-        // Find and remove the specified image
-        $evi_index = array_search($img, $getimgData);
-        if ($evi_index !== false) {
-            unset($getimgData[$evi_index]);
-            $getimgData = array_values($getimgData); // Reindex the array
-        }
+            $deleteData = ExperienceModel::where("experience_id", $imgid)->where('user_id', $user_id)->update(['upload_evidence' => $EvidenceimgData]);
 
-        // Update the database with the remaining evidence or an empty string
-        $evidenceData = empty($getimgData) ? "" : json_encode($getimgData);
+            $destinationPath = public_path() . '/uploads/education_degree/' . $img;
 
-        $deleteData = DB::table("user_experience")
-            ->where("user_id", $user_id)
-            ->where("experience_id", $imgid)
-            ->update(['upload_evidence' => $evidenceData]);
+            if (File::exists($destinationPath)) {
+                File::delete($destinationPath);
+            }
 
-        // Delete the file if it exists
-        $filePath = 'uploads/evidence/' . $img;
-        if (Storage::exists($filePath)) {
-            Storage::delete($filePath);
+            
+
+        }else{
+            $deleteData = 1;
         }
 
         if ($deleteData) {
             return 1;
         }
-
-        // Return success response
-        // if ($deleteData) {
-        //     return response()->json(['success' => true, 'message' => 'Evidence deleted successfully']);
-        // }
-
-        // return response()->json(['error' => 'Failed to delete evidence'], 500);
     }
 
     public function setting_availablity(Request $request){

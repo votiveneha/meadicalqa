@@ -1334,7 +1334,7 @@
                     <label class="form-label" for="input-1">Facility / Workplace Type</label>
                     <?php
                     $user_id = Auth::guard('nurse_middle')->user()->id;
-                    $workplace_data = DB::table('work_enviornment_preferences')->where("sub_env_id",0)->orderBy("env_name","asc")->get();
+                    $workplace_data = DB::table('work_enviornment_preferences')->where("prefer_id","!=","444")->where("sub_env_id",0)->orderBy("env_name","asc")->get();
                     
                     
                     ?>
@@ -1622,7 +1622,7 @@
                           
                     <label class="form-label" for="input-1">Position Held</label>
                     <?php
-                    $employee_postion_data = DB::table('employee_positions')->where("subposition_id",0)->orderBy("position_name","asc")->get();
+                    $employee_postion_data = DB::table('employee_positions')->where("position_id","!=","35")->where("subposition_id",0)->orderBy("position_name","asc")->get();
                     
                     ?>
                     
@@ -1782,8 +1782,8 @@
                 </div>
                 <div class="form-group level-drp">
                     <label class="form-label" for="input-1">Upload evidence</label>
-
-                    <input class="form-control change_evi" type="file" name="upload_evidence[${previous_employeers_head}][]" id="${previous_employeers_head}" multiple>
+                    <input type="hidden" class="old_files-${previous_employeers_head}" name="upload_evidence[${previous_employeers_head}]" value="">
+                    <input class="form-control upload_evidence-${previous_employeers_head}" type="file" name="" onchange="changeExpEvidenceImg({{ Auth::guard('nurse_middle')->user()->id }},${previous_employeers_head},0)" id="${previous_employeers_head}" multiple>
                     <div class="fileList  fileList_${previous_employeers_head}"></div>
                     
                     <!-- <span id="reqachievements" class="reqError text-danger valley"></span> -->
@@ -3331,7 +3331,7 @@
 
     window.deleteevImg = function(sectionId, fileName, id) {
         // Remove the preview element of the selected file
-        $(`.trans_img-${sectionId}`).remove();
+        $(`.fileList_${id} .trans_img-${sectionId}`).remove();
         // Get the file input element and update the count
         const inputElement = $('.change_evi');
         const newFileCount = inputElement[0].files.length - 1; // Decrease the count
@@ -3343,6 +3343,46 @@
         const dataTransfer = new DataTransfer();
         files.forEach(file => dataTransfer.items.add(file));
         return dataTransfer.files;
+    }
+
+    function changeExpEvidenceImg(user_id,experience_count,exp_id) {
+        
+        var files = $('.upload_evidence-'+experience_count)[0].files;
+        console.log("files", experience_count);
+        var form_data = "";
+        form_data = new FormData();
+
+        for (var i = 0; i < files.length; i++) {
+        form_data.append("exp_evidence[]", files[i], files[i]['name']);
+        }
+
+        form_data.append("user_id", user_id);
+        form_data.append("exp_id", exp_id);
+        form_data.append("_token", '{{ csrf_token() }}');
+
+        $.ajax({
+            type: "post",
+            url: "{{ route('nurse.uploadExpImgs') }}",
+            cache: false,
+            contentType: false,
+            processData: false,
+            async: true,
+            data: form_data,
+
+            success: function(data) {
+                $(".old_files-"+experience_count).val(data);
+                var image_array = JSON.parse(data);
+                console.log("degree_transcript", image_array.length);
+                var htmlData = '';
+                for (var i = 0; i < image_array.length; i++) {
+                //console.log("degree_transcript", image_array[i]);
+                var img_name = image_array[i];
+                console.log("img_name", 'deletevdiImg(' + (i + 1) + ',' + user_id + ',"' + img_name + '")');
+                htmlData += '<div class="trans_img trans_img-' + (i + 1) + '"><a href="{{ url("/public") }}/uploads/education_degree/' + img_name + '" target="_blank"><i class="fa fa-file" aria-hidden="true"></i>' + image_array[i] + '</a><div class="close_btn close_btn-' + i + '" onclick="deletevdiImg('+experience_count+',' + (i + 1) + ',' + user_id + ',\'' + img_name + '\','+exp_id+')" style="cursor: pointer;"><i class="fa fa-close" aria-hidden="true"></i></div></div>';
+                }
+                $(".fileList_"+experience_count).html(htmlData);
+            }
+        });
     }
 
     // Function to delete the work experience section
@@ -3359,13 +3399,20 @@
             cache: false,
             success: function(data) {
                 if (data == 1) {
+                    var old_files = JSON.parse($(".old_files-"+m).val());
+                    console.log("old_files",old_files);
+                    const itemToRemove = img;
+
+                    const result = old_files.filter(item => item !== itemToRemove);
+
+                    console.log(result); // [1, 2, 4, 5]
+                    $(".old_files-"+m).val(JSON.stringify(result));
                     $(".fileList_"+m+" .trans_img-" + i).remove();
                 }
             }
         });
 
     }
-
 
     $(document).on('click', '.delete-work-experience', function() {
         var id = $(this).attr('data-index');

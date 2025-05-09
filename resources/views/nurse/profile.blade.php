@@ -3395,7 +3395,7 @@
                           
                           <label class="form-label" for="input-1">Position Held</label>
                           <?php
-                            $employee_postion_data = DB::table('employee_positions')->where("subposition_id",0)->orderBy("position_name","asc")->get();
+                            $employee_postion_data = DB::table('employee_positions')->where("position_id","!=","35")->where("subposition_id",0)->orderBy("position_name","asc")->get();
                             $pos_data = (array)json_decode($data->position_held);
 
                             $parr = array();
@@ -3659,10 +3659,11 @@
                           <div class="form-group level-drp">
                             <?php
                             $user_id = Auth::guard('nurse_middle')->user()->id;
+                            $getid = $data->experience_id;
                             ?>
                             <label class="form-label" for="input-1">Upload evidence</label>
-                            <input class="form-control change_evi" type="file" name="upload_evidence[{{$i}}][]" multiple="" id="{{ $i }}">
-                            <input type="hidden" name="old_file[{{ $i }}]" value="{{ $data->upload_evidence }}">
+                            <input class="form-control upload_evidence-{{ $i }}" type="file" name="" onchange="changeExpEvidenceImg({{ Auth::guard('nurse_middle')->user()->id }},{{ $i }},{{ $getid }})" multiple="" id="{{ $i }}">
+                            <input type="hidden" class="old_files-{{ $i }}" name="upload_evidence[{{$i}}]" value="{{ $data->upload_evidence }}">
                             <div class="fileList  fileList_{{ $i }}">
                               @if(!empty($data) && ($data->upload_evidence))
                               <?php
@@ -3670,7 +3671,7 @@
 
                               $m = 0;
                               $user_id = Auth::guard('nurse_middle')->user()->id;
-                              $getid = $data->experience_id;
+                              
                               ?>
                               @if(!empty($evi_img))
                               @foreach($evi_img as $tranimg)
@@ -4005,7 +4006,7 @@
                           
                           <label class="form-label" for="input-1">Position Held</label>
                           <?php
-                            $employee_postion_data = DB::table('employee_positions')->where("subposition_id",0)->orderBy("position_name","asc")->get();
+                            $employee_postion_data = DB::table('employee_positions')->where("position_id","!=","35")->where("subposition_id",0)->orderBy("position_name","asc")->get();
                             
                           ?>
                           
@@ -4166,7 +4167,8 @@
                           $user_id = Auth::guard('nurse_middle')->user()->id;
                           ?>
                           <label class="form-label" for="input-1">Upload evidence</label>
-                          <input class="form-control change_evi" type="file" name="upload_evidence[1][]" multiple="" id="1">
+                          <input type="hidden" name="upload_evidence[1]" class="old_files-1" value="">
+                          <input class="form-control upload_evidence-1" type="file" name=""  onchange="changeExpEvidenceImg({{ Auth::guard('nurse_middle')->user()->id }},1,0)" multiple="" id="1">
                           <div class="fileList  fileList_1"></div>
                         </div>
 
@@ -4368,7 +4370,7 @@
                           <div class="form-group level-drp">
                             <label class="form-label" for="input-1">What was your position when you worked with this referee?</label>
                             <?php
-                              $employee_postion_data = DB::table('employee_positions')->where("subposition_id",0)->orderBy("position_name","asc")->get();
+                              $employee_postion_data = DB::table('employee_positions')->where("position_id","!=","35")->where("subposition_id",0)->orderBy("position_name","asc")->get();
                               $pos_data = (array)json_decode($referee_data->position_with_referee);
 
                               $parr = array();
@@ -4556,7 +4558,7 @@
                         <div class="form-group level-drp">
                           <label class="form-label" for="input-1">What was your position when you worked with this referee?</label>
                           <?php
-                            $employee_postion_data = DB::table('employee_positions')->where("subposition_id",0)->orderBy("position_name","asc")->get();
+                            $employee_postion_data = DB::table('employee_positions')->where("position_id","!=","35")->where("subposition_id",0)->orderBy("position_name","asc")->get();
                             
                           ?>
                           <ul id="position_held_fieldr-1" style="display:none;">
@@ -4615,7 +4617,7 @@
                 </form>
               </div>
               <?php
-                $employee_postion_data = DB::table('employee_positions')->where("subposition_id",0)->orderBy("position_name","asc")->get();
+                $employee_postion_data = DB::table('employee_positions')->where("position_id","!=","35")->where("subposition_id",0)->orderBy("position_name","asc")->get();
                 $emp_data = json_encode($employee_postion_data)
                 //print_r(json_encode($employee_postion_data));
               ?>
