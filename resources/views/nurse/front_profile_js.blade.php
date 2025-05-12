@@ -3345,15 +3345,30 @@
         return dataTransfer.files;
     }
 
+    let selectedFiles = [];
+
     function changeExpEvidenceImg(user_id,experience_count,exp_id) {
         
-        var files = $('.upload_evidence-'+experience_count)[0].files;
-        console.log("files", experience_count);
+        if (!selectedFiles[experience_count]) {
+            selectedFiles[experience_count] = [];
+        }
+
+
+        const newFiles = Array.from($('.upload_evidence-'+experience_count)[0].files);
+
+        newFiles.forEach(file => {
+            const exists = selectedFiles[experience_count].some(f => f.name === file.name && f.lastModified === file.lastModified);
+            if (!exists) {
+                selectedFiles[experience_count].push(file);
+            }
+        });
+
+        console.log("selectedFiles",selectedFiles[experience_count]);
         var form_data = "";
         form_data = new FormData();
 
-        for (var i = 0; i < files.length; i++) {
-        form_data.append("exp_evidence[]", files[i], files[i]['name']);
+        for (var i = 0; i < selectedFiles[experience_count].length; i++) {
+        form_data.append("exp_evidence[]", selectedFiles[experience_count][i], selectedFiles[experience_count][i]['name']);
         }
 
         form_data.append("user_id", user_id);

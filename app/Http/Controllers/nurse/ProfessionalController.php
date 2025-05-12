@@ -121,15 +121,15 @@ class ProfessionalController extends Controller
         $professioninsert['user_id'] =  Auth::guard('nurse_middle')->user()->id;
         $professioninsert['residency'] = $request->residency;
 
-        if($request->evidence_type!='')
+        if($request->residency == "Australian Citizen" && $request->evidence_type!='')
         {
             $professioninsert['evidence_type'] = $request->evidence_type;
         }
-        if($request->evidence_type1!='')
+        if($request->residency == "Permanent Resident" && $request->evidence_type1!='')
         {
             $professioninsert['evidence_type'] = $request->evidence_type1;
         }
-        if($request->evidence_type2!='')
+        if($request->residency == "Visa Holder" && $request->evidence_type2!='')
         {
             $professioninsert['evidence_type'] = $request->evidence_type2;
         }
@@ -298,7 +298,7 @@ class ProfessionalController extends Controller
             $ndis['created_at']= now();
             $ndis['user_id'] = Auth::guard('nurse_middle')->user()->id; 
             $run= NdisWorker::insertGetId($ndis);
-            $user_stage = update_user_stage(Auth::guard('nurse_middle')->user()->id,"Checks and Clearances(NDIS Worker Screening Check)");
+            //$user_stage = update_user_stage(Auth::guard('nurse_middle')->user()->id,"Checks and Clearances(NDIS Worker Screening Check)");
             $type_id = $run;
         }
 
@@ -360,9 +360,9 @@ class ProfessionalController extends Controller
                     $run= $wwcc->save();
                     $type_id = $wwcc->id;
 
-                    if (isset($evidence_files) && is_array($evidence_files)) {
+                    if (isset($evidence_files[$i]) && is_array($evidence_files[$i])) {
                         
-                        foreach ($evidence_files as $file) {
+                        foreach ($evidence_files[$i] as $file) {
                             if ($file->isValid()) {
                                 $filename = 'evidence_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
                                 $originalName = $file->getClientOriginalName();
@@ -396,10 +396,10 @@ class ProfessionalController extends Controller
                 $run =$wwcc->save();
 
                 $type_id = $wwcc->id;
-                $user_stage = update_user_stage(Auth::guard('nurse_middle')->user()->id,"Checks and Clearances(Working With Children Check (WWCC))");
-                if (isset($evidence_files) && is_array($evidence_files)) {
+                //$user_stage = update_user_stage(Auth::guard('nurse_middle')->user()->id,"Checks and Clearances(Working With Children Check (WWCC))");
+                if (isset($evidence_files[$i]) && is_array($evidence_files[$i])) {
                     
-                    foreach ($evidence_files as $file) {
+                    foreach ($evidence_files[$i] as $file) {
                         if ($file->isValid()) {
                             $filename = 'evidence_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
                             $originalName = $file->getClientOriginalName();
@@ -461,6 +461,27 @@ class ProfessionalController extends Controller
         if($lastRecord)
         {
             $run=$lastRecord->update($policy);
+
+            if (isset($evidence_files) && is_array($evidence_files)) {
+                        
+                foreach ($evidence_files as $file) {
+                    if ($file->isValid()) {
+                        $filename = 'evidence_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                        $originalName = $file->getClientOriginalName();
+                        $destinationPath = public_path('/uploads/evidence');
+                        $file->move($destinationPath, $filename);
+                        
+    
+                        $work                   = new WorkEvidenceModel();
+                        $work->type_id     = $lastRecord->id;
+                        $work->original_name    = $originalName;
+                        $work->evidence_file    = $filename;
+                        $work->evidance_type    = "4";
+                        $work->created_at       = date('Y-m-d H:i:s');
+                        $work->save();
+                    }
+                }
+            }
         }
         else
         {
@@ -469,7 +490,7 @@ class ProfessionalController extends Controller
             $policy['status'] = '0';
             $run= PoliceCheckModel::insertGetId($policy);
 
-            $user_stage = update_user_stage(Auth::guard('nurse_middle')->user()->id,"Checks and Clearances(Police Clearance)");
+            //$user_stage = update_user_stage(Auth::guard('nurse_middle')->user()->id,"Checks and Clearances(Police Clearance)");
             if (isset($evidence_files) && is_array($evidence_files)) {
                         
                 foreach ($evidence_files as $file) {
@@ -532,9 +553,9 @@ class ProfessionalController extends Controller
                     $run= $specialized->save();
                     $lastId = $specialized->id;
 
-                    if (isset($evidence_files) && is_array($evidence_files)) {
+                    if (isset($evidence_files[$i]) && is_array($evidence_files[$i])) {
                             
-                        foreach ($evidence_files as $file) {
+                        foreach ($evidence_files[$i] as $file) {
                             if ($file->isValid()) {
                                 $filename = 'evidence_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
                                 $originalName = $file->getClientOriginalName();
@@ -570,11 +591,11 @@ class ProfessionalController extends Controller
                 $specialized->created_at = Carbon::now('Asia/Kolkata');
                 $run =$specialized->save();
                 $lastId = $specialized->id;
-                $user_stage = update_user_stage(Auth::guard('nurse_middle')->user()->id,"Checks and Clearances(Specialized Clearances)");
+                //$user_stage = update_user_stage(Auth::guard('nurse_middle')->user()->id,"Checks and Clearances(Specialized Clearances)");
                 
-                if (isset($evidence_files) && is_array($evidence_files)) {
+                if (isset($evidence_files[$i]) && is_array($evidence_files[$i])) {
                         
-                    foreach ($evidence_files as $file) {
+                    foreach ($evidence_files[$i] as $file) {
                         if ($file->isValid()) {
                             $filename = 'evidence_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
                             $originalName = $file->getClientOriginalName();

@@ -152,7 +152,7 @@
 
               $get_myprofile_status = DB::table("updated_tab_name")->where("user_id", Auth::guard('nurse_middle')->user()->id)->get();
 
-              $get_progress_status = round(count($get_myprofile_status)/15 * 100);
+              $get_progress_status = round(count($get_myprofile_status)/11 * 100);
 
               ?>
               <div class="chart" id="graph1" data-percent="<?php echo $get_progress_status; ?>" data-color="#000"></div>
@@ -5731,7 +5731,7 @@
                             </div>
                             <div class="form-group col-md-12">
                               <label class="form-label" for="input-1">Upload Certificate</label>
-                              <input class="form-control coreman_upload_certification core_man_imgs_{{ $core_man_first_word }} coreman_upload_certification-{{ $i }}" type="file" name="coreman_upload_certification[{{ $i }}][]" onchange="changetraImg1({{ $user_id }},{{ $i }},'core_man_imgs','{{ $core_man_first_word }}')">
+                              <input class="form-control coreman_upload_certification core_man_imgs_{{ $core_man_first_word }} coreman_upload_certification-{{ $i }}" type="file" name="coreman_upload_certification[{{ $i }}][]" onchange="changetraImg1({{ $user_id }},{{ $i }},'core_man_imgs','{{ $core_man_first_word }}')" multiple>
                               <span id="reqmidspecuploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
 
                               <?php
@@ -5760,9 +5760,9 @@
                               <div class="core_man_imgs{{ $core_man_first_word }}">
                                 @if(!empty($core_man_img_data))
                                 @foreach($core_man_img_data as $core_man_img)
-                                <div class="trans_img trans_img-{{ $i }} trans_imgcore_man_imgs{{ $core_man_first_word }}{{ $i }}">
+                                <div class="trans_img trans_img-{{ $i }} trans_imgcore_man_imgs{{ $core_man_first_word }}{{ $l }}">
                                   <a href="{{ url('/public/uploads/education_degree') }}/{{ $core_man_img }}"><i class="fa fa-file"></i>{{ $core_man_img }}</a>
-                                  <div class="close_btn close_btn-{{ $i }}" onclick="deleteImg1('{{ $i }}','{{ $user_id }}','{{ $core_man_img }}','{{ $core_man_first_word  }}','core_man_imgs')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
+                                  <div class="close_btn close_btn-{{ $i }}" onclick="deleteImg1('{{ $l }}','{{ $user_id }}','{{ $core_man_img }}','{{ $core_man_first_word  }}','core_man_imgs')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
                                 </div>
                                 <?php
                                 $l++;
@@ -5847,7 +5847,7 @@
                             </div>
                             <div class="form-group col-md-12">
                               <label class="form-label" for="input-1">Upload Certificate</label>
-                              <input class="form-control midspe_upload_certification mid_spe_imgs_{{ $mid_spe_first_word }} midspe_upload_certification-{{ $i }}" type="file" name="midspe_upload_certification[{{ $i }}][]" onchange="changetraImg1({{ $user_id }},{{ $i }},'mid_spe_imgs','{{ $mid_spe_first_word }}')">
+                              <input class="form-control midspe_upload_certification mid_spe_imgs_{{ $mid_spe_first_word }} midspe_upload_certification-{{ $i }}" type="file" name="midspe_upload_certification[{{ $i }}][]" onchange="changetraImg1({{ $user_id }},{{ $i }},'mid_spe_imgs','{{ $mid_spe_first_word }}')" multiple>
                               <span id="reqmidspecuploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
 
                               <?php
@@ -5876,9 +5876,9 @@
                               <div class="mid_spe_imgs{{ $mid_spe_first_word }}">
                                 @if(!empty($mid_spe_img_data))
                                 @foreach($mid_spe_img_data as $mid_spe_img)
-                                <div class="trans_img trans_img-{{ $i }} trans_imgmid_spe_imgs{{ $mid_spe_first_word }}{{ $i }}">
+                                <div class="trans_img trans_img-{{ $i }} trans_imgmid_spe_imgs{{ $mid_spe_first_word }}{{ $l }}">
                                   <a href="{{ url('/public/uploads/education_degree') }}/{{ $mid_spe_img }}"><i class="fa fa-file"></i>{{ $mid_spe_img }}</a>
-                                  <div class="close_btn close_btn-{{ $i }}" onclick="deleteImg1('{{ $i }}','{{ $user_id }}','{{ $mid_spe_img }}','{{ $mid_spe_first_word }}','mid_spe_imgs')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
+                                  <div class="close_btn close_btn-{{ $i }}" onclick="deleteImg1('{{ $l }}','{{ $user_id }}','{{ $mid_spe_img }}','{{ $mid_spe_first_word }}','mid_spe_imgs')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
                                 </div>
                                 <?php
                                 $l++;
@@ -5962,7 +5962,7 @@
                             </div>
                             <div class="form-group col-md-12">
                               <label class="form-label" for="input-1">Upload Certificate</label>
-                              <input class="form-control specarea_upload_certification spec_area_imgs_{{ $spec_area_first_word }} specarea_upload_certification-{{ $i }}" type="file" name="specarea_upload_certification[{{ $i }}][]" onchange="changetraImg1({{ $user_id }},{{ $i }},'spec_area_imgs','{{ $spec_area_first_word }}')">
+                              <input class="form-control specarea_upload_certification spec_area_imgs_{{ $spec_area_first_word }} specarea_upload_certification-{{ $i }}" type="file" name="specarea_upload_certification[{{ $i }}][]" onchange="changetraImg1({{ $user_id }},{{ $i }},'spec_area_imgs','{{ $spec_area_first_word }}')" multiple>
                               <span id="reqmidspecuploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
 
                               <?php
@@ -5991,9 +5991,9 @@
                               <div class="spec_area_imgs{{ $spec_area_first_word }}">
                                 @if(!empty($spec_area_img_data))
                                 @foreach($spec_area_img_data as $spec_area_img)
-                                <div class="trans_img trans_img-{{ $i }} trans_imgspec_area_imgs{{ $spec_area_first_word }}{{ $i }}">
+                                <div class="trans_img trans_img-{{ $i }} trans_imgspec_area_imgs{{ $spec_area_first_word }}{{ $l }}">
                                   <a href="{{ url('/public/uploads/education_degree') }}/{{ $spec_area_img }}"><i class="fa fa-file"></i>{{ $spec_area_img }}</a>
-                                  <div class="close_btn close_btn-{{ $i }}" onclick="deleteImg1('{{ $i }}','{{ $user_id }}','{{ $spec_area_img }}','{{ $spec_area_first_word }}','spec_area_imgs')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
+                                  <div class="close_btn close_btn-{{ $i }}" onclick="deleteImg1('{{ $l }}','{{ $user_id }}','{{ $spec_area_img }}','{{ $spec_area_first_word }}','spec_area_imgs')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
                                 </div>
                                 <?php
                                 $l++;
@@ -6078,7 +6078,7 @@
                             </div>
                             <div class="form-group col-md-12">
                               <label class="form-label" for="input-1">Upload Certificate</label>
-                              <input class="form-controlsafetycome_upload_certification safety_com_imgs_{{ $safe_first_word }} safetycome_upload_certification-{{ $i }}" type="file" name="safetycome_upload_certification[{{ $i }}][]" onchange="changetraImg1({{ $user_id }},{{ $i }},'safety_com_imgs','{{ $safe_first_word }}')">
+                              <input class="form-control safetycome_upload_certification safety_com_imgs_{{ $safe_first_word }} safetycome_upload_certification-{{ $i }}" type="file" name="safetycome_upload_certification[{{ $i }}][]" onchange="changetraImg1({{ $user_id }},{{ $i }},'safety_com_imgs','{{ $safe_first_word }}')" multiple>
                               <span id="reqmidspecuploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
 
                               <?php
@@ -6107,9 +6107,9 @@
                               <div class="safety_com_imgs{{ $safe_first_word }}">
                                 @if(!empty($spec_img_data))
                                 @foreach($spec_img_data as $spec_img)
-                                <div class="trans_img trans_img-{{ $i }} trans_imgsafety_com_imgs{{ $safe_first_word }}{{ $i }}">
+                                <div class="trans_img trans_img-{{ $i }} trans_imgsafety_com_imgs{{ $safe_first_word }}{{ $l }}">
                                   <a href="{{ url('/public/uploads/education_degree') }}/{{ $spec_img }}"><i class="fa fa-file"></i>{{ $spec_img }}</a>
-                                  <div class="close_btn close_btn-{{ $i }}" onclick="deleteImg1('{{ $i }}','{{ $user_id }}','{{ $spec_img }}','{{ $safe_first_word }}','safety_com_imgs')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
+                                  <div class="close_btn close_btn-{{ $i }}" onclick="deleteImg1('{{ $l }}','{{ $user_id }}','{{ $spec_img }}','{{ $safe_first_word }}','safety_com_imgs')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
                                 </div>
                                 <?php
                                 $l++;
@@ -6202,7 +6202,7 @@
                             </div>
                             <div class="form-group col-md-12">
                               <label class="form-label" for="input-1">Upload Certificate</label>
-                              <input class="form-control emetopic_upload_certification eme_topic_imgs_{{ $emr_first_word }} emetopic_upload_certification-{{ $i }}" type="file" name="emetopic_upload_certification[{{ $i }}][]" onchange="changetraImg1({{ $user_id }},{{ $i }},'eme_topic_imgs','{{ $emr_first_word }}')">
+                              <input class="form-control emetopic_upload_certification eme_topic_imgs_{{ $emr_first_word }} emetopic_upload_certification-{{ $i }}" type="file" name="emetopic_upload_certification[{{ $i }}][]" onchange="changetraImg1({{ $user_id }},{{ $i }},'eme_topic_imgs','{{ $emr_first_word }}')" multiple>
                               <span id="reqmidspecuploadvalid-{{ $i }}" class="reqError text-danger valley"></span>
 
                               <?php
@@ -6230,9 +6230,9 @@
                               <div class="eme_topic_imgs{{ $emr_first_word }}">
                                 @if(!empty($eme_img_data))
                                 @foreach($eme_img_data as $eme_img)
-                                <div class="trans_img trans_img-{{ $i }} trans_imgeme_topic_imgs{{ $emr_first_word }}{{ $i }}">
+                                <div class="trans_img trans_img-{{ $i }} trans_imgeme_topic_imgs{{ $emr_first_word }}{{ $l }}">
                                   <a href="{{ url('/public/uploads/education_degree') }}/{{ $eme_img }}"><i class="fa fa-file"></i>{{ $eme_img }}</a>
-                                  <div class="close_btn close_btn-{{ $i }}" onclick="deleteImg1('{{ $i }}','{{ $user_id }}','{{ $eme_img }}','{{ $emr_first_word }}','eme_topic_imgs')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
+                                  <div class="close_btn close_btn-{{ $i }}" onclick="deleteImg1('{{ $l }}','{{ $user_id }}','{{ $eme_img }}','{{ $emr_first_word }}','eme_topic_imgs')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
                                 </div>
                                 <?php
                                 $l++;

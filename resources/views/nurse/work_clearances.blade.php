@@ -222,7 +222,7 @@ i.fa.fa-file {
                         <label class="form-label" for="input-1">Upload Evidence</label>
                         <input type="file" name="upload_evidence0[]" id="{{$support_document0==''?'upload_evidence0':''}}" class="form-control h-100 fileInput" multiple>
                         <span id="reqasupport_document" class="reqError text-danger valley"></span>
-                        <div id="fileList" class="file-list">
+                        <div id="fileList" class="file-list file-list-0">
                           <?php if(count($work_evidence)>0){
                             $wevdata = DB::table("eligibility_to_work")->where("id",$work_evidence[0]->type_id)->first();
                             ?>  
@@ -304,7 +304,7 @@ i.fa.fa-file {
                         <label class="form-label" for="input-1">Upload Evidence</label>
                         <input type="file" name="upload_evidence1[]" id="{{$support_document1==''?'upload_evidence1':''}}" class="form-control h-100 fileInput" multiple>
                         <span id="reqasupport_document" class="reqError text-danger valley"></span>
-                        <div id="fileList" class="file-list">
+                        <div id="fileList" class="file-list file-list-1">
                           <?php if(count($work_evidence)>0){
                             $wevdata = DB::table("eligibility_to_work")->where("id",$work_evidence[0]->type_id)->first();
                             ?>  
@@ -387,7 +387,7 @@ i.fa.fa-file {
                         <label class="form-label" for="input-1">Upload Evidence</label>
                         <input type="file" name="upload_evidence2[]" id="{{$support_document2==''?'upload_evidence2':''}}" class="form-control h-100 fileInput" multiple>
                         <span id="reqasupport_document" class="reqError text-danger valley"></span>
-                        <div id="fileList" class="file-list">
+                        <div id="fileList" class="file-list file-list-2">
                           <?php if(count($work_evidence)>0){
                             $wevdata = DB::table("eligibility_to_work")->where("id",$work_evidence[0]->type_id)->first();
                             ?>  
@@ -468,7 +468,7 @@ i.fa.fa-file {
                         <label class="font-sm color-text-mutted mb-10">Upload Evidence*</label>
                         <input class="form-control fileInput" type="file" name="ndis_evidence[]" id="{{ $ndis!=''?($ndis['evidence_file']!=''?'':'ndis_evidence'):'ndis_evidence'}}" multiple>
                         <span id="reqTxtclearance_expiry_dataI" class="reqError text-danger valley"></span>
-                        <div id="fileList" class="file-list">
+                        <div id="fileList" class="file-list file-list-ndis">
                           <?php if($ndis!=''){ if(!empty($work_evidence_ndis)){ ?>  
                             @foreach ($work_evidence_ndis as $work_imgs)
                             <div class="file-item">
@@ -550,11 +550,11 @@ i.fa.fa-file {
 
                           <div class="form-group ">
                             <label class="font-sm color-text-mutted mb-10">Upload Evidence*</label>
-                            <input class="form-control fileInput {{ $work_child->wwcc_evidence==''?'wwcc_evidence':'' }}" type="file" name="wwcc_evidence[]" value="{{ $work_child->evidence_original_name }}" multiple>
+                            <input class="form-control fileInput {{ $work_child->wwcc_evidence==''?'wwcc_evidence':'' }}" type="file" name="wwcc_evidence[{{ $k-1 }}][]" value="{{ $work_child->evidence_original_name }}" multiple>
                             <?php
                               $work_evidence_ww   = DB::table("work_evidance")->where('type_id', $work_child->id)->get();
                             ?>
-                            <div id="fileList" class="file-list">
+                            <div id="fileList" class="file-list file-list-wc-{{ $k }}">
                               <?php if(!empty($work_evidence_ww)){ ?>  
                                 @foreach ($work_evidence_ww as $work_imgs)
                                 <div class="file-item">
@@ -625,7 +625,7 @@ i.fa.fa-file {
                         <label class="form-label" for="input-1">Police Clearance</label>
                         <input type="file" name="clearance_document[]" id="{{$evidence_file!=''?($evidence_file!=''?'':'clearance_document'):'clearance_document'}}" class="form-control fileInput" multiple>
                         <span id="reqTxtimage_support_documentI" class="reqError text-danger valley"></span>
-                        <div id="fileList" class="file-list">
+                        <div id="fileList" class="file-list file-list-police">
                           
                           <?php if(!empty($work_evidence_police)){ ?>
                             @foreach ($work_evidence_police as $work_imgs)
@@ -721,12 +721,12 @@ i.fa.fa-file {
 
                           <div class="form-group ">
                             <label class="font-sm color-text-mutted mb-10">Upload Evidence*</label>
-                            <input class="form-control fileInput {{$svalue->clearance_evidence==''?'clearance_evidence':''}}" type="file" name="clearance_evidence[]" multiple>
+                            <input class="form-control fileInput {{$svalue->clearance_evidence==''?'clearance_evidence':''}}" type="file" name="clearance_evidence[{{ $s-1}}][]" multiple>
                             
                             <?php
                               $work_evidence_specialized   = DB::table("work_evidance")->where('type_id', $svalue->id)->get(); 
                             ?>
-                            <div id="fileList" class="file-list">
+                            <div id="fileList" class="file-list file-list-specialized-{{ $s }}">
                               <?php if(!empty($work_evidence_specialized)){ ?>  
                                 @foreach ($work_evidence_specialized as $work_imgs)
                                 <div class="file-item">
@@ -983,8 +983,8 @@ if (!empty($interviewReferenceData)) {
 
                           <div class="form-group ">
                             <label class="font-sm color-text-mutted mb-10">Upload Evidence*</label>
-                            <input class="form-control wwcc_evidence fileInput" type="file" name="wwcc_evidence[]" multiple>
-                            <div id="fileList" class="file-list"></div>
+                            <input class="form-control wwcc_evidence fileInput" type="file" name="wwcc_evidence[${i-1}][]" multiple>
+                            <div id="fileList" class="file-list file-list-wc-${i}"></div>
                           </div>
                           
                           <span id="reqTxtclearance_expiry_dataI" class="reqError text-danger valley"></span>
@@ -1084,9 +1084,9 @@ if (!empty($interviewReferenceData)) {
 
                           <div class="form-group ">
                             <label class="font-sm color-text-mutted mb-10">Upload Evidence*</label>
-                            <input class="form-control clearance_evidence fileInput" type="file" name="clearance_evidence[]" multiple>
+                            <input class="form-control clearance_evidence fileInput" type="file" name="clearance_evidence[${l-1}][]" multiple>
 
-                            <div id="fileList" class="file-list"></div>
+                            <div id="fileList" class="file-list file-list-specialized-${l}"></div>
                           </div>
                           
                           <span id="reqTxtclearance_expiry_dataI" class="reqError text-danger valley"></span>
@@ -1252,15 +1252,21 @@ if (!empty($interviewReferenceData)) {
       } else {
         $('#aus_evidence_type').next('.reqError').text('');
       }
-      if($('#upload_evidence0')[0]){
+      // if($('#upload_evidence0')[0]){
         
-        if ($('#upload_evidence0')[0].files.length === 0) {
-          console.log("upload_evidence0",$('#upload_evidence0')[0].files.length);
-            isValid = false;
-            $('#upload_evidence0').next('.reqError').text('Please upload an evidence file');
-        } else {
-            $('#upload_evidence0').next('.reqError').text('');
-        }
+      //   if ($('#upload_evidence0')[0].files.length === 0) {
+      //     console.log("upload_evidence0",$('#upload_evidence0')[0].files.length);
+      //       isValid = false;
+      //       $('#upload_evidence0').next('.reqError').text('Please upload an evidence file');
+      //   } else {
+      //       $('#upload_evidence0').next('.reqError').text('');
+      //   }
+      // }
+      if($('.file-list-0 .file-item').length == 0){
+        isValid = false;
+        $('#upload_evidence0').next('.reqError').text('Please upload an evidence file');
+      }else{
+        $('#upload_evidence0').next('.reqError').text('');
       }
       
     }
@@ -1305,13 +1311,20 @@ if (!empty($interviewReferenceData)) {
         $('#perm_evidence_type').next('.reqError').text('');
       }
 
-      if($('#upload_evidence1')[0]){
-        if ($('#upload_evidence1')[0].files.length === 0) {
-          isValid = false;
-          $('#upload_evidence1').next('.reqError').text('Please upload an evidence file');
-        } else {
-            $('#upload_evidence1').next('.reqError').text('');
-        }
+      // if($('#upload_evidence1')[0]){
+      //   if ($('#upload_evidence1')[0].files.length === 0) {
+      //     isValid = false;
+      //     $('#upload_evidence1').next('.reqError').text('Please upload an evidence file');
+      //   } else {
+      //       $('#upload_evidence1').next('.reqError').text('');
+      //   }
+      // }
+
+      if($('.file-list-1 .file-item').length == 0){
+        isValid = false;
+        $('#upload_evidence1').next('.reqError').text('Please upload an evidence file');
+      }else{
+        $('#upload_evidence1').next('.reqError').text('');
       }
       
     }
@@ -1363,15 +1376,21 @@ if (!empty($interviewReferenceData)) {
       } else {
         $('#hold_evidence_type').next('.reqError').text('');
       }
-      if($('#upload_evidence2')[0]){
-        if ($('#upload_evidence2')[0].files.length === 0) {
+      // if($('#upload_evidence2')[0]){
+      //   if ($('#upload_evidence2')[0].files.length === 0) {
           
-            isValid = false;
-            $('#upload_evidence2').next('.reqError').text('Please upload an evidence file');
-          } else {
-              $('#upload_evidence2').next('.reqError').text('');
-          }
-      }   
+      //       isValid = false;
+      //       $('#upload_evidence2').next('.reqError').text('Please upload an evidence file');
+      //     } else {
+      //         $('#upload_evidence2').next('.reqError').text('');
+      //     }
+      // }   
+      if($('.file-list-2 .file-item').length == 0){
+        isValid = false;
+        $('#upload_evidence2').next('.reqError').text('Please upload an evidence file');
+      }else{
+        $('#upload_evidence2').next('.reqError').text('');
+      }
     }
     
 
@@ -1453,14 +1472,20 @@ if (!empty($interviewReferenceData)) {
     } else {
       $('#ndis_expiry_date').next('.reqError').text('');
     }
-    if($('#ndis_evidence')[0]){
+    // if($('#ndis_evidence')[0]){
       
-      if ($('#ndis_evidence')[0].files.length === 0) {
-        isValid = false;
-        $('#ndis_evidence').next('.reqError').text('Please upload evidance file ');
-      } else {
-        $('#ndis_evidence').next('.reqError').text('');
-      }
+    //   if ($('#ndis_evidence')[0].files.length === 0) {
+    //     isValid = false;
+    //     $('#ndis_evidence').next('.reqError').text('Please upload evidance file ');
+    //   } else {
+    //     $('#ndis_evidence').next('.reqError').text('');
+    //   }
+    // }
+    if($('.file-list-ndis .file-item').length == 0){
+      isValid = false;
+      $('#ndis_evidence').next('.reqError').text('Please upload an evidence file');
+    }else{
+      $('#ndis_evidence').next('.reqError').text('');
     }
 
     if (isValid == true) {
@@ -1547,16 +1572,19 @@ if (!empty($interviewReferenceData)) {
         }
     });
 
+    var k = 1;
     $('.wwcc_evidence').each(function () {
       let errorSpan = $(this).closest('.form-group').next('.reqError');
-        if ($(this).val().trim() === '') {
-            isValid = false;
-            errorSpan.text('Please upload an evidence file');
+        console.log("file-list-wc",$(".file-list-wc-"+k+" .file-item").length);
+        if ($(".file-list-wc-"+k+" .file-item").length == 0) {
+          isValid = false;
+          errorSpan.text('Please upload an evidence file');
         } else {
           errorSpan.text('');
         }
+        k++;
     });
-
+    
     if (isValid == true) {
       $(".valley").html("");
       $('.submit-btn-120').prop('disabled', true);
@@ -1621,14 +1649,21 @@ if (!empty($interviewReferenceData)) {
       $('#issuance_date').next('.reqError').text('');
     }
 
-    if($('#clearance_document')[0]){
+    // if($('#clearance_document')[0]){
       
-      if ($('#clearance_document')[0].files.length === 0) {
-        isValid = false;
-        $('#clearance_document').next('.reqError').text('Policy Clearance document is required ');
-      } else {
-        $('#clearance_document').next('.reqError').text('');
-      }
+    //   if ($('#clearance_document')[0].files.length === 0) {
+    //     isValid = false;
+    //     $('#clearance_document').next('.reqError').text('Policy Clearance document is required ');
+    //   } else {
+    //     $('#clearance_document').next('.reqError').text('');
+    //   }
+    // }
+
+    if($('.file-list-police .file-item').length == 0){
+      isValid = false;
+      $('#clearance_document').next('.reqError').text('Policy Clearance document is required ');
+    }else{
+      $('#clearance_document').next('.reqError').text('');
     }
 
     if (!$('#policy_confirm').is(':checked')) {
@@ -1737,14 +1772,16 @@ if (!empty($interviewReferenceData)) {
     });
     
     
+    var s = 1;
     $('.clearance_evidence').each(function () {
       let errorSpan = $(this).closest('.form-group').next('.reqError');
-        if ($(this).val().trim() === '') {
+        if ($(".file-list-specialized-"+s+" .file-item").length == 0) {
             isValid = false;
             errorSpan.text('Please upload an evidence file');
         } else {
           errorSpan.text('');
         }
+        s++;
     });
 
     if (isValid == false) {

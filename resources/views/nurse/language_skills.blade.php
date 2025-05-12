@@ -759,15 +759,30 @@
       });
     }
 
+    var selectedFiles1 = [];
+
     function changeEvidenceImg(user_id,language_id,name_arr) {
     
-      var files = $('.upload_evidence-'+language_id)[0].files;
-      console.log("files", files);
+      if (!selectedFiles1[language_id]) {
+        selectedFiles1[language_id] = [];
+      }
+
+
+      const newFiles = Array.from($('.upload_evidence-'+language_id)[0].files);
+
+      newFiles.forEach(file => {
+        const exists = selectedFiles1[language_id].some(f => f.name === file.name && f.lastModified === file.lastModified);
+        if (!exists) {
+            selectedFiles1[language_id].push(file);
+        }
+    });
+
+        console.log("selectedFiles",selectedFiles1[language_id]);
       var form_data = "";
       form_data = new FormData();
 
-      for (var i = 0; i < files.length; i++) {
-        form_data.append(name_arr+"["+language_id+"][]", files[i], files[i]['name']);
+      for (var i = 0; i < selectedFiles1[language_id].length; i++) {
+        form_data.append(name_arr+"["+language_id+"][]", selectedFiles1[language_id][i], selectedFiles1[language_id][i]['name']);
       }
 
       form_data.append("user_id", user_id);
@@ -814,6 +829,14 @@
         cache: false,
         success: function(data) {
           if (data == 1) {
+            var old_files = JSON.parse($("."+name_arr+"-"+language_id).val());
+            console.log("old_files",old_files);
+            const itemToRemove = img;
+
+            const result = old_files.filter(item => item !== itemToRemove);
+
+            console.log(result); // [1, 2, 4, 5]
+            $("."+name_arr+"-"+language_id).val(JSON.stringify(result));
             $(".lang_evidence-"+language_id+" .trans_img-" + i).remove();
           }
         }
