@@ -2690,34 +2690,29 @@
                         </div>
                         <div class="form-group col-md-6">
                           <label class="form-label" for="input-1">Upload your certification/Licence</label>
-                          <input class="form-control ano_certifi_imgs_certifi_{{$i}}" type="file" name="certificate_upload_certification[]" onchange="changeAnoImg('{{ $user_id }}','{{ $l }}','ano_certifi_imgs','certifi_{{$i}}')" multiple="">
+                          
+                          <input class="form-control ano_certifi_imgs_certifi_{{$i}}" type="file" name="certificate_upload_certification[]" onchange="changeAnoImg_cert('{{ $user_id }}','{{ $i }}')" multiple="">
                           <?php
                           $getedufieldsdata = DB::table("edu_fields")->where("user_id", $user_id)->first();
 
-                          if (!empty($getedufieldsdata)) {
-                            $ano_certifi_img = (array)json_decode($getedufieldsdata->ano_certifi_imgs);
+                          if (!empty($educationData)) {
+                            $ano_certifi_img = (array)json_decode($c_data->certificate_upload_certification);
                           } else {
                             $ano_certifi_img = '';
                           }
 
 
-                          if (!empty($ano_certifi_img)) {
-                            // $ano_certifi_img_data = json_decode($ano_certifi_img["certifi_$i"]);
-                            $key = "certifi_$i";
-                            $ano_certifi_img_data = isset($ano_certifi_img[$key]) ? json_decode($ano_certifi_img[$key], true) : [];
-                          } else {
-                            $ano_certifi_img_data = "";
-                          }
+                          
                           //print_r($acls_img[$acls_first_word_one]);
                           //print_r($dtran_img);
                           $user_id = Auth::guard('nurse_middle')->user()->id;
                           ?>
                           <div class="ano_certifi_imgscertifi_{{ $i }}">
-                            @if(!empty($ano_certifi_img_data))
-                            @foreach($ano_certifi_img_data as $ano_img)
+                            @if(!empty($ano_certifi_img))
+                            @foreach($ano_certifi_img as $ano_img)
                             <div class="trans_img edu_img-{{ $i }} edu_imgano_certifi_imgscertifi_{{ $l }}">
                               <a href="{{ url('/public/uploads/education_degree') }}/{{ $ano_img }}"><i class="fa fa-file"></i>{{ $ano_img }}</a>
-                              <div class="close_btn close_btn-{{ $i }}" onclick="deleteanoImg1('{{ $l }}','{{ $user_id }}','{{ $ano_img }}','certifi_{{$i}}','ano_certifi_imgs')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
+                              <div class="close_btn close_btn-{{ $i }}" onclick="deleteanoImgcert('{{ $l }}',{{ $i }},'{{ $user_id }}','{{ $ano_img }}')" style="cursor: pointer;"><i class="fa fa-close"></i></div>
                             </div>
                             <?php
                             $l++;
@@ -2774,10 +2769,11 @@
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label class="form-label" for="input-1">Upload your certification/Licence</label>
+                                        <input type="hidden" name="certificate_upload_certification[${licence_div_count}]" class="certificate_upload_certification-${licence_div_count}" value="">
                                         <input class="form-control ano_certifi_imgs_${name} additional_certifications-${licence_div_count}" 
                                               type="file" 
-                                              name="certificate_upload_certification[${licence_div_count}][]" 
-                                              onchange="changeAnoImg(${user_id}, ${licence_div_count}, 'ano_certifi_imgs', '${name}')" 
+                                              name="" 
+                                              onchange="changeAnoImg_cert(${user_id}, ${licence_div_count})" 
                                               multiple>
                                     </div>
                                     <div class="ano_certifi_imgs${name}"></div>

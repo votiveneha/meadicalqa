@@ -241,5 +241,20 @@ Route::prefix('/admin')->name('admin.')->namespace('App\Http\Controllers\admin')
     Route::post('/deleteLanguages', 'LanguageSkillsController@deleteLanguages')->name('deleteLanguages');
     Route::get('/sub_language_list/{id}','LanguageSkillsController@sub_language_list')->name('sub_language_list');
     Route::get('/certification_list','LanguageSkillsController@certification_list')->name('certification_list');
+
+     /************[Work Preferences]*************/
+    Route::get('/work_preferences','WorkPreferencesController@work_environment_list')->name('work_preferences');
+    Route::post('/addWorkEnvironment', 'WorkPreferencesController@addWorkEnvironment')->name('addWorkEnvironment');
+    Route::post('/getEnvironment', 'WorkPreferencesController@getEnvironment')->name('getEnvironment');
+    Route::post('/updateWorkEnvironment', 'WorkPreferencesController@updateWorkEnvironment')->name('updateWorkEnvironment');
+    Route::post('/deleteEnvironment', 'WorkPreferencesController@deleteEnvironment')->name('deleteEnvironment');
+    Route::get('/sub_env_list/{id}','WorkPreferencesController@sub_env_list')->name('sub_env_list');
+    Route::get('/subsub_env_list/{id}/{sub_env_id}','WorkPreferencesController@subsub_env_list')->name('subsub_env_list');
+    Route::get('/position_management','WorkPreferencesController@position_list')->name('position_list');
+    Route::post('/addPosition', 'WorkPreferencesController@addPosition')->name('addPosition');
+    Route::post('/getPosition', 'WorkPreferencesController@getPosition')->name('getPosition');
+    Route::post('/updatePosition', 'WorkPreferencesController@updatePosition')->name('updatePosition');
+    Route::post('/deletePosition', 'WorkPreferencesController@deletePosition')->name('deletePosition');
+    Route::get('/sub_position/{id}', 'WorkPreferencesController@sub_position')->name('sub_position');
   });
 });

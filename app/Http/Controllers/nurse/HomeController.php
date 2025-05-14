@@ -1066,52 +1066,21 @@ class HomeController extends Controller
         //echo count($additional_license_number);die;
         $getedudata = DB::table("user_education_cerification")->where("user_id", $user_id)->first();
 
-        //$certificate_array = array();
-        // for($i=0;$i<count($training_courses);$i++){
-        //     if(!empty($additional_upload_certification[$i])){
-        //         $name1=$additional_upload_certification[$i]->getClientOriginalName();
-        //         $name= time().$name1;
-        //         $destinationPathcert = public_path()."/uploads/certificates"; 
-        //         $additional_upload_certification[$i]->move($destinationPathcert,$name);
-        //     }else{
-        //         $certificate_data = json_decode($getedudata->additional_training_data);
-        //         if(!empty($certificate_data) && !empty($certificate_data[$i])){
-        //             $name = $certificate_data[$i]->additional_upload_certification;
-        //         }else{
-        //             $name = "";
-        //         }
-        //     }
-
-        //     $certificate_array[] = array("training_courses"=>$training_courses[$i],"additional_license_number"=>$additional_license_number[$i],"additional_expiry"=>$additional_expiry[$i],"additional_upload_certification"=>$name);
-        // }
-
-        // $certificate_json = json_encode($certificate_array);
+        
 
         $training_certificate = $request->training_certificate;
         $certificate_license_number = $request->certificate_license_number;
         $certificate_expiry = $request->certificate_expiry;
         $regulating_body = $request->regulating_body;
-        $certificate_upload_certification = $request->file('certificate_upload_certification');
+        $certificate_upload_certification = $request->certificate_upload_certification;
 
         $new_certificate_array = array();
         if (!empty($training_certificate)) {
+            //print_r($certificate_upload_certification[1]);die;
             for ($i = 0; $i < count($training_certificate); $i++) {
-                if (!empty($certificate_upload_certification[$i])) {
-                    $name1 = $certificate_upload_certification[$i]->getClientOriginalName();
-                    $name = time() . $name1;
-                    $destinationPathcert = public_path() . "/uploads/certificates";
-                    $certificate_upload_certification[$i]->move($destinationPathcert, $name);
-                } else {
-                    $certificate_data = json_decode($getedudata->additional_certification);
-                    //print_r($certificate_data);die;
-                    if (!empty($certificate_data) && !empty($certificate_data[$i])) {
-                        $name = $certificate_data[$i]->certificate_upload_certification;
-                    } else {
-                        $name = "";
-                    }
-                }
+                $new_certificate_array[] = array("certificate_id" => $i + 1, "training_certificate" => $training_certificate[$i], "certificate_license_number" => $certificate_license_number[$i], "certificate_expiry" => $certificate_expiry[$i], "regulating_body" => $regulating_body[$i], "certificate_upload_certification" => $certificate_upload_certification[$i+1]);
 
-                $new_certificate_array[] = array("certificate_id" => $i + 1, "training_certificate" => $training_certificate[$i], "certificate_license_number" => $certificate_license_number[$i], "certificate_expiry" => $certificate_expiry[$i], "regulating_body" => $regulating_body[$i], "certificate_upload_certification" => $name);
+                
             }
 
             $new_certificate_json = json_encode($new_certificate_array);
@@ -1841,6 +1810,63 @@ class HomeController extends Controller
         echo json_encode($json);
     }
 
+    public function uploadAnotherImgs_cert(Request $request)
+    {
+        
+        $other_certificate = $request->other_certificate;
+        $user_id = $request->user_id;
+        $certificate_id = $request->certificate_id;
+
+        $getedufieldsdata = DB::table("user_education_cerification")->where("user_id", $user_id)->first();
+
+        
+
+        $exists = false;
+        
+        if(!empty($getedufieldsdata) && $getedufieldsdata->additional_certification != NULL){
+            $additional_certification = json_decode($getedufieldsdata->additional_certification);
+            foreach ($additional_certification as $certificate) {
+                if (isset($certificate->certificate_id) && $certificate->certificate_id == $certificate_id) {
+                    $exists = true;
+                    break;
+                }
+            }
+        }
+        
+        
+        //print_r($additional_certification);die;
+        
+        if(!empty($getedufieldsdata) && $getedufieldsdata->additional_certification != NULL && $exists==true){
+            $additional_certification = json_decode($getedufieldsdata->additional_certification);
+            $cert_img = '';
+            //print_r($additional_certification);die;
+            foreach($additional_certification as $acert){
+                if($acert->certificate_id == $certificate_id){
+                    $cert_img = Helpers::multipleFileUpload($other_certificate[$certificate_id], json_decode($acert->certificate_upload_certification));
+                    $acert->certificate_upload_certification = $cert_img;
+                }
+            }
+
+           DB::table("user_education_cerification")->where("user_id", $user_id)->update(["additional_certification"=>$additional_certification]); 
+        }else{
+            
+            $cert_img = Helpers::multipleFileUpload($other_certificate[$certificate_id], '');
+        }
+
+        //print_r($cert_img);
+        
+        //print_r($cert_img);
+
+        // $additional_certification = json_decode($getedufieldsdata->additional_certification);
+
+        // foreach($additional_certification as $acert){
+        //     $a
+        // }
+        
+        return $cert_img;
+        //print_r($additional_certification);
+    }
+
     public function getEmployeePositions(Request $request)
     {
         
@@ -2416,6 +2442,40 @@ class HomeController extends Controller
 
         //print_r($gettransimg);
 
+    }
+
+    public function deleteanoImgcert(Request $request){
+        $user_id = $request->user_id;
+        $img = $request->img;
+        $certificate_id = $request->certificate_id;
+       
+        $getEducationData = DB::table("user_education_cerification")->where("user_id", $user_id)->first();
+
+        if(!empty($getEducationData) && $getEducationData->additional_certification != NULL){
+            $additional_certification = json_decode($getEducationData->additional_certification);
+            //print_r($additional_certification);
+            foreach($additional_certification as $index=>$acert){
+                
+                if (isset($acert->certificate_id) && $acert->certificate_id == $certificate_id) {
+                    $certificate_upload_certification = json_decode($acert->certificate_upload_certification);
+                    $img_index = array_search($img, $certificate_upload_certification);
+
+                    array_splice($certificate_upload_certification, $img_index, 1);
+                    $acert->certificate_upload_certification = $certificate_upload_certification;
+                }
+            }
+
+            //print_r($additional_certification);die;
+            $run = DB::table("user_education_cerification")->where("user_id", $user_id)->update(["additional_certification"=>json_encode($additional_certification)]); 
+        }
+
+        if($run){
+            return 1;
+        }
+
+
+
+       
     }
 
     public function deleteAnoImg1(Request $request)

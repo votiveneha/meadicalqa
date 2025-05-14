@@ -88,6 +88,7 @@ Route::prefix('nurse')->name('nurse.')->namespace('App\Http\Controllers\nurse')-
     Route::post('/updateExperience', 'HomeController@updateExperience')->name('updateExperience');
     Route::post('/uploadExpImgs', 'HomeController@uploadExpImgs')->name('uploadExpImgs');
     Route::get('/getEmployeePositions', 'HomeController@getEmployeePositions')->name('getEmployeePositions');
+    Route::post('/uploadAnotherImgs_cert', 'HomeController@uploadAnotherImgs_cert')->name('uploadAnotherImgs_cert');
     Route::get('/getWorkplaceData', 'HomeController@getWorkplaceData')->name('getWorkplaceData');
     Route::get('/getSubWorkplaceData', 'HomeController@getSubWorkplaceData')->name('getSubWorkplaceData');
     Route::post('/updateTraining', 'HomeController@updateTraining')->name('updateTraining');
@@ -106,6 +107,7 @@ Route::prefix('nurse')->name('nurse.')->namespace('App\Http\Controllers\nurse')-
     Route::post('/deleteImg', 'HomeController@deleteImg')->name('deleteImg');
     Route::post('/deleteImg1', 'HomeController@deleteImg1')->name('deleteImg1');
     Route::post('/deleteImgCert', 'HomeController@deleteImgCert')->name('deleteImgCert');
+    Route::post('/deleteanoImgcert', 'HomeController@deleteanoImgcert')->name('deleteanoImgcert');
     Route::post('/uploadImgs', 'HomeController@uploadImgs')->name('uploadImgs');
     Route::post('/uploadImgs1', 'HomeController@uploadImgs1')->name('uploadImgs1');
     Route::post('/uploadmantraImgs1', 'HomeController@uploadmantraImgs1')->name('uploadmantraImgs1');

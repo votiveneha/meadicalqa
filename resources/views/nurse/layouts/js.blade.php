@@ -3362,6 +3362,34 @@
     });
   }
 
+  function deleteanoImgcert(i,m, user_id, img){
+    $.ajax({
+      type: "post",
+      url: "{{ route('nurse.deleteanoImgcert') }}",
+      data: {
+        user_id: user_id,
+        certificate_id:m,
+        img: img,
+        _token: '{{ csrf_token() }}'
+      },
+      cache: false,
+      success: function(data) {
+        if (data == 1) {
+          var old_files = JSON.parse($(".certificate_upload_certification-"+m).val());
+          console.log("old_files",old_files);
+          const itemToRemove = img;
+
+          const result = old_files.filter(item => item !== itemToRemove);
+
+          console.log(result); // [1, 2, 4, 5]
+          $(".certificate_upload_certification-"+m).val(JSON.stringify(result));
+          $(".ano_certifi_imgscertifi_"+m+" .edu_imgano_certifi_imgscertifi_"+i).remove();
+          
+        }
+      }
+    });
+  }
+
 
   function deleteImgCert(i, user_id, img) {
     $.ajax({

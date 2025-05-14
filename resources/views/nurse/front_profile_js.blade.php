@@ -1318,7 +1318,62 @@
 
     }
 
-    
+    let selectedFiles_cert = [];
+
+    function changeAnoImg_cert(user_id, i) {
+        if (!selectedFiles_cert[i]) {
+            selectedFiles_cert[i] = [];
+        }
+
+
+        const newFiles = Array.from($('.ano_certifi_imgs_certifi_'+i)[0].files);
+
+        newFiles.forEach(file => {
+            const exists = selectedFiles_cert[i].some(f => f.name === file.name && f.lastModified === file.lastModified);
+            if (!exists) {
+                selectedFiles_cert[i].push(file);
+            }
+        });
+
+        
+        var form_data = "";
+        form_data = new FormData();
+
+        for (var j = 0; j < selectedFiles_cert[i].length; j++) {
+            form_data.append("other_certificate["+i+"][]", selectedFiles_cert[i][j], selectedFiles_cert[i][j]['name']);
+        }
+
+        form_data.append("user_id", user_id);
+        form_data.append("certificate_id", i);
+        form_data.append("_token", '{{ csrf_token() }}');
+
+        $.ajax({
+            type: "post",
+            url: "{{ route('nurse.uploadAnotherImgs_cert') }}",
+            cache: false,
+            contentType: false,
+            processData: false,
+            async: true,
+            data: form_data,
+
+            success: function(data) {
+            $(".certificate_upload_certification-"+i).val(data);
+            var image_array = JSON.parse(data);
+            console.log("evidence_imgs", image_array);
+            var htmlData = '';
+            for (var x = 0; x < image_array.length; x++) {
+                //console.log("degree_transcript", image_array[i]);
+                var img_name = image_array[x];
+                console.log("img_name", 'deleteImg(' + (x + 1) + ',' + user_id + ',"' + img_name + '")');
+                htmlData += '<div class="trans_img trans_img-' + (x + 1) + '"><a href="{{ url("/public") }}/uploads/education_degree/' + img_name + '" target="_blank"><i class="fa fa-file" aria-hidden="true"></i>' + image_array[x] + '</a><div class="close_btn close_btn-' + x + '" onclick="deletelangEvidenceImg(' + (x + 1) + ',' + user_id + ',\'' + img_name + '\','+i+'\')" style="cursor: pointer;"><i class="fa fa-close" aria-hidden="true"></i></div></div>';
+            }
+            console.log("htmlData",i);
+            $(".ano_certifi_imgscertifi_"+i).html(htmlData);
+
+            
+            }
+        });
+    }
 
     
 
