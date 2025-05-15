@@ -195,7 +195,10 @@ Route::prefix('/admin')->name('admin.')->namespace('App\Http\Controllers\admin')
     /**************[Setting & Availability]**************/
     Route::get('/setting_availablity', 'NurseController@setting_availablity')->name('setting_availablity');
     Route::post('/update-profession-profile-setting', 'NurseController@update_profession_profile_setting')->name('update-profession-profile-setting');
-
+    Route::get('/setting_availablity_view/{id}', 'NurseprofileController@setting_availablity_view')->name('setting_availablity_view');
+    Route::get('/profession_view/{id}', 'NurseprofileController@profession_view')->name('profession_view');
+    Route::get('/education_certification/{id}', 'NurseprofileController@education_certification')->name('education_certification');
+    
     /************[Nurse Profile Vaccination]*************/
     Route::post('/addNurseVaccination', 'NurseController@addNurseVaccination')->name('addNurseVaccination');
     Route::any('/updateVaccinationRecord/{id?}', 'NurseController@updateVaccinationRecord')->name('updateVaccinationRecord');
