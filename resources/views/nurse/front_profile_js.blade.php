@@ -1365,7 +1365,7 @@
                 //console.log("degree_transcript", image_array[i]);
                 var img_name = image_array[x];
                 console.log("img_name", 'deleteImg(' + (x + 1) + ',' + user_id + ',"' + img_name + '")');
-                htmlData += '<div class="trans_img trans_img-' + (x + 1) + '"><a href="{{ url("/public") }}/uploads/education_degree/' + img_name + '" target="_blank"><i class="fa fa-file" aria-hidden="true"></i>' + image_array[x] + '</a><div class="close_btn close_btn-' + x + '" onclick="deletelangEvidenceImg(' + (x + 1) + ',' + user_id + ',\'' + img_name + '\','+i+'\')" style="cursor: pointer;"><i class="fa fa-close" aria-hidden="true"></i></div></div>';
+                htmlData += '<div class="trans_img trans_img-' + (x + 1) + ' edu_imgano_certifi_imgscertifi_' + (x + 1) + '"><a href="{{ url("/public") }}/uploads/education_degree/' + img_name + '" target="_blank"><i class="fa fa-file" aria-hidden="true"></i>' + image_array[x] + '</a><div class="close_btn close_btn-' + x + '" onclick="deleteanoImgcert(' + (x + 1) + ','+i+',' + user_id + ',\'' + img_name + '\')" style="cursor: pointer;"><i class="fa fa-close" aria-hidden="true"></i></div></div>';
             }
             console.log("htmlData",i);
             $(".ano_certifi_imgscertifi_"+i).html(htmlData);

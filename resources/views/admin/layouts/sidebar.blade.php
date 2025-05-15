@@ -352,7 +352,22 @@
               <span class="hide-menu">Position management</span>
             </a>
           </li>
-          
+          <li class="sidebar-item">
+            <a href="{{route('admin.work_shift_preferences')}}" class="sidebar-link">
+              <div class="round-16 d-flex align-items-center justify-content-center">
+                <i class="ti ti-circle"></i>
+              </div>
+              <span class="hide-menu">Work-Life Balance & <br>Shift Preferences</span>
+            </a>
+          </li>
+          <li class="sidebar-item">
+            <a href="{{route('admin.benefit_preferences')}}" class="sidebar-link">
+              <div class="round-16 d-flex align-items-center justify-content-center">
+                <i class="ti ti-circle"></i>
+              </div>
+              <span class="hide-menu">Benefits Preferences</span>
+            </a>
+          </li>
         </ul>
       </li>
        <li class="sidebar-item">

@@ -1050,8 +1050,10 @@
                             }).then(function() {
                                 let currentTab = 'tab-1';
                                 let targetTab = 'tab-2';
-                                let newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?tab=' + targetTab;
-
+                                //let newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?tab=' + targetTab;
+                                let newUrl = window.location.protocol + "//" + window.location.host + "/admin/setting_availablity?tab=" + targetTab;
+                            
+                                sessionStorage.setItem('email', $('#email').val());
 
                                 // Disable the current tab and save it in local storage
                                 $('.nav-link[href="#' + currentTab + '"]').addClass('disabled').attr('aria-disabled', 'true').off('click');
@@ -3766,9 +3768,11 @@
                         }).then(function() {
                             let currentTab = 'tab-2';
                             let targetTab = 'tab-3';
-                            let newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?tab=' + targetTab;
+                            //let newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?tab=' + targetTab;
 
-
+                            let newUrl = window.location.protocol + "//" + window.location.host + "/admin/setting_availablity?tab=" + targetTab;
+                            
+                            sessionStorage.setItem('email', $('#email').val());
                             // Disable the current tab and save it in local storage
                             $('.nav-link[href="#' + currentTab + '"]').addClass('disabled').attr('aria-disabled', 'true').off('click');
                             let disabledTabs = JSON.parse(localStorage.getItem('disabledTabs')) || [];

@@ -2307,4 +2307,35 @@ class NurseController extends Controller
         $data['professional_membership'] = DB::table("professional_membership")->where("user_id",$data['user_id'])->first();
         return view('admin.professional_membership')->with($data);
     }
+
+    public function setting_availablity(Request $request){
+        return view('admin.setting_availablity');
+    }
+
+    public function update_profession_profile_setting(Request $request)
+    {
+        $update['medical_facilities'] = isset($request->medical_facilities) ? 'Yes' : 'No';
+        $update['agencies'] = isset($request->agencies) ? 'Yes' : 'No';
+        $update['individuals'] = isset($request->individuals) ? 'Yes' : 'No';
+        $update['profile_status1'] = $request->profile_status;
+        //$update['unavailable_profile_status'] = isset($request->profile_status) ? 'Yes' : 'No';
+        $update['available_date'] = $request->available_date;
+        $update['start_job_dropdown'] = $request->start_job_dropdown;
+        $update['any_help'] = json_encode($request->any_help);
+        $update['updated_at'] = Carbon::now('Asia/Kolkata');
+        //print_r($update);die;
+        //echo $request->user_email;die;
+        $run = DB::table("users")->where('email', $request->user_email)->update($update);
+        //$user_stage = update_user_stage(Auth::guard('nurse_middle')->user()->id,"Setting & Availability");
+        if ($run) {
+            $json['status'] = 1;
+            $json['url'] = url('nurse/my-profile');
+            $json['message'] = 'You have Successfully submitted the details.';
+        } else {
+            $json['status'] = 0;
+            $json['message'] = 'Please Try Again';
+        }
+
+        echo json_encode($json);
+    }
 }

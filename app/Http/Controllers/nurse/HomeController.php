@@ -1847,7 +1847,7 @@ class HomeController extends Controller
                 }
             }
 
-           DB::table("user_education_cerification")->where("user_id", $user_id)->update(["additional_certification"=>$additional_certification]); 
+           DB::table("user_education_cerification")->where("user_id", $user_id)->update(["additional_certification"=>json_encode($additional_certification)]); 
         }else{
             
             $cert_img = Helpers::multipleFileUpload($other_certificate[$certificate_id], '');
@@ -2457,6 +2457,7 @@ class HomeController extends Controller
             foreach($additional_certification as $index=>$acert){
                 
                 if (isset($acert->certificate_id) && $acert->certificate_id == $certificate_id) {
+                    //print_r($acert->certificate_upload_certification);die;
                     $certificate_upload_certification = json_decode($acert->certificate_upload_certification);
                     $img_index = array_search($img, $certificate_upload_certification);
 
@@ -2469,9 +2470,9 @@ class HomeController extends Controller
             $run = DB::table("user_education_cerification")->where("user_id", $user_id)->update(["additional_certification"=>json_encode($additional_certification)]); 
         }
 
-        if($run){
+        
             return 1;
-        }
+        
 
 
 

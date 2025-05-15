@@ -192,6 +192,10 @@ Route::prefix('/admin')->name('admin.')->namespace('App\Http\Controllers\admin')
     Route::post('/exp-data', 'NurseController@Experienceupdate')->name('exp-data');
     Route::post('/man-tr-data', 'NurseController@ManTraupdate')->name('man-tr-data');
 
+    /**************[Setting & Availability]**************/
+    Route::get('/setting_availablity', 'NurseController@setting_availablity')->name('setting_availablity');
+    Route::post('/update-profession-profile-setting', 'NurseController@update_profession_profile_setting')->name('update-profession-profile-setting');
+
     /************[Nurse Profile Vaccination]*************/
     Route::post('/addNurseVaccination', 'NurseController@addNurseVaccination')->name('addNurseVaccination');
     Route::any('/updateVaccinationRecord/{id?}', 'NurseController@updateVaccinationRecord')->name('updateVaccinationRecord');
@@ -256,5 +260,18 @@ Route::prefix('/admin')->name('admin.')->namespace('App\Http\Controllers\admin')
     Route::post('/updatePosition', 'WorkPreferencesController@updatePosition')->name('updatePosition');
     Route::post('/deletePosition', 'WorkPreferencesController@deletePosition')->name('deletePosition');
     Route::get('/sub_position/{id}', 'WorkPreferencesController@sub_position')->name('sub_position');
+    Route::get('/work_shift_preferences','WorkPreferencesController@work_shift_preferences')->name('work_shift_preferences');
+    Route::post('/addWorkShift', 'WorkPreferencesController@addWorkShift')->name('addWorkShift');
+    Route::post('/getWorkShift', 'WorkPreferencesController@getWorkShift')->name('getWorkShift');
+    Route::post('/updateWorkShift', 'WorkPreferencesController@updateWorkShift')->name('updateWorkShift');
+    Route::post('/deleteWorkShift', 'WorkPreferencesController@deleteWorkShift')->name('deleteWorkShift');
+    Route::get('/sub_work_shift/{id}','WorkPreferencesController@sub_work_shift')->name('sub_work_shift');
+    Route::get('/sub_balance_shift/{id}/{shift_id}','WorkPreferencesController@sub_balance_shift')->name('sub_balance_shift');
+    Route::get('/benefit_preferences','WorkPreferencesController@benefit_preferences')->name('benefit_preferences');
+    Route::post('/addBenefits', 'WorkPreferencesController@addBenefits')->name('addBenefits');
+    Route::post('/getBenefits', 'WorkPreferencesController@getBenefits')->name('getBenefits');
+    Route::post('/updateBenefits', 'WorkPreferencesController@updateBenefits')->name('updateBenefits');
+    Route::post('/deleteBenefits', 'WorkPreferencesController@deleteBenefits')->name('deleteBenefits');
+    Route::get('/sub_benefits/{id}','WorkPreferencesController@sub_benefits')->name('sub_benefits');
   });
 });

@@ -183,4 +183,166 @@ class WorkPreferencesController extends Controller{
         }
     }
 
+    public function work_shift_preferences(Request $request)
+    {
+        
+        try {
+            $work_shift_data  =  $this->work_prefer_repository->getAllWorkShift(['shift_id'=>0,'sub_shift_id'=>NULL]);
+            
+            //print_r($enviromentData);
+            return view('admin.work_shift_preferences',compact('work_shift_data'));
+        } catch (\Exception $e) {
+            log::error('Error in ProfessionalMembership/countryList :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+
+    public function addWorkShift(WorkEnvironmentRequest $request)
+    {
+        
+        try {
+         
+            return $this->work_prefer_services->addWorkShift($request);
+         } catch (\Exception $e) {
+             log::error('Error in DegreeController/addDegree :' . $e->getMessage() . 'in line' . $e->getLine());
+             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+         }
+    }
+
+    public function getWorkShift(Request $request)
+    {
+        
+        try {
+           return $this->work_prefer_repository->getWorkShift(['work_shift_id'=>$request->id]);
+        } catch (\Exception $e) {
+            log::error('Error in DegreeController/getDegree :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+
+    public function deleteWorkShift(Request $request)
+    {
+        try {
+           return $this->work_prefer_services->deleteWorkShift($request);
+        } catch (\Exception $e) {
+            log::error('Error in DegreeController/deleteDegree :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+
+    public function updateWorkShift(WorkEnvironmentRequest $request)
+    {
+        
+        try {
+           return $this->work_prefer_services->updateWorkShift($request);
+        } catch (\Exception $e) {
+            log::error('Error in DegreeController/updateDegree :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+
+     public function sub_work_shift(Request $request)
+    {
+        
+        try {
+            $work_shift_data  =  $this->work_prefer_repository->getAllWorkShift(['shift_id'=>$request->id,'sub_shift_id'=>NULL]);
+            $data['work_shift_data'] = $work_shift_data;
+            $data['work_shift_id'] = $request->id;
+            
+            return view('admin.sub_work_shift')->with($data);
+        } catch (\Exception $e) {
+            log::error('Error in ProfessionalMembership/countryList :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+
+    public function sub_balance_shift(Request $request)
+    {
+        
+        try {
+            $work_shift_data  =  $this->work_prefer_repository->getAllWorkShift(['shift_id'=>$request->id,'sub_shift_id'=>$request->shift_id]);
+            $data['work_shift_data'] = $work_shift_data;
+            $data['work_shift_id'] = $request->id;
+            $data['shift_id'] = $request->shift_id;
+
+            return view('admin.sub_balance_shift')->with($data);
+        } catch (\Exception $e) {
+            log::error('Error in ProfessionalMembership/countryList :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+
+    public function benefit_preferences(Request $request)
+    {
+        
+        try {
+            $benefit_data  =  $this->work_prefer_repository->getAllBenefits(['subbenefit_id'=>0]);
+            
+            //print_r($enviromentData);
+            return view('admin.benefit_preferences',compact('benefit_data'));
+        } catch (\Exception $e) {
+            log::error('Error in ProfessionalMembership/countryList :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+
+    public function addBenefits(WorkEnvironmentRequest $request)
+    {
+        
+        try {
+         
+            return $this->work_prefer_services->addBenefits($request);
+         } catch (\Exception $e) {
+             log::error('Error in DegreeController/addDegree :' . $e->getMessage() . 'in line' . $e->getLine());
+             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+         }
+    }
+
+    public function getBenefits(Request $request)
+    {
+        
+        try {
+           return $this->work_prefer_repository->getBenefits(['benefits_id'=>$request->id]);
+        } catch (\Exception $e) {
+            log::error('Error in DegreeController/getDegree :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+
+    public function deleteBenefits(Request $request)
+    {
+        try {
+           return $this->work_prefer_services->deleteBenefits($request);
+        } catch (\Exception $e) {
+            log::error('Error in DegreeController/deleteDegree :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+
+    public function updateBenefits(WorkEnvironmentRequest $request)
+    {
+        
+        try {
+           return $this->work_prefer_services->updateBenefits($request);
+        } catch (\Exception $e) {
+            log::error('Error in DegreeController/updateDegree :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+
+     public function sub_benefits(Request $request)
+    {
+        
+        try {
+            $benefits_data  =  $this->work_prefer_repository->getAllBenefits(['subbenefit_id'=>$request->id]);
+            $data['benefits_data'] = $benefits_data;
+            $data['benefits_id'] = $request->id;
+            
+            return view('admin.sub_benefits')->with($data);
+        } catch (\Exception $e) {
+            log::error('Error in ProfessionalMembership/countryList :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+
 }    

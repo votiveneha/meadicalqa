@@ -2690,7 +2690,7 @@
                         </div>
                         <div class="form-group col-md-6">
                           <label class="form-label" for="input-1">Upload your certification/Licence</label>
-                          
+                          <input type="hidden" name="certificate_upload_certification[{{$i}}]" class="certificate_upload_certification-{{$i}}" value="{{ $c_data->certificate_upload_certification }}">
                           <input class="form-control ano_certifi_imgs_certifi_{{$i}}" type="file" name="certificate_upload_certification[]" onchange="changeAnoImg_cert('{{ $user_id }}','{{ $i }}')" multiple="">
                           <?php
                           $getedufieldsdata = DB::table("edu_fields")->where("user_id", $user_id)->first();
