@@ -170,6 +170,10 @@ Route::prefix('nurse')->name('nurse.')->namespace('App\Http\Controllers\nurse')-
   Route::post('/updateLanguageSkills', 'LanguageSkillsContoller@updateLanguageSkills')->name('updateLanguageSkills');
   Route::post('/uploadlangEvidenceImgs', 'LanguageSkillsContoller@uploadlangEvidenceImgs')->name('uploadlangEvidenceImgs');
   Route::post('/deletelangEvidenceImg', 'LanguageSkillsContoller@deletelangEvidenceImg')->name('deletelangEvidenceImg');   
+
+  /**************[Registeration & Licences]**************/
+  Route::get('/registration_licences', 'LicencesContoller@registration_licences')->name('registration_licences');
+  Route::get('/ahepra_lookup', 'LicencesContoller@ahepra_lookup')->name('ahepra_lookup');    
   
   /**************[Work Preferences & Flexibility]**************/
   Route::get('/match_percentage', 'WorkPreferencesController@match_percentage')->name('match_percentage');
