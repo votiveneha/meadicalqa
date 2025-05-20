@@ -102,6 +102,72 @@
   width: 20px;
 }
 
+ .switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide the default checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* Style for the slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 34px;
+}
+
+/* The circle inside the slider */
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  border-radius: 50%;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: 0.4s;
+}
+
+/* When the checkbox is checked, move the slider */
+input:checked + .slider {
+  background-color: black; /* Green */
+}
+
+/* When the checkbox is checked, move the circle */
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+.alert-info {
+  background-color: #e7f3fe;
+  border-left: 6px solid #2196F3;
+  padding: 12px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.alert-helper {
+  background-color: #f9fbe7;
+  border-left: 6px solid #cddc39;
+  padding: 12px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
 </style>
 @endsection
 
@@ -163,15 +229,6 @@
                     <div class="card shadow-sm border-0 p-4 mt-30">
                       <h3 class="mt-0 color-brand-1 mb-2">Registrations and Licences</h3>
 
-                      <div class="licences_content">
-                        <h6>AHPRA Registration Status</h6>
-                        <p>The Australian Health Practitioner Regulation Agency (AHPRA) provides a public Register of Practitioners. We need to insert AHPRA Automatic Lookup:</p>
-                        <p>Backend Integration: AHPRA Register of Practitioners is available at:
-                        <a href="https://www.ahpra.gov.au/Registration/Registers-of-Practitioners.aspx">https://www.ahpra.gov.au/Registration/Registers-of-Practitioners.aspx</a>
-                        </p>
-                        <p>It seems there is no official public API, but can you use a backend scraper with HTML parsing</p>
-                      </div>
-                      
     
                       <form id="language_skills_form" method="POST" onsubmit="return update_language_skills()">
                         @csrf
@@ -236,13 +293,455 @@
                                 Please complete the fields manually and upload your registration certificate as evidence of your current professional status.
                               </div>
                             </div>
+                            <div class="form-group level-drp" id="ahpra-number">
+                            <!-- AHPRA Number -->
+                            <label for="ahpra-number">Division:</label>
+                            <select class="form-control" id="division" name="division" required>
+                              <option value="">Select Division</option>
+                              <option value="RN">Registered Nurse (RN)</option>
+                              <option value="EN">Enrolled Nurse (EN)</option>
+                              <option value="RM">Registered Midwife (RM)</option>
+                              <option value="RN+RM">Registered Nurse and Midwife (RN+RM)</option>
+                            </select>
+                          </div>  
+                          <div class="form-group level-drp" id="ahpra-number">
+                            <!-- AHPRA Number -->
+                            <label for="endorsements" class="form-label">Endorsements:</label>
+                            <select class="form-control" id="endorsements" name="endorsements" required>
+                              <option value="">Select Endorsement</option>
+                              <option value="NP">Nurse Practitioner (NP)</option>
+                              <option value="MidwifeMeds">Scheduled Medicines – Midwife</option>
+                              <option value="RIPRN">Scheduled Medicines – RN (Rural and Isolated Practice)</option>
+                              <option value="NP+Midwife">Both NP and Endorsed Midwife</option>
+                              <option value="IVs">IV Endorsed - Enrolled Nurse (IVs)</option>
+                              <option value="meds">Medication Endorsed - Enrolled Nurse (meds)</option>
+                              <option value="none">No endorsed status</option>
+                            </select>
+                          </div>  
+                          <div class="form-group level-drp" id="ahpra-number">
+                            <!-- AHPRA Number -->
+                            <label for="regType" class="form-label">Registration Type:</label>
+                            <select class="form-control" id="regType" name="registration_type" required>
+                              <option value="">Select Registration Type</option>
+                              <option value="General">General</option>
+                              <option value="Limited">Limited</option>
+                              <option value="Provisional">Provisional</option>
+                              <option value="Student Nurse">Student Nurse</option>
+                              <option value="Student Midwife">Student Midwife</option>
+                              <option value="Non-practising">Non-practising</option>
+                            </select>
+                          </div>  
+                          <div class="form-group level-drp" id="ahpra-number">
+                            <!-- AHPRA Number -->
+                            <label for="regStatus" class="form-label">Registration Status:</label>
+                            <select class="form-control" id="regStatus" name="registration_status" required>
+                              <option value="">Select Registration Status</option>
+                              <option value="Current">Current</option>
+                              <option value="Suspended">Suspended</option>
+                              <option value="Cancelled">Cancelled</option>
+                              <option value="Inactive">Inactive</option>
+                              <option value="Ineligible">Ineligible</option>
+                              <option value="Lapsed">Lapsed</option>
+                              <option value="Expired">Expired</option>
+                              <option value="Not registered">Not currently registered</option>
+                            </select>
+                          </div>  
+                          <div class="form-group level-drp">
+                            <label class="form-label" for="negotiable">Do you have any notations on your AHPRA registration? </label><br>
+                            <label class="switch">
+                              <input type="checkbox" id="toggleCheckbox" name="negotiable_salary">
+                              <span class="slider"></span>
+                              
+                            </label>
+                          </div>
+                          
+                            <!-- Conditional Notations Field (Hidden by Default) -->
+                          <div id="notationsSection" style="display: none;">
+                            <div class="mb-3">
+                              <label class="form-label">Notations:</label>
+                              <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="notations[]" value="Must practise under supervision" id="notation1">
+                                <label class="form-check-label" for="notation1">Must practise under supervision</label>
+                              </div>
+                              <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="notations[]" value="May not administer medications" id="notation2">
+                                <label class="form-check-label" for="notation2">May not administer medications</label>
+                              </div>
+                              <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="notations[]" value="Authorised as a student" id="notation3">
+                                <label class="form-check-label" for="notation3">Authorised as a student</label>
+                              </div>
+                              <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="notations[]" value="Endorsed as a midwife — may prescribe under certain conditions" id="notation4">
+                                <label class="form-check-label" for="notation4">Endorsed as a midwife — may prescribe under certain conditions</label>
+                              </div>
+                              <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="notations[]" value="May only practise in area of approved qualification" id="notation5">
+                                <label class="form-check-label" for="notation5">May only practise in area of approved qualification</label>
+                              </div>
+                              <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="notations[]" value="May not work in high-risk settings" id="notation6">
+                                <label class="form-check-label" for="notation6">May not work in high-risk settings</label>
+                              </div>
+                              <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="notations[]" value="Other" id="notationOther">
+                                <label class="form-check-label" for="notationOther">Other</label>
+                              </div>
+                            </div>
+                            <!-- Conditional Other Notation Text Input -->
+                            <div class="mb-3" id="otherNotationText" style="display: none;">
+                              <label for="otherNotation" class="form-label">Please specify:</label>
+                              <input type="text" class="form-control" id="otherNotation" name="other_notation" placeholder="Enter your other notation">
+                            </div>
+                          </div>
+                        
+                          <div class="form-group level-drp">
+                            <label class="form-label" for="negotiable">Do you have any AHPRA-imposed conditions on your registration? </label><br>
+                            <label class="switch">
+                              <input type="checkbox" id="toggleCheckbox_conditions" name="negotiable_salary">
+                              <span class="slider"></span>
+                              
+                            </label>
+                          </div>
+                          <!-- Conditional Conditions List -->
+                          <div id="conditionsSection" style="display: none;">
+                            <div class="mb-3">
+                              <label class="form-label">Conditions:</label>
+                              <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="conditions[]" value="Must practise under supervision" id="condition1">
+                                <label class="form-check-label" for="condition1">Must practise under supervision</label>
+                              </div>
+                              <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="conditions[]" value="Restricted to specific clinical area" id="condition2">
+                                <label class="form-check-label" for="condition2">Restricted to specific clinical area</label>
+                              </div>
+                              <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="conditions[]" value="Must not administer medications" id="condition3">
+                                <label class="form-check-label" for="condition3">Must not administer medications</label>
+                              </div>
+                              <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="conditions[]" value="Must complete a supervised practice program" id="condition4">
+                                <label class="form-check-label" for="condition4">Must complete a supervised practice program</label>
+                              </div>
+                              <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="conditions[]" value="Must complete education or training" id="condition5">
+                                <label class="form-check-label" for="condition5">Must complete education or training</label>
+                              </div>
+                              <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="conditions[]" value="Must not work as a sole practitioner" id="condition6">
+                                <label class="form-check-label" for="condition6">Must not work as a sole practitioner</label>
+                              </div>
+                              <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="conditions[]" value="Must not practise in a high-risk setting" id="condition7">
+                                <label class="form-check-label" for="condition7">Must not practise in a high-risk setting</label>
+                              </div>
+                              <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="conditions[]" value="Must attend health/therapy or monitoring program" id="condition8">
+                                <label class="form-check-label" for="condition8">Must attend health/therapy or monitoring program</label>
+                              </div>
+                              <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="conditions[]" value="May only practise with employer notification to AHPRA" id="condition9">
+                                <label class="form-check-label" for="condition9">May only practise with employer notification to AHPRA</label>
+                              </div>
+                              <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="conditions[]" value="Cannot supervise students or junior staff" id="condition10">
+                                <label class="form-check-label" for="condition10">Cannot supervise students or junior staff</label>
+                              </div>
+                              <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="conditions[]" value="Must undergo regular performance review" id="condition11">
+                                <label class="form-check-label" for="condition11">Must undergo regular performance review</label>
+                              </div>
+                              <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="conditions[]" value="Must not prescribe medications" id="condition12">
+                                <label class="form-check-label" for="condition12">Must not prescribe medications</label>
+                              </div>
+                              <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="conditions[]" value="Practice hours must be logged and submitted" id="condition13">
+                                <label class="form-check-label" for="condition13">Practice hours must be logged and submitted</label>
+                              </div>
+                            </div>
+                            <div class="form-group level-drp" id="ahpra-number">
+                              <label for="expiryDate" class="form-label">Expiry:</label>
+                              <input type="date" class="form-control" id="expiryDate" name="expiry_date">
+                              </div>  
+                              
+                            </div>
+                            <div class="form-group level-drp" id="ahpra-number">
+                                <label for="principalPractice" class="form-label">Principal Place of Practice:</label>
+                                <select class="form-control" id="principalPractice" name="principal_place">
+                                  <option value="">-- Select a State --</option>
+                                  <option value="NSW">New South Wales (NSW)</option>
+                                  <option value="VIC">Victoria (VIC)</option>
+                                  <option value="QLD">Queensland (QLD)</option>
+                                  <option value="WA">Western Australia (WA)</option>
+                                  <option value="SA">South Australia (SA)</option>
+                                  <option value="TAS">Tasmania (TAS)</option>
+                                  <option value="ACT">Australian Capital Territory (ACT)</option>
+                                  <option value="NT">Northern Territory (NT)</option>
+                                </select>
+                            </div>  
+                            <div class="form-group drp--clr">
+                                <label class="form-label" for="input-1">Other Places of Practice:</label>
+                                
+                                
+                                <ul id="other_places" style="display:none;">
+                                  <li data-value="">select</li>
+                                  <li data-value="NSW">New South Wales (NSW)</li>
+                                  <li data-value="VIC">Victoria (VIC)</li>
+                                  <li data-value="QLD">Queensland (QLD)</li>
+                                  <li data-value="WA">Western Australia (WA)</li>
+                                  <li data-value="SA">South Australia (SA)</li>
+                                  <li data-value="TAS">Tasmania (TAS)</li>
+                                  <li data-value="ACT">Australian Capital Territory (ACT)</li>
+                                  <li data-value="NT">Northern Territory (NT)</li>
+                                </ul>
+                                <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="other_places" name="other_places[]" multiple="multiple"></select>
+                                {{-- <span id="any_help" class="reqError text-danger valley"></span> --}}
+                            </div>
+                            <div class="form-group level-drp">
+                              <label class="form-label" for="input-1">Upload Evidence</label>
+                              <input type="hidden" name="specialized_lang_skills[evidence_imgs]" class="specialized_lang_skills">
+                              <input class="form-control upload_evidence upload_evidence" type="file" name="" multiple="">
+                            </div>
+                            <div class="alert alert-info d-flex justify-content-between align-items-center" role="alert" style="background-color: #e6f2ff; border-left: 5px solid #3399ff;">
+                              <div>
+                                <strong>Please stay actively compliant.</strong><br>
+                                To ensure your profile remains up to date and match-ready, re-verify your professional registration regularly, especially during key events like job applications or expiring certifications.
+                                <br><br>
+                                <strong>Last verified:</strong> <span id="lastVerified">13-05-2025 – 12:34</span>
+                              </div>
+                              <div>
+                                <button id="reverifyBtn" class="btn btn-primary">Re-verify now</button>
+                              </div>
+                            </div>      
+                            <!-- Manual Entry Section -->
+                            <div id="manualAHPRAFields" style="display: none;">
+
+                              <div class="mb-3">
+                                <label for="ahpraNumber" class="form-label">Please Enter your AHPRA Registration Number:</label>
+                                <input type="text" class="form-control" id="ahpraNumber" name="ahpra_number" required placeholder="e.g. NMW0001234567" pattern="^NMW\d{10}$">
+                                <div class="form-text">Your AHPRA number was issued when you enrolled in your approved program.</div>
+                              </div>
+
+                              <!-- Division -->
+                              <div class="mb-3">
+                                <label class="form-label">Division:</label>
+                                <select class="form-select" name="division">
+                                  <option value="RN">Registered Nurse (RN)</option>
+                                  <option value="EN">Enrolled Nurse (EN)</option>
+                                  <option value="RM">Registered Midwife (RM)</option>
+                                  <option value="RN+RM">Registered Nurse and Midwife (RN+RM)</option>
+                                </select>
+                              </div>
+
+                              <!-- Registration Type -->
+                              <div class="mb-3">
+                                <label class="form-label">Registration Type:</label>
+                                <select class="form-select" name="registration_type">
+                                  <option value="general">General</option>
+                                  <option value="limited">Limited</option>
+                                  <option value="provisional">Provisional</option>
+                                  <option value="student_nurse">Student Nurse</option>
+                                  <option value="student_midwife">Student Midwife</option>
+                                  <option value="non_practising">Non-practising</option>
+                                </select>
+                              </div>
+
+                              <!-- Registration Status -->
+                              <div class="mb-3">
+                                <label class="form-label">Registration Status:</label>
+                                <select class="form-select" name="registration_status">
+                                  <option value="current">Current</option>
+                                  <option value="suspended">Suspended</option>
+                                  <option value="cancelled">Cancelled</option>
+                                  <option value="inactive">Inactive</option>
+                                  <option value="ineligible">Ineligible</option>
+                                  <option value="lapsed">Lapsed</option>
+                                  <option value="expired">Expired</option>
+                                  <option value="not_registered">Not currently registered</option>
+                                </select>
+                              </div>
+
+                              
+
+                            </div>
                           </div>
                         </div>
 
                         
-                        
+                        <!-- Expected Graduation Date -->
+                        <div class="mb-3" id="graduationDateGroup" style="display: none;">
+                          <label class="form-label">What is your expected graduation date?</label>
+                          <input type="date" class="form-control" name="graduation_date">
+                        </div>
+
+                        <!-- Upload Evidence -->
+                        <div class="mb-3" id="uploadEvidenceGroup" style="display: none;">
+                          <label class="form-label">Upload evidence</label>
+                          <input type="file" class="form-control" name="grad_evidence" accept=".pdf,.jpg,.jpeg,.png">
+                        </div>
+
+                        <!-- Overseas Qualified Section -->
+                        <div id="overseasQualifiedSection" style="display: none;">
+                          <div class="overseas_block">
+                            <label class="form-label">Please specify:</label>
+                            
+                            <ul id="overseas_qualified" style="display:none;">
+                              <li data-value="">select</li>
+                              <li data-value="recently_migrated">I recently migrated to Australia and am preparing to apply for AHPRA</li>
+                              <li data-value="aphra_app">I have submitted my AHPRA application and am awaiting outcome</li>
+                              <li data-value="aphra_assessment">I am preparing documentation for AHPRA assessment</li>
+                              <li data-value="aphra_bridge">I am studying to meet AHPRA bridging/re-entry requirements</li>
+                              <li data-value="other">Other</li>
+                              
+                            </ul>
+                            <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="overseas_qualified" name="overseas_qualified[]" multiple="multiple"></select>
+                          </div>
+                          <div class="other_text_block">
+                            <div id="overseasOtherText" class="mt-2" style="display: none;">
+                              <label class="form-check-label">Other Reason</label>
+                              <input type="text" class="form-control" name="overseas_other_text" placeholder="Please specify">
+                            </div>
+                            <!-- Upload -->
+                            <div class="mb-3 mt-3">
+                              <label class="form-label">Upload evidence</label>
+                              <input type="file" class="form-control" name="overseas_evidence" accept=".pdf,.jpg,.jpeg,.png">
+                            </div>
+                          </div>
+                          
                         </div>
                         
+                        <div class="not_registered" style="display: none;">
+                          <label class="form-label">Why you're not currently registered with AHPRA:</label>
+                            
+                            <ul id="not_registered_div" style="display:none;">
+                              <li data-value="">select</li>
+                              <li data-value="education_related">Education-Related Reasons</li>
+                              <li data-value="returning_practice">Returning to Practice</li>
+                              <li data-value="personal_career">Personal or Career Reasons</li>
+                              <li data-value="other">Other</li>
+                              
+                            </ul>
+                            <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="not_registered_div" name="overseas_qualified[]" multiple="multiple"></select>
+                        </div>
+                        <div class="edu_related_reasons" style="display:none;">
+                          <label class="form-label">Education-Related Reasons:</label>
+                            
+                          <ul id="education_related" style="display:none;">
+                            <li data-value="">select</li>
+                            <li data-value="startProgram">I am about to begin an AHPRA-approved nursing/midwifery program</li>
+                            <li data-value="waitingAssessment">I have completed my studies and am waiting for AHPRA assessment</li>
+                            <li data-value="studiedOutside">I completed my studies outside Australia and have not applied yet</li>
+                            <li data-value="didNotComplete">I did not complete my nursing/midwifery qualification</li>
+                            
+                          </ul>
+                          <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="education_related" name="overseas_qualified[]" multiple="multiple"></select>
+                        </div>
+                        <div class="returning_to_practice" style="display:none;">
+                          <label class="form-label">Returning to Practice:</label>
+                            
+                          <ul id="returning_practice" style="display:none;">
+                            <li data-value="">select</li>
+                            <li data-value="lapsed">I previously held registration but let it lapse</li>
+                            <li data-value="reentryProgram">I am currently completing a re-entry to practice program</li>
+                            <li data-value="waitingPlacement">I am waiting for supervised practice placement approval</li>
+                            <li data-value="nonPractisingToGeneral">I am transitioning from non-practising to general registration</li>
+                            
+                          </ul>
+                          <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="returning_practice" name="overseas_qualified[]" multiple="multiple"></select>
+                        </div>
+                        <div class="personal_career_reasons" style="display:none;">
+                          <label class="form-label">Personal or Career Reasons:</label>
+                            
+                          <ul id="personal_career" style="display:none;">
+                            <li data-value="">select</li>
+                            <li data-value="maternityLeave">On maternity or extended personal leave</li>
+                            <li data-value="careerBreak">Taking a career break</li>
+                            <li data-value="nonClinical">Working in a non-clinical healthcare role (e.g. admin, education)</li>
+                            <li data-value="overseasPractice">Practising in another country</li>
+                            <li data-value="nonHealth">Working in a non-healthcare sector</li>
+                            <li data-value="notReturning">I do not intend to practise again</li>
+                          </ul>
+                          <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="personal_career" name="overseas_qualified[]" multiple="multiple"></select>
+                        </div>
+                        <div class="other_text_block_registered">
+                          <div id="registeredOtherText" class="mt-2" style="display: none;">
+                            <label class="form-check-label">Other Reason</label>
+                            <input type="text" class="form-control" name="overseas_other_text" placeholder="Please specify">
+                          </div>
+                          <!-- Upload -->
+                          <div class="mb-3 mt-3">
+                            <label class="form-label">Upload evidence</label>
+                            <input type="file" class="form-control" name="registered_evidence" accept=".pdf,.jpg,.jpeg,.png">
+                          </div>
+                        </div>
+                        <div class="ndis_main_div">
+                          <div class="level-drp">
+                            <label class="form-label" for="input-1">What is your NDIS status?</label>
+                            <div class="form-check  mt-1  mb-2">
+                              <input class="form-check-input" type="radio" value="registered" id="availableNow" name="ndis_status">
+                              <label class="form-check-label" for="availableNow">
+                                I am an NDIS-registered provider
+                              </label>
+                            </div>
+                            <div class="form-check  mt-1  mb-2">
+                              <input class="form-check-input" type="radio" value="compliant" id="availableNow" name="ndis_status">
+                              <label class="form-check-label" for="availableNow">
+                                 I am NDIS-compliant, but not registered
+                              </label>
+                            </div>
+                            <div class="form-check  mt-1  mb-2">
+                              <input class="form-check-input" type="radio" value="not_compliant" id="availableNow" name="ndis_status">
+                              <label class="form-check-label" for="availableNow">
+                                 I am not NDIS-compliant
+                              </label>
+                            </div>
+                            
+                          </div>    
+                        </div>
+                        <!-- Registered Provider Section -->
+                        <div id="ndis_registered_fields" class="ndis-section" style="display:none;">
+                          <div class="alert-info">
+                            <strong>NDIS Scope of Work:</strong> Agency-managed, Plan-managed, and Self-managed clients
+                          </div>
+
+                          <label for="ndis_number">NDIS Registration Number <span style="color:red">*</span></label>
+                          <input type="text" id="ndis_number" name="ndis_number" required><br><br>
+
+                          <label>Upload Registration Evidence:</label>
+                          <input type="file" name="ndis_registration_evidence"><br><br>
+
+                          <div class="alert-helper">
+                            You can showcase your skills and qualifications in <strong>Profession</strong> under <em>Specialties → Community</em>.<br>
+                            Please add your Orientation Module and other relevant NDIS training under <strong>Mandatory Training</strong>, and your Screening Check under <strong>Checks and Clearances</strong>.
+                          </div>
+                        </div>
+                        <!-- Compliant but Not Registered Section -->
+                        <div id="ndis_compliant_fields" class="ndis-section" style="display:none;">
+                          <div class="alert-info">
+                            <strong>NDIS Scope of Work:</strong> Self-managed and Plan-managed clients
+                          </div>
+
+                          <div class="alert-helper">
+                            You can showcase your skills and qualifications in <strong>Profession</strong> under <em>Specialties → Community</em>.<br>
+                            Please add your Orientation Module under <strong>Mandatory Training</strong> and your Screening Check under <strong>Checks and Clearances</strong>.
+                          </div>
+                        </div>
+                        <!-- Not Compliant Section -->
+                        <div id="ndis_not_compliant_fields" class="ndis-section" style="display:none;">
+                          <div class="alert-info">
+                            <strong>NDIS Scope of Work:</strong> You are not currently eligible to deliver NDIS-funded services.
+                          </div>
+
+                          <p>
+                            To begin working with NDIS participants, you must complete both the <strong>NDIS Worker Orientation Module</strong> and the <strong>NDIS Worker Screening Check</strong>.<br>
+                            Once compliant, you may work with plan-managed and self-managed clients.<br>
+                            You can then choose to become an NDIS-registered provider if you wish to work with agency-managed clients.<br>
+                            <a href="https://www.ndis.gov.au/providers/becoming-ndis-provider/how-register" target="_blank">
+                              Learn how to register as an NDIS provider
+                            </a>
+                          </p>
+                        </div>
                         <div class="box-button mt-15">
                           <button class="btn btn-apply-big font-md font-bold" type="submit" id="submitLanguageSkills" @if(!email_verified()) disabled  @endif>Save Changes</button>
                         </div>
@@ -381,12 +880,69 @@
         });
     });
 
+    $('#toggleCheckbox').click(function(){
+      if ($('#toggleCheckbox').is(':checked')) {
+        // Checkbox is checked
+        console.log('Checked!');
+        $("#notationsSection").show();
+      } else {
+        // Checkbox is not checked
+        console.log('Not checked!');
+        $("#notationsSection").hide();
+      }
+    });
+
+    $('#toggleCheckbox_conditions').click(function(){
+      if ($('#toggleCheckbox_conditions').is(':checked')) {
+        // Checkbox is checked
+        console.log('Checked!');
+        $("#conditionsSection").show();
+      } else {
+        // Checkbox is not checked
+        console.log('Not checked!');
+        $("#conditionsSection").hide();
+      }
+    });
+  
+    document.getElementById('reverifyBtn').addEventListener('click', function () {
+    // Simulate re-verification process (replace this with your actual logic, API, etc.)
+    const now = new Date();
+    const formatted = now.toLocaleDateString('en-GB') + ' – ' + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+    // Overwrite the stored last verified date (UI + backend)
+    document.getElementById('lastVerified').innerText = formatted;
+
+    // TODO: Add AJAX call or form submission to update the backend
+    // Example:
+    /*
+    fetch('/update-verification', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ nurse_id: 123, last_verified: now.toISOString() })
+    }).then(...);
+    */
+
+    alert('Your AHPRA registration has been re-verified.');
+  });
     
   const registrationStatus = document.getElementById("registration-status");
   const ahpraGroup = document.getElementById("ahpra-details-group");
+  const ahpraGroup_group2 = document.getElementById("manualAHPRAFields");
+  const graduation_date = document.getElementById("graduationDateGroup");
+  const upload_graduation_evidence = document.getElementById("uploadEvidenceGroup");
+  const ahpraGroup_overseas = document.getElementById("overseasQualifiedSection");
+  const ahpraotherbox = document.getElementById("overseasOtherText");
+  const not_registered = document.getElementsByClassName("not_registered");
 
   const allowedStatuses = ["RN", "RM", "RN_RM", "NP"];
 
+  const allowedStatuses_group2 = ["Graduate_RN", "Graduate_RM", "Student_Nurse", "Student_Midwife"];
+
+  const allowedStatuses_group3 = ["Overseas"];
+
+  const allowedStatuses_group4 = ["Not_Registered"];
+  
+  const allowedStatuses_graduate = ["Graduate_RN", "Graduate_RM"];
   
 
   registrationStatus.addEventListener("change", function () {
@@ -398,12 +954,108 @@
       
       ahpraGroup.style.display = "none";
     }
+
+    if (allowedStatuses_group2.includes(this.value)) {
+      
+      if(allowedStatuses_graduate.includes(this.value)){
+        ahpraGroup_group2.style.display = "block";
+        graduation_date.style.display = "block";
+        upload_graduation_evidence.style.display = "block";
+      }else{
+        ahpraGroup_group2.style.display = "block";
+        graduation_date.style.display = "none";
+        upload_graduation_evidence.style.display = "none";
+      }
+      
+    } else {
+      
+      ahpraGroup_group2.style.display = "none";
+    }
+
+    if (allowedStatuses_group3.includes(this.value)) {
+      
+      ahpraGroup_overseas.style.display = "block";
+    } else {
+      
+      ahpraGroup_overseas.style.display = "none";
+    }
+
+    if (allowedStatuses_group4.includes(this.value)) {
+      
+      $(".not_registered").show();
+    } else {
+      
+      $(".not_registered").hide();
+    }
+    
+    
+  });
+
+  $('input[name="ndis_status"]').on('change', function () {
+      const value = $(this).val();
+
+      $('.ndis-section').hide(); // hide all sections
+
+      if (value === 'registered') {
+          $('#ndis_registered_fields').show();
+      } else if (value === 'compliant') {
+          $('#ndis_compliant_fields').show();
+      } else if (value === 'not_compliant') {
+          $('#ndis_not_compliant_fields').show();
+      }
+  });
+
+  $('.js-example-basic-multiple[data-list-id="overseas_qualified"]').on('change', function() {
+    let selectedValues = $(this).val();
+    console.log("selectedValues",selectedValues);
+
+    if(selectedValues.includes("other")){
+      $("#overseasOtherText").show();
+    }else{
+      $("#overseasOtherText").hide();
+    }
+  });
+
+  $('.js-example-basic-multiple[data-list-id="not_registered_div"]').on('change', function() {
+    let selectedValues = $(this).val();
+    console.log("selectedValues",selectedValues);
+
+    if(selectedValues.includes("education_related")){
+      $(".edu_related_reasons").show();
+    }else{
+      $(".edu_related_reasons").hide();
+    }
+
+    if(selectedValues.includes("returning_practice")){
+      $(".returning_to_practice").show();
+    }else{
+      $(".returning_to_practice").hide();
+    }
+
+    if(selectedValues.includes("personal_career")){
+      $(".personal_career_reasons").show();
+    }else{
+      $(".personal_career_reasons").hide();
+    }
+
+    if(selectedValues.includes("other")){
+      $("#registeredOtherText").show();
+    }else{
+      $("#registeredOtherText").hide();
+    }
+  });
+
+  // Show/hide "Other" notation input field
+  document.getElementById('notationOther').addEventListener('change', (e) => {
+    const otherText = document.getElementById('otherNotationText');
+    otherText.style.display = e.target.checked ? 'block' : 'none';
   });
 
     $("#lookup-ahpra-btn").click(function(){
       var ahpraNumber = $(".ahpra_number").val();
       console.log("ahpraNumber",ahpraNumber);
-      $("#ahpra-lookup-result").show();
+      
+      
       $.ajax({
         url: "{{ route('nurse.ahepra_lookup') }}",
         type: "GET",
@@ -411,7 +1063,7 @@
         data: {ahpraNumber:ahpraNumber},
         success: function(res) {
           console.log("res",res.division);
-          
+          $("#ahpra-lookup-result").show();
           $("#division").html(res.division);
           $("#endorsements").html(res.endorsements);
           $("#reg_type").html(res.registration_type);
@@ -423,8 +1075,24 @@
           $("#other_practices").html(res.other_places);
 
           
+
+          
         }
       });      
+      var division = $("#division").html();
+          var endorsements = $("#endorsements").html();
+          var reg_type = $("#reg_type").html();
+          var reg_status = $("#reg_status").html();
+          var notations = $("#notations").html();
+          var conditions = $("#conditions").html();
+          var expiry = $("#expiry").html();
+          var principal_practice = $("#principal_practice").html();
+          var other_practices = $("#other_practices").html();
+          //alert(division);
+      if(division == '' && endorsements == '' && reg_type == '' && reg_status == '' && notations == '' && conditions == '' && expiry == '' && principal_practice == '' && other_practices == ''){
+        $("#ahpra-lookup-result").hide();
+        $("#manual_ahpra_lookup").show();
+      }
    });
 
 
