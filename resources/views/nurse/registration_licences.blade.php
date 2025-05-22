@@ -230,38 +230,39 @@ input:checked + .slider:before {
                       <h3 class="mt-0 color-brand-1 mb-2">Registrations and Licences</h3>
 
     
-                      <form id="language_skills_form" method="POST" onsubmit="return update_language_skills()">
+                      <form id="register_licenses_form" method="POST" onsubmit="return update_register_licenses()">
                         @csrf
                         <input type="hidden" name="user_id" value="{{ Auth::guard('nurse_middle')->user()->id }}">
                         <div class="form-group level-drp">
                           <label class="form-label" for="input-1">What is your current AHPRA registration status?</label>
-                          <select id="registration-status" name="registration_status" class="form-control">
+                          <select id="registration-status" name="ahpra_registration_status" class="form-control">
                             <option value="">-- Select Registration Status --</option>
-                            <option value="RN">Registered Nurse (RN)</option>
-                            <option value="RM">Registered Midwife (RM)</option>
-                            <option value="RN_RM">Registered Nurse and Midwife (RN/RM)</option>
-                            <option value="NP">Nurse Practitioner (NP) (as endorsed under RN)</option>
-                            <option value="Graduate_RN">Graduate Nurse – Transitional Authorisation</option>
-                            <option value="Graduate_RM">Graduate Midwife – Transitional Authorisation</option>
-                            <option value="Student_Nurse">Student Nurse – AHPRA-registered (NMBA-approved course)</option>
-                            <option value="Student_Midwife">Student Midwife – AHPRA-registered (NMBA-approved course)</option>
-                            <option value="Overseas">Overseas-Qualified Nurses and Midwives not currently registered with AHPRA</option>
-                            <option value="Not_Registered">Not currently registered with AHPRA</option>
+                            <option value="RN" @if(!empty($licenses_data) && $licenses_data->ahpra_registration_status == "RN") selected @endif>Registered Nurse (RN)</option>
+                            <option value="RM" @if(!empty($licenses_data) && $licenses_data->ahpra_registration_status == "RM") selected @endif>Registered Midwife (RM)</option>
+                            <option value="RN_RM" @if(!empty($licenses_data) && $licenses_data->ahpra_registration_status == "RN_RM") selected @endif>Registered Nurse and Midwife (RN/RM)</option>
+                            <option value="NP" @if(!empty($licenses_data) && $licenses_data->ahpra_registration_status == "NP") selected @endif>Nurse Practitioner (NP) (as endorsed under RN)</option>
+                            <option value="Graduate_RN" @if(!empty($licenses_data) && $licenses_data->ahpra_registration_status == "Graduate_RN") selected @endif>Graduate Nurse – Transitional Authorisation</option>
+                            <option value="Graduate_RM" @if(!empty($licenses_data) && $licenses_data->ahpra_registration_status == "Graduate_RM") selected @endif>Graduate Midwife – Transitional Authorisation</option>
+                            <option value="Student_Nurse" @if(!empty($licenses_data) && $licenses_data->ahpra_registration_status == "Student_Nurse") selected @endif>Student Nurse – AHPRA-registered (NMBA-approved course)</option>
+                            <option value="Student_Midwife" @if(!empty($licenses_data) && $licenses_data->ahpra_registration_status == "Student_Midwife") selected @endif>Student Midwife – AHPRA-registered (NMBA-approved course)</option>
+                            <option value="Overseas" @if(!empty($licenses_data) && $licenses_data->ahpra_registration_status == "Overseas") selected @endif>Overseas-Qualified Nurses and Midwives not currently registered with AHPRA</option>
+                            <option value="Not_Registered" @if(!empty($licenses_data) && $licenses_data->ahpra_registration_status == "Not_Registered") selected @endif>Not currently registered with AHPRA</option>
                           </select>
                         </div>
                         <!-- Conditional AHPRA Input Group -->
+                        
                         <div id="ahpra-details-group" style="display: none;">
                           <div class="form-group level-drp" id="ahpra-number">
                             <!-- AHPRA Number -->
                             <label for="ahpra-number"><strong>Please Enter your AHPRA Registration Number:</strong></label>
                             <input class="form-control ahpra_number" type="text" name="ahpra_number" pattern="^NMW\d{10}$"
-                                  placeholder="e.g. NMW0001234567" required/>
+                                  placeholder="e.g. NMW0001234567" value="@if(!empty($licenses_data)){{ $licenses_data->aphra_registration_no }}@endif"/>
                             <small style="color: gray;">Format: NMW followed by 10 digits (e.g., NMW0001234567)</small>
                           </div>  
                           <!-- Consent Checkbox -->
                           <div class="declaration_box">
                             <label>
-                              <input type="checkbox" id="ahpra-consent" required />
+                              <input type="checkbox" name="ahpra_consent" id="ahpra-consent" @if(!empty($licenses_data) && $licenses_data->aphra_verifying_checkbox == "1") checked @endif/>
                               I consent to Mediqa verifying my AHPRA registration via the public AHPRA register.
                             </label>
                           </div>
@@ -296,95 +297,101 @@ input:checked + .slider:before {
                             <div class="form-group level-drp" id="ahpra-number">
                             <!-- AHPRA Number -->
                             <label for="ahpra-number">Division:</label>
-                            <select class="form-control" id="division" name="division" required>
+                            <select class="form-control" id="division" name="division">
                               <option value="">Select Division</option>
-                              <option value="RN">Registered Nurse (RN)</option>
-                              <option value="EN">Enrolled Nurse (EN)</option>
-                              <option value="RM">Registered Midwife (RM)</option>
-                              <option value="RN+RM">Registered Nurse and Midwife (RN+RM)</option>
+                              <option value="RN" @if(!empty($licenses_data) && $licenses_data->register_division == "RN") selected @endif>Registered Nurse (RN)</option>
+                              <option value="EN" @if(!empty($licenses_data) && $licenses_data->register_division == "EN") selected @endif>Enrolled Nurse (EN)</option>
+                              <option value="RM" @if(!empty($licenses_data) && $licenses_data->register_division == "RM") selected @endif>Registered Midwife (RM)</option>
+                              <option value="RN+RM" @if(!empty($licenses_data) && $licenses_data->register_division == "RN+RM") selected @endif>Registered Nurse and Midwife (RN+RM)</option>
                             </select>
                           </div>  
                           <div class="form-group level-drp" id="ahpra-number">
                             <!-- AHPRA Number -->
                             <label for="endorsements" class="form-label">Endorsements:</label>
-                            <select class="form-control" id="endorsements" name="endorsements" required>
+                            <select class="form-control" id="endorsements" name="endorsements">
                               <option value="">Select Endorsement</option>
-                              <option value="NP">Nurse Practitioner (NP)</option>
-                              <option value="MidwifeMeds">Scheduled Medicines – Midwife</option>
-                              <option value="RIPRN">Scheduled Medicines – RN (Rural and Isolated Practice)</option>
-                              <option value="NP+Midwife">Both NP and Endorsed Midwife</option>
-                              <option value="IVs">IV Endorsed - Enrolled Nurse (IVs)</option>
-                              <option value="meds">Medication Endorsed - Enrolled Nurse (meds)</option>
-                              <option value="none">No endorsed status</option>
+                              <option value="NP" @if(!empty($licenses_data) && $licenses_data->register_endorsements == "NP") selected @endif>Nurse Practitioner (NP)</option>
+                              <option value="MidwifeMeds" @if(!empty($licenses_data) && $licenses_data->register_endorsements == "MidwifeMeds") selected @endif>Scheduled Medicines – Midwife</option>
+                              <option value="RIPRN" @if(!empty($licenses_data) && $licenses_data->register_endorsements == "RIPRN") selected @endif>Scheduled Medicines – RN (Rural and Isolated Practice)</option>
+                              <option value="NP+Midwife" @if(!empty($licenses_data) && $licenses_data->register_endorsements == "NP+Midwife") selected @endif>Both NP and Endorsed Midwife</option>
+                              <option value="IVs" @if(!empty($licenses_data) && $licenses_data->register_endorsements == "IVs") selected @endif>IV Endorsed - Enrolled Nurse (IVs)</option>
+                              <option value="meds" @if(!empty($licenses_data) && $licenses_data->register_endorsements == "meds") selected @endif>Medication Endorsed - Enrolled Nurse (meds)</option>
+                              <option value="none" @if(!empty($licenses_data) && $licenses_data->register_endorsements == "none") selected @endif>No endorsed status</option>
                             </select>
                           </div>  
                           <div class="form-group level-drp" id="ahpra-number">
                             <!-- AHPRA Number -->
                             <label for="regType" class="form-label">Registration Type:</label>
-                            <select class="form-control" id="regType" name="registration_type" required>
+                            <select class="form-control" id="regType" name="reg_registration_type">
                               <option value="">Select Registration Type</option>
-                              <option value="General">General</option>
-                              <option value="Limited">Limited</option>
-                              <option value="Provisional">Provisional</option>
-                              <option value="Student Nurse">Student Nurse</option>
-                              <option value="Student Midwife">Student Midwife</option>
-                              <option value="Non-practising">Non-practising</option>
+                              <option value="General" @if(!empty($licenses_data) && $licenses_data->register_reg_type == "General") selected @endif>General</option>
+                              <option value="Limited" @if(!empty($licenses_data) && $licenses_data->register_reg_type == "Limited") selected @endif>Limited</option>
+                              <option value="Provisional" @if(!empty($licenses_data) && $licenses_data->register_reg_type == "Provisional") selected @endif>Provisional</option>
+                              <option value="Student Nurse" @if(!empty($licenses_data) && $licenses_data->register_reg_type == "Student Nurse") selected @endif>Student Nurse</option>
+                              <option value="Student Midwife" @if(!empty($licenses_data) && $licenses_data->register_reg_type == "Student Midwife") selected @endif>Student Midwife</option>
+                              <option value="Non-practising" @if(!empty($licenses_data) && $licenses_data->register_reg_type == "Non-practising") selected @endif>Non-practising</option>
                             </select>
                           </div>  
                           <div class="form-group level-drp" id="ahpra-number">
                             <!-- AHPRA Number -->
                             <label for="regStatus" class="form-label">Registration Status:</label>
-                            <select class="form-control" id="regStatus" name="registration_status" required>
+                            <select class="form-control" id="regStatus" name="reg_registration_status">
                               <option value="">Select Registration Status</option>
-                              <option value="Current">Current</option>
-                              <option value="Suspended">Suspended</option>
-                              <option value="Cancelled">Cancelled</option>
-                              <option value="Inactive">Inactive</option>
-                              <option value="Ineligible">Ineligible</option>
-                              <option value="Lapsed">Lapsed</option>
-                              <option value="Expired">Expired</option>
-                              <option value="Not registered">Not currently registered</option>
+                              <option value="Current" @if(!empty($licenses_data) && $licenses_data->register_reg_status == "Current") selected @endif>Current</option>
+                              <option value="Suspended" @if(!empty($licenses_data) && $licenses_data->register_reg_status == "Suspended") selected @endif>Suspended</option>
+                              <option value="Cancelled" @if(!empty($licenses_data) && $licenses_data->register_reg_status == "Cancelled") selected @endif>Cancelled</option>
+                              <option value="Inactive" @if(!empty($licenses_data) && $licenses_data->register_reg_status == "Inactive") selected @endif>Inactive</option>
+                              <option value="Ineligible" @if(!empty($licenses_data) && $licenses_data->register_reg_status == "Ineligible") selected @endif>Ineligible</option>
+                              <option value="Lapsed" @if(!empty($licenses_data) && $licenses_data->register_reg_status == "Lapsed") selected @endif>Lapsed</option>
+                              <option value="Expired" @if(!empty($licenses_data) && $licenses_data->register_reg_status == "Expired") selected @endif>Expired</option>
+                              <option value="Not registered" @if(!empty($licenses_data) && $licenses_data->register_reg_status == "Not registered") selected @endif>Not currently registered</option>
                             </select>
                           </div>  
                           <div class="form-group level-drp">
                             <label class="form-label" for="negotiable">Do you have any notations on your AHPRA registration? </label><br>
                             <label class="switch">
-                              <input type="checkbox" id="toggleCheckbox" name="negotiable_salary">
+                              <input type="checkbox" id="toggleCheckbox" name="negotiable_salary" @if(!empty($licenses_data) && $licenses_data->register_notations != NULL) checked @endif>
                               <span class="slider"></span>
                               
                             </label>
                           </div>
-                          
+                          <?php
+                            if(!empty($licenses_data) && $licenses_data->register_notations != NULL){
+                              $register_notations = json_decode($licenses_data->register_notations);
+                            }else{
+                              $register_notations = [];
+                            }
+                          ?>
                             <!-- Conditional Notations Field (Hidden by Default) -->
                           <div id="notationsSection" style="display: none;">
                             <div class="mb-3">
                               <label class="form-label">Notations:</label>
                               <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="notations[]" value="Must practise under supervision" id="notation1">
+                                <input class="form-check-input" type="checkbox" name="notations[]" value="Must practise under supervision" @if(in_array("Must practise under supervision", $register_notations) == true) checked @endif id="notation1">
                                 <label class="form-check-label" for="notation1">Must practise under supervision</label>
                               </div>
                               <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="notations[]" value="May not administer medications" id="notation2">
+                                <input class="form-check-input" type="checkbox" name="notations[]" value="May not administer medications" @if(in_array("May not administer medications", $register_notations) == true) checked @endif id="notation2">
                                 <label class="form-check-label" for="notation2">May not administer medications</label>
                               </div>
                               <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="notations[]" value="Authorised as a student" id="notation3">
+                                <input class="form-check-input" type="checkbox" name="notations[]" value="Authorised as a student" @if(in_array("Authorised as a student", $register_notations) == true) checked @endif id="notation3">
                                 <label class="form-check-label" for="notation3">Authorised as a student</label>
                               </div>
                               <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="notations[]" value="Endorsed as a midwife — may prescribe under certain conditions" id="notation4">
+                                <input class="form-check-input" type="checkbox" name="notations[]" value="Endorsed as a midwife — may prescribe under certain conditions" @if(in_array("Endorsed as a midwife — may prescribe under certain conditions", $register_notations) == true) checked @endif id="notation4">
                                 <label class="form-check-label" for="notation4">Endorsed as a midwife — may prescribe under certain conditions</label>
                               </div>
                               <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="notations[]" value="May only practise in area of approved qualification" id="notation5">
+                                <input class="form-check-input" type="checkbox" name="notations[]" value="May only practise in area of approved qualification" @if(in_array("May only practise in area of approved qualification", $register_notations) == true) checked @endif id="notation5">
                                 <label class="form-check-label" for="notation5">May only practise in area of approved qualification</label>
                               </div>
                               <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="notations[]" value="May not work in high-risk settings" id="notation6">
+                                <input class="form-check-input" type="checkbox" name="notations[]" value="May not work in high-risk settings" @if(in_array("May not work in high-risk settings", $register_notations) == true) checked @endif id="notation6">
                                 <label class="form-check-label" for="notation6">May not work in high-risk settings</label>
                               </div>
                               <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="notations[]" value="Other" id="notationOther">
+                                <input class="form-check-input" type="checkbox" name="notations[]" value="Other" @if(in_array("Other", $register_notations) == true) checked @endif id="notationOther">
                                 <label class="form-check-label" for="notationOther">Other</label>
                               </div>
                             </div>
@@ -501,7 +508,7 @@ input:checked + .slider:before {
                             <div class="form-group level-drp">
                               <label class="form-label" for="input-1">Upload Evidence</label>
                               <input type="hidden" name="specialized_lang_skills[evidence_imgs]" class="specialized_lang_skills">
-                              <input class="form-control upload_evidence upload_evidence" type="file" name="" multiple="">
+                              <input class="form-control upload_evidence" type="file" name="upload_register_evidence" multiple="">
                             </div>
                             <div class="alert alert-info d-flex justify-content-between align-items-center" role="alert" style="background-color: #e6f2ff; border-left: 5px solid #3399ff;">
                               <div>
@@ -519,7 +526,7 @@ input:checked + .slider:before {
 
                               <div class="mb-3">
                                 <label for="ahpraNumber" class="form-label">Please Enter your AHPRA Registration Number:</label>
-                                <input type="text" class="form-control" id="ahpraNumber" name="ahpra_number" required placeholder="e.g. NMW0001234567" pattern="^NMW\d{10}$">
+                                <input type="text" class="form-control" id="ahpraNumber" name="graduate_ahpra_number" placeholder="e.g. NMW0001234567" pattern="^NMW\d{10}$">
                                 <div class="form-text">Your AHPRA number was issued when you enrolled in your approved program.</div>
                               </div>
 
@@ -670,7 +677,7 @@ input:checked + .slider:before {
                             <input type="text" class="form-control" name="overseas_other_text" placeholder="Please specify">
                           </div>
                           <!-- Upload -->
-                          <div class="mb-3 mt-3">
+                          <div class="mb-3 mt-3 registered_evidence" style="display: none;">
                             <label class="form-label">Upload evidence</label>
                             <input type="file" class="form-control" name="registered_evidence" accept=".pdf,.jpg,.jpeg,.png">
                           </div>
@@ -706,7 +713,7 @@ input:checked + .slider:before {
                           </div>
 
                           <label for="ndis_number">NDIS Registration Number <span style="color:red">*</span></label>
-                          <input type="text" id="ndis_number" name="ndis_number" required><br><br>
+                          <input type="text" id="ndis_number" name="ndis_number"><br><br>
 
                           <label>Upload Registration Evidence:</label>
                           <input type="file" name="ndis_registration_evidence"><br><br>
@@ -743,7 +750,7 @@ input:checked + .slider:before {
                           </p>
                         </div>
                         <div class="box-button mt-15">
-                          <button class="btn btn-apply-big font-md font-bold" type="submit" id="submitLanguageSkills" @if(!email_verified()) disabled  @endif>Save Changes</button>
+                          <button class="btn btn-apply-big font-md font-bold" type="submit" id="submitRegistrationLicenses" @if(!email_verified()) disabled  @endif>Save Changes</button>
                         </div>
                       </form>
     
@@ -891,6 +898,16 @@ input:checked + .slider:before {
         $("#notationsSection").hide();
       }
     });
+
+    if ($('#toggleCheckbox').is(':checked')) {
+      // Checkbox is checked
+      console.log('Checked!');
+      $("#notationsSection").show();
+    } else {
+      // Checkbox is not checked
+      console.log('Not checked!');
+      $("#notationsSection").hide();
+    }
 
     $('#toggleCheckbox_conditions').click(function(){
       if ($('#toggleCheckbox_conditions').is(':checked')) {
@@ -1040,8 +1057,10 @@ input:checked + .slider:before {
 
     if(selectedValues.includes("other")){
       $("#registeredOtherText").show();
+      $(".register_evidence").show();
     }else{
       $("#registeredOtherText").hide();
+      $(".register_evidence").hide();
     }
   });
 
@@ -1094,6 +1113,61 @@ input:checked + .slider:before {
         $("#manual_ahpra_lookup").show();
       }
    });
+
+   var reg_status = $("#registration-status").val();
+   console.log("reg_status",reg_status);
+
+   if(reg_status == "RN" || reg_status == "RM" || reg_status == "RN_RM" || reg_status == "NP"){
+    $("#ahpra-details-group").show();
+   }else{
+    $("#ahpra-details-group").hide();
+   }
+
+   function update_register_licenses(){
+    
+
+    $.ajax({
+      url: "{{ route('nurse.update_registration_licenses') }}",
+      type: "POST",
+      cache: false,
+      contentType: false,
+      processData: false,
+      data: new FormData($('#register_licenses_form')[0]),
+      dataType: 'json',
+      beforeSend: function() {
+        $('#submitRegistrationLicenses').prop('disabled', true);
+        $('#submitRegistrationLicenses').text('Process....');
+      },
+      success: function(res) {
+        if (res.status == '1') {
+          Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: 'Registration & Licenses Information Updated Successfully',
+          }).then(function() {
+            window.location.href = "{{ route('nurse.registration_licences') }}?page=registration_licences";
+          });
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: res.message,
+          })
+        }
+      },
+      error: function(errorss) {
+        $('#submitRegistrationLicenses').prop('disabled', false);
+        $('#submitRegistrationLicenses').text('Save Changes');
+        console.log("errorss", errorss);
+        for (var err in errorss.responseJSON.errors) {
+          $("#submitRegistrationLicenses").find("[name='" + err + "']").after("<div class='text-danger'>" + errorss.responseJSON.errors[err] + "</div>");
+        }
+      }
+    
+    });
+
+    return false;
+   }
 
 
 </script>
