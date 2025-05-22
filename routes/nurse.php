@@ -174,6 +174,9 @@ Route::prefix('nurse')->name('nurse.')->namespace('App\Http\Controllers\nurse')-
   /**************[Registeration & Licences]**************/
   Route::get('/registration_licences', 'LicencesContoller@registration_licences')->name('registration_licences');
   Route::get('/ahepra_lookup', 'LicencesContoller@ahepra_lookup')->name('ahepra_lookup');    
+  Route::post('/update_registration_licenses', 'LicencesContoller@update_registration_licenses')->name('update_registration_licenses');
+  Route::post('/uploadLicensesEvidenceImgs', 'LicencesContoller@uploadLicensesEvidenceImgs')->name('uploadLicensesEvidenceImgs');
+  Route::post('/deleteLicensesEvidenceImg', 'LicencesContoller@deleteLicensesEvidenceImg')->name('deleteLicensesEvidenceImg');    
   
   /**************[Work Preferences & Flexibility]**************/
   Route::get('/match_percentage', 'WorkPreferencesController@match_percentage')->name('match_percentage');
