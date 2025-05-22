@@ -59,7 +59,7 @@
     color: #fff;
   }
 
-  form#language_skills_form ul.select2-selection__rendered {
+  form#register_licenses_form ul.select2-selection__rendered {
     box-shadow: none;
     max-height: inherit;
     border: none;
@@ -398,78 +398,85 @@ input:checked + .slider:before {
                             <!-- Conditional Other Notation Text Input -->
                             <div class="mb-3" id="otherNotationText" style="display: none;">
                               <label for="otherNotation" class="form-label">Please specify:</label>
-                              <input type="text" class="form-control" id="otherNotation" name="other_notation" placeholder="Enter your other notation">
+                              <input type="text" class="form-control" id="otherNotation" name="other_notation" placeholder="Enter your other notation" value="@if(!empty($licenses_data)){{ $licenses_data->register_other_notation_reason }}@endif">
                             </div>
                           </div>
                         
                           <div class="form-group level-drp">
                             <label class="form-label" for="negotiable">Do you have any AHPRA-imposed conditions on your registration? </label><br>
                             <label class="switch">
-                              <input type="checkbox" id="toggleCheckbox_conditions" name="negotiable_salary">
+                              <input type="checkbox" id="toggleCheckbox_conditions"  name="negotiable_salary" @if(!empty($licenses_data) && $licenses_data->register_conditions != NULL) checked @endif>
                               <span class="slider"></span>
                               
                             </label>
                           </div>
+                          <?php
+                            if(!empty($licenses_data) && $licenses_data->register_conditions != NULL){
+                              $register_conditions = json_decode($licenses_data->register_conditions);
+                            }else{
+                              $register_conditions = [];
+                            }
+                          ?>
                           <!-- Conditional Conditions List -->
                           <div id="conditionsSection" style="display: none;">
                             <div class="mb-3">
                               <label class="form-label">Conditions:</label>
                               <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="conditions[]" value="Must practise under supervision" id="condition1">
+                                <input class="form-check-input" type="checkbox" name="conditions[]" value="Must practise under supervision" id="condition1" @if(in_array("Must practise under supervision", $register_conditions) == true) checked @endif>
                                 <label class="form-check-label" for="condition1">Must practise under supervision</label>
                               </div>
                               <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="conditions[]" value="Restricted to specific clinical area" id="condition2">
+                                <input class="form-check-input" type="checkbox" name="conditions[]" value="Restricted to specific clinical area" id="condition2" @if(in_array("Restricted to specific clinical area", $register_conditions) == true) checked @endif>
                                 <label class="form-check-label" for="condition2">Restricted to specific clinical area</label>
                               </div>
                               <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="conditions[]" value="Must not administer medications" id="condition3">
+                                <input class="form-check-input" type="checkbox" name="conditions[]" value="Must not administer medications" id="condition3" @if(in_array("Must not administer medications", $register_conditions) == true) checked @endif>
                                 <label class="form-check-label" for="condition3">Must not administer medications</label>
                               </div>
                               <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="conditions[]" value="Must complete a supervised practice program" id="condition4">
+                                <input class="form-check-input" type="checkbox" name="conditions[]" value="Must complete a supervised practice program" id="condition4" @if(in_array("Must complete a supervised practice program", $register_conditions) == true) checked @endif>
                                 <label class="form-check-label" for="condition4">Must complete a supervised practice program</label>
                               </div>
                               <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="conditions[]" value="Must complete education or training" id="condition5">
+                                <input class="form-check-input" type="checkbox" name="conditions[]" value="Must complete education or training" id="condition5" @if(in_array("Must complete education or training", $register_conditions) == true) checked @endif>
                                 <label class="form-check-label" for="condition5">Must complete education or training</label>
                               </div>
                               <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="conditions[]" value="Must not work as a sole practitioner" id="condition6">
+                                <input class="form-check-input" type="checkbox" name="conditions[]" value="Must not work as a sole practitioner" id="condition6" @if(in_array("Must not work as a sole practitioner", $register_conditions) == true) checked @endif>
                                 <label class="form-check-label" for="condition6">Must not work as a sole practitioner</label>
                               </div>
                               <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="conditions[]" value="Must not practise in a high-risk setting" id="condition7">
+                                <input class="form-check-input" type="checkbox" name="conditions[]" value="Must not practise in a high-risk setting" id="condition7" @if(in_array("Must not practise in a high-risk setting", $register_conditions) == true) checked @endif>
                                 <label class="form-check-label" for="condition7">Must not practise in a high-risk setting</label>
                               </div>
                               <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="conditions[]" value="Must attend health/therapy or monitoring program" id="condition8">
+                                <input class="form-check-input" type="checkbox" name="conditions[]" value="Must attend health/therapy or monitoring program" id="condition8" @if(in_array("Must attend health/therapy or monitoring program", $register_conditions) == true) checked @endif>
                                 <label class="form-check-label" for="condition8">Must attend health/therapy or monitoring program</label>
                               </div>
                               <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="conditions[]" value="May only practise with employer notification to AHPRA" id="condition9">
+                                <input class="form-check-input" type="checkbox" name="conditions[]" value="May only practise with employer notification to AHPRA" id="condition9" @if(in_array("May only practise with employer notification to AHPRA", $register_conditions) == true) checked @endif>
                                 <label class="form-check-label" for="condition9">May only practise with employer notification to AHPRA</label>
                               </div>
                               <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="conditions[]" value="Cannot supervise students or junior staff" id="condition10">
+                                <input class="form-check-input" type="checkbox" name="conditions[]" value="Cannot supervise students or junior staff" id="condition10" @if(in_array("Cannot supervise students or junior staff", $register_conditions) == true) checked @endif>
                                 <label class="form-check-label" for="condition10">Cannot supervise students or junior staff</label>
                               </div>
                               <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="conditions[]" value="Must undergo regular performance review" id="condition11">
+                                <input class="form-check-input" type="checkbox" name="conditions[]" value="Must undergo regular performance review" id="condition11" @if(in_array("Must undergo regular performance review", $register_conditions) == true) checked @endif>
                                 <label class="form-check-label" for="condition11">Must undergo regular performance review</label>
                               </div>
                               <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="conditions[]" value="Must not prescribe medications" id="condition12">
+                                <input class="form-check-input" type="checkbox" name="conditions[]" value="Must not prescribe medications" id="condition12" @if(in_array("Must not prescribe medications", $register_conditions) == true) checked @endif>
                                 <label class="form-check-label" for="condition12">Must not prescribe medications</label>
                               </div>
                               <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="conditions[]" value="Practice hours must be logged and submitted" id="condition13">
+                                <input class="form-check-input" type="checkbox" name="conditions[]" value="Practice hours must be logged and submitted" id="condition13" @if(in_array("Practice hours must be logged and submitted", $register_conditions) == true) checked @endif>
                                 <label class="form-check-label" for="condition13">Practice hours must be logged and submitted</label>
                               </div>
                             </div>
                             <div class="form-group level-drp" id="ahpra-number">
                               <label for="expiryDate" class="form-label">Expiry:</label>
-                              <input type="date" class="form-control" id="expiryDate" name="expiry_date">
+                              <input type="date" class="form-control" id="expiryDate" name="expiry_date" value="@if(!empty($licenses_data)){{ $licenses_data->register_expiry }}@endif">
                               </div>  
                               
                             </div>
@@ -477,20 +484,20 @@ input:checked + .slider:before {
                                 <label for="principalPractice" class="form-label">Principal Place of Practice:</label>
                                 <select class="form-control" id="principalPractice" name="principal_place">
                                   <option value="">-- Select a State --</option>
-                                  <option value="NSW">New South Wales (NSW)</option>
-                                  <option value="VIC">Victoria (VIC)</option>
-                                  <option value="QLD">Queensland (QLD)</option>
-                                  <option value="WA">Western Australia (WA)</option>
-                                  <option value="SA">South Australia (SA)</option>
-                                  <option value="TAS">Tasmania (TAS)</option>
-                                  <option value="ACT">Australian Capital Territory (ACT)</option>
-                                  <option value="NT">Northern Territory (NT)</option>
+                                  <option value="NSW" @if(!empty($licenses_data) && $licenses_data->register_principal_place =="NSW") selected @endif>New South Wales (NSW)</option>
+                                  <option value="VIC" @if(!empty($licenses_data) && $licenses_data->register_principal_place =="VIC") selected @endif>Victoria (VIC)</option>
+                                  <option value="QLD" @if(!empty($licenses_data) && $licenses_data->register_principal_place =="QLD") selected @endif>Queensland (QLD)</option>
+                                  <option value="WA" @if(!empty($licenses_data) && $licenses_data->register_principal_place =="WA") selected @endif>Western Australia (WA)</option>
+                                  <option value="SA" @if(!empty($licenses_data) && $licenses_data->register_principal_place =="SA") selected @endif>South Australia (SA)</option>
+                                  <option value="TAS" @if(!empty($licenses_data) && $licenses_data->register_principal_place =="TAS") selected @endif>Tasmania (TAS)</option>
+                                  <option value="ACT" @if(!empty($licenses_data) && $licenses_data->register_principal_place =="ACT") selected @endif>Australian Capital Territory (ACT)</option>
+                                  <option value="NT" @if(!empty($licenses_data) && $licenses_data->register_principal_place =="NT") selected @endif>Northern Territory (NT)</option>
                                 </select>
                             </div>  
                             <div class="form-group drp--clr">
                                 <label class="form-label" for="input-1">Other Places of Practice:</label>
                                 
-                                
+                                <input type="hidden" name="register_other_place" class="register_other_place" value="@if(!empty($licenses_data)) {{ $licenses_data->register_other_place }} @endif">
                                 <ul id="other_places" style="display:none;">
                                   <li data-value="">select</li>
                                   <li data-value="NSW">New South Wales (NSW)</li>
@@ -508,7 +515,32 @@ input:checked + .slider:before {
                             <div class="form-group level-drp">
                               <label class="form-label" for="input-1">Upload Evidence</label>
                               <input type="hidden" name="specialized_lang_skills[evidence_imgs]" class="specialized_lang_skills">
-                              <input class="form-control upload_evidence" type="file" name="upload_register_evidence" multiple="">
+                              <?php
+                                $user_id = Auth::guard('nurse_middle')->user()->id;
+                              ?>
+                              <input class="form-control upload_evidence" type="file" name="" onchange="changeEvidenceImg({{ $user_id }},'group1')" multiple="">
+                              <div class="evidence-reg">
+                                <?php
+                                  if(!empty($licenses_data) && $licenses_data->register_upload_evidence != NULL){
+                                    $evidence_imgs = (array)json_decode($licenses_data->register_upload_evidence);
+                                    $i = 0;
+                                  ?>
+                                    @if (!empty($evidence_imgs))
+                                      @foreach ($evidence_imgs as $ev_img)
+                                      <div class="trans_img trans_img-{{ $i+1 }}">
+                                        <a href="{{ url("/public") }}/uploads/education_degree/{{ $ev_img }}" target="_blank"><i class="fa fa-file" aria-hidden="true"></i>{{ $ev_img }}</a>
+                                        <div class="close_btn close_btn-' + i + '" onclick="deleteEvidenceImg({{ $i+1 }},{{ $user_id }},'{{ $ev_img }}','group1')" style="cursor: pointer;"><i class="fa fa-close" aria-hidden="true"></i></div>
+                                      </div>    
+                                      <?php
+                                        $i++;
+                                      ?>                                    
+                                      @endforeach
+                                    @endif
+                                  <?php  
+
+                                  }  
+                                ?>
+                              </div>
                             </div>
                             <div class="alert alert-info d-flex justify-content-between align-items-center" role="alert" style="background-color: #e6f2ff; border-left: 5px solid #3399ff;">
                               <div>
@@ -887,6 +919,15 @@ input:checked + .slider:before {
         });
     });
 
+    
+    if ($(".register_other_place").val() != "") {
+      var register_other_place = JSON.parse($(".register_other_place").val());
+      console.log("register_other_place",register_other_place);
+      $('.js-example-basic-multiple[data-list-id="other_places"]').select2().val(register_other_place).trigger('change');
+      
+    }
+    
+
     $('#toggleCheckbox').click(function(){
       if ($('#toggleCheckbox').is(':checked')) {
         // Checkbox is checked
@@ -920,6 +961,16 @@ input:checked + .slider:before {
         $("#conditionsSection").hide();
       }
     });
+    
+    if ($('#toggleCheckbox_conditions').is(':checked')) {
+        // Checkbox is checked
+        console.log('Checked!');
+        $("#conditionsSection").show();
+      } else {
+        // Checkbox is not checked
+        console.log('Not checked!');
+        $("#conditionsSection").hide();
+      }
   
     document.getElementById('reverifyBtn').addEventListener('click', function () {
     // Simulate re-verification process (replace this with your actual logic, API, etc.)
@@ -1070,6 +1121,18 @@ input:checked + .slider:before {
     otherText.style.display = e.target.checked ? 'block' : 'none';
   });
 
+    if ($('#notationOther').is(':checked')) {
+      // Checkbox is checked
+      console.log('Checked!');
+      $("#otherNotationText").show();
+    } else {
+      // Checkbox is not checked
+      console.log('Not checked!');
+      $("#otherNotationText").hide();
+    }
+
+
+
     $("#lookup-ahpra-btn").click(function(){
       var ahpraNumber = $(".ahpra_number").val();
       console.log("ahpraNumber",ahpraNumber);
@@ -1121,6 +1184,99 @@ input:checked + .slider:before {
     $("#ahpra-details-group").show();
    }else{
     $("#ahpra-details-group").hide();
+   }
+
+   let selectedLicensesFiles = [];
+
+   function changeEvidenceImg(user_id,group_name){
+    if (!selectedLicensesFiles) {
+        selectedLicensesFiles = [];
+      }
+
+
+      const newFiles = Array.from($('.upload_evidence')[0].files);
+
+      newFiles.forEach(file => {
+        const exists = selectedLicensesFiles.some(f => f.name === file.name && f.lastModified === file.lastModified);
+        if (!exists) {
+            selectedLicensesFiles.push(file);
+        }
+      });
+
+        console.log("selectedFiles",selectedLicensesFiles);
+
+        const count = selectedLicensesFiles.length;
+          console.log("evidence_count", count);
+    
+      // var files = $('.upload_evidence-'+language_id)[0].files;
+      // console.log("files", files);
+      var form_data = "";
+      form_data = new FormData();
+
+      for (var i = 0; i < selectedLicensesFiles.length; i++) {
+        form_data.append("register_upload_evi[]", selectedLicensesFiles[i], selectedLicensesFiles[i]['name']);
+      }
+
+      form_data.append("user_id", user_id);
+      
+      form_data.append("img_field", group_name);
+      form_data.append("_token", '{{ csrf_token() }}');
+      
+      $.ajax({
+        type: "post",
+        url: "{{ route('nurse.uploadLicensesEvidenceImgs') }}",
+        cache: false,
+        contentType: false,
+        processData: false,
+        async: true,
+        data: form_data,
+
+        success: function(data) {
+          //$("."+name_arr+"-"+language_id).val(data);
+          var image_array = JSON.parse(data);
+          console.log("evidence_imgs", data);
+          var htmlData = '';
+          for (var i = 0; i < image_array.length; i++) {
+            //console.log("degree_transcript", image_array[i]);
+            var img_name = image_array[i];
+            var img_field = "group1";
+            console.log("img_name", 'deleteImg(' + (i + 1) + ',' + user_id + ',"' + img_name + '")');
+            htmlData += '<div class="trans_img trans_img-' + (i + 1) + '"><a href="{{ url("/public") }}/uploads/education_degree/' + img_name + '" target="_blank"><i class="fa fa-file" aria-hidden="true"></i>' + image_array[i] + '</a><div class="close_btn close_btn-' + i + '" onclick="deleteEvidenceImg(' + (i + 1) + ',' + user_id + ',\'' + img_name + '\',\''+img_field+'\')" style="cursor: pointer;"><i class="fa fa-close" aria-hidden="true"></i></div></div>';
+          }
+          $(".evidence-reg").html(htmlData);
+
+          
+        }
+      });
+   }
+
+   function deleteEvidenceImg(i,user_id,img,group_name){
+    $.ajax({
+        type: "post",
+        url: "{{ route('nurse.deleteLicensesEvidenceImg') }}",
+        data: {
+          user_id: user_id,
+          img: img,
+          img_field: group_name,
+          _token: '{{ csrf_token() }}'
+        },
+        cache: false,
+        success: function(data) {
+          if (data == 1) {
+            // var old_files = JSON.parse($("."+name_arr+"-"+language_id).val());
+            // console.log("old_files",old_files);
+            // const itemToRemove = img;
+
+            // const result = old_files.filter(item => item !== itemToRemove);
+
+            // console.log(result); // [1, 2, 4, 5]
+            //$("."+name_arr+"-"+language_id).val(JSON.stringify(result));
+            $(".evidence-reg .trans_img-"+i).remove();
+
+            
+          }
+        }
+      });
    }
 
    function update_register_licenses(){
