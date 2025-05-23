@@ -102,6 +102,91 @@ class LicencesContoller extends Controller{
             
         }
 
+        if($ahpra_registration_status == "Graduate_RN" || $ahpra_registration_status == "Graduate_RM" || $ahpra_registration_status == "Student_Nurse" || $ahpra_registration_status == "Student_Midwife"){
+            $ahpra_number = "";
+            $ahpra_consent = "";
+            $division = "";
+            $endorsements = "";
+            $registration_type = "";
+            $registration_status = "";
+            $notations = "";
+            $other_notation = "";
+            $conditions = "";
+            $expiry_date = "";
+            $principal_place = "";
+            $other_places = "";
+
+            
+            $graduate_ahpra_number = $request->graduate_ahpra_number;
+            $graduate_division = $request->graduate_division;
+            $graduate_registration_type = $request->graduate_registration_type;
+            $graduate_registration_status = $request->graduate_registration_status;
+            if($ahpra_registration_status == "Graduate_RN" || $ahpra_registration_status == "Graduate_RM"){
+                $graduate_date = $request->graduation_expected_date;
+            }else{
+                $graduate_date = "";
+            }
+            //$upload_register_evidence = $request->upload_register_evidence;
+
+            
+        }
+
+        if($ahpra_registration_status == "Overseas"){
+            $ahpra_number = "";
+            $ahpra_consent = "";
+            $division = "";
+            $endorsements = "";
+            $registration_type = "";
+            $registration_status = "";
+            $notations = "";
+            $other_notation = "";
+            $conditions = "";
+            $expiry_date = "";
+            $principal_place = "";
+            $other_places = "";
+
+            
+            $graduate_ahpra_number = "";
+            $graduate_division = "";
+            $graduate_registration_type = "";
+            $graduate_registration_status = "";
+            $graduate_date = "";
+
+            $overseas_qualified = json_encode($request->overseas_qualified);
+            $overseas_other_text = $request->overseas_other_textreason;
+        }
+
+        if($ahpra_registration_status == "Not_Registered"){
+            $ahpra_number = "";
+            $ahpra_consent = "";
+            $division = "";
+            $endorsements = "";
+            $registration_type = "";
+            $registration_status = "";
+            $notations = "";
+            $other_notation = "";
+            $conditions = "";
+            $expiry_date = "";
+            $principal_place = "";
+            $other_places = "";
+
+            
+            $graduate_ahpra_number = "";
+            $graduate_division = "";
+            $graduate_registration_type = "";
+            $graduate_registration_status = "";
+            $graduate_date = "";
+
+            $overseas_qualified = "";
+            $overseas_other_text = "";
+
+            $not_registered = json_encode($request->not_registered);
+            $education_related = json_encode($request->education_related);
+            $returning_practice = json_encode($request->returning_practice);
+            $personal_career = json_encode($request->personal_career);
+            $not_registered_other = $request->not_registered_other;
+        }
+
         $licenses_data = LicensesModel::where("user_id",$user_id)->first();
         //print_r($licenses_data);die;
         if(!empty($licenses_data)){
@@ -121,6 +206,18 @@ class LicencesContoller extends Controller{
                 'register_other_place'=>$other_places,
                 'register_other_notation_reason'=>$other_notation,
                 'register_expiry'=>$expiry_date,
+                'graduate_student_reg_no'=>$graduate_ahpra_number,
+                'graduate_division'=>$graduate_division,
+                'graduate_reg_type'=>$graduate_registration_type,
+                'graduate_reg_status'=>$graduate_registration_status,
+                'graduation_date'=>$graduate_date,
+                'overseas_qualified_specify'=>$overseas_qualified,
+                'other_overseas_qualified'=>$overseas_other_text,
+                'not_currently_registered_reason'=>$not_registered,
+                'education_related_reason'=>$education_related,
+                'returning_practice'=>$returning_practice,
+                'personal_career'=>$personal_career,
+                'other_not_registered_reason'=>$not_registered_other,
             ]);
             
 
@@ -170,7 +267,7 @@ class LicencesContoller extends Controller{
 
         if(!empty($getLicensesdata) && $getLicensesdata->register_upload_evidence != NULL){
             $ev_img = (array)json_decode($getLicensesdata->register_upload_evidence);
-            print_r($ev_img);
+            
             $licensesimgs = Helpers::multipleFileUpload($files, $ev_img);
         }else{
             $licensesimgs = Helpers::multipleFileUpload($files, '');
