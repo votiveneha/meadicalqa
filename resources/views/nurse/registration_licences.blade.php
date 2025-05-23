@@ -518,6 +518,7 @@ input:checked + .slider:before {
                               <?php
                                 $user_id = Auth::guard('nurse_middle')->user()->id;
                               ?>
+                              <input type="hidden" name="registration_upload" class="registration_upload" value="@if(!empty($licenses_data)) {{ $licenses_data->register_upload_evidence }} @endif">
                               <input class="form-control upload_evidence" type="file" name="" onchange="changeEvidenceImg({{ $user_id }},'group1')" multiple="">
                               <div class="evidence-reg">
                                 <?php
@@ -554,77 +555,77 @@ input:checked + .slider:before {
                               </div>
                             </div>      
                             <!-- Manual Entry Section -->
-                            <div id="manualAHPRAFields" style="display: none;">
-
-                              <div class="mb-3">
-                                <label for="ahpraNumber" class="form-label">Please Enter your AHPRA Registration Number:</label>
-                                <input type="text" class="form-control" id="ahpraNumber" name="graduate_ahpra_number" placeholder="e.g. NMW0001234567" pattern="^NMW\d{10}$">
-                                <div class="form-text">Your AHPRA number was issued when you enrolled in your approved program.</div>
-                              </div>
-
-                              <!-- Division -->
-                              <div class="mb-3">
-                                <label class="form-label">Division:</label>
-                                <select class="form-select" name="division">
-                                  <option value="RN">Registered Nurse (RN)</option>
-                                  <option value="EN">Enrolled Nurse (EN)</option>
-                                  <option value="RM">Registered Midwife (RM)</option>
-                                  <option value="RN+RM">Registered Nurse and Midwife (RN+RM)</option>
-                                </select>
-                              </div>
-
-                              <!-- Registration Type -->
-                              <div class="mb-3">
-                                <label class="form-label">Registration Type:</label>
-                                <select class="form-select" name="registration_type">
-                                  <option value="general">General</option>
-                                  <option value="limited">Limited</option>
-                                  <option value="provisional">Provisional</option>
-                                  <option value="student_nurse">Student Nurse</option>
-                                  <option value="student_midwife">Student Midwife</option>
-                                  <option value="non_practising">Non-practising</option>
-                                </select>
-                              </div>
-
-                              <!-- Registration Status -->
-                              <div class="mb-3">
-                                <label class="form-label">Registration Status:</label>
-                                <select class="form-select" name="registration_status">
-                                  <option value="current">Current</option>
-                                  <option value="suspended">Suspended</option>
-                                  <option value="cancelled">Cancelled</option>
-                                  <option value="inactive">Inactive</option>
-                                  <option value="ineligible">Ineligible</option>
-                                  <option value="lapsed">Lapsed</option>
-                                  <option value="expired">Expired</option>
-                                  <option value="not_registered">Not currently registered</option>
-                                </select>
-                              </div>
-
-                              
-
-                            </div>
+                            
                           </div>
                         </div>
 
-                        
-                        <!-- Expected Graduation Date -->
-                        <div class="mb-3" id="graduationDateGroup" style="display: none;">
-                          <label class="form-label">What is your expected graduation date?</label>
-                          <input type="date" class="form-control" name="graduation_date">
-                        </div>
+                        <div id="manualAHPRAFields" style="display: none;">
 
-                        <!-- Upload Evidence -->
-                        <div class="mb-3" id="uploadEvidenceGroup" style="display: none;">
-                          <label class="form-label">Upload evidence</label>
-                          <input type="file" class="form-control" name="grad_evidence" accept=".pdf,.jpg,.jpeg,.png">
+                          <div class="mb-3">
+                            <label for="ahpraNumber" class="form-label">Please Enter your AHPRA Registration Number:</label>
+                            <input type="text" class="form-control" id="ahpraNumber" name="graduate_ahpra_number" placeholder="e.g. NMW0001234567" value="@if(!empty($licenses_data)){{ $licenses_data->graduate_student_reg_no }}@endif" pattern="^NMW\d{10}$">
+                            <div class="form-text">Your AHPRA number was issued when you enrolled in your approved program.</div>
+                          </div>
+
+                          <!-- Division -->
+                          <div class="mb-3">
+                            <label class="form-label">Division:</label>
+                            <select class="form-select" name="graduate_division">
+                              <option value="RN" @if(!empty($licenses_data) && $licenses_data->graduate_division == "RN") selected @endif>Registered Nurse (RN)</option>
+                              <option value="EN" @if(!empty($licenses_data) && $licenses_data->graduate_division == "EN") selected @endif>Enrolled Nurse (EN)</option>
+                              <option value="RM" @if(!empty($licenses_data) && $licenses_data->graduate_division == "RM") selected @endif>Registered Midwife (RM)</option>
+                              <option value="RN+RM" @if(!empty($licenses_data) && $licenses_data->graduate_division == "RN+RM") selected @endif>Registered Nurse and Midwife (RN+RM)</option>
+                            </select>
+                          </div>
+
+                          <!-- Registration Type -->
+                          <div class="mb-3">
+                            <label class="form-label">Registration Type:</label>
+                            <select class="form-select" name="graduate_registration_type">
+                              <option value="general" @if(!empty($licenses_data) && $licenses_data->graduate_reg_type == "general") selected @endif>General</option>
+                              <option value="limited" @if(!empty($licenses_data) && $licenses_data->graduate_reg_type == "limited") selected @endif>Limited</option>
+                              <option value="provisional" @if(!empty($licenses_data) && $licenses_data->graduate_reg_type == "provisional") selected @endif>Provisional</option>
+                              <option value="student_nurse" @if(!empty($licenses_data) && $licenses_data->graduate_reg_type == "student_nurse") selected @endif>Student Nurse</option>
+                              <option value="student_midwife" @if(!empty($licenses_data) && $licenses_data->graduate_reg_type == "student_midwife") selected @endif>Student Midwife</option>
+                              <option value="non_practising" @if(!empty($licenses_data) && $licenses_data->graduate_reg_type == "non_practising") selected @endif>Non-practising</option>
+                            </select>
+                          </div>
+
+                          <!-- Registration Status -->
+                          <div class="mb-3">
+                            <label class="form-label">Registration Status:</label>
+                            <select class="form-select" name="graduate_registration_status">
+                              <option value="current" @if(!empty($licenses_data) && $licenses_data->graduate_reg_status == "current") selected @endif>Current</option>
+                              <option value="suspended" @if(!empty($licenses_data) && $licenses_data->graduate_reg_status == "suspended") selected @endif>Suspended</option>
+                              <option value="cancelled" @if(!empty($licenses_data) && $licenses_data->graduate_reg_status == "cancelled") selected @endif>Cancelled</option>
+                              <option value="inactive" @if(!empty($licenses_data) && $licenses_data->graduate_reg_status == "inactive") selected @endif>Inactive</option>
+                              <option value="ineligible" @if(!empty($licenses_data) && $licenses_data->graduate_reg_status == "ineligible") selected @endif>Ineligible</option>
+                              <option value="lapsed" @if(!empty($licenses_data) && $licenses_data->graduate_reg_status == "lapsed") selected @endif>Lapsed</option>
+                              <option value="expired" @if(!empty($licenses_data) && $licenses_data->graduate_reg_status == "expired") selected @endif>Expired</option>
+                              <option value="not_registered" @if(!empty($licenses_data) && $licenses_data->graduate_reg_status == "not_registered") selected @endif>Not currently registered</option>
+                            </select>
+                          </div>
+                          <!-- Expected Graduation Date -->
+                          <div class="mb-3" id="graduationDateGroup" style="display: none;">
+                            <label class="form-label">What is your expected graduation date?</label>
+                            <input type="date" class="form-control" name="graduation_expected_date" value="@if(!empty($licenses_data)){{ $licenses_data->graduation_date }}@endif">
+                          </div>
+
+                          <!-- Upload Evidence -->
+                          <div class="mb-3" id="uploadEvidenceGroup">
+                            <label class="form-label">Upload evidence</label>
+                            <input type="file" class="form-control" name="grad_evidence" accept=".pdf,.jpg,.jpeg,.png">
+                          </div>
+                          
+
                         </div>
+                        
 
                         <!-- Overseas Qualified Section -->
                         <div id="overseasQualifiedSection" style="display: none;">
                           <div class="overseas_block">
                             <label class="form-label">Please specify:</label>
-                            
+                            <input type="hidden" name="" class="overseas_qualified_field" value="@if(!empty($licenses_data)){{ $licenses_data->overseas_qualified_specify }}@endif">
                             <ul id="overseas_qualified" style="display:none;">
                               <li data-value="">select</li>
                               <li data-value="recently_migrated">I recently migrated to Australia and am preparing to apply for AHPRA</li>
@@ -639,7 +640,7 @@ input:checked + .slider:before {
                           <div class="other_text_block">
                             <div id="overseasOtherText" class="mt-2" style="display: none;">
                               <label class="form-check-label">Other Reason</label>
-                              <input type="text" class="form-control" name="overseas_other_text" placeholder="Please specify">
+                              <input type="text" class="form-control" name="overseas_other_textreason" placeholder="Please specify" value="@if(!empty($licenses_data)){{ $licenses_data->other_overseas_qualified }}@endif">
                             </div>
                             <!-- Upload -->
                             <div class="mb-3 mt-3">
@@ -652,7 +653,7 @@ input:checked + .slider:before {
                         
                         <div class="not_registered" style="display: none;">
                           <label class="form-label">Why you're not currently registered with AHPRA:</label>
-                            
+                            <input type="hidden" name="" class="not_registered_field" value="@if(!empty($licenses_data)){{ $licenses_data->not_currently_registered_reason }}@endif">
                             <ul id="not_registered_div" style="display:none;">
                               <li data-value="">select</li>
                               <li data-value="education_related">Education-Related Reasons</li>
@@ -661,11 +662,11 @@ input:checked + .slider:before {
                               <li data-value="other">Other</li>
                               
                             </ul>
-                            <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="not_registered_div" name="overseas_qualified[]" multiple="multiple"></select>
+                            <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="not_registered_div" name="not_registered[]" multiple="multiple"></select>
                         </div>
                         <div class="edu_related_reasons" style="display:none;">
                           <label class="form-label">Education-Related Reasons:</label>
-                            
+                          <input type="hidden" name="" class="education_related_field" value="@if(!empty($licenses_data)){{ $licenses_data->education_related_reason }}@endif">  
                           <ul id="education_related" style="display:none;">
                             <li data-value="">select</li>
                             <li data-value="startProgram">I am about to begin an AHPRA-approved nursing/midwifery program</li>
@@ -674,11 +675,11 @@ input:checked + .slider:before {
                             <li data-value="didNotComplete">I did not complete my nursing/midwifery qualification</li>
                             
                           </ul>
-                          <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="education_related" name="overseas_qualified[]" multiple="multiple"></select>
+                          <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="education_related" name="education_related[]" multiple="multiple"></select>
                         </div>
                         <div class="returning_to_practice" style="display:none;">
                           <label class="form-label">Returning to Practice:</label>
-                            
+                          <input type="hidden" name="" class="returning_practice_field" value="@if(!empty($licenses_data)){{ $licenses_data->returning_practice }}@endif">    
                           <ul id="returning_practice" style="display:none;">
                             <li data-value="">select</li>
                             <li data-value="lapsed">I previously held registration but let it lapse</li>
@@ -687,11 +688,11 @@ input:checked + .slider:before {
                             <li data-value="nonPractisingToGeneral">I am transitioning from non-practising to general registration</li>
                             
                           </ul>
-                          <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="returning_practice" name="overseas_qualified[]" multiple="multiple"></select>
+                          <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="returning_practice" name="returning_practice[]" multiple="multiple"></select>
                         </div>
                         <div class="personal_career_reasons" style="display:none;">
                           <label class="form-label">Personal or Career Reasons:</label>
-                            
+                          <input type="hidden" name="" class="personal_career_field" value="@if(!empty($licenses_data)){{ $licenses_data->personal_career }}@endif">      
                           <ul id="personal_career" style="display:none;">
                             <li data-value="">select</li>
                             <li data-value="maternityLeave">On maternity or extended personal leave</li>
@@ -701,17 +702,17 @@ input:checked + .slider:before {
                             <li data-value="nonHealth">Working in a non-healthcare sector</li>
                             <li data-value="notReturning">I do not intend to practise again</li>
                           </ul>
-                          <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="personal_career" name="overseas_qualified[]" multiple="multiple"></select>
+                          <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="personal_career" name="personal_career[]" multiple="multiple"></select>
                         </div>
                         <div class="other_text_block_registered">
                           <div id="registeredOtherText" class="mt-2" style="display: none;">
                             <label class="form-check-label">Other Reason</label>
-                            <input type="text" class="form-control" name="overseas_other_text" placeholder="Please specify">
+                            <input type="text" class="form-control" name="not_registered_other" placeholder="Please specify">
                           </div>
                           <!-- Upload -->
                           <div class="mb-3 mt-3 registered_evidence" style="display: none;">
                             <label class="form-label">Upload evidence</label>
-                            <input type="file" class="form-control" name="registered_evidence" accept=".pdf,.jpg,.jpeg,.png">
+                            <input type="file" class="form-control" name="not_registered_evidence" accept=".pdf,.jpg,.jpeg,.png">
                           </div>
                         </div>
                         <div class="ndis_main_div">
@@ -920,10 +921,17 @@ input:checked + .slider:before {
     });
 
     
-    if ($(".register_other_place").val() != "") {
+    if ($.trim($(".register_other_place").val()) != "") {
       var register_other_place = JSON.parse($(".register_other_place").val());
       console.log("register_other_place",register_other_place);
       $('.js-example-basic-multiple[data-list-id="other_places"]').select2().val(register_other_place).trigger('change');
+      
+    }
+
+    if ($.trim($(".overseas_qualified_field").val()) != "") {
+      var overseas_qualified_field = JSON.parse($(".overseas_qualified_field").val());
+      console.log("overseas_qualified_field",overseas_qualified_field);
+      $('.js-example-basic-multiple[data-list-id="overseas_qualified"]').select2().val(overseas_qualified_field).trigger('change');
       
     }
     
@@ -1028,11 +1036,11 @@ input:checked + .slider:before {
       if(allowedStatuses_graduate.includes(this.value)){
         ahpraGroup_group2.style.display = "block";
         graduation_date.style.display = "block";
-        upload_graduation_evidence.style.display = "block";
+        
       }else{
         ahpraGroup_group2.style.display = "block";
         graduation_date.style.display = "none";
-        upload_graduation_evidence.style.display = "none";
+        
       }
       
     } else {
@@ -1059,6 +1067,41 @@ input:checked + .slider:before {
     
   });
 
+  var reg_status = $("#registration-status").val();
+  console.log("reg_status",reg_status);
+
+  if(reg_status == "RN" || reg_status == "RM" || reg_status == "RN_RM" || reg_status == "NP"){
+    $("#ahpra-details-group").show();
+  }else{
+    $("#ahpra-details-group").hide();
+  }
+
+  if(reg_status == "Graduate_RN" || reg_status == "Graduate_RM" || reg_status == "Student_Nurse" || reg_status == "Student_Midwife"){
+    $("#manualAHPRAFields").show();
+    if(reg_status == "Graduate_RN" || reg_status == "Graduate_RM"){
+      $("#graduationDateGroup").show();
+    }else{
+      $("#graduationDateGroup").hide();
+    }
+  }else{
+    $("#manualAHPRAFields").hide();
+  }
+
+  if(reg_status == "Overseas"){
+    $("#overseasQualifiedSection").show();
+    
+  }else{
+    $("#overseasQualifiedSection").hide();
+  }
+
+  if(reg_status == "Not_Registered"){
+    $(".not_registered").show();
+  }else{
+    $(".not_registered").hide();
+  }
+
+
+
   $('input[name="ndis_status"]').on('change', function () {
       const value = $(this).val();
 
@@ -1073,6 +1116,13 @@ input:checked + .slider:before {
       }
   });
 
+  let selectedValues = $('.js-example-basic-multiple[data-list-id="overseas_qualified"]').val();
+  console.log("selectedValues",selectedValues);
+  if(selectedValues.includes("other")){
+    $("#overseasOtherText").show();
+  }else{
+    $("#overseasOtherText").hide();
+  }
   $('.js-example-basic-multiple[data-list-id="overseas_qualified"]').on('change', function() {
     let selectedValues = $(this).val();
     console.log("selectedValues",selectedValues);
@@ -1177,35 +1227,28 @@ input:checked + .slider:before {
       }
    });
 
-   var reg_status = $("#registration-status").val();
-   console.log("reg_status",reg_status);
+   
 
-   if(reg_status == "RN" || reg_status == "RM" || reg_status == "RN_RM" || reg_status == "NP"){
-    $("#ahpra-details-group").show();
-   }else{
-    $("#ahpra-details-group").hide();
-   }
-
-   let selectedLicensesFiles = [];
+   let selectedFiles = [];
 
    function changeEvidenceImg(user_id,group_name){
-    if (!selectedLicensesFiles) {
-        selectedLicensesFiles = [];
+    if (!selectedFiles) {
+        selectedFiles = [];
       }
 
 
       const newFiles = Array.from($('.upload_evidence')[0].files);
 
       newFiles.forEach(file => {
-        const exists = selectedLicensesFiles.some(f => f.name === file.name && f.lastModified === file.lastModified);
+        const exists = selectedFiles.some(f => f.name === file.name && f.lastModified === file.lastModified);
         if (!exists) {
-            selectedLicensesFiles.push(file);
+            selectedFiles.push(file);
         }
       });
 
-        console.log("selectedFiles",selectedLicensesFiles);
+        console.log("selectedFiles",selectedFiles);
 
-        const count = selectedLicensesFiles.length;
+        const count = selectedFiles.length;
           console.log("evidence_count", count);
     
       // var files = $('.upload_evidence-'+language_id)[0].files;
@@ -1213,8 +1256,8 @@ input:checked + .slider:before {
       var form_data = "";
       form_data = new FormData();
 
-      for (var i = 0; i < selectedLicensesFiles.length; i++) {
-        form_data.append("register_upload_evi[]", selectedLicensesFiles[i], selectedLicensesFiles[i]['name']);
+      for (var i = 0; i < selectedFiles.length; i++) {
+        form_data.append("register_upload_evi[]", selectedFiles[i], selectedFiles[i]['name']);
       }
 
       form_data.append("user_id", user_id);
@@ -1232,7 +1275,7 @@ input:checked + .slider:before {
         data: form_data,
 
         success: function(data) {
-          //$("."+name_arr+"-"+language_id).val(data);
+          $(".registration_upload").val(data);
           var image_array = JSON.parse(data);
           console.log("evidence_imgs", data);
           var htmlData = '';
@@ -1263,14 +1306,14 @@ input:checked + .slider:before {
         cache: false,
         success: function(data) {
           if (data == 1) {
-            // var old_files = JSON.parse($("."+name_arr+"-"+language_id).val());
-            // console.log("old_files",old_files);
-            // const itemToRemove = img;
+            var old_files = JSON.parse($(".registration_upload").val());
+            console.log("old_files",old_files);
+            const itemToRemove = img;
 
-            // const result = old_files.filter(item => item !== itemToRemove);
+            const result = old_files.filter(item => item !== itemToRemove);
 
-            // console.log(result); // [1, 2, 4, 5]
-            //$("."+name_arr+"-"+language_id).val(JSON.stringify(result));
+            console.log(result); // [1, 2, 4, 5]
+            $(".registration_upload").val(JSON.stringify(result));
             $(".evidence-reg .trans_img-"+i).remove();
 
             
