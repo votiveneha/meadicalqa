@@ -36,25 +36,29 @@ class LicencesContoller extends Controller{
 
     public function ahepra_lookup(Request $request)
     {
-        $ahpraNumber = $request->ahpraNumber;
-        $queryUrl = 'https://www.ahpra.gov.au/Registration/Registers-of-Practitioners.aspx?' . http_build_query([
-                'RegistrationNumber' => $ahpraNumber
-            ]);
+        $ahpraNumber = $request->input('ahpraNumber');
 
-        $response = Http::get($queryUrl);
+    $queryUrl = 'https://www.ahpra.gov.au/Registration/Registers-of-Practitioners.aspx?' . http_build_query([
+        'RegistrationNumber' => $ahpraNumber
+    ]);
+
+    try {
+        // Set timeout and retries for better stability
+        $response = Http::timeout(20)->retry(3, 1000)->get($queryUrl);
 
         if ($response->failed()) {
-            return response()->json(['error' => 'Failed to contact AHPRA register.'], 500);
+            Log::warning("AHPRA request failed. Status: " . $response->status());
+            return response()->json(['error' => 'Failed to contact AHPRA register. Please try again later.'], 503);
         }
 
         $html = $response->body();
 
-        // Check if "no records found"
+        // Basic "No Records" check
         if (stripos($html, 'No records found') !== false) {
             return response()->json(['error' => 'No practitioner found with this AHPRA number.'], 404);
         }
 
-        // Load HTML and parse
+        // Parse the HTML
         libxml_use_internal_errors(true);
         $doc = new \DOMDocument();
         $doc->loadHTML($html);
@@ -77,7 +81,23 @@ class LicencesContoller extends Controller{
             'other_places' => $extract('Other Places of Practice'),
         ];
 
+        // Check if all fields are null
+        $allNull = empty(array_filter($result, fn($value) => !is_null($value)));
+
+        if ($allNull) {
+            return response()->json(['error' => 'No valid registration data found for this AHPRA number.']);
+        }
+
         return response()->json($result);
+
+    } catch (\Exception $e) {
+        Log::error("AHPRA lookup exception: " . $e->getMessage());
+        return response()->json(['error' => 'AHPRA service is currently unavailable. Please try again shortly.']);
+    }
+
+        
+        
+        
     }
 
     public function update_registration_licenses(Request $request){
@@ -87,17 +107,35 @@ class LicencesContoller extends Controller{
         if($ahpra_registration_status == "RN" || $ahpra_registration_status == "RM" || $ahpra_registration_status == "RN_RM" || $ahpra_registration_status == "NP"){
             $ahpra_number = $request->ahpra_number;
             $ahpra_consent = isset($request->ahpra_consent)?1:0;
-            $division = $request->division;
-            $endorsements = $request->endorsements;
-            $registration_type = $request->reg_registration_type;
-            $registration_status = $request->reg_registration_status;
-            $notations = json_encode($request->notations);
-            $other_notation = $request->other_notation;
-            $conditions = json_encode($request->conditions);
-            $expiry_date = $request->expiry_date;
-            $principal_place = $request->principal_place;
-            $other_places = json_encode($request->other_places);
+            
             $upload_register_evidence = $request->registration_upload;
+            $last_verified_date = $request->last_verified_date;
+            $api_verify = $request->api_verify;
+
+            if($api_verify == 1){
+                $division = $request->api_division;
+                $endorsements = $request->api_endorsements;
+                $registration_type = $request->api_reg_type;
+                $registration_status = $request->api_reg_status;
+                $api_notations = $request->api_notations;
+                $notations = $request->api_conditions;
+                $conditions = $request->api_expiry;
+                $expiry_date = $request->api_principal_practice;
+                $principal_place = $request->api_other_practices;
+                $api_other_practices = $request->api_other_practices;
+            }else{
+                $division = $request->division;
+                $endorsements = $request->endorsements;
+                $registration_type = $request->reg_registration_type;
+                $registration_status = $request->reg_registration_status;
+                $notations = json_encode($request->notations);
+                $other_notation = $request->other_notation;
+                $conditions = json_encode($request->conditions);
+                $expiry_date = $request->expiry_date;
+                $principal_place = $request->principal_place;
+                $other_places = json_encode($request->other_places);
+            }
+            
             $upload_graduation_evidence = "";
             $upload_overseas_evidence = "";
             $upload_not_reg_evidence = "";
@@ -131,6 +169,17 @@ class LicencesContoller extends Controller{
             $expiry_date = "";
             $principal_place = "";
             $other_places = "";
+            $last_verified_date = "";
+            $api_verify = "";
+            $api_division = "";
+            $api_endorsements = "";
+            $api_reg_type = "";
+            $api_reg_status = "";
+            $api_notations = "";
+            $api_conditions = "";
+            $api_expiry = "";
+            $api_principal_practice = "";
+            $api_other_practices = "";
 
             
             $graduate_ahpra_number = $request->graduate_ahpra_number;
@@ -172,6 +221,17 @@ class LicencesContoller extends Controller{
             $expiry_date = "";
             $principal_place = "";
             $other_places = "";
+            $last_verified_date = "";
+            $api_verify = "";
+            $api_division = "";
+            $api_endorsements = "";
+            $api_reg_type = "";
+            $api_reg_status = "";
+            $api_notations = "";
+            $api_conditions = "";
+            $api_expiry = "";
+            $api_principal_practice = "";
+            $api_other_practices = "";
 
             
             $graduate_ahpra_number = "";
@@ -208,6 +268,17 @@ class LicencesContoller extends Controller{
             $expiry_date = "";
             $principal_place = "";
             $other_places = "";
+            $last_verified_date = "";
+            $api_verify = "";
+            $api_division = "";
+            $api_endorsements = "";
+            $api_reg_type = "";
+            $api_reg_status = "";
+            $api_notations = "";
+            $api_conditions = "";
+            $api_expiry = "";
+            $api_principal_practice = "";
+            $api_other_practices = "";
 
             
             $graduate_ahpra_number = "";
@@ -245,6 +316,26 @@ class LicencesContoller extends Controller{
             $ndis_number = "";
         }
 
+        $medical_provider_no = $request->medical_provider_no;
+        $medical_upload_evidence = $request->medical_upload_evidence;
+        $pbs_type = $request->pbs_type;
+        $pbs_other_nursing = $request->pbs_other_nursing;
+        $prescribe_no = $request->prescribe_no;
+        $prescribe_evidence = $request->prescribe_evidence;
+        $immunization_state = $request->immunization_state;
+        $authorizing_body_program = $request->authorizing_body_program;
+        $date_authorised = $request->date_authorised;
+        $immuzination_evidence = $request->immuzination_evidence;
+        $radiation_licence_type = $request->radiation_licence_type;
+        $licenses_type_other = $request->licenses_type_other;
+        $radiation_licenses_no = $request->radiation_licenses_no;
+        $radiation_state_issue = $request->radiation_state_issue;
+        $radiation_issue_date = $request->radiation_issue_date;
+        $radiation_expiry_date = $request->radiation_expiry_date;
+        $radiation_evidence = $request->radiation_evidence;
+        
+        
+
         $licenses_data = LicensesModel::where("user_id",$user_id)->first();
         //print_r($licenses_data);die;
         if(!empty($licenses_data)){
@@ -254,6 +345,7 @@ class LicencesContoller extends Controller{
                 'ahpra_registration_status'=>$ahpra_registration_status,
                 'aphra_verifying_checkbox'=>$ahpra_consent,
                 'aphra_registration_no'=>$ahpra_number,
+                'api_verify'=>$api_verify,
                 'register_division'=>$division,
                 'register_endorsements'=>$endorsements,
                 'register_reg_type'=>$registration_type,
@@ -265,6 +357,7 @@ class LicencesContoller extends Controller{
                 'register_other_notation_reason'=>$other_notation,
                 'register_expiry'=>$expiry_date,
                 'register_upload_evidence'=>$upload_register_evidence,
+                'last_verified'=>$last_verified_date,
                 'graduate_student_reg_no'=>$graduate_ahpra_number,
                 'graduate_division'=>$graduate_division,
                 'graduate_reg_type'=>$graduate_registration_type,
@@ -282,17 +375,35 @@ class LicencesContoller extends Controller{
                 'not_registered_evidence_file'=>$upload_not_reg_evidence,
                 'ndis_status'=>$ndis_status,
                 'ndis_registration_no'=>$ndis_number,
-                'ndis_registration_evidence'=>$upload_ndis_evidence
+                'ndis_registration_evidence'=>$upload_ndis_evidence,
+                'medical_provider_no'=>$medical_provider_no,
+                'medical_upload_evidence'=>$medical_upload_evidence,
+                'pbs_type'=>$pbs_type,
+                'pbs_other_nursing'=>$pbs_other_nursing,
+                'prescribe_no'=>$prescribe_no,
+                'prescribe_evidence'=>$prescribe_evidence,
+                'immunization_state'=>$immunization_state,
+                'authorizing_body_program'=>$authorizing_body_program,
+                'date_authorised'=>$date_authorised,
+                'immuzination_evidence'=>$immuzination_evidence,
+                'radiation_licence_type'=>$radiation_licence_type,
+                'licenses_type_other'=>$licenses_type_other,
+                'radiation_licenses_no'=>$radiation_licenses_no,
+                'radiation_state_issue'=>$radiation_state_issue,
+                'radiation_issue_date'=>$radiation_issue_date,
+                'radiation_expiry_date'=>$radiation_expiry_date,
+                'ndis_registration_evidence'=>$radiation_evidence,
             ]);
             
 
         }else{
-            $user_stage = update_user_stage($user_id,"Registrations and Licences");
+            
             $licenses_register = new LicensesModel();
             $licenses_register->user_id = $user_id;
             $licenses_register->ahpra_registration_status = $ahpra_registration_status;
             $licenses_register->aphra_verifying_checkbox = $ahpra_consent;
             $licenses_register->aphra_registration_no = $ahpra_number;
+            $licenses_register->api_verify = $api_verify;
             $licenses_register->register_division = $division;
             $licenses_register->register_endorsements = $endorsements;
             $licenses_register->register_reg_type = $registration_type;
@@ -304,6 +415,7 @@ class LicencesContoller extends Controller{
             $licenses_register->register_other_notation_reason = $other_notation;
             $licenses_register->register_expiry = $expiry_date;
             $licenses_register->register_upload_evidence = $upload_register_evidence;
+            $licenses_register->last_verified = $last_verified_date;
             $licenses_register->graduate_student_reg_no = $graduate_ahpra_number;
             $licenses_register->graduate_division = $graduate_division;
             $licenses_register->graduate_reg_type = $graduate_registration_type;
@@ -322,6 +434,23 @@ class LicencesContoller extends Controller{
             $licenses_register->ndis_status = $ndis_status;
             $licenses_register->ndis_registration_no = $ndis_number;
             $licenses_register->ndis_registration_evidence = $upload_ndis_evidence;
+            $licenses_register->medical_provider_no = $medical_provider_no;
+            $licenses_register->medical_upload_evidence = $medical_upload_evidence;
+            $licenses_register->pbs_type = $pbs_type;
+            $licenses_register->pbs_other_nursing = $pbs_other_nursing;
+            $licenses_register->prescribe_no = $prescribe_no;
+            $licenses_register->prescribe_evidence = $prescribe_evidence;
+            $licenses_register->immunization_state = $immunization_state;
+            $licenses_register->authorizing_body_program = $authorizing_body_program;
+            $licenses_register->date_authorised = $date_authorised;
+            $licenses_register->immuzination_evidence = $immuzination_evidence;
+            $licenses_register->radiation_licence_type = $radiation_licence_type;
+            $licenses_register->licenses_type_other = $licenses_type_other;
+            $licenses_register->radiation_licenses_no = $radiation_licenses_no;
+            $licenses_register->radiation_state_issue = $radiation_state_issue;
+            $licenses_register->radiation_issue_date = $radiation_issue_date;
+            $licenses_register->radiation_expiry_date = $radiation_expiry_date;
+            $licenses_register->ndis_registration_evidence = $radiation_evidence;
             $run = $licenses_register->save();
         }
 
@@ -343,7 +472,7 @@ class LicencesContoller extends Controller{
         $img_field = $request->img_field;
         $evidence_name = $request->evidence_name;
         $files = $request->file($evidence_name);
-        //print_r($files);
+        //print_r($files);die;
         $user_id = $request->user_id;
 
         $getLicensesdata = LicensesModel::where("user_id", $user_id)->first();
