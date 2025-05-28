@@ -51,4 +51,12 @@ class NurseprofileController extends Controller
         return view('admin.education_certification_view')->with($data);
     }
 
+    public function registration_licenses(Request $request)
+    {
+        $data['profileData']  = $this->nurseRepository->getOneUser(['id' => $request->id]);
+        $data['licensesData']  = DB::table('user_licenses_details')->where("user_id",$request->id)->first();
+        //print_r($data['licensesData']);
+        return view('admin.registration_licenses_view')->with($data);
+    }
+
 }
