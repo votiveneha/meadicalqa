@@ -280,8 +280,9 @@ input:checked + .slider:before {
                               <span class="spinner-border spinner-border-sm me-2 d-none" role="status" aria-hidden="true" id="lookupSpinner"></span>
                               Lookup AHPRA Registration
                             </a>
+                            
                           </div>
-                          
+                          <span id="reqaphra_reg" class="reqError text-danger valley"></span>
                           <div class="ahpra-lookup">
                             <input type="hidden" name="api_division" class="api_division" value="@if(!empty($licenses_data)){{ $licenses_data->register_division }}@endif">
                             <input type="hidden" name="api_endorsements" class="api_endorsements" value="@if(!empty($licenses_data)){{ $licenses_data->register_endorsements }}@endif">
@@ -376,7 +377,7 @@ input:checked + .slider:before {
                           <div class="form-group level-drp">
                             <label class="form-label" for="negotiable">Do you have any notations on your AHPRA registration? </label><br>
                             <label class="switch">
-                              <input type="checkbox" id="toggleCheckbox" name="negotiable_salary" @if(!empty($licenses_data) && $licenses_data->register_notations != "null") checked @endif>
+                              <input type="checkbox" id="toggleCheckbox" name="notation_toggle" @if(!empty($licenses_data) && $licenses_data->register_notations != NULL) checked @endif>
                               <span class="slider"></span>
                               
                             </label>
@@ -433,7 +434,7 @@ input:checked + .slider:before {
                           <div class="form-group level-drp">
                             <label class="form-label" for="negotiable">Do you have any AHPRA-imposed conditions on your registration? </label><br>
                             <label class="switch">
-                              <input type="checkbox" id="toggleCheckbox_conditions"  name="negotiable_salary" @if(!empty($licenses_data) && $licenses_data->register_conditions != "null") checked @endif>
+                              <input type="checkbox" id="toggleCheckbox_conditions"  name="condition_toggle" @if(!empty($licenses_data) && $licenses_data->register_conditions != NULL) checked @endif>
                               <span class="slider"></span>
                               
                             </label>
@@ -501,9 +502,17 @@ input:checked + .slider:before {
                                 <input class="form-check-input" type="checkbox" name="conditions[]" value="Practice hours must be logged and submitted" id="condition13" @if(is_array($register_conditions) && in_array("Practice hours must be logged and submitted", $register_conditions) == true) checked @endif>
                                 <label class="form-check-label" for="condition13">Practice hours must be logged and submitted</label>
                               </div>
+                              <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="conditions[]" value="Other" @if(is_array($register_notations) && in_array("Other", $register_conditions) == true) checked @endif id="conditionOther">
+                                <label class="form-check-label" for="condition14">Other</label>
+                              </div>
                             </div>
                             <span id="reg_conditions" class="reqError text-danger valley"></span>
-                            
+                            <div class="form-group level-drp mb-3" id="otherConditionText" style="display: none;">
+                              <label for="otherCondition" class="form-label">Please specify:</label>
+                              <input type="text" class="form-control" id="otherCondition" name="other_condition" placeholder="Enter your other condition" value="@if(!empty($licenses_data)){{ $licenses_data->register_other_condition_reason }}@endif">
+                              <span id="other_condition" class="reqError text-danger valley"></span>
+                            </div>
                               
                             </div>
                             <div class="form-group level-drp" id="ahpra-number">
@@ -702,7 +711,6 @@ input:checked + .slider:before {
                             <label class="form-label">Please specify:</label>
                             <input type="hidden" name="" class="overseas_qualified_field" value="@if(!empty($licenses_data)){{ $licenses_data->overseas_qualified_specify }}@endif">
                             <ul id="overseas_qualified" style="display:none;">
-                              <li data-value="">select</li>
                               <li data-value="recently_migrated">I recently migrated to Australia and am preparing to apply for AHPRA</li>
                               <li data-value="aphra_app">I have submitted my AHPRA application and am awaiting outcome</li>
                               <li data-value="aphra_assessment">I am preparing documentation for AHPRA assessment</li>
@@ -755,7 +763,7 @@ input:checked + .slider:before {
                             <label class="form-label">Why you're not currently registered with AHPRA:</label>
                               <input type="hidden" name="" class="not_registered_field" value="@if(!empty($licenses_data)){{ $licenses_data->not_currently_registered_reason }}@endif">
                               <ul id="not_registered_div" style="display:none;">
-                                <li data-value="">select</li>
+                                
                                 <li data-value="education_related">Education-Related Reasons</li>
                                 <li data-value="returning_practice">Returning to Practice</li>
                                 <li data-value="personal_career">Personal or Career Reasons</li>
@@ -769,7 +777,7 @@ input:checked + .slider:before {
                             <label class="form-label">Education-Related Reasons:</label>
                             <input type="hidden" name="" class="education_related_field" value="@if(!empty($licenses_data)){{ $licenses_data->education_related_reason }}@endif">  
                             <ul id="education_related" style="display:none;">
-                              <li data-value="">select</li>
+                              
                               <li data-value="startProgram">I am about to begin an AHPRA-approved nursing/midwifery program</li>
                               <li data-value="waitingAssessment">I have completed my studies and am waiting for AHPRA assessment</li>
                               <li data-value="studiedOutside">I completed my studies outside Australia and have not applied yet</li>
@@ -783,7 +791,7 @@ input:checked + .slider:before {
                             <label class="form-label">Returning to Practice:</label>
                             <input type="hidden" name="" class="returning_practice_field" value="@if(!empty($licenses_data)){{ $licenses_data->returning_practice }}@endif">    
                             <ul id="returning_practice" style="display:none;">
-                              <li data-value="">select</li>
+                              
                               <li data-value="lapsed">I previously held registration but let it lapse</li>
                               <li data-value="reentryProgram">I am currently completing a re-entry to practice program</li>
                               <li data-value="waitingPlacement">I am waiting for supervised practice placement approval</li>
@@ -797,7 +805,7 @@ input:checked + .slider:before {
                             <label class="form-label">Personal or Career Reasons:</label>
                             <input type="hidden" name="" class="personal_career_field" value="@if(!empty($licenses_data)){{ $licenses_data->personal_career }}@endif">      
                             <ul id="personal_career" style="display:none;">
-                              <li data-value="">select</li>
+                              
                               <li data-value="maternityLeave">On maternity or extended personal leave</li>
                               <li data-value="careerBreak">Taking a career break</li>
                               <li data-value="nonClinical">Working in a non-clinical healthcare role (e.g. admin, education)</li>
@@ -882,7 +890,7 @@ input:checked + .slider:before {
                           </div>  
                           <div class="form-group level-drp">
                             <label>Upload Registration Evidence:</label>
-                            <input type="hidden" name="upload_ndis_evidence" class="registration_upload-ndis" value="@if(!empty($licenses_data)) {{ $licenses_data->ndis_registration_evidence }} @endif">
+                            <input type="hidden" name="upload_ndis_evidence" class="registration_upload-ndis" value="@if(!empty($licenses_data)){{ $licenses_data->ndis_registration_evidence }}@endif">
                             <input type="file" class="form-control upload_evidence-ndis" name="" onchange="changeEvidenceImg({{ $user_id }},'ndis','ndis_registration_evidence')" multiple>
                             <div class="evidence-ndis">
                             <?php
@@ -933,7 +941,7 @@ input:checked + .slider:before {
                             To begin working with NDIS participants, you must complete both the <strong>NDIS Worker Orientation Module</strong> and the <strong>NDIS Worker Screening Check</strong>.<br>
                             Once compliant, you may work with plan-managed and self-managed clients.<br>
                             You can then choose to become an NDIS-registered provider if you wish to work with agency-managed clients.<br>
-                            <a href="https://www.ndis.gov.au/providers/becoming-ndis-provider/how-register" target="_blank">
+                            <a href="https://www.ndis.gov.au/providers/becoming-ndis-provider/how-register" target="_blank" style="color: #0000EE;text-decoration: underline;">
                               Learn how to register as an NDIS provider
                             </a>
                           </p>
@@ -943,7 +951,7 @@ input:checked + .slider:before {
                           <div class="form-group level-drp">
                             <label class="form-label" for="negotiable">Do you have a Medicare Provider Number</label><br>
                             <label class="switch">
-                              <input type="checkbox" id="toggleCheckbox_medical" name="meadical_provider_toggle" @if(!empty($licenses_data) && $licenses_data->medical_provider_no != "null") checked @endif>
+                              <input type="checkbox" id="toggleCheckbox_medical" name="meadical_provider_toggle" @if(!empty($licenses_data) && $licenses_data->medical_provider_no != NULL) checked @endif>
                               <span class="slider"></span>
                               
                             </label>
@@ -952,11 +960,11 @@ input:checked + .slider:before {
                             <div class="form-group level-drp">
                               <label for="ndis_number">Medicare Provider Number:</label>
                               <input type="text" class="form-control" id="ndis_number" name="medical_provider_no" value="@if(!empty($licenses_data)){{ $licenses_data->medical_provider_no }}@endif">
-                              <span id="ndis_status_number" class="reqError text-danger valley"></span>
+                              <span id="medical_provider_no" class="reqError text-danger valley"></span>
                             </div>  
                             <div class="form-group level-drp">
                               <label>Upload Evidence</label>
-                              <input type="hidden" name="medical_upload_evidence" class="registration_upload-ndis" value="@if(!empty($licenses_data)) {{ $licenses_data->medical_upload_evidence }} @endif">
+                              <input type="hidden" name="medical_upload_evidence" class="registration_upload-medical" value="@if(!empty($licenses_data)) {{ $licenses_data->medical_upload_evidence }} @endif">
                               <input type="file" class="form-control upload_evidence-medical" onchange="changeEvidenceImg({{ $user_id }},'medical','medical_upload_evidence')" multiple>
                               <div class="evidence-medical">
                                 <?php
@@ -988,7 +996,7 @@ input:checked + .slider:before {
                           <div class="form-group level-drp">
                             <label class="form-label" for="negotiable">Do you have authority to prescribe under the PBS?</label><br>
                             <label class="switch">
-                              <input type="checkbox" id="toggleCheckbox_prescribe" name="negotiable_salary" @if(!empty($licenses_data) && $licenses_data->pbs_type != "null") checked @endif>
+                              <input type="checkbox" id="toggleCheckbox_prescribe" name="toggleCheckbox_prescribe" @if(!empty($licenses_data) && $licenses_data->pbs_type != NULL) checked @endif>
                               <span class="slider"></span>
                               
                             </label>
@@ -1005,22 +1013,44 @@ input:checked + .slider:before {
                                 <option value="other_nursing" @if(!empty($licenses_data) && $licenses_data->pbs_type == "other_nursing") selected @endif>Other (nursing/midwifery-specific role) </option>
                                 
                               </select>
-                              <span id="graduate_registration_status" class="reqError text-danger valley"></span>
+                              <span id="reqpbs_type" class="reqError text-danger valley"></span>
                             </div>
                             <div class="form-group level-drp other_nursing_midwife" style="display: none;">
                               <label for="ndis_number">Other (nursing/midwifery-specific role)</label>
                               <input type="text" class="form-control" id="ndis_number" name="pbs_other_nursing" value="@if(!empty($licenses_data)){{ $licenses_data->pbs_other_nursing }}@endif">
-                              <span id="ndis_status_number" class="reqError text-danger valley"></span>
+                              <span id="reqpbs_other_nursing" class="reqError text-danger valley"></span>
                             </div>  
                             <div class="form-group level-drp">
                               <label for="ndis_number">Prescriber Number:</label>
                               <input type="text" class="form-control" id="ndis_number" name="prescribe_no" value="@if(!empty($licenses_data)){{ $licenses_data->prescribe_no }}@endif">
-                              <span id="ndis_status_number" class="reqError text-danger valley"></span>
+                              <span id="reqprescribe_no" class="reqError text-danger valley"></span>
                             </div>  
                             <div class="form-group level-drp">
                               <label>Upload Evidence</label>
-                              <input type="hidden" name="prescribe_evidence" class="registration_upload-ndis" value="@if(!empty($licenses_data)) {{ $licenses_data->prescribe_evidence }} @endif">
+                              <input type="hidden" name="prescribe_evidence" class="registration_upload-prescribe" value="@if(!empty($licenses_data)) {{ $licenses_data->prescribe_evidence }} @endif">
                               <input type="file" class="form-control upload_evidence-prescribe" name="" onchange="changeEvidenceImg({{ $user_id }},'prescribe','prescribe_evidence')" multiple>
+                              <div class="evidence-prescribe">
+                                <?php
+                                  if(!empty($licenses_data) && $licenses_data->prescribe_evidence != NULL){
+                                    $evidence_imgs = (array)json_decode($licenses_data->prescribe_evidence);
+                                    $i = 0;
+                                  ?>
+                                    @if (!empty($evidence_imgs))
+                                      @foreach ($evidence_imgs as $ev_img)
+                                      <div class="trans_img trans_img-{{ $i+1 }}">
+                                        <a href="{{ url("/public") }}/uploads/education_degree/{{ $ev_img }}" target="_blank"><i class="fa fa-file" aria-hidden="true"></i>{{ $ev_img }}</a>
+                                        <div class="close_btn close_btn-' + i + '" onclick="deleteEvidenceImg({{ $i+1 }},{{ $user_id }},'{{ $ev_img }}','prescribe','prescribe_evidence')" style="cursor: pointer;"><i class="fa fa-close" aria-hidden="true"></i></div>
+                                      </div>    
+                                      <?php
+                                        $i++;
+                                      ?>                                    
+                                      @endforeach
+                                    @endif
+                                  <?php  
+
+                                  }  
+                                ?>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -1033,7 +1063,7 @@ input:checked + .slider:before {
                           <div class="form-group level-drp">
                             <label class="form-label" for="negotiable">Are you an authorised Immunisation Provider?</label><br>
                             <label class="switch">
-                              <input type="checkbox" id="toggleCheckbox_immunization" name="negotiable_salary" @if(!empty($licenses_data) && $licenses_data->immunization_state != "null") checked @endif>
+                              <input type="checkbox" id="toggleCheckbox_immunization" name="toggleCheckbox_immunization" @if(!empty($licenses_data) && $licenses_data->immunization_state != NULL) checked @endif>
                               <span class="slider"></span>
                               
                             </label>
@@ -1042,9 +1072,9 @@ input:checked + .slider:before {
                             <div class="form-group drp--clr">
                               <label class="form-label" for="input-1">State of Authorisation</label>
                               
-                              <input type="hidden" name="immunization_state" class="register_other_place" value="@if(!empty($licenses_data)) {{ $licenses_data->register_other_place }} @endif">
+                              <input type="hidden" name="" class="immunization_state" value="@if(!empty($licenses_data)) {{ $licenses_data->immunization_state }} @endif">
                               <ul id="state_authorization" style="display:none;">
-                                <li data-value="">select</li>
+                                
                                 <li data-value="NSW">New South Wales (NSW)</li>
                                 <li data-value="VIC">Victoria (VIC)</li>
                                 <li data-value="QLD">Queensland (QLD)</li>
@@ -1054,18 +1084,21 @@ input:checked + .slider:before {
                                 <li data-value="ACT">Australian Capital Territory (ACT)</li>
                                 <li data-value="NT">Northern Territory (NT)</li>
                               </ul>
-                              <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="state_authorization" name="other_places[]" multiple="multiple"></select>
-                              <span id="reg_other_places" class="reqError text-danger valley"></span>
+                              <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="state_authorization" name="immunization_state[]" multiple="multiple"></select>
+                              <span id="reqimmunization_state" class="reqError text-danger valley"></span>
                             </div>
-                            <div class="form-group level-drp">
+                            <div class="authorizing_body">
+                              
+                            </div>
+                            {{-- <div class="form-group level-drp">
                               <label for="ndis_number">Authorising Body or Program</label>
                               <input type="text" class="form-control" id="ndis_number" name="authorizing_body_program" value="@if(!empty($licenses_data)){{ $licenses_data->authorizing_body_program }}@endif">
-                              <span id="ndis_status_number" class="reqError text-danger valley"></span>
+                              <span id="reqauthorizing_body_program" class="reqError text-danger valley"></span>
                             </div>  
                             <div class="form-group level-drp">
                               <label for="ndis_number">Date Authorised</label>
                               <input type="date" class="form-control" id="ndis_number" name="date_authorised" value="@if(!empty($licenses_data)){{ $licenses_data->date_authorised }}@endif">
-                              <span id="ndis_status_number" class="reqError text-danger valley"></span>
+                              <span id="reqdate_authorised" class="reqError text-danger valley"></span>
                             </div>  
                             <div class="form-group level-drp">
                               <label>Upload Evidence</label>
@@ -1093,7 +1126,7 @@ input:checked + .slider:before {
                                   }  
                                 ?>
                               </div>
-                            </div>
+                            </div> --}}
                           </div>
                         </div>  
                         <div class="radiation_main_div">
@@ -1104,7 +1137,7 @@ input:checked + .slider:before {
                           <div class="form-group level-drp">
                             <label class="form-label" for="negotiable">Do you hold a current Radiation Use Licence?</label><br>
                             <label class="switch">
-                              <input type="checkbox" id="toggleCheckbox_radiation" name="negotiable_salary" @if(!empty($licenses_data) && $licenses_data->radiation_licence_type != "null") checked @endif>
+                              <input type="checkbox" id="toggleCheckbox_radiation" name="toggleCheckbox_radiation" @if(!empty($licenses_data) && $licenses_data->radiation_licence_type != NULL) checked @endif>
                               <span class="slider"></span>
                               
                             </label>
@@ -1113,9 +1146,9 @@ input:checked + .slider:before {
                             <div class="form-group drp--clr">
                               <label class="form-label" for="input-1">Licence Type</label>
                               
-                              <input type="hidden" name="radiation_licence_type" class="register_other_place" value="@if(!empty($licenses_data)) {{ $licenses_data->register_other_place }} @endif">
+                              <input type="hidden" name="" class="radiation_licence_type" value="@if(!empty($licenses_data)) {{ $licenses_data->radiation_licence_type }} @endif">
                               <ul id="licenses_type" style="display:none;">
-                                <li data-value="">select</li>
+                                
                                 <li data-value="medical_r">Medical Radiation Use Licence – Restricted</li>
                                 <li data-value="diagnostic_radiography_restricted">Diagnostic Radiography - Restricted</li>
                                 <li data-value="limited_xray_operator">Limited X-ray Operator</li>
@@ -1128,25 +1161,25 @@ input:checked + .slider:before {
                                 <li data-value="diagnostic_ultrasound">Diagnostic Ultrasound</li>
                                 <li data-value="other">Other</li>
                               </ul>
-                              <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="licenses_type" name="other_places[]" multiple="multiple"></select>
-                              <span id="reg_other_places" class="reqError text-danger valley"></span>
+                              <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="licenses_type" name="radiation_licence_type[]" multiple="multiple"></select>
+                              <span id="reqlicenses_type" class="reqError text-danger valley"></span>
                             </div>
                             <div class="form-group level-drp other_radiation" style="display: none;">
                               <label for="ndis_number">Other</label>
                               <input type="text" class="form-control" id="ndis_number" name="licenses_type_other" value="@if(!empty($licenses_data)){{ $licenses_data->licenses_type_other }}@endif">
-                              <span id="ndis_status_number" class="reqError text-danger valley"></span>
+                              <span id="reqlicenses_type_other" class="reqError text-danger valley"></span>
                             </div>  
                             <div class="form-group level-drp">
                               <label for="ndis_number">Licence Number</label>
                               <input type="text" class="form-control" id="radiation_licenses_no" name="radiation_licenses_no" value="@if(!empty($licenses_data)){{ $licenses_data->radiation_licenses_no }}@endif">
-                              <span id="ndis_status_number" class="reqError text-danger valley"></span>
+                              <span id="reqradiation_licenses_no" class="reqError text-danger valley"></span>
                             </div>
                             <div class="form-group drp--clr">
                               <label class="form-label" for="input-1">State of Issue</label>
                               
-                              <input type="hidden" name="register_other_place" class="radiation_state_issue" value="@if(!empty($licenses_data)) {{ $licenses_data->register_other_place }} @endif">
+                              <input type="hidden" name="" class="radiation_state_issue" value="@if(!empty($licenses_data)) {{ $licenses_data->radiation_state_issue }} @endif">
                               <ul id="state_issue" style="display:none;">
-                                <li data-value="">select</li>
+                                
                                 <li data-value="NSW">New South Wales (NSW)</li>
                                 <li data-value="VIC">Victoria (VIC)</li>
                                 <li data-value="QLD">Queensland (QLD)</li>
@@ -1157,23 +1190,23 @@ input:checked + .slider:before {
                                 <li data-value="NT">Northern Territory (NT)</li>
                               </ul>
                               <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="state_issue" name="radiation_state_issue[]" multiple="multiple"></select>
-                              <span id="reg_other_places" class="reqError text-danger valley"></span>
+                              <span id="reqstate_issue" class="reqError text-danger valley"></span>
                             </div>  
                             <div class="form-group level-drp">
                               <label for="ndis_number">Issue Date</label>
                               <input type="date" class="form-control" id="ndis_number" name="radiation_issue_date" value="@if(!empty($licenses_data)){{ $licenses_data->radiation_issue_date }}@endif">
-                              <span id="ndis_status_number" class="reqError text-danger valley"></span>
+                              <span id="reqradiation_issue_date" class="reqError text-danger valley"></span>
                             </div>  
                             <div class="form-group level-drp">
                               <label for="ndis_number">Expiry Date</label>
                               <input type="date" class="form-control" id="ndis_number" name="radiation_expiry_date" value="@if(!empty($licenses_data)){{ $licenses_data->radiation_expiry_date }}@endif">
-                              <span id="ndis_status_number" class="reqError text-danger valley"></span>
+                              <span id="reqradiation_expiry_date" class="reqError text-danger valley"></span>
                             </div>  
                             <div class="form-group level-drp">
                               <label>Upload Evidence</label>
-                              <input type="hidden" name="radiation_evidence" class="registration_upload-immunization" value="@if(!empty($licenses_data)) {{ $licenses_data->radiation_evidence }} @endif">
+                              <input type="hidden" name="radiation_evidence" class="registration_upload-radiation" value="@if(!empty($licenses_data)) {{ $licenses_data->radiation_evidence }} @endif">
                               <input type="file" class="form-control upload_evidence-radiation" name="" onchange="changeEvidenceImg({{ $user_id }},'radiation','radiation_evidence')" multiple>
-                              <div class="evidence-immunization">
+                              <div class="evidence-radiation">
                                 <?php
                                   if(!empty($licenses_data) && $licenses_data->radiation_evidence != NULL){
                                     $evidence_imgs = (array)json_decode($licenses_data->radiation_evidence);
@@ -1378,6 +1411,27 @@ input:checked + .slider:before {
       
     }
 
+    if ($.trim($(".immunization_state").val()) != "") {
+      var immunization_state = JSON.parse($(".immunization_state").val());
+      console.log("immunization_state",immunization_state);
+      $('.js-example-basic-multiple[data-list-id="state_authorization"]').select2().val(immunization_state).trigger('change');
+      
+    }
+
+    if ($.trim($(".radiation_licence_type").val()) != "") {
+      var radiation_licence_type = JSON.parse($(".radiation_licence_type").val());
+      console.log("radiation_licence_type",radiation_licence_type);
+      $('.js-example-basic-multiple[data-list-id="licenses_type"]').select2().val(radiation_licence_type).trigger('change');
+      
+    }
+
+    if ($.trim($(".radiation_state_issue").val()) != "") {
+      var radiation_state_issue = JSON.parse($(".radiation_state_issue").val());
+      console.log("radiation_state_issue",radiation_state_issue);
+      $('.js-example-basic-multiple[data-list-id="state_issue"]').select2().val(radiation_state_issue).trigger('change');
+      
+    }
+
     $('.js-example-basic-multiple[data-list-id="licenses_type"]').on('change', function() {
       var selectedValues = $(this).val();
 
@@ -1398,6 +1452,8 @@ input:checked + .slider:before {
         // Checkbox is not checked
         console.log('Not checked!');
         $("#notationsSection").hide();
+        $("#otherNotation").val("");
+       
       }
     });
 
@@ -1509,6 +1565,7 @@ input:checked + .slider:before {
         // Checkbox is not checked
         console.log('Not checked!');
         $("#conditionsSection").hide();
+        $("#otherCondition").val("");
       }
     });
     
@@ -1581,14 +1638,14 @@ input:checked + .slider:before {
       
       if(allowedStatuses_graduate.includes(this.value)){
         ahpraGroup_group2.style.display = "block";
-        graduation_date.style.display = "block";
+        graduation_date.style.display = "none";
         $("#ahpra-details-group").hide();
         $("#overseasQualifiedSection").hide();
         $(".not_registered_block").hide();
       }else{
         ahpraGroup_group2.style.display = "block";
-        graduation_date.style.display = "none";
         
+        graduation_date.style.display = "block";
       }
       
     } else {
@@ -1638,9 +1695,9 @@ input:checked + .slider:before {
     $("#overseasQualifiedSection").hide();
     $(".not_registered_block").hide();
     if(reg_status == "Graduate_RN" || reg_status == "Graduate_RM"){
-      $("#graduationDateGroup").show();
-    }else{
       $("#graduationDateGroup").hide();
+    }else{
+      $("#graduationDateGroup").show();
     }
   }else{
     $("#manualAHPRAFields").hide();
@@ -1718,6 +1775,60 @@ input:checked + .slider:before {
     }
   });
 
+  $('.js-example-basic-multiple[data-list-id="state_authorization"]').on('change', function() {
+    let selectedValues = $(this).val();
+    console.log("selectedValues",selectedValues);
+
+    for(var i=0;i<selectedValues.length;i++){
+      if(selectedValues[i] == "NSW"){
+        var state_name = "New South Wales (NSW)";
+      }
+      if(selectedValues[i] == "VIC"){
+        var state_name = "Victoria (VIC)";
+      }
+      if(selectedValues[i] == "QLD"){
+        var state_name = "Queensland (QLD)";
+      }
+      if(selectedValues[i] == "WA"){
+        var state_name = "Western Australia (WA)";
+      }
+      if(selectedValues[i] == "SA"){
+        var state_name = "South Australia (SA)";
+      }
+      if(selectedValues[i] == "TAS"){
+        var state_name = "Tasmania (TAS)";
+      }
+      if(selectedValues[i] == "ACT"){
+        var state_name = "Australian Capital Territory (ACT)";
+      }
+      if(selectedValues[i] == "NT"){
+        var state_name = "Northern Territory (NT)";
+      }
+      if($(".authorizing_body .author_div-"+selectedValues[i]).length < 1){
+        $(".authorizing_body").append('\<div class="author_div author_div-'+selectedValues[i]+'">\
+          <div class="strong_text inslabtext"><strong>'+state_name+'</strong></div>\
+          <div class="form-group level-drp">\
+            <label for="ndis_number">Authorising Body or Program</label>\
+            <input type="text" class="form-control" id="ndis_number" name="authorizing_body_program['+selectedValues[i]+'][authorizing_body]">\
+            <span id="reqauthorizing_body_program" class="reqError text-danger valley"></span>\
+          </div>\
+          <div class="form-group level-drp">\
+            <label for="ndis_number">Date Authorised</label>\
+            <input type="date" class="form-control" id="ndis_number" name="authorizing_body_program['+selectedValues[i]+'][date_authorized]">\
+            <span id="reqdate_authorised" class="reqError text-danger valley"></span>\
+          </div>\
+          <div class="form-group level-drp">\
+            <label>Upload Evidence</label>\
+            <input type="hidden" name="authorizing_body_program['+selectedValues[i]+'][evidence]" class="registration_upload-immunization-'+selectedValues[i]+'">\
+            <input type="file" class="form-control upload_evidence-immunization" name="" onchange="changeEvidenceImg({{ $user_id }},"immunization","immuzination_evidence")" multiple>\
+            <div class="evidence-immunization-'+selectedValues[i]+'"></div>\
+          </div>\
+        </div>');
+      }
+    }
+
+  });
+
   $('.js-example-basic-multiple[data-list-id="not_registered_div"]').on('change', function() {
     let selectedValues = $(this).val();
     console.log("selectedValues",selectedValues);
@@ -1781,6 +1892,21 @@ input:checked + .slider:before {
   document.getElementById('notationOther').addEventListener('change', (e) => {
     const otherText = document.getElementById('otherNotationText');
     otherText.style.display = e.target.checked ? 'block' : 'none';
+    
+    if ($('#notationOther').is(':checked') == false) {
+      // Checkbox is checked
+      $("#otherNotation").val("");
+      
+    }
+
+  });
+
+  document.getElementById('conditionOther').addEventListener('change', (e) => {
+    const otherText = document.getElementById('otherConditionText');
+    otherText.style.display = e.target.checked ? 'block' : 'none';
+    if ($('#conditionOther').is(':checked')) {
+      $("#otherCondition").val("");
+    }
   });
 
     if ($('#notationOther').is(':checked')) {
@@ -1791,6 +1917,16 @@ input:checked + .slider:before {
       // Checkbox is not checked
       console.log('Not checked!');
       $("#otherNotationText").hide();
+    }
+
+    if ($('#conditionOther').is(':checked')) {
+      // Checkbox is checked
+      console.log('Checked!');
+      $("#otherConditionText").show();
+    } else {
+      // Checkbox is not checked
+      console.log('Not checked!');
+      $("#otherConditionText").hide();
     }
 
     var api_verify = $(".api_verify").val();
@@ -1809,6 +1945,8 @@ input:checked + .slider:before {
     $("#lookup-ahpra-btn").click(function(){
       var ahpraNumber = $(".ahpra_number").val();
       console.log("ahpraNumber",ahpraNumber);
+
+      $('#submitRegistrationLicenses').prop('disabled', true);
 
       var isValid = true;
 
@@ -1837,12 +1975,13 @@ input:checked + .slider:before {
         $("#lookupSpinner").removeClass('d-none');
         $.ajax({
           url: "{{ route('nurse.ahepra_lookup') }}",
-          type: "GET",
+          type: "POST",
           cache: false,
-          data: {ahpraNumber:ahpraNumber},
+          data: {ahpraNumber:ahpraNumber,_token:"{{ csrf_token() }}"},
           success: function(res) {
             //var data = JSON.parse(res);
             console.log("data",res);
+            $('#submitRegistrationLicenses').prop('disabled', false);
             $("#lookupSpinner").addClass('d-none');
             if(res.error){
               $("#ahpra-lookup-result").hide();
@@ -1884,22 +2023,22 @@ input:checked + .slider:before {
    let selectedEvidenceFiles = [];
 
    function changeEvidenceImg(user_id,group_name,evidence_name){
-    if (!selectedEvidenceFiles) {
-        selectedEvidenceFiles = [];
+    if (!selectedEvidenceFiles[group_name]) {
+        selectedEvidenceFiles[group_name] = [];
       }
       
       const newFiles = Array.from($('.upload_evidence-'+group_name)[0].files);
 
       newFiles.forEach(file => {
-        const exists = selectedEvidenceFiles.some(f => f.name === file.name && f.lastModified === file.lastModified);
+        const exists = selectedEvidenceFiles[group_name].some(f => f.name === file.name && f.lastModified === file.lastModified);
         if (!exists) {
-            selectedEvidenceFiles.push(file);
+            selectedEvidenceFiles[group_name].push(file);
         }
       });
 
       
 
-        const count = selectedEvidenceFiles.length;
+        const count = selectedEvidenceFiles[group_name].length;
           console.log("evidence_count", count);
     
       // var files = $('.upload_evidence-'+language_id)[0].files;
@@ -1907,8 +2046,8 @@ input:checked + .slider:before {
       var form_data = "";
       form_data = new FormData();
 
-      for (var i = 0; i < selectedEvidenceFiles.length; i++) {
-        form_data.append(evidence_name+"[]", selectedEvidenceFiles[i], selectedEvidenceFiles[i]['name']);
+      for (var i = 0; i < selectedEvidenceFiles[group_name].length; i++) {
+        form_data.append(evidence_name+"[]", selectedEvidenceFiles[group_name][i], selectedEvidenceFiles[group_name][i]['name']);
       }
 
       form_data.append("user_id", user_id);
@@ -1939,7 +2078,7 @@ input:checked + .slider:before {
             htmlData += '<div class="trans_img trans_img-' + (i + 1) + '"><a href="{{ url("/public") }}/uploads/education_degree/' + img_name + '" target="_blank"><i class="fa fa-file" aria-hidden="true"></i>' + image_array[i] + '</a><div class="close_btn close_btn-' + i + '" onclick="deleteEvidenceImg(' + (i + 1) + ',' + user_id + ',\'' + img_name + '\',\''+group_name+'\',\''+evidence_name+'\')" style="cursor: pointer;"><i class="fa fa-close" aria-hidden="true"></i></div></div>';
           }
           $(".evidence-"+group_name).html(htmlData);
-          selectedEvidenceFiles = [];
+          selectedEvidenceFiles[group_name] = [];
           
         }
       });
@@ -2011,6 +2150,7 @@ input:checked + .slider:before {
       if ($('[name="division"]').val() == '') {
 
         document.getElementById("register_division").innerHTML = "* Please select the register division.";
+        document.getElementById("reqaphra_reg").innerHTML = "* Please fill the ahpra registration details.";
         isValid = false;
 
       }
@@ -2204,6 +2344,93 @@ input:checked + .slider:before {
       if ($('[name="ndis_number"]').val() == '') {
 
         document.getElementById("ndis_status_number").innerHTML = "* Please enter the ndis registration number.";
+        isValid = false;
+
+      }
+    }
+
+    if ($('#toggleCheckbox_medical').is(':checked') == true) {
+        if ($('[name="medical_provider_no"]').val() == '') {
+
+          document.getElementById("medical_provider_no").innerHTML = "* Please enter the Medicare Provider Number.";
+          isValid = false;
+
+        }
+
+    }
+
+    if ($('#toggleCheckbox_prescribe').is(':checked') == true) {
+        if ($('[name="pbs_type"]').val() == '') {
+
+          document.getElementById("reqpbs_type").innerHTML = "* Please select the Prescriber Type.";
+          isValid = false;
+
+        }
+
+        if ($('[name="prescribe_no"]').val() == '') {
+
+          document.getElementById("reqprescribe_no").innerHTML = "* Please enter the Prescriber Number.";
+          isValid = false;
+
+        }
+
+    }
+
+    if ($('#toggleCheckbox_immunization').is(':checked') == true) {
+      if ($('[name="immunization_state[]"]').val() == '') {
+
+        document.getElementById("reqimmunization_state").innerHTML = "* Please select the State of Authorisation.";
+        isValid = false;
+
+      }
+
+      if ($('[name="authorizing_body_program"]').val() == '') {
+
+        document.getElementById("reqauthorizing_body_program").innerHTML = "* Please enter the Authorising Body or Program.";
+        isValid = false;
+
+      }
+
+      if ($('[name="date_authorised"]').val() == '') {
+
+        document.getElementById("reqdate_authorised").innerHTML = "* Please enter the Date Authorised.";
+        isValid = false;
+
+      }
+    }
+
+    if ($('#toggleCheckbox_radiation').is(':checked') == true) {
+      if ($('[name="radiation_licence_type[]"]').val() == '') {
+
+        document.getElementById("reqlicenses_type").innerHTML = "* Please select the Licence Type.";
+        isValid = false;
+
+      }
+
+      if ($('[name="radiation_licenses_no"]').val() == '') {
+
+        document.getElementById("reqradiation_licenses_no").innerHTML = "* Please enter the Licence Number.";
+        isValid = false;
+
+      }
+
+      if ($('[name="radiation_state_issue[]"]').val() == '') {
+
+        document.getElementById("reqstate_issue").innerHTML = "* Please enter the State of Issue.";
+        isValid = false;
+
+      }
+
+      if ($('[name="radiation_issue_date"]').val() == '') {
+
+        document.getElementById("reqradiation_issue_date").innerHTML = "* Please enter Issue Date.";
+        isValid = false;
+
+      }
+
+      if ($('[name="radiation_expiry_date"]').val() == '') {
+
+        document.getElementById("reqradiation_expiry_date").innerHTML = "* Please enter Expiry Date.";
         isValid = false;
 
       }
