@@ -1088,7 +1088,82 @@ input:checked + .slider:before {
                               <span id="reqimmunization_state" class="reqError text-danger valley"></span>
                             </div>
                             <div class="authorizing_body">
-                              
+                              @if (!empty($licenses_data) && $licenses_data->authorizing_body_program != NULL)
+                              <?php
+                                $immunization_state = (array)json_decode($licenses_data->immunization_state);
+                                $authorizing_body = (array)json_decode($licenses_data->authorizing_body_program);
+                                //print_r($immunization_state);
+                              ?>
+                              @foreach ($immunization_state as $imstate)
+                              <?php
+                                if($imstate == "NSW"){
+                                  $state_name = "New South Wales (NSW)";
+                                }
+                                if($imstate == "VIC"){
+                                  $state_name = "Victoria (VIC)";
+                                }
+                                if($imstate == "QLD"){
+                                  $state_name = "Queensland (QLD)";
+                                }
+                                if($imstate == "WA"){
+                                  $state_name = "Western Australia (WA)";
+                                }
+                                if($imstate == "SA"){
+                                  $state_name = "South Australia (SA)";
+                                }
+                                if($imstate == "TAS"){
+                                  $state_name = "Tasmania (TAS)";
+                                }
+                                if($imstate == "ACT"){
+                                  $state_name = "Australian Capital Territory (ACT)";
+                                }
+                                if($imstate == "NT"){
+                                  $state_name = "Northern Territory (NT)";
+                                }
+                              ?>
+                              <div class="author_div author_div-{{ $imstate }}">
+                                <div class="strong_text inslabtext"><strong>{{ $state_name }}</strong></div>
+                                <input type="hidden" name="immunization_list" class="immunization_list immunization_list-{{ $imstate }}" value="{{ $imstate }}">
+                                <div class="form-group level-drp">
+                                  <label for="ndis_number">Authorising Body or Program</label>
+                                  <input type="text" class="form-control" id="ndis_number" name="authorizing_body_program[{{ $imstate }}][authorizing_body]" value="{{ $authorizing_body[$imstate]->authorizing_body }}">
+                                  <span id="reqauthorizing_body_program" class="reqError text-danger valley"></span>
+                                </div>
+                                <div class="form-group level-drp">
+                                  <label for="ndis_number">Date Authorised</label>
+                                  <input type="date" class="form-control" id="ndis_number" name="authorizing_body_program[{{ $imstate }}][date_authorized]" value="{{ $authorizing_body[$imstate]->date_authorized }}">
+                                  <span id="reqdate_authorised" class="reqError text-danger valley"></span>
+                                </div>
+                                <div class="form-group level-drp">
+                                  <label>Upload Evidence</label>
+                                  <input type="hidden" name="authorizing_body_program[{{ $imstate }}][evidence]" class="registration_upload-immunization-{{ $imstate }}" value="{{ $authorizing_body[$imstate]->evidence }}">
+                                  <input type="file" class="form-control upload_evidence-immunization-{{ $imstate }}" name="" onchange="changeEvidenceImg({{ $user_id }},'immunization-{{ $imstate }}','authorizing_body_program')" multiple>
+                                  <div class="evidence-immunization-{{ $imstate }}">
+                                    <?php
+                                      if($authorizing_body[$imstate]->evidence != NULL){
+                                        $evidence_imgs = (array)json_decode($authorizing_body[$imstate]->evidence);
+                                        $i = 0;
+                                      ?>
+                                        @if (!empty($evidence_imgs))
+                                          @foreach ($evidence_imgs as $ev_img)
+                                          <div class="trans_img trans_img-{{ $i+1 }}">
+                                            <a href="{{ url("/public") }}/uploads/education_degree/{{ $ev_img }}" target="_blank"><i class="fa fa-file" aria-hidden="true"></i>{{ $ev_img }}</a>
+                                            <div class="close_btn close_btn-' + i + '" onclick="deleteEvidenceImg({{ $i+1 }},{{ $user_id }},'{{ $ev_img }}','immunization-{{ $imstate }}','authorizing_body_program')" style="cursor: pointer;"><i class="fa fa-close" aria-hidden="true"></i></div>
+                                          </div>    
+                                          <?php
+                                            $i++;
+                                          ?>                                    
+                                          @endforeach
+                                        @endif
+                                      <?php  
+
+                                      }  
+                                    ?>
+                                  </div>
+                                </div>
+                              </div>  
+                              @endforeach
+                              @endif
                             </div>
                             {{-- <div class="form-group level-drp">
                               <label for="ndis_number">Authorising Body or Program</label>
@@ -1155,6 +1230,7 @@ input:checked + .slider:before {
                                 <li data-value="mobile_xray_operator">Mobile X-ray Operator</li>
                                 <li data-value="neonatal_xray_operator">Neonatal X-ray Operator</li>
                                 <li data-value="fluoroscopy_assistive_restricted">Fluoroscopy – Assistive Use (Restricted)</li>
+                                <li data-value="bone_mineral_restricted">Bone Mineral Densitometry (DEXA) – Restricted</li>
                                 <li data-value="ct_mri_support_non_operator">CT or MRI Support Role (Non-operator)</li>
                                 <li data-value="radiation_use_trainee_student">Radiation Use Licence – Trainee / Student</li>
                                 <li data-value="radiation_use_educational">Radiation Use Licence – Educational Purposes</li>
@@ -1169,6 +1245,121 @@ input:checked + .slider:before {
                               <input type="text" class="form-control" id="ndis_number" name="licenses_type_other" value="@if(!empty($licenses_data)){{ $licenses_data->licenses_type_other }}@endif">
                               <span id="reqlicenses_type_other" class="reqError text-danger valley"></span>
                             </div>  
+                            <div class="liccence_type_program">
+                            <?php
+                               
+                              if(!empty($licenses_data) && $licenses_data->radiation_licence_type != NULL){
+                                $radiation_licence_type = json_decode($licenses_data->radiation_licence_type);
+                                $radiation_licenses_no = (array)json_decode($licenses_data->radiation_licenses_no);
+                                
+                              }else{
+                                $radiation_licence_type = array(); 
+                              }
+
+                              $licenses_array = [
+                                  'medical_r' => 'Medical Radiation Use Licence – Restricted',
+                                  'diagnostic_radiography_restricted' => 'Diagnostic Radiography - Restricted',
+                                  'limited_xray_operator' => 'Limited X-ray Operator',
+                                  'mobile_xray_operator' => 'Mobile X-ray Operator',
+                                  'neonatal_xray_operator' => 'Neonatal X-ray Operator',
+                                  'fluoroscopy_assistive_restricted' => 'Fluoroscopy – Assistive Use (Restricted)',
+                                  'bone_mineral_restricted' => 'Bone Mineral Densitometry (DEXA) – Restricted',
+                                  'ct_mri_support_non_operator' => 'CT or MRI Support Role (Non-operator)',
+                                  'radiation_use_trainee_student' => 'Radiation Use Licence – Trainee / Student',
+                                  'radiation_use_educational' => 'Radiation Use Licence – Educational Purposes',
+                                  'diagnostic_ultrasound' => 'Diagnostic Ultrasound',
+                                  'other' => 'Other'
+                              ];
+
+
+                            ?>  
+                            @if(!empty($radiation_licence_type))
+                            @foreach($radiation_licence_type as $licence_type)
+                            <?php
+                              $licence_name = $licenses_array[$licence_type];
+                            ?>
+                            <div class="licence_content licence_content-{{ $licence_type }}">
+                              <div class="strong_text inslabtext"><strong>{{ $licence_name }}</strong></div>
+                              <input type="hidden" name="licence_type_list" class="licence_type_list licence_type_list-{{ $licence_type }}" value="{{ $licence_type }}">
+                              <div class="form-group level-drp">
+                                <label for="ndis_number">Licence Number</label>
+                                <input type="text" class="form-control" id="radiation_licenses_no" name="radiation_licenses_data[{{ $licence_type }}][radiation_licenses_no]" value="@if(isset($radiation_licenses_no[$licence_type])){{ $radiation_licenses_no[$licence_type]->radiation_licenses_no }}@endif">
+                                <span id="reqradiation_licenses_no" class="reqError text-danger valley"></span>
+                              </div>
+                              <div class="form-group drp--clr">
+                                <label class="form-label" for="input-1">State of Issue</label>
+                                <input type="hidden" class="state_issue_hide state_issue_hide-{{ $licence_type }}" value="@if(isset($radiation_licenses_no[$licence_type])){{ json_encode($radiation_licenses_no[$licence_type]->state_issue) }}@endif">
+                                <ul id="state_issue-{{ $licence_type }}" style="display:none;">
+                                  <li data-value="NSW">New South Wales (NSW)</li>
+                                  <li data-value="VIC">Victoria (VIC)</li>
+                                  <li data-value="QLD">Queensland (QLD)</li>
+                                  <li data-value="WA">Western Australia (WA)</li>
+                                  <li data-value="SA">South Australia (SA)</li>
+                                  <li data-value="TAS">Tasmania (TAS)</li>
+                                  <li data-value="ACT">Australian Capital Territory (ACT)</li>
+                                  <li data-value="NT">Northern Territory (NT)</li>
+                                </ul>
+                                <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="state_issue-{{ $licence_type }}" name="radiation_licenses_data[{{ $licence_type }}][state_issue][]" multiple="multiple"></select>
+                                <span id="reqstate_issue" class="reqError text-danger valley"></span>
+                              </div>
+                              <div class="form-group drp--clr">
+                                <label class="form-label" for="input-1">Licensing Body</label>
+                                <input type="hidden" class="licence_body_hide licence_body_hide-{{ $licence_type }}" value="@if(isset($radiation_licenses_no[$licence_type])){{ json_encode($radiation_licenses_no[$licence_type]->licence_body) }}@endif">
+                                <ul id="licence_body-{{ $licence_type }}" style="display:none;">
+                                  <li data-value="environment_protection">EPA NSW – Environment Protection Authority</li>
+                                  <li data-value="radiation_safety">Department of Health – Radiation Safety</li>
+                                  <li data-value="radiation_health">Queensland Health – Radiation Health</li>
+                                  <li data-value="radiation_protection">SA EPA – Radiation Protection</li>
+                                  <li data-value="radiological_council">Radiological Council of WA</li>
+                                  <li data-value="health_department">Radiation Protection Unit – Department of Health</li>
+                                  <li data-value="health_nt">Department of Health NT Radiation Safety</li>
+                                  <li data-value="health_protection">Health Protection Service</li>
+                                </ul>
+                                <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="licence_body-{{ $licence_type }}" name="radiation_licenses_data[{{ $licence_type }}][licence_body][]" multiple="multiple"></select>
+                                <span id="reqstate_issue" class="reqError text-danger valley"></span>
+                              </div>
+                              <div class="form-group level-drp">
+                                <label for="ndis_number">Issue Date</label>
+                                <input type="date" class="form-control" id="ndis_number" name="radiation_licenses_data[{{ $licence_type }}][radiation_issue_date]" value="@if(isset($radiation_licenses_no[$licence_type])){{ $radiation_licenses_no[$licence_type]->radiation_issue_date }}@endif">
+                                <span id="reqradiation_issue_date" class="reqError text-danger valley"></span>
+                              </div>
+                              <div class="form-group level-drp">
+                                <label for="ndis_number">Expiry Date</label>
+                                <input type="date" class="form-control" id="ndis_number" name="radiation_licenses_data[{{ $licence_type }}][radiation_expiry_date]" value="@if(isset($radiation_licenses_no[$licence_type])){{ $radiation_licenses_no[$licence_type]->radiation_expiry_date }}@endif">
+                                <span id="reqradiation_expiry_date" class="reqError text-danger valley"></span>
+                              </div>
+                              <div class="form-group level-drp">
+                                <label>Upload Evidence</label>
+                                <input type="hidden" name="radiation_licenses_data[{{ $licence_type }}][evidence]" class="registration_upload-radiation-{{ $licence_type }}" value="@if(isset($radiation_licenses_no[$licence_type])){{ $radiation_licenses_no[$licence_type]->evidence }}@endif">
+                                <input type="file" class="form-control upload_evidence-radiation-{{ $licence_type }}" name="" onchange="changeEvidenceImg({{ $user_id }},'radiation-{{ $licence_type }}','radiation_licenses_no')" multiple>
+                                <div class="evidence-radiation-{{ $licence_type }}">
+                                  <?php
+                                      if(isset($radiation_licenses_no[$licence_type]) && $radiation_licenses_no[$licence_type]->evidence != NULL){
+                                        $evidence_imgs = (array)json_decode($radiation_licenses_no[$licence_type]->evidence);
+                                        $i = 0;
+                                      ?>
+                                        @if (!empty($evidence_imgs))
+                                          @foreach ($evidence_imgs as $ev_img)
+                                          <div class="trans_img trans_img-{{ $i+1 }}">
+                                            <a href="{{ url("/public") }}/uploads/education_degree/{{ $ev_img }}" target="_blank"><i class="fa fa-file" aria-hidden="true"></i>{{ $ev_img }}</a>
+                                            <div class="close_btn close_btn-' + i + '" onclick="deleteEvidenceImg({{ $i+1 }},{{ $user_id }},'{{ $ev_img }}','radiation-{{ $licence_type }}','radiation_licenses_no')" style="cursor: pointer;"><i class="fa fa-close" aria-hidden="true"></i></div>
+                                          </div>    
+                                          <?php
+                                            $i++;
+                                          ?>                                    
+                                          @endforeach
+                                        @endif
+                                      <?php  
+
+                                      }  
+                                    ?>
+                                </div>
+                              </div>
+                            </div>
+                            @endforeach
+                            @endif
+                            </div>
+                            {{-- 
                             <div class="form-group level-drp">
                               <label for="ndis_number">Licence Number</label>
                               <input type="text" class="form-control" id="radiation_licenses_no" name="radiation_licenses_no" value="@if(!empty($licenses_data)){{ $licenses_data->radiation_licenses_no }}@endif">
@@ -1228,7 +1419,7 @@ input:checked + .slider:before {
                                   }  
                                 ?>
                             </div>
-                          </div>
+                          </div> --}}
                         </div>  
                         <div class="box-button mt-15">
                           <button class="btn btn-apply-big font-md font-bold" type="submit" id="submitRegistrationLicenses" @if(!email_verified()) disabled  @endif>Save Changes</button>
@@ -1425,12 +1616,65 @@ input:checked + .slider:before {
       
     }
 
-    if ($.trim($(".radiation_state_issue").val()) != "") {
-      var radiation_state_issue = JSON.parse($(".radiation_state_issue").val());
-      console.log("radiation_state_issue",radiation_state_issue);
-      $('.js-example-basic-multiple[data-list-id="state_issue"]').select2().val(radiation_state_issue).trigger('change');
+    // if ($.trim($(".radiation_state_issue").val()) != "") {
+    //   var radiation_state_issue = JSON.parse($(".radiation_state_issue").val());
+    //   console.log("radiation_state_issue",radiation_state_issue);
+    //   $('.js-example-basic-multiple[data-list-id="state_issue"]').select2().val(radiation_state_issue).trigger('change');
       
-    }
+    // }
+
+    $(".licence_type_list").each(function(){
+      var licence_type_val = $(this).val();
+      console.log("licence_type_val",$(".state_issue_hide-"+licence_type_val).val());
+      if($.trim($(".state_issue_hide-"+licence_type_val).val()) != ""){
+        let state_issue_hide = JSON.parse($(".state_issue_hide-"+licence_type_val).val());
+        console.log("state_issue_hide",state_issue_hide);
+        $('.js-example-basic-multiple[data-list-id="state_issue-'+licence_type_val+'"]').select2().val(state_issue_hide).trigger('change');
+      }
+
+      if($.trim($(".licence_body_hide-"+licence_type_val).val()) != ""){
+        let licence_body_hide = JSON.parse($(".licence_body_hide-"+licence_type_val).val());
+        console.log("licence_body_hide",licence_body_hide);
+        $('.js-example-basic-multiple[data-list-id="licence_body-'+licence_type_val+'"]').select2().val(licence_body_hide).trigger('change');
+      }
+
+      $('.js-example-basic-multiple[data-list-id="state_issue-'+licence_type_val+'"]').on('change', function() {
+        var selectedValues = $(this).val();
+
+        var licence_body_values = [];
+
+        if (selectedValues.includes('NSW')) {
+            licence_body_values.push("environment_protection");
+        }
+        if (selectedValues.includes('VIC')) {
+            licence_body_values.push("radiation_safety");
+        }
+        if (selectedValues.includes('QLD')) {
+            licence_body_values.push("radiation_health");
+        }
+        if (selectedValues.includes('WA')) {
+            licence_body_values.push("radiation_protection");
+        }
+        if (selectedValues.includes('SA')) {
+            licence_body_values.push("radiological_council");
+        }
+        if (selectedValues.includes('TAS')) {
+            licence_body_values.push("health_department");
+        }
+        if (selectedValues.includes('ACT')) {
+            licence_body_values.push("health_nt");
+        }
+        if (selectedValues.includes('NT')) {
+            licence_body_values.push("health_protection");
+        }
+
+        $('.js-example-basic-multiple[data-list-id="licence_body-'+licence_type_val+'"]').select2().val(licence_body_values).trigger('change');
+
+        console.log("licence_body_values",licence_body_values);
+      });
+
+    });
+
 
     $('.js-example-basic-multiple[data-list-id="licenses_type"]').on('change', function() {
       var selectedValues = $(this).val();
@@ -1779,6 +2023,14 @@ input:checked + .slider:before {
     let selectedValues = $(this).val();
     console.log("selectedValues",selectedValues);
 
+    $(".authorizing_body .immunization_list").each(function(i,val){
+      var val1 = $(val).val();
+      console.log("val",val1);
+      if(selectedValues.includes(val1) == false){
+          $(".author_div-"+val1).remove();
+      }
+    });
+
     for(var i=0;i<selectedValues.length;i++){
       if(selectedValues[i] == "NSW"){
         var state_name = "New South Wales (NSW)";
@@ -1805,22 +2057,25 @@ input:checked + .slider:before {
         var state_name = "Northern Territory (NT)";
       }
       if($(".authorizing_body .author_div-"+selectedValues[i]).length < 1){
+        var immunization_evi = "immunization-"+selectedValues[i];
+        var authorizing_program = "authorizing_body_program";
         $(".authorizing_body").append('\<div class="author_div author_div-'+selectedValues[i]+'">\
           <div class="strong_text inslabtext"><strong>'+state_name+'</strong></div>\
+          <input type="hidden" name="immunization_list" class="immunization_list immunization_list-'+selectedValues[i]+'" value="'+selectedValues[i]+'">\
           <div class="form-group level-drp">\
             <label for="ndis_number">Authorising Body or Program</label>\
-            <input type="text" class="form-control" id="ndis_number" name="authorizing_body_program['+selectedValues[i]+'][authorizing_body]">\
-            <span id="reqauthorizing_body_program" class="reqError text-danger valley"></span>\
+            <input type="text" class="form-control authorizing_body_program-'+selectedValues[i]+'" id="ndis_number" name="authorizing_body_program['+selectedValues[i]+'][authorizing_body]">\
+            <span id="reqauthorizing_body_program-'+selectedValues[i]+'" class="reqError text-danger valley"></span>\
           </div>\
           <div class="form-group level-drp">\
             <label for="ndis_number">Date Authorised</label>\
-            <input type="date" class="form-control" id="ndis_number" name="authorizing_body_program['+selectedValues[i]+'][date_authorized]">\
-            <span id="reqdate_authorised" class="reqError text-danger valley"></span>\
+            <input type="date" class="form-control date_authorized-'+selectedValues[i]+'" id="ndis_number" name="authorizing_body_program['+selectedValues[i]+'][date_authorized]">\
+            <span id="reqdate_authorised-'+selectedValues[i]+'" class="reqError text-danger valley"></span>\
           </div>\
           <div class="form-group level-drp">\
             <label>Upload Evidence</label>\
             <input type="hidden" name="authorizing_body_program['+selectedValues[i]+'][evidence]" class="registration_upload-immunization-'+selectedValues[i]+'">\
-            <input type="file" class="form-control upload_evidence-immunization" name="" onchange="changeEvidenceImg({{ $user_id }},"immunization","immuzination_evidence")" multiple>\
+            <input type="file" class="form-control upload_evidence-immunization-'+selectedValues[i]+'" name="" onchange="changeEvidenceImg({{ $user_id }},\''+immunization_evi+'\',\''+authorizing_program+'\')" multiple>\
             <div class="evidence-immunization-'+selectedValues[i]+'"></div>\
           </div>\
         </div>');
@@ -1828,6 +2083,95 @@ input:checked + .slider:before {
     }
 
   });
+
+  $('.js-example-basic-multiple[data-list-id="licenses_type"]').on('change', function() {
+    let selectedValues = $(this).val();
+    console.log("selectedValues",selectedValues);
+
+    $(".liccence_type_program .licence_type_list").each(function(i,val){
+      var val1 = $(val).val();
+      console.log("val",val1);
+      if(selectedValues.includes(val1) == false){
+          $(".licence_content-"+val1).remove();
+      }
+    });
+
+    var licenseMap = [];
+
+    $('#licenses_type li').each(function() {
+      var key = $(this).data('value');
+      var value = $(this).text();
+      licenseMap[key] = value;
+    });
+
+    console.log("licenseMap",licenseMap.medical_r);
+
+    for(var i=0;i<selectedValues.length;i++){
+      var licence_type_name = licenseMap[selectedValues[i]];
+      if($(".liccence_type_program .licence_content-"+selectedValues[i]).length < 1){
+        var immunization_evi = "radiation-"+selectedValues[i];
+        var authorizing_program = "radiation_licenses_no";
+        $(".liccence_type_program").append('\<div class="licence_content licence_content-'+selectedValues[i]+'">\
+                            <div class="strong_text inslabtext"><strong>'+licence_type_name+'</strong></div>\
+                            <input type="hidden" name="licence_type_list" class="licence_type_list licence_type_list-'+selectedValues[i]+'" value="'+selectedValues[i]+'">\
+                            <div class="form-group level-drp">\
+                              <label for="ndis_number">Licence Number</label>\
+                              <input type="text" class="form-control licence_no_'+selectedValues[i]+'" id="radiation_licenses_no" name="radiation_licenses_data['+selectedValues[i]+'][radiation_licenses_no]">\
+                              <span id="reqradiation_licenses_no_'+selectedValues[i]+'" class="reqError text-danger valley"></span>\
+                            </div>\
+                            <div class="form-group drp--clr">\
+                              <label class="form-label" for="input-1">State of Issue</label>\
+                              <ul id="state_issue-'+selectedValues[i]+'" style="display:none;">\
+                                <li data-value="NSW">New South Wales (NSW)</li>\
+                                <li data-value="VIC">Victoria (VIC)</li>\
+                                <li data-value="QLD">Queensland (QLD)</li>\
+                                <li data-value="WA">Western Australia (WA)</li>\
+                                <li data-value="SA">South Australia (SA)</li>\
+                                <li data-value="TAS">Tasmania (TAS)</li>\
+                                <li data-value="ACT">Australian Capital Territory (ACT)</li>\
+                                <li data-value="NT">Northern Territory (NT)</li>\
+                              </ul>\
+                              <select class="state_issue_'+selectedValues[i]+' js-example-basic-multiple'+selectedValues[i]+' addAll_removeAll_btn" data-list-id="state_issue-'+selectedValues[i]+'" onchange="stateIssue('+selectedValues[i]+')" name="radiation_licenses_data['+selectedValues[i]+'][state_issue][]" multiple="multiple"></select>\
+                              <span id="reqstate_issue_'+selectedValues[i]+'" class="reqError text-danger valley"></span>\
+                            </div>\
+                            <div class="form-group drp--clr">\
+                                <label class="form-label" for="input-1">Licensing Body</label>\
+                                <ul id="licence_body-'+selectedValues[i]+'" style="display:none;">\
+                                  <li data-value="environment_protection">EPA NSW – Environment Protection Authority</li>\
+                                  <li data-value="radiation_safety">Department of Health – Radiation Safety</li>\
+                                  <li data-value="radiation_health">Queensland Health – Radiation Health</li>\
+                                  <li data-value="radiation_protection">SA EPA – Radiation Protection</li>\
+                                  <li data-value="radiological_council">Radiological Council of WA</li>\
+                                  <li data-value="health_department">Radiation Protection Unit – Department of Health</li>\
+                                  <li data-value="health_nt">Department of Health NT Radiation Safety</li>\
+                                  <li data-value="health_protection">Health Protection Service</li>\
+                                </ul>\
+                                <select class="js-example-basic-multiple'+selectedValues[i]+' addAll_removeAll_btn" data-list-id="licence_body-'+selectedValues[i]+'" name="radiation_licenses_data['+selectedValues[i]+'][licence_body][]" multiple="multiple"></select>\
+                                <span id="reqstate_issue" class="reqError text-danger valley"></span>\
+                              </div>\
+                            <div class="form-group level-drp">\
+                              <label for="ndis_number">Issue Date</label>\
+                              <input type="date" class="form-control issue_date_'+selectedValues[i]+'" id="ndis_number" name="radiation_licenses_data['+selectedValues[i]+'][radiation_issue_date]">\
+                              <span id="reqradiation_issue_date_'+selectedValues[i]+'" class="reqError text-danger valley"></span>\
+                            </div>\
+                            <div class="form-group level-drp">\
+                              <label for="ndis_number">Expiry Date</label>\
+                              <input type="date" class="form-control expiry_date_'+selectedValues[i]+'" id="ndis_number" name="radiation_licenses_data['+selectedValues[i]+'][radiation_expiry_date]">\
+                              <span id="reqradiation_expiry_date_'+selectedValues[i]+'" class="reqError text-danger valley"></span>\
+                            </div>\
+                            <div class="form-group level-drp">\
+                              <label>Upload Evidence</label>\
+                              <input type="hidden" name="radiation_licenses_data['+selectedValues[i]+'][evidence]" class="registration_upload-radiation-'+selectedValues[i]+'">\
+                              <input type="file" class="form-control upload_evidence-radiation-'+selectedValues[i]+'" name="" onchange="changeEvidenceImg({{ $user_id }},\''+immunization_evi+'\',\''+authorizing_program+'\')" multiple>\
+                              <div class="evidence-radiation-'+selectedValues[i]+'"></div>\
+                          </div></div>');
+                          selectTwoFunction(selectedValues[i]);
+      }                    
+    }
+
+    
+
+  });  
 
   $('.js-example-basic-multiple[data-list-id="not_registered_div"]').on('change', function() {
     let selectedValues = $(this).val();
@@ -2047,7 +2391,12 @@ input:checked + .slider:before {
       form_data = new FormData();
 
       for (var i = 0; i < selectedEvidenceFiles[group_name].length; i++) {
-        form_data.append(evidence_name+"[]", selectedEvidenceFiles[group_name][i], selectedEvidenceFiles[group_name][i]['name']);
+        if(evidence_name == "authorizing_body_program" || evidence_name == "radiation_licenses_no"){
+          form_data.append(evidence_name+"["+group_name+"][]", selectedEvidenceFiles[group_name][i], selectedEvidenceFiles[group_name][i]['name']);
+        }else{
+          form_data.append(evidence_name+"[]", selectedEvidenceFiles[group_name][i], selectedEvidenceFiles[group_name][i]['name']);
+        }
+        
       }
 
       form_data.append("user_id", user_id);
@@ -2384,56 +2733,54 @@ input:checked + .slider:before {
 
       }
 
-      if ($('[name="authorizing_body_program"]').val() == '') {
+      $(".immunization_list").each(function(){
+        var immunization_list = $(this).val();
+        if($(".authorizing_body_program-"+immunization_list).val() == ""){
+          document.getElementById("reqauthorizing_body_program-"+immunization_list).innerHTML = "* Please enter the Authorising Body or Program.";
+          isValid = false;
+        }
 
-        document.getElementById("reqauthorizing_body_program").innerHTML = "* Please enter the Authorising Body or Program.";
-        isValid = false;
+        if($(".date_authorized-"+immunization_list).val() == ""){
+          document.getElementById("reqdate_authorised-"+immunization_list).innerHTML = "* Please enter the Date Authorised.";
+          isValid = false;
+        }
+      });
 
-      }
-
-      if ($('[name="date_authorised"]').val() == '') {
-
-        document.getElementById("reqdate_authorised").innerHTML = "* Please enter the Date Authorised.";
-        isValid = false;
-
-      }
     }
 
     if ($('#toggleCheckbox_radiation').is(':checked') == true) {
+
       if ($('[name="radiation_licence_type[]"]').val() == '') {
 
         document.getElementById("reqlicenses_type").innerHTML = "* Please select the Licence Type.";
         isValid = false;
 
       }
+      
+      $(".licence_type_list").each(function(){
+        var licence_type_list = $(this).val();
+        if($(".licence_no_"+licence_type_list).val() == ""){
+          document.getElementById("reqradiation_licenses_no_"+licence_type_list).innerHTML = "* Please enter the Licence Number.";
+          isValid = false;
+        }
 
-      if ($('[name="radiation_licenses_no"]').val() == '') {
+        if($(".state_issue_"+licence_type_list).val() == ""){
+          document.getElementById("reqstate_issue_"+licence_type_list).innerHTML = "* Please enter the State of Issue.";
+          isValid = false;
+        }
 
-        document.getElementById("reqradiation_licenses_no").innerHTML = "* Please enter the Licence Number.";
-        isValid = false;
+        if($(".issue_date_"+licence_type_list).val() == ""){
+          document.getElementById("reqradiation_issue_date_"+licence_type_list).innerHTML = "* Please enter the Issue Date.";
+          isValid = false;
+        }
 
-      }
+        if($(".expiry_date_"+licence_type_list).val() == ""){
+          document.getElementById("reqradiation_expiry_date_"+licence_type_list).innerHTML = "* Please enter the Expiry Date.";
+          isValid = false;
+        }
 
-      if ($('[name="radiation_state_issue[]"]').val() == '') {
-
-        document.getElementById("reqstate_issue").innerHTML = "* Please enter the State of Issue.";
-        isValid = false;
-
-      }
-
-      if ($('[name="radiation_issue_date"]').val() == '') {
-
-        document.getElementById("reqradiation_issue_date").innerHTML = "* Please enter Issue Date.";
-        isValid = false;
-
-      }
-
-      if ($('[name="radiation_expiry_date"]').val() == '') {
-
-        document.getElementById("reqradiation_expiry_date").innerHTML = "* Please enter Expiry Date.";
-        isValid = false;
-
-      }
+      });
+       
     }
     
     if(isValid == true){
