@@ -276,7 +276,7 @@ input:checked + .slider:before {
                           <span id="aphra_checkbox" class="reqError text-danger valley"></span>
                           <div class="add_new_certification_div mb-3 mt-3">
                             
-                            <a style="cursor: pointer;" id="lookup-ahpra-btn">
+                            <a style="cursor: pointer;" class="lookup-ahpra-btn">
                               <span class="spinner-border spinner-border-sm me-2 d-none" role="status" aria-hidden="true" id="lookupSpinner"></span>
                               Lookup AHPRA Registration
                             </a>
@@ -309,6 +309,28 @@ input:checked + .slider:before {
                               <div>
                                 Data retrieved from <strong>AHPRA’s public register</strong>.
                               </div>
+
+                              <div class="alert alert-info" role="alert" style="background-color: #e6f2ff; border-left: 5px solid #3399ff;">
+                              <div>
+                                <strong>Please stay actively compliant.</strong><br>
+                                To ensure your profile remains up to date and match-ready, re-verify your professional registration regularly, especially during key events like job applications or expiring certifications.
+                                <br><br>
+
+                                <!-- Flex row: left = "Last verified", right = Button -->
+                                <div class="d-flex justify-content-between align-items-center">
+                                  <div>
+                                    <strong>Last verified:</strong> 
+                                    <input type="hidden" name="last_verified_date" class="last_verified_date" value="@if(!empty($licenses_data)){{ $licenses_data->last_verified }}@endif">
+                                    @if(!empty($licenses_data) && $licenses_data->last_verified != NULL)
+                                    <span id="lastVerified">{{ $licenses_data->last_verified }}</span>
+                                    @else
+                                    <span id="lastVerified">Not yet verified</span>
+                                    @endif
+                                  </div>
+                                  <a id="reverifyBtn" class="btn btn-primary btn-sm lookup-ahpra-btn" style="background-color: #000;border-color: #000">Re-verify now</a>
+                                </div>
+                              </div>
+                            </div>
                             </div>
                             <div class="manual_ahpra_lookup" style="display: none;">
                               <div style="background-color: #fff3cd; border-left: 5px solid #ffecb5; padding: 15px; margin-top: 20px; border-radius: 5px;">
@@ -585,27 +607,7 @@ input:checked + .slider:before {
                                 ?>
                               </div>
                             </div>
-                            <div class="alert alert-info" role="alert" style="background-color: #e6f2ff; border-left: 5px solid #3399ff;">
-                              <div>
-                                <strong>Please stay actively compliant.</strong><br>
-                                To ensure your profile remains up to date and match-ready, re-verify your professional registration regularly, especially during key events like job applications or expiring certifications.
-                                <br><br>
-
-                                <!-- Flex row: left = "Last verified", right = Button -->
-                                <div class="d-flex justify-content-between align-items-center">
-                                  <div>
-                                    <strong>Last verified:</strong> 
-                                    <input type="hidden" name="last_verified_date" class="last_verified_date" value="@if(!empty($licenses_data)){{ $licenses_data->last_verified }}@endif">
-                                    @if(!empty($licenses_data) && $licenses_data->last_verified != NULL)
-                                    <span id="lastVerified">{{ $licenses_data->last_verified }}</span>
-                                    @else
-                                    <span id="lastVerified">Not yet verified</span>
-                                    @endif
-                                  </div>
-                                  <a id="reverifyBtn" class="btn btn-primary btn-sm" style="background-color: #000;border-color: #000">Re-verify now</a>
-                                </div>
-                              </div>
-                            </div>
+                            
 
                             <!-- Manual Entry Section -->
                             
@@ -1240,11 +1242,101 @@ input:checked + .slider:before {
                               <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="licenses_type" name="radiation_licence_type[]" multiple="multiple"></select>
                               <span id="reqlicenses_type" class="reqError text-danger valley"></span>
                             </div>
-                            <div class="form-group level-drp other_radiation" style="display: none;">
-                              <label for="ndis_number">Other</label>
-                              <input type="text" class="form-control" id="ndis_number" name="licenses_type_other" value="@if(!empty($licenses_data)){{ $licenses_data->licenses_type_other }}@endif">
-                              <span id="reqlicenses_type_other" class="reqError text-danger valley"></span>
-                            </div>  
+                            <div class="other_radiation" style="display: none;">
+                              <?php
+                                  
+                                if(!empty($licenses_data)){
+                                  $licence_other_data = (array)json_decode($licenses_data->radiation_licenses_no);
+                                }else{
+                                  $licence_other_data = array();
+                                }
+
+                              ?>
+                              <div class="form-group level-drp">
+                                <label for="ndis_number">Other</label>
+                                <input type="text" class="form-control" id="ndis_number" name="licenses_type_other" value="@if(!empty($licenses_data)){{ $licenses_data->licenses_type_other }}@endif">
+                                <span id="reqlicenses_type_other" class="reqError text-danger valley"></span>
+                              </div> 
+                              <div class="licence_content licence_content-other">
+                                
+                                <input type="hidden" name="licence_type_list" class="licence_type_list licence_type_list-other" value="other">
+                                <div class="form-group level-drp">
+                                  <label for="ndis_number">Licence Number</label>
+                                  <input type="text" class="form-control licence_no_other" id="radiation_licenses_no" name="radiation_licenses_data[other][radiation_licenses_no]" value="@if(!empty($licenses_data) && isset($licence_other_data['other'])){{ $licence_other_data['other']->radiation_licenses_no }}@endif">
+                                  <span id="reqradiation_licenses_no_other" class="reqError text-danger valley"></span>
+                                </div>
+                                <div class="form-group drp--clr">
+                                  <label class="form-label" for="input-1">State of Issue</label>
+                                  <input type="hidden" class="state_issue_hide state_issue_hide-other" value="@if(!empty($licenses_data) && isset($licence_other_data['other'])){{ json_encode($licence_other_data['other']->state_issue) }}@endif">
+                                  <ul id="state_issue-other" style="display:none;">
+                                    <li data-value="NSW">New South Wales (NSW)</li>
+                                    <li data-value="VIC">Victoria (VIC)</li>
+                                    <li data-value="QLD">Queensland (QLD)</li>
+                                    <li data-value="WA">Western Australia (WA)</li>
+                                    <li data-value="SA">South Australia (SA)</li>
+                                    <li data-value="TAS">Tasmania (TAS)</li>
+                                    <li data-value="ACT">Australian Capital Territory (ACT)</li>
+                                    <li data-value="NT">Northern Territory (NT)</li>
+                                  </ul>
+                                  <select class="state_issue_other js-example-basic-multiple addAll_removeAll_btn" data-list-id="state_issue-other" name="radiation_licenses_data[other][state_issue][]" multiple="multiple"></select>
+                                  <span id="reqstate_issue_other" class="reqError text-danger valley"></span>
+                                </div>
+                                <div class="form-group drp--clr">
+                                  <label class="form-label" for="input-1">Licensing Body</label>
+                                  <input type="hidden" class="licence_body_hide licence_body_hide-other" value="@if(!empty($licenses_data) && isset($licence_other_data['other'])){{ json_encode($licence_other_data['other']->licence_body) }}@endif">
+                                  <ul id="licence_body-other" style="display:none;">
+                                    <li data-value="environment_protection">EPA NSW – Environment Protection Authority</li>
+                                    <li data-value="radiation_safety">Department of Health – Radiation Safety</li>
+                                    <li data-value="radiation_health">Queensland Health – Radiation Health</li>
+                                    <li data-value="radiation_protection">SA EPA – Radiation Protection</li>
+                                    <li data-value="radiological_council">Radiological Council of WA</li>
+                                    <li data-value="health_department">Radiation Protection Unit – Department of Health</li>
+                                    <li data-value="health_nt">Department of Health NT Radiation Safety</li>
+                                    <li data-value="health_protection">Health Protection Service</li>
+                                  </ul>
+                                  <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="licence_body-other" name="radiation_licenses_data[other][licence_body][]" multiple="multiple"></select>
+                                  <span id="reqstate_issue" class="reqError text-danger valley"></span>
+                                </div>
+                                <div class="form-group level-drp">
+                                  <label for="ndis_number">Issue Date</label>
+                                  <input type="date" class="form-control issue_date_other" id="ndis_number" name="radiation_licenses_data[other][radiation_issue_date]" value="@if(!empty($licenses_data) && isset($licence_other_data['other'])){{ $licence_other_data['other']->radiation_issue_date }}@endif">
+                                  <span id="reqradiation_issue_date_other" class="reqError text-danger valley"></span>
+                                </div>
+                                <div class="form-group level-drp">
+                                  <label for="ndis_number">Expiry Date</label>
+                                  <input type="date" class="form-control expiry_date_other" id="ndis_number" name="radiation_licenses_data[other][radiation_expiry_date]"  value="@if(!empty($licenses_data) && isset($licence_other_data['other'])){{ $licence_other_data['other']->radiation_expiry_date }}@endif">
+                                  <span id="reqradiation_expiry_date_other" class="reqError text-danger valley"></span>
+                                </div>
+                                <div class="form-group level-drp">
+                                  <label>Upload Evidence</label>
+                                  <input type="hidden" name="radiation_licenses_data[other][evidence]" class="registration_upload-radiation-other"   value="@if(!empty($licenses_data) && isset($licence_other_data['other'])){{ $licence_other_data['other']->evidence }}@endif">
+                                  <input type="file" class="form-control upload_evidence-radiation-other" name="" onchange="changeEvidenceImg({{ $user_id }},'radiation-other','radiation_licenses_no')" multiple>
+                                  <div class="evidence-radiation-other">
+                                    <?php
+                                      if(!empty($licenses_data) && isset($licence_other_data['other']) && $licence_other_data['other']->evidence != NULL){
+                                        $evidence_imgs = (array)json_decode($licence_other_data['other']->evidence);
+                                        $i = 0;
+                                      ?>
+                                        @if (!empty($evidence_imgs))
+                                          @foreach ($evidence_imgs as $ev_img)
+                                          <div class="trans_img trans_img-{{ $i+1 }}">
+                                            <a href="{{ url("/public") }}/uploads/education_degree/{{ $ev_img }}" target="_blank"><i class="fa fa-file" aria-hidden="true"></i>{{ $ev_img }}</a>
+                                            <div class="close_btn close_btn-' + i + '" onclick="deleteEvidenceImg({{ $i+1 }},{{ $user_id }},'{{ $ev_img }}','radiation-other','radiation_licenses_no')" style="cursor: pointer;"><i class="fa fa-close" aria-hidden="true"></i></div>
+                                          </div>    
+                                          <?php
+                                            $i++;
+                                          ?>                                    
+                                          @endforeach
+                                        @endif
+                                      <?php  
+
+                                      }  
+                                    ?>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                             
                             <div class="liccence_type_program">
                             <?php
                                
@@ -1278,17 +1370,18 @@ input:checked + .slider:before {
                             <?php
                               $licence_name = $licenses_array[$licence_type];
                             ?>
+                            @if($licence_type != "other")
                             <div class="licence_content licence_content-{{ $licence_type }}">
                               <div class="strong_text inslabtext"><strong>{{ $licence_name }}</strong></div>
                               <input type="hidden" name="licence_type_list" class="licence_type_list licence_type_list-{{ $licence_type }}" value="{{ $licence_type }}">
                               <div class="form-group level-drp">
                                 <label for="ndis_number">Licence Number</label>
-                                <input type="text" class="form-control" id="radiation_licenses_no" name="radiation_licenses_data[{{ $licence_type }}][radiation_licenses_no]" value="@if(isset($radiation_licenses_no[$licence_type])){{ $radiation_licenses_no[$licence_type]->radiation_licenses_no }}@endif">
+                                <input type="text" class="form-control" id="radiation_licenses_no" name="radiation_licenses_data[{{ $licence_type }}][radiation_licenses_no]" value="@if(isset($radiation_licenses_no[$licence_type])  && isset($radiation_licenses_no[$licence_type]->radiation_licenses_no)){{ $radiation_licenses_no[$licence_type]->radiation_licenses_no }}@endif">
                                 <span id="reqradiation_licenses_no" class="reqError text-danger valley"></span>
                               </div>
                               <div class="form-group drp--clr">
                                 <label class="form-label" for="input-1">State of Issue</label>
-                                <input type="hidden" class="state_issue_hide state_issue_hide-{{ $licence_type }}" value="@if(isset($radiation_licenses_no[$licence_type])){{ json_encode($radiation_licenses_no[$licence_type]->state_issue) }}@endif">
+                                <input type="hidden" class="state_issue_hide state_issue_hide-{{ $licence_type }}" value="@if(isset($radiation_licenses_no[$licence_type])  && isset($radiation_licenses_no[$licence_type]->state_issue)){{ json_encode($radiation_licenses_no[$licence_type]->state_issue) }}@endif">
                                 <ul id="state_issue-{{ $licence_type }}" style="display:none;">
                                   <li data-value="NSW">New South Wales (NSW)</li>
                                   <li data-value="VIC">Victoria (VIC)</li>
@@ -1304,7 +1397,7 @@ input:checked + .slider:before {
                               </div>
                               <div class="form-group drp--clr">
                                 <label class="form-label" for="input-1">Licensing Body</label>
-                                <input type="hidden" class="licence_body_hide licence_body_hide-{{ $licence_type }}" value="@if(isset($radiation_licenses_no[$licence_type])){{ json_encode($radiation_licenses_no[$licence_type]->licence_body) }}@endif">
+                                <input type="hidden" class="licence_body_hide licence_body_hide-{{ $licence_type }}" value="@if(isset($radiation_licenses_no[$licence_type]) && isset($radiation_licenses_no[$licence_type]->licence_body)){{ json_encode($radiation_licenses_no[$licence_type]->licence_body) }}@endif">
                                 <ul id="licence_body-{{ $licence_type }}" style="display:none;">
                                   <li data-value="environment_protection">EPA NSW – Environment Protection Authority</li>
                                   <li data-value="radiation_safety">Department of Health – Radiation Safety</li>
@@ -1320,17 +1413,17 @@ input:checked + .slider:before {
                               </div>
                               <div class="form-group level-drp">
                                 <label for="ndis_number">Issue Date</label>
-                                <input type="date" class="form-control" id="ndis_number" name="radiation_licenses_data[{{ $licence_type }}][radiation_issue_date]" value="@if(isset($radiation_licenses_no[$licence_type])){{ $radiation_licenses_no[$licence_type]->radiation_issue_date }}@endif">
+                                <input type="date" class="form-control" id="ndis_number" name="radiation_licenses_data[{{ $licence_type }}][radiation_issue_date]" value="@if(isset($radiation_licenses_no[$licence_type]) && isset($radiation_licenses_no[$licence_type]->radiation_issue_date)){{ $radiation_licenses_no[$licence_type]->radiation_issue_date }}@endif">
                                 <span id="reqradiation_issue_date" class="reqError text-danger valley"></span>
                               </div>
                               <div class="form-group level-drp">
                                 <label for="ndis_number">Expiry Date</label>
-                                <input type="date" class="form-control" id="ndis_number" name="radiation_licenses_data[{{ $licence_type }}][radiation_expiry_date]" value="@if(isset($radiation_licenses_no[$licence_type])){{ $radiation_licenses_no[$licence_type]->radiation_expiry_date }}@endif">
+                                <input type="date" class="form-control" id="ndis_number" name="radiation_licenses_data[{{ $licence_type }}][radiation_expiry_date]" value="@if(isset($radiation_licenses_no[$licence_type]) && isset($radiation_licenses_no[$licence_type]->radiation_expiry_date)){{ $radiation_licenses_no[$licence_type]->radiation_expiry_date }}@endif">
                                 <span id="reqradiation_expiry_date" class="reqError text-danger valley"></span>
                               </div>
                               <div class="form-group level-drp">
                                 <label>Upload Evidence</label>
-                                <input type="hidden" name="radiation_licenses_data[{{ $licence_type }}][evidence]" class="registration_upload-radiation-{{ $licence_type }}" value="@if(isset($radiation_licenses_no[$licence_type])){{ $radiation_licenses_no[$licence_type]->evidence }}@endif">
+                                <input type="hidden" name="radiation_licenses_data[{{ $licence_type }}][evidence]" class="registration_upload-radiation-{{ $licence_type }}" value="@if(isset($radiation_licenses_no[$licence_type])  && isset($radiation_licenses_no[$licence_type]->evidence)){{ $radiation_licenses_no[$licence_type]->evidence }}@endif">
                                 <input type="file" class="form-control upload_evidence-radiation-{{ $licence_type }}" name="" onchange="changeEvidenceImg({{ $user_id }},'radiation-{{ $licence_type }}','radiation_licenses_no')" multiple>
                                 <div class="evidence-radiation-{{ $licence_type }}">
                                   <?php
@@ -1356,6 +1449,7 @@ input:checked + .slider:before {
                                 </div>
                               </div>
                             </div>
+                            @endif
                             @endforeach
                             @endif
                             </div>
@@ -1675,16 +1769,51 @@ input:checked + .slider:before {
 
     });
 
+    function stateIssue(selected_values){
+      var selectedValues = $('.js-example-basic-multiple'+selected_values+'[data-list-id="state_issue-'+selected_values+'"]').val();
+      console.log("licence_body_values",selectedValues);
+      var licence_body_values = [];
 
-    $('.js-example-basic-multiple[data-list-id="licenses_type"]').on('change', function() {
-      var selectedValues = $(this).val();
-
-      if(selectedValues.includes("other")){
-        $(".other_radiation").show();
-      }else{
-        $(".other_radiation").hide();
+      if (selectedValues.includes('NSW')) {
+          licence_body_values.push("environment_protection");
       }
-    });
+      if (selectedValues.includes('VIC')) {
+          licence_body_values.push("radiation_safety");
+      }
+      if (selectedValues.includes('QLD')) {
+          licence_body_values.push("radiation_health");
+      }
+      if (selectedValues.includes('WA')) {
+          licence_body_values.push("radiation_protection");
+      }
+      if (selectedValues.includes('SA')) {
+          licence_body_values.push("radiological_council");
+      }
+      if (selectedValues.includes('TAS')) {
+          licence_body_values.push("health_department");
+      }
+      if (selectedValues.includes('ACT')) {
+          licence_body_values.push("health_nt");
+      }
+      if (selectedValues.includes('NT')) {
+          licence_body_values.push("health_protection");
+      }
+
+      $('.js-example-basic-multiple'+selected_values+'[data-list-id="licence_body-'+selected_values+'"]').select2().val(licence_body_values).trigger('change');
+
+      console.log("licence_body_values",licence_body_values);
+    }
+
+
+    // $('.js-example-basic-multiple[data-list-id="licenses_type"]').on('change', function() {
+    //   var selectedValues = $(this).val();
+
+    //   if(selectedValues.includes("other")){
+    //     $(".other_radiation").show();
+    //   }else{
+    //     $(".other_radiation").hide();
+    //   }
+    // });
     
 
     $('#toggleCheckbox').click(function(){
@@ -2084,6 +2213,14 @@ input:checked + .slider:before {
 
   });
 
+  var licenses_type_data = $('.js-example-basic-multiple[data-list-id="licenses_type"]').val();
+
+  if(licenses_type_data.includes('other')){
+    $(".other_radiation").show();
+  }else{
+    $(".other_radiation").hide();
+  }
+
   $('.js-example-basic-multiple[data-list-id="licenses_type"]').on('change', function() {
     let selectedValues = $(this).val();
     console.log("selectedValues",selectedValues);
@@ -2107,66 +2244,72 @@ input:checked + .slider:before {
     console.log("licenseMap",licenseMap.medical_r);
 
     for(var i=0;i<selectedValues.length;i++){
-      var licence_type_name = licenseMap[selectedValues[i]];
-      if($(".liccence_type_program .licence_content-"+selectedValues[i]).length < 1){
-        var immunization_evi = "radiation-"+selectedValues[i];
-        var authorizing_program = "radiation_licenses_no";
-        $(".liccence_type_program").append('\<div class="licence_content licence_content-'+selectedValues[i]+'">\
-                            <div class="strong_text inslabtext"><strong>'+licence_type_name+'</strong></div>\
-                            <input type="hidden" name="licence_type_list" class="licence_type_list licence_type_list-'+selectedValues[i]+'" value="'+selectedValues[i]+'">\
-                            <div class="form-group level-drp">\
-                              <label for="ndis_number">Licence Number</label>\
-                              <input type="text" class="form-control licence_no_'+selectedValues[i]+'" id="radiation_licenses_no" name="radiation_licenses_data['+selectedValues[i]+'][radiation_licenses_no]">\
-                              <span id="reqradiation_licenses_no_'+selectedValues[i]+'" class="reqError text-danger valley"></span>\
-                            </div>\
-                            <div class="form-group drp--clr">\
-                              <label class="form-label" for="input-1">State of Issue</label>\
-                              <ul id="state_issue-'+selectedValues[i]+'" style="display:none;">\
-                                <li data-value="NSW">New South Wales (NSW)</li>\
-                                <li data-value="VIC">Victoria (VIC)</li>\
-                                <li data-value="QLD">Queensland (QLD)</li>\
-                                <li data-value="WA">Western Australia (WA)</li>\
-                                <li data-value="SA">South Australia (SA)</li>\
-                                <li data-value="TAS">Tasmania (TAS)</li>\
-                                <li data-value="ACT">Australian Capital Territory (ACT)</li>\
-                                <li data-value="NT">Northern Territory (NT)</li>\
-                              </ul>\
-                              <select class="state_issue_'+selectedValues[i]+' js-example-basic-multiple'+selectedValues[i]+' addAll_removeAll_btn" data-list-id="state_issue-'+selectedValues[i]+'" onchange="stateIssue('+selectedValues[i]+')" name="radiation_licenses_data['+selectedValues[i]+'][state_issue][]" multiple="multiple"></select>\
-                              <span id="reqstate_issue_'+selectedValues[i]+'" class="reqError text-danger valley"></span>\
-                            </div>\
-                            <div class="form-group drp--clr">\
-                                <label class="form-label" for="input-1">Licensing Body</label>\
-                                <ul id="licence_body-'+selectedValues[i]+'" style="display:none;">\
-                                  <li data-value="environment_protection">EPA NSW – Environment Protection Authority</li>\
-                                  <li data-value="radiation_safety">Department of Health – Radiation Safety</li>\
-                                  <li data-value="radiation_health">Queensland Health – Radiation Health</li>\
-                                  <li data-value="radiation_protection">SA EPA – Radiation Protection</li>\
-                                  <li data-value="radiological_council">Radiological Council of WA</li>\
-                                  <li data-value="health_department">Radiation Protection Unit – Department of Health</li>\
-                                  <li data-value="health_nt">Department of Health NT Radiation Safety</li>\
-                                  <li data-value="health_protection">Health Protection Service</li>\
-                                </ul>\
-                                <select class="js-example-basic-multiple'+selectedValues[i]+' addAll_removeAll_btn" data-list-id="licence_body-'+selectedValues[i]+'" name="radiation_licenses_data['+selectedValues[i]+'][licence_body][]" multiple="multiple"></select>\
-                                <span id="reqstate_issue" class="reqError text-danger valley"></span>\
+      if(selectedValues[i] == "other"){
+        $(".other_radiation").show();
+      }else{
+        $(".other_radiation").hide();
+        var licence_type_name = licenseMap[selectedValues[i]];
+        if($(".liccence_type_program .licence_content-"+selectedValues[i]).length < 1){
+          var immunization_evi = "radiation-"+selectedValues[i];
+          var authorizing_program = "radiation_licenses_no";
+          $(".liccence_type_program").append('\<div class="licence_content licence_content-'+selectedValues[i]+'">\
+                              <div class="strong_text inslabtext"><strong>'+licence_type_name+'</strong></div>\
+                              <input type="hidden" name="licence_type_list" class="licence_type_list licence_type_list-'+selectedValues[i]+'" value="'+selectedValues[i]+'">\
+                              <div class="form-group level-drp">\
+                                <label for="ndis_number">Licence Number</label>\
+                                <input type="text" class="form-control licence_no_'+selectedValues[i]+'" id="radiation_licenses_no" name="radiation_licenses_data['+selectedValues[i]+'][radiation_licenses_no]">\
+                                <span id="reqradiation_licenses_no_'+selectedValues[i]+'" class="reqError text-danger valley"></span>\
                               </div>\
-                            <div class="form-group level-drp">\
-                              <label for="ndis_number">Issue Date</label>\
-                              <input type="date" class="form-control issue_date_'+selectedValues[i]+'" id="ndis_number" name="radiation_licenses_data['+selectedValues[i]+'][radiation_issue_date]">\
-                              <span id="reqradiation_issue_date_'+selectedValues[i]+'" class="reqError text-danger valley"></span>\
-                            </div>\
-                            <div class="form-group level-drp">\
-                              <label for="ndis_number">Expiry Date</label>\
-                              <input type="date" class="form-control expiry_date_'+selectedValues[i]+'" id="ndis_number" name="radiation_licenses_data['+selectedValues[i]+'][radiation_expiry_date]">\
-                              <span id="reqradiation_expiry_date_'+selectedValues[i]+'" class="reqError text-danger valley"></span>\
-                            </div>\
-                            <div class="form-group level-drp">\
-                              <label>Upload Evidence</label>\
-                              <input type="hidden" name="radiation_licenses_data['+selectedValues[i]+'][evidence]" class="registration_upload-radiation-'+selectedValues[i]+'">\
-                              <input type="file" class="form-control upload_evidence-radiation-'+selectedValues[i]+'" name="" onchange="changeEvidenceImg({{ $user_id }},\''+immunization_evi+'\',\''+authorizing_program+'\')" multiple>\
-                              <div class="evidence-radiation-'+selectedValues[i]+'"></div>\
-                          </div></div>');
-                          selectTwoFunction(selectedValues[i]);
-      }                    
+                              <div class="form-group drp--clr">\
+                                <label class="form-label" for="input-1">State of Issue</label>\
+                                <ul id="state_issue-'+selectedValues[i]+'" style="display:none;">\
+                                  <li data-value="NSW">New South Wales (NSW)</li>\
+                                  <li data-value="VIC">Victoria (VIC)</li>\
+                                  <li data-value="QLD">Queensland (QLD)</li>\
+                                  <li data-value="WA">Western Australia (WA)</li>\
+                                  <li data-value="SA">South Australia (SA)</li>\
+                                  <li data-value="TAS">Tasmania (TAS)</li>\
+                                  <li data-value="ACT">Australian Capital Territory (ACT)</li>\
+                                  <li data-value="NT">Northern Territory (NT)</li>\
+                                </ul>\
+                                <select class="state_issue_'+selectedValues[i]+' js-example-basic-multiple'+selectedValues[i]+' addAll_removeAll_btn" data-list-id="state_issue-'+selectedValues[i]+'" onchange="stateIssue(\''+selectedValues[i]+'\')" name="radiation_licenses_data['+selectedValues[i]+'][state_issue][]" multiple="multiple"></select>\
+                                <span id="reqstate_issue_'+selectedValues[i]+'" class="reqError text-danger valley"></span>\
+                              </div>\
+                              <div class="form-group drp--clr">\
+                                  <label class="form-label" for="input-1">Licensing Body</label>\
+                                  <ul id="licence_body-'+selectedValues[i]+'" style="display:none;">\
+                                    <li data-value="environment_protection">EPA NSW – Environment Protection Authority</li>\
+                                    <li data-value="radiation_safety">Department of Health – Radiation Safety</li>\
+                                    <li data-value="radiation_health">Queensland Health – Radiation Health</li>\
+                                    <li data-value="radiation_protection">SA EPA – Radiation Protection</li>\
+                                    <li data-value="radiological_council">Radiological Council of WA</li>\
+                                    <li data-value="health_department">Radiation Protection Unit – Department of Health</li>\
+                                    <li data-value="health_nt">Department of Health NT Radiation Safety</li>\
+                                    <li data-value="health_protection">Health Protection Service</li>\
+                                  </ul>\
+                                  <select class="js-example-basic-multiple'+selectedValues[i]+' addAll_removeAll_btn" data-list-id="licence_body-'+selectedValues[i]+'" name="radiation_licenses_data['+selectedValues[i]+'][licence_body][]" multiple="multiple"></select>\
+                                  <span id="reqstate_issue" class="reqError text-danger valley"></span>\
+                                </div>\
+                              <div class="form-group level-drp">\
+                                <label for="ndis_number">Issue Date</label>\
+                                <input type="date" class="form-control issue_date_'+selectedValues[i]+'" id="ndis_number" name="radiation_licenses_data['+selectedValues[i]+'][radiation_issue_date]">\
+                                <span id="reqradiation_issue_date_'+selectedValues[i]+'" class="reqError text-danger valley"></span>\
+                              </div>\
+                              <div class="form-group level-drp">\
+                                <label for="ndis_number">Expiry Date</label>\
+                                <input type="date" class="form-control expiry_date_'+selectedValues[i]+'" id="ndis_number" name="radiation_licenses_data['+selectedValues[i]+'][radiation_expiry_date]">\
+                                <span id="reqradiation_expiry_date_'+selectedValues[i]+'" class="reqError text-danger valley"></span>\
+                              </div>\
+                              <div class="form-group level-drp">\
+                                <label>Upload Evidence</label>\
+                                <input type="hidden" name="radiation_licenses_data['+selectedValues[i]+'][evidence]" class="registration_upload-radiation-'+selectedValues[i]+'">\
+                                <input type="file" class="form-control upload_evidence-radiation-'+selectedValues[i]+'" name="" onchange="changeEvidenceImg({{ $user_id }},\''+immunization_evi+'\',\''+authorizing_program+'\')" multiple>\
+                                <div class="evidence-radiation-'+selectedValues[i]+'"></div>\
+                            </div></div>');
+                            selectTwoFunction(selectedValues[i]);
+        }                    
+      }
+      
     }
 
     
@@ -2286,7 +2429,7 @@ input:checked + .slider:before {
 
 
 
-    $("#lookup-ahpra-btn").click(function(){
+    $(".lookup-ahpra-btn").click(function(){
       var ahpraNumber = $(".ahpra_number").val();
       console.log("ahpraNumber",ahpraNumber);
 
@@ -2372,6 +2515,8 @@ input:checked + .slider:before {
       }
       
       const newFiles = Array.from($('.upload_evidence-'+group_name)[0].files);
+
+      console.log("newFiles",newFiles);
 
       newFiles.forEach(file => {
         const exists = selectedEvidenceFiles[group_name].some(f => f.name === file.name && f.lastModified === file.lastModified);
