@@ -37,7 +37,7 @@ class LicencesContoller extends Controller{
 
     public function ahepra_lookup(Request $request, AhpraLookupService11 $ahpra)
     {
-        $ahpraNumber = $request->input('ahpraNumber');
+       $ahpraNumber = $request->input('ahpraNumber');
 
     $queryUrl = 'https://www.ahpra.gov.au/Registration/Registers-of-Practitioners.aspx?' . http_build_query([
         'RegistrationNumber' => $ahpraNumber
@@ -391,6 +391,9 @@ class LicencesContoller extends Controller{
 
         if($toggleCheckbox_radiation == 1){
             $radiation_licence_type = json_encode($request->radiation_licence_type);
+
+            $radiation_licence_content = json_encode($request->radiation_licenses_data);
+            
             $licenses_type_other = $request->licenses_type_other;
             $radiation_licenses_no = $request->radiation_licenses_no;
             $radiation_state_issue = json_encode($request->radiation_state_issue);
@@ -399,12 +402,8 @@ class LicencesContoller extends Controller{
             $radiation_evidence = $request->radiation_evidence;
         }else{
             $radiation_licence_type = "";
-            $licenses_type_other = "";
-            $radiation_licenses_no = "";
-            $radiation_state_issue = "";
-            $radiation_issue_date = "";
-            $radiation_expiry_date = "";
-            $radiation_evidence = "";
+            $radiation_licence_content = "";
+            
         }
 
         
@@ -461,11 +460,7 @@ class LicencesContoller extends Controller{
                 'immuzination_evidence'=>$immuzination_evidence,
                 'radiation_licence_type'=>$radiation_licence_type,
                 'licenses_type_other'=>$licenses_type_other,
-                'radiation_licenses_no'=>$radiation_licenses_no,
-                'radiation_state_issue'=>$radiation_state_issue,
-                'radiation_issue_date'=>$radiation_issue_date,
-                'radiation_expiry_date'=>$radiation_expiry_date,
-                'radiation_evidence'=>$radiation_evidence,
+                'radiation_licenses_no'=>$radiation_licence_content
             ]);
             
 
@@ -520,11 +515,7 @@ class LicencesContoller extends Controller{
             $licenses_register->immuzination_evidence = $immuzination_evidence;
             $licenses_register->radiation_licence_type = $radiation_licence_type;
             $licenses_register->licenses_type_other = $licenses_type_other;
-            $licenses_register->radiation_licenses_no = $radiation_licenses_no;
-            $licenses_register->radiation_state_issue = $radiation_state_issue;
-            $licenses_register->radiation_issue_date = $radiation_issue_date;
-            $licenses_register->radiation_expiry_date = $radiation_expiry_date;
-            $licenses_register->radiation_evidence = $radiation_evidence;
+            $licenses_register->radiation_licenses_no = $radiation_licence_content;
             $run = $licenses_register->save();
         }
 
@@ -545,7 +536,7 @@ class LicencesContoller extends Controller{
 
         $img_field = $request->img_field;
         $evidence_name = $request->evidence_name;
-        $files = $request->file($evidence_name);
+        
         //print_r($files);die;
         $user_id = $request->user_id;
 
@@ -564,14 +555,56 @@ class LicencesContoller extends Controller{
         if(!empty($getLicensesdatas) && $getLicensesdatas[$evidence_name] != NULL){
             $ev_img = (array)json_decode($getLicensesdatas[$evidence_name]);
             
-            $licensesimgs = Helpers::multipleFileUpload($files, $ev_img);
+            if($evidence_name == "authorizing_body_program" || $evidence_name == "radiation_licenses_no"){
+                $files = $request->file($evidence_name);
+                
+                //print_r($files);die;
+                // $immunization_data = (array)json_decode($getLicensesdata->authorizing_body_program);
+                $group_name_arr = explode("-",$img_field); 
+                
+                if (array_key_exists($group_name_arr[1], $ev_img)) {
+                    foreach($ev_img as $index=>$imdata){
+                        //echo $index."=".$group_name_arr[1];
+                        if($index == $group_name_arr[1]){
+                            $ev_img_author = json_decode($imdata->evidence);
+                            //print_r($ev_img_author);
+                            $licensesimgs = Helpers::multipleFileUpload($files[$img_field], $ev_img_author);
+                            $ev_img[$index]->evidence = $licensesimgs;
+                            
+                            $run = LicensesModel::where('user_id', $user_id)->update([$evidence_name => json_encode($ev_img)]);
+                        }
+                        
+                        
+                    }
+                }else{
+                    $licensesimgs = Helpers::multipleFileUpload($files[$img_field], '');
+                    // $ev_img[$group_name_arr[1]]->evidence = $licensesimgs;
+                    // $run = LicensesModel::where('user_id', $user_id)->update([$evidence_name => json_encode($ev_img)]);
+                }
+                
+            }else{
+                $files = $request->file($evidence_name);
+                $licensesimgs = Helpers::multipleFileUpload($files, $ev_img);
+                $run = LicensesModel::where('user_id', $user_id)->update([$evidence_name => $licensesimgs]);
+            }
+            
         }else{
-            $licensesimgs = Helpers::multipleFileUpload($files, '');
+            $files = $request->file($evidence_name);
+
+            if($evidence_name == "authorizing_body_program" || $evidence_name == "radiation_licenses_no"){
+                $licensesimgs = Helpers::multipleFileUpload($files[$img_field], '');
+                $run = LicensesModel::where('user_id', $user_id)->update([$evidence_name => $licensesimgs]);
+            }else{
+                $licensesimgs = Helpers::multipleFileUpload($files, '');
+                $run = LicensesModel::where('user_id', $user_id)->update([$evidence_name => $licensesimgs]);
+            }
+            
+            
         }
 
         
 
-        $run = LicensesModel::where('user_id', $user_id)->update([$evidence_name => $licensesimgs]);
+        //
         return $licensesimgs;
     }
 
@@ -594,12 +627,38 @@ class LicencesContoller extends Controller{
         if(!empty($getLicensesdatas) && $getLicensesdatas[$evidence_name] != NULL){
             $ev_img = (array)json_decode($getLicensesdatas[$evidence_name]);
 
-            $img_index = array_search($img, $ev_img);
+            if($evidence_name == "authorizing_body_program" || $evidence_name == "radiation_licenses_no"){
+                $group_name_arr = explode("-",$img_field); 
+                foreach($ev_img as $index=>$imdata){
+                    
+                    if($index == $group_name_arr[1]){
+                        $ev_img_author = json_decode($imdata->evidence);
 
-            array_splice($ev_img, $img_index, 1);
+                        $img_index = array_search($img, $ev_img_author);
 
-            $deleteData = LicensesModel::where('user_id', $user_id)->update([$evidence_name => json_encode($ev_img)]);
-        
+                        array_splice($ev_img_author, $img_index, 1);
+                        //print_r($ev_img_author);
+                        
+                        $ev_img[$index]->evidence = json_encode($ev_img_author);
+                        
+                        //print_r(json_encode($ev_img));
+                        $deleteData = LicensesModel::where('user_id', $user_id)->update([$evidence_name => json_encode($ev_img)]);
+                    }else{
+                        $deleteData = 1;
+                    }
+                    
+                    
+                }
+            }else{
+                $img_index = array_search($img, $ev_img);
+
+                array_splice($ev_img, $img_index, 1);
+
+                $deleteData = LicensesModel::where('user_id', $user_id)->update([$evidence_name => json_encode($ev_img)]);
+            
+                
+            }
+
             $destinationPath = public_path() . '/uploads/education_degree/' . $img;
 
             if (File::exists($destinationPath)) {
