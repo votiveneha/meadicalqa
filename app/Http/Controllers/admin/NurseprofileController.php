@@ -59,4 +59,11 @@ class NurseprofileController extends Controller
         return view('admin.registration_licenses_view')->with($data);
     }
 
+    public function experience_view(Request $request)
+    {
+        $data['profileData']  = $this->nurseRepository->getOneUser(['id' => $request->id]);
+        $data['experienceData']  = DB::table("user_experience")->where("user_id", $request->id)->get();
+        //print_r($data['licensesData']);
+        return view('admin.view_experience')->with($data);
+    }
 }
