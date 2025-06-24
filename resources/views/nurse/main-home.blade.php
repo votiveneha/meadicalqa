@@ -359,7 +359,7 @@
 
 
 
-  <section class="section-box overflow-visible mt-50 mb-0 bg-cat2">
+  <!-- <section class="section-box overflow-visible mt-50 mb-0 bg-cat2">
     <div class="container">
       <div class="row">
         <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
@@ -392,10 +392,10 @@
         </div>
       </div>
     </div>
-  </section>
+  </section> -->
 
 
-  <section class="section-box mt-30 mb-40">
+  <!-- <section class="section-box mt-30 mb-40">
     <div class="container">
       <h2 class="text-center mb-15 wow animate__animated animate__fadeInUp">Customer Reviews</h2>
       <div class="row mt-50">
@@ -453,7 +453,7 @@
         </div>
       </div>
     </div>
-  </section>
+  </section> -->
 
 
 
@@ -462,7 +462,7 @@
 
 
 
-  <div class="section-box mt-70">
+  <!-- <div class="section-box mt-70">
     <div class="container">
       <div class="box-trust">
         <div class="">
@@ -484,7 +484,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
   <script src="{{ asset('nurse/assets/js/plugins/counterup.js')}}"></script>
 </main>
 

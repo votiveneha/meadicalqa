@@ -64,6 +64,7 @@ Route::prefix('nurse')->name('nurse.')->namespace('App\Http\Controllers\nurse')-
   Route::get('/', 'HomeController@index')->name('home');
 
   Route::get('/nurse-register', 'HomeController@nurse_register')->name('nurse-register');
+  Route::post('/fetch-ahpra-details', 'AhpraLookupsController@getAhpraDetails')->name('getAhpraDetails');
   Route::get('/email-verification-pending', 'HomeController@emailVerificationPending')->name('email-verification-pending');
   Route::get('/resent-verification', 'HomeController@resentVerification')->name('resent-verification-link');
   Route::get('/email-verification/{token}', 'HomeController@email_verification')->name('email-verification');
@@ -128,7 +129,15 @@ Route::prefix('nurse')->name('nurse.')->namespace('App\Http\Controllers\nurse')-
     Route::any('/getVaccinationData', 'HomeController@getVaccinationData')->name('getVaccinationData');
     Route::any('/removeEvidanceFile','HomeController@removeEvidanceFile')->name('removeEvidanceFile');
     Route::any('/removeEvidance','HomeController@removeEvidance')->name('removeEvidance');
-	
+
+    /**************[Registeration & Licences]**************/
+  Route::get('/registration_licences', 'LicencesContoller@registration_licences')->name('registration_licences');
+  Route::post('/ahepra_lookup', 'LicencesContoller@ahepra_lookup')->name('ahepra_lookup');
+  Route::post('/update_registration_licenses', 'LicencesContoller@update_registration_licenses')->name('update_registration_licenses');
+  Route::post('/uploadLicensesEvidenceImgs', 'LicencesContoller@uploadLicensesEvidenceImgs')->name('uploadLicensesEvidenceImgs');
+  Route::post('/deleteLicensesEvidenceImg', 'LicencesContoller@deleteLicensesEvidenceImg')->name('deleteLicensesEvidenceImg');
+	Route::get('/ahpra-lookup/{number}', 'AhpraLookupsController@lookup1')->name('lookup1');
+  
 	/**************[Work Clearance]**************/
   Route::any('/workClearances','ProfessionalController@workClearances')->name('workClearances');
   Route::post('/update-profession-user-eligibility', 'ProfessionalController@update_eligibility_to_work')->name('update-profession-user-eligibility');
@@ -148,6 +157,14 @@ Route::prefix('nurse')->name('nurse.')->namespace('App\Http\Controllers\nurse')-
   /**************[Setting & Availability]**************/
   Route::get('/setting_availablity', 'HomeController@setting_availablity')->name('setting_availablity');
   Route::post('/update-profession-profile-setting', 'HomeController@update_profession_profile_setting')->name('update-profession-profile-setting');
+  
+  /**************[Mandatory Training]**************/
+  Route::get('/mandatory_training', 'MandatortrainingController@mandatory_training')->name('mandatory_training');
+  Route::post('/uploadTrainingEvidenceImgs', 'MandatortrainingController@uploadTrainingEvidenceImgs')->name('uploadTrainingEvidenceImgs');
+  Route::get('/getMandatoryCourses', 'MandatortrainingController@getMandatoryCourses')->name('getMandatoryCourses');
+  Route::get('/getMandatoryCoursesName', 'MandatortrainingController@getMandatoryCoursesName')->name('getMandatoryCoursesName');
+  Route::post('/deleteTrainingEvidenceImg', 'MandatortrainingController@deleteTrainingEvidenceImg')->name('deleteTrainingEvidenceImg');
+  Route::post('/updateMandatoryTraining', 'MandatortrainingController@updateMandatoryTraining')->name('updateMandatoryTraining');
   
   /**************[Professional Membership]**************/
   Route::any('/professionalMembership','ProfessionalController@professionalMembership')->name('professionalMembership');

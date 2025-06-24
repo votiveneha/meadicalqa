@@ -9,6 +9,12 @@
             <span>Setting & Availability</span>
         </a>
     </li>
+
+    <li class="nav-item" role="presentation">
+        <a class="nav-link {{ Route::currentRouteName() == 'admin.registration_licenses' ? 'active' : '' }}" href="{{ route('admin.registration_licenses', ['id' => $profileData->id ]) }}">
+            <span>Registrations and Licences</span>
+        </a>
+    </li>
     
     <li class="nav-item" role="presentation">
         <a class="nav-link {{ Route::currentRouteName() == 'admin.profession_view' ? 'active' : '' }}" href="{{ route('admin.profession_view', ['id' => $profileData->id ]) }}">

@@ -4,7 +4,7 @@
         <div class="row">
           <div class="col-xl-3 col-12 text-center d-none d-xl-block"><img src="{{ asset('nurse/assets/imgs/template/newsletter-left.png')}}" alt="joxBox"></div>
           <div class="col-lg-12 col-xl-6 col-12">
-            <h2 class="text-md-newsletter text-center">New Things Will Always<br> Update Regularly</h2>
+            <h2 class="text-md-newsletter text-center">Get the Latest from Mediqa</h2>
             <div class="box-form-newsletter mt-40">
               <form class="form-newsletter" id="addnewsletter"  onsubmit="return addnewsletter()">
                 @csrf
