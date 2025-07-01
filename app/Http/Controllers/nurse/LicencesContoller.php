@@ -37,7 +37,7 @@ class LicencesContoller extends Controller{
 
     public function ahepra_lookup(Request $request, AhpraLookupService11 $ahpra)
     {
-        $ahpraNumber = $request->input('ahpraNumber');
+       $ahpraNumber = $request->input('ahpraNumber');
 
     $queryUrl = 'https://www.ahpra.gov.au/Registration/Registers-of-Practitioners.aspx?' . http_build_query([
         'RegistrationNumber' => $ahpraNumber
@@ -101,100 +101,6 @@ class LicencesContoller extends Controller{
         
     }
 
-    public function myFunction(){
-        $regNumber = 'NMW0001879694';
-        $result = $this->fetchAhpraDetails($regNumber);
-    }
-
-    public function fetchAhpraDetails($regNumber)
-{
-    // Step 1: Get the form tokens (VIEWSTATE, etc.)
-    $url = 'https://www.ahpra.gov.au/Registration/Registers-of-Practitioners.aspx';
-
-    $ch = curl_init($url);
-    curl_setopt_array($ch, [
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_SSL_VERIFYPEER => false,
-        CURLOPT_USERAGENT => 'Mozilla/5.0',
-    ]);
-    $response = curl_exec($ch);
-    curl_close($ch);
-
-    if (!$response) {
-        return ['error' => 'Failed to load AHPRA search page'];
-    }
-
-    libxml_use_internal_errors(true);
-    $dom = new DOMDocument();
-    $dom->loadHTML($response);
-    $xpath = new DOMXPath($dom);
-
-    $viewState = $xpath->evaluate('string(//input[@id="__VIEWSTATE"]/@value)');
-    $eventValidation = $xpath->evaluate('string(//input[@id="__EVENTVALIDATION"]/@value)');
-    $viewStateGen = $xpath->evaluate('string(//input[@id="__VIEWSTATEGENERATOR"]/@value)');
-
-    if (!$viewState) {
-        return ['error' => 'Failed to extract form tokens'];
-    }
-
-    // Step 2: Submit POST request with registration number
-    $postData = http_build_query([
-        '__VIEWSTATE' => $viewState,
-        '__VIEWSTATEGENERATOR' => $viewStateGen,
-        '__EVENTVALIDATION' => $eventValidation,
-        '__EVENTTARGET' => '',
-        '__EVENTARGUMENT' => '',
-        'ctl00$MainContent$txtRegistrationNumber' => $regNumber,
-        'ctl00$MainContent$btnSearch' => 'Search',
-    ]);
-
-    $ch = curl_init($url);
-    curl_setopt_array($ch, [
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_SSL_VERIFYPEER => false,
-        CURLOPT_POST => true,
-        CURLOPT_POSTFIELDS => $postData,
-        CURLOPT_USERAGENT => 'Mozilla/5.0',
-        CURLOPT_FOLLOWLOCATION => true,
-    ]);
-    $result = curl_exec($ch);
-    curl_close($ch);
-
-    if (!$result) {
-        return ['error' => 'Failed to submit registration form'];
-    }
-
-    // Step 3: Parse result page for practitioner table
-    $dom = new DOMDocument();
-    @$dom->loadHTML($result);
-    $xpath = new DOMXPath($dom);
-
-    $rows = $xpath->query('//table[@id="MainContent_gridResults"]/tr');
-
-    if ($rows->length < 2) {
-        return ['error' => 'No results found for this registration number'];
-    }
-
-    $data = [];
-
-    foreach ($rows as $i => $row) {
-        if ($i === 0) continue; // Skip header
-        $cols = $row->getElementsByTagName('td');
-        if ($cols->length === 6) {
-            $data[] = [
-                'Name' => trim($cols->item(0)->nodeValue),
-                'Profession' => trim($cols->item(1)->nodeValue),
-                'Division' => trim($cols->item(2)->nodeValue),
-                'Registration Type' => trim($cols->item(3)->nodeValue),
-                'Status' => trim($cols->item(4)->nodeValue),
-                'Expiry' => trim($cols->item(5)->nodeValue),
-            ];
-        }
-    }
-
-    return $data;
-}
-
     public function update_registration_licenses(Request $request){
         $ahpra_registration_status = $request->ahpra_registration_status;
         $user_id = $request->user_id;
@@ -221,7 +127,7 @@ class LicencesContoller extends Controller{
                 $other_condition = "";
                 $expiry_date = $request->api_expiry;
                 $principal_place = $request->api_principal_practice;
-                $other_places = "";
+                $api_other_practices = $request->api_other_practices;
             }else{
                 $division = $request->division;
                 $endorsements = $request->endorsements;
@@ -494,15 +400,12 @@ class LicencesContoller extends Controller{
             $radiation_issue_date = $request->radiation_issue_date;
             $radiation_expiry_date = $request->radiation_expiry_date;
             $radiation_evidence = $request->radiation_evidence;
+            $radiation_state_data = json_encode($request->radiation_state_data);
+            //print_r($radiation_state_data);
         }else{
             $radiation_licence_type = "";
             $radiation_licence_content = "";
-            $licenses_type_other = "";
-            $radiation_licenses_no = $request->radiation_licenses_no;
-            $radiation_state_issue = json_encode($request->radiation_state_issue);
-            $radiation_issue_date = $request->radiation_issue_date;
-            $radiation_expiry_date = $request->radiation_expiry_date;
-            $radiation_evidence = $request->radiation_evidence;
+            
         }
 
         
@@ -523,7 +426,7 @@ class LicencesContoller extends Controller{
                 'register_notations'=>$notations,
                 'register_conditions'=>$conditions,
                 'register_principal_place'=>$principal_place,
-                'register_other_place'=>$other_places,
+                // 'register_other_place'=>$other_places,
                 'register_other_notation_reason'=>$other_notation,
                 'register_other_condition_reason'=>$other_condition,
                 'register_expiry'=>$expiry_date,
@@ -559,7 +462,8 @@ class LicencesContoller extends Controller{
                 'immuzination_evidence'=>$immuzination_evidence,
                 'radiation_licence_type'=>$radiation_licence_type,
                 'licenses_type_other'=>$licenses_type_other,
-                'radiation_licenses_no'=>$radiation_licence_content
+                'radiation_licenses_no'=>$radiation_licence_content,
+                'radiation_state_data'=>$radiation_state_data
             ]);
             
 
@@ -578,7 +482,7 @@ class LicencesContoller extends Controller{
             $licenses_register->register_notations = $notations;
             $licenses_register->register_conditions = $conditions;
             $licenses_register->register_principal_place = $principal_place;
-            $licenses_register->register_other_place = $other_places;
+            //$licenses_register->register_other_place = $other_places;
             $licenses_register->register_other_notation_reason = $other_notation;
             $licenses_register->register_other_condition_reason = $other_condition;
             $licenses_register->register_expiry = $expiry_date;
@@ -613,8 +517,9 @@ class LicencesContoller extends Controller{
             $licenses_register->date_authorised = $date_authorised;
             $licenses_register->immuzination_evidence = $immuzination_evidence;
             $licenses_register->radiation_licence_type = $radiation_licence_type;
-            $licenses_register->licenses_type_other = $licenses_type_other;
+            //$licenses_register->licenses_type_other = $licenses_type_other;
             $licenses_register->radiation_licenses_no = $radiation_licence_content;
+            $licenses_register->radiation_state_data = $radiation_state_data;
             $run = $licenses_register->save();
         }
 
@@ -656,6 +561,8 @@ class LicencesContoller extends Controller{
             
             if($evidence_name == "authorizing_body_program" || $evidence_name == "radiation_licenses_no"){
                 $files = $request->file($evidence_name);
+                
+                //print_r($files);die;
                 // $immunization_data = (array)json_decode($getLicensesdata->authorizing_body_program);
                 $group_name_arr = explode("-",$img_field); 
                 
@@ -690,11 +597,13 @@ class LicencesContoller extends Controller{
 
             if($evidence_name == "authorizing_body_program" || $evidence_name == "radiation_licenses_no"){
                 $licensesimgs = Helpers::multipleFileUpload($files[$img_field], '');
-                //$run = LicensesModel::where('user_id', $user_id)->update([$evidence_name => $licensesimgs]);
+                $run = LicensesModel::where('user_id', $user_id)->update([$evidence_name => $licensesimgs]);
             }else{
                 $licensesimgs = Helpers::multipleFileUpload($files, '');
-                //$run = LicensesModel::where('user_id', $user_id)->update([$evidence_name => $licensesimgs]);
+                $run = LicensesModel::where('user_id', $user_id)->update([$evidence_name => $licensesimgs]);
             }
+            
+            
         }
 
         
