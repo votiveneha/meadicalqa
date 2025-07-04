@@ -2814,6 +2814,14 @@ input:checked + .slider:before {
                 $(".api_principal_practice").val("");
                 $(".api_other_practices").val("");
                 $('#ahpra-consent').prop('checked', false);
+                if ($('input[name="notations[]"]:checked').length === 0) {
+                    $('#toggleCheckbox').prop('checked', false);
+                    $('#notationsSection').hide();
+                }
+                if ($('input[name="conditions[]"]:checked').length === 0) {
+                    $('#toggleCheckbox_conditions').prop('checked', false);
+                    $('#conditionsSection').hide();
+                }
               }
 
               if(res?.error == "failed"){
