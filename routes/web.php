@@ -200,7 +200,13 @@ Route::prefix('/admin')->name('admin.')->namespace('App\Http\Controllers\admin')
     Route::get('/profession_view/{id}', 'NurseprofileController@profession_view')->name('profession_view');
     Route::get('/education_certification/{id}', 'NurseprofileController@education_certification')->name('education_certification');
     Route::get('/registration_licenses/{id}', 'NurseprofileController@registration_licenses')->name('registration_licenses');
+    Route::get('/experience_view/{id}', 'NurseprofileController@experience_view')->name('experience_view');
     Route::post('/ahpra_reverify', 'NurseprofileController@ahpra_reverify')->name('ahpra_reverify');
+    Route::get('/professional_membership/{id}', 'NurseprofileController@professional_membership')->name('professional_membership');
+    Route::get('/language_skills/{id}', 'NurseprofileController@language_skills')->name('language_skills');
+    Route::get('/references_view/{id}', 'NurseprofileController@view_references')->name('view_references');
+    Route::get('/vaccination_view/{id}', 'NurseprofileController@vaccination_view')->name('vaccination_view');
+    Route::get('/checks_clearacnces/{id}', 'NurseprofileController@checks_clearacnces')->name('checks_clearacnces');
     
     /************[Nurse Profile Vaccination]*************/
     Route::post('/addNurseVaccination', 'NurseController@addNurseVaccination')->name('addNurseVaccination');

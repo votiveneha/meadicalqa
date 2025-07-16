@@ -494,15 +494,11 @@ class LicencesContoller extends Controller{
             $radiation_issue_date = $request->radiation_issue_date;
             $radiation_expiry_date = $request->radiation_expiry_date;
             $radiation_evidence = $request->radiation_evidence;
+            $radiation_state_data = json_encode($request->radiation_state_data);
         }else{
             $radiation_licence_type = "";
             $radiation_licence_content = "";
-            $licenses_type_other = "";
-            $radiation_licenses_no = $request->radiation_licenses_no;
-            $radiation_state_issue = json_encode($request->radiation_state_issue);
-            $radiation_issue_date = $request->radiation_issue_date;
-            $radiation_expiry_date = $request->radiation_expiry_date;
-            $radiation_evidence = $request->radiation_evidence;
+            
         }
 
         
@@ -559,7 +555,8 @@ class LicencesContoller extends Controller{
                 'immuzination_evidence'=>$immuzination_evidence,
                 'radiation_licence_type'=>$radiation_licence_type,
                 'licenses_type_other'=>$licenses_type_other,
-                'radiation_licenses_no'=>$radiation_licence_content
+                'radiation_licenses_no'=>$radiation_licence_content,
+                'radiation_state_data'=>$radiation_state_data
             ]);
             
 
@@ -615,6 +612,7 @@ class LicencesContoller extends Controller{
             $licenses_register->radiation_licence_type = $radiation_licence_type;
             $licenses_register->licenses_type_other = $licenses_type_other;
             $licenses_register->radiation_licenses_no = $radiation_licence_content;
+            $licenses_register->radiation_state_data = $radiation_state_data;
             $run = $licenses_register->save();
         }
 
@@ -654,7 +652,7 @@ class LicencesContoller extends Controller{
         if(!empty($getLicensesdatas) && $getLicensesdatas[$evidence_name] != NULL){
             $ev_img = (array)json_decode($getLicensesdatas[$evidence_name]);
             
-            if($evidence_name == "authorizing_body_program" || $evidence_name == "radiation_licenses_no"){
+            if($evidence_name == "authorizing_body_program" || $evidence_name == "radiation_state_data"){
                 $files = $request->file($evidence_name);
                 // $immunization_data = (array)json_decode($getLicensesdata->authorizing_body_program);
                 $group_name_arr = explode("-",$img_field); 
@@ -688,7 +686,7 @@ class LicencesContoller extends Controller{
         }else{
             $files = $request->file($evidence_name);
 
-            if($evidence_name == "authorizing_body_program" || $evidence_name == "radiation_licenses_no"){
+            if($evidence_name == "authorizing_body_program" || $evidence_name == "radiation_state_data"){
                 $licensesimgs = Helpers::multipleFileUpload($files[$img_field], '');
                 //$run = LicensesModel::where('user_id', $user_id)->update([$evidence_name => $licensesimgs]);
             }else{
@@ -722,7 +720,7 @@ class LicencesContoller extends Controller{
         if(!empty($getLicensesdatas) && $getLicensesdatas[$evidence_name] != NULL){
             $ev_img = (array)json_decode($getLicensesdatas[$evidence_name]);
 
-            if($evidence_name == "authorizing_body_program" || $evidence_name == "radiation_licenses_no"){
+            if($evidence_name == "authorizing_body_program" || $evidence_name == "radiation_state_data"){
                 $group_name_arr = explode("-",$img_field); 
                 foreach($ev_img as $index=>$imdata){
                     

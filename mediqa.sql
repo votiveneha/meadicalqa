@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jun 24, 2025 at 12:02 AM
+-- Generation Time: Jul 16, 2025 at 08:17 AM
 -- Server version: 10.6.22-MariaDB
 -- PHP Version: 7.4.33
 
@@ -988,7 +988,8 @@ INSERT INTO `eligibility_to_work` (`id`, `user_id`, `residency`, `support_docume
 (85, 202, 'Australian Citizen', '', '', 'Australian Passport', NULL, 0, 1, '', NULL, '0', '2025-04-21 16:08:59', '2025-04-21 10:38:59'),
 (86, 206, 'Australian Citizen', '', '', 'Full Australian Birth Certificate', NULL, 0, 1, '', NULL, '0', '2025-04-22 15:25:47', '2025-04-22 09:55:47'),
 (87, 212, 'Australian Citizen', '', '', 'Australian Passport', NULL, 0, 1, '', NULL, '0', '2025-05-11 11:19:27', '2025-05-11 05:49:27'),
-(91, 205, 'Australian Citizen', '', '', 'Australian Citizenship Certificate', '34345', 2, 1, '', '343434', '0', '2025-05-10 18:15:32', '2025-05-10 12:45:32');
+(91, 205, 'Australian Citizen', '', '', 'Australian Citizenship Certificate', '34345', 2, 1, '', '343434', '0', '2025-05-10 18:15:32', '2025-05-10 12:45:32'),
+(92, 213, 'Australian Citizen', '', '', 'Australian Citizenship Certificate', NULL, 0, 1, '', NULL, '0', '2025-07-16 12:43:05', '2025-07-16 07:13:05');
 
 -- --------------------------------------------------------
 
@@ -1300,7 +1301,8 @@ INSERT INTO `evidance_file` (`id`, `vcc_front_id`, `original_name`, `file_name`,
 (189, 81, 'CERTIFICATIONS SAMPLE.pdf', 'evidence_file_1746683633.pdf', '2025-05-08 05:53:53', '2025-05-08 05:53:53'),
 (190, 81, 'TRANSCRIPT SAMPLE.pdf', 'evidence_file_1746683633.pdf', '2025-05-08 05:53:53', '2025-05-08 05:53:53'),
 (192, 75, 'DIPLOMA SAMPLE.docx', 'evidence_file_1746683675.docx', '2025-05-08 05:54:35', '2025-05-08 05:54:35'),
-(193, 75, 'DIPLOMA SAMPLE.pdf', 'evidence_file_1746683675.pdf', '2025-05-08 05:54:35', '2025-05-08 05:54:35');
+(193, 75, 'DIPLOMA SAMPLE.pdf', 'evidence_file_1746683675.pdf', '2025-05-08 05:54:35', '2025-05-08 05:54:35'),
+(195, 82, 'banner_1743761259.png', 'evidence_file_1752646354.png', '2025-07-16 06:12:34', '2025-07-16 06:12:34');
 
 -- --------------------------------------------------------
 
@@ -2224,7 +2226,9 @@ INSERT INTO `other_evidance` (`id`, `other_vcc_id`, `evidance_file`, `original_n
 (11, 15, 'evidence_1742288721_67d937517c97c.pdf', 'DIPLOMA SAMPLE.pdf', '2025-03-18 09:05:21', '2025-03-18 09:05:21'),
 (12, 16, 'evidence_1742288721_67d937517ef97.pdf', 'CERTIFICATIONS SAMPLE.pdf', '2025-03-18 09:05:21', '2025-03-18 09:05:21'),
 (13, 16, 'evidence_1742288721_67d9375181a3b.docx', 'DIPLOMA SAMPLE.docx', '2025-03-18 09:05:21', '2025-03-18 09:05:21'),
-(14, 17, 'evidence_1746683741_681c475dd4307.pdf', 'CERTIFICATIONS SAMPLE.pdf', '2025-05-08 05:55:41', '2025-05-08 05:55:41');
+(14, 17, 'evidence_1746683741_681c475dd4307.pdf', 'CERTIFICATIONS SAMPLE.pdf', '2025-05-08 05:55:41', '2025-05-08 05:55:41'),
+(18, 18, 'evidence_1752646354_687742d2248db.jpg', 'dummy.jpg', '2025-07-16 06:12:34', '2025-07-16 06:12:34'),
+(19, 18, 'evidence_1752647904_687748e09786a.jpg', 'download.jpg', '2025-07-16 06:38:24', '2025-07-16 06:38:24');
 
 -- --------------------------------------------------------
 
@@ -2255,7 +2259,8 @@ INSERT INTO `other_vaccine` (`id`, `user_id`, `vaccination_name`, `immunization_
 (8, 179, 'fnyjfyyjuyjuyj', 6, 'Vaccination Card/Record', '', 1, '2025-03-13 09:53:08', '2025-03-13 10:37:06'),
 (14, 194, 'vaccine 1', 7, 'Vaccination Card/Record', '', 1, '2025-03-18 09:04:20', '2025-03-18 09:04:20'),
 (16, 194, 'vaccine 3', 7, 'Immunization Certificate', '', 1, '2025-03-18 09:05:21', '2025-03-18 09:05:21'),
-(17, 212, 'vaccine 1', 13, 'Employer or Facility Letter', '', 1, '2025-05-08 05:55:41', '2025-05-08 05:55:41');
+(17, 212, 'vaccine 1', 13, 'Employer or Facility Letter', '', 1, '2025-05-08 05:55:41', '2025-05-08 05:55:41'),
+(18, 213, 'sdsw', 13, 'Medical Letter or Certificate from GP', '', 1, '2025-07-16 06:12:34', '2025-07-16 06:12:34');
 
 -- --------------------------------------------------------
 
@@ -9125,7 +9130,9 @@ INSERT INTO `updated_tab_name` (`tab_id`, `tab_name`, `user_id`, `created_at`) V
 (93, 'Checks and Clearances(Specialized Clearances)', 205, '2025-05-10 14:34:27'),
 (94, 'Education and Certifications', 213, '2025-05-10 18:33:57'),
 (95, 'Education and Certifications', 205, '2025-05-12 19:09:36'),
-(96, 'Registrations and Licences', 213, '2025-06-05 14:40:02');
+(96, 'Registrations and Licences', 213, '2025-06-05 14:40:02'),
+(97, 'Vaccinations', 213, '2025-07-16 11:42:34'),
+(98, 'Checks and Clearances(Residency and Work Eligibility)', 213, '2025-07-16 12:43:05');
 
 -- --------------------------------------------------------
 
@@ -9482,8 +9489,8 @@ INSERT INTO `user_experience` (`experience_id`, `user_id`, `facility_workplace_t
 (137, 212, '{\"205\":[\"294\"]}', 'qwert', '', '{\"1\":[\"7\"]}', '2025-05-29', '2025-05-29', 'Permanent', NULL, 'cc', 'cc', '[\"10\"]', NULL, 1, '[\"Certificate\"]', '[\"CERTIFICATIONS SAMPLE.pdf\",\"DIPLOMA SAMPLE.docx\",\"TRANSCRIPT SAMPLE.pdf\"]', '[\"253\"]', '[\"2\"]', 'null', '[\"4\"]', 'null', 'null', 'null', '[\"386\"]', 'null', 'null', '2025-05-08 05:48:43', '2025-05-08 05:50:46', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, 'select', 'Staffing Agency Nurse (Permanent)', 0, '[]', 'null', '14', 'null', 'null', '[\"31\"]', 'null', 1),
 (146, 205, '{\"197\":{\"227\":[\"370\"]}}', 'hyjjtjjtfj', '', '{\"1\":[\"10\"]}', '2025-05-25', '0000-00-00', 'Permanent', NULL, 'dds', 'sds s', '[\"9\"]', NULL, 1, '[\"Award\"]', '[\"add-nurse-backup-30-sep.blade.php\",\"certification_list.blade.php\"]', '[\"253\"]', '[\"2\"]', 'null', '[\"2\"]', 'null', '[\"205\"]', 'null', 'null', 'null', 'null', '2025-05-09 11:02:55', '2025-05-10 12:45:20', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, 'select', 'Full-time (Permanent)', 1, '[]', 'null', '2', 'null', '[\"26\"]', 'null', 'null', 1),
 (147, 205, '{\"215\":[\"319\"]}', 'fd', '', '{\"1\":[\"7\"]}', '2025-05-26', '2025-06-04', 'Permanent', NULL, 'cxsd', 'sdd', '[\"9\"]', NULL, 1, '[\"Award\"]', '[\"dashboard.blade.php\",\"degree-list.blade.php\"]', 'null', '[\"1\"]', 'null', '[\"2\"]', 'null', '[\"205\"]', 'null', 'null', '[\"22\"]', 'null', '2025-05-09 11:02:55', '2025-05-10 12:45:20', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, 'select', 'Part-time (Permanent)', 0, '[]', 'null', '11', 'null', '[\"24\"]', 'null', 'null', 1),
-(148, 213, '{\"197\":{\"218\":[\"334\"]}}', 'wee ere', '', '{\"1\":[\"7\"]}', '2025-05-28', '2025-06-04', 'Permanent', NULL, 'sd', 'sdw', '[\"10\"]', NULL, 1, '[\"Statutory Declaration\"]', '[\"certification_list.blade.php\",\"check_clearance.blade.php\"]', 'null', '[\"1\"]', 'null', '[\"2\"]', 'null', '[\"202\"]', 'null', 'null', '[\"19\"]', 'null', '2025-05-10 13:40:31', '2025-06-11 06:17:11', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, 'select', NULL, 1, '[]', 'null', '2', 'null', 'null', '[\"29\"]', 'null', 1),
-(149, 213, '{\"215\":[\"319\"]}', 'vcv', '', '{\"1\":[\"12\"]}', '2025-06-30', '0000-00-00', 'Temporary', NULL, 's w', 'wew2', '[\"9\"]', NULL, 1, '[\"Award\"]', '[\"download.jpg\",\"dummy.jpg\"]', 'null', '[\"1\"]', 'null', '[\"2\"]', 'null', '[\"203\"]', 'null', 'null', '[\"19\"]', 'null', '2025-06-11 06:17:11', '2025-06-11 06:17:11', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, 'Part-time (Temporary)', 'select', 1, '[]', 'null', '12', 'null', '[\"24\"]', 'null', 'null', 1);
+(148, 213, '{\"197\":{\"218\":[\"334\"]}}', 'wee ere', '', '{\"1\":[\"7\"]}', '2025-05-28', '2025-06-04', 'Permanent', NULL, 'sd', 'sdw', '[\"10\"]', NULL, 1, '[\"Statutory Declaration\"]', '[\"certification_list.blade.php\",\"check_clearance.blade.php\"]', 'null', '[\"1\",\"3\"]', '[\"184\",\"186\"]', '[\"2\"]', 'null', '[\"202\"]', 'null', 'null', '[\"19\"]', '[\"179\"]', '2025-05-10 13:40:31', '2025-07-16 10:10:41', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, 'select', 'Part-time (Permanent)', 1, '[]', 'null', '2', 'null', 'null', '[\"29\"]', 'null', 1),
+(149, 213, '{\"215\":[\"319\"]}', 'vcv', '', '{\"1\":[\"12\"]}', '2025-06-30', '0000-00-00', 'Temporary', NULL, 's w', 'wew2', '[\"9\"]', NULL, 1, '[\"Award\"]', '[\"download.jpg\",\"dummy.jpg\"]', 'null', '[\"1\"]', 'null', '[\"2\"]', 'null', '[\"203\"]', 'null', 'null', '[\"19\"]', 'null', '2025-06-11 06:17:11', '2025-07-16 10:10:41', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', NULL, 'Part-time (Temporary)', 'select', 1, '[]', 'null', '12', 'null', '[\"24\"]', 'null', 'null', 1);
 
 -- --------------------------------------------------------
 
@@ -9547,6 +9554,7 @@ CREATE TABLE `user_licenses_details` (
   `radiation_issue_date` text DEFAULT NULL,
   `radiation_expiry_date` text DEFAULT NULL,
   `radiation_evidence` text DEFAULT NULL,
+  `radiation_state_data` text DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -9555,12 +9563,13 @@ CREATE TABLE `user_licenses_details` (
 -- Dumping data for table `user_licenses_details`
 --
 
-INSERT INTO `user_licenses_details` (`licenses_id`, `user_id`, `ahpra_registration_status`, `aphra_registration_no`, `aphra_verifying_checkbox`, `api_verify`, `ahpra_reverify`, `register_division`, `register_endorsements`, `register_reg_type`, `register_reg_status`, `register_notations`, `register_conditions`, `register_principal_place`, `register_other_place`, `register_other_notation_reason`, `register_other_condition_reason`, `register_expiry`, `register_upload_evidence`, `last_verified`, `graduate_student_reg_no`, `graduate_division`, `graduate_reg_type`, `graduate_reg_status`, `graduation_date`, `graduation_upload_evidence`, `overseas_qualified_specify`, `other_overseas_qualified`, `overseas_upload_evidence`, `not_currently_registered_reason`, `education_related_reason`, `returning_practice`, `personal_career`, `other_not_registered_reason`, `not_registered_evidence_file`, `ndis_status`, `ndis_registration_no`, `ndis_registration_evidence`, `medical_provider_no`, `medical_upload_evidence`, `pbs_type`, `pbs_other_nursing`, `prescribe_no`, `prescribe_evidence`, `immunization_state`, `authorizing_body_program`, `date_authorised`, `immuzination_evidence`, `radiation_licence_type`, `licenses_type_other`, `radiation_licenses_no`, `radiation_state_issue`, `radiation_issue_date`, `radiation_expiry_date`, `radiation_evidence`, `created_at`, `updated_at`) VALUES
-(7, 194, 'Not_Registered', '', '', 0, NULL, '', '', '', '', '', '', '', '', '', NULL, '', '', '', '', '', '', '', '', '', '', '', '', '[\"education_related\",\"returning_practice\",\"other\"]', '[\"startProgram\"]', '[\"select\",\"lapsed\",\"reentryProgram\",\"waitingPlacement\",\"nonPractisingToGeneral\"]', '[\"select\",\"maternityLeave\",\"careerBreak\",\"nonClinical\",\"overseasPractice\",\"nonHealth\",\"notReturning\"]', 'test', '[\"CERTIFICATIONS SAMPLE.pdf\",\"TRANSCRIPT SAMPLE.pdf\"]', 'not_compliant', '', '[\"CERTIFICATIONS SAMPLE.pdf\",\"DIPLOMA SAMPLE.docx\",\"DIPLOMA SAMPLE.pdf\",\"TRANSCRIPT SAMPLE.pdf\"]', '12333', '[\"CERTIFICATIONS SAMPLE.pdf\",\"TRANSCRIPT SAMPLE.pdf\"]', 'nurse_prac', 'test', '12123', '[\"CERTIFICATIONS SAMPLE.pdf\",\"TRANSCRIPT SAMPLE.pdf\",\"DIPLOMA SAMPLE.pdf\"]', '[\"select\",\"NSW\",\"VIC\",\"QLD\",\"WA\",\"SA\",\"TAS\",\"ACT\",\"NT\"]', '1233633', '2025-05-30', '[\"CERTIFICATIONS SAMPLE.pdf\",\"TRANSCRIPT SAMPLE.pdf\"]', '[\"medical_r\"]', NULL, 'dddssd', '[\"WA\"]', '2025-05-31', '2025-05-31', '[\"CERTIFICATIONS SAMPLE.pdf\",\"DIPLOMA SAMPLE.docx\",\"DIPLOMA SAMPLE.pdf\",\"TRANSCRIPT SAMPLE.pdf\"]', '2025-05-24 13:38:01', '2025-05-29 03:48:58'),
-(8, 210, 'Graduate_RN', '', '', 0, NULL, '', '', '', '', '', '', '', '', '', NULL, '', '', '', 'NMW0001234567', 'RM', 'provisional', 'current', '2025-05-27', '[\"compliance_content.blade.php\",\"contact.blade.php\"]', '', '', '', '', '', '', '', '', '', 'not_compliant', '', '[\"dashboard.blade.php\"]', '3232sd', '[\"compliance_content.blade.php\"]', 'eligible_midwife', NULL, 'cx', NULL, NULL, 'swe', '2025-05-28', NULL, NULL, NULL, 'xc', '[\"WA\"]', '2025-05-30', '2025-05-28', '[\"dashboard.blade.php\",\"compliance_content.blade.php\",\"benefits_preferences.blade.php\"]', '2025-05-26 10:16:28', '2025-05-26 08:09:38'),
-(12, 212, 'RN', 'NMW0005577555', '1', 0, NULL, 'RN', 'NP', 'General', 'Current', '[\"Other\"]', '[\"Practice hours must be logged and submitted\"]', 'WA', '[\"NSW\"]', 'May not work test', NULL, '2025-05-30', '[\"CERTIFICATIONS SAMPLE.pdf\",\"DIPLOMA SAMPLE.pdf\",\"DIPLOMA SAMPLE.docx\",\"TRANSCRIPT SAMPLE.pdf\"]', NULL, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'registered', '123458', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'null', NULL, NULL, NULL, 'null', NULL, NULL, 'null', NULL, NULL, NULL, '2025-05-28 08:37:59', '2025-05-28 08:39:35'),
-(13, 205, 'Graduate_RM', '', '', 0, NULL, '', '', '', '', '', '', '', '', '', '', '', '', '', 'NMW0001234567', 'EN', 'student_nurse', 'lapsed', '', '[\"hashing.php\",\"mail.php\",\"sanctum.php\",\"services.php\"]', '', '', '', '', '', '', '', '', '', 'not_compliant', '', NULL, '', '', '', '', '', '', '[\"VIC\"]', '{\"VIC\":{\"authorizing_body\":\"cxxcx\",\"date_authorized\":\"2025-05-27\",\"evidence\":\"[\\\"agencies-registraion.blade.php\\\",\\\"benefits_preferences.blade.php\\\"]\"}}', NULL, NULL, '[\"medical_r\",\"diagnostic_radiography_restricted\",\"mobile_xray_operator\",\"other\"]', 'xc2323', '{\"other\":{\"radiation_licenses_no\":\"c ssw232\",\"state_issue\":[\"SA\"],\"licence_body\":[\"radiological_council\"],\"radiation_issue_date\":\"2025-06-30\",\"radiation_expiry_date\":\"2025-07-09\",\"evidence\":\"[\\\"agencies.blade.php\\\",\\\"compliance_content.blade.php\\\",\\\"contact.blade.php\\\"]\"},\"medical_r\":{\"radiation_licenses_no\":\"xcxc\",\"state_issue\":[\"QLD\"],\"licence_body\":[\"radiation_health\"],\"radiation_issue_date\":\"2025-07-07\",\"radiation_expiry_date\":\"2025-07-15\",\"evidence\":\"[\\\"packages.php\\\",\\\"services.php\\\"]\"},\"diagnostic_radiography_restricted\":{\"radiation_licenses_no\":\"dsds\",\"state_issue\":[\"SA\"],\"licence_body\":[\"radiological_council\"],\"radiation_issue_date\":\"2025-06-30\",\"radiation_expiry_date\":\"2025-07-15\",\"evidence\":\"[\\\"AdminSeeder.php\\\",\\\"DatabaseSeeder.php\\\"]\"},\"mobile_xray_operator\":{\"radiation_licenses_no\":\"dsde232\",\"state_issue\":[\"VIC\"],\"licence_body\":[\"radiation_safety\"],\"radiation_issue_date\":\"2025-06-25\",\"radiation_expiry_date\":\"2025-07-16\",\"evidence\":\"[\\\"dashboard.blade.php\\\"]\"}}', '', '', '', '', '2025-05-29 12:18:27', '2025-06-03 13:28:23'),
-(14, 179, 'RN', 'NMW0001461218', '1', 0, 1, 'RN', 'NP', 'General', 'Current', '', '', 'NSW', '[\"VIC\"]', '', '', '1996-12-04', '[\"Houase7.jpeg\"]', NULL, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'compliant', '', NULL, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2025-05-29 13:28:16', '2025-06-23 10:25:00');
+INSERT INTO `user_licenses_details` (`licenses_id`, `user_id`, `ahpra_registration_status`, `aphra_registration_no`, `aphra_verifying_checkbox`, `api_verify`, `ahpra_reverify`, `register_division`, `register_endorsements`, `register_reg_type`, `register_reg_status`, `register_notations`, `register_conditions`, `register_principal_place`, `register_other_place`, `register_other_notation_reason`, `register_other_condition_reason`, `register_expiry`, `register_upload_evidence`, `last_verified`, `graduate_student_reg_no`, `graduate_division`, `graduate_reg_type`, `graduate_reg_status`, `graduation_date`, `graduation_upload_evidence`, `overseas_qualified_specify`, `other_overseas_qualified`, `overseas_upload_evidence`, `not_currently_registered_reason`, `education_related_reason`, `returning_practice`, `personal_career`, `other_not_registered_reason`, `not_registered_evidence_file`, `ndis_status`, `ndis_registration_no`, `ndis_registration_evidence`, `medical_provider_no`, `medical_upload_evidence`, `pbs_type`, `pbs_other_nursing`, `prescribe_no`, `prescribe_evidence`, `immunization_state`, `authorizing_body_program`, `date_authorised`, `immuzination_evidence`, `radiation_licence_type`, `licenses_type_other`, `radiation_licenses_no`, `radiation_state_issue`, `radiation_issue_date`, `radiation_expiry_date`, `radiation_evidence`, `radiation_state_data`, `created_at`, `updated_at`) VALUES
+(7, 194, 'Not_Registered', '', '', 0, NULL, '', '', '', '', '', '', '', '', '', NULL, '', '', '', '', '', '', '', '', '', '', '', '', '[\"education_related\",\"returning_practice\",\"other\"]', '[\"startProgram\"]', '[\"select\",\"lapsed\",\"reentryProgram\",\"waitingPlacement\",\"nonPractisingToGeneral\"]', '[\"select\",\"maternityLeave\",\"careerBreak\",\"nonClinical\",\"overseasPractice\",\"nonHealth\",\"notReturning\"]', 'test', '[\"CERTIFICATIONS SAMPLE.pdf\",\"TRANSCRIPT SAMPLE.pdf\"]', 'not_compliant', '', '[\"CERTIFICATIONS SAMPLE.pdf\",\"DIPLOMA SAMPLE.docx\",\"DIPLOMA SAMPLE.pdf\",\"TRANSCRIPT SAMPLE.pdf\"]', '12333', '[\"CERTIFICATIONS SAMPLE.pdf\",\"TRANSCRIPT SAMPLE.pdf\"]', 'nurse_prac', 'test', '12123', '[\"CERTIFICATIONS SAMPLE.pdf\",\"TRANSCRIPT SAMPLE.pdf\",\"DIPLOMA SAMPLE.pdf\"]', '[\"NSW\",\"VIC\",\"QLD\",\"WA\",\"SA\",\"TAS\",\"ACT\",\"NT\"]', '1233633', '2025-05-30', '[\"CERTIFICATIONS SAMPLE.pdf\",\"TRANSCRIPT SAMPLE.pdf\"]', '[\"medical_r\"]', NULL, 'dddssd', '[\"WA\"]', '2025-05-31', '2025-05-31', '[\"CERTIFICATIONS SAMPLE.pdf\",\"DIPLOMA SAMPLE.docx\",\"DIPLOMA SAMPLE.pdf\",\"TRANSCRIPT SAMPLE.pdf\"]', NULL, '2025-05-24 13:38:01', '2025-05-29 03:48:58'),
+(8, 210, 'Graduate_RN', '', '', 0, NULL, '', '', '', '', '', '', '', '', '', NULL, '', '', '', 'NMW0001234567', 'RM', 'provisional', 'current', '2025-05-27', '[\"compliance_content.blade.php\",\"contact.blade.php\"]', '', '', '', '', '', '', '', '', '', 'not_compliant', '', '[\"dashboard.blade.php\"]', '3232sd', '[\"compliance_content.blade.php\"]', 'eligible_midwife', NULL, 'cx', NULL, NULL, 'swe', '2025-05-28', NULL, NULL, NULL, 'xc', '[\"WA\"]', '2025-05-30', '2025-05-28', '[\"dashboard.blade.php\",\"compliance_content.blade.php\",\"benefits_preferences.blade.php\"]', NULL, '2025-05-26 10:16:28', '2025-05-26 08:09:38'),
+(12, 212, 'Student_Nurse', '', '', 0, NULL, '', '', '', '', '', '', '', '', '', '', '', '', '', 'NMW0001693722', 'RN', 'student_nurse', 'expired', '2025-06-29', '[\"DIPLOMA SAMPLE.docx\",\"DIPLOMA SAMPLE.pdf\",\"TRANSCRIPT SAMPLE.pdf\"]', '', '', '', '', '', '', '', '', '', 'not_compliant', '', NULL, '', '', '', '', '', '', '[\"NSW\",\"VIC\"]', '{\"NSW\":{\"authorizing_body\":\"jjjjj\",\"date_authorized\":\"2025-06-29\",\"evidence\":\"[\\\"CERTIFICATIONS SAMPLE.pdf\\\",\\\"DIPLOMA SAMPLE.docx\\\",\\\"DIPLOMA SAMPLE.pdf\\\",\\\"TRANSCRIPT SAMPLE.pdf\\\"]\"},\"VIC\":{\"authorizing_body\":\"aaaa\",\"date_authorized\":\"2025-06-30\",\"evidence\":\"[\\\"CERTIFICATIONS SAMPLE.pdf\\\",\\\"DIPLOMA SAMPLE.docx\\\",\\\"DIPLOMA SAMPLE.pdf\\\",\\\"TRANSCRIPT SAMPLE.pdf\\\"]\"}}', NULL, NULL, '[\"medical_r\"]', NULL, '{\"medical_r\":{\"state_issue\":[\"NSW\",\"VIC\"],\"licence_body\":[\"environment_protection\",\"radiation_safety\"]}}', 'null', NULL, NULL, NULL, '{\"NSW\":{\"radiation_licenses_no\":\"1123\",\"radiation_issue_date\":\"2025-07-01\",\"radiation_expiry_date\":\"2025-07-18\",\"evidence\":\"[\\\"DIPLOMA SAMPLE.pdf\\\",\\\"CERTIFICATIONS SAMPLE.pdf\\\",\\\"TRANSCRIPT SAMPLE.pdf\\\"]\"},\"VIC\":{\"radiation_licenses_no\":null,\"radiation_issue_date\":null,\"radiation_expiry_date\":null,\"evidence\":\"[\\\"DIPLOMA SAMPLE.pdf\\\",\\\"CERTIFICATIONS SAMPLE.pdf\\\",\\\"TRANSCRIPT SAMPLE.pdf\\\"]\"}}', '2025-05-28 08:37:59', '2025-07-12 06:45:32'),
+(13, 205, 'Graduate_RM', '', '', 0, NULL, '', '', '', '', '', '', '', '', '', '', '', '', '', 'NMW0001234567', 'EN', 'student_nurse', 'lapsed', '', '[\"hashing.php\",\"mail.php\",\"sanctum.php\",\"services.php\"]', '', '', '', '', '', '', '', '', '', 'not_compliant', '', NULL, '', '', '', '', '', '', '[\"VIC\"]', '{\"VIC\":{\"authorizing_body\":\"cxxcx\",\"date_authorized\":\"2025-05-27\",\"evidence\":\"[\\\"agencies-registraion.blade.php\\\",\\\"benefits_preferences.blade.php\\\"]\"}}', NULL, NULL, '[\"medical_r\",\"diagnostic_radiography_restricted\",\"mobile_xray_operator\",\"other\"]', 'xc2323', '{\"other\":{\"radiation_licenses_no\":\"c ssw232\",\"state_issue\":[\"SA\"],\"licence_body\":[\"radiological_council\"],\"radiation_issue_date\":\"2025-06-30\",\"radiation_expiry_date\":\"2025-07-09\",\"evidence\":\"[\\\"agencies.blade.php\\\",\\\"compliance_content.blade.php\\\",\\\"contact.blade.php\\\"]\"},\"medical_r\":{\"radiation_licenses_no\":\"xcxc\",\"state_issue\":[\"QLD\"],\"licence_body\":[\"radiation_health\"],\"radiation_issue_date\":\"2025-07-07\",\"radiation_expiry_date\":\"2025-07-15\",\"evidence\":\"[\\\"packages.php\\\",\\\"services.php\\\"]\"},\"diagnostic_radiography_restricted\":{\"radiation_licenses_no\":\"dsds\",\"state_issue\":[\"SA\"],\"licence_body\":[\"radiological_council\"],\"radiation_issue_date\":\"2025-06-30\",\"radiation_expiry_date\":\"2025-07-15\",\"evidence\":\"[\\\"AdminSeeder.php\\\",\\\"DatabaseSeeder.php\\\"]\"},\"mobile_xray_operator\":{\"radiation_licenses_no\":\"dsde232\",\"state_issue\":[\"VIC\"],\"licence_body\":[\"radiation_safety\"],\"radiation_issue_date\":\"2025-06-25\",\"radiation_expiry_date\":\"2025-07-16\",\"evidence\":\"[\\\"dashboard.blade.php\\\"]\"}}', '', '', '', '', NULL, '2025-05-29 12:18:27', '2025-06-03 13:28:23'),
+(14, 179, 'RN', 'NMW0001461218', '1', 0, 1, 'RN', 'NP', 'General', 'Current', '', '', 'NSW', '[\"VIC\"]', '', '', '1996-12-04', '[\"Houase7.jpeg\"]', NULL, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'compliant', '', NULL, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', NULL, '2025-05-29 13:28:16', '2025-06-23 10:25:00'),
+(20, 213, 'RN_RM', 'NMW0001879694', '1', 1, NULL, 'hello3', 'hello3', 'hello3', 'hello3', 'hello3', 'hello3', 'hello3,hello3,hello3,hello3', '', '', '', 'hello3', '[\"banner_1743761259.png\"]', '04/07/2025 – 06:10 PM', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'not_compliant', '', NULL, '', '', '', '', '', '', '', '', '', '', '[\"mobile_xray_operator\"]', NULL, '{\"mobile_xray_operator\":{\"state_issue\":[\"WA\"],\"licence_body\":[\"radiation_protection\"]}}', NULL, NULL, NULL, NULL, '{\"WA\":{\"radiation_licenses_no\":\"ssd s\",\"radiation_issue_date\":\"2025-07-29\",\"radiation_expiry_date\":\"2025-08-13\",\"evidence\":\"[\\\"img_thiland.png\\\",\\\"Japan-city-img-one.png\\\"]\"}}', '2025-07-02 12:42:30', '2025-07-04 12:33:14');
 
 -- --------------------------------------------------------
 
@@ -9659,7 +9668,8 @@ INSERT INTO `vaccination_front` (`id`, `user_id`, `vaccination_id`, `immunizatio
 (78, 212, 13, 7, 12, 0, 1, '2025-05-08 04:39:32', '2025-05-10 09:26:18', ''),
 (79, 212, 14, 7, 13, 0, 1, '2025-05-08 04:39:32', '2025-05-10 09:26:18', ''),
 (80, 212, 15, 7, 17, 0, 1, '2025-05-08 04:39:32', '2025-05-10 09:26:18', ''),
-(81, 212, 16, 7, 19, 0, 1, '2025-05-08 04:39:32', '2025-05-10 09:26:18', '');
+(81, 212, 16, 7, 19, 0, 1, '2025-05-08 04:39:32', '2025-05-10 09:26:18', ''),
+(82, 213, 11, 9, 11, 0, 1, '2025-07-16 06:12:34', '2025-07-16 06:38:24', '');
 
 -- --------------------------------------------------------
 
@@ -10541,7 +10551,8 @@ INSERT INTO `work_evidance` (`id`, `evidence_file`, `original_name`, `evidance_t
 (197, 'evidence_1746943030_68203c3688ad9.pdf', 'DIPLOMA SAMPLE.pdf', 3, 54, '2025-05-11 05:57:10', '2025-05-11 05:57:10'),
 (199, 'evidence_1746943074_68203c622a225.pdf', 'CERTIFICATIONS SAMPLE.pdf', 4, 25, '2025-05-11 05:57:54', '2025-05-11 05:57:54'),
 (202, 'evidence_1746943074_68203c622bbaa.pdf', 'TRANSCRIPT SAMPLE.pdf', 4, 25, '2025-05-11 05:57:54', '2025-05-11 05:57:54'),
-(203, 'evidence_1746943115_68203c8bbaba7.pdf', 'DIPLOMA SAMPLE.pdf', 4, 25, '2025-05-11 05:58:35', '2025-05-11 05:58:35');
+(203, 'evidence_1746943115_68203c8bbaba7.pdf', 'DIPLOMA SAMPLE.pdf', 4, 25, '2025-05-11 05:58:35', '2025-05-11 05:58:35'),
+(204, 'evidence_1752649985_68775101c88a2.png', 'banner_1743761259.png', 1, 92, '2025-07-16 07:13:05', '2025-07-16 07:13:05');
 
 -- --------------------------------------------------------
 
@@ -11164,7 +11175,7 @@ ALTER TABLE `edu_fields`
 -- AUTO_INCREMENT for table `eligibility_to_work`
 --
 ALTER TABLE `eligibility_to_work`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=92;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
 
 --
 -- AUTO_INCREMENT for table `emergency_contact`
@@ -11188,7 +11199,7 @@ ALTER TABLE `employee_positions`
 -- AUTO_INCREMENT for table `evidance_file`
 --
 ALTER TABLE `evidance_file`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=195;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=196;
 
 --
 -- AUTO_INCREMENT for table `evidence_type`
@@ -11284,13 +11295,13 @@ ALTER TABLE `newsletter`
 -- AUTO_INCREMENT for table `other_evidance`
 --
 ALTER TABLE `other_evidance`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `other_vaccine`
 --
 ALTER TABLE `other_vaccine`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -11398,7 +11409,7 @@ ALTER TABLE `sub_job_specialities`
 -- AUTO_INCREMENT for table `updated_tab_name`
 --
 ALTER TABLE `updated_tab_name`
-  MODIFY `tab_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
+  MODIFY `tab_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=99;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -11422,7 +11433,7 @@ ALTER TABLE `user_experience`
 -- AUTO_INCREMENT for table `user_licenses_details`
 --
 ALTER TABLE `user_licenses_details`
-  MODIFY `licenses_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `licenses_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `vaccination`
@@ -11434,7 +11445,7 @@ ALTER TABLE `vaccination`
 -- AUTO_INCREMENT for table `vaccination_front`
 --
 ALTER TABLE `vaccination_front`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
 
 --
 -- AUTO_INCREMENT for table `vaccine_compliances`
@@ -11476,7 +11487,7 @@ ALTER TABLE `work_enviornment_preferences`
 -- AUTO_INCREMENT for table `work_evidance`
 --
 ALTER TABLE `work_evidance`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=204;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=205;
 
 --
 -- AUTO_INCREMENT for table `work_preferences`
