@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\Route;
 // ===========
 // Admin Route
 // ===========
-Route::get('/ahepra_lookup', 'App\Http\Controllers\nurse\LicencesContoller@myFunction')->name('myFunction');
 Route::prefix('/admin')->name('admin.')->namespace('App\Http\Controllers\admin')->group(function () {
   Route::match(['get', 'post'], '/', 'AuthController@login')->name('login');
   Route::post('/loginAction', 'AuthController@doLogin')->name('loginAction');
@@ -207,7 +206,14 @@ Route::prefix('/admin')->name('admin.')->namespace('App\Http\Controllers\admin')
     Route::get('/references_view/{id}', 'NurseprofileController@view_references')->name('view_references');
     Route::get('/vaccination_view/{id}', 'NurseprofileController@vaccination_view')->name('vaccination_view');
     Route::get('/checks_clearacnces/{id}', 'NurseprofileController@checks_clearacnces')->name('checks_clearacnces');
-    
+    Route::get('/mandatory_training_view/{id}', 'NurseprofileController@mandatory_training_view')->name('mandatory_training_view');
+    Route::get('/add_registration_licences/{id}', 'NurseprofileController@add_registration_licences')->name('add_registration_licences');
+    Route::post('/ahepra_lookup', 'NurseprofileController@ahepra_lookup')->name('ahepra_lookup');
+    Route::post('/update_registration_licenses', 'NurseprofileController@update_registration_licenses')->name('update_registration_licenses');
+    Route::post('/uploadLicensesEvidenceImgs', 'NurseprofileController@uploadLicensesEvidenceImgs')->name('uploadLicensesEvidenceImgs');
+    Route::post('/deleteLicensesEvidenceImg', 'NurseprofileController@deleteLicensesEvidenceImg')->name('deleteLicensesEvidenceImg');
+    Route::post('/fetch-ahpra-details', 'AhpraLookupsController@getAhpraDetails')->name('getAhpraDetails');
+
     /************[Nurse Profile Vaccination]*************/
     Route::post('/addNurseVaccination', 'NurseController@addNurseVaccination')->name('addNurseVaccination');
     Route::any('/updateVaccinationRecord/{id?}', 'NurseController@updateVaccinationRecord')->name('updateVaccinationRecord');
@@ -258,7 +264,7 @@ Route::prefix('/admin')->name('admin.')->namespace('App\Http\Controllers\admin')
     Route::get('/sub_language_list/{id}','LanguageSkillsController@sub_language_list')->name('sub_language_list');
     Route::get('/certification_list','LanguageSkillsController@certification_list')->name('certification_list');
 
-     /************[Work Preferences]*************/
+    /************[Work Preferences]*************/
     Route::get('/work_preferences','WorkPreferencesController@work_environment_list')->name('work_preferences');
     Route::post('/addWorkEnvironment', 'WorkPreferencesController@addWorkEnvironment')->name('addWorkEnvironment');
     Route::post('/getEnvironment', 'WorkPreferencesController@getEnvironment')->name('getEnvironment');
@@ -285,6 +291,6 @@ Route::prefix('/admin')->name('admin.')->namespace('App\Http\Controllers\admin')
     Route::post('/updateBenefits', 'WorkPreferencesController@updateBenefits')->name('updateBenefits');
     Route::post('/deleteBenefits', 'WorkPreferencesController@deleteBenefits')->name('deleteBenefits');
     Route::get('/sub_benefits/{id}','WorkPreferencesController@sub_benefits')->name('sub_benefits');
-  });
 
+  });
 });
