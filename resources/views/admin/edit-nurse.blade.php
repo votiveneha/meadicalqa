@@ -106,6 +106,11 @@
                     </a>
                 </li>
                 <li class="nav-item" role="presentation">
+                    <a class="nav-link {{ Route::currentRouteName() == 'admin.add_registration_licences' ? 'active' : '' }}" href="{{ route('admin.add_registration_licences', ['id' => $profileData->id ]) }}">
+                        <span>Registrations and Licences</span>
+                    </a>
+                </li>
+                <li class="nav-item" role="presentation">
                     <a class="nav-link" data-bs-toggle="tab" href="#tab-3" role="tab" aria-selected="false"
                         tabindex="-1">
                         <span>Profession</span>
@@ -115,6 +120,12 @@
                     <a class="nav-link" data-bs-toggle="tab" href="#tab-4" role="tab" aria-selected="false"
                         tabindex="-1">
                         <span>Education and Certifications</span>
+                    </a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" data-bs-toggle="tab" href="#tab-7" role="tab" aria-selected="false"
+                        tabindex="-1">
+                        <span>Mandatory Training</span>
                     </a>
                 </li>
                 <li class="nav-item" role="presentation">
@@ -128,12 +139,7 @@
                         <span>References</span>
                     </a>
                 </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" data-bs-toggle="tab" href="#tab-7" role="tab" aria-selected="false"
-                        tabindex="-1">
-                        <span>Mandatory Training</span>
-                    </a>
-                </li>
+                
                 <li class="nav-item" role="presentation">
                     <a class="nav-link" href="{{ route('admin.updateVaccinationRecord', ['id' => $profileData->id ?? null, 'tab' => 'tab-8']) }}" aria-selected="false">
                         <span>Vaccinations</span>
@@ -148,39 +154,16 @@
                 <li class="nav-item" role="presentation">
                     <a class="nav-link" href="{{ route('admin.professionalMembership', ['id' => $profileData->id ?? null, 'tab' => 'tab-10']) }}" aria-selected="false"
                         tabindex="-1">
-                        <span>Professional Memberships</span>
+                        <span>PProfessional Memberships & Awards</span>
                     </a>
                 </li>
                 <li class="nav-item" role="presentation">
                     <a class="nav-link" data-bs-toggle="tab" href="#tab-11" role="tab" aria-selected="false"
                         tabindex="-1">
-                        <span>Interview</span>
+                        <span>Language Skills</span>
                     </a>
                 </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" data-bs-toggle="tab" href="#tab-12" role="tab" aria-selected="false"
-                        tabindex="-1">
-                        <span>Personal Preferences</span>
-                    </a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" data-bs-toggle="tab" href="#tab-13" role="tab" aria-selected="false"
-                        tabindex="-1">
-                        <span>Job Search Preferences</span>
-                    </a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-13" role="tab" aria-selected="false"
-                        tabindex="-1">
-                        <span>Testimonials and Reviews</span>
-                    </a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link disabled" data-bs-toggle="tab" href="#navpill-14" role="tab" aria-selected="false"
-                        tabindex="-1">
-                        <span>Additional Information</span>
-                    </a>
-                </li>
+                
 
 
             </ul>

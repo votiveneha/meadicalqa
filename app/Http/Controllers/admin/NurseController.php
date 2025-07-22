@@ -220,7 +220,6 @@ class NurseController extends Controller
     public function addNursePostForm1(Nurseform1Request $request)
     {
         try {
-            
             return $this->nurseServices->addNursePost($request);
         } catch (\Exception $e) {
             log::error('Error in NurseController/addNursePost :' . $e->getMessage() . 'in line' . $e->getLine());

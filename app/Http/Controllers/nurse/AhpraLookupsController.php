@@ -21,12 +21,14 @@ class AhpraLookupsController extends Controller
 
 
         try {
-            $response = Http::timeout(90)->withHeaders([
+            $response = Http::timeout(150)->withHeaders([
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
             ])->post('https://mediqa.com.au/scrape', [
                 'regNumber' => $regNumber
             ]);
+
+            
 
             
              $data2 = $response->json();
@@ -64,7 +66,7 @@ class AhpraLookupsController extends Controller
                 return response()->json(['error' => $data2['error']]);
             }
 
-            //print_r($response->json());
+            
 
         }catch (\Exception $e) {
             // Scraper crashed, timeout, connection error, etc.

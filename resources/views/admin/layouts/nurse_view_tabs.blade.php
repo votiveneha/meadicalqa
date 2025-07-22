@@ -27,8 +27,7 @@
         </a>
     </li>
     <li class="nav-item" role="presentation">
-        <a class="nav-link" data-bs-toggle="tab" href="#navpill-3" role="tab" aria-selected="false"
-            tabindex="-1">
+        <a class="nav-link {{ Route::currentRouteName() == 'admin.mandatory_training_view' ? 'active' : '' }}" href="{{ route('admin.mandatory_training_view', ['id' => $profileData->id ]) }}">
             <span>Mandatory Training and Continuing Education</span>
         </a>
     </li>

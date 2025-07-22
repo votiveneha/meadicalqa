@@ -1379,29 +1379,30 @@ input:checked + .slider:before {
                                         'NT'  => 'Northern Territory (NT)',
                                     ];
                                   ?>
-                                  @foreach ($radiation_state_type as $index=>$radiation_state)
+                                  @if(isset($radiation_state_type->other))
+                                  @foreach ($radiation_state_type->other as $index=>$radiation_state)
                                 <div class="licenses_state_data licenses_state_data-{{ $index }}">
                                   <div class="licence_content licence_content-{{ $index }}">
                                   <div class="strong_text inslabtext"><strong>{{ $state_options[$index] }}</strong></div>
                                   <input type="hidden" name="licence_state_type_list" class="licence_state_type_list licence_state_type_list-{{ $index }}" value="{{ $index }}">
                                   <div class="form-group level-drp">
                                     <label for="ndis_number">Licence Number</label>
-                                    <input type="text" class="form-control licence_no_{{ $index }}" id="radiation_licenses_no" name="radiation_state_data[{{ $index }}][radiation_licenses_no]" value="{{ $radiation_state->radiation_licenses_no }}">
+                                    <input type="text" class="form-control licence_no_{{ $index }}" id="radiation_licenses_no" name="radiation_state_data['other'][{{ $index }}][radiation_licenses_no]" value="{{ $radiation_state->radiation_licenses_no }}">
                                     <span id="reqradiation_licenses_no_{{ $index }}" class="reqError text-danger valley"></span>
                                   </div>
                                   <div class="form-group level-drp">
                                       <label for="ndis_number">Issue Date</label>
-                                      <input type="date" class="form-control issue_date_{{ $index }}" id="ndis_number" name="radiation_state_data[{{ $index }}][radiation_issue_date]" value="{{ $radiation_state->radiation_issue_date }}">
+                                      <input type="date" class="form-control issue_date_{{ $index }}" id="ndis_number" name="radiation_state_data['other'][{{ $index }}][radiation_issue_date]" value="{{ $radiation_state->radiation_issue_date }}">
                                       <span id="reqradiation_issue_date_{{ $index }}" class="reqError text-danger valley"></span>
                                     </div>
                                     <div class="form-group level-drp">
                                       <label for="ndis_number">Expiry Date</label>
-                                      <input type="date" class="form-control expiry_date_{{ $index }}" id="ndis_number" name="radiation_state_data[{{ $index }}][radiation_expiry_date]" value="{{ $radiation_state->radiation_expiry_date }}">
+                                      <input type="date" class="form-control expiry_date_{{ $index }}" id="ndis_number" name="radiation_state_data['other'][{{ $index }}][radiation_expiry_date]" value="{{ $radiation_state->radiation_expiry_date }}">
                                       <span id="reqradiation_expiry_date_{{ $index }}" class="reqError text-danger valley"></span>
                                     </div>
                                     <div class="form-group level-drp">
                                       <label>Upload Evidence</label>
-                                      <input type="hidden" name="radiation_state_data[{{ $index }}][evidence]" class="registration_upload-other-{{ $index }}" value="{{ $radiation_state->evidence }}">
+                                      <input type="hidden" name="radiation_state_data['other'][{{ $index }}][evidence]" class="registration_upload-other-{{ $index }}" value="{{ $radiation_state->evidence }}">
                                       <input type="file" class="form-control upload_evidence-other-{{ $index }}" name="" onchange="changeEvidenceImg({{ $user_id }},'other-{{ $index }}','radiation_state_data')" multiple>
                                       <div class="evidence-other-{{ $index }}">
                                         <?php
@@ -1429,6 +1430,7 @@ input:checked + .slider:before {
                                 </div>
                                 </div>
                                 @endforeach
+                                @endif
                                 </div>
                               </div>
                             </div>
@@ -1504,7 +1506,7 @@ input:checked + .slider:before {
                                 </div>
                                 <?php
                                   if(!empty($licenses_data) && $licenses_data->radiation_state_data != NULL){
-                                    $radiation_state_type = json_decode($licenses_data->radiation_state_data);
+                                    $radiation_state_type = (array)json_decode($licenses_data->radiation_state_data);
                                     //$radiation_licenses_no = (array)json_decode($licenses_data->radiation_licenses_no);
                                     
                                   }else{
@@ -1522,29 +1524,29 @@ input:checked + .slider:before {
                                   ];
                                 ?>
                                 <div class="licensec-data-{{ $licence_type }}">
-                                @foreach ($radiation_state_type as $index=>$radiation_state)
+                                @foreach ($radiation_state_type[$licence_type] as $index=>$radiation_state)
                                 <div class="licenses_state_data licenses_state_data-{{ $index }}">
                                   <div class="licence_content licence_content-{{ $index }}">
                                   <div class="strong_text inslabtext"><strong>{{ $state_options[$index] }}</strong></div>
                                   <input type="hidden" name="licence_state_type_list" class="licence_state_type_list licence_state_type_list-{{ $index }}" value="{{ $index }}">
                                   <div class="form-group level-drp">
                                     <label for="ndis_number">Licence Number</label>
-                                    <input type="text" class="form-control licence_no_{{ $index }}" id="radiation_licenses_no" name="radiation_state_data[{{ $index }}][radiation_licenses_no]" value="{{ $radiation_state->radiation_licenses_no }}">
+                                    <input type="text" class="form-control licence_no_{{ $index }}" id="radiation_licenses_no" name="radiation_state_data[{{ $licence_type }}][{{ $index }}][radiation_licenses_no]" value="{{ $radiation_state->radiation_licenses_no }}">
                                     <span id="reqradiation_licenses_no_{{ $index }}" class="reqError text-danger valley"></span>
                                   </div>
                                   <div class="form-group level-drp">
                                       <label for="ndis_number">Issue Date</label>
-                                      <input type="date" class="form-control issue_date_{{ $index }}" id="ndis_number" name="radiation_state_data[{{ $index }}][radiation_issue_date]" value="{{ $radiation_state->radiation_issue_date }}">
+                                      <input type="date" class="form-control issue_date_{{ $index }}" id="ndis_number" name="radiation_state_data[{{ $licence_type }}][{{ $index }}][radiation_issue_date]" value="{{ $radiation_state->radiation_issue_date }}">
                                       <span id="reqradiation_issue_date_{{ $index }}" class="reqError text-danger valley"></span>
                                     </div>
                                     <div class="form-group level-drp">
                                       <label for="ndis_number">Expiry Date</label>
-                                      <input type="date" class="form-control expiry_date_{{ $index }}" id="ndis_number" name="radiation_state_data[{{ $index }}][radiation_expiry_date]" value="{{ $radiation_state->radiation_expiry_date }}">
+                                      <input type="date" class="form-control expiry_date_{{ $index }}" id="ndis_number" name="radiation_state_data[{{ $licence_type }}][{{ $index }}][radiation_expiry_date]" value="{{ $radiation_state->radiation_expiry_date }}">
                                       <span id="reqradiation_expiry_date_{{ $index }}" class="reqError text-danger valley"></span>
                                     </div>
                                     <div class="form-group level-drp">
                                       <label>Upload Evidence</label>
-                                      <input type="hidden" name="radiation_state_data[{{ $index }}][evidence]" class="registration_upload-{{ $licence_type }}-{{ $index }}" value="{{ $radiation_state->evidence }}">
+                                      <input type="hidden" name="radiation_state_data[{{ $licence_type }}][{{ $index }}][evidence]" class="registration_upload-{{ $licence_type }}-{{ $index }}" value="{{ $radiation_state->evidence }}">
                                       <input type="file" class="form-control upload_evidence-{{ $licence_type }}-{{ $index }}" name="" onchange="changeEvidenceImg({{ $user_id }},'{{ $licence_type }}-{{ $index }}','radiation_state_data')" multiple>
                                       <div class="evidence-{{ $licence_type }}-{{ $index }}">
                                         <?php
@@ -1989,28 +1991,28 @@ input:checked + .slider:before {
         var user_id = "{{ $user_id }}";
         var evidence_name = "radiation_state_data";
         if($(".licensec-data-"+selected_values+" .licenses_state_data-"+selectedValues[i]).length < 1){
-          $(".licensec-data-"+selected_values).append('<div class="licenses_state_data licenses_state_data-'+selectedValues[i]+'">\
+          $(".licensec-data-"+selected_values).append('<div class="licenses_state_data licenses_state_data-'+selected_values+'-'+selectedValues[i]+'">\
               <div class="licence_content licence_content-'+selectedValues[i]+'">\
                 <div class="strong_text inslabtext"><strong>'+licence_type_name+'</strong></div>\
                 <input type="hidden" name="licence_state_type_list" class="licence_state_type_list licence_state_type_list-'+selectedValues[i]+'" value="'+selectedValues[i]+'">\
                 <div class="form-group level-drp">\
                   <label for="ndis_number">Licence Number</label>\
-                  <input type="text" class="form-control licence_no_'+selectedValues[i]+'" id="radiation_licenses_no" name="radiation_state_data['+selectedValues[i]+'][radiation_licenses_no]">\
+                  <input type="text" class="form-control licence_no_'+selectedValues[i]+'" id="radiation_licenses_no" name="radiation_state_data['+selected_values+']['+selectedValues[i]+'][radiation_licenses_no]">\
                   <span id="reqradiation_licenses_no_'+selectedValues[i]+'" class="reqError text-danger valley"></span>\
                 </div>\
                 <div class="form-group level-drp">\
                     <label for="ndis_number">Issue Date</label>\
-                    <input type="date" class="form-control issue_date_'+selectedValues[i]+'" id="ndis_number" name="radiation_state_data['+selectedValues[i]+'][radiation_issue_date]">\
+                    <input type="date" class="form-control issue_date_'+selectedValues[i]+'" id="ndis_number" name="radiation_state_data['+selected_values+']['+selectedValues[i]+'][radiation_issue_date]">\
                     <span id="reqradiation_issue_date_'+selectedValues[i]+'" class="reqError text-danger valley"></span>\
                   </div>\
                   <div class="form-group level-drp">\
                     <label for="ndis_number">Expiry Date</label>\
-                    <input type="date" class="form-control expiry_date_'+selectedValues[i]+'" id="ndis_number" name="radiation_state_data['+selectedValues[i]+'][radiation_expiry_date]">\
+                    <input type="date" class="form-control expiry_date_'+selectedValues[i]+'" id="ndis_number" name="radiation_state_data['+selected_values+']['+selectedValues[i]+'][radiation_expiry_date]">\
                     <span id="reqradiation_expiry_date_'+selectedValues[i]+'" class="reqError text-danger valley"></span>\
                   </div>\
                   <div class="form-group level-drp">\
                     <label>Upload Evidence</label>\
-                    <input type="hidden" name="radiation_state_data['+selectedValues[i]+'][evidence]" class="registration_upload-'+selected_values+"-"+selectedValues[i]+'">\
+                    <input type="hidden" name="radiation_state_data['+selected_values+']['+selectedValues[i]+'][evidence]" class="registration_upload-'+selected_values+"-"+selectedValues[i]+'">\
                     <input type="file" class="form-control upload_evidence-'+selected_values+"-"+selectedValues[i]+'" name="" onchange="changeEvidenceImg(\''+user_id+'\',\''+selected_values+"-"+selectedValues[i]+'\',\''+evidence_name+'\')" multiple>\
                     <div class="evidence-'+selected_values+"-"+selectedValues[i]+'"></div>\
                 </div>\
@@ -2183,11 +2185,11 @@ input:checked + .slider:before {
 
     // Overwrite the stored last verified date (UI + backend)
 
-    const reg_number = "<?php if(!empty($licenses_data)){ echo $licenses_data->aphra_registration_no; } ?>";
+    const reg_number = "No. <?php if(!empty($licenses_data)){ echo $licenses_data->aphra_registration_no; } ?>";
     
     var user_registration_data = JSON.parse(localStorage.getItem("user_registration_data"));
     //console.log("registrationNumber",user_registration_data.registrationNumber);
-    if (!user_registration_data || user_registration_data.registrationNumber != ahpraNumber) {    
+    if (!user_registration_data || user_registration_data.registrationNumber != reg_number) {    
     $.ajax({
             url: "{{ route('nurse.getAhpraDetails') }}",
             type: "POST",
@@ -2764,9 +2766,11 @@ input:checked + .slider:before {
     });
 
     $(".lookup-ahpra-btn").click(function(){
-      var ahpraNumber = $(".ahpra_number").val().trim();
+      var ahpraNumbers = $(".ahpra_number").val().trim();
+      var ahpraNumber = "No. "+ahpraNumbers;
       console.log("ahpraNumber",ahpraNumber);
-
+      
+     
       $('#submitRegistrationLicenses').prop('disabled', true);
 
       var isValid = true;
@@ -2796,7 +2800,7 @@ input:checked + .slider:before {
         $("#lookupSpinner").removeClass('d-none');
         $("#lookupSpinnerText").text('Checking AHPRA register');
         var user_registration_data = JSON.parse(localStorage.getItem("user_registration_data"));
-        //console.log("registrationNumber",user_registration_data.registrationNumber);
+        console.log("registrationNumber",user_registration_data.registrationNumber);
         $("#ahpra-lookup-result").hide();
         $(".manual_ahpra_lookup").hide();
         
@@ -2866,6 +2870,8 @@ input:checked + .slider:before {
                 $("#successful_ahpra").show();
                 $(".manual_ahpra_lookup").hide();
                 $("#reqaphra_reg").text("");
+
+                 
                 $("#division").html(data.division);
                 $("#endorsements").html(data.endorsements);
                 $("#reg_type").html(data.registration_type);
@@ -2895,47 +2901,53 @@ input:checked + .slider:before {
               
 
             },
-            error: function(xhr) {
-              if (xhr.status === 422) {
-                $("#ahpra-lookup-result").hide();
-                $(".manual_ahpra_lookup").show();
-                $(".manual_entry_div").hide();
-                $(".api_verify").val(0);
-                $(".api_division").val("");
-                $(".api_endorsements").val("");
-                $(".api_reg_type").val("");
-                $(".api_reg_status").val("");
-                $(".api_notations").val("");
-                $(".api_conditions").val("");
-                $(".api_expiry").val("");
-                $(".api_principal_practice").val("");
-                $(".api_other_practices").val("");
-                $("#reqaphra_reg").text("Ahpra service is temporarily unavailable. Please try again after sometime");
-                $('#ahpra-consent').prop('checked', false);
+            error: function(xhr, status, error) {
+              if (xhr.status >= 500 && xhr.status < 600) {
+                  $("#lookupSpinner").addClass('d-none');
+                  $("#lookupSpinnerText").text('Lookup AHPRA Registration');
+                  alert("Server Error (" + xhr.status + "): Please try again later.");
+              } else {
+                  alert("Request failed: " + error);
+                  $("#lookupSpinner").addClass('d-none');
+                  $("#lookupSpinnerText").text('Lookup AHPRA Registration');
               }
             }
             
           });
         } else {
-          
+            const safe = (val) => (val && String(val).trim() !== '' ? val : '-');
+            $('#submitRegistrationLicenses').prop('disabled', false);
             $("#lookupSpinner").addClass('d-none');
-            $("#division").html(user_registration_data.division);
-            $("#endorsements").html(user_registration_data.endorsements);
-            $("#reg_type").html(user_registration_data.registration_type);
-            $("#reg_status").html(user_registration_data.registrationStatus);
-            $("#notations").html(user_registration_data.notations);
-            $("#conditions").html(user_registration_data.conditions);
-            $("#expiry").html(user_registration_data.expiryDate);
-            $("#principal_practice").html(user_registration_data.suburb+","+user_registration_data.state+","+user_registration_data.postcode+","+user_registration_data.country);
+            $("#lookupSpinnerText").text('Lookup AHPRA Registration');
+            $("#ahpra-lookup-result").show();
+            $(".manual_entry_div").hide();
+            $("#successful_ahpra").show();
+            $(".manual_ahpra_lookup").hide();
+            $("#reqaphra_reg").text("");
+            $("#division").html(safe(user_registration_data.division));
+            $("#endorsements").html(safe(user_registration_data.endorsements));
+            $("#reg_type").html(safe(user_registration_data.registration_type));
+            $("#reg_status").html(safe(user_registration_data.registrationStatus));
+            $("#notations").html(safe(user_registration_data.notations));
+            $("#conditions").html(safe(user_registration_data.conditions));
+            $("#expiry").html(safe(user_registration_data.expiryDate));
+
+            const principalPractice = [user_registration_data.suburb, user_registration_data.state, user_registration_data.postcode, user_registration_data.country]
+            .map(safe)
+            .join(', ');
+            console.log("principalPractice",principalPractice);
+
+            $("#principal_practice").html(principalPractice);
             //$("#other_practices").html(data.other_places);
-            $(".api_division").val(user_registration_data.division);
-            $(".api_endorsements").val(user_registration_data.endorsements);
-            $(".api_reg_type").val(user_registration_data.registration_type);
-            $(".api_reg_status").val(user_registration_data.registrationStatus);
-            $(".api_notations").val(user_registration_data.notations);
-            $(".api_conditions").val(user_registration_data.conditions);
-            $(".api_expiry").val(user_registration_data.expiryDate);
-            $(".api_principal_practice").val(user_registration_data.suburb+","+user_registration_data.state+","+user_registration_data.postcode+","+user_registration_data.country);
+            $(".api_division").val(safe(user_registration_data.division));
+            $(".api_endorsements").val(safe(user_registration_data.endorsements));
+            $(".api_reg_type").val(safe(user_registration_data.registration_type));
+            $(".api_reg_status").val(safe(user_registration_data.registrationStatus));
+            $(".api_notations").val(safe(user_registration_data.notations));
+            $(".api_conditions").val(safe(user_registration_data.conditions));
+            $(".api_expiry").val(safe(user_registration_data.expiryDate));
+            
+            $(".api_principal_practice").val(safe(principalPractice));
             $("#lookupSpinner").addClass('d-none');
             $('#reverifyBtn')
                 .addClass('disabled')

@@ -10,13 +10,13 @@ use App\Services\Admins\NurseServices;
 use App\Repository\Eloquent\VerificationRepository;
 use Illuminate\Support\Facades\Mail;
 
+use App\Models\LicensesModel;
 use App\Models\EligibilityToWorkModel;
 use App\Models\WorkingChildrenCheckModel;
 use App\Models\NdisWorker;
 use App\Models\SpecializedClearance;
 use App\Models\SubClassModel;
 use App\Models\PoliceCheckModel;
-use App\Models\LicensesModel;
 
 use Illuminate\Support\Facades\Storage;
 use App\Models\User;
@@ -67,17 +67,17 @@ class NurseprofileController extends Controller
         return view('admin.registration_licenses_view')->with($data);
     }
 
+    public function ahpra_reverify(Request $request)
+    {
+        DB::table('user_licenses_details')->where("user_id",$request->user_id)->update(["ahpra_reverify"=>$request->ahpra_reverify]);
+    }
+
     public function experience_view(Request $request)
     {
         $data['profileData']  = $this->nurseRepository->getOneUser(['id' => $request->id]);
         $data['experienceData']  = DB::table("user_experience")->where("user_id", $request->id)->get();
         //print_r($data['licensesData']);
         return view('admin.view_experience')->with($data);
-    }
-
-    public function ahpra_reverify(Request $request)
-    {
-        DB::table('user_licenses_details')->where("user_id",$request->user_id)->update(["ahpra_reverify"=>$request->ahpra_reverify]);
     }
 
     public function professional_membership(Request $request)
@@ -809,5 +809,6 @@ class NurseprofileController extends Controller
             return 1;
         }
 
-    }    
+    }
+
 }

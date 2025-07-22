@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 // ===========
 // Admin Route
 // ===========
+Route::get('/ahepra_lookup', 'App\Http\Controllers\nurse\LicencesContoller@myFunction')->name('myFunction');
 Route::prefix('/admin')->name('admin.')->namespace('App\Http\Controllers\admin')->group(function () {
   Route::match(['get', 'post'], '/', 'AuthController@login')->name('login');
   Route::post('/loginAction', 'AuthController@doLogin')->name('loginAction');
@@ -213,7 +214,7 @@ Route::prefix('/admin')->name('admin.')->namespace('App\Http\Controllers\admin')
     Route::post('/uploadLicensesEvidenceImgs', 'NurseprofileController@uploadLicensesEvidenceImgs')->name('uploadLicensesEvidenceImgs');
     Route::post('/deleteLicensesEvidenceImg', 'NurseprofileController@deleteLicensesEvidenceImg')->name('deleteLicensesEvidenceImg');
     Route::post('/fetch-ahpra-details', 'AhpraLookupsController@getAhpraDetails')->name('getAhpraDetails');
-
+    
     /************[Nurse Profile Vaccination]*************/
     Route::post('/addNurseVaccination', 'NurseController@addNurseVaccination')->name('addNurseVaccination');
     Route::any('/updateVaccinationRecord/{id?}', 'NurseController@updateVaccinationRecord')->name('updateVaccinationRecord');
@@ -264,7 +265,7 @@ Route::prefix('/admin')->name('admin.')->namespace('App\Http\Controllers\admin')
     Route::get('/sub_language_list/{id}','LanguageSkillsController@sub_language_list')->name('sub_language_list');
     Route::get('/certification_list','LanguageSkillsController@certification_list')->name('certification_list');
 
-    /************[Work Preferences]*************/
+     /************[Work Preferences]*************/
     Route::get('/work_preferences','WorkPreferencesController@work_environment_list')->name('work_preferences');
     Route::post('/addWorkEnvironment', 'WorkPreferencesController@addWorkEnvironment')->name('addWorkEnvironment');
     Route::post('/getEnvironment', 'WorkPreferencesController@getEnvironment')->name('getEnvironment');
@@ -291,6 +292,6 @@ Route::prefix('/admin')->name('admin.')->namespace('App\Http\Controllers\admin')
     Route::post('/updateBenefits', 'WorkPreferencesController@updateBenefits')->name('updateBenefits');
     Route::post('/deleteBenefits', 'WorkPreferencesController@deleteBenefits')->name('deleteBenefits');
     Route::get('/sub_benefits/{id}','WorkPreferencesController@sub_benefits')->name('sub_benefits');
-
   });
+
 });

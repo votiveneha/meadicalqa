@@ -498,7 +498,8 @@ class LicencesContoller extends Controller{
         }else{
             $radiation_licence_type = "";
             $radiation_licence_content = "";
-            
+            $licenses_type_other = "";
+            $radiation_state_data = "";
         }
 
         
