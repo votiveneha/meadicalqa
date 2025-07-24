@@ -23,6 +23,10 @@
         background-color: #000 !important;
         border: 1px solid #000 !important;
     }
+
+    .clear-btn{
+        display: none;
+    }
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
 
@@ -75,7 +79,13 @@
                 <li class="nav-item" role="presentation">
                     <a class="nav-link {{ empty(!$expid) ? '' : 'disabled' }}" href="{{ $expid ? route('admin.edit_nurse', ['id' => $expid, 'tab' => 'tab-2']) : '#tab-2' }}" aria-selected="false"
                         tabindex="-1">
-                        <span>Setting</span>
+                        <span>Setting & Availability</span>
+                    </a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link {{ empty(!$expid) ? '' : 'disabled' }}" href="{{ $expid ? route('admin.edit_nurse', ['id' => $expid, 'tab' => 'tab-2']) : '#tab-2' }}" aria-selected="false"
+                        tabindex="-1">
+                        <span>Registrations and Licences</span>
                     </a>
                 </li>
                 <li class="nav-item" role="presentation">
@@ -123,39 +133,16 @@
                 <li class="nav-item" role="presentation">
                     <a class="nav-link {{ empty(!$expid) ? '' : 'disabled' }}" href="{{ $expid ? route('admin.edit_nurse', ['id' => $expid, 'tab' => 'navpill-9']) : '#navpill-9' }}" aria-selected="false"
                         tabindex="-1">
-                        <span>Professional</span>
+                        <span>Professional Memberships & Awards</span>
                     </a>
                 </li>
                 <li class="nav-item" role="presentation">
                     <a class="nav-link {{ empty(!$expid) ? '' : 'disabled' }}" href="{{ $expid ? route('admin.edit_nurse', ['id' => $expid, 'tab' => 'navpill-10']) : '#navpill-10' }}" aria-selected="false"
                         tabindex="-1">
-                        <span>Interview</span>
+                        <span>Language Skills</span>
                     </a>
                 </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link {{ empty(!$expid) ? '' : 'disabled' }}" href="{{ $expid ? route('admin.edit_nurse', ['id' => $expid, 'tab' => 'navpill-11']) : '#navpill-11' }}" aria-selected="false"
-                        tabindex="-1">
-                        <span>Personal Preferences</span>
-                    </a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link {{ empty(!$expid) ? '' : 'disabled' }}" href="{{ $expid ? route('admin.edit_nurse', ['id' => $expid, 'tab' => 'navpill-12']) : '#navpill-12' }}" aria-selected="false"
-                        tabindex="-1">
-                        <span>Job Search & Personal Preferences</span>
-                    </a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link {{ empty(!$expid) ? '' : 'disabled' }}" href="{{ $expid ? route('admin.edit_nurse', ['id' => $expid, 'tab' => 'navpill-13']) : '#navpill-13' }}" aria-selected="false"
-                        tabindex="-1">
-                        <span>Testimonials and Reviews</span>
-                    </a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link {{ empty(!$expid) ? '' : 'disabled' }}" href="{{ $expid ? route('admin.edit_nurse', ['id' => $expid, 'tab' => 'navpill-14']) : '#navpill-14' }}" aria-selected="false"
-                        tabindex="-1">
-                        <span>Additional Information</span>
-                    </a>
-                </li>
+                
             </ul>
 
             <!-- Tab panes -->
@@ -176,6 +163,7 @@
                                             <h6>Please add your full nursing work experience to strengthen your profile and get hired faster. Please keep update as your experience grows:</h6>
                                             <div class="previous_employeers">
                                                 <input type="hidden" value="@if($experienceData) {{ count($experienceData) }}  @endif {{ '1'}}" id="exp_data_count">
+                                                <input type="hidden" name="user_id" value="{{ $experienceData[0]->user_id }}">
                                                 <div class="">
                                                     <?php
                                                     $i = 1;
@@ -183,10 +171,139 @@
                                                     @if($experienceData != "")
                                                     @foreach($experienceData as $data)
                                                     <input type="hidden" name="exp_id[{{$i}}]" value="{{ $data->experience_id }}">
+                                                    
                                                     <div class="work_exp exp_tab exp_tab-{{$i}}">
                                                         <h6 class="fw-bolder fs-6 lh-base d-flex align-items-center emergency_text previous_employeers_head">
                                                             Work Experience {{ $i }}
                                                         </h6>
+                                                        <div class="form-group level-drp">
+                          
+                                                            <label class="form-label" for="input-1">Facility / Workplace Type</label>
+                                                            <?php
+                                                                $user_id = Auth::guard('nurse_middle')->user()->id;
+                                                                $workplace_data = DB::table('work_enviornment_preferences')->where("prefer_id","!=","444")->where("sub_env_id",0)->orderBy("env_name","asc")->get();
+                                                                $facility_type = (array)json_decode($data->facility_workplace_type);
+
+                                                                //print_r($facility_type);
+
+                                                                $p_memb_arr = array();
+
+                                                                if(!empty($facility_type)){
+                                                                foreach ($facility_type as $index => $p_memb) {
+                                                                
+                                                                    //print_r($p_memb);
+                                                                    $p_memb_arr[] = $index;
+                                                                    
+                                                                }
+                                                                }
+
+                                                                $p_memb_json = json_encode($p_memb_arr);
+                                                                
+                                                            ?>
+                                                            <input type="hidden" name="mainfactype" class="mainfactype mainfactype-{{ $i }}" value="{{ $p_memb_json }}">
+                                                            <ul id="wp_data-{{ $i }}" style="display:none;">
+                                                            
+                                                                @if(!empty($workplace_data))
+                                                                @foreach($workplace_data as $wp_data)
+                                                                <li data-value="{{ $wp_data->prefer_id }}">{{ $wp_data->env_name }}</li>
+                                                                @endforeach
+                                                                @endif
+                                                            </ul>
+                                                            <select class="js-example-basic-multiple addAll_removeAll_btn facworktype facworktype-{{ $i }}" data-list-id="wp_data-{{ $i }}" name="positions_held[{{ $i }}]" onchange="getWpData('',{{ $i }})" multiple></select>
+                                                            <span id="reqfacworktype-{{$i}}" class="reqError text-danger valley"></span>
+                                                        
+                                                        </div>
+                                                        <div class="wp_data-{{ $i }}">
+                                                            @foreach ($p_memb_arr as $p_arr)
+                                                            <?php
+                                                                $subface_data = (array)$facility_type[$p_arr];
+                                                                $environment_list = DB::table("work_enviornment_preferences")->where("sub_env_id",$p_arr)->where("sub_envp_id","0")->get();
+                                                                $environment_name = DB::table("work_enviornment_preferences")->where("prefer_id",$p_arr)->first();
+                                                                
+                                                                $p_memb_arr = array();
+
+                                                                if (array_key_exists(0, $subface_data)){
+                                                                if(!empty($subface_data)){
+                                                                    foreach ($subface_data as $index => $s_data) {
+                                                                
+                                                                    //print_r($p_memb);
+                                                                    $p_memb_arr[] = $s_data;
+                                                                    
+                                                                    }
+                                                                }
+                                                                }else{
+                                                                if(!empty($subface_data)){
+                                                                    foreach ($subface_data as $index => $s_data) {
+                                                                
+                                                                    //print_r($p_memb);
+                                                                    $p_memb_arr[] = $index;
+                                                                    
+                                                                    }
+                                                                }
+                                                                }
+                                                                
+
+                                                                
+                                                                //print_r($p_memb_arr);
+                                                                $p_memb_json = json_encode($p_memb_arr);
+                                                            ?>
+                                                            <div class="wp_main_div-{{ $p_arr }}"><div class="subworkdiv subworkdiv-{{ $p_arr }} form-group level-drp">
+                                                                <label class="form-label work_label work_label-{{ $i }}{{ $p_arr }}" for="input-1">@if(!empty($environment_name)){{ $environment_name->env_name }}@endif</label>
+                                                                <input type="hidden" name="subwork" class="subwork subwork-{{ $p_arr }}" value="{{ $i }}">
+                                                                <input type="hidden" name="subwork_list" class="subwork_list subwork_list-{{ $i }}" value="{{ $p_arr }}">
+                                                                <input type="hidden" name="subworkjs" class="subworkjs-{{ $i }} subworkjs-{{ $i }}{{ $p_arr }}" value="{{ $p_memb_json }}">
+                                                                <ul id="subwork_field-{{ $i }}{{ $p_arr }}" style="display:none;">
+                                                                @if(!empty($environment_list))
+                                                                @foreach($environment_list as $env_list)
+                                                                <li data-value="{{ $env_list->prefer_id }}">{{ $env_list->env_name }}</li>
+                                                                
+                                                                @endforeach
+                                                                @endif
+                                                                </ul>
+                                                                <select class="js-example-basic-multiple addAll_removeAll_btn work_valid-{{ $i }} work_valid-{{ $i }}{{ $p_arr }}" data-list-id="subwork_field-{{ $i }}{{ $p_arr }}" name="subworkthlevel[{{ $i }}][{{ $p_arr }}][]" onchange="getWpSubData('',{{ $i }},{{ $p_arr }})" multiple></select>
+                                                                <span id="reqsubwork-{{ $i }}{{ $p_arr }}" class="reqError text-danger valley"></span>
+                                                                </div>
+                                                                <div class="showsubwpdata showsubwpdata-{{ $i }}{{ $p_arr }}">
+                                                                @if(array_key_exists(0, $subface_data) == false)
+                                                                @if(!empty($p_memb_arr))
+                                                                @foreach ($p_memb_arr as $p_arr1)
+                                                                <?php
+                                                                    $subface_data1 = $subface_data[$p_arr1];
+                                                                    $environment_list = DB::table("work_enviornment_preferences")->where("sub_env_id",$p_arr)->where("sub_envp_id",$p_arr1)->get();
+                                                                    $environment_name = DB::table("work_enviornment_preferences")->where("prefer_id",$p_arr1)->first();
+                                                                    
+                                                                    
+
+                                                                    $p_memb_json = json_encode($subface_data1);
+                                                                ?>
+                                                                <div class="subpworkdiv subpworkdiv-{{ $p_arr1 }} form-group level-drp">
+                                                                    <label class="form-label pwork_label pwork_label-{{ $i }}{{ $p_arr1 }}" for="input-1">{{ $environment_name->env_name }}</label>
+                                                                    <input type="hidden" name="subpwork" class="subpwork subpwork-{{ $p_arr1 }}" value="{{ $i }}">
+                                                                    <input type="hidden" name="subpwork_list" class="subpwork_list subpwork_list-{{ $i }}" value="{{ $p_arr1 }}">
+                                                                    <input type="hidden" name="subworkjs1" class="subworkjs1-{{ $i }} subworkjs1-{{ $i }}{{ $p_arr1 }}" value="{{ $p_memb_json }}">
+                                                                    <ul id="subpwork_field-{{ $i }}{{ $p_arr1 }}" style="display:none;">
+                                                                    @if(!empty($environment_list))
+                                                                    @foreach($environment_list as $env_list)
+                                                                    <li data-value="{{ $env_list->prefer_id }}">{{ $env_list->env_name }}</li>
+                                                                    
+                                                                    @endforeach
+                                                                    @endif
+                                                                    </ul>
+                                                                    <select class="js-example-basic-multiple addAll_removeAll_btn pwork_valid-{{ $p_arr1 }} pwork_valid-{{ $i }}{{ $p_arr1 }}" data-list-id="subpwork_field-{{ $i }}{{ $p_arr1 }}" name="subworkthlevel[{{ $i }}][{{ $p_arr }}][{{ $p_arr1 }}][]" multiple></select>
+                                                                    <span id="reqsubpwork-{{ $i }}{{ $p_arr1 }}" class="reqError text-danger valley"></span>
+                                                                </div>
+                                                                @endforeach
+                                                                @endif
+                                                                @endif
+                                                                </div>
+                                                            </div>
+                                                            @endforeach
+                                                        </div>
+                                                        <div class="form-group level-drp">
+                                                            <label class="form-label" for="input-1">Facility / Workplace Name</label>
+                                                            <input type="text" name="facility_workplace_name[{{ $i }}]" class="form-control facworkname facworkname-{{ $i }}" value="{{ $data->facility_workplace_name }}">
+                                                            <span id="reqfaceworkname-{{$i}}" class="reqError text-danger valley"></span>
+                                                        </div> 
                                                         <div class="form-group drp--clr nurse_exp_type nurse_exp_type-{{ $i }}">
                                                             <label class="form-label" for="input-1">Type of Nurse?</label>
                                                             <input type="hidden" name="user_id" class="user_id" value="{{ $data->user_id }}">
@@ -310,7 +427,7 @@
                                                             }
                                                             ?>
                                                             <input type="hidden" value1="{{$data->specialties}}" name="speciality_exp_result" class="speciality_exp_result-{{ $l }}-{{$i}}" value="{{ $ptl->id }}">
-                                                            <div class="speciality_data_exp form-group drp--clr drpdown-set {{ $d }} col-md-6 speciality_exp_{{ $ptl->id }}" id="specility_level_exp-{{ $l }}-{{$i}}">
+                                                            <div class="speciality_data_exp form-group drp--clr drpdown-set {{ $d }} col-md-12 speciality_exp_{{ $ptl->id }}" id="specility_level_exp-{{ $l }}-{{$i}}">
                                                                 <label class="form-label" for="input-2">{{ $ptl->name }}</label>
                                                                 <ul id="speciality_entry_exp-{{ $l }}-{{ $i }}" style="display:none;">
                                                                     @foreach($speciality_data as $sd)
@@ -426,7 +543,7 @@
                                                             }
                                                             ?>
                                                             <input type="hidden" name="speciality_result" class="surgical_rowp_result_experience-{{ $i }}-{{ $q }}" value="{{ $ssd->id }}">
-                                                            <div class="surgical_rowp_exp_{{$i}} surgicalpad_row_experience-{{ $ssd->id }} surgical_rowp_exp-{{ $q }}-{{$i}} form-group drp--clr {{$getd}} drpdown-set col-md-4">
+                                                            <div class="surgical_rowp_exp_{{$i}} surgicalpad_row_experience-{{ $ssd->id }} surgical_rowp_exp-{{ $q }}-{{$i}} form-group drp--clr {{$getd}} drpdown-set">
                                                                 <label class="form-label" for="input-1">{{ $ssd->name }}</label>
                                                                 <?php
                                                                 $speciality_surgicalsub_data = DB::table("speciality")->where('parent', $ssd->id)->orderBy('name')->get();
@@ -457,28 +574,75 @@
                                                                 </select>
                                                             </div>
                                                         </div>
+                                                        
                                                         <div class="form-group level-drp">
-                                                            <div class="form-group level-drp">
-                                                                <label class="form-label" for="input-1">Position Held</label>
-                                                                <select class="form-control pos_held pos_held_{{$i}}" name="positions_held[{{$i}}]">
-                                                                    <option value="">select</option>
-                                                                    <option value="Team Member" {{ 'Team Member' == $data->position_held ? 'selected' : '' }}>Team Member</option>
-                                                                    <option value="Team Leader" {{ 'Team Leader' == $data->position_held ? 'selected' : '' }}>Team Leader</option>
-                                                                    <option value="Educator" {{ 'Educator' == $data->position_held ? 'selected' : '' }}>Educator</option>
-                                                                    <option value="Manager" {{ 'Manager' == $data->position_held ? 'selected' : '' }}>Manager</option>
-                                                                    <option value="Clinical Specialist" {{ 'Clinical Specialist' == $data->position_held ? 'selected' : '' }}>Clinical Specialist</option>
-                                                                    <option value="Charge Nurse" {{ 'Charge Nurse' == $data->position_held ? 'selected' : '' }}>Charge Nurse</option>
-                                                                    <option value="Nurse Supervisor" {{ 'Nurse Supervisor' == $data->position_held ? 'selected' : '' }}>Nurse Supervisor</option>
-                                                                    <option value="Nursing Director" {{ 'Nursing Director' == $data->position_held ? 'selected' : '' }}>Nursing Director</option>
-                                                                    <option value="Assistant Director of Nursing" {{ 'Assistant Director of Nursing' == $data->position_held ? 'selected' : '' }}>Assistant Director of Nursing</option>
-                                                                    <option value="Head Nurse" {{ 'Head Nurse' == $data->position_held ? 'selected' : '' }}>Head Nurse</option>
-                                                                    <option value="Nurse Coordinator" {{ 'Nurse Coordinator' == $data->position_held ? 'selected' : '' }}>Nurse Coordinator</option>
-                                                                    <option value="Staff Nurse" {{ 'Staff Nurse' == $data->position_held ? 'selected' : '' }}>Staff Nurse</option>
-                                                                </select>
-                                                                <span id="reqpositionheld-{{$i}}" class="reqError text-danger valley"></span>
-                                                            </div>
-                                                        </div>
+                          
+                                                        <label class="form-label" for="input-1">Position Held</label>
+                                                        <?php
+                                                            $employee_postion_data = DB::table('employee_positions')->where("subposition_id",0)->orderBy("position_name","asc")->get();
+                                                            $pos_data = (array)json_decode($data->position_held);
 
+                                                            $parr = array();
+                                                            if (!empty($pos_data)){
+                                                                foreach ($pos_data as $index => $pdata){
+                                                                    $parr[] = $index;
+                                                                }
+                                                            }
+                                                            
+                                                            
+                                                            $x = 1;
+                                                            $p_arr = json_encode($parr);
+                                                        ?>
+                                                        <input type="hidden" name="pos_hide" class="pos_hide pos_hide-{{ $i }}" value="{{ $p_arr }}">
+                                                        <ul id="position_held_field-{{ $i }}" style="display:none;">
+                                                        
+                                                            @if(!empty($employee_postion_data))
+                                                            @foreach($employee_postion_data as $emp_data)
+                                                            <li data-value="{{ $emp_data->position_id }}">{{ $emp_data->position_name }}</li>
+                                                            @endforeach
+                                                            @endif
+                                                        </ul>
+                                                        <select class="js-example-basic-multiple addAll_removeAll_btn pos_held pos_held_{{ $i }}" data-list-id="position_held_field-{{ $i }}" name="positions_held[{{ $i }}]" id="position_held_field-{{ $i }}" onchange="getPostions('',{{ $i }})" multiple></select>
+                                                        <span id="reqpositionheld-{{$i}}" class="reqError text-danger valley"></span>
+                                                        
+                                                        </div>
+                                                        <div class="show_positions-{{ $i }}">
+                                                        @foreach ($parr as $par)
+                                                        <?php
+                                                            $employee_positions = DB::table("employee_positions")->where("subposition_id",$par)->orderBy('position_name', 'ASC')->get();
+                                                            $position_name = DB::table("employee_positions")->where("position_id",$par)->first();
+                                                            $subposdata = json_encode($pos_data[$par]);
+                                                            //print_r($subposdata);
+                                                        ?>
+                                                        @if($par != "34")
+                                                        <div class="subposdiv subposdiv-{{ $position_name->position_id }} form-group level-drp">
+                                                            <label class="form-label pos_label pos_label-{{ $i }}{{ $position_name->position_id }}" for="input-1">{{ $position_name->position_name }}</label>
+                                                            <input type="hidden" name="subpos" class="subpos subpos-{{ $position_name->position_id }}" value="{{ $i }}">
+                                                            <input type="hidden" name="subpos_list" class="subpos_list subpos_list-{{ $i }} subpos_list-{{ $i }}{{ $x }}" value="{{ $position_name->position_id }}">
+                                                            <input type="hidden" name="subposdata" class="subposdata-{{ $i }} subposdata-{{ $i }}{{ $x }}" value="{{ $subposdata }}">
+                                                            <ul id="subposition_held_field-{{ $i }}{{ $position_name->position_id }}" style="display:none;">
+                                                            @if(!empty($employee_positions))
+                                                            @foreach($employee_positions as $emp_pos)
+                                                            <li data-value="{{ $emp_pos->position_id }}">{{ $emp_pos->position_name }}</li>
+                                                            @endforeach
+                                                            @endif
+                                                            </ul>
+                                                            <select class="js-example-basic-multiple addAll_removeAll_btn position_valid-{{ $i }}{{ $position_name->position_id }}" data-list-id="subposition_held_field-{{ $i }}{{ $position_name->position_id }}" name="subpositions_held[{{ $i }}][{{ $position_name->position_id }}][]" multiple></select>
+                                                            <span id="reqsubpositionheld-{{ $i }}{{ $position_name->position_id }}" class="reqError text-danger valley"></span>
+                                                        </div>
+                                                        @else
+                                                        <div class="subposdiv subposdiv-{{ $position_name->position_id }} form-group level-drp">
+                                                            <label class="form-label pos_label pos_label-{{ $i }}{{ $position_name->position_id }}" for="input-1">Other</label>
+                                                            <input type="hidden" name="subpos_list" class="subpos_list subpos_list-'+k+'" value="34">
+                                                            <input type="text" name="subpositions_held[{{ $i }}][{{ $position_name->position_id }}][]" class="form-control position_other position_other-{{ $i }} position_valid-{{ $i }}{{ $position_name->position_id }}" value="<?php echo $pos_data[$par][0] ?>">
+                                                            <span id="reqsubpositionheld-{{ $i }}{{ $position_name->position_id }}" class="reqError text-danger valley"></span>
+                                                        </div>
+                                                        @endif
+                                                        <?php
+                                                            $x++;
+                                                        ?>
+                                                        @endforeach
+                                                        </div>
                                                         <div class="row">
                                                             <div class="col-md-6">
                                                                 <div class="form-group level-drp">
@@ -497,58 +661,73 @@
                                                                     <span id="reqemployeementenddateexp-{{$i}}" class="reqError text-danger valley"></span>
                                                                 </div>
                                                             </div>
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <div class="form-group level-drp">
-                                                                        <label class="form-label" for="input-1">Employment type</label>
-                                                                        <select class="form-control emp_exp_type emp_exp_type-{{$i}}" name="employeement_type[{{$i}}]" onchange="ExpEmpStatus(this.value)">
-                                                                            <option value="">select</option>
-                                                                            <option value="Permanent" @if($data->employeement_type == "Permanent") selected @endif>Permanent</option>
-                                                                            <option value="Temporary" @if($data->employeement_type == "Temporary") selected @endif>Temporary</option>
-                                                                        </select>
-                                                                        <span id="reqemptype-{{$i}}" class="reqError text-danger valley"></span>
-                                                                    </div>
+                                                            
+                                                            <div class="col-md-12">
+                                                                <div class="form-group level-drp">
+                                                                    <label class="form-label" for="input-1">Employment type</label>
+                                                                    <select class="form-control emp_exp_type emp_exp_type-{{$i}}" name="employeement_type[{{$i}}]" onchange="ExpEmpStatus(this.value)">
+                                                                        <option value="">select</option>
+                                                                        <option value="Permanent" @if($data->employeement_type == "Permanent") selected @endif>Permanent</option>
+                                                                        <option value="Temporary" @if($data->employeement_type == "Temporary") selected @endif>Temporary</option>
+                                                                    </select>
+                                                                    <span id="reqemptype-{{$i}}" class="reqError text-danger valley"></span>
                                                                 </div>
                                                             </div>
-                                                            <div class="exp_permanent" @if($data->permanent_status == NULL) style="display: none;" @endif>
-                                                                <div class="form-group col-md-12">
-                                                                    <label class="form-label" for="input-1">Permanent</label>
-                                                                    <select class="form-control mr-10 select-active" name="permanent_status[{{$i}}]">
-                                                                        <option value="">Select</option>
-                                                                        <option value="Full-time" @if($data->permanent_status == "Full-time") selected @endif>Full-time</option>
-                                                                        <option value="Part-time" @if($data->permanent_status == "Part-time") selected @endif>Part-time</option>
-                                                                        <option value="Agency Nurse/Midwife" @if($data->permanent_status == "Agency Nurse/Midwife") selected @endif>Agency Nurse/Midwife</option>
-                                                                        <option value="Freelance" @if($data->permanent_status == "Freelance") selected @endif>Freelance</option>
-                                                                        <option value="Local" @if($data->permanent_status == "Local") selected @endif>Local</option>
-                                                                        <option value="Volunteer" @if($data->permanent_status == "Volunteer") selected @endif>Volunteer</option>
-                                                                    </select>
+                                                            
+                                                            <div class="exp_permanent exp_permanent-{{$i}}" @if($data->employeement_type != "Permanent") style="display: none;" @endif>
+                                                                <div class="form-group level-drp col-md-12">
+                                                                <label class="form-label" for="input-1">Permanent</label>
+                                                                <input type="hidden" name="perfieldexp" class="perfieldexp perfieldexp-{{ $i }}" value="{{ $data->permanent_status }}">
+                                                                <ul id="permanent_status_experience-{{ $i }}" style="display:none;">
+                                                                    <li data-value="">select</li>
+                                                                    <li data-value="Full-time (Permanent)">Full-time (Permanent)</li>
+                                                                    <li data-value="Part-time (Permanent)">Part-time (Permanent)</li>
+                                                                    <li data-value="Agency Nurse / Midwife (Permanent)">Agency Nurse / Midwife (Permanent)</li>
+                                                                    <li data-value="Staffing Agency Nurse (Permanent)">Staffing Agency Nurse (Permanent)</li>
+                                                                    <li data-value="Private Healthcare Agency Nurse (Permanent)">Private Healthcare Agency Nurse (Permanent)</li>
+                                                                    <li data-value="Freelance (Permanent)">Freelance (Permanent)</li>
+                                                                    <li data-value="Self-Employed (Permanent)">Self-Employed (Permanent)</li>
+                                                                    <li data-value="Private Practice (Permanent)">Private Practice (Permanent)</li>
+                                                                    <li data-value="Volunteer (Permanent)">Volunteer (Permanent)</li>
+                                                                    
+                                                                </ul>
+                                                                <select class="js-example-basic-multiple form-control permanent_exp permanent_exp-{{ $i }}" data-list-id="permanent_status_experience-{{$i}}" name="permanent_status[{{$i}}]" id="permanent_status_experience"></select>
+                                                                <span id="reqemployeep_statusexp-{{ $i }}" class="reqError text-danger valley"></span>
                                                                 </div>
-                                                                <span id="reqemployee_status" class="reqError text-danger valley"></span>
+                                                                
                                                             </div>
-                                                            <div class="exp_temporary" @if($data->temporary_status == NULL) style="display: none;" @endif>
-                                                                <div class="form-group col-md-12">
-                                                                    <label class="form-label" for="input-1">Temporary</label>
-                                                                    <select class="form-control mr-10 select-active" name="temporary_status[{{$i}}]">
-                                                                        <option value="">Select</option>
-                                                                        <option value="Temporary" @if($data->temporary_status == "Temporary") selected @endif>Temporary</option>
-                                                                        <option value="Contract" @if($data->temporary_status == "Contract") selected @endif>Contract</option>
-                                                                        <option value="Term Contract" @if($data->temporary_status == "Term Contract") selected @endif>Term Contract</option>
-                                                                        <option value="Travel" @if($data->temporary_status == "Travel") selected @endif>Travel</option>
-                                                                        <option value="Per Diem" @if($data->temporary_status == "Per Diem") selected @endif>Per Diem</option>
-                                                                        <option value="Local" @if($data->temporary_status == "Local") selected @endif>Local</option>
-                                                                        <option value="On-Call" @if($data->temporary_status == "On-Call") selected @endif>On-Call</option>
-                                                                        <option value="PRN (Pro Re Nata)" @if($data->temporary_status == "PRN (Pro Re Nata)") selected @endif>PRN (Pro Re Nata)</option>
-                                                                        <option value="Casual" @if($data->temporary_status == "Casual") selected @endif>Casual</option>
-                                                                        <option value="Locum tenens (temporary substitute)" @if($data->temporary_status == "Locum tenens (temporary substitute)") selected @endif>Locum tenens (temporary substitute)</option>
-                                                                        <option value="Seasonal" @if($data->temporary_status == "Seasonal") selected @endif>Seasonal</option>
-                                                                        <option value="Freelance" @if($data->temporary_status == "Freelance") selected @endif>Freelance</option>
-                                                                        <option value="Internship" @if($data->temporary_status == "Internship") selected @endif>Internship</option>
-                                                                        <option value="Apprenticeship" @if($data->temporary_status == "Apprenticeship") selected @endif>Apprenticeship</option>
-                                                                        <option value="Residency" @if($data->temporary_status == "Residency") selected @endif>Residency</option>
-                                                                        <option value="Volunteer" @if($data->temporary_status == "Volunteer") selected @endif>Volunteer</option>
-                                                                    </select>
+                                                            <div class="exp_temporary exp_temporary-{{ $i }}" @if($data->employeement_type != "Temporary") style="display: none;" @endif>
+                                                                <div class="form-group level-drp col-md-12">
+                                                                <label class="form-label" for="input-1">Temporary</label>
+                                                                <input type="hidden" name="temphfield" class="temphfieldexp temphfieldexp-{{ $i }}" value="{{ $data->temporary_status }}">
+                                                            
+                                                                <ul id="temporary_status_experience-{{ $i }}" style="display:none;">
+                                                                    <li data-value="select">select</li>
+                                                                    <li data-value="Full-time (Temporary)">Full-time (Temporary)</li>
+                                                                    <li data-value="Part-time (Temporary)">Part-time (Temporary)</li>
+                                                                    <li data-value="Agency Nurse/Midwife (Temporary)">Agency Nurse/Midwife (Temporary)</li>
+                                                                    <li data-value="Staffing Agency Nurse (Temporary)">Staffing Agency Nurse (Temporary)</li>
+                                                                    <li data-value="Private Healthcare Agency Nurse (Temporary)">Private Healthcare Agency Nurse (Temporary)</li>
+                                                                    <li data-value="Travel">Travel</li>
+                                                                    <li data-value="Per Diem (Daily Basis)">Per Diem (Daily Basis)</li>
+                                                                    <li data-value="Float Pool & Relief Nursing (Multi-Department Work)">Float Pool & Relief Nursing (Multi-Department Work)
+                                                                    <li data-value="On-Call (Immediate Availability)">On-Call (Immediate Availability)</li>
+                                                                    <li data-value="PRN (Pro Re Nata /As Needed)">PRN (Pro Re Nata /As Needed)</li>
+                                                                    <li data-value="Casual">Casual</li>
+                                                                    <li data-value="Locum tenens (temporary substitute)">Locum tenens (temporary substitute)</li>
+                                                                    <li data-value="Seasonal (Short-Term for Peak Demand)">Seasonal (Short-Term for Peak Demand)</li>
+                                                                    <li data-value="Freelance (Temporary)">Freelance (Temporary)</li>
+                                                                    <li data-value="Self-Employed (Temporary)">Self-Employed (Temporary)</li>
+                                                                    <li data-value="Private Practice (Temporary)">Private Practice (Temporary)</li>
+                                                                    <li data-value="Internship">Internship</li>
+                                                                    <li data-value="Apprenticeship">Apprenticeship</li>
+                                                                    <li data-value="Residency">Residency</li>
+                                                                    <li data-value="Volunteer (Temporary)">Volunteer (Temporary)</li>
+                                                                </ul>
+                                                                <select class="js-example-basic-multiple form-control temporary_exp temporary_exp-{{ $i }}" data-list-id="temporary_status_experience-{{ $i }}" name="temporary_status[{{$i}}]" id="temporary_status_experience"></select>
+                                                                <span id="reqemployeetexp_status-{{ $i }}" class="reqError text-danger valley"></span>
                                                                 </div>
-                                                                <span id="reqemployee_status" class="reqError text-danger valley"></span>
+                                                                
                                                             </div>
                                                             <h6 class="fw-bolder fs-6 lh-base d-flex align-items-centere mt-2 mergency_text">
                                                                 Detailed Job Descriptions
@@ -2729,13 +2908,13 @@
 
     $(document).ready(function() {
         $('#experience_form').on('submit', function(event) {
-
+            
             event.preventDefault();
             var isValid = true;
             var targetTab = '#navpill-6';
             var exp_id = $('#expid').val();
 
-
+            
             var a = 1;
             $(".nurse_type_exp").each(function() {
                 if ($(".nurse_type_exp_" + a).length > 0) {
@@ -2747,7 +2926,7 @@
                 a++;
             });
 
-
+            
             var b = 1;
             $(".spec_exp").each(function() {
                 if ($(".spec_exp_" + b).length > 0) {
@@ -2758,7 +2937,7 @@
                 }
                 b++;
             });
-
+            
 
             var c = 1;
             $(".pos_held").each(function() {
@@ -2770,7 +2949,7 @@
                 }
                 c++;
             });
-
+            
             var d = 1;
             $(".employeement_start_date_exp").each(function() {
                 if ($(".employeement_start_date_exp-" + d).length > 0) {
@@ -2784,7 +2963,7 @@
 
             var e = 1;
             $(".employeement_end_date_exp").each(function() {
-                if ($(".employeement_end_date_exp-" + e).length > 0) {
+                if ($(".empl_end_date-"+e).is(':visible') == true) {
                     if ($(".employeement_end_date_exp-" + e).val() == '') {
                         document.getElementById("reqemployeementenddateexp-" + e).innerHTML = "* Please enter the employment end date";
                         isValid = false;
@@ -2793,6 +2972,8 @@
                 e++;
             });
 
+            
+            
             var f = 1;
             $(".res-exp").each(function() {
                 if ($(".res-exp-" + f).length > 0) {
@@ -2861,8 +3042,9 @@
                 }
                 k++;
             });
-
+            
             if (isValid == true) {
+                
                 var formData = new FormData($('#experience_form')[0]); // Create FormData object from the form
                 $.ajax({
                     url: "{{ route('admin.exp-data') }}",
@@ -2990,8 +3172,100 @@
     }
 </script>
 <script>
+    
     // exp tab changes
     $(document).ready(function() {
+        var u = 1;
+    $(".mainfactype").each(function(){
+
+        if ($(".mainfactype-"+u).val() != "") {
+        var mainfactype = JSON.parse($(".mainfactype-"+u).val());
+        
+        console.log("mainfactype",u);
+        $('.js-example-basic-multiple[data-list-id="wp_data-'+u+'"]').select2().val(mainfactype).trigger('change');
+        $(".subwork_list-"+u).each(function(){
+        var subwork_list_val = $(this).val();
+            if ($(".subworkjs-"+u+subwork_list_val).val() != "") {
+            
+            var subfactype = JSON.parse($(".subworkjs-"+u+subwork_list_val).val());
+            
+            console.log("subfactype",subfactype);
+            $('.js-example-basic-multiple[data-list-id="subwork_field-'+u+subwork_list_val+'"]').select2().val(subfactype).trigger('change');
+            $(".subpwork_list-"+u).each(function(){
+                var subwork_list_val = $(this).val();
+                if ($(".subworkjs1-"+u+subwork_list_val).val() != "") {
+                
+                var subfactype = JSON.parse($(".subworkjs1-"+u+subwork_list_val).val());
+                
+                console.log("subfactype1",subfactype);
+                $('.js-example-basic-multiple[data-list-id="subpwork_field-'+u+subwork_list_val+'"]').select2().val(subfactype).trigger('change');
+                
+                }
+                
+            });
+            }
+
+            
+            
+        });
+        }
+
+        
+        u++;
+    });
+
+    var i = 1;
+  $(".perfieldexp").each(function(){
+
+    if ($(".perfieldexp-"+i).val() != "") {
+      var perhfield = $(".perfieldexp-"+i).val();
+      
+      console.log("perhfield",perhfield);
+      $('.js-example-basic-multiple[data-list-id="permanent_status_experience-'+i+'"]').select2().val(perhfield).trigger('change');
+      
+    }
+    i++;
+  });
+
+  var j = 1;
+
+  $(".temphfieldexp").each(function(){
+
+    if ($(".temphfieldexp-"+j).val() != "") {
+      var temphfieldexp = $(".temphfieldexp-"+j).val();
+      
+      console.log("temphfieldexp",temphfieldexp);
+      $('.js-example-basic-multiple[data-list-id="temporary_status_experience-'+j+'"]').select2().val(temphfieldexp).trigger('change');
+      
+    }
+    j++;
+  });
+
+     var k = 1;
+  $(".pos_hide").each(function(){
+
+    if ($(".pos_hide-"+k).val() != "") {
+      var posfield = JSON.parse($(".pos_hide-"+k).val());
+      
+      console.log("posfield",posfield);
+      $('.js-example-basic-multiple[data-list-id="position_held_field-'+k+'"]').select2().val(posfield).trigger('change');
+      
+      var l = 1;
+      $(".subposdata-"+k).each(function(){
+        var position_id = $(".subpos_list-"+k+l).val();
+        console.log("position_id",k+position_id);
+        if ($(".subposdata-"+k+l).val() != "") {
+          var subposfield = JSON.parse($(".subposdata-"+k+l).val());
+          
+          console.log("subposfield",subposfield);
+          
+          $('.js-example-basic-multiple[data-list-id="subposition_held_field-'+k+position_id+'"]').select2().val(subposfield).trigger('change');
+        }
+        l++;
+      });
+    }
+    k++;
+  });
 
         var l = 1;
         $(".nurse_exp_type").each(function() {
@@ -3556,5 +3830,334 @@
             previous_employeers_head = $('.previous_employeers .work_exp').length + 1;
         }
     });
+
+    function getWpData(ap, k){
+        if(ap == 'ap'){
+            var selectedValues = $('.js-example-basic-multiple'+k+'[data-list-id="wp_data-'+k+'"]').val();
+        }else{
+            var selectedValues = $('.js-example-basic-multiple[data-list-id="wp_data-'+k+'"]').val();
+        }
+
+        console.log("selectedValueswp",selectedValues);
+
+        $(".wp_data-"+k+" .subwork_list").each(function(i,val){
+            var val1 = $(val).val();
+            console.log("val",val1);
+            if(selectedValues.includes(val1) == false){
+                $(".wp_main_div-"+val1).remove();
+                
+            }
+        });
+
+        for(var i=0;i<selectedValues.length;i++){
+            if($(".wp_data-"+k+" .wp_main_div-"+selectedValues[i]).length < 1 && selectedValues[i] != "444"){
+                $.ajax({
+                    type: "GET",
+                    url: "{{ url('/nurse/getWorkplaceData') }}",
+                    data: {place_id:selectedValues[i]},
+                    cache: false,
+                    success: function(data){
+                        var data1 = JSON.parse(data);
+                        console.log("data1",data1);
+
+                        var wp_text = "";
+                        for(var j=0;j<data1.work_data.length;j++){
+                        
+                            wp_text += "<li data-value='"+data1.work_data[j].prefer_id+"'>"+data1.work_data[j].env_name+"</li>"; 
+                        
+                        }
+
+                        $('.js-example-basic-multiple[data-list-id="wp_data-1"]').removeAttr("name");
+                        
+                        var ap = "ap";
+                        $(".wp_data-"+k).append('\<div class="wp_main_div wp_main_div-'+data1.prefer_id+'"><div class="subworkdiv subworkdiv-'+data1.prefer_id+' form-group level-drp">\
+                            <label class="form-label work_label work_label-'+k+data1.prefer_id+'" for="input-1">'+data1.env_name+'</label>\
+                            <input type="hidden" name="subwork" class="subwork subwork-'+data1.prefer_id+'" value="'+k+'">\
+                            <input type="hidden" name="subwork_list" class="subwork_list subwork_list-'+k+'" value="'+data1.prefer_id+'">\
+                            <ul id="subwork_field-'+k+data1.prefer_id+'" style="display:none;">'+wp_text+'</ul>\
+                            <select class="js-example-basic-multiple'+k+data1.prefer_id+' addAll_removeAll_btn work_valid-'+k+' work_valid-'+k+data1.prefer_id+'" data-list-id="subwork_field-'+k+data1.prefer_id+'" name="subworkthlevel['+k+']['+data1.prefer_id+'][]" onchange="getWpSubData(\''+ap+'\',\''+k+'\',\''+data1.prefer_id+'\')" multiple></select>\
+                            <span id="reqsubwork-'+k+data1.prefer_id+'" class="reqError text-danger valley"></span>\
+                            </div><div class="showsubwpdata showsubwpdata-'+k+data1.prefer_id+'"></div></div>');
+
+                            let $fields = $(".wp_data-"+k+" .wp_main_div");
+
+                            let sortedFields = $fields.sort(function (a, b) {
+                                return $(a).find(".work_label").text().localeCompare($(b).find(".work_label").text());
+                            });
+
+                            $(".wp_data-"+k).append(sortedFields);
+                        
+                        selectTwoFunction(k+data1.prefer_id);
+                    }    
+                });            
+            }
+        }
+    }
+
+    
+
+    function getWpSubData(ap,k,l){
+        if(ap == 'ap'){
+            var selectedValues = $('.js-example-basic-multiple'+k+l+'[data-list-id="subwork_field-'+k+l+'"]').val();
+        }else{
+            var selectedValues = $('.js-example-basic-multiple[data-list-id="subwork_field-'+k+l+'"]').val();
+        }
+
+        console.log("selectedValues",selectedValues);
+
+        $(".showsubwpdata-"+k+l+" .subpwork_list").each(function(i,val){
+            var val1 = $(val).val();
+            console.log("val",val1);
+            if(selectedValues.includes(val1) == false){
+                $(".subpworkdiv-"+val1).remove();
+                
+            }
+        });
+
+        var ne_st = k.toString() + l.toString();
+        
+        if($.trim($(".showsubwpdata-"+ne_st).html()) != ''){
+           $('.js-example-basic-multiple[data-list-id="subwork_field-'+k+l+'"]').removeAttr("name");
+        }
+
+        for(var i=0;i<selectedValues.length;i++){
+            if($(".showsubwpdata-"+k+l+" .subpworkdiv-"+selectedValues[i]).length < 1){
+                $.ajax({
+                    type: "GET",
+                    url: "{{ url('/nurse/getSubWorkplaceData') }}",
+                    data: {place_id:l,subplace_id:selectedValues[i]},
+                    cache: false,
+                    success: function(data){
+                        var data1 = JSON.parse(data);
+                        console.log("data1",data1);
+                        
+                            
+                        if(data1.work_data.length > 0){
+                            var wp_text = "";
+                            for(var j=0;j<data1.work_data.length;j++){
+                            
+                                wp_text += "<li data-value='"+data1.work_data[j].prefer_id+"'>"+data1.work_data[j].env_name+"</li>"; 
+                            
+                            }
+                            
+                            $('.js-example-basic-multiple'+k+l+'[data-list-id="subwork_field-'+k+l+'"]').removeAttr("name");
+                            
+                            
+                            var ap = "";
+                            $(".showsubwpdata-"+k+l).append('\<div class="subpworkdiv subpworkdiv-'+data1.subplace_id+' form-group level-drp">\
+                                <label class="form-label pwork_label pwork_label-'+k+data1.subplace_id+'" for="input-1">'+data1.env_name+'</label>\
+                                <input type="hidden" name="subpwork" class="subpwork subpwork-'+data1.subplace_id+'" value="'+k+'">\
+                                <input type="hidden" name="subpwork_list" class="subpwork_list subpwork_list-'+k+'" value="'+data1.subplace_id+'">\
+                                <ul id="subpwork_field-'+k+data1.subplace_id+'" style="display:none;">'+wp_text+'</ul>\
+                                <select class="js-example-basic-multiple'+k+data1.subplace_id+' addAll_removeAll_btn pwork_valid-'+k+' pwork_valid-'+k+data1.subplace_id+'" data-list-id="subpwork_field-'+k+data1.subplace_id+'" name="subworkthlevel['+k+']['+l+']['+data1.subplace_id+'][]" multiple></select>\
+                                <span id="reqsubpwork-'+k+data1.subplace_id+'" class="reqError text-danger valley"></span>\
+                            </div>');
+
+                            let $fields = $(".showsubwpdata-"+k+l+" .subpworkdiv");
+
+                            let sortedFields = $fields.sort(function (a, b) {
+                                return $(a).find(".pwork_label").text().localeCompare($(b).find(".pwork_label").text());
+                            });
+
+                            $(".showsubwpdata-"+k+l).append(sortedFields);
+
+                            selectTwoFunction(k+data1.subplace_id);
+                        }
+                    }    
+                });            
+            }
+        }
+    }
+
+    function getPostions(ap, k){
+        
+        if(ap == 'ap'){
+            var selectedValues = $('.js-example-basic-multiple'+k+'[data-list-id="position_held_field-'+k+'"]').val();
+        }else{
+            var selectedValues = $('.js-example-basic-multiple[data-list-id="position_held_field-'+k+'"]').val();
+        }
+        
+        console.log("selectedValues",selectedValues);
+
+        $(".show_positions-"+k+" .subpos_list").each(function(i,val){
+          var val1 = $(val).val();
+          console.log("val",val1);
+          if(selectedValues.includes(val1) == false){
+            $(".subposdiv-"+val1).remove();
+            
+          }
+        });
+
+        for(var i=0;i<selectedValues.length;i++){
+            if($(".show_positions-"+k+" .subposdiv-"+selectedValues[i]).length < 1 && selectedValues[i] != "35"){
+                $("#submitExperience").attr("disabled", true);
+                $.ajax({
+                    type: "GET",
+                    url: "{{ url('/nurse/getEmployeePositions') }}",
+                    data: {postion_id:selectedValues[i]},
+                    cache: false,
+                    success: function(data){
+                        var data1 = JSON.parse(data);
+                        console.log("data1",data1);
+                        
+                        var pos_text = "";
+                        for(var j=0;j<data1.employee_positions.length;j++){
+                        
+                            pos_text += "<li data-value='"+data1.employee_positions[j].position_id+"'>"+data1.employee_positions[j].position_name+"</li>"; 
+                        
+                        }
+
+                        $('.js-example-basic-multiple[data-list-id="position_held_field-1"]').removeAttr("name");
+                        
+                        if(data1.postion_id != "34"){
+
+                            $(".show_positions-"+k).append('\<div class="subposdiv subposdiv-'+data1.postion_id+' form-group level-drp">\
+                            <label class="form-label pos_label pos_label-'+k+data1.postion_id+'" for="input-1">'+data1.position_name+'</label>\
+                            <input type="hidden" name="subpos" class="subpos subpos-'+data1.postion_id+'" value="'+k+'">\
+                            <input type="hidden" name="subpos_list" class="subpos_list subpos_list-'+k+'" value="'+data1.postion_id+'">\
+                            <ul id="subposition_held_field-'+data1.postion_id+'" style="display:none;">'+pos_text+'</ul>\
+                            <select class="js-example-basic-multiple'+k+data1.postion_id+' addAll_removeAll_btn position_valid-'+k+data1.postion_id+'" data-list-id="subposition_held_field-'+data1.postion_id+'" name="subpositions_held['+k+']['+data1.postion_id+'][]" id="subposition_held_field-{{ $i }}" multiple></select>\
+                            <span id="reqsubpositionheld-'+k+data1.postion_id+'" class="reqError text-danger valley"></span>\
+                            </div>');
+                        }else{
+                            $(".show_positions-"+k).append('<div class="subposdiv subposdiv-'+data1.postion_id+' form-group level-drp">\
+                            <label class="form-label pos_label pos_label-'+k+data1.postion_id+'" for="input-1">Other</label>\
+                            <input type="hidden" name="subpos_list" class="subpos_list subpos_list-'+k+'" value="34">\
+                            <input type="text" name="subpositions_held['+k+']['+data1.postion_id+'][]" class="form-control position_other position_other-'+k+' position_valid-'+k+data1.postion_id+'">\
+                            <span id="reqsubpositionheld-'+k+data1.postion_id+'" class="reqError text-danger valley"></span>\
+                            </div>');
+                        }
+                        
+                        let $fields = $(".show_positions-"+k+" .subposdiv");
+
+                        let sortedFields = $fields.sort(function (a, b) {
+                            return $(a).find(".pos_label").text().localeCompare($(b).find(".pos_label").text());
+                        });
+
+                        $(".show_positions-"+k).append(sortedFields);
+
+                        selectTwoFunction(k+data1.postion_id);
+                        
+
+                        $("#submitExperience").removeAttr("disabled");
+                    }
+                });
+           }
+        }
+        
+    }
+
+    function selectTwoFunction(select_id){
+    
+        $('.addAll_removeAll_btn').on('select2:open', function() {
+            var $dropdown = $(this);
+            var searchBoxHtml = `
+                
+                <div class="extra-buttons">
+                    <button class="select-all-button" type="button">Select All</button>
+                    <button class="remove-all-button" type="button">Remove All</button>
+                </div>`;
+
+            // Remove any existing extra buttons before adding new ones
+            $('.select2-results .extra-search-container').remove();
+            $('.select2-results .extra-buttons').remove();
+
+            // Append the new extra buttons and search box
+            $('.select2-results').prepend(searchBoxHtml);
+
+            // Handle Select All button for the current dropdown
+            $('.select-all-button').on('click', function() {
+                var $currentDropdown = $dropdown;
+                var allValues = $currentDropdown.find('option').map(function() {
+                    return $(this).val();
+                }).get();
+                $currentDropdown.val(allValues).trigger('change');
+            });
+
+            // Handle Remove All button for the current dropdown
+            $('.remove-all-button').on('click', function() {
+                var $currentDropdown = $dropdown;
+                $currentDropdown.val(null).trigger('change');
+            });
+        });
+        $('.addAll_removeAll_btn').on('select2:open', function() {
+            var searchBoxHtml = `
+                <div class="extra-search-container">
+                    <input type="text" class="extra-search-box" placeholder="Search...">
+                    <button class="clear-button" type="button">&times;</button>
+                </div>`;
+            
+            if ($('.select2-results').find('.extra-search-container').length === 0) {
+                $('.select2-results').prepend(searchBoxHtml);
+            }
+
+            var $searchBox = $('.extra-search-box');
+            var $clearButton = $('.clear-button');
+
+            $searchBox.on('input', function() {
+
+                var searchTerm = $(this).val().toLowerCase();
+                $('.select2-results__option').each(function() {
+                    var text = $(this).text().toLowerCase();
+                    if (text.includes(searchTerm)) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+
+                $clearButton.toggle($searchBox.val().length > 0);
+            });
+
+            $clearButton.on('click', function() {
+                $searchBox.val('');
+                $searchBox.trigger('input');
+            });
+        });
+
+        $('.js-example-basic-multiple'+select_id).select2();
+
+        // Dynamically add the clear button
+        const clearButton = $('<span class="clear-btn">✖</span>');
+        $('.select2-container').append(clearButton);
+
+        // Handle the visibility of the clear button
+        function toggleClearButton() {
+
+            const selectedOptions = $('.js-example-basic-multiple'+select_id).val();
+            if (selectedOptions && selectedOptions.length > 0) {
+                clearButton.show();
+            } else {
+                clearButton.hide();
+            }
+        }
+
+        // Attach change event to select2
+        $('.js-example-basic-multiple'+select_id).on('change', toggleClearButton);
+
+        // Clear button click event
+        clearButton.click(function() {
+
+            $('.js-example-basic-multiple'+select_id).val(null).trigger('change');
+            toggleClearButton();
+        });
+
+        // Initial check
+        toggleClearButton();
+        $('.js-example-basic-multiple'+select_id).each(function() {
+            let listId = $(this).data('list-id');
+
+            let items = [];
+            console.log("listId",listId);
+            $('#' + listId + ' li').each(function() {
+                console.log("value",$(this).data('value'));
+                items.push({ id: $(this).data('value'), text: $(this).text() });
+            });
+            console.log("items",items);
+            $(this).select2({
+                data: items
+            });
+        });
+    }
 </script>
 @endsection

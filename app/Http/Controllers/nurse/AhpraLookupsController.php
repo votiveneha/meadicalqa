@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use Symfony\Component\DomCrawler\Crawler;
 //use Illuminate\Http\Client\ConnectionException;
+use Spatie\Browsershot\Browsershot;
 use Auth;
 use DB;
 
@@ -32,6 +33,8 @@ class AhpraLookupsController extends Controller
 
             
              $data2 = $response->json();
+
+             
             
             
             if ($response->successful()) {

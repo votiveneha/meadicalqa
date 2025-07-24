@@ -740,13 +740,14 @@ class NurseController extends Controller
         // $userid = $request->input('user_exp_id');       
         $userid = $request->input('user_exp_id');
         $email = Session::get('nurseemail');
-        $user_id = User::where('email', $email)->first();
-        if ($user_id) {
-            $userId = $user_id->id;
-        } else {
-            $userId = $userid;
-        }
-
+        //$user_id = User::where('email', $email)->first();
+        // if ($user_id) {
+        //     $userId = $user_id->id;
+        // } else {
+        //     $userId = $userid;
+        // }
+        $userId = $request->user_id;
+        $facility_workplace_name = $request->facility_workplace_name;
         $nurseTypes = $request->input('nurseType', []);
         $nursingType1 = $request->input('nursing_type_1', []);
         $nursingType2 = $request->input('nursing_type_2', []);
@@ -767,7 +768,11 @@ class NurseController extends Controller
         $surgical_operative_carep_1 =  $request->input('surgical_operative_carep_experience_1', []);
         $surgical_operative_carep_2 = $request->input('surgical_operative_carep_experience_2', []);
         $surgical_operative_carep_3 = $request->input('surgical_operative_carep_experience_3', []);
-        $positions_held = $request->input('positions_held', []);
+        $positions_held = $request->input('subpositions_held');
+
+        $subwork = $request->input('subwork');
+        
+        $subpwork = $request->input('subworkthlevel');
         $start_date =  $request->input('start_date');
         $end_date = $request->input('end_date');
         $present_box = $request->input('present_box', []);
@@ -801,6 +806,7 @@ class NurseController extends Controller
                 $p_box = 0;
             }
 
+            $facility_workplace_name1 = $facility_workplace_name[$key] ?? null;
             $entryLevel = $nursingType1[$key] ?? null;
             $registered = $nursingType2[$key] ?? null;
             $advanced = $nursingType3[$key] ?? null;
@@ -820,7 +826,8 @@ class NurseController extends Controller
             $surgical_operative_carep_1_1 = $surgical_operative_carep_1[$key] ?? null;
             $surgical_operative_carep_2_1 = $surgical_operative_carep_2[$key] ?? null;
             $surgical_operative_carep_3_1 = $surgical_operative_carep_3[$key] ?? null;
-            $positions_held1 = $positions_held[$key] ?? null;
+            $positions_held1 = json_encode($positions_held[$key]) ?? null;
+            $subpwork1 = json_encode($subpwork[$key]) ?? null;
             $start_date1 = $start_date[$key] ?? '0000-00-00';
             $end_date1 = $end_date[$key] ?? '0000-00-00';
             $job_responeblities1 = $job_responeblities[$key] ?? null;
@@ -897,6 +904,7 @@ class NurseController extends Controller
                 }
 
                 $run = ExperienceModel::where('experience_id', $exp_id_1)->update([
+                    'facility_workplace_name' => $facility_workplace_name1,
                     'nurseType' => json_encode($nurseType),
                     'entry_level_nursing' => json_encode($entryLevel),
                     'registered_nurses' => json_encode($registered),
@@ -918,6 +926,7 @@ class NurseController extends Controller
                     'neonatal_care' => json_encode($neonatal_care_1),
                     'paedia_surgical_preoperative' => json_encode($surgical_rowpad_box_1),
                     'position_held' => $positions_held1,
+                    'facility_workplace_type' => $subpwork1,
                     'employeement_start_date' => $start_date1,
                     'employeement_end_date' => $end_date1,
                     'responsiblities' => $job_responeblities1,
@@ -957,6 +966,7 @@ class NurseController extends Controller
                 }
                 $newExperience = new ExperienceModel();
                 $newExperience->user_id = $userId;
+                $newExperience->facility_workplace_name = $facility_workplace_name1;
                 $newExperience->nurseType = json_encode($nurseType);
                 $newExperience->entry_level_nursing = json_encode($entryLevel);
                 $newExperience->registered_nurses = json_encode($registered);
@@ -978,6 +988,7 @@ class NurseController extends Controller
                 $newExperience->neonatal_care = json_encode($neonatal_care_1);
                 $newExperience->paedia_surgical_preoperative = json_encode($surgical_rowpad_box_1);
                 $newExperience->position_held = $positions_held1;
+                $newExperience->facility_workplace_type = $subpwork1;
                 $newExperience->employeement_start_date = $start_date1;
                 $newExperience->employeement_end_date = $end_date1;
                 $newExperience->responsiblities = $job_responeblities1;

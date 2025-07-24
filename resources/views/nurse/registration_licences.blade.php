@@ -2800,7 +2800,7 @@ input:checked + .slider:before {
         $("#lookupSpinner").removeClass('d-none');
         $("#lookupSpinnerText").text('Checking AHPRA register');
         var user_registration_data = JSON.parse(localStorage.getItem("user_registration_data"));
-        console.log("registrationNumber",user_registration_data.registrationNumber);
+        //console.log("registrationNumber",user_registration_data.registrationNumber);
         $("#ahpra-lookup-result").hide();
         $(".manual_ahpra_lookup").hide();
         

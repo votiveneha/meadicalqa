@@ -152,14 +152,13 @@
                     </a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link" href="{{ route('admin.professionalMembership', ['id' => $profileData->id ?? null, 'tab' => 'tab-10']) }}" aria-selected="false"
+                    <a class="nav-link" href="{{ route('admin.professional_membership_awards', ['id' => $profileData->id]) }}" aria-selected="false"
                         tabindex="-1">
-                        <span>PProfessional Memberships & Awards</span>
+                        <span>Professional Memberships & Awards</span>
                     </a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link" data-bs-toggle="tab" href="#tab-11" role="tab" aria-selected="false"
-                        tabindex="-1">
+                    <a class="nav-link" href="{{ route('admin.editLanguageSkills', ['id' => $profileData->id]) }}">
                         <span>Language Skills</span>
                     </a>
                 </li>

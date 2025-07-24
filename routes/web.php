@@ -214,7 +214,26 @@ Route::prefix('/admin')->name('admin.')->namespace('App\Http\Controllers\admin')
     Route::post('/uploadLicensesEvidenceImgs', 'NurseprofileController@uploadLicensesEvidenceImgs')->name('uploadLicensesEvidenceImgs');
     Route::post('/deleteLicensesEvidenceImg', 'NurseprofileController@deleteLicensesEvidenceImg')->name('deleteLicensesEvidenceImg');
     Route::post('/fetch-ahpra-details', 'AhpraLookupsController@getAhpraDetails')->name('getAhpraDetails');
-    
+    Route::get('/mandatory_training_edit/{id}', 'NurseprofileController@mandatory_training_edit')->name('mandatory_training_edit');
+    Route::get('/professional_membership_awards/{id}', 'MembershipController@index')->name('professional_membership_awards');
+    Route::any('/getCountryOrgnizations','MembershipController@getCountryOrgnizations')->name('getCountryOrgnizations');
+    Route::any('/getCountrySubOrgnizations','MembershipController@getCountrySubOrgnizations')->name('getCountrySubOrgnizations');
+    Route::any('/getMembershipData','MembershipController@getMembershipData')->name('getMembershipData');
+    Route::any('/getSubMembershipData','MembershipController@getSubMembershipData')->name('getSubMembershipData');
+    Route::any('/getawardsRecognitions','MembershipController@getawardsRecognitions')->name('getawardsRecognitions');
+    Route::post('/updateProfessionalMembership', 'MembershipController@updateProfessionalMembership')->name('updateProfessionalMembership');
+    Route::post('/uploadMembershipImgs', 'MembershipController@uploadMembershipImgs')->name('uploadMembershipImgs');
+    Route::post('/uploadAwardImgs', 'MembershipController@uploadAwardImgs')->name('uploadAwardImgs');
+    Route::post('/deleteEvidenceImg', 'MembershipController@deleteEvidenceImg')->name('deleteEvidenceImg');
+    Route::post('/deleteAwardEvidenceImg', 'MembershipController@deleteAwardEvidenceImg')->name('deleteAwardEvidenceImg');
+    Route::get('/addlanguage_skills/{id}', 'LanguageSkillsController@editLanguageSkills')->name('editLanguageSkills');
+    Route::get('/getLanguagesData', 'LanguageSkillsController@getLanguagesData')->name('getLanguagesData');
+    Route::get('/getSubLanguagesData', 'LanguageSkillsController@getSubLanguagesData')->name('getSubLanguagesData');
+    Route::get('/getTestLanguagesData', 'LanguageSkillsController@getTestLanguagesData')->name('getTestLanguagesData');
+    Route::post('/updateLanguageSkills', 'LanguageSkillsController@updateLanguageSkills')->name('updateLanguageSkills');
+    Route::post('/uploadlangEvidenceImgs', 'LanguageSkillsController@uploadlangEvidenceImgs')->name('uploadlangEvidenceImgs');
+    Route::post('/deletelangEvidenceImg', 'LanguageSkillsController@deletelangEvidenceImg')->name('deletelangEvidenceImg');
+
     /************[Nurse Profile Vaccination]*************/
     Route::post('/addNurseVaccination', 'NurseController@addNurseVaccination')->name('addNurseVaccination');
     Route::any('/updateVaccinationRecord/{id?}', 'NurseController@updateVaccinationRecord')->name('updateVaccinationRecord');
