@@ -92,80 +92,7 @@
     </div>
     <div class="card">
         <div class="card-body">
-            <ul class="nav nav-pills nav-fill mt-4 tabs-feat" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link active" data-bs-toggle="tab" href="#tab-1" role="tab"
-                        aria-selected="true">
-                        <span>Basic Details</span>
-                    </a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" data-bs-toggle="tab" href="#tab-2" role="tab" aria-selected="false"
-                        tabindex="-1">
-                        <span>Setting</span>
-                    </a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link {{ Route::currentRouteName() == 'admin.add_registration_licences' ? 'active' : '' }}" href="{{ route('admin.add_registration_licences', ['id' => $profileData->id ]) }}">
-                        <span>Registrations and Licences</span>
-                    </a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" data-bs-toggle="tab" href="#tab-3" role="tab" aria-selected="false"
-                        tabindex="-1">
-                        <span>Profession</span>
-                    </a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" data-bs-toggle="tab" href="#tab-4" role="tab" aria-selected="false"
-                        tabindex="-1">
-                        <span>Education and Certifications</span>
-                    </a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" data-bs-toggle="tab" href="#tab-7" role="tab" aria-selected="false"
-                        tabindex="-1">
-                        <span>Mandatory Training</span>
-                    </a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" href="{{ route('admin.exptab', ['id' => $profileData->id ?? null, 'tab' => 'tab-7']) }}" tabindex="-1">
-                        <span>Experience</span>
-                    </a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" data-bs-toggle="tab" href="#tab-6" role="tab" aria-selected="false"
-                        tabindex="-1">
-                        <span>References</span>
-                    </a>
-                </li>
-                
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" href="{{ route('admin.updateVaccinationRecord', ['id' => $profileData->id ?? null, 'tab' => 'tab-8']) }}" aria-selected="false">
-                        <span>Vaccinations</span>
-                    </a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" href="{{ route('admin.updateWorkClreance', ['id' => $profileData->id ?? null, 'tab' => 'tab-9']) }}" aria-selected="false"
-                        tabindex="-1">
-                        <span>Checks and Clearances</span>
-                    </a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" href="{{ route('admin.professional_membership_awards', ['id' => $profileData->id]) }}" aria-selected="false"
-                        tabindex="-1">
-                        <span>Professional Memberships & Awards</span>
-                    </a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" href="{{ route('admin.editLanguageSkills', ['id' => $profileData->id]) }}">
-                        <span>Language Skills</span>
-                    </a>
-                </li>
-                
-
-
-            </ul>
+            @include("admin.layouts.edit_nurse_tabs")
             {{-- <form method="post" enctype="multipart/form-data" id="AddNurse"> --}}
             <!-- Tab panes -->
             <div class="tab-content border mt-2">
@@ -3173,6 +3100,49 @@
 
 <script>
     $(document).ready(function() {
+
+        var url_string = window.location.href;
+        var url = new URL(url_string);
+        var c = url.searchParams.get("tab");
+        if (c == "tab-3") {
+
+            $(".tab-pane").hide();
+            
+            $("#tab-3").show();
+            $(".nav-link").removeClass("active");
+            $("#profession_link").addClass("active");
+
+        }
+
+        if (c == "tab-1") {
+            
+            $(".tab-pane").hide();
+            
+            $("#tab-1").show();
+            $(".nav-link").removeClass("active");
+            $("#basic_details_link").addClass("active");
+
+        }
+
+        if (c == "tab-4") {
+            
+            $(".tab-pane").hide();
+            
+            $("#tab-4").show();
+            $(".nav-link").removeClass("active");
+            $("#edu_cert_link").addClass("active");
+
+        }
+
+        if (c == "tab-6") {
+            
+            $(".tab-pane").hide();
+            
+            $("#tab-6").show();
+            $(".nav-link").removeClass("active");
+            $("#references_link").addClass("active");
+
+        }
         // Get the current query string parameter
         let urlParams = new URLSearchParams(window.location.search);
         let tabParam = urlParams.get('tab');

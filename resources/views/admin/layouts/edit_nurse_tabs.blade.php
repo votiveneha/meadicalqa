@@ -1,12 +1,11 @@
 <ul class="nav nav-pills nav-fill mt-4 tabs-feat" role="tablist">
     <li class="nav-item" role="presentation">
-        <a class="nav-link" href="#">
+        <a id="basic_details_link" class="nav-link" href="{{ route('admin.edit_nurse', ['id' => $profileData->id ]) }}?tab=tab-1">
             <span>Basic Details</span>
         </a>
     </li>
     <li class="nav-item" role="presentation">
-        <a class="nav-link"  data-bs-toggle="tab" href="{{ route('admin.edit_nurse', ['id' => $profileData->id ]) }}?tab=tab-2"  role="tab" aria-selected="false"
-            tabindex="-1">
+        <a class="nav-link {{ Route::currentRouteName() == 'admin.setting_availablity' ? 'active' : '' }}" href="{{ route('admin.setting_availablity', ['id' => $profileData->id ]) }}" href="{{ route('admin.setting_availablity', ['id' => $profileData->id ]) }}">
             <span>Setting & Availability</span>
         </a>
     </li>
@@ -16,53 +15,50 @@
         </a>
     </li>
     <li class="nav-item" role="presentation">
-        <a class="nav-link" data-bs-toggle="tab" href="#tab-3" role="tab" aria-selected="false"
-            tabindex="-1">
+        <a id="profession_link" class="nav-link" href="{{ route('admin.edit_nurse', ['id' => $profileData->id ]) }}?tab=tab-3">
             <span>Profession</span>
         </a>
     </li>
     <li class="nav-item" role="presentation">
-        <a class="nav-link" data-bs-toggle="tab" href="#tab-4" role="tab" aria-selected="false"
-            tabindex="-1">
+        <a id="edu_cert_link" class="nav-link" href="{{ route('admin.edit_nurse', ['id' => $profileData->id ]) }}?tab=tab-4">
             <span>Education and Certifications</span>
         </a>
     </li>
     <li class="nav-item" role="presentation">
-        <a class="nav-link" href="{{ route('admin.mandatory_training_edit', ['id' => $profileData->id ]) }}">
+        <a class="nav-link {{ Route::currentRouteName() == 'admin.mandatory_training_edit' ? 'active' : '' }}" href="{{ route('admin.mandatory_training_edit', ['id' => $profileData->id ]) }}">
             <span>Mandatory Training and Continuing Education</span>
         </a>
     </li>
+    
     <li class="nav-item" role="presentation">
-        <a class="nav-link" href="{{ route('admin.exptab', ['id' => $profileData->id ?? null, 'tab' => 'tab-7']) }}" tabindex="-1">
+        <a class="nav-link {{ Route::currentRouteName() == 'admin.exptab' ? 'active' : '' }}" href="{{ route('admin.exptab', ['id' => $profileData->id]) }}">
             <span>Experience</span>
         </a>
     </li>
     <li class="nav-item" role="presentation">
-        <a class="nav-link" data-bs-toggle="tab" href="#tab-6" role="tab" aria-selected="false"
-            tabindex="-1">
+        <a id="references_link" class="nav-link" href="{{ route('admin.edit_nurse', ['id' => $profileData->id ]) }}?tab=tab-6">
             <span>References</span>
         </a>
     </li>
     
     <li class="nav-item" role="presentation">
-        <a class="nav-link" href="{{ route('admin.updateVaccinationRecord', ['id' => $profileData->id ?? null, 'tab' => 'tab-8']) }}" aria-selected="false">
+        <a class="nav-link {{ Route::currentRouteName() == 'admin.updateVaccinationRecord' ? 'active' : '' }}" href="{{ route('admin.updateVaccinationRecord', ['id' => $profileData->id ?? null, 'tab' => 'tab-8']) }}">
             <span>Vaccinations</span>
         </a>
     </li>
     <li class="nav-item" role="presentation">
-        <a class="nav-link" href="{{ route('admin.updateWorkClreance', ['id' => $profileData->id ?? null, 'tab' => 'tab-9']) }}" aria-selected="false"
-            tabindex="-1">
+        <a class="nav-link {{ Route::currentRouteName() == 'admin.updateWorkClreance' ? 'active' : '' }}" href="{{ route('admin.updateWorkClreance', ['id' => $profileData->id ?? null, 'tab' => 'tab-8']) }}" href="{{ route('admin.updateWorkClreance', ['id' => $profileData->id ?? null, 'tab' => 'tab-9']) }}">
             <span>Checks and Clearances</span>
         </a>
     </li>
     <li class="nav-item" role="presentation">
-        <a class="nav-link" href="{{ route('admin.professional_membership_awards', ['id' => $profileData->id]) }}" aria-selected="false"
+        <a class="nav-link {{ Route::currentRouteName() == 'admin.professional_membership_awards' ? 'active' : '' }}" href="{{ route('admin.professional_membership_awards', ['id' => $profileData->id]) }}" aria-selected="false"
             tabindex="-1">
             <span>Professional Memberships & Awards</span>
         </a>
     </li>
     <li class="nav-item" role="presentation">
-        <a class="nav-link" href="{{ route('admin.editLanguageSkills', ['id' => $profileData->id]) }}">
+        <a class="nav-link {{ Route::currentRouteName() == 'admin.editLanguageSkills' ? 'active' : '' }}" href="{{ route('admin.editLanguageSkills', ['id' => $profileData->id]) }}">
             <span>Language Skills</span>
         </a>
     </li>

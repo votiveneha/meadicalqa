@@ -2320,7 +2320,9 @@ class NurseController extends Controller
     }
 
     public function setting_availablity(Request $request){
-        return view('admin.setting_availablity');
+        $data['profileData']  = $this->nurseRepository->getOneUser(['id' => $request->id]);
+        $data['user_data']  = DB::table("users")->where("id",$request->id)->first();
+        return view('admin.setting_availablity')->with($data);
     }
 
     public function update_profession_profile_setting(Request $request)
