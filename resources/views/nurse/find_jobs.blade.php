@@ -448,16 +448,24 @@
                             <span class="slider round"></span>
                         </label>
                       </li>
-                      <li class="filter-item" onclick="openModal('Employment Type','employeement_type_content')">
+                      <li class="filter-item" onclick="openModal('Employment Type','employeement_type_preferences','sub_prefer_id','emp_prefer_id','emp_type')">
                         <span>Employment Type</span>
                         <span class="arrow">›</span>
                       </li>
-                      <li class="filter-item" onclick="openModal('Shift Type','shift_type_content')">
+                      <li class="filter-item" onclick="openModal('Shift Type','work_shift_preferences','shift_id','work_shift_id','shift_name','sub_shift_id')">
                         <span>Shift Type</span>
                         <span class="arrow">›</span>
                       </li>
-                      <li class="filter-item" onclick="openModal('Work Environment','work_environment')">
+                      <li class="filter-item" onclick="openModal_enviroment('Work Environment','work_enviornment_preferences','prefer_id','env_name','sub_env_id','sub_envp_id')">
                         <span>Work Environment</span>
+                        <span class="arrow">›</span>
+                      </li>
+                      <li class="filter-item" onclick="openModal('Position','employee_positions','subposition_id','position_id','position_name')">
+                        <span>Position</span>
+                        <span class="arrow">›</span>
+                      </li>
+                      <li class="filter-item" onclick="openModal('Benefits','benefits_preferences','subbenefit_id','benefits_id','benefits_name')">
+                        <span>Benefits</span>
                         <span class="arrow">›</span>
                       </li>
                       <li class="filter-item">
@@ -480,10 +488,7 @@
                         <span>Facility Type</span>
                         <span class="arrow">›</span>
                       </li>
-                      <li class="filter-item">
-                        <span>Benefits</span>
-                        <span class="arrow">›</span>
-                      </li>
+                      
                     </ul>
                   </div>
 
@@ -563,113 +568,122 @@
         </div>
         <!-- Modal Overlay -->
         <div id="employmentModal" class="modal-overlay" style="display: none;">
-          <div class="modal-content" id="employeement_type_content" style="display:none;">
-            <!-- Header -->
-            <div class="modal-header">
-              <h2>Employment Type</h2>
-              <button class="close-btn" onclick="closeModal()">×</button>
-            </div>
-            <p class="modal-subtext">Your saved preferences are pre-filled. You can adjust below.</p>
-
-            
-            <!-- Scrollable Filter Section -->
-            <div class="modal-body">
-
-              @foreach($employeement_type_data as $employeement_type)
-               <div class="accordion-section">
-                <div class="accordion-header" onclick="toggleAccordion(this)">
-                  <strong>{{ $employeement_type->emp_type }}</strong>
-                  <div class="action-links">
-                    <a href="#" onclick="selectAll(event, 'perm')">Select All</a> |
-                    <a href="#" onclick="clearAll(event, 'perm')">Clear All</a>
-                  </div>
-                </div>
-                <?php
-                  $subemp_type = DB::table("employeement_type_preferences")->where("sub_prefer_id",$employeement_type->emp_prefer_id)->get();
-                ?>
-                <div class="accordion-content" id="perm">
-                  @foreach($subemp_type as $subemp)
-                  <label><input type="checkbox"> {{ $subemp->emp_type }}</label>
-                  @endforeach
-                </div>
-              </div>
-              @endforeach
-              
-            </div>
+          <div class="modal-content">
+           
+          
           </div>
-          <div class="modal-content" id="shift_type_content" style="display:none;">
-            <div class="modal-header">
-              <h2>Shift Type</h2>
-              <button class="close-btn" onclick="closeModal()">×</button>
-            </div>
-            <p class="modal-subtext">Your saved preferences are pre-filled. You can adjust below.</p>
+          
+        </div>
 
-            
-            <!-- Scrollable Filter Section -->
-            <div class="modal-body">
-
-              @foreach($shift_type_data as $shift_type)
-              <div class="accordion-section">
-                <div class="accordion-header" onclick="toggleAccordion(this)">
-                  <strong>{{ $shift_type->shift_name }}</strong>
-                  <div class="action-links">
-                    <a href="#" onclick="selectAll(event, 'perm')">Select All</a> |
-                    <a href="#" onclick="clearAll(event, 'perm')">Clear All</a>
-                  </div>
-                </div>
-                <?php
-                  
-                  $subshift_type = DB::table("work_shift_preferences")->where("shift_id",$shift_type->work_shift_id)->where("sub_shift_id",NULL)->get();
-                  
-                ?>
-                <div class="accordion-content" id="perm">
-                  @foreach($subshift_type as $subshift)
-                  <label><input type="checkbox" @if($subshift->work_shift_id == "61")id="specificDaysToggle" onchange="toggleSpecificDays()" @endif> {{ $subshift->shift_name }}</label>
-                  
-                  
-                  @endforeach
-                </div>
-                @if($subshift->work_shift_id == "61")
-                <div id="specificDaysSection" style="display: none; margin-top: 10px;">
-                  <div class="accordion-header">
-                    <strong>Specific Days Off</strong>
-                    <div class="action-links">
-                      <a href="#" onclick="selectAll(event, 'specificDays')">Select All</a> |
-                      <a href="#" onclick="clearAll(event, 'specificDays')">Clear All</a>
-                    </div>
-                  </div>
-                  <?php
-                    $subsubdays = DB::table("work_shift_preferences")->where("shift_id","8")->where("sub_shift_id","61")->get();
-                  ?>
-                
-                  <div class="accordion-content" id="specificDays">
-                    @foreach($subsubdays as $subdays) 
-                      <label><input type="checkbox"> {{ $subdays->shift_name }}</label>
-                    @endforeach  
-                  </div>
-                </div>
-              </div>
-              @endif
-              @endforeach
-              
-            </div>
+        <div id="shiftModal" class="modal-overlay" style="display: none;">
+          <div class="modal-content">
+           
+          
           </div>
+          
         </div>
     </section>
 </main>
 @endsection
 @section('js')
 <script>
-  function openModal(filter_type,filter_id) {
-    var modal_heading = $("#"+filter_id+" .modal-header h2").text();
-    console.log("modal_heading",modal_heading);
-    if(filter_type == modal_heading){
-      $(".modal-content").hide();
-      $("#"+filter_id).show();
-    }
+  function openModal(filter_type,table_name,column_name,main_column_id,column_type) {
+    // var modal_heading = $("#"+filter_id+" .modal-header h2").text();
+    console.log("modal_heading",filter_type);
+    // if(filter_type == modal_heading){
+    //   $(".modal-content").hide();
+    //   $("#"+filter_id).show();
+    // }
     document.getElementById("employmentModal").style.display = "flex";
+    $.ajax({
+      type: "post",
+      url: "{{ url('/nurse/getWorkFlexiblityData') }}",
+      data: {filter_type:filter_type,table_name:table_name,column_name:column_name,main_column_id:main_column_id,column_type:column_type,_token:"{{ csrf_token() }}"},
+      cache: false,
+      success: function(data){
+        var data1 = JSON.parse(data);
+        console.log("data",data1);
+        var accordian_section = '';
 
-    
+        for(var i = 0;i<data1.length;i++){
+          var sub_types = data1[i].sub_types;
+          var sub_data = '';
+
+          for(var j = 0;j<sub_types.length;j++){
+            sub_data += '<label><input type="checkbox"> '+sub_types[j].name+'</label>'
+          }
+          console.log("data.id",data1[i].id);
+          if(data1[i].name != "Other" && data1[i].name != "All/No Preference"){
+            
+            accordian_section += '<div class="accordion-section">\
+                <div class="accordion-header" onclick="toggleAccordion(this)">\
+                  <strong>'+data1[i].name+'</strong>\
+                </div>\
+                <div class="accordion-content" id="perm">'+sub_data+'</div>\
+              </div>';
+          }
+
+        }
+
+
+
+        $(".modal-content").html('\<div class="modal-header">\
+              <h2>'+filter_type+'</h2>\
+              <button class="close-btn" onclick="closeModal()">×</button>\
+            </div>\
+            <p class="modal-subtext">Your saved preferences are pre-filled. You can adjust below.</p>\
+            <div class="modal-body">'+accordian_section+'</div>\
+            ');
+      }
+    });      
+
+  }
+
+  function openModal_enviroment(filter_type,table_name,column_name1,column_name2,column_name3,column_name4) {
+    document.getElementById("shiftModal").style.display = "flex";
+
+    $.ajax({
+      type: "post",
+      url: "{{ url('/nurse/getWorkEnvironmentData') }}",
+      data: {filter_type:filter_type,table_name:table_name,column_name1:column_name1,column_name2:column_name2,column_name3:column_name3,column_name4:column_name4,_token:"{{ csrf_token() }}"},
+      cache: false,
+      success: function(data){
+        var data1 = JSON.parse(data);
+        console.log("data",data1);
+        var accordian_section = '';
+
+        for(var i = 0;i<data1.length;i++){
+          var sub_types = data1[i].sub_types;
+          var sub_data = '';
+
+          for(var j = 0;j<sub_types.length;j++){
+            sub_data += '<label><input type="checkbox"> '+sub_types[j].name+'</label>'
+          }
+          console.log("data.id",data1[i].id);
+          
+          if(data1[i].name != "All/No Preference"){  
+            accordian_section += '<div class="accordion-section">\
+                <div class="accordion-header" onclick="toggleAccordion(this)">\
+                  <strong>'+data1[i].name+'</strong>\
+                </div>\
+                <div class="accordion-content" id="perm">'+sub_data+'</div>\
+              </div>';
+          }
+
+        }
+
+
+
+        $(".modal-content").html('\<div class="modal-header">\
+              <h2>'+filter_type+'</h2>\
+              <button class="close-btn" onclick="closeModal()">×</button>\
+            </div>\
+            <p class="modal-subtext">Your saved preferences are pre-filled. You can adjust below.</p>\
+            <div class="modal-body">'+accordian_section+'</div>\
+            ');
+      }
+    });      
+
   }
 
   function closeModal() {
