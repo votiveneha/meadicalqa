@@ -377,6 +377,104 @@
     text-decoration: none;
   }
 
+  .third-level{
+    display:none;
+    margin-left:20px;
+  }
+
+  .panel {
+      width: 50%;
+      padding: 10px;
+      
+    }
+
+    .panel.left {
+      border-right: 1px solid #ddd;
+    }
+
+    .panel.left, .panel.right {
+      padding: 16px;
+      overflow-y: auto;
+    }
+
+    .search-box {
+      margin-bottom: 10px;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 6px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .list-item {
+      padding: 8px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+
+    .list-item:hover {
+      background-color: #f2f2f2;
+    }
+
+    .checkbox-list {
+        max-height: 60vh;
+        overflow-y: auto;
+        padding-right: 10px;
+    }
+
+    .checkbox-list label {
+      display: flex;
+      align-items: center;
+      margin: 6px 0;
+    }
+
+    .checkbox-list input[type="checkbox"] {
+      margin-right: 10px;
+    }
+
+    .modal-actions {
+      margin-top: 15px;
+      text-align: right;
+    }
+
+    .modal-actions button {
+      padding: 8px 14px;
+      margin-left: 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .cancel-btn {
+      background-color: #f0f0f0;
+    }
+
+    .apply-btn {
+      background-color: #1e293b;
+      color: white;
+    }
+
+    .modal-header {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .select-bar {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      margin-bottom: 5px;
+    }
+
+    .select-bar span {
+      color: #1e293b;
+      cursor: pointer;
+    }
+
+
+
 
   </style>
 @endsection
@@ -452,11 +550,11 @@
                         <span>Employment Type</span>
                         <span class="arrow">›</span>
                       </li>
-                      <li class="filter-item" onclick="openModal('Shift Type','work_shift_preferences','shift_id','work_shift_id','shift_name','sub_shift_id')">
+                      <li class="filter-item" onclick="openModal_enviroment('Shift Type')">
                         <span>Shift Type</span>
                         <span class="arrow">›</span>
                       </li>
-                      <li class="filter-item" onclick="openModal_enviroment('Work Environment','work_enviornment_preferences','prefer_id','env_name','sub_env_id','sub_envp_id')">
+                      <li class="filter-item" onclick="openModal_enviroment('Work Environment')">
                         <span>Work Environment</span>
                         <span class="arrow">›</span>
                       </li>
@@ -468,10 +566,15 @@
                         <span>Benefits</span>
                         <span class="arrow">›</span>
                       </li>
+                       <li class="filter-item" onclick="openNurseModal('Type of nurse')">
+                        <span>Type of nurse</span>
+                        <span class="arrow">›</span>
+                      </li>
                       <li class="filter-item">
                         <span>Specialty</span>
                         <span class="arrow">›</span>
                       </li>
+                     
                       <li class="filter-item">
                         <span>Years of Experience</span>
                         <span class="arrow">›</span>
@@ -566,153 +669,8 @@
                 </div>
             </div>
         </div>
-        <!-- Modal Overlay -->
-        <div id="employmentModal" class="modal-overlay" style="display: none;">
-          <div class="modal-content">
-           
-          
-          </div>
-          
-        </div>
-
-        <div id="shiftModal" class="modal-overlay" style="display: none;">
-          <div class="modal-content">
-           
-          
-          </div>
-          
-        </div>
+        @include('nurse.job_modals')
+        
     </section>
 </main>
-@endsection
-@section('js')
-<script>
-  function openModal(filter_type,table_name,column_name,main_column_id,column_type) {
-    // var modal_heading = $("#"+filter_id+" .modal-header h2").text();
-    console.log("modal_heading",filter_type);
-    // if(filter_type == modal_heading){
-    //   $(".modal-content").hide();
-    //   $("#"+filter_id).show();
-    // }
-    document.getElementById("employmentModal").style.display = "flex";
-    $.ajax({
-      type: "post",
-      url: "{{ url('/nurse/getWorkFlexiblityData') }}",
-      data: {filter_type:filter_type,table_name:table_name,column_name:column_name,main_column_id:main_column_id,column_type:column_type,_token:"{{ csrf_token() }}"},
-      cache: false,
-      success: function(data){
-        var data1 = JSON.parse(data);
-        console.log("data",data1);
-        var accordian_section = '';
-
-        for(var i = 0;i<data1.length;i++){
-          var sub_types = data1[i].sub_types;
-          var sub_data = '';
-
-          for(var j = 0;j<sub_types.length;j++){
-            sub_data += '<label><input type="checkbox"> '+sub_types[j].name+'</label>'
-          }
-          console.log("data.id",data1[i].id);
-          if(data1[i].name != "Other" && data1[i].name != "All/No Preference"){
-            
-            accordian_section += '<div class="accordion-section">\
-                <div class="accordion-header" onclick="toggleAccordion(this)">\
-                  <strong>'+data1[i].name+'</strong>\
-                </div>\
-                <div class="accordion-content" id="perm">'+sub_data+'</div>\
-              </div>';
-          }
-
-        }
-
-
-
-        $(".modal-content").html('\<div class="modal-header">\
-              <h2>'+filter_type+'</h2>\
-              <button class="close-btn" onclick="closeModal()">×</button>\
-            </div>\
-            <p class="modal-subtext">Your saved preferences are pre-filled. You can adjust below.</p>\
-            <div class="modal-body">'+accordian_section+'</div>\
-            ');
-      }
-    });      
-
-  }
-
-  function openModal_enviroment(filter_type,table_name,column_name1,column_name2,column_name3,column_name4) {
-    document.getElementById("shiftModal").style.display = "flex";
-
-    $.ajax({
-      type: "post",
-      url: "{{ url('/nurse/getWorkEnvironmentData') }}",
-      data: {filter_type:filter_type,table_name:table_name,column_name1:column_name1,column_name2:column_name2,column_name3:column_name3,column_name4:column_name4,_token:"{{ csrf_token() }}"},
-      cache: false,
-      success: function(data){
-        var data1 = JSON.parse(data);
-        console.log("data",data1);
-        var accordian_section = '';
-
-        for(var i = 0;i<data1.length;i++){
-          var sub_types = data1[i].sub_types;
-          var sub_data = '';
-
-          for(var j = 0;j<sub_types.length;j++){
-            sub_data += '<label><input type="checkbox"> '+sub_types[j].name+'</label>'
-          }
-          console.log("data.id",data1[i].id);
-          
-          if(data1[i].name != "All/No Preference"){  
-            accordian_section += '<div class="accordion-section">\
-                <div class="accordion-header" onclick="toggleAccordion(this)">\
-                  <strong>'+data1[i].name+'</strong>\
-                </div>\
-                <div class="accordion-content" id="perm">'+sub_data+'</div>\
-              </div>';
-          }
-
-        }
-
-
-
-        $(".modal-content").html('\<div class="modal-header">\
-              <h2>'+filter_type+'</h2>\
-              <button class="close-btn" onclick="closeModal()">×</button>\
-            </div>\
-            <p class="modal-subtext">Your saved preferences are pre-filled. You can adjust below.</p>\
-            <div class="modal-body">'+accordian_section+'</div>\
-            ');
-      }
-    });      
-
-  }
-
-  function closeModal() {
-    document.getElementById("employmentModal").style.display = "none";
-  }
-
-  function toggleAccordion(header) {
-    const content = header.nextElementSibling;
-    const isOpen = content.style.display === 'block';
-    content.style.display = isOpen ? 'none' : 'block';
-  }
-
-  function selectAll(e, id) {
-    e.preventDefault();
-    const section = document.getElementById(id);
-    section.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = true);
-  }
-
-  function clearAll(e, id) {
-    e.preventDefault();
-    const section = document.getElementById(id);
-    section.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
-  }
-
-  function toggleSpecificDays() {
-    const checkbox = document.getElementById("specificDaysToggle");
-    const section = document.getElementById("specificDaysSection");
-    section.style.display = checkbox.checked ? "block" : "none";
-  }
-</script>
-
 @endsection
