@@ -34,6 +34,17 @@ class JobsController extends Controller{
     {
         $data['employeement_type_data'] = DB::table("employeement_type_preferences")->where("sub_prefer_id",0)->get();
         $data['shift_type_data'] = DB::table("work_shift_preferences")->where("shift_id",0)->where("sub_shift_id",NULL)->get();
+        $data['work_environment_data'] = DB::table("work_enviornment_preferences")
+            ->where("sub_env_id", 0)
+            ->where("sub_envp_id", 0)
+            ->get();
+        $data['work_shift_data'] = DB::table("work_shift_preferences")
+            ->where("shift_id", 0)
+            ->where("sub_shift_id", NULL)
+            ->get();    
+        $data['type_of_nurse'] = DB::table("practitioner_type")
+            ->where("parent", 0)
+            ->get();        
         return view('nurse.find_jobs')->with($data);
     }
 
@@ -74,31 +85,67 @@ class JobsController extends Controller{
 
     public function getWorkEnvironmentData(Request $request)
     {
-        $employeement_type_data = DB::table("work_enviornment_preferences")->where("sub_env_id",0)->where("sub_envp_id",0)->get()->map(function ($item) {
-            return (array) $item;
-        })->toArray();
+        $employeement_type_data = DB::table("work_enviornment_preferences")
+            ->where("sub_env_id", 0)
+            ->where("sub_envp_id", 0)
+            ->get()
+            ->map(function ($item) {
+                return (array) $item;
+            })
+            ->toArray();
 
         $nested = [];
-        foreach($employeement_type_data as $employeement_type){
-            $subemp_type = DB::table("work_enviornment_preferences")->where("sub_env_id",$employeement_type['prefer_id'])->where("sub_envp_id",0)->get();
-            
+
+        foreach ($employeement_type_data as $employeement_type) {
+            $subemp_type = DB::table("work_enviornment_preferences")
+                ->where("sub_env_id", $employeement_type['prefer_id'])
+                ->where("sub_envp_id", 0)
+                ->get();
+
             $nested[] = [
                 'id' => $employeement_type['prefer_id'],
-                'name' => $employeement_type['env_name'], // Adjust field names as per your DB
-                'sub_types' => $subemp_type->map(function($item){
-                    $items = (array)$item;
+                'name' => $employeement_type['env_name'],
+                'sub_types' => $subemp_type->map(function ($item) {
+                    $items = (array) $item;
+
+                    // Third level: subsub_types
+                    $subsub_type = DB::table("work_enviornment_preferences")
+                        ->where("sub_envp_id", $items['prefer_id']) // 3rd level based on sub_envp_id
+                        ->get()
+                        ->map(function ($third) {
+                            $third_item = (array) $third;
+                            return [
+                                'id' => $third_item['prefer_id'],
+                                'name' => $third_item['env_name']
+                            ];
+                        });
+
                     return [
                         'id' => $items['prefer_id'],
-                        'name' => $items['env_name'] // Adjust as needed
+                        'name' => $items['env_name'],
+                        'subsub_types' => $subsub_type
                     ];
                 })
             ];
         }
 
-
-        // Convert to JSON (optional)
         $json = json_encode($nested, JSON_PRETTY_PRINT);
 
+        // Return as JSON
         return $json;
     }
+
+    public function getNurseData(Request $request)
+    {
+        $nurse_id = $request->nurse_id;
+        $nurse_data = DB::table("practitioner_type")->where("parent",$nurse_id)->get();
+        $ndatas = array();
+        foreach($nurse_data as $ndata){
+            $ndatas['id'] = $ndata->id;
+            $ndatas['name'] = $ndata->name;
+            $ndatas['parent'] = $ndata->parent;
+        }
+        return json_encode($nurse_data);
+    }
+
 }
