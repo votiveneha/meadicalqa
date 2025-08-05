@@ -418,19 +418,19 @@
       background-color: #f2f2f2;
     }
 
-    .checkbox-list {
+    .checkbox-list,.checkbox-list-spec {
         max-height: 60vh;
         overflow-y: auto;
         padding-right: 10px;
     }
 
-    .checkbox-list label {
+    .checkbox-list label, .checkbox-list-spec label {
       display: flex;
       align-items: center;
       margin: 6px 0;
     }
 
-    .checkbox-list input[type="checkbox"] {
+    .checkbox-list input[type="checkbox"], .checkbox-list-spec input[type="checkbox"] {
       margin-right: 10px;
     }
 
@@ -570,7 +570,7 @@
                         <span>Type of nurse</span>
                         <span class="arrow">›</span>
                       </li>
-                      <li class="filter-item">
+                      <li class="filter-item" onclick="openSpecialityModal('Speciality')">
                         <span>Specialty</span>
                         <span class="arrow">›</span>
                       </li>
