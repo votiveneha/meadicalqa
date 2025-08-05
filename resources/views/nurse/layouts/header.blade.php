@@ -87,7 +87,7 @@
           <nav class="nav-main-menu">
             <ul class="main-menu">
               <li class="">
-                <a class='menu-link hover-up' href='{{ route("nurse.dashboard") }}'>Find Jobs</a>
+                <a class='menu-link hover-up' href='{{ route("nurse.find_jobs") }}'>Find Jobs</a>
               </li>
               <li class="">
                 <a class='hover-up' href='{{ route("nurse.dashboard") }}'>My Jobs / MyApplications</a>
