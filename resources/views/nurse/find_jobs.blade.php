@@ -473,6 +473,39 @@
       cursor: pointer;
     }
 
+    .filter-item {
+  list-style: none;
+  border-bottom: 1px solid #ddd;
+  padding: 12px 16px;
+}
+
+.filter-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.arrow {
+  transition: transform 0.3s ease;
+}
+
+.arrow.rotated {
+  transform: rotate(90deg);
+}
+
+.sector-options {
+  display: none;
+  margin-top: 10px;
+  padding-left: 10px;
+}
+
+.sector-options label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
 
 
 
@@ -546,6 +579,12 @@
                             <span class="slider round"></span>
                         </label>
                       </li>
+                      <li class="filter-item" onclick="openSectorModal()">
+                        <span>Sector</span>
+                        <span class="arrow">›</span>
+                      </li>
+
+
                       <li class="filter-item" onclick="openModal('Employment Type','employeement_type_preferences','sub_prefer_id','emp_prefer_id','emp_type')">
                         <span>Employment Type</span>
                         <span class="arrow">›</span>
@@ -575,22 +614,19 @@
                         <span class="arrow">›</span>
                       </li>
                      
-                      <li class="filter-item">
+                      <li class="filter-item" onclick="openYearExperienceModal()">
                         <span>Years of Experience</span>
                         <span class="arrow">›</span>
                       </li>
-                      <li class="filter-item">
+                      <!-- <li class="filter-item">
                         <span>Certifications</span>
                         <span class="arrow">›</span>
-                      </li>
-                      <li class="filter-item">
+                      </li> -->
+                      <li class="filter-item" onclick="openSalaryModal()">
                         <span>Salary Range</span>
                         <span class="arrow">›</span>
                       </li>
-                      <li class="filter-item">
-                        <span>Facility Type</span>
-                        <span class="arrow">›</span>
-                      </li>
+                      
                       
                     </ul>
                   </div>
@@ -599,7 +635,7 @@
                 <!-- Job Listings -->
                 <div class="job-listings col-md-8">
                   <div class="job-card">
-                    <!-- Top Row: Company Logo & Dropdown -->
+                    <!-- Top Row: Company Logo & Position -->
                     <div class="job-card-header">
                       <div class="job-company">
                         <div class="job-logo">🏥</div>
@@ -608,64 +644,36 @@
                           <div class="location">Sydney, NSW</div>
                         </div>
                       </div>
-                    
                     </div>
 
-                    <!-- Job Info -->
+                    <!-- Job Role / Hospital Name -->
                     <div class="job-role">St. John's Hospital</div>
+
+                    <!-- Main Job Info -->
                     <div class="job-meta">
-                      <span>Casual - Night Shift</span>
-                      <span>$440.00/hr</span>
+                      <span><strong>Position:</strong> Casual - Night Shift</span>
+                      <span><strong>Salary:</strong> $440.00/hr</span>
                     </div>
 
-                    <!-- Match Criteria -->
-                    <div class="job-matches">
-                      <div><span class="dot blue"></span> Specialty Match</div>
-                      <div><span class="dot blue"></span> Shift Momentum Match</div>
-                      <div><span class="dot grey"></span> A Arschecd freak</div>
-                      <div><span class="dot grey"></span> Minimal ora brief</div>
+                    <!-- Expanded Job Details -->
+                    <div class="job-info-details">
+                      <div><strong>Sector:</strong> Public</div>
+                      <div><strong>Employment Type:</strong> Permanent</div>
+                      <div><strong>Shift Type:</strong> Permanent</div>
+                      <div><strong>Work Environment:</strong> Permanent</div>
+                      <div><strong>Benefits:</strong> Travel allowance, Free accommodation</div>
+                      <div><strong>Type of Nurse:</strong> ICU Nurse</div>
+                      <div><strong>Specialty:</strong> Critical Care</div>
+                      <div><strong>Experience Required:</strong> 2+ years</div>
                     </div>
 
-                    <!-- Bottom Row: Match % and Button -->
+                    <!-- Footer: Match & Apply -->
                     <div class="job-footer">
                       <div class="match-score">85% Match</div>
                       <button class="apply-btn">Apply Now</button>
                     </div>
                   </div>
-                  <div class="job-card">
-                    <!-- Top Row: Company Logo & Dropdown -->
-                    <div class="job-card-header">
-                      <div class="job-company">
-                        <div class="job-logo">🏥</div>
-                        <div class="job-details">
-                          <strong>Registered Nurse</strong>
-                          <div class="location">Sydney, NSW</div>
-                        </div>
-                      </div>
-                    
-                    </div>
 
-                    <!-- Job Info -->
-                    <div class="job-role">St. John's Hospital</div>
-                    <div class="job-meta">
-                      <span>Casual - Night Shift</span>
-                      <span>$440.00/hr</span>
-                    </div>
-
-                    <!-- Match Criteria -->
-                    <div class="job-matches">
-                      <div><span class="dot blue"></span> Specialty Match</div>
-                      <div><span class="dot blue"></span> Shift Momentum Match</div>
-                      <div><span class="dot grey"></span> A Arschecd freak</div>
-                      <div><span class="dot grey"></span> Minimal ora brief</div>
-                    </div>
-
-                    <!-- Bottom Row: Match % and Button -->
-                    <div class="job-footer">
-                      <div class="match-score">85% Match</div>
-                      <button class="apply-btn">Apply Now</button>
-                    </div>
-                  </div>
                 </div>
             </div>
         </div>
