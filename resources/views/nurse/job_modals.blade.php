@@ -99,18 +99,22 @@
                 <div class="panel left col-md-6">
                     <div class="modal-header">Type of Nurse</div>
                     <div class="search-box">
-                        <input type="text" placeholder="Search">
+                        <input type="text" placeholder="Search" id="nurseSearch">
                     </div>
+                    <div class="nurseList">
                     @foreach($type_of_nurse as $nurse)
                     <div class="list-item" onclick="getNurseData({{ $nurse->id }},'{{ $nurse->name }}')">{{ $nurse->name }}</div>
                     @endforeach
+                    </div>
                 </div>
 
                 <!-- Right Panel -->
                 <div class="panel right col-md-6">
-                    <div class="modal-header nurse_modal_header">Registered Nurses (RNs)</div>
+                    <div class="modal-header nurse_modal_header"><span>Registered Nurses (RNs)</span>
+                      <button class="close-btn" onclick="closeModal()">×</button>
+                    </div>
                     <div class="search-box">
-                        <input type="text" placeholder="Search">
+                        <input type="text" placeholder="Search" id="sub_nurseSearch">
                     </div>
 
                     <div class="select-bar">
@@ -122,10 +126,12 @@
                         <?php
                             $sub_nurse_data = DB::table("practitioner_type")->where("parent","1")->get();
                         ?>
+                        
                         @foreach($sub_nurse_data as $nurse_data)
-                       
-                        <label><input type="checkbox" class="specialty">{{ $nurse_data->name }}</label>
+                        
+                        <label class="nurse_list_name"><input type="checkbox" class="specialty">{{ $nurse_data->name }}</label>
                         @endforeach
+                        
                     </div>
 
                     <div class="modal-actions">
@@ -141,18 +147,23 @@
                 <div class="panel left col-md-6">
                     <div class="modal-header">Speciality</div>
                     <div class="search-box">
-                        <input type="text" placeholder="Search">
+                        <input type="text" placeholder="Search" id="specialitySearch">
                     </div>
+                    <div class="specialityList">
                     @foreach($speciality as $spec)
                     <div class="list-item" onclick="getSpecialityData({{ $spec->id }},'{{ $spec->name }}')">{{ $spec->name }}</div>
                     @endforeach
+                    </div>
                 </div>
 
                 <!-- Right Panel -->
                 <div class="panel right col-md-6">
-                    <div class="modal-header nurse_modal_header">Registered Nurses (RNs)</div>
+                    <div class="modal-header speciality_modal_header">
+                      <span>Adults</span>
+                      <button class="close-btn" onclick="closeModal()">×</button>
+                    </div>
                     <div class="search-box">
-                        <input type="text" placeholder="Search">
+                        <input type="text" placeholder="Search" id="sub_specialitySearch">
                     </div>
 
                     <div class="select-bar">
@@ -162,11 +173,23 @@
 
                     <div class="checkbox-list-spec">
                         <?php
-                            $sub_nurse_data = DB::table("practitioner_type")->where("parent","1")->get();
+                            $sub_speciality_data = DB::table("speciality")->where("parent","1")->get();
                         ?>
-                        @foreach($sub_nurse_data as $nurse_data)
-                       
-                        <label><input type="checkbox" class="specialty">{{ $nurse_data->name }}</label>
+                        
+                        @foreach($sub_speciality_data as $speciality_data)
+                        <?php
+                          $get_spec_count = DB::table("speciality")->where("parent",$speciality_data->id)->get();
+
+                          if(count($get_spec_count)>0){
+                            $get_spec_count_result = count($get_spec_count);
+                          }
+                        ?>
+                        <label class="speciality_list_name"><input type="checkbox" class="specialty">{{ $speciality_data->name }}
+                          @if(count($get_spec_count)>0)
+                          <span><i class="fa fa-angle-right"></i></span>
+                          @endif
+                      
+                        </label>
                         @endforeach
                     </div>
 
@@ -177,8 +200,132 @@
                 </div>
             </div>
         </div>
+
+        <div class="modal-overlay" id="sectorModal" style="display: none;">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h2>Select Sector</h2>
+              <button class="close-btn" onclick="closeModal()">×</button>
+            </div>
+            <div class="modal-body">
+              <label><input type="checkbox" name="sector[]" value="Public"> Public & Government </label><br>
+              <label><input type="checkbox" name="sector[]" value="Government"> Private </label><br>
+              <label><input type="checkbox" name="sector[]" value="Public Government & Private"> Public Government & Private</label>
+            </div>
+            <div class="modal-footer">
+              <button class="apply-btn" id="applySector">Apply</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-overlay" id="salaryModal" style="display: none;">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h2>Salary Range ($/hr)</h2>
+              <button class="close-btn" onclick="closeModal()">×</button>
+            </div>
+            <div class="modal-body">
+              <div id="salarySlider" style="margin: 10px 0;"></div>
+              <p id="salaryAmount">$100 - $500</p>
+              <input type="hidden" id="minSalary" name="min_salary" value="100">
+              <input type="hidden" id="maxSalary" name="max_salary" value="500">
+            </div>
+            <div class="modal-footer">
+              <button class="apply-btn" id="applySector">Apply</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-overlay" id="yearExperienceModal" style="display: none;">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h2>Years of Experience</h2>
+              <button class="close-btn" onclick="closeModal()">×</button>
+            </div>
+            <div class="modal-body">
+              <select class="form-control" name="assistent_level">
+                        <option value="">Please Select</option>
+                        @for($i = 1; $i <= 30; $i++) <option value="{{ $i }}">{{ $i }}{{ $i == 1 ? 'st' : ($i == 2 ? 'nd' : ($i == 3 ? 'rd' : 'th')) }} Year</option>
+                          @endfor
+                      </select>
+            </div>
+            <div class="modal-footer">
+              <button class="apply-btn" id="applySector">Apply</button>
+            </div>
+          </div>
+        </div>
+
+        
 @section('js')
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 <script>
+
+   $('#sectorFilter').on('click', function() {
+    // Toggle the checkboxes
+    $('.sector-options').slideToggle(200);
+
+    // Rotate the arrow
+    $(this).find('.arrow').toggleClass('rotated');
+  });     
+
+    function openSectorModal(){
+      $('#sectorModal').show();
+    }
+
+    function openSalaryModal(){
+      $('#salaryModal').show();
+    }
+
+    function openYearExperienceModal(){
+      $('#yearExperienceModal').show();
+    }
+
+    $("#salarySlider").slider({
+      range: true,
+      min: 0,
+      max: 1000,
+      step: 10,
+      values: [100, 500],
+      slide: function(event, ui) {
+        $("#salaryAmount").text("$" + ui.values[0] + " - $" + ui.values[1]);
+        $("#minSalary").val(ui.values[0]);
+        $("#maxSalary").val(ui.values[1]);
+      }
+    });
+
+    $('#specialitySearch').on('keyup', function() {
+      var value = $(this).val().toLowerCase();
+      
+      $('.specialityList .list-item').filter(function() {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+      });
+    });
+
+    $('#sub_specialitySearch').on('keyup', function() {
+      var value = $(this).val().toLowerCase();
+      
+      $('.speciality_list_name').filter(function() {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+      });
+    });
+
+    $('#nurseSearch').on('keyup', function() {
+      var value = $(this).val().toLowerCase();
+      
+      $('.nurseList .list-item').filter(function() {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+      });
+    });
+
+    $('#sub_nurseSearch').on('keyup', function() {
+      var value = $(this).val().toLowerCase();
+      
+      $('.nurse_list_name').filter(function() {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+      });
+    });
 
     function openNurseModal(){
         $('#nurse_modal').show();
@@ -268,7 +415,7 @@
   }
 
   function getNurseData(nurse_id,nurse_type_name){
-    $(".nurse_modal_header").text(nurse_type_name);
+    $(".nurse_modal_header span").text(nurse_type_name);
     $.ajax({
       type: "post",
       url: "{{ url('/nurse/getNurseData') }}",
@@ -293,7 +440,7 @@
               console.log("subsub_nurse_data",subsub_nurse_data);
               var data_name = data1[i].name;
               var type = "nurse_type";
-              var onclickfun = 'showSubCheckbox('+data1[i].id+',\''+data_name+'\,\''+type+'\')';
+              var onclickfun = 'showSubCheckbox('+data1[i].id+',\''+data_name+'\',\''+type+'\')';
             }else{
               var onclickfun = '';
             }
@@ -306,7 +453,7 @@
   }
 
   function getSpecialityData(speciality_id,speciality_name){
-    $(".nurse_modal_header").text(speciality_name);
+    $(".speciality_modal_header span").text(speciality_name);
     $.ajax({
       type: "post",
       url: "{{ url('/nurse/getSpecialityData') }}",
@@ -331,7 +478,7 @@
               console.log("subsub_spec_data",subsub_spec_data);
               var data_name = data1[i].name;
               var type = "speciality_type";
-              var onclickfun = 'showSubCheckbox('+data1[i].id+',\''+data_name+'\''+type+'\')';
+              var onclickfun = 'showSubCheckbox('+data1[i].id+',\''+data_name+'\',\''+type+'\')';
             }else{
               var onclickfun = '';
             }
@@ -344,8 +491,17 @@
   }
 
   function showSubCheckbox(check_value,check_name,type){
-    var nurse_modal_header = $(".nurse_modal_header").text();
-    $(".nurse_modal_header").text(nurse_modal_header+" > "+check_name);
+    
+    if(type == "speciality_type"){
+      
+      var nurse_modal_header = $(".speciality_modal_header span").text();
+      $(".speciality_modal_header span").text(nurse_modal_header+" > "+check_name);
+    }else{
+      var nurse_modal_header = $(".nurse_modal_header span").text();
+      $(".nurse_modal_header span").text(nurse_modal_header+" > "+check_name);
+    }
+    
+    
     if ($('.sub_checkbox-'+check_value).is(':checked')) {
         $(".sub_checkbox").hide();
         $(".subsub_checkbox-"+check_value).show();
@@ -356,8 +512,9 @@
 
 
   function closeModal() {
-    document.getElementById("employmentModal").style.display = "none";
-    document.getElementById("shiftModal").style.display = "none";
+    $(".modal-overlay").hide();
+    //document.getElementsByClassName("modal-overlay").style.display = "none";
+    //document.getElementById("shiftModal").style.display = "none";
   }
 
   function toggleAccordion(header) {
