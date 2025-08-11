@@ -208,12 +208,12 @@
               <button class="close-btn" onclick="closeModal()">×</button>
             </div>
             <div class="modal-body">
-              <label><input type="checkbox" name="sector[]" value="Public"> Public & Government </label><br>
-              <label><input type="checkbox" name="sector[]" value="Government"> Private </label><br>
-              <label><input type="checkbox" name="sector[]" value="Public Government & Private"> Public Government & Private</label>
+              <label><input type="checkbox" class="sector_checkbox" name="sector[]" value="Public & Government"> Public & Government </label><br>
+              <label><input type="checkbox" class="sector_checkbox" name="sector[]" value="Private"> Private </label><br>
+              <label><input type="checkbox" class="sector_checkbox" name="sector[]" value="Public Government & Private"> Public Government & Private</label>
             </div>
             <div class="modal-footer">
-              <button class="apply-btn" id="applySector">Apply</button>
+              <button class="apply-btn" id="applySector" onclick="applySector()">Apply</button>
             </div>
           </div>
         </div>
@@ -539,6 +539,28 @@
     const checkbox = document.getElementById("specificDaysToggle");
     const section = document.getElementById("specificDaysSection");
     section.style.display = checkbox.checked ? "block" : "none";
+  }
+
+  function applySector(){
+    var selectedValues = [];
+        
+    // Get all checked checkboxes inside the modal
+    $(".sector_checkbox:checked").each(function() {
+        selectedValues.push($(this).val());
+    });
+
+    console.log(selectedValues); // Array of checked values
+    
+    $.ajax({
+      type: "POST",
+      url: "{{ url('/nurse/getFilterData') }}",
+      data: {selectedValues:selectedValues,_token:'{{ csrf_token() }}'},
+      cache: false,
+      success: function(data){
+        $(".job-listings").html(data);
+        $("#sectorModal").hide();
+      }
+    });    
   }
 </script>
 
