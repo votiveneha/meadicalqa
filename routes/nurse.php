@@ -218,5 +218,6 @@ Route::prefix('nurse')->name('nurse.')->namespace('App\Http\Controllers\nurse')-
   Route::post('/getWorkEnvironmentData', 'JobsController@getWorkEnvironmentData')->name('getWorkEnvironmentData');  
   Route::post('/getNurseData', 'JobsController@getNurseData')->name('getNurseData');
   Route::post('/getSpecialityData', 'JobsController@getSpecialityData')->name('getSpecialityData');
+      Route::post('/getFilterData', 'JobsController@getFilterData')->name('getFilterData'); 
   });
 });
