@@ -47,7 +47,8 @@ class JobsController extends Controller{
             ->get();        
         $data['speciality'] = DB::table("speciality")
             ->where("parent", 0)
-            ->get();            
+            ->get();       
+        $data['jobs'] = DB::table("job_boxes")->get();                
         return view('nurse.find_jobs')->with($data);
     }
 
@@ -176,6 +177,16 @@ class JobsController extends Controller{
             $specdatas[] = array("id"=>$specdata->id,"name"=>$specdata->name,"parent"=>$specdata->parent,"get_spec_count"=>count($get_spec_count),"get_spec"=>$specsubarr);
         }
         return json_encode($specdatas);
+    }
+
+    public function getFilterData(Request $request){
+        $selectedValues = $request->selectedValues;
+        
+        $data['jobs'] = DB::table("job_boxes")->whereIn("sector",$selectedValues)->get();
+
+        //print_r($filterData);
+        return view("nurse.job_filter_data")->with($data);
+
     }
 
 }
