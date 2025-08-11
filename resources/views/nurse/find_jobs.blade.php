@@ -634,6 +634,7 @@
                 </div>
                 <!-- Job Listings -->
                 <div class="job-listings col-md-8">
+                  @foreach($jobs as $job)
                   <div class="job-card">
                     <!-- Top Row: Company Logo & Position -->
                     <div class="job-card-header">
@@ -657,7 +658,7 @@
 
                     <!-- Expanded Job Details -->
                     <div class="job-info-details">
-                      <div><strong>Sector:</strong> Public</div>
+                      <div><strong>Sector:</strong> {{ $job->sector }}</div>
                       <div><strong>Employment Type:</strong> Permanent</div>
                       <div><strong>Shift Type:</strong> Permanent</div>
                       <div><strong>Work Environment:</strong> Permanent</div>
@@ -673,7 +674,7 @@
                       <button class="apply-btn">Apply Now</button>
                     </div>
                   </div>
-
+                  @endforeach
                 </div>
             </div>
         </div>
