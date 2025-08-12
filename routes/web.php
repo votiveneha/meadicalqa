@@ -311,6 +311,8 @@ Route::prefix('/admin')->name('admin.')->namespace('App\Http\Controllers\admin')
     Route::post('/updateBenefits', 'WorkPreferencesController@updateBenefits')->name('updateBenefits');
     Route::post('/deleteBenefits', 'WorkPreferencesController@deleteBenefits')->name('deleteBenefits');
     Route::get('/sub_benefits/{id}','WorkPreferencesController@sub_benefits')->name('sub_benefits');
+      Route::get('/add_jobs','JobsController@index')->name('add_jobs');
+    Route::post('/addJobs', 'JobsController@addJobs')->name('addJobs');
   });
 
 });
