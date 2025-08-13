@@ -361,7 +361,7 @@
           var sub_data = '';
 
           for(var j = 0;j<sub_types.length;j++){
-            sub_data += '<label><input type="checkbox"> '+sub_types[j].name+'</label>'
+            sub_data += '<label><input type="checkbox" class="sector_checkbox" value="'+sub_types[j].id+'"> '+sub_types[j].name+'</label>'
           }
           console.log("data.id",data1[i].id);
           if(data1[i].name != "Other" && data1[i].name != "All/No Preference"){
@@ -384,7 +384,9 @@
             </div>\
             <p class="modal-subtext">Your saved preferences are pre-filled. You can adjust below.</p>\
             <div class="modal-body">'+accordian_section+'</div>\
-            ');
+            <div class="modal-footer" style="text-align: right; margin-top: 10px;">\
+              <button class="apply-btn" onclick="applySector()">Apply</button>\
+            </div>');
       }
     });      
 
@@ -559,6 +561,7 @@
       success: function(data){
         $(".job-listings").html(data);
         $("#sectorModal").hide();
+        $("#employmentModal").hide();
       }
     });    
   }
