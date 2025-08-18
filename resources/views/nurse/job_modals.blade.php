@@ -39,7 +39,7 @@
                   ?>
                   <div class="third-level third-level-{{ $sub_work->prefer_id }}" id="subsub_{{ $sub_work->prefer_id }}" style="display:none">
                     @foreach($subsub_work_environment as $subsub_work)
-                    <label><input type="checkbox"> {{ $subsub_work->env_name }}</label>
+                    <label><input type="checkbox" name="subwork_environment" value="{{ $subsub_work->prefer_id }}"> {{ $subsub_work->env_name }}</label>
                     @endforeach
                   </div>
                   
@@ -47,6 +47,9 @@
                  </div>
                 </div>
                 @endforeach
+              </div>
+              <div class="modal-footer">
+                <button class="apply-btn" id="applySector" onclick="applySector('work_environment')">Apply</button>
               </div>
           </div>
           <div class="modal-content work_shift_modal" style="display:none">
@@ -129,14 +132,14 @@
                         
                         @foreach($sub_nurse_data as $nurse_data)
                         
-                        <label class="nurse_list_name"><input type="checkbox" class="specialty">{{ $nurse_data->name }}</label>
+                        <label class="nurse_list_name"><input type="checkbox" value="{{ $nurse_data->id }}" class="nurseCheck specialty nurse_type_data-{{ $nurse_data->id }}">{{ $nurse_data->name }}</label>
                         @endforeach
                         
                     </div>
 
                     <div class="modal-actions">
                         <button class="cancel-btn" id="cancelModal">Cancel</button>
-                        <button class="apply-btn">Apply</button>
+                        <button class="apply-btn" onclick="applyNurse()">Apply</button>
                     </div>
                 </div>
             </div>
@@ -184,7 +187,7 @@
                             $get_spec_count_result = count($get_spec_count);
                           }
                         ?>
-                        <label class="speciality_list_name"><input type="checkbox" class="specialty">{{ $speciality_data->name }}
+                        <label class="speciality_list_name"><input type="checkbox" class="specialty_check speciality_data-{{ $speciality_data->id }}" value="{{ $speciality_data->id }}">{{ $speciality_data->name }}
                           @if(count($get_spec_count)>0)
                           <span><i class="fa fa-angle-right"></i></span>
                           @endif
@@ -195,7 +198,7 @@
 
                     <div class="modal-actions">
                         <button class="cancel-btn" id="cancelModal">Cancel</button>
-                        <button class="apply-btn">Apply</button>
+                        <button class="apply-btn" onclick="applySpeciality()">Apply</button>
                     </div>
                 </div>
             </div>
@@ -243,14 +246,14 @@
               <button class="close-btn" onclick="closeModal()">×</button>
             </div>
             <div class="modal-body">
-              <select class="form-control" name="assistent_level">
+              <select class="form-control assistent_level" name="assistent_level">
                         <option value="">Please Select</option>
                         @for($i = 1; $i <= 30; $i++) <option value="{{ $i }}">{{ $i }}{{ $i == 1 ? 'st' : ($i == 2 ? 'nd' : ($i == 3 ? 'rd' : 'th')) }} Year</option>
                           @endfor
                       </select>
             </div>
             <div class="modal-footer">
-              <button class="apply-btn" id="applySector">Apply</button>
+              <button class="apply-btn" id="applySector" onclick="applyExperience()">Apply</button>
             </div>
           </div>
         </div>
@@ -492,6 +495,52 @@
     });
   }
 
+  function applyNurse(){
+    var selectedValues = [];
+
+    $(".nurseCheck:checked").each(function(){
+        selectedValues.push($(this).val());
+    });
+
+    if(selectedValues.length > 0){
+        
+      $.ajax({
+        type: "POST",
+        url: "{{ url('/nurse/getFilterNurseData') }}",
+        data: {nurse_data:selectedValues,_token:'{{ csrf_token() }}'},
+        cache: false,
+        success: function(data){
+          $(".job-listings").html(data);
+          $("#nurse_modal").hide();
+          
+        }
+      });    
+    }
+  }
+
+  function applySpeciality(){
+    var selectedValues = [];
+
+    $(".specialty_check:checked").each(function(){
+        selectedValues.push($(this).val());
+    });
+
+    if(selectedValues.length > 0){
+        
+      $.ajax({
+        type: "POST",
+        url: "{{ url('/nurse/getFilterSpecialityData') }}",
+        data: {speciality_data:selectedValues,_token:'{{ csrf_token() }}'},
+        cache: false,
+        success: function(data){
+          $(".job-listings").html(data);
+          $("#speciality_modal").hide();
+          
+        }
+      });    
+    }
+  }
+
   function showSubCheckbox(check_value,check_name,type){
     
     if(type == "speciality_type"){
@@ -562,6 +611,21 @@
         $(".job-listings").html(data);
         $("#sectorModal").hide();
         $("#employmentModal").hide();
+      }
+    });    
+  }
+
+  function applyExperience(){
+    var experience = $(".assistent_level").val();
+    $.ajax({
+      type: "POST",
+      url: "{{ url('/nurse/getExperienceData') }}",
+      data: {experience:experience,_token:'{{ csrf_token() }}'},
+      cache: false,
+      success: function(data){
+        $(".job-listings").html(data);
+        $("#yearExperienceModal").hide();
+        
       }
     });    
   }
