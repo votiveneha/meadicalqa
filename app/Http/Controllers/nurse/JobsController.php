@@ -180,13 +180,61 @@ class JobsController extends Controller{
     }
 
     public function getFilterData(Request $request){
-        $selectedValues = $request->selectedValues;
+        $searchValues = $request->selectedValues;
+
         
-        $data['jobs'] = DB::table("job_boxes")->whereIn("sector",$selectedValues)->get();
+
+        $data['jobs'] = DB::table('job_boxes')
+        ->where(function($query) use ($searchValues) {
+            foreach ($searchValues as $value) {
+                $query->orWhere('emplyeement_type', 'LIKE', '%"'.$value.'"%');
+            }
+        })
+        ->get();
+
+        //print_r($data);
+        
+        //$data['jobs'] = DB::table("job_boxes")->whereIn("sector",$selectedValues)->get();
 
         //print_r($filterData);
         return view("nurse.job_filter_data")->with($data);
 
+    }
+
+    public function getExperienceData(Request $request){
+        $experience = $request->experience;
+
+        $data['jobs'] = DB::table("job_boxes")->where("experience_level",$experience)->get();
+
+        return view("nurse.job_filter_data")->with($data);
+    }
+
+    public function getFilterNurseData(Request $request){
+        $nurse_data = $request->nurse_data;
+
+        $data['jobs'] = DB::table('job_boxes')
+        ->where(function($query) use ($nurse_data) {
+            foreach ($nurse_data as $value) {
+                $query->orWhere('nurse_type', 'LIKE', '%"'.$value.'"%');
+            }
+        })
+        ->get();
+
+        return view("nurse.job_filter_data")->with($data);
+    }
+
+    public function getFilterSpecialityData(Request $request){
+        $speciality_data = $request->speciality_data;
+
+        $data['jobs'] = DB::table('job_boxes')
+        ->where(function($query) use ($speciality_data) {
+            foreach ($speciality_data as $value) {
+                $query->orWhere('typeofspeciality', 'LIKE', '%"'.$value.'"%');
+            }
+        })
+        ->get();
+
+        return view("nurse.job_filter_data")->with($data);
     }
 
 }
