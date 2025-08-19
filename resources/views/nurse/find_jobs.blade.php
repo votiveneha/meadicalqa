@@ -575,7 +575,7 @@
                       <li class="filter-item">
                         <label for="toggleRegisteredPreferences" class="toggle-label">Update My Preferences</label>&nbsp;
                         <label class="switch">
-                            <input type="checkbox" id="toggleRegisteredPreferences" checked>
+                            <input type="checkbox" id="toggleRegisteredPreferences">
                             <span class="slider round"></span>
                         </label>
                       </li>
