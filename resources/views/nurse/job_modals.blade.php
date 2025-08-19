@@ -59,6 +59,11 @@
               </div>
               <p class="modal-subtext">Your saved preferences are pre-filled. You can adjust below.</p>
               <div class="modal-body">
+                <?php
+                  $result = array_values((array)json_decode($work_preferences_data->work_shift_preferences)); 
+                  $i = 0;      
+                  
+                ?>
                 @foreach($work_shift_data as $work_shift)
                 <div class="accordion-section">
                  <div class="accordion-header" onclick="toggleAccordion(this)">
@@ -69,28 +74,34 @@
                                             ->where("shift_id", $work_shift->work_shift_id)
                                             ->where("sub_shift_id", NULL)
                                             ->get();
+                    
+                             
                  ?>
                  <div class="accordion-content" id="perm">
                   @foreach($sub_work_shift as $sub_works)
                   <label>
-                    <input type="checkbox" value="{{ $sub_works->work_shift_id }}" class="filter_checkbox" id="filter_checkbox_{{ $sub_works->work_shift_id }}" onclick="showFilters({{ $sub_works->work_shift_id }})"> {{ $sub_works->shift_name }}
+                    <input type="checkbox" value="{{ $sub_works->work_shift_id }}"  @if(in_array($sub_works->work_shift_id, $result[$i])) checked @endif class="filter_checkbox" id="filter_checkbox_{{ $sub_works->work_shift_id }}" onclick="showFilters({{ $sub_works->work_shift_id }})"> {{ $sub_works->shift_name }}
                   </label>
                   <?php
                       $subsub_work_shift = DB::table("work_shift_preferences")
                                               ->where("shift_id", $work_shift->work_shift_id)
                                               ->where("sub_shift_id", $sub_works->work_shift_id)
                                               ->get();
+
                                               
                   ?>
                   <div class="third-level third-level-{{ $sub_works->work_shift_id }}" id="subsub_{{ $sub_works->work_shift_id }}" style="display:none">
                     @foreach($subsub_work_shift as $subsub_works)
-                    <label><input type="checkbox"> {{ $subsub_works->shift_name }}</label>
+                    <label><input type="checkbox" @if(in_array($subsub_works->work_shift_id, $result[$i])) checked @endif value="{{ $subsub_works->work_shift_id }}"> {{ $subsub_works->shift_name }}</label>
                     @endforeach
                   </div>
                   
                   @endforeach
                  </div>
                 </div>
+                <?php
+                  $i++;
+                ?>
                 @endforeach
               </div>
           </div>
@@ -211,9 +222,9 @@
               <button class="close-btn" onclick="closeModal()">×</button>
             </div>
             <div class="modal-body">
-              <label><input type="checkbox" class="sector_checkbox" name="sector[]" value="Public & Government"> Public & Government </label><br>
-              <label><input type="checkbox" class="sector_checkbox" name="sector[]" value="Private"> Private </label><br>
-              <label><input type="checkbox" class="sector_checkbox" name="sector[]" value="Public Government & Private"> Public Government & Private</label>
+              <label><input type="checkbox" class="sector_checkbox" name="sector[]" value="Public & Government" @if(!empty($work_preferences_data) && $work_preferences_data->sector_preferences == "Public & Government") checked @endif> Public & Government </label><br>
+              <label><input type="checkbox" class="sector_checkbox" name="sector[]" value="Private" @if(!empty($work_preferences_data) && $work_preferences_data->sector_preferences == "Private") checked @endif> Private </label><br>
+              <label><input type="checkbox" class="sector_checkbox" name="sector[]" value="Public Government & Private" @if(!empty($work_preferences_data) && $work_preferences_data->sector_preferences == "Public Government & Private") checked @endif> Public Government & Private</label>
             </div>
             <div class="modal-footer">
               <button class="apply-btn" id="applySector" onclick="applySector()">Apply</button>
@@ -355,16 +366,31 @@
       data: {filter_type:filter_type,table_name:table_name,column_name:column_name,main_column_id:main_column_id,column_type:column_type,_token:"{{ csrf_token() }}"},
       cache: false,
       success: function(data){
-        var data1 = JSON.parse(data);
-        console.log("data",data1);
+        var data2 = JSON.parse(data);
+        
+        var data1 = data2.filters;
+        var data3 = data2.preferences;
+        var data4 = JSON.parse(data3.emptype_preferences);
+        console.log("data4",data6[0]);
+        var data6 = Object.values(data4);
+        var data5 = data6[0];
+        console.log("data",data6[0]);
         var accordian_section = '';
 
         for(var i = 0;i<data1.length;i++){
           var sub_types = data1[i].sub_types;
           var sub_data = '';
-
+          
           for(var j = 0;j<sub_types.length;j++){
-            sub_data += '<label><input type="checkbox" class="sector_checkbox" value="'+sub_types[j].id+'"> '+sub_types[j].name+'</label>'
+            
+            if(data5.includes(String(sub_types[j].id))){
+              console.log("sub_types[j].id",sub_types[j].id);
+              var checked = "checked";
+            }else{
+              var checked = "";
+            }
+
+            sub_data += '<label><input type="checkbox" class="sector_checkbox" value="'+sub_types[j].id+'" '+checked+'> '+sub_types[j].name+'</label>'
           }
           console.log("data.id",data1[i].id);
           if(data1[i].name != "Other" && data1[i].name != "All/No Preference"){
