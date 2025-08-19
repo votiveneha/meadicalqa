@@ -47,7 +47,12 @@ class JobsController extends Controller{
             ->get();        
         $data['speciality'] = DB::table("speciality")
             ->where("parent", 0)
-            ->get();       
+            ->get();     
+        $user_id = Auth::guard('nurse_middle')->user()->id;    
+        $data['work_preferences_data'] = DB::table("work_preferences")
+            ->where("user_id", $user_id)
+            ->first();    
+                   
         $data['jobs'] = DB::table("job_boxes")->get();                
         return view('nurse.find_jobs')->with($data);
     }
@@ -79,9 +84,20 @@ class JobsController extends Controller{
             ];
         }
 
+        $user_id = Auth::guard('nurse_middle')->user()->id;    
+        $work_preferences_data = DB::table("work_preferences")
+            ->where("user_id", $user_id)
+            ->first();    
+
+        $response = [
+            'filters'     => $nested,
+            'preferences' => $work_preferences_data,
+        ];
+
+           
 
         // Convert to JSON (optional)
-        $json = json_encode($nested, JSON_PRETTY_PRINT);
+        $json = json_encode($response, JSON_PRETTY_PRINT);
 
         return $json;
 
