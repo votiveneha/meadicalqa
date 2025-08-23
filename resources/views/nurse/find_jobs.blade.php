@@ -41,7 +41,7 @@
     }
 
     .filters {
-      width: 25%;
+      
       background: white;
       padding: 5px 5px;
       border-radius: 8px;
@@ -100,10 +100,7 @@
       margin-right: 10px;
     }
 
-    /* Job listings */
-    .job-listings {
-      width: 75%;
-    }
+    
 
     .job-card {
     border: 1px solid #ddd;
@@ -507,15 +504,59 @@
   font-size: 14px;
 }
 
+.auto_fill_message{
+  color:#28a745;
+  display:none;
+}
 
+.auto_empty_message{
+  color:#28a745;
+  display:none;
+}
 
-  </style>
+.tooltip_preferences {
+  background: #333;
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  white-space: nowrap;
+  margin-left: 10px;
+  display: none; /* hidden by default */
+}
+
+.btn-secondary {
+  background-color: #f1f1f1;
+  color: #333;
+  border: 1px solid #ccc;
+}
+
+</style>
 @endsection
 
 @section('content')
 <main class="main find_job_div">
     <section class="section-box mt-30">
         <div class="container">
+            
+            <div id="oneTimeMessage" class="alert alert-info" 
+                style="display:none;margin:10px 0; font-size:14px; padding:12px 40px 12px 12px; 
+                        border-radius:6px; background:#e8f4fd; border:1px solid #b6e0fe; color:#084298; 
+                        position:relative;">
+
+              <span>
+                <strong>Info!</strong> This alert box could indicate a neutral informative change or action.
+              </span>
+
+              <!-- Cancel Button (right aligned) -->
+              <button id="dismissMessage" class="close" data-dismiss="alert" aria-label="close" 
+                      style="position:absolute; top:8px; right:10px; background:none; 
+                            border:none; font-size:16px; font-weight:bold; 
+                            color:#084298; cursor:pointer;">
+                ×
+              </button>
+            </div>
+
             <h1 style="font-size: 24px; font-weight: bold;">Find Jobs</h1>
             <!-- Horizontal Search Bar with Labels -->
             <div class="search-bar">
@@ -566,18 +607,27 @@
 
                     <ul class="filter-list">
                       <li class="filter-item">
-                        <label for="toggleRegisteredPreferences" class="toggle-label">Use My Registered Preferences</label>&nbsp;
+                        <label for="toggleRegisteredPreferences" class="toggle-label">Use My Registered Preferences
+                          <div class="auto_fill_message">Filters are Auto-filled from your preferences</div>
+                          <div class="auto_empty_message">Filters are empty/default and not Auto-filled<br> from your preferences</div>
+                        </label>&nbsp;
                         <label class="switch">
                             <input type="checkbox" id="toggleRegisteredPreferences" checked>
                             <span class="slider round"></span>
                         </label>
                       </li>
                       <li class="filter-item">
-                        <label for="toggleRegisteredPreferences" class="toggle-label">Update My Preferences</label>&nbsp;
-                        <label class="switch">
-                            <input type="checkbox" id="toggleRegisteredPreferences">
+                        <label for="toggleRegisteredPreferences" class="toggle-label">Update My Preferences
+                          <!-- <div class="tooltip_preferences" id="tooltipPref">
+                            Temporary filtering, your current filter choices are not saved
+                          </div> -->
+                        </label>&nbsp;
+                        <label class="switch update_switch" data-bs-toggle="tooltip" data-bs-placement="right"
+           title="Your current filter choices are saved in your Work Preferences & Flexibility section. Your preferences are updated for future job matching">
+                            <input type="checkbox" id="toggleUpdatePreferences">
                             <span class="slider round"></span>
                         </label>
+                        
                       </li>
                       <li class="filter-item" onclick="openSectorModal()">
                         <span>Sector</span>
@@ -782,4 +832,47 @@
         
     </section>
 </main>
+<script>
+  function toggleMessage() {
+    if ($("#toggleRegisteredPreferences").is(":checked")) {
+      $(".auto_fill_message").show();
+      $(".auto_empty_message").hide();
+    } else {
+      $(".auto_fill_message").hide();
+      $(".auto_empty_message").show();
+    }
+  }
+
+  toggleMessage(); // on page load
+
+  // var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+  // var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+  //   return new bootstrap.Tooltip(tooltipTriggerEl)
+  // })
+
+$('#toggleUpdatePreferences').on('change', function() {
+    if($(this).is(':checked')) {
+        // Update tooltip text for ON
+        $(this).parent()
+            .attr('data-bs-original-title', 'Your current filter choices are saved in your Work Preferences & Flexibility section. Your preferences are updated for future job matching')
+            .tooltip('show');
+    } else {
+        // Update tooltip text for OFF
+        $(this).parent()
+            .attr('data-bs-original-title', 'Temporary filtering, your current filter choices are not saved')
+            .tooltip('show');
+    }
+
+    // Auto hide after 4s (optional)
+    setTimeout(() => {
+        $(this).parent().tooltip('hide');
+    }, 4000);
+});
+
+
+
+  // On toggle change
+  //togglePref.addEventListener("change", updateTooltip);
+
+</script>
 @endsection
