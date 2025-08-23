@@ -15,6 +15,11 @@
               </div>
               <p class="modal-subtext">Your saved preferences are pre-filled. You can adjust below.</p>
               <div class="modal-body">
+                <?php
+                  $result = (array)json_decode($work_preferences_data->work_environment_preferences,true); 
+                  //print_r($result);
+                  $i = 0;
+                ?>
                 @foreach($work_environment_data as $work_environment)
                 <div class="accordion-section">
                  <div class="accordion-header" onclick="toggleAccordion(this)">
@@ -46,6 +51,9 @@
                   @endforeach
                  </div>
                 </div>
+                <?php
+                  $i++;
+                ?>
                 @endforeach
               </div>
               <div class="modal-footer">
@@ -87,12 +95,21 @@
                                               ->where("shift_id", $work_shift->work_shift_id)
                                               ->where("sub_shift_id", $sub_works->work_shift_id)
                                               ->get();
-
+                      $subworkshiftdata = json_decode($work_preferences_data->subwork_shift_preferences, true);
+                      
+                      if(isset($subworkshiftdata[$work_shift->work_shift_id][$sub_works->work_shift_id])){
+                        $subworkshiftdata1 = $subworkshiftdata[$work_shift->work_shift_id][$sub_works->work_shift_id];
+                        
+                      }else{
+                        $subworkshiftdata1 = '';
+                      }
+                      
+                      
                                               
                   ?>
-                  <div class="third-level third-level-{{ $sub_works->work_shift_id }}" id="subsub_{{ $sub_works->work_shift_id }}" style="display:none">
+                  <div class="third-level third-level-{{ $sub_works->work_shift_id }}" id="subsub_{{ $sub_works->work_shift_id }}" @if(empty($work_preferences_data->subwork_shift_preferences)) style="display:none" @else style="display:block" @endif>
                     @foreach($subsub_work_shift as $subsub_works)
-                    <label><input type="checkbox" @if(in_array($subsub_works->work_shift_id, $result[$i])) checked @endif value="{{ $subsub_works->work_shift_id }}"> {{ $subsub_works->shift_name }}</label>
+                    <label><input type="checkbox" @if(is_array($subworkshiftdata1) && in_array($subsub_works->work_shift_id, $subworkshiftdata1)) checked @endif value="{{ $subsub_works->work_shift_id }}"> {{ $subsub_works->shift_name }}</label>
                     @endforeach
                   </div>
                   
@@ -219,14 +236,15 @@
           <div class="modal-content">
             <div class="modal-header">
               <h2>Select Sector</h2>
-              <button class="close-btn" onclick="closeModal()">×</button>
+              <button class="edit-btn" onclick="editSector()"><i class="fa fa-pencil" aria-hidden="true"></i></button>
             </div>
             <div class="modal-body">
-              <label><input type="checkbox" class="sector_checkbox" name="sector[]" value="Public & Government" @if(!empty($work_preferences_data) && $work_preferences_data->sector_preferences == "Public & Government") checked @endif> Public & Government </label><br>
-              <label><input type="checkbox" class="sector_checkbox" name="sector[]" value="Private" @if(!empty($work_preferences_data) && $work_preferences_data->sector_preferences == "Private") checked @endif> Private </label><br>
-              <label><input type="checkbox" class="sector_checkbox" name="sector[]" value="Public Government & Private" @if(!empty($work_preferences_data) && $work_preferences_data->sector_preferences == "Public Government & Private") checked @endif> Public Government & Private</label>
+              <label><input type="radio" class="sector_checkbox" name="sector" value="Public & Government" @if(!empty($work_preferences_data) && $work_preferences_data->sector_preferences == "Public & Government") checked @endif> Public & Government </label><br>
+              <label><input type="radio" class="sector_checkbox" name="sector" value="Private" @if(!empty($work_preferences_data) && $work_preferences_data->sector_preferences == "Private") checked @endif> Private </label><br>
+              <label><input type="radio" class="sector_checkbox" name="sector" value="Public Government & Private" @if(!empty($work_preferences_data) && $work_preferences_data->sector_preferences == "Public Government & Private") checked @endif> Public Government & Private</label>
             </div>
             <div class="modal-footer">
+              <button id="cancelBtn" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
               <button class="apply-btn" id="applySector" onclick="applySector()">Apply</button>
             </div>
           </div>
@@ -259,7 +277,7 @@
             <div class="modal-body">
               <select class="form-control assistent_level" name="assistent_level">
                         <option value="">Please Select</option>
-                        @for($i = 1; $i <= 30; $i++) <option value="{{ $i }}">{{ $i }}{{ $i == 1 ? 'st' : ($i == 2 ? 'nd' : ($i == 3 ? 'rd' : 'th')) }} Year</option>
+                        @for($i = 1; $i <= 30; $i++) <option value="{{ $i }}" @if(!empty($user_data) && $user_data->assistent_level == $i) selected @endif>{{ $i }}{{ $i == 1 ? 'st' : ($i == 2 ? 'nd' : ($i == 3 ? 'rd' : 'th')) }} Year</option>
                           @endfor
                       </select>
             </div>
@@ -354,7 +372,7 @@
     });
   function openModal(filter_type,table_name,column_name,main_column_id,column_type) {
     // var modal_heading = $("#"+filter_id+" .modal-header h2").text();
-    console.log("modal_heading",filter_type);
+    console.log("modal_heading",column_type);
     // if(filter_type == modal_heading){
     //   $(".modal-content").hide();
     //   $("#"+filter_id).show();
@@ -370,11 +388,30 @@
         
         var data1 = data2.filters;
         var data3 = data2.preferences;
-        var data4 = JSON.parse(data3.emptype_preferences);
-        console.log("data4",data6[0]);
-        var data6 = Object.values(data4);
-        var data5 = data6[0];
-        console.log("data",data6[0]);
+        // var data4 = JSON.parse(data3[work_preferences_column]);
+        // var data6 = Object.values(data4[1]);
+        if(filter_type == "Position"){
+          var data4 = JSON.parse(data3.position_preferences);
+          var data6 = Object.values(data4[1]);
+          
+          console.log("data6",data1);
+        }else{
+          if(filter_type == "Benefits"){
+            var data4 = JSON.parse(data3.benefits_preferences);
+            var data6 = Object.values(data4);
+            
+            console.log("data6",data1);
+          }else{
+            var data4 = JSON.parse(data3.emptype_preferences);
+            var data6 = Object.values(data4);
+            var data5 = data6[0];
+            console.log("data",data6[0]);
+          }
+          
+        }
+        
+        
+        
         var accordian_section = '';
 
         for(var i = 0;i<data1.length;i++){
@@ -382,13 +419,16 @@
           var sub_data = '';
           
           for(var j = 0;j<sub_types.length;j++){
-            
-            if(data5.includes(String(sub_types[j].id))){
-              console.log("sub_types[j].id",sub_types[j].id);
+            let found = data6.some(sub => sub.includes(String(sub_types[j].id)));
+            console.log("sub_types[j].id",sub_types[j].id);
+            if (found) {
               var checked = "checked";
-            }else{
+              
+            } else {
               var checked = "";
+              
             }
+            
 
             sub_data += '<label><input type="checkbox" class="sector_checkbox" value="'+sub_types[j].id+'" '+checked+'> '+sub_types[j].name+'</label>'
           }
@@ -409,11 +449,12 @@
 
         $(".modal-content").html('\<div class="modal-header">\
               <h2>'+filter_type+'</h2>\
-              <button class="close-btn" onclick="closeModal()">×</button>\
+              <button class="edit-btn" onclick="editSector()"><i class="fa fa-pencil" aria-hidden="true"></i></button>\
             </div>\
             <p class="modal-subtext">Your saved preferences are pre-filled. You can adjust below.</p>\
             <div class="modal-body">'+accordian_section+'</div>\
             <div class="modal-footer" style="text-align: right; margin-top: 10px;">\
+              <button id="cancelBtn" class="btn btn-secondary" onclick="closeModal()">Cancel</button>\
               <button class="apply-btn" onclick="applySector()">Apply</button>\
             </div>');
       }
@@ -626,6 +667,10 @@
         selectedValues.push($(this).val());
     });
 
+    sessionStorage.setItem("sector_data", selectedValues);
+
+    $(".edit-btn").show();
+
     console.log(selectedValues); // Array of checked values
     
     $.ajax({
@@ -637,9 +682,53 @@
         $(".job-listings").html(data);
         $("#sectorModal").hide();
         $("#employmentModal").hide();
+        $("input[name='sector']").prop("disabled", true);
+        $("#oneTimeMessage").fadeIn();
+
+        setTimeout(function() {
+          
+          $("#oneTimeMessage").fadeOut();
+        }, 5000);
       }
     });    
   }
+
+  function editSector(){
+    $("input[name='sector']").prop("disabled", false);
+    
+  }
+
+  var sector_data = sessionStorage.getItem("sector_data");
+
+  if(sector_data){
+    $("input[name='sector'][value='"+sector_data+"']").prop("checked", true);
+    $("input[name='sector']").prop("disabled", true);
+  }
+  
+  if(sector_data == null){
+    
+    $(".edit-btn").hide();
+  }
+
+  
+
+  $("#toggleUpdatePreferences").click(function(){
+    console.log("sector_data",sector_data);
+    if ($(this).prop("checked")) {
+      $.ajax({
+        type: "POST",
+        url: "{{ url('/nurse/updateSectorData') }}",
+        data: {sector_data:sector_data,_token:'{{ csrf_token() }}'},
+        cache: false,
+        success: function(data){
+          
+          sessionStorage.removeItem("sector_data");
+          $(".edit-btn").hide();
+          $("input[name='sector']").prop("disabled", false);
+        }
+      });    
+    }
+  });
 
   function applyExperience(){
     var experience = $(".assistent_level").val();
