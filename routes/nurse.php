@@ -218,6 +218,10 @@ Route::prefix('nurse')->name('nurse.')->namespace('App\Http\Controllers\nurse')-
   Route::post('/getWorkEnvironmentData', 'JobsController@getWorkEnvironmentData')->name('getWorkEnvironmentData');  
   Route::post('/getNurseData', 'JobsController@getNurseData')->name('getNurseData');
   Route::post('/getSpecialityData', 'JobsController@getSpecialityData')->name('getSpecialityData');
-      Route::post('/getFilterData', 'JobsController@getFilterData')->name('getFilterData'); 
+  Route::post('/getFilterData', 'JobsController@getFilterData')->name('getFilterData'); 
+  Route::post('/getExperienceData', 'JobsController@getExperienceData')->name('getExperienceData');  
+  Route::post('/getFilterNurseData', 'JobsController@getFilterNurseData')->name('getFilterNurseData');
+  Route::post('/getFilterSpecialityData', 'JobsController@getFilterSpecialityData')->name('getFilterSpecialityData');  
+  Route::post('/updateSectorData', 'JobsController@updateSectorData')->name('updateSectorData');  
   });
 });
