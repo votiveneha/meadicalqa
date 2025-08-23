@@ -52,6 +52,7 @@ class JobsController extends Controller{
         $data['work_preferences_data'] = DB::table("work_preferences")
             ->where("user_id", $user_id)
             ->first();    
+        $data['user_data'] = DB::table("users")->where("id",$user_id)->first();
                    
         $data['jobs'] = DB::table("job_boxes")->get();                
         return view('nurse.find_jobs')->with($data);
@@ -251,6 +252,14 @@ class JobsController extends Controller{
         ->get();
 
         return view("nurse.job_filter_data")->with($data);
+    }
+
+    public function updateSectorData(Request $request){
+        echo $sector_data = $request->sector_data;
+
+        echo $user_id = Auth::guard("nurse_middle")->user()->id;
+
+        $updateWorkPreferencesFlexiblity = DB::table("work_preferences")->where("user_id",$user_id)->update(['sector_preferences'=>$sector_data]);
     }
 
 }
