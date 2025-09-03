@@ -255,11 +255,21 @@ class JobsController extends Controller{
     }
 
     public function updateSectorData(Request $request){
-        echo $sector_data = $request->sector_data;
+        $sector_data = $request->sector_data;
 
-        echo $user_id = Auth::guard("nurse_middle")->user()->id;
+        $user_id = Auth::guard("nurse_middle")->user()->id;
 
         $updateWorkPreferencesFlexiblity = DB::table("work_preferences")->where("user_id",$user_id)->update(['sector_preferences'=>$sector_data]);
+    }
+
+    public function getJobsSorting(Request $request){
+        $sort_name = $request->sort_name;
+
+        if($sort_name == "most_recent"){
+            $data['jobs'] = DB::table("job_boxes")->orderBy('id','desc')->get();
+        }
+
+        return view("nurse.job_filter_data")->with($data);
     }
 
 }
