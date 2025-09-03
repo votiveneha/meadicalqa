@@ -531,6 +531,16 @@
   border: 1px solid #ccc;
 }
 
+.urgent-tag {
+  background: #000000ff; /* red */
+  color: #fff;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 4px 10px;
+  border-radius: 12px;
+  height: fit-content;
+}
+
 </style>
 @endsection
 
@@ -584,14 +594,14 @@
 
             <div style="display: flex; flex-direction: column;">
                 <label for="sort">Sort By</label>
-                <select>
-                    <option>Match Percentage</option>
-                    <option>Most Recent/fresh listings</option>
-                    <option>Highest Salary / Hourly Rate</option>
-                    <option>Proximity / Nearest Location</option>
-                    <option>Urgent Hire</option>
-                    <option>Facility/Agency Rating</option>
-                    <option>Application Deadline Soonest</option>
+                <select onchange="sortBy(this.value)">
+                    <option value="match_percent">Match Percentage</option>
+                    <option value="most_recent">Most Recent/fresh listings</option>
+                    <option value="highest_salary">Highest Salary / Hourly Rate</option>
+                    <option value="nearest_location">Proximity / Nearest Location</option>
+                    <option value="urgent_hire">Urgent Hire</option>
+                    <option value="agency_rating">Facility/Agency Rating</option>
+                    <option value="application_deadline">Application Deadline Soonest</option>
                 </select>
             </div>
 
@@ -723,13 +733,14 @@
                             if(!empty($emplyeement_type)){
                               foreach($emplyeement_type as $emptype){
                                 
-                                $emp_type = DB::table("employeement_type_preferences")->where("emp_prefer_id",$emplyeement_type)->first();
+                                $emp_type = DB::table("employeement_type_preferences")->where("emp_prefer_id",$emptype)->first();
                                 
                                 $emplyeement_type_arr[] = $emp_type->emp_type;
                               }
                             }
 
                             $emplyeement_type_arr_string = implode(",",$emplyeement_type_arr);
+                            
 
                             $shift_type = json_decode($job->shift_type);
                             
@@ -793,6 +804,9 @@
                           <div class="location">{{ $job->location_name }}</div>
                         </div>
                       </div>
+                      @if($job->urgent_hire == 1)
+                      <div class="urgent-tag">Urgent Hiring</div>
+                      @endif
                     </div>
 
                     <!-- Job Role / Hospital Name -->
@@ -801,7 +815,7 @@
                     <!-- Main Job Info -->
                     <div class="job-meta">
                       <span><strong>Position:</strong> {{ $emp_pos_arr_string }}</span>
-                      <span><strong>Salary:</strong> ${{ $job->salary }}/hr</span>
+                      <span class="salary"><strong>Salary:</strong> ${{ $job->salary }}/hr</span>
                     </div>
 
                     <!-- Expanded Job Details -->
@@ -817,10 +831,65 @@
                       
                       {{ $job->experience_level }}{{ $job->experience_level == 1 ? 'st' : ($job->experience_level == 2 ? 'nd' : ($job->experience_level == 3 ? 'rd' : 'th')) }} Year</div>
                     </div>
+                    <?php
+                        $sector_percent = ($work_preferences_data->sector_preferences == $job->sector) ? 1 : 0;
 
+                        $emp_type = (array)json_decode($work_preferences_data->emptype_preferences);
+                        $mainIndex = array_key_first($emp_type);
+                        $ids = $emp_type[$mainIndex];
+                        $names = DB::table('employeement_type_preferences')
+                                    ->whereIn('emp_prefer_id', $ids)
+                                    ->pluck('emp_type')
+                                    ->toArray();
+                        $mainIndexName = DB::table('employeement_type_preferences')
+                                          ->where('emp_prefer_id', $mainIndex)
+                                          ->value('emp_type');        
+                                          
+                        $result = [
+                          "main_index" => $mainIndexName,
+                          "children"   => $names
+                        ];             
+                        
+                        $searchValues = array_map('trim', explode(',', $emplyeement_type_arr_string));
+                        //print_r($searchValues);
+                        $getEmp = '';
+                        foreach ($searchValues as $searchValue) {
+                            if ($result['main_index'] === $searchValue) {
+                                $getEmp = 1;
+                            } elseif (in_array($searchValue, $result['children'])) {
+                                $getEmp = 1;
+                            } else {
+                                $getEmp = 0;
+                            }
+                        }
+
+                        $shift_values = (array)json_decode($job->shift_type);
+                        $shift_percent = '';
+                        foreach ($shift_values as $shiftKey) {
+                          if (array_key_exists($shiftKey, (array)json_decode($work_preferences_data->work_shift_preferences))) {
+                            $shift_percent = 1;
+                          } else {
+                            $shift_percent = 0;
+                          }
+                        }
+
+                        $match_percent_add = $sector_percent + $getEmp + $shift_percent;
+
+                        $total_percent = $match_percent_add * 100/10;
+
+                        
+
+                        $workEnvPrefs = (array)json_decode($work_preferences_data->work_environment_preferences);
+
+                        
+
+
+                        
+                        //print_r($names);
+                    ?>        
                     <!-- Footer: Match & Apply -->
                     <div class="job-footer">
-                      <div class="match-score">85% Match</div>
+                      <div class="match-score">{{ $total_percent }}% Match</div>
                       <button class="apply-btn">Apply Now</button>
                     </div>
                   </div>
@@ -833,6 +902,72 @@
     </section>
 </main>
 <script>
+  $(document).ready(function () {
+      var $container = $('.job-listings'); // replace with your actual wrapper id/class
+
+      // Get all job cards
+      var $cards = $container.children('.job-card');
+
+      // Sort by match percentage
+      $cards.sort(function (a, b) {
+          var aVal = parseInt($(a).find('.match-score').text()); // "20% Match" → 20
+          var bVal = parseInt($(b).find('.match-score').text());
+
+          return bVal - aVal; // High to Low (swap if you want Low → High)
+      });
+
+      // Re-append in sorted order
+      $container.html($cards);
+  });
+  function sortBy(value){
+    if(value == 'most_recent'){
+      $.ajax({
+        type: "POST",
+        url: "{{ url('/nurse/getJobsSorting') }}",
+        data: {sort_name:value,_token:'{{ csrf_token() }}'},
+        cache: false,
+        success: function(data){
+          console.log("data",data);
+          $(".job-listings").html(data);
+        }  
+      });
+    }
+
+    if(value == 'match_percent'){
+       // Container holding all job cards
+      var $container = $('.job-listings'); // replace with your actual wrapper id/class
+
+      // Get all job cards
+      var $cards = $container.children('.job-card');
+
+      // Sort by match percentage
+      $cards.sort(function (a, b) {
+          var aVal = parseInt($(a).find('.match-score').text()); // "20% Match" → 20
+          var bVal = parseInt($(b).find('.match-score').text());
+
+          return bVal - aVal; // High to Low (swap if you want Low → High)
+      });
+
+      // Re-append in sorted order
+      $container.html($cards);
+    }
+
+    if(value == 'highest_salary'){
+      var $container = $('.job-listings');   // wrapper div of all job cards
+      var $cards = $container.children('.job-card');
+
+      $cards.sort(function (a, b) {
+          // Extract numeric salary
+          var aSalary = parseInt($(a).find('.salary').text().replace(/[^0-9]/g, ''));
+          var bSalary = parseInt($(b).find('.salary').text().replace(/[^0-9]/g, ''));
+
+          return bSalary - aSalary; // High → Low
+      });
+
+      $container.html($cards); // re-render sorted order
+    }
+  }
+
   function toggleMessage() {
     if ($("#toggleRegisteredPreferences").is(":checked")) {
       $(".auto_fill_message").show();
