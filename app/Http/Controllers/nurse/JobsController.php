@@ -52,6 +52,15 @@ class JobsController extends Controller{
         $data['work_preferences_data'] = DB::table("work_preferences")
             ->where("user_id", $user_id)
             ->first();    
+        $international_location = json_decode($data['work_preferences_data']->countries);
+        $country_name_arr = [];
+        if(!empty($international_location)){
+            foreach($international_location as $inter_loc){
+                $countdata = DB::table("countries")->where("id",$inter_loc)->first();
+                $country_name_arr[] = $countdata->name; 
+            }
+        }    
+        $data['country_name'] = $country_name_arr;
         $data['user_data'] = DB::table("users")->where("id",$user_id)->first();
                    
         $data['jobs'] = DB::table("job_boxes")->get();                
@@ -154,6 +163,21 @@ class JobsController extends Controller{
 
         // Return as JSON
         return $json;
+    }
+
+    public function getJobsSorting(Request $request){
+        $sort_name = $request->sort_name;
+
+        if($sort_name == "most_recent"){
+            $data['jobs'] = DB::table("job_boxes")->orderBy('id','desc')->get();
+        }
+
+        if($sort_name == "urgent_hire"){
+            $data['jobs'] = DB::table("job_boxes")->orderBy('urgent_hire','desc')->get();
+            //print_r($data['jobs']);die;
+        }
+        
+        return view("nurse.job_filter_data")->with($data);
     }
 
     public function getNurseData(Request $request)
@@ -260,16 +284,6 @@ class JobsController extends Controller{
         $user_id = Auth::guard("nurse_middle")->user()->id;
 
         $updateWorkPreferencesFlexiblity = DB::table("work_preferences")->where("user_id",$user_id)->update(['sector_preferences'=>$sector_data]);
-    }
-
-    public function getJobsSorting(Request $request){
-        $sort_name = $request->sort_name;
-
-        if($sort_name == "most_recent"){
-            $data['jobs'] = DB::table("job_boxes")->orderBy('id','desc')->get();
-        }
-
-        return view("nurse.job_filter_data")->with($data);
     }
 
 }
