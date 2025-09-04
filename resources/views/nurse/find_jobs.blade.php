@@ -541,6 +541,88 @@
   height: fit-content;
 }
 
+.custom-multiselect {
+  position: relative;
+  width: 220px; /* same as other selects */
+}
+
+.select-box {
+  background: #fff;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.select-box::after {
+  content: "▾";
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #6c757d;
+}
+
+.checkbox-options {
+  display: none;
+  position: absolute;
+  background: #fff;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  margin-top: 2px;
+  padding: 8px;
+  z-index: 1000;
+  width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+.checkbox-options label {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 6px; /* spacing between checkbox & text */
+  font-size: 14px;
+  padding: 4px 8px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.checkbox-options input[type="checkbox"] {
+  margin: 0;
+  width: 14px;
+  height: 14px;
+  accent-color: #0d6efd; /* Bootstrap primary color */
+}
+
+.checkbox-options input{
+  flex:none;
+}
+.no-jobs-box {
+  padding: 20px;
+  margin: 15px 0;
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  background: #fafafa;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+.no-jobs-box h3 {
+  margin: 0 0 10px;
+  font-size: 18px;
+  color: #444;
+}
+.no-jobs-box p {
+  margin: 0;
+  font-size: 14px;
+  color: #777;
+}
+
+
 </style>
 @endsection
 
@@ -575,20 +657,27 @@
                 <input type="text" id="keywords" placeholder="e.g. ICU, aged care, night shift">
             </div>
 
-            <div style="display: flex; flex-direction: column;">
-                <label for="location">Location</label>
-                <select id="location">
-                <option>Melbourne, VIC</option>
-                <option>Sydney, NSW</option>
-                </select>
+            <div class="form-group">
+              <label for="agency">Location</label>
+              <div class="custom-multiselect">
+                <div class="select-box">Select Location</div>
+                <div class="checkbox-options location_boxes">
+                  @foreach($country_name as $cname)
+                  <label><input type="checkbox" class="location-checkbox" value="{{ $cname }}" checked> {{ $cname }}</label>
+                  @endforeach
+                  
+                </div>
+              </div>
             </div>
+
+            <!-- Hidden input to store selected values -->
+            <input type="hidden" id="selectedLocations" name="locations">
 
             <div style="display: flex; flex-direction: column;">
                 <label for="agency">Facility/Agency</label>
                 <select id="agency">
-                <option>Optional Facility/Agency</option>
-                <option>St. John’s Hospital</option>
-                <option>Brightview Care</option>
+                  <option value="">Select Agency</option>
+                
                 </select>
             </div>
 
@@ -605,9 +694,6 @@
                 </select>
             </div>
 
-            <div style="display: flex; flex-direction: column; justify-content: flex-end;">
-                <button style="margin-top: auto;">Search</button>
-            </div>
             </div>
             <div class="row">
                 <div class="filters col-md-4">
@@ -693,9 +779,10 @@
 
                 </div>
                 <!-- Job Listings -->
+                 
                 <div class="job-listings col-md-8">
                   @foreach($jobs as $job)
-                  <div class="job-card">
+                  <div class="job-card" data-location="{{ $job->location_name }}">
                     <!-- Top Row: Company Logo & Position -->
                     <div class="job-card-header">
                       <div class="job-company">
@@ -832,11 +919,18 @@
                       {{ $job->experience_level }}{{ $job->experience_level == 1 ? 'st' : ($job->experience_level == 2 ? 'nd' : ($job->experience_level == 3 ? 'rd' : 'th')) }} Year</div>
                     </div>
                     <?php
+                    
                         $sector_percent = ($work_preferences_data->sector_preferences == $job->sector) ? 1 : 0;
 
                         $emp_type = (array)json_decode($work_preferences_data->emptype_preferences);
                         $mainIndex = array_key_first($emp_type);
-                        $ids = $emp_type[$mainIndex];
+
+                        if($mainIndex != ""){
+                          $ids = $emp_type[$mainIndex];
+                        }else{
+                          $ids = [0];
+                        }
+                        
                         $names = DB::table('employeement_type_preferences')
                                     ->whereIn('emp_prefer_id', $ids)
                                     ->pluck('emp_type')
@@ -894,6 +988,7 @@
                     </div>
                   </div>
                   @endforeach
+                  
                 </div>
             </div>
         </div>
@@ -920,7 +1015,7 @@
       $container.html($cards);
   });
   function sortBy(value){
-    if(value == 'most_recent'){
+    if(value == 'most_recent' || value == 'urgent_hire'){
       $.ajax({
         type: "POST",
         url: "{{ url('/nurse/getJobsSorting') }}",
@@ -968,6 +1063,119 @@
     }
   }
 
+  $("#keywords").on("keyup", function () {
+    var value = $(this).val().toLowerCase();
+    var anyVisible = false;
+
+    $(".job-listings .job-card").filter(function () {
+      var match = $(this).text().toLowerCase().indexOf(value) > -1;
+      $(this).toggle(match);
+      if (match) anyVisible = true;
+    });
+
+    if (anyVisible) {
+      $("#no-jobs").hide();
+    } else {
+      $(".job-listings").html('\<div id="no-jobs" class="no-jobs-box">\
+          <h3>🚫 No Jobs Found</h3>\
+          <p>Sorry, no jobs match your search.</p>\
+        </div>');
+    }
+  });
+
+ let allLocations = [...new Set($('.location').map(function () {
+    return $(this).text().trim();
+}).get())];
+
+// 2. Get all values from existing checkboxes
+let checkboxLocations = $('.location-checkbox').map(function () {
+    return $(this).val().trim();
+}).get();
+
+// 3. Filter out locations that are already in checkboxes
+let remainingLocations = allLocations.filter(loc => !checkboxLocations.includes(loc));
+
+console.log("Remaining Locations:", remainingLocations);
+
+  // Append options to dropdown
+  let $dropdown = $('.location_boxes');
+  remainingLocations.forEach(function(loc) {
+      $dropdown.append('<label><input type="checkbox" class="location-checkbox" value="'+loc+'"> '+loc+'</label>');
+  });
+
+ function filterJobs() {
+    // Get all checked locations
+    let selectedLocations = $('.location-checkbox:checked').map(function () {
+        return $(this).val().trim();
+    }).get();
+
+    if (selectedLocations.length === 0) {
+        // If nothing is checked → show all jobs
+        $('.job-card').show();
+        return;
+    }
+
+    // Loop through job cards
+    $('.job-card').each(function () {
+        let jobLocation = $(this).find('.location').text().trim();
+
+        if (selectedLocations.includes(jobLocation)) {
+            $(this).show(); // match → show
+        } else {
+            $(this).hide(); // not match → hide
+        }
+    });
+}
+
+// Run when checkboxes change
+$(document).on('change', '.location-checkbox', filterJobs);
+
+// Run once on page load (for auto-checked locations)
+$(document).ready(filterJobs);
+
+
+  //For Agency
+  let uniqueAgency = [...new Set($('.job-role').map(function() {
+    return $(this).text().trim();
+  }).get())];
+
+  console.log("uniqueAgency",uniqueAgency);
+
+  // Append options to dropdown
+  let $dropdown_agency = $('#agency');
+  uniqueAgency.forEach(function(agency) {
+    $dropdown_agency.append('<option value="'+ agency +'">'+ agency +'</option>');
+  });
+
+  $('#agency').on('change', function() {
+    let selectedAgency = $(this).val().trim();
+
+    // Show all jobs if no location selected
+    if (selectedAgency === "") {
+        $('.job-card').show();
+        return;
+    }
+
+    // Loop through each job card
+    $('.job-card').each(function() {
+        let jobAgency = $(this).find('.job-role').text().trim();
+
+        if (jobAgency === selectedAgency) {
+            $(this).show();
+        } else {
+            $(this).hide();
+        }
+    });
+  });
+
+  var selected = [];
+  $(".location-checkbox:checked").each(function () {
+      selected.push($(this).val());
+  });
+
+  console.log(selected); 
+
+
   function toggleMessage() {
     if ($("#toggleRegisteredPreferences").is(":checked")) {
       $(".auto_fill_message").show();
@@ -1004,10 +1212,67 @@ $('#toggleUpdatePreferences').on('change', function() {
     }, 4000);
 });
 
+$('.dropdown-toggle').on('click', function() {
+  $(this).next('.dropdown-menu').toggle();
+});
+
+// Close dropdown if clicked outside
+$(document).on('click', function(e) {
+  if (!$(e.target).closest('.dropdown').length) {
+    $('.dropdown-menu').hide();
+  }
+});
+// Toggle dropdown
+$('.select-box').on('click', function() {
+  $(this).siblings('.checkbox-options').toggle();
+});
+
+// Close when clicking outside
+$(document).on('click', function(e) {
+  if (!$(e.target).closest('.custom-multiselect').length) {
+    $('.checkbox-options').hide();
+  }
+});
+
+// Handle checkbox selection
+$('.checkbox-options input[type="checkbox"]').on('change', function() {
+  let selected = [];
+  $(this).closest('.checkbox-options')
+         .find('input[type="checkbox"]:checked')
+         .each(function() {
+            selected.push($(this).val());
+         });
+
+  // Update display text
+  let displayText = selected.length > 0 ? selected.join(', ') : "Select Location";
+  $(this).closest('.custom-multiselect').find('.select-box').text(displayText);
+
+  // Update hidden field
+  $('#selectedLocations').val(selected.join(','));
+});
 
 
-  // On toggle change
-  //togglePref.addEventListener("change", updateTooltip);
+    // Get all checked values
+    var selected = $(".location-checkbox:checked").map(function () {
+        return $(this).val();
+    }).get();
+
+    if (selected.length === 0) {
+        // If nothing selected, show all jobs
+        $(".job-card").show();
+    } else {
+        // Otherwise, filter
+        $(".job-card").each(function () {
+            var jobLocation = $(this).data("location");
+            if (selected.includes(jobLocation)) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
+        });
+    }
+
+
 
 </script>
 @endsection
