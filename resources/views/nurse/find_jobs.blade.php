@@ -214,6 +214,23 @@
     background-color: #0056b3;
   }
 
+  .apply-btn.applied {
+    background: none;
+    color: #28a745; /* green */
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border: none;
+    cursor: default;
+    padding: 0;
+}
+
+.apply-btn.applied::before {
+    content: "✔"; /* check icon */
+    font-weight: bold;
+}
+
     .search-bar label {
         font-size: 12px;
         margin-bottom: 4px;
@@ -622,6 +639,13 @@
   color: #777;
 }
 
+.last-date {
+  font-size: 13px;
+  font-weight: 500;
+  color: #dc3545; /* red */
+  margin-top: 4px;
+}
+
 
 </style>
 @endsection
@@ -662,10 +686,15 @@
               <div class="custom-multiselect">
                 <div class="select-box">Select Location</div>
                 <div class="checkbox-options location_boxes">
+                  @if($location_status == 'international_location' || $location_status == 'multiple_location')
                   @foreach($country_name as $cname)
                   <label><input type="checkbox" class="location-checkbox" value="{{ $cname }}" checked> {{ $cname }}</label>
                   @endforeach
-                  
+                  @else
+                  @if($location_status == 'current_location')
+                  <label><input type="checkbox" class="location-checkbox" value="{{ $country_name }}" checked> {{ $country_name }}</label>
+                  @endif
+                  @endif
                 </div>
               </div>
             </div>
@@ -781,6 +810,10 @@
                 <!-- Job Listings -->
                  
                 <div class="job-listings col-md-8">
+                  <div id="no-jobs" class="no-jobs-box" style="display:none;">
+                    <h3>🚫 No Jobs Found</h3>
+                    <p>Sorry, no jobs match your search.</p>
+                  </div>
                   @foreach($jobs as $job)
                   <div class="job-card" data-location="{{ $job->location_name }}">
                     <!-- Top Row: Company Logo & Position -->
@@ -917,6 +950,13 @@
                       <div><strong>Experience Required:</strong>
                       
                       {{ $job->experience_level }}{{ $job->experience_level == 1 ? 'st' : ($job->experience_level == 2 ? 'nd' : ($job->experience_level == 3 ? 'rd' : 'th')) }} Year</div>
+                      <div class="last-date">
+                        Last Date:
+                        <?php
+                          echo $formattedDate = date("d M Y", strtotime($job->application_submission_date));
+                        ?>
+                         
+                      </div>      
                     </div>
                     <?php
                     
@@ -976,15 +1016,22 @@
                         $workEnvPrefs = (array)json_decode($work_preferences_data->work_environment_preferences);
 
                         
+                        $user_id = Auth::guard("nurse_middle")->user()->id;
 
-
-                        
+                        $apply_job_data = DB::table("job_apply")->where("user_id",$user_id)->where("job_id",$job->id)->first();
                         //print_r($names);
                     ?>        
                     <!-- Footer: Match & Apply -->
                     <div class="job-footer">
                       <div class="match-score">{{ $total_percent }}% Match</div>
-                      <button class="apply-btn">Apply Now</button>
+                      <button class="apply-btn apply-btn-{{ $job->id }} @if(!empty($apply_job_data)) applied @endif" onclick="applyNow('{{ $user_id }}','{{ $job->id }}')">
+                        @if(!empty($apply_job_data))
+                        Applied
+                        @else
+                        Apply Now
+                        @endif
+                      </button>
+                      
                     </div>
                   </div>
                   @endforeach
@@ -1012,10 +1059,10 @@
       });
 
       // Re-append in sorted order
-      $container.html($cards);
+      $container.append($cards);
   });
   function sortBy(value){
-    if(value == 'most_recent' || value == 'urgent_hire'){
+    if(value == 'most_recent' || value == 'urgent_hire' || value == 'application_deadline'){
       $.ajax({
         type: "POST",
         url: "{{ url('/nurse/getJobsSorting') }}",
@@ -1125,6 +1172,18 @@ console.log("Remaining Locations:", remainingLocations);
             $(this).hide(); // not match → hide
         }
     });
+
+    // Update dropdown display text
+    updateSelectedLocationsBox();
+    checkIfNoJobs(); // ✅ check if all are hidden
+}
+
+function checkIfNoJobs() {
+    if ($('.job-card:visible').length === 0) {
+        $('#no-jobs').show();
+    } else {
+        $('#no-jobs').hide();
+    }
 }
 
 // Run when checkboxes change
@@ -1132,6 +1191,18 @@ $(document).on('change', '.location-checkbox', filterJobs);
 
 // Run once on page load (for auto-checked locations)
 $(document).ready(filterJobs);
+
+function updateSelectedLocationsBox() {
+    let selected = $('.location-checkbox:checked').map(function () {
+        return $(this).val().trim();
+    }).get();
+
+    if (selected.length > 0) {
+        $('.select-box').text(selected.join(', '));
+    } else {
+        $('.select-box').text('Select Location');
+    }
+}
 
 
   //For Agency
@@ -1270,6 +1341,26 @@ $('.checkbox-options input[type="checkbox"]').on('change', function() {
                 $(this).hide();
             }
         });
+    }
+
+    function applyNow(user_id,job_id){
+      $.ajax({
+        type: "POST",
+        url: "{{ url('/nurse/applyJobs') }}",
+        data: {user_id:user_id,job_id:job_id,_token:'{{ csrf_token() }}'},
+        cache: false,
+        success: function(data){
+          //console.log("data",data);
+          if(data == 1){
+            let btn = $('.apply-btn-'+job_id);
+
+            // simulate successful apply (you can call AJAX here)
+            btn.text('Applied');
+            btn.addClass('applied');
+            btn.prop('disabled', true); // optional: disable after applying
+          }
+        }  
+      });
     }
 
 
