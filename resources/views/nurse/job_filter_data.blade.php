@@ -107,6 +107,9 @@
             <div class="location">{{ $job->location_name }}</div>
         </div>
         </div>
+        @if($job->urgent_hire == 1)
+        <div class="urgent-tag">Urgent Hiring</div>
+        @endif
     </div>
 
     <!-- Job Role / Hospital Name -->
@@ -129,6 +132,13 @@
         <div><strong>Specialty:</strong> {{ $speciality_arr_string }}</div>
         <div><strong>Experience Required:</strong>
             {{ $job->experience_level }}{{ $job->experience_level == 1 ? 'st' : ($job->experience_level == 2 ? 'nd' : ($job->experience_level == 3 ? 'rd' : 'th')) }} Year
+        </div>
+        <div class="last-date">
+            Last Date:
+            <?php
+                echo $formattedDate = date("d M Y", strtotime($job->application_submission_date));
+            ?>
+            
         </div>
     </div>
 
