@@ -193,6 +193,14 @@
                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Salary</strong></label>
                     <input type="text" class="form-control" name="salary">
                 </div>    
+                <div class="form-group">
+                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Application Submission Date</strong></label>
+                    <input type="date" class="form-control" name="application_submission_date">
+                </div>    
+                <div class="form-group">
+                    <input type="checkbox" name="urgent_hire_tag">Urgent Hire
+                </div>
+
                 <button type="submit" class="btn btn-primary font-medium waves-effect" id="job_submit_btn">
                             Submit 
                         </button>
