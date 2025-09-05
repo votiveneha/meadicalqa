@@ -52,19 +52,71 @@ class JobsController extends Controller{
         $data['work_preferences_data'] = DB::table("work_preferences")
             ->where("user_id", $user_id)
             ->first();    
-        $international_location = json_decode($data['work_preferences_data']->countries);
-        $country_name_arr = [];
-        if(!empty($international_location)){
-            foreach($international_location as $inter_loc){
-                $countdata = DB::table("countries")->where("id",$inter_loc)->first();
-                $country_name_arr[] = $countdata->name; 
+        if($data['work_preferences_data']->location_status == "International relocation"){    
+            $international_location = json_decode($data['work_preferences_data']->countries);
+            $country_name_arr = [];
+            if(!empty($international_location)){
+                foreach($international_location as $inter_loc){
+                    if($inter_loc != "Other"){
+                        $countdata = DB::table("countries")->where("id",$inter_loc)->first();
+                        $country_name_arr[] = $countdata->name; 
+                    }
+                }
+            }    
+            $other_countries = [];
+            if (in_array("Other", $international_location)) {
+                $other_location = json_decode($data['work_preferences_data']->other_countries);
+                foreach($other_location as $other_loc){
+                    $countdata = DB::table("countries")->where("id",$other_loc)->first();
+                    $other_countries[] = ucwords(strtolower($countdata->name)); 
+                    
+                }
+                
             }
-        }    
-        $data['country_name'] = $country_name_arr;
+            
+            $data['location_status'] = "international_location";
+            $country_merge = array_merge($country_name_arr, $other_countries);
+        }
+
+        if($data['work_preferences_data']->location_status == "Current Location area (not willing to relocate)"){
+            $address = $data['work_preferences_data']->prefered_location_current;
+            $parts = explode(",", $address);
+            $country_merge = trim(end($parts));
+            $data['location_status'] = "current_location";
+        }
+
+        
+
+        if($data['work_preferences_data']->location_status == "Multiple locations area (relocation within your country)"){
+            $address = json_decode($data['work_preferences_data']->prefered_location);
+            $country_merge = [];
+            if(!empty($address)){
+                foreach($address as $add){
+                    
+                    $parts = explode(",", $add->location);
+                    $country_merge[] = trim(end($parts));
+                }
+            }
+            
+            $data['location_status'] = "multiple_location";
+        }
+        
+        $data['country_name'] = $country_merge;
         $data['user_data'] = DB::table("users")->where("id",$user_id)->first();
                    
         $data['jobs'] = DB::table("job_boxes")->get();                
         return view('nurse.find_jobs')->with($data);
+    }
+
+    public function capitalizeFirstTwo($string) {
+        $result = '';
+        $words = explode(' ', strtolower($string)); // split words, normalize to lowercase
+        foreach ($words as $word) {
+            $part1 = strtoupper(substr($word, 0, 2)); // first 2 letters uppercase
+            $part2 = substr($word, 2);               // rest normal
+            $result .= $part1 . $part2 . ' ';
+        }
+        return trim($result);
     }
 
     public function getWorkFlexiblityData(Request $request)
@@ -176,6 +228,11 @@ class JobsController extends Controller{
             $data['jobs'] = DB::table("job_boxes")->orderBy('urgent_hire','desc')->get();
             //print_r($data['jobs']);die;
         }
+
+        if($sort_name == "application_deadline"){
+            $data['jobs'] = DB::table("job_boxes")->orderBy('application_submission_date','asc')->get();
+            //print_r($data['jobs']);die;
+        }
         
         return view("nurse.job_filter_data")->with($data);
     }
@@ -284,6 +341,17 @@ class JobsController extends Controller{
         $user_id = Auth::guard("nurse_middle")->user()->id;
 
         $updateWorkPreferencesFlexiblity = DB::table("work_preferences")->where("user_id",$user_id)->update(['sector_preferences'=>$sector_data]);
+    }
+
+    public function applyJobs(Request $request){
+        $user_id = $request->user_id;
+        $job_id = $request->job_id; 
+
+        $applyJobs = DB::table("job_apply")->insert(["user_id"=>$user_id,"job_id"=>$job_id]);
+
+        if($applyJobs == 1){
+            return $applyJobs;
+        }
     }
 
 }
