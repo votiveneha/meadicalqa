@@ -74,8 +74,12 @@
                 ?>
                 @foreach($work_shift_data as $work_shift)
                 <div class="accordion-section">
-                 <div class="accordion-header" onclick="toggleAccordion(this)">
+                 <div class="accordion-header">
                    <strong>{{ $work_shift->shift_name }}</strong>
+                   <div class="actions">
+                    <button type="button" onclick="selectAll(event, {{ $work_shift->shift_name }})" class="select-all" data-target="perm">Select All</button>
+                    <button type="button" onclick="clearAll(event, '+data1[i].id+')" class="clear-all" data-target="perm">Clear All</button>
+                  </div>
                  </div>
                  <?php
                     $sub_work_shift = DB::table("work_shift_preferences")
@@ -434,12 +438,16 @@
           }
           console.log("data.id",data1[i].id);
           if(data1[i].name != "Other" && data1[i].name != "All/No Preference"){
-            
+            var perm = "perm";
             accordian_section += '<div class="accordion-section">\
-                <div class="accordion-header" onclick="toggleAccordion(this)">\
+                <div class="accordion-header">\
                   <strong>'+data1[i].name+'</strong>\
+                  <div class="actions">\
+                    <button type="button" onclick="selectAll(event, '+data1[i].id+')" class="select-all select-all-'+data1[i].id+'" data-target="perm">Select All</button>\
+                    <button type="button" onclick="clearAll(event, '+data1[i].id+')" class="clear-all clear-all-'+data1[i].id+'" data-target="perm">Clear All</button>\
+                  </div>\
                 </div>\
-                <div class="accordion-content" id="perm">'+sub_data+'</div>\
+                <div class="accordion-content" id="emp_type-'+data1[i].id+'">'+sub_data+'</div>\
               </div>';
           }
 
@@ -635,23 +643,25 @@
     //document.getElementById("shiftModal").style.display = "none";
   }
 
-  function toggleAccordion(header) {
-    const content = header.nextElementSibling;
-    const isOpen = content.style.display === 'block';
-    content.style.display = isOpen ? 'none' : 'block';
-  }
+ // Accordion open/close
+function toggleAccordion(header) {
+  var content = $(header).next(".accordion-content");
+  $(".accordion-content").not(content).slideUp();
+  content.slideToggle();
+}
 
-  function selectAll(e, id) {
-    e.preventDefault();
-    const section = document.getElementById(id);
-    section.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = true);
-  }
+// ✅ Select All
+function selectAll(event, targetId) {
+  event.stopPropagation(); // stop accordion toggle
+  $("#emp_type-" + targetId + " .sector_checkbox").prop("checked", true);
+}
 
-  function clearAll(e, id) {
-    e.preventDefault();
-    const section = document.getElementById(id);
-    section.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
-  }
+// ✅ Clear All
+function clearAll(event, targetId) {
+  event.stopPropagation(); // stop accordion toggle
+  $("#emp_type-" + targetId + " .sector_checkbox").prop("checked", false);
+}
+
 
   function toggleSpecificDays() {
     const checkbox = document.getElementById("specificDaysToggle");
