@@ -646,6 +646,38 @@
   margin-top: 4px;
 }
 
+.item { display: none; margin: 5px; padding: 10px; border: 1px solid #ccc; }
+    .pagination { 
+      margin-top: 20px;
+      justify-content: center; 
+      align-items: center; 
+      gap: 6px; 
+     }
+    .pagination button {
+      padding: 5px 10px;
+      margin: 2px;
+      border: 1px solid #333;
+      cursor: pointer;
+      background: #f2f2f2;
+    }
+    .pagination .active {
+      background: #333;
+      color: #fff;
+    }
+
+    .accordion-header .actions button {
+      margin-left: 5px;
+      padding: 2px 8px;
+      font-size: 12px;
+      border: 1px solid #ccc;
+      background: #fff;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+
+    .accordion-header .actions button:hover {
+      background: #eee;
+    }
 
 </style>
 @endsection
@@ -814,8 +846,9 @@
                     <h3>🚫 No Jobs Found</h3>
                     <p>Sorry, no jobs match your search.</p>
                   </div>
+                  <div class="job-container">
                   @foreach($jobs as $job)
-                  <div class="job-card" data-location="{{ $job->location_name }}">
+                  <div class="job-card item" data-location="{{ $job->location_name }}">
                     <!-- Top Row: Company Logo & Position -->
                     <div class="job-card-header">
                       <div class="job-company">
@@ -1035,8 +1068,10 @@
                     </div>
                   </div>
                   @endforeach
-                  
+                  </div>
+                  <div class="pagination"></div>
                 </div>
+                
             </div>
         </div>
         @include('nurse.job_modals')
@@ -1044,23 +1079,23 @@
     </section>
 </main>
 <script>
-  $(document).ready(function () {
-      var $container = $('.job-listings'); // replace with your actual wrapper id/class
+  // $(document).ready(function () {
+  //     var $container = $('.job-listings'); // replace with your actual wrapper id/class
 
-      // Get all job cards
-      var $cards = $container.children('.job-card');
+  //     // Get all job cards
+  //     var $cards = $container.children('.job-card');
 
-      // Sort by match percentage
-      $cards.sort(function (a, b) {
-          var aVal = parseInt($(a).find('.match-score').text()); // "20% Match" → 20
-          var bVal = parseInt($(b).find('.match-score').text());
+  //     // Sort by match percentage
+  //     $cards.sort(function (a, b) {
+  //         var aVal = parseInt($(a).find('.match-score').text()); // "20% Match" → 20
+  //         var bVal = parseInt($(b).find('.match-score').text());
 
-          return bVal - aVal; // High to Low (swap if you want Low → High)
-      });
+  //         return bVal - aVal; // High to Low (swap if you want Low → High)
+  //     });
 
-      // Re-append in sorted order
-      $container.append($cards);
-  });
+  //     // Re-append in sorted order
+  //     $container.append($cards);
+  // });
   function sortBy(value){
     if(value == 'most_recent' || value == 'urgent_hire' || value == 'application_deadline'){
       $.ajax({
@@ -1362,6 +1397,109 @@ $('.checkbox-options input[type="checkbox"]').on('change', function() {
         }  
       });
     }
+
+$(document).ready(function () {
+  var itemsPerPage = 2;
+  var currentPage = 1;
+
+  function getFilteredItems() {
+    var selectedLocations = $(".location-checkbox:checked")
+      .map(function () {
+        return $(this).val();
+      })
+      .get();
+
+    return $(".job-card.item").filter(function () {
+      if (selectedLocations.length === 0) return true; // show all if no filter
+      return selectedLocations.includes($(this).data("location"));
+    });
+  }
+
+  function showPage(page) {
+    var items = getFilteredItems();
+    var totalPages = Math.ceil(items.length / itemsPerPage);
+    if (page < 1) page = 1;
+    if (page > totalPages) page = totalPages;
+
+    currentPage = page;
+    $(".job-card.item").hide();
+
+    var start = (page - 1) * itemsPerPage;
+    var end = start + itemsPerPage;
+    items.slice(start, end).show();
+
+    $(".pagination button.page").removeClass("active");
+    $(".pagination button.page[data-page='" + page + "']").addClass("active");
+
+    $(".pagination button.prev").prop("disabled", page === 1);
+    $(".pagination button.next").prop("disabled", page === totalPages);
+  }
+
+  function buildPagination() {
+    var items = getFilteredItems();
+    var totalPages = Math.ceil(items.length / itemsPerPage);
+    $(".pagination").empty();
+
+    if (items.length === 0) {
+      $(".pagination").html("<p>No jobs found</p>");
+      return;
+    }
+
+    if (totalPages > 1) {
+      $(".pagination").append("<button class='prev'>&laquo;</button>");
+      for (var i = 1; i <= totalPages; i++) {
+        $(".pagination").append(
+          "<button class='page' data-page='" + i + "'>" + i + "</button>"
+        );
+      }
+      $(".pagination").append("<button class='next'>&raquo;</button>");
+    }
+    showPage(1);
+  }
+
+  // Pagination click events
+  $(".pagination").on("click", "button.page", function () {
+    showPage($(this).data("page"));
+  });
+
+  $(".pagination").on("click", "button.prev", function () {
+    showPage(currentPage - 1);
+  });
+
+  $(".pagination").on("click", "button.next", function () {
+    showPage(currentPage + 1);
+  });
+
+  // Checkbox filter change
+  $(document).on("change", ".location-checkbox", function () {
+    buildPagination();
+  });
+
+  // Initial load
+  buildPagination();
+
+  // Accordion toggle (only when clicking the header text, not buttons)
+$(document).on("click", ".accordion-header", function(e) {
+  if ($(e.target).is("button")) return; // ignore if button clicked
+  $(this).next(".accordion-content").slideToggle();
+});
+
+// Select All
+// $(document).on("click", ".select-all", function(e) {
+//   e.stopPropagation(); // prevent toggle
+//   var target = $(this).data("target");
+//   $("#" + target + " .sector_checkbox").prop("checked", true);
+// });
+
+// Clear All
+// $(document).on("click", ".clear-all", function(e) {
+//   e.stopPropagation(); // prevent toggle
+//   var target = $(this).data("target");
+//   $("#" + target + " .sector_checkbox").prop("checked", false);
+// });
+
+});
+
 
 
 
