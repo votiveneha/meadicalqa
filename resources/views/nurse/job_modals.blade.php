@@ -22,8 +22,12 @@
                 ?>
                 @foreach($work_environment_data as $work_environment)
                 <div class="accordion-section">
-                 <div class="accordion-header" onclick="toggleAccordion(this)">
+                 <div class="accordion-header">
                    <strong>{{ $work_environment->env_name }}</strong>
+                   <div class="actions">
+                      <button type="button" onclick="selectAll(event, {{ $work_environment->prefer_id }})" class="select-all" data-target="perm">Select All</button>
+                      <button type="button" onclick="clearAll(event, {{ $work_environment->prefer_id }})" class="clear-all" data-target="perm">Clear All</button>
+                    </div>
                  </div>
                  <?php
                     $sub_work_environment = DB::table("work_enviornment_preferences")
@@ -31,7 +35,7 @@
                                             ->where("sub_envp_id", 0)
                                             ->get();
                  ?>
-                 <div class="accordion-content" id="perm">
+                 <div class="accordion-content work_environment-checkbox" id="work_environment-{{ $work_environment->prefer_id }}">
                   @foreach($sub_work_environment as $sub_work)
                   <label>
                     <input type="checkbox" value="{{ $sub_work->prefer_id }}" class="filter_checkbox" id="filter_checkbox_{{ $sub_work->prefer_id }}" onclick="showFilters({{ $sub_work->prefer_id }})"> {{ $sub_work->env_name }}
@@ -76,10 +80,10 @@
                 <div class="accordion-section">
                  <div class="accordion-header">
                    <strong>{{ $work_shift->shift_name }}</strong>
-                   <div class="actions">
-                    <button type="button" onclick="selectAll(event, {{ $work_shift->shift_name }})" class="select-all" data-target="perm">Select All</button>
-                    <button type="button" onclick="clearAll(event, '+data1[i].id+')" class="clear-all" data-target="perm">Clear All</button>
-                  </div>
+                    <div class="actions">
+                      <button type="button" onclick="selectAll(event, {{ $work_shift->work_shift_id }})" class="select-all" data-target="perm">Select All</button>
+                      <button type="button" onclick="clearAll(event, {{ $work_shift->work_shift_id }})" class="clear-all" data-target="perm">Clear All</button>
+                    </div>
                  </div>
                  <?php
                     $sub_work_shift = DB::table("work_shift_preferences")
@@ -89,10 +93,10 @@
                     
                              
                  ?>
-                 <div class="accordion-content" id="perm">
+                 <div class="accordion-content" id="shift_type-{{ $work_shift->work_shift_id }}">
                   @foreach($sub_work_shift as $sub_works)
                   <label>
-                    <input type="checkbox" value="{{ $sub_works->work_shift_id }}"  @if(in_array($sub_works->work_shift_id, $result[$i])) checked @endif class="filter_checkbox" id="filter_checkbox_{{ $sub_works->work_shift_id }}" onclick="showFilters({{ $sub_works->work_shift_id }})"> {{ $sub_works->shift_name }}
+                    <input type="checkbox" value="{{ $sub_works->work_shift_id }}"  @if(isset($result[$i]) && in_array($sub_works->work_shift_id, $result[$i])) checked @endif class="filter_checkbox" id="filter_checkbox_{{ $sub_works->work_shift_id }}" onclick="showFilters({{ $sub_works->work_shift_id }})"> {{ $sub_works->shift_name }}
                   </label>
                   <?php
                       $subsub_work_shift = DB::table("work_shift_preferences")
@@ -154,10 +158,10 @@
 
                     <div class="select-bar">
                         <div>Select all that apply</div>
-                        <span id="selectAll">Select All</span>
+                        <span id="selectAll" onclick="selectAll(event, 2)">Select All</span>
                     </div>
 
-                    <div class="checkbox-list">
+                    <div class="checkbox-list" id="entry_level-2">
                         <?php
                             $sub_nurse_data = DB::table("practitioner_type")->where("parent","1")->get();
                         ?>
@@ -394,6 +398,7 @@
         var data3 = data2.preferences;
         // var data4 = JSON.parse(data3[work_preferences_column]);
         // var data6 = Object.values(data4[1]);
+        
         if(filter_type == "Position"){
           var data4 = JSON.parse(data3.position_preferences);
           var data6 = Object.values(data4[1]);
@@ -404,7 +409,7 @@
             var data4 = JSON.parse(data3.benefits_preferences);
             var data6 = Object.values(data4);
             
-            console.log("data6",data1);
+            console.log("data6",data3);
           }else{
             var data4 = JSON.parse(data3.emptype_preferences);
             var data6 = Object.values(data4);
@@ -654,12 +659,18 @@ function toggleAccordion(header) {
 function selectAll(event, targetId) {
   event.stopPropagation(); // stop accordion toggle
   $("#emp_type-" + targetId + " .sector_checkbox").prop("checked", true);
+  $("#shift_type-" + targetId + " .filter_checkbox").prop("checked", true);
+  $("#work_environment-" + targetId + " .filter_checkbox").prop("checked", true);
+  $("#entry_level-" + targetId + " .nurseCheck").prop("checked", true);
 }
+
 
 // ✅ Clear All
 function clearAll(event, targetId) {
   event.stopPropagation(); // stop accordion toggle
   $("#emp_type-" + targetId + " .sector_checkbox").prop("checked", false);
+  $("#shift_type-" + targetId + " .filter_checkbox").prop("checked", false);
+  $("#work_environment-" + targetId + " .filter_checkbox").prop("checked", false);
 }
 
 
