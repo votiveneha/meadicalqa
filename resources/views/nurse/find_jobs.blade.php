@@ -1143,27 +1143,47 @@
 
       $container.html($cards); // re-render sorted order
     }
+
+    if(value == 'nearest_location'){
+      ensureLatLng(function () {
+        getCurrentLocation(function (coords) {
+          sortJobsByProximity(coords);
+        });
+      });
+    }
   }
 
+ $(document).ready(function() {
   $("#keywords").on("keyup", function () {
-    var value = $(this).val().toLowerCase();
-    var anyVisible = false;
+    var value = $(this).val().toLowerCase().trim();
+    var $jobs = $(".job-listings .job-card");
+    var hasResults = false;
 
-    $(".job-listings .job-card").filter(function () {
-      var match = $(this).text().toLowerCase().indexOf(value) > -1;
+    if (value === "") {
+      // If input empty → show all jobs, hide no jobs box
+      $jobs.show();
+      $("#no-jobs-box").hide();
+      $(".pagination").show();
+      return;
+    }
+
+    $jobs.each(function () {
+      let match = $(this).text().toLowerCase().indexOf(value) > -1;
       $(this).toggle(match);
-      if (match) anyVisible = true;
+      if (match) hasResults = true;
     });
 
-    if (anyVisible) {
-      $("#no-jobs").hide();
+    if (!hasResults) {
+      $(".no-jobs-box").show();
+      $(".pagination").hide(); // hide pagination when no jobs
     } else {
-      $(".job-listings").html('\<div id="no-jobs" class="no-jobs-box">\
-          <h3>🚫 No Jobs Found</h3>\
-          <p>Sorry, no jobs match your search.</p>\
-        </div>');
+      $(".no-jobs-box").hide();
+      $(".pagination").show();
+      
     }
   });
+});
+
 
  let allLocations = [...new Set($('.location').map(function () {
     return $(this).text().trim();
@@ -1402,18 +1422,32 @@ $(document).ready(function () {
   var itemsPerPage = 2;
   var currentPage = 1;
 
-  function getFilteredItems() {
-    var selectedLocations = $(".location-checkbox:checked")
-      .map(function () {
-        return $(this).val();
-      })
-      .get();
+  // Get filtered jobs based on location + keyword
+    function getFilteredItems() {
+      var selectedLocations = $(".location-checkbox:checked")
+        .map(function () {
+          return $(this).val();
+        })
+        .get();
 
-    return $(".job-card.item").filter(function () {
-      if (selectedLocations.length === 0) return true; // show all if no filter
-      return selectedLocations.includes($(this).data("location"));
-    });
-  }
+      var selectedAgency = $("#agency").val().trim();
+      var keyword = $("#keywords").val().toLowerCase().trim();
+
+      return $(".job-card.item").filter(function () {
+        var matchesLocation =
+          selectedLocations.length === 0 ||
+          selectedLocations.includes($(this).data("location"));
+
+        var jobAgency = $(this).find(".job-role").text().trim();
+        var matchesAgency =
+          selectedAgency === "" || jobAgency === selectedAgency;
+
+        var matchesKeyword =
+          keyword === "" || $(this).text().toLowerCase().indexOf(keyword) > -1;
+
+        return matchesLocation && matchesAgency && matchesKeyword;
+      });
+    }
 
   function showPage(page) {
     var items = getFilteredItems();
@@ -1457,6 +1491,8 @@ $(document).ready(function () {
     showPage(1);
   }
 
+
+
   // Pagination click events
   $(".pagination").on("click", "button.page", function () {
     showPage($(this).data("page"));
@@ -1472,6 +1508,14 @@ $(document).ready(function () {
 
   // Checkbox filter change
   $(document).on("change", ".location-checkbox", function () {
+    buildPagination();
+  });
+
+  $("#keywords").on("keyup", function () {
+    buildPagination();
+  });
+
+  $("#agency").on("change", function () {
     buildPagination();
   });
 
@@ -1499,7 +1543,85 @@ $(document).on("click", ".accordion-header", function(e) {
 // });
 
 });
+// 📌 Haversine formula (distance in km)
+function getDistance(lat1, lon1, lat2, lon2) {
+  var R = 6371; // Earth radius in km
+  var dLat = (lat2 - lat1) * Math.PI / 180;
+  var dLon = (lon2 - lon1) * Math.PI / 180;
+  var a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+}
 
+// 📌 Get current user location (via browser)
+function getCurrentLocation(callback) {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function (position) {
+      callback({
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      });
+    }, function () {
+      alert("Unable to fetch your location. Please enable GPS.");
+    });
+  } else {
+    alert("Geolocation is not supported by this browser.");
+  }
+}
+
+// 📌 Fetch lat/lng using Nominatim if missing
+function fetchLatLng(address, $jobCard, callback) {
+  $.get("https://nominatim.openstreetmap.org/search", {
+    q: address,
+    format: "json",
+    limit: 1
+  }, function (data) {
+    if (data && data.length > 0) {
+      $jobCard.attr("data-lat", data[0].lat);
+      $jobCard.attr("data-lng", data[0].lon);
+    }
+    if (callback) callback();
+  });
+}
+
+// 📌 Ensure all jobs have lat/lng before sorting
+function ensureLatLng(callback) {
+  var $jobs = $(".job-card.item");
+  var remaining = $jobs.length;
+
+  $jobs.each(function () {
+    var $job = $(this);
+    var lat = $job.attr("data-lat");
+    var lng = $job.attr("data-lng");
+
+    if (!lat || !lng) {
+      var address = $job.data("location");
+      fetchLatLng(address, $job, function () {
+        if (--remaining === 0) callback();
+      });
+    } else {
+      if (--remaining === 0) callback();
+    }
+  });
+}
+
+// 📌 Sort jobs by proximity to current location
+function sortJobsByProximity(userCoords) {
+  var $jobs = $(".job-card.item");
+
+  $jobs.sort(function (a, b) {
+    var distA = getDistance(userCoords.lat, userCoords.lng,
+      $(a).data("lat"), $(a).data("lng"));
+    var distB = getDistance(userCoords.lat, userCoords.lng,
+      $(b).data("lat"), $(b).data("lng"));
+    return distA - distB;
+  });
+
+  $(".job-listings").html($jobs); // Re-render sorted jobs
+}
 
 
 
