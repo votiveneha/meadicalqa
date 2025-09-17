@@ -41,12 +41,11 @@
     }
 
     .filters {
-      
-      background: white;
-      padding: 5px 5px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.05);
-    }
+    background: white;
+    padding: 10px 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
 
     .filter-sidebar {
     
@@ -573,14 +572,15 @@
   line-height: 1.5;
 }
 
-.select-box::after {
-  content: "▾";
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  pointer-events: none;
-  color: #6c757d;
+.custom-multiselect .select-box::after {
+    content: "▾";
+    position: absolute;
+    right: 2px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #6c757d;
+    font-size: 20px;
 }
 
 .checkbox-options {
@@ -679,6 +679,90 @@
       background: #eee;
     }
 
+    .search-box {
+      width: 100%;
+      padding: 8px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    .form-group.top_filter.location_filter .select-box {
+    background: #fff;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: inherit;
+    height: 43px;
+    color: #666666;
+}
+
+.top_filter.agency_filter select#agency {
+    background: #fff;
+    height: 43px;
+    color: #666666;
+    border: 1px solid #ced4da;
+}
+
+.top_filter.sort_by_filter select {
+    background: #fff;
+    height: 43px;
+    color: #666666;
+    border: 1px solid #ced4da;
+}
+
+.top_filter.keywords_filter {
+    width: 35%;
+}
+
+.top_filter.keywords_filter input#keywords {
+    background: #fff;
+    height: 43px;
+    color: #666666;
+    border: 1px solid #ced4da;
+}
+
+.search-bar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding-right: 8px;
+    margin-left: -10px;
+    justify-content: space-between;
+}
+
+.job-card.item {
+    margin-top: 0px;
+}
+
+.row.filters_jobs {
+    margin-bottom: 40px;
+}
+
+.tag-badge {
+  display: inline-flex;
+  align-items: center;
+  background-color: #e9f5ff;
+  color: #0d6efd;
+  padding: 6px 12px;
+  border-radius: 20px;
+  margin: 4px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.tag-badge .remove-tag {
+  margin-left: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  color: #0d6efd;
+}
+
+.tag-badge .remove-tag:hover {
+  color: #dc3545; /* red on hover */
+}
 </style>
 @endsection
 
@@ -708,12 +792,12 @@
             <h1 style="font-size: 24px; font-weight: bold;">Find Jobs</h1>
             <!-- Horizontal Search Bar with Labels -->
             <div class="search-bar">
-            <div style="display: flex; flex-direction: column; flex: 2;">
+            <div class="top_filter keywords_filter">
                 <label for="keywords">Keywords</label>
                 <input type="text" id="keywords" placeholder="e.g. ICU, aged care, night shift">
             </div>
 
-            <div class="form-group">
+            <div class="form-group top_filter location_filter">
               <label for="agency">Location</label>
               <div class="custom-multiselect">
                 <div class="select-box">Select Location</div>
@@ -734,7 +818,7 @@
             <!-- Hidden input to store selected values -->
             <input type="hidden" id="selectedLocations" name="locations">
 
-            <div style="display: flex; flex-direction: column;">
+            <div class="top_filter agency_filter">
                 <label for="agency">Facility/Agency</label>
                 <select id="agency">
                   <option value="">Select Agency</option>
@@ -742,7 +826,7 @@
                 </select>
             </div>
 
-            <div style="display: flex; flex-direction: column;">
+            <div class="top_filter sort_by_filter">
                 <label for="sort">Sort By</label>
                 <select onchange="sortBy(this.value)">
                     <option value="match_percent">Match Percentage</option>
@@ -756,7 +840,7 @@
             </div>
 
             </div>
-            <div class="row">
+            <div class="row filters_jobs">
                 <div class="filters col-md-4">
                     
                     <div class="filter-sidebar">
@@ -810,6 +894,10 @@
                       </li>
                       <li class="filter-item" onclick="openModal('Benefits','benefits_preferences','subbenefit_id','benefits_id','benefits_name')">
                         <span>Benefits</span>
+                        <span class="arrow">›</span>
+                      </li>
+                      <li class="filter-item" onclick="openLocationModel()">
+                        <span>Location Preferences</span>
                         <span class="arrow">›</span>
                       </li>
                        <li class="filter-item" onclick="openNurseModal('Type of nurse')">
@@ -1148,6 +1236,7 @@
       ensureLatLng(function () {
         getCurrentLocation(function (coords) {
           sortJobsByProximity(coords);
+          buildPagination();
         });
       });
     }
@@ -1421,6 +1510,7 @@ $('.checkbox-options input[type="checkbox"]').on('change', function() {
 $(document).ready(function () {
   var itemsPerPage = 2;
   var currentPage = 1;
+  var userCoords = null;
 
   // Get filtered jobs based on location + keyword
     function getFilteredItems() {
@@ -1523,10 +1613,10 @@ $(document).ready(function () {
   buildPagination();
 
   // Accordion toggle (only when clicking the header text, not buttons)
-$(document).on("click", ".accordion-header", function(e) {
-  if ($(e.target).is("button")) return; // ignore if button clicked
-  $(this).next(".accordion-content").slideToggle();
-});
+  $(document).on("click", ".accordion-header", function(e) {
+    if ($(e.target).is("button")) return; // ignore if button clicked
+    $(this).next(".accordion-content").slideToggle();
+  });
 
 // Select All
 // $(document).on("click", ".select-all", function(e) {
@@ -1543,34 +1633,29 @@ $(document).on("click", ".accordion-header", function(e) {
 // });
 
 });
-// 📌 Haversine formula (distance in km)
 function getDistance(lat1, lon1, lat2, lon2) {
-  var R = 6371; // Earth radius in km
-  var dLat = (lat2 - lat1) * Math.PI / 180;
-  var dLon = (lon2 - lon1) * Math.PI / 180;
-  var a =
-    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-    Math.sin(dLon / 2) * Math.sin(dLon / 2);
-  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  return R * c;
-}
-
-// 📌 Get current user location (via browser)
-function getCurrentLocation(callback) {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function (position) {
-      callback({
-        lat: position.coords.latitude,
-        lng: position.coords.longitude
-      });
-    }, function () {
-      alert("Unable to fetch your location. Please enable GPS.");
-    });
-  } else {
-    alert("Geolocation is not supported by this browser.");
+    var R = 6371;
+    var dLat = (lat2 - lat1) * Math.PI / 180;
+    var dLon = (lon2 - lon1) * Math.PI / 180;
+    var a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(lat1 * Math.PI / 180) *
+      Math.cos(lat2 * Math.PI / 180) *
+      Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   }
-}
+
+  // 📌 Get current location
+  function getCurrentLocation(callback) {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function (pos) {
+        userCoords = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+        if (callback) callback(userCoords);
+      }, function () {
+        alert("Unable to fetch your location. Please enable GPS.");
+      });
+    }
+  }
 
 // 📌 Fetch lat/lng using Nominatim if missing
 function fetchLatLng(address, $jobCard, callback) {
