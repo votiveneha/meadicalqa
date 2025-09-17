@@ -14,6 +14,7 @@
               <button class="close-btn" onclick="closeModal()">×</button>
               </div>
               <p class="modal-subtext">Your saved preferences are pre-filled. You can adjust below.</p>
+              <input type="text" id="employmentSearch" placeholder="Search Work Environment..." onkeyup="filterAllEmployment()" class="search-box" />
               <div class="modal-body">
                 <?php
                   $result = (array)json_decode($work_preferences_data->work_environment_preferences,true); 
@@ -70,6 +71,8 @@
               <button class="close-btn" onclick="closeModal()">×</button>
               </div>
               <p class="modal-subtext">Your saved preferences are pre-filled. You can adjust below.</p>
+              <!-- 🔍 Global Search -->
+              <input type="text" id="employmentSearch1" placeholder="Search Shift Type..." onkeyup="filterAllEmployment()" class="search-box" />
               <div class="modal-body">
                 <?php
                   $result = array_values((array)json_decode($work_preferences_data->work_shift_preferences)); 
@@ -253,7 +256,7 @@
             </div>
             <div class="modal-footer">
               <button id="cancelBtn" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
-              <button class="apply-btn" id="applySector" onclick="applySector()">Apply</button>
+              <button class="apply-btn" id="applySector" onclick="applySector('sector')">Apply</button>
             </div>
           </div>
         </div>
@@ -295,6 +298,96 @@
           </div>
         </div>
 
+        <div class="modal-overlay" id="locationModal" style="display: none;">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h2>Location Preferences</h2>
+              <button class="close-btn" onclick="closeModal()">×</button>
+            </div>
+            <div class="modal-body">
+              <!-- Quick Toggle -->
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <label class="form-label fw-bold mb-0">Use My Preferences</label>
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" id="usePreferencesToggle">
+                </div>
+              </div>
+              
+
+              <!-- Summary View -->
+              @if(!empty($work_preferences_data) && $work_preferences_data->location_status == "Current Location area (not willing to relocate)")
+              <div id="preferencesSummary" class="p-3 border rounded bg-light mb-3">
+                <p class="mb-1"><strong>Current Location:</strong> {{ $work_preferences_data->prefered_location_current }} – within {{ $work_preferences_data->prefered_distance }}</p>
+                <p class="mb-1"><strong>Relocation:</strong> Not willing to relocate</p>
+                <a href="{{ route('nurse.locationPreferences') }}?page=locationPreferences" class="btn btn-sm btn-outline-primary mt-2">Edit Preferences</a>
+              </div>        
+              @endif
+
+              <!-- Customize View -->
+              <div id="customizeSearch">
+
+                <!-- Location Mode -->
+                <div class="mb-3">
+                  <label class="form-label fw-bold">Location Mode</label>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="locationMode" value="current" checked>
+                    <label class="form-check-label">Current Location (Auto-detect optional)</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="locationMode" value="multiple">
+                    <label class="form-check-label">Multiple Locations</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="locationMode" value="international">
+                    <label class="form-check-label">International</label>
+                  </div>
+                </div>
+
+                <!-- International Countries -->
+                <div id="internationalCountries" class="mb-3" style="display:none;">
+                  <label class="form-label fw-bold">Select Countries</label>
+                  <div class="row">
+                    <div class="col-6 col-md-4">
+                      <div class="form-check"><input type="checkbox" class="form-check-input"> Canada</div>
+                      <div class="form-check"><input type="checkbox" class="form-check-input"> Hong Kong</div>
+                      <div class="form-check"><input type="checkbox" class="form-check-input"> Ireland</div>
+                      <div class="form-check"><input type="checkbox" class="form-check-input"> Jamaica</div>
+                    </div>
+                    <div class="col-6 col-md-4">
+                      <div class="form-check"><input type="checkbox" class="form-check-input"> New Zealand</div>
+                      <div class="form-check"><input type="checkbox" class="form-check-input"> Singapore</div>
+                      <div class="form-check"><input type="checkbox" class="form-check-input"> South Africa</div>
+                    </div>
+                    <div class="col-6 col-md-4">
+                      <div class="form-check"><input type="checkbox" class="form-check-input"> United Kingdom</div>
+                      <div class="form-check"><input type="checkbox" class="form-check-input"> United States</div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Preferred Location Input -->
+                <div id="preferredLocationInput" class="mb-3">
+                  <label class="form-label fw-bold">Preferred Location</label>
+                  <input type="text" id="locationSearch" class="form-control" value="{{ $work_preferences_data->prefered_location_current }}" placeholder="Search city / postcode / hospital">
+                  <div id="locationTags" class="mt-2"></div>
+                </div>
+
+                <!-- Travel Distance Slider -->
+                <div id="travelDistanceContainer" class="mb-3">
+                  <label class="form-label fw-bold">Maximum Travel Distance</label>
+                  <input type="range" id="travelDistance" min="5" max="100" step="5" value="20" class="form-range">
+                  <span id="distanceValue" class="fw-semibold">20 km</span>
+                </div>
+
+              </div><!-- /customizeSearch -->
+
+            </div>
+            <div class="modal-footer">
+              <button class="apply-btn" id="applySector" onclick="applyExperience()">Apply</button>
+            </div>
+          </div>
+        </div>
+
         
 @section('js')
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
@@ -320,6 +413,117 @@
 
     function openYearExperienceModal(){
       $('#yearExperienceModal').show();
+    }
+
+    function openLocationModel(){
+      $("#locationModal").show();
+
+      // Toggle ON/OFF main sections
+      $("#usePreferencesToggle").change(function() {
+        if ($(this).is(":checked")) {
+          $("#preferencesSummary").show();
+          $("#customizeSearch").hide();
+        } else {
+          $("#preferencesSummary").hide();
+          $("#customizeSearch").show();
+        }
+      });
+
+      // Handle radio mode switching
+      $("input[name='locationMode']").change(function() {
+        let mode = $(this).val();
+
+        if (mode === "international") {
+          $("#internationalCountries").show();
+          $("#preferredLocationInput").hide();
+          $("#travelDistanceContainer").hide();
+        } 
+        else if (mode === "multiple") {
+          $("#internationalCountries").hide();
+          $("#preferredLocationInput").show();
+          $("#travelDistanceContainer").hide();
+        } 
+        else { // current location
+          $("#internationalCountries").hide();
+          $("#preferredLocationInput").show();
+          $("#travelDistanceContainer").show();
+        }
+      });
+
+      // Distance slider display
+      $("#travelDistance").on("input", function() {
+        $("#distanceValue").text($(this).val() + " km");
+      });
+
+      // Simple tag chip system for preferred location input
+      $("#locationSearch").keypress(function(e) {
+        if (e.which === 13) { // Enter key
+          e.preventDefault();
+          let val = $(this).val().trim();
+          if (val) {
+            $("#locationTags").append(
+              `<span class="tag-badge">${val} <span class="remove-tag">x</span></span>`
+            );
+            $(this).val("");
+          }
+        }
+      });
+
+      // Remove tag
+      $(document).on("click", ".remove-tag", function() {
+        $(this).parent().remove();
+      });
+
+      let selectedMode = $("input[name='locationMode']:checked").val();
+
+      if(selectedMode == "current"){
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            function (position) {
+              let lat = position.coords.latitude;
+              let lng = position.coords.longitude;
+
+              // Show raw coords (for debugging)
+              $("#locationSearch").val(
+                `Latitude: ${lat.toFixed(4)}, Longitude: ${lng.toFixed(4)} <br> Fetching city...`
+              );
+
+              // Reverse Geocoding (OpenStreetMap / Nominatim API)
+              fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`)
+                .then(response => response.json())
+                .then(data => {
+                  let city = data.address.city || data.address.town || data.address.village || "";
+                  let state = data.address.state || "";
+                  let country = data.address.country || "";
+
+                  $("#locationSearch").val(
+                    `${city}, ${state} (${country})`
+                  );
+                })
+                .catch(err => {
+                  $("#locationSearch").val("Unable to fetch location details.");
+                });
+            },
+            function (error) {
+              $("#locationSearch").val("Location access denied or unavailable.");
+            }
+          );
+        } else {
+          $("#locationSearch").val("Geolocation is not supported by your browser.");
+        }
+
+        $("#locationTags").hide();
+      }
+
+      $("input[name='locationMode']").click(function(){
+        let selected_val = $(this).val();
+        if(selected_val == "multiple"){
+          $("#locationSearch").val("");
+          $("#locationTags").show();
+        }
+
+      });
+
     }
 
     $("#salarySlider").slider({
@@ -371,6 +575,8 @@
         $('#nurse_modal').show();
     }
 
+    
+
     function openSpecialityModal(){
         $('#speciality_modal').show();
     }
@@ -398,18 +604,17 @@
         var data3 = data2.preferences;
         // var data4 = JSON.parse(data3[work_preferences_column]);
         // var data6 = Object.values(data4[1]);
-        
-        if(filter_type == "Position"){
+        if(filter_type == "Position" && data3.position_preferences != null){
           var data4 = JSON.parse(data3.position_preferences);
           var data6 = Object.values(data4[1]);
-          
+           
           console.log("data6",data1);
         }else{
-          if(filter_type == "Benefits"){
+          if(filter_type == "Benefits" && data3.benefits_preferences != null){
             var data4 = JSON.parse(data3.benefits_preferences);
             var data6 = Object.values(data4);
             
-            console.log("data6",data3);
+            console.log("data6",data1);
           }else{
             var data4 = JSON.parse(data3.emptype_preferences);
             var data6 = Object.values(data4);
@@ -439,12 +644,12 @@
             }
             
 
-            sub_data += '<label><input type="checkbox" class="sector_checkbox" value="'+sub_types[j].id+'" '+checked+'> '+sub_types[j].name+'</label>'
+            sub_data += '<label><input type="checkbox" class="sector_checkbox employee_type" value="'+sub_types[j].id+'" '+checked+'> '+sub_types[j].name+'</label>'
           }
           console.log("data.id",data1[i].id);
           if(data1[i].name != "Other" && data1[i].name != "All/No Preference"){
             var perm = "perm";
-            accordian_section += '<div class="accordion-section">\
+            accordian_section += '<div class="accordion-section employment-list">\
                 <div class="accordion-header">\
                   <strong>'+data1[i].name+'</strong>\
                   <div class="actions">\
@@ -459,21 +664,81 @@
         }
 
 
-
+        var emp_type = "emp_type";
         $(".modal-content").html('\<div class="modal-header">\
               <h2>'+filter_type+'</h2>\
               <button class="edit-btn" onclick="editSector()"><i class="fa fa-pencil" aria-hidden="true"></i></button>\
             </div>\
             <p class="modal-subtext">Your saved preferences are pre-filled. You can adjust below.</p>\
+            <input type="text" id="employmentSearch" placeholder="Search '+filter_type+'..." class="search-box" />\
             <div class="modal-body">'+accordian_section+'</div>\
             <div class="modal-footer" style="text-align: right; margin-top: 10px;">\
               <button id="cancelBtn" class="btn btn-secondary" onclick="closeModal()">Cancel</button>\
-              <button class="apply-btn" onclick="applySector()">Apply</button>\
+              <button class="apply-btn" onclick="applySector1(\''+filter_type+'\')">Apply</button>\
             </div>');
+
+            
+
+           
       }
     });      
+    // This goes outside AJAX, runs once globally
+    $(document).on("keyup", "#employmentSearch", function () {
+        var value = $(this).val().toLowerCase().trim();
+
+        console.log("Search typed:", value);
+
+        $(".accordion-content label").each(function () {
+            var text = $(this).text().toLowerCase();
+            if (value === "" || text.indexOf(value) > -1) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
+        });
+    });
+
 
   }
+
+   function filterAllEmployment() {
+   
+  var input = document.getElementById("employmentSearch1");
+  var filter = input.value.toLowerCase().trim();
+  
+  // Get ALL labels inside ALL accordions
+  var labels = document.querySelectorAll(".accordion-content label");
+
+  labels.forEach(function(label) {
+    var text = label.textContent.toLowerCase();
+    if (text.indexOf(filter) > -1) {
+      label.style.display = "block"; // show
+    } else {
+      label.style.display = "none"; // hide
+    }
+  });
+}
+
+function filterAllEmployment() {
+   
+  var input = document.getElementById("employmentSearch");
+  var filter = input.value.toLowerCase().trim();
+  
+  // Get ALL labels inside ALL accordions
+  var labels = document.querySelectorAll(".accordion-content label");
+
+  labels.forEach(function(label) {
+    var text = label.textContent.toLowerCase();
+    if (text.indexOf(filter) > -1) {
+      label.style.display = "block"; // show
+    } else {
+      label.style.display = "none"; // hide
+    }
+  });
+}
+
+
+
 
   function openModal_enviroment(filter_type) {
     
@@ -498,6 +763,8 @@
     }
     
   }
+
+  
 
   function getNurseData(nurse_id,nurse_type_name){
     $(".nurse_modal_header span").text(nurse_type_name);
@@ -680,7 +947,41 @@ function clearAll(event, targetId) {
     section.style.display = checkbox.checked ? "block" : "none";
   }
 
-  function applySector(){
+  function applySector1(filter_name){
+    var selectedValues1 = [];
+        
+    // Get all checked checkboxes inside the modal
+    $(".employee_type:checked").each(function() {
+        selectedValues1.push($(this).val());
+    });
+
+    // remove duplicates
+    selectedValues = [...new Set(selectedValues1)];
+
+    console.log("Unique selected values:", selectedValues);
+
+    $.ajax({
+      type: "POST",
+      url: "{{ url('/nurse/getFilterData') }}",
+      data: {filter_name:filter_name,selectedValues:selectedValues,_token:'{{ csrf_token() }}'},
+      cache: false,
+      success: function(data){
+        $(".job-listings").html(data);
+        $("#sectorModal").hide();
+        $("#employmentModal").hide();
+        $("input[name='sector']").prop("disabled", true);
+        $("#oneTimeMessage").fadeIn();
+
+        setTimeout(function() {
+          
+          $("#oneTimeMessage").fadeOut();
+        }, 5000);
+      }
+    });    
+    
+  }
+
+  function applySector(filter_name){
     var selectedValues = [];
         
     // Get all checked checkboxes inside the modal
@@ -692,12 +993,12 @@ function clearAll(event, targetId) {
 
     $(".edit-btn").show();
 
-    console.log(selectedValues); // Array of checked values
+    console.log("selectedValues",selectedValues); // Array of checked values
     
     $.ajax({
       type: "POST",
       url: "{{ url('/nurse/getFilterData') }}",
-      data: {selectedValues:selectedValues,_token:'{{ csrf_token() }}'},
+      data: {filter_name:filter_name,selectedValues:selectedValues,_token:'{{ csrf_token() }}'},
       cache: false,
       success: function(data){
         $(".job-listings").html(data);
