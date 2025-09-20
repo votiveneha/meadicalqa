@@ -1,6 +1,6 @@
 <!-- Modal Overlay -->
         <div id="employmentModal" class="modal-overlay" style="display: none;">
-          <div class="modal-content">
+          <div class="modal-content modal-content-preferences">
            
           
           </div>
@@ -11,11 +11,12 @@
           <div class="modal-content work_environment_modal" style="display:none">
             <div class="modal-header">
               <h2>Work Environment</h2>
-              <button class="close-btn" onclick="closeModal()">×</button>
+              <button class="edit-btns edit-btn-work_environment_modals" style="display:none;" onclick="editSector()"><i class="fa fa-pencil" aria-hidden="true"></i></button>
               </div>
-              <p class="modal-subtext">Your saved preferences are pre-filled. You can adjust below.</p>
-              <input type="text" id="employmentSearch" placeholder="Search Work Environment..." onkeyup="filterAllEmployment()" class="search-box" />
+              
               <div class="modal-body">
+                <p class="modal-subtext">Your saved preferences are pre-filled. You can adjust below.</p>
+                <input type="text" id="employmentSearch" placeholder="Search employment type..." onkeyup="filterAllEmployment()" class="search-box" />
                 <?php
                   $result = (array)json_decode($work_preferences_data->work_environment_preferences,true); 
                   //print_r($result);
@@ -39,7 +40,7 @@
                  <div class="accordion-content work_environment-checkbox" id="work_environment-{{ $work_environment->prefer_id }}">
                   @foreach($sub_work_environment as $sub_work)
                   <label>
-                    <input type="checkbox" value="{{ $sub_work->prefer_id }}" class="filter_checkbox" id="filter_checkbox_{{ $sub_work->prefer_id }}" onclick="showFilters({{ $sub_work->prefer_id }})"> {{ $sub_work->env_name }}
+                    <input type="checkbox" value="{{ $sub_work->prefer_id }}" class="work_environment_modals filter_checkbox" id="filter_checkbox_{{ $sub_work->prefer_id }}" onclick="showFilters({{ $sub_work->prefer_id }})"> {{ $sub_work->env_name }}
                   </label>
                   <?php
                       $subsub_work_environment = DB::table("work_enviornment_preferences")
@@ -49,7 +50,7 @@
                   ?>
                   <div class="third-level third-level-{{ $sub_work->prefer_id }}" id="subsub_{{ $sub_work->prefer_id }}" style="display:none">
                     @foreach($subsub_work_environment as $subsub_work)
-                    <label><input type="checkbox" name="subwork_environment" value="{{ $subsub_work->prefer_id }}"> {{ $subsub_work->env_name }}</label>
+                    <label><input type="checkbox" name="subwork_environment" class="work_environment_modals filter_checkbox" value="{{ $subsub_work->prefer_id }}"> {{ $subsub_work->env_name }}</label>
                     @endforeach
                   </div>
                   
@@ -62,18 +63,20 @@
                 @endforeach
               </div>
               <div class="modal-footer">
-                <button class="apply-btn" id="applySector" onclick="applySector('work_environment')">Apply</button>
+                <button id="cancelBtn" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                <button class="apply-btn" id="applySector" onclick="applyShiftData('work_environment','work_environment_modals')">Apply</button>
               </div>
           </div>
           <div class="modal-content work_shift_modal" style="display:none">
             <div class="modal-header">
               <h2>Shift Type</h2>
-              <button class="close-btn" onclick="closeModal()">×</button>
-              </div>
-              <p class="modal-subtext">Your saved preferences are pre-filled. You can adjust below.</p>
-              <!-- 🔍 Global Search -->
-              <input type="text" id="employmentSearch1" placeholder="Search Shift Type..." onkeyup="filterAllEmployment()" class="search-box" />
+              <button class="edit-btns edit-btn-shift_modal" style="display:none;" onclick="editSector()"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+            </div>
+              
               <div class="modal-body">
+                <p class="modal-subtext">Your saved preferences are pre-filled. You can adjust below.</p>
+              <!-- 🔍 Global Search -->
+                <input type="text" id="" placeholder="Search employment type..." onkeyup="filterAllEmployment()" class="search-box employmentSearch" />
                 <?php
                   $result = array_values((array)json_decode($work_preferences_data->work_shift_preferences)); 
                   $i = 0;      
@@ -99,7 +102,7 @@
                  <div class="accordion-content" id="shift_type-{{ $work_shift->work_shift_id }}">
                   @foreach($sub_work_shift as $sub_works)
                   <label>
-                    <input type="checkbox" value="{{ $sub_works->work_shift_id }}"  @if(isset($result[$i]) && in_array($sub_works->work_shift_id, $result[$i])) checked @endif class="filter_checkbox" id="filter_checkbox_{{ $sub_works->work_shift_id }}" onclick="showFilters({{ $sub_works->work_shift_id }})"> {{ $sub_works->shift_name }}
+                    <input type="checkbox" class="filter_checkbox shift_modal shift_modal-{{ $sub_works->work_shift_id }}" value="{{ $sub_works->work_shift_id }}"  @if(isset($result[$i]) && in_array($sub_works->work_shift_id, $result[$i])) checked @endif id="filter_checkbox_{{ $sub_works->work_shift_id }}" onclick="showFilters({{ $sub_works->work_shift_id }})"> {{ $sub_works->shift_name }}
                   </label>
                   <?php
                       $subsub_work_shift = DB::table("work_shift_preferences")
@@ -120,7 +123,7 @@
                   ?>
                   <div class="third-level third-level-{{ $sub_works->work_shift_id }}" id="subsub_{{ $sub_works->work_shift_id }}" @if(empty($work_preferences_data->subwork_shift_preferences)) style="display:none" @else style="display:block" @endif>
                     @foreach($subsub_work_shift as $subsub_works)
-                    <label><input type="checkbox" @if(is_array($subworkshiftdata1) && in_array($subsub_works->work_shift_id, $subworkshiftdata1)) checked @endif value="{{ $subsub_works->work_shift_id }}"> {{ $subsub_works->shift_name }}</label>
+                    <label><input type="checkbox" class="shift_modal" @if(is_array($subworkshiftdata1) && in_array($subsub_works->work_shift_id, $subworkshiftdata1)) checked @endif value="{{ $subsub_works->work_shift_id }}"> {{ $subsub_works->shift_name }}</label>
                     @endforeach
                   </div>
                   
@@ -131,6 +134,10 @@
                   $i++;
                 ?>
                 @endforeach
+              </div>
+              <div class="modal-footer">
+                <button id="cancelBtn" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                <button class="apply-btn" id="applySector" onclick="applyShiftData('shift_type','shift_modal')">Apply</button>
               </div>
           </div>
         </div>
@@ -247,12 +254,12 @@
           <div class="modal-content">
             <div class="modal-header">
               <h2>Select Sector</h2>
-              <button class="edit-btn" onclick="editSector()"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+              <button class="edit-btns edit-btn" onclick="editSector()"><i class="fa fa-pencil" aria-hidden="true"></i></button>
             </div>
             <div class="modal-body">
-              <label><input type="radio" class="sector_checkbox" name="sector" value="Public & Government" @if(!empty($work_preferences_data) && $work_preferences_data->sector_preferences == "Public & Government") checked @endif> Public & Government </label><br>
-              <label><input type="radio" class="sector_checkbox" name="sector" value="Private" @if(!empty($work_preferences_data) && $work_preferences_data->sector_preferences == "Private") checked @endif> Private </label><br>
-              <label><input type="radio" class="sector_checkbox" name="sector" value="Public Government & Private" @if(!empty($work_preferences_data) && $work_preferences_data->sector_preferences == "Public Government & Private") checked @endif> Public Government & Private</label>
+              <label><input type="radio" class="sector_checkbox sector_data_checkbox" name="sector" value="Public & Government" @if(!empty($work_preferences_data) && $work_preferences_data->sector_preferences == "Public & Government") checked @endif> Public & Government </label><br>
+              <label><input type="radio" class="sector_checkbox sector_data_checkbox" name="sector" value="Private" @if(!empty($work_preferences_data) && $work_preferences_data->sector_preferences == "Private") checked @endif> Private </label><br>
+              <label><input type="radio" class="sector_checkbox sector_data_checkbox" name="sector" value="Public Government & Private" @if(!empty($work_preferences_data) && $work_preferences_data->sector_preferences == "Public Government & Private") checked @endif> Public Government & Private</label>
             </div>
             <div class="modal-footer">
               <button id="cancelBtn" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
@@ -265,7 +272,7 @@
           <div class="modal-content">
             <div class="modal-header">
               <h2>Salary Range ($/hr)</h2>
-              <button class="close-btn" onclick="closeModal()">×</button>
+              <button class="edit-btns edit-btn-salary" style="display:none;" onclick="editSector()"><i class="fa fa-pencil" aria-hidden="true"></i></button>
             </div>
             <div class="modal-body">
               <div id="salarySlider" style="margin: 10px 0;"></div>
@@ -274,6 +281,7 @@
               <input type="hidden" id="maxSalary" name="max_salary" value="500">
             </div>
             <div class="modal-footer">
+              <button id="cancelBtn" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
               <button class="apply-btn" id="applySector">Apply</button>
             </div>
           </div>
@@ -283,16 +291,17 @@
           <div class="modal-content">
             <div class="modal-header">
               <h2>Years of Experience</h2>
-              <button class="close-btn" onclick="closeModal()">×</button>
+               <button class="edit-btns edit-btn-experience-modal" style="display: none;" onclick="editSector()"><i class="fa fa-pencil" aria-hidden="true"></i></button>
             </div>
             <div class="modal-body">
               <select class="form-control assistent_level" name="assistent_level">
-                        <option value="">Please Select</option>
-                        @for($i = 1; $i <= 30; $i++) <option value="{{ $i }}" @if(!empty($user_data) && $user_data->assistent_level == $i) selected @endif>{{ $i }}{{ $i == 1 ? 'st' : ($i == 2 ? 'nd' : ($i == 3 ? 'rd' : 'th')) }} Year</option>
-                          @endfor
-                      </select>
+                <option value="">Please Select</option>
+                @for($i = 1; $i <= 30; $i++) <option value="{{ $i }}" @if(!empty($user_data) && $user_data->assistent_level == $i) selected @endif>{{ $i }}{{ $i == 1 ? 'st' : ($i == 2 ? 'nd' : ($i == 3 ? 'rd' : 'th')) }} Year</option>
+                  @endfor
+              </select>
             </div>
             <div class="modal-footer">
+              <button id="cancelBtn" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
               <button class="apply-btn" id="applySector" onclick="applyExperience()">Apply</button>
             </div>
           </div>
@@ -309,7 +318,7 @@
               <div class="d-flex justify-content-between align-items-center mb-3">
                 <label class="form-label fw-bold mb-0">Use My Preferences</label>
                 <div class="form-check form-switch">
-                  <input class="form-check-input" type="checkbox" id="usePreferencesToggle">
+                  <input class="form-check-input" type="checkbox" id="usePreferencesToggle" checked>
                 </div>
               </div>
               
@@ -324,7 +333,7 @@
               @endif
 
               <!-- Customize View -->
-              <div id="customizeSearch">
+              <div id="customizeSearch" style="display:none;">
 
                 <!-- Location Mode -->
                 <div class="mb-3">
@@ -592,6 +601,8 @@
     //   $("#"+filter_id).show();
     // }
     document.getElementById("employmentModal").style.display = "flex";
+
+    
     $.ajax({
       type: "post",
       url: "{{ url('/nurse/getWorkFlexiblityData') }}",
@@ -665,23 +676,51 @@
 
 
         var emp_type = "emp_type";
-        $(".modal-content").html('\<div class="modal-header">\
+        $(".modal-content-preferences").html('\<div class="modal-header">\
               <h2>'+filter_type+'</h2>\
-              <button class="edit-btn" onclick="editSector()"><i class="fa fa-pencil" aria-hidden="true"></i></button>\
+              <button class="edit-btns edit-btn-emp-type" onclick="editSector()"><i class="fa fa-pencil" aria-hidden="true"></i></button>\
             </div>\
             <p class="modal-subtext">Your saved preferences are pre-filled. You can adjust below.</p>\
-            <input type="text" id="employmentSearch" placeholder="Search '+filter_type+'..." class="search-box" />\
+            <input type="text" id="employmentSearch" placeholder="Search employment type..." class="search-box" />\
             <div class="modal-body">'+accordian_section+'</div>\
             <div class="modal-footer" style="text-align: right; margin-top: 10px;">\
               <button id="cancelBtn" class="btn btn-secondary" onclick="closeModal()">Cancel</button>\
-              <button class="apply-btn" onclick="applySector1(\''+filter_type+'\')">Apply</button>\
+              <button class="apply-btn" onclick="applySector1(\''+filter_type+'\',\''+column_type+'\')">Apply</button>\
             </div>');
 
+        var emp_type_data = sessionStorage.getItem("emp_type_data-"+column_type);
+
+        if(emp_type_data !== null){
+          let arr = emp_type_data.split(",");
+          $("input.employee_type").prop("checked", false); // uncheck all first
+          arr.forEach(function(val) {
+              console.log("employee_type",val); 
+              $("input.employee_type[value='" + val + "']").prop("checked", true);
+               
+          });
+
+          $("input.employee_type").prop("disabled", true);
+
+          console.log("input.employee_type",$("input.employee_type").length);
+
+         
+
+          // if(selected_emp_type_data != ""){
             
+          //   getEmpFilterData('Employment Type',arr)
+          // }
+                                                    
+        }else{
+          $(".edit-btn-emp-type").hide();
+        }    
+
+  
 
            
       }
     });      
+
+    
     // This goes outside AJAX, runs once globally
     $(document).on("keyup", "#employmentSearch", function () {
         var value = $(this).val().toLowerCase().trim();
@@ -697,15 +736,17 @@
             }
         });
     });
-
+    
 
   }
 
+  
+
    function filterAllEmployment() {
    
-  var input = document.getElementById("employmentSearch1");
+  var input = document.getElementsByClassName("employmentSearch1")[0];
   var filter = input.value.toLowerCase().trim();
-  
+  alert("hello");
   // Get ALL labels inside ALL accordions
   var labels = document.querySelectorAll(".accordion-content label");
 
@@ -743,15 +784,29 @@ function filterAllEmployment() {
   function openModal_enviroment(filter_type) {
     
     if(filter_type == "Work Environment"){
-      $(".modal-content").hide();
+      $(".work_shift_modal").hide();
       $(".work_environment_modal").show();
     }
     if(filter_type == "Shift Type"){
-      $(".modal-content").hide();
+      $(".work_environment_modal").hide();
       $(".work_shift_modal").show();
     }
     document.getElementById("shiftModal").style.display = "flex";
 
+    $(document).on("keyup", ".employmentSearch", function () {
+      var value = $(this).val().toLowerCase().trim();
+
+      console.log("Search typed:", value);
+
+      $(".accordion-content label").each(function () {
+          var text = $(this).text().toLowerCase();
+          if (value === "" || text.indexOf(value) > -1) {
+              $(this).show();
+          } else {
+              $(this).hide();
+          }
+      });
+    });
   }
 
   function showFilters(prefer_id){
@@ -924,20 +979,21 @@ function toggleAccordion(header) {
 
 // ✅ Select All
 function selectAll(event, targetId) {
+  
   event.stopPropagation(); // stop accordion toggle
-  $("#emp_type-" + targetId + " .sector_checkbox").prop("checked", true);
-  $("#shift_type-" + targetId + " .filter_checkbox").prop("checked", true);
-  $("#work_environment-" + targetId + " .filter_checkbox").prop("checked", true);
-  $("#entry_level-" + targetId + " .nurseCheck").prop("checked", true);
+  $("#emp_type-" + targetId + " .sector_checkbox:not(:disabled)").prop("checked", true);
+  $("#shift_type-" + targetId + " .filter_checkbox:not(:disabled)").prop("checked", true);
+  $("#work_environment-" + targetId + " .filter_checkbox:not(:disabled)").prop("checked", true);
+  $("#entry_level-" + targetId + " .nurseCheck:not(:disabled)").prop("checked", true);
 }
 
 
 // ✅ Clear All
 function clearAll(event, targetId) {
   event.stopPropagation(); // stop accordion toggle
-  $("#emp_type-" + targetId + " .sector_checkbox").prop("checked", false);
-  $("#shift_type-" + targetId + " .filter_checkbox").prop("checked", false);
-  $("#work_environment-" + targetId + " .filter_checkbox").prop("checked", false);
+  $("#emp_type-" + targetId + " .sector_checkbox:not(:disabled)").prop("checked", false);
+  $("#shift_type-" + targetId + " .filter_checkbox:not(:disabled)").prop("checked", false);
+  $("#work_environment-" + targetId + " .filter_checkbox:not(:disabled)").prop("checked", false);
 }
 
 
@@ -947,7 +1003,69 @@ function clearAll(event, targetId) {
     section.style.display = checkbox.checked ? "block" : "none";
   }
 
-  function applySector1(filter_name){
+  function applyShiftData(filter_name,column_type){
+    var selectedValues1 = [];
+        
+    // Get all checked checkboxes inside the modal
+    $("."+column_type+":checked").each(function() {
+        selectedValues1.push($(this).val());
+    });
+
+    sessionStorage.setItem("emp_type_data-"+column_type, selectedValues1);
+
+    selectedValues = [...new Set(selectedValues1)];
+
+    console.log("Unique selected values:", selectedValues);
+
+    var shift_type_data = sessionStorage.getItem("emp_type_data-"+column_type);
+    console.log("emp_type_data",shift_type_data);
+    if(shift_type_data !== null){
+      
+        $("."+column_type).prop("disabled", true);
+        $(".edit-btn-"+column_type).show();
+
+    }
+
+    $("#shiftModal").hide();
+  }
+
+  var shift_type_data = sessionStorage.getItem("emp_type_data-shift_modal");
+  console.log("emp_type_data",shift_type_data);
+  if(shift_type_data !== null){
+    
+    $(".shift_modal").prop("disabled", true);
+    $(".edit-btn-shift_modal").show();
+    
+    let shift_arr = shift_type_data.split(",");  
+
+    shift_arr.forEach(function(val) {
+      document.querySelectorAll(".shift_modal").forEach(function(checkbox) {
+        if (checkbox.value === val) {
+          checkbox.checked = true;  // ✅ mark it checked
+        }
+      });
+    });
+  }
+
+  var work_environment_data = sessionStorage.getItem("emp_type_data-work_environment_modals");
+  console.log("emp_type_data",work_environment_data);
+  if(work_environment_data !== null){
+    
+    $(".work_environment_modals").prop("disabled", true);
+    $(".edit-btn-work_environment_modals").show();
+    
+    let work_environment_arr = work_environment_data.split(",");  
+
+    work_environment_arr.forEach(function(val) {
+      document.querySelectorAll(".work_environment_modals").forEach(function(checkbox) {
+        if (checkbox.value === val) {
+          checkbox.checked = true;  // ✅ mark it checked
+        }
+      });
+    });
+  }
+
+  function applySector1(filter_name,column_type){
     var selectedValues1 = [];
         
     // Get all checked checkboxes inside the modal
@@ -955,37 +1073,69 @@ function clearAll(event, targetId) {
         selectedValues1.push($(this).val());
     });
 
+    sessionStorage.setItem("emp_type_data-"+column_type, selectedValues1);
+
     // remove duplicates
     selectedValues = [...new Set(selectedValues1)];
 
     console.log("Unique selected values:", selectedValues);
 
+    getEmpFilterData(filter_name,selectedValues);
+
+    
+
+    
+  }
+
+  function getEmpFilterData(filter_name,selectedValues){
+    console.log("selectedValues",selectedValues);
     $.ajax({
       type: "POST",
       url: "{{ url('/nurse/getFilterData') }}",
       data: {filter_name:filter_name,selectedValues:selectedValues,_token:'{{ csrf_token() }}'},
       cache: false,
       success: function(data){
-        $(".job-listings").html(data);
+        
+        if(data == ""){
+          
+          $(".job-listings").html('\<div id="no-jobs" class="no-jobs-box">\
+                    <h3>🚫 No Jobs Found</h3>\
+                    <p>Sorry, no jobs match your search.</p>\
+                  </div>');
+        }else{
+          $(".job-listings").append(data);
+          
+          
+        }
+        
         $("#sectorModal").hide();
         $("#employmentModal").hide();
-        $("input[name='sector']").prop("disabled", true);
-        $("#oneTimeMessage").fadeIn();
-
-        setTimeout(function() {
-          
-          $("#oneTimeMessage").fadeOut();
-        }, 5000);
+        
+        
+        
       }
     });    
-    
   }
+
+  var emp_type_data = sessionStorage.getItem("emp_type_data-emp_type");
+  console.log("emp_type_data",emp_type_data);
+  if(emp_type_data !== null){
+    let arr = emp_type_data.split(",");
+      
+    getEmpFilterData('Employment Type',arr)
+    
+                                             
+  }
+
+  
+
+  
 
   function applySector(filter_name){
     var selectedValues = [];
         
     // Get all checked checkboxes inside the modal
-    $(".sector_checkbox:checked").each(function() {
+    $(".sector_data_checkbox:checked").each(function() {
         selectedValues.push($(this).val());
     });
 
@@ -994,6 +1144,12 @@ function clearAll(event, targetId) {
     $(".edit-btn").show();
 
     console.log("selectedValues",selectedValues); // Array of checked values
+
+    getFilterDataAjax(filter_name,selectedValues)
+    
+  }
+
+  function getFilterDataAjax(filter_name,selectedValues){
     
     $.ajax({
       type: "POST",
@@ -1015,22 +1171,62 @@ function clearAll(event, targetId) {
     });    
   }
 
+  let selected_sector_data = sessionStorage.getItem("sector_data");
+  console.log("selected_sector_data",selected_sector_data);
+
+  let selected_arr = [selected_sector_data];
+  //applySector('sector'); 
+  if(selected_sector_data != ""){
+    getFilterDataAjax('sector',selected_arr);
+  }
+
+
   function editSector(){
     $("input[name='sector']").prop("disabled", false);
-    
+    $(".employee_type").prop("disabled", false);
+    $(".shift_modal").prop("disabled", false);
+    $(".assistent_level").prop("disabled", false);
+    $(".work_environment_modals").prop("disabled", false);
   }
 
-  var sector_data = sessionStorage.getItem("sector_data");
+  // var sector_data = sessionStorage.getItem("sector_data");
 
-  if(sector_data){
-    $("input[name='sector'][value='"+sector_data+"']").prop("checked", true);
-    $("input[name='sector']").prop("disabled", true);
-  }
-  
-  if(sector_data == null){
+  // if(sector_data){
+  //   $("input[name='sector']")
+  //       .prop("checked", false)   // uncheck all (actual state)
+  //       .removeAttr("checked");   // also remove the HTML attribute
+
+  //   $("input[name='sector'][value='" + sector_data + "']")
+  //       .prop("checked", true)    // check the right one
+  //       .attr("checked", "checked"); // reflect in HTML
+  //   $("input[name='sector']").prop("disabled", true);
+  // }
+
+  $(document).ready(function() {
+    let selected_sector_data = sessionStorage.getItem("sector_data");
+    console.log("selected_sector_data", selected_sector_data);
+
+    if (selected_sector_data) {
+        // uncheck all first
+        $("input[name='sector']").prop("disabled", false);
+
+        // uncheck all
+        $("input[name='sector']").prop("checked", false).removeAttr("checked");
+
+        // check only the sessionStorage value
+        $("input[name='sector'][value='" + selected_sector_data + "']")
+            .prop("checked", true)
+            .attr("checked", "checked");
+        $("input[name='sector']").prop("disabled", true);    
+    }
+
+    if(selected_sector_data == null){
     
     $(".edit-btn").hide();
   }
+});
+  
+  
 
   
 
@@ -1052,15 +1248,47 @@ function clearAll(event, targetId) {
     }
   });
 
+  var experience_data = sessionStorage.getItem("experience_value");
+  console.log("experience_data",experience_data);
+
+  if(experience_data !== null){
+    
+      $(".assistent_level").prop("disabled", true);
+      $(".edit-btn-experience-modal").show();
+
+  }
+
   function applyExperience(){
     var experience = $(".assistent_level").val();
+    sessionStorage.setItem("experience_value", experience);
+
+    var experience_data = sessionStorage.getItem("experience_value");
+    console.log("experience_data",experience_data);
+
+    if(experience_data !== null){
+      
+        $(".assistent_level").prop("disabled", true);
+        $(".edit-btn-experience-modal").show();
+
+    }
     $.ajax({
       type: "POST",
       url: "{{ url('/nurse/getExperienceData') }}",
       data: {experience:experience,_token:'{{ csrf_token() }}'},
       cache: false,
       success: function(data){
-        $(".job-listings").html(data);
+        if(data == ""){
+          
+          $(".job-listings").html('\<div id="no-jobs" class="no-jobs-box">\
+                    <h3>🚫 No Jobs Found</h3>\
+                    <p>Sorry, no jobs match your search.</p>\
+                  </div>');
+        }else{
+          $(".job-listings").append(data);
+          
+          
+        }
+        
         $("#yearExperienceModal").hide();
         
       }
