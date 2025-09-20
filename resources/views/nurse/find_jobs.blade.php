@@ -411,7 +411,11 @@
     }
 
     .search-box {
-      margin-bottom: 10px;
+      width: 100%;
+      padding: 8px;
+      margin: 10px 0;
+      /* border: 1px solid #ccc; */
+      border-radius: 6px;
     }
 
     .search-box input {
@@ -679,13 +683,7 @@
       background: #eee;
     }
 
-    .search-box {
-      width: 100%;
-      padding: 8px;
-      margin: 10px 0;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-    }
+    
 
     .form-group.top_filter.location_filter .select-box {
     background: #fff;
@@ -763,6 +761,19 @@
 .tag-badge .remove-tag:hover {
   color: #dc3545; /* red on hover */
 }
+
+.edit-btns{
+      background: #ffffffff;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
 </style>
 @endsection
 
@@ -771,7 +782,7 @@
     <section class="section-box mt-30">
         <div class="container">
             
-            <div id="oneTimeMessage" class="alert alert-info" 
+            <!-- <div id="oneTimeMessage" class="alert alert-info" 
                 style="display:none;margin:10px 0; font-size:14px; padding:12px 40px 12px 12px; 
                         border-radius:6px; background:#e8f4fd; border:1px solid #b6e0fe; color:#084298; 
                         position:relative;">
@@ -780,19 +791,19 @@
                 <strong>Info!</strong> This alert box could indicate a neutral informative change or action.
               </span>
 
-              <!-- Cancel Button (right aligned) -->
+              
               <button id="dismissMessage" class="close" data-dismiss="alert" aria-label="close" 
                       style="position:absolute; top:8px; right:10px; background:none; 
                             border:none; font-size:16px; font-weight:bold; 
                             color:#084298; cursor:pointer;">
                 ×
               </button>
-            </div>
+            </div> -->
 
             <h1 style="font-size: 24px; font-weight: bold;">Find Jobs</h1>
             <!-- Horizontal Search Bar with Labels -->
             <div class="search-bar">
-            <div class="top_filter keywords_filter">
+           <div class="top_filter keywords_filter">
                 <label for="keywords">Keywords</label>
                 <input type="text" id="keywords" placeholder="e.g. ICU, aged care, night shift">
             </div>
@@ -840,7 +851,7 @@
             </div>
 
             </div>
-            <div class="row filters_jobs">
+            <div class="row">
                 <div class="filters col-md-4">
                     
                     <div class="filter-sidebar">
@@ -900,7 +911,7 @@
                         <span>Location Preferences</span>
                         <span class="arrow">›</span>
                       </li>
-                       <li class="filter-item" onclick="openNurseModal('Type of nurse')">
+                      <li class="filter-item" onclick="openNurseModal('Type of nurse')">
                         <span>Type of nurse</span>
                         <span class="arrow">›</span>
                       </li>
@@ -1236,7 +1247,6 @@
       ensureLatLng(function () {
         getCurrentLocation(function (coords) {
           sortJobsByProximity(coords);
-          buildPagination();
         });
       });
     }
@@ -1391,22 +1401,18 @@ function updateSelectedLocationsBox() {
   console.log(selected); 
 
 
-  function toggleMessage() {
+  $("#toggleRegisteredPreferences").click(function(){
     if ($("#toggleRegisteredPreferences").is(":checked")) {
+      
       $(".auto_fill_message").show();
       $(".auto_empty_message").hide();
     } else {
+      
       $(".auto_fill_message").hide();
       $(".auto_empty_message").show();
     }
-  }
+  }); 
 
-  toggleMessage(); // on page load
-
-  // var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-  // var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-  //   return new bootstrap.Tooltip(tooltipTriggerEl)
-  // })
 
 $('#toggleUpdatePreferences').on('change', function() {
     if($(this).is(':checked')) {
@@ -1510,7 +1516,6 @@ $('.checkbox-options input[type="checkbox"]').on('change', function() {
 $(document).ready(function () {
   var itemsPerPage = 2;
   var currentPage = 1;
-  var userCoords = null;
 
   // Get filtered jobs based on location + keyword
     function getFilteredItems() {
@@ -1613,10 +1618,10 @@ $(document).ready(function () {
   buildPagination();
 
   // Accordion toggle (only when clicking the header text, not buttons)
-  $(document).on("click", ".accordion-header", function(e) {
-    if ($(e.target).is("button")) return; // ignore if button clicked
-    $(this).next(".accordion-content").slideToggle();
-  });
+$(document).on("click", ".accordion-header", function(e) {
+  if ($(e.target).is("button")) return; // ignore if button clicked
+  $(this).next(".accordion-content").slideToggle();
+});
 
 // Select All
 // $(document).on("click", ".select-all", function(e) {
@@ -1633,29 +1638,34 @@ $(document).ready(function () {
 // });
 
 });
+// 📌 Haversine formula (distance in km)
 function getDistance(lat1, lon1, lat2, lon2) {
-    var R = 6371;
-    var dLat = (lat2 - lat1) * Math.PI / 180;
-    var dLon = (lon2 - lon1) * Math.PI / 180;
-    var a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(lat1 * Math.PI / 180) *
-      Math.cos(lat2 * Math.PI / 180) *
-      Math.sin(dLon / 2) * Math.sin(dLon / 2);
-    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  }
+  var R = 6371; // Earth radius in km
+  var dLat = (lat2 - lat1) * Math.PI / 180;
+  var dLon = (lon2 - lon1) * Math.PI / 180;
+  var a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+}
 
-  // 📌 Get current location
-  function getCurrentLocation(callback) {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(function (pos) {
-        userCoords = { lat: pos.coords.latitude, lng: pos.coords.longitude };
-        if (callback) callback(userCoords);
-      }, function () {
-        alert("Unable to fetch your location. Please enable GPS.");
+// 📌 Get current user location (via browser)
+function getCurrentLocation(callback) {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function (position) {
+      callback({
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
       });
-    }
+    }, function () {
+      alert("Unable to fetch your location. Please enable GPS.");
+    });
+  } else {
+    alert("Geolocation is not supported by this browser.");
   }
+}
 
 // 📌 Fetch lat/lng using Nominatim if missing
 function fetchLatLng(address, $jobCard, callback) {
