@@ -100,6 +100,11 @@ class JobsController extends Controller{
             
             $data['location_status'] = "multiple_location";
         }
+
+        if($data['work_preferences_data']->location_status == NULL){
+            $country_merge = '';
+            $data['location_status'] = "";
+        }
         
         $data['country_name'] = $country_merge;
         $data['user_data'] = DB::table("users")->where("id",$user_id)->first();
@@ -278,23 +283,42 @@ class JobsController extends Controller{
     }
 
     public function getFilterData(Request $request){
+        $filter_name = $request->filter_name;
         $searchValues = $request->selectedValues;
+        $selectedValues = $request->selectedValues;
+        //print_r($selectedValues);die;
 
         
+        if($filter_name == "Employment Type"){
+            $data['jobs'] = DB::table("job_boxes")->where(function($query) use ($selectedValues) {
+                foreach ($selectedValues as $id) {
+                    $query->orWhereJsonContains('emplyeement_type', (string) $id);
+                }
+            })->get();
+            
+        }    
 
-        $data['jobs'] = DB::table('job_boxes')
-        ->where(function($query) use ($searchValues) {
-            foreach ($searchValues as $value) {
-                $query->orWhere('emplyeement_type', 'LIKE', '%"'.$value.'"%');
-            }
-        })
-        ->get();
+        if($filter_name == "Position"){
+            $data['jobs'] = DB::table("job_boxes")->where(function($query) use ($selectedValues) {
+                foreach ($selectedValues as $id) {
+                    $query->orWhereJsonContains('emplyeement_positions', (string) $id);
+                }
+            })->get();
+        }    
 
-        //print_r($data);
+        if($filter_name == "Benefits"){
+            $data['jobs'] = DB::table("job_boxes")->where(function($query) use ($selectedValues) {
+                foreach ($selectedValues as $id) {
+                    $query->orWhereJsonContains('benefits', (string) $id);
+                }
+            })->get();
+        }    
+        //print_r($jobs);
         
-        //$data['jobs'] = DB::table("job_boxes")->whereIn("sector",$selectedValues)->get();
-
-        //print_r($filterData);
+        if($filter_name == "sector"){
+            $data['jobs'] = DB::table("job_boxes")->whereIn("sector",$selectedValues)->get();
+        }    
+        //print_r($data);die;
         return view("nurse.job_filter_data")->with($data);
 
     }
