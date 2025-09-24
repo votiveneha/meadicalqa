@@ -37,12 +37,14 @@ use File;
 use App\Services\Admins\SpecialityServices;
 
 use App\Models\SpecialityModel;
+use App\Models\PractitionerTypeModel;
 use App\Models\EducationModel;
 use App\Models\ExperienceModel;
 use App\Models\MandatoryTrainModel;
 use App\Models\InterviewModel;
 use App\Models\PreferencesModel;
 use App\Models\WorkPreferencesModel;
+use App\Models\WorkPreferModel;
 use App\Models\VaccinationFrontModel;
 use App\Models\AdditionalInfo;
 use App\Models\ProfessionalAssocialtionModel;
@@ -70,7 +72,10 @@ class HomeController extends Controller
     {
         if (!Auth::guard('nurse_middle')->check()) {
             $title = "Login";
-            return view('nurse.home', compact('message'));
+            $practitioner_data = SpecialityModel::where("parent",0)->get();
+            $speciality_data = PractitionerTypeModel::where("parent",0)->get();
+            $work_preferences_data = WorkPreferModel::where("sub_env_id",0)->where("sub_envp_id",0)->get();
+            return view('nurse.home', compact('message','practitioner_data','speciality_data','work_preferences_data'));
         } else {
 
 
@@ -86,12 +91,13 @@ class HomeController extends Controller
     {
         if (!Auth::guard('nurse_middle')->check()) {
             $title = "Login";
-
-
+            $practitioner_data = SpecialityModel::where("parent",0)->get();
+            $speciality_data = PractitionerTypeModel::where("parent",0)->get();
+            $work_preferences_data = WorkPreferModel::where("sub_env_id",0)->where("sub_envp_id",0)->get();
             $trendingData = $this->specialityRepository->getAll(['is_featured' => 1]);
             $trendingData2 = $this->specialityRepository->get_specialitiess(['is_featured' => 1]);
 
-            return view('nurse.main-home', compact('message', 'trendingData', 'trendingData2'));
+            return view('nurse.main-home', compact('message', 'trendingData', 'trendingData2','practitioner_data','speciality_data','work_preferences_data'));
         } else {
 
 
@@ -112,9 +118,13 @@ class HomeController extends Controller
     public function login($message = '')
     {
 
+        
         if (!Auth::guard('nurse_middle')->check()) {
+            $practitioner_data = SpecialityModel::where("parent",0)->get();
+            $speciality_data = PractitionerTypeModel::where("parent",0)->get();
+            $work_preferences_data = WorkPreferModel::where("sub_env_id",0)->where("sub_envp_id",0)->get();
             $title = "Login";
-            return view('nurse.login', compact('title', 'message'));
+            return view('nurse.login', compact('title', 'message','practitioner_data','speciality_data','work_preferences_data'));
         } else {
 
 
@@ -123,11 +133,15 @@ class HomeController extends Controller
     }
     public function nurse_register($message = '')
     {
-        return view('nurse.nurseRegister', compact('message'));
+        $practitioner_data = SpecialityModel::where("parent",0)->get();
+        $speciality_data = PractitionerTypeModel::where("parent",0)->get();
+        $work_preferences_data = WorkPreferModel::where("sub_env_id",0)->where("sub_envp_id",0)->get();
+        return view('nurse.nurseRegister', compact('message','practitioner_data','speciality_data','work_preferences_data'));
     }
     public function manage_profile($message = '')
     {
-        return view('nurse.profile', compact('message'));
+        $employeement_type_preferences = DB::table("employeement_type_preferences")->where("sub_prefer_id","0")->get();
+        return view('nurse.profile', compact('message','employeement_type_preferences'));
     }
     public function upload_profile_image(Request $request)
     {
@@ -1066,28 +1080,49 @@ class HomeController extends Controller
         //echo count($additional_license_number);die;
         $getedudata = DB::table("user_education_cerification")->where("user_id", $user_id)->first();
 
-        
+        //$certificate_array = array();
+        // for($i=0;$i<count($training_courses);$i++){
+        //     if(!empty($additional_upload_certification[$i])){
+        //         $name1=$additional_upload_certification[$i]->getClientOriginalName();
+        //         $name= time().$name1;
+        //         $destinationPathcert = public_path()."/uploads/certificates"; 
+        //         $additional_upload_certification[$i]->move($destinationPathcert,$name);
+        //     }else{
+        //         $certificate_data = json_decode($getedudata->additional_training_data);
+        //         if(!empty($certificate_data) && !empty($certificate_data[$i])){
+        //             $name = $certificate_data[$i]->additional_upload_certification;
+        //         }else{
+        //             $name = "";
+        //         }
+        //     }
+
+        //     $certificate_array[] = array("training_courses"=>$training_courses[$i],"additional_license_number"=>$additional_license_number[$i],"additional_expiry"=>$additional_expiry[$i],"additional_upload_certification"=>$name);
+        // }
+
+        // $certificate_json = json_encode($certificate_array);
 
         $training_certificate = $request->training_certificate;
         $certificate_license_number = $request->certificate_license_number;
         $certificate_expiry = $request->certificate_expiry;
         $regulating_body = $request->regulating_body;
         $certificate_upload_certification = $request->certificate_upload_certification;
-
+        //print_r($certificate_upload_certification);die;
         $new_certificate_array = array();
         if (!empty($training_certificate)) {
-            //print_r($certificate_upload_certification[1]);die;
             for ($i = 0; $i < count($training_certificate); $i++) {
-                $new_certificate_array[] = array("certificate_id" => $i + 1, "training_certificate" => $training_certificate[$i], "certificate_license_number" => $certificate_license_number[$i], "certificate_expiry" => $certificate_expiry[$i], "regulating_body" => $regulating_body[$i], "certificate_upload_certification" => $certificate_upload_certification[$i+1]);
+                
 
                 
+                
+
+                $new_certificate_array[] = array("certificate_id" => $i + 1, "training_certificate" => $training_certificate[$i], "certificate_license_number" => $certificate_license_number[$i], "certificate_expiry" => $certificate_expiry[$i], "regulating_body" => $regulating_body[$i], "certificate_upload_certification" => $certificate_upload_certification[$i+1]);
             }
 
             $new_certificate_json = json_encode($new_certificate_array);
         } else {
             $new_certificate_json = '';
         }
-
+        //print_r($certificate_upload_certification);die;
         $bls_data = $request->bls_data;
         if ($bls_data) {
             $bls_count = count($bls_data);
@@ -1810,63 +1845,6 @@ class HomeController extends Controller
         echo json_encode($json);
     }
 
-    public function uploadAnotherImgs_cert(Request $request)
-    {
-        
-        $other_certificate = $request->other_certificate;
-        $user_id = $request->user_id;
-        $certificate_id = $request->certificate_id;
-
-        $getedufieldsdata = DB::table("user_education_cerification")->where("user_id", $user_id)->first();
-
-        
-
-        $exists = false;
-        
-        if(!empty($getedufieldsdata) && $getedufieldsdata->additional_certification != NULL){
-            $additional_certification = json_decode($getedufieldsdata->additional_certification);
-            foreach ($additional_certification as $certificate) {
-                if (isset($certificate->certificate_id) && $certificate->certificate_id == $certificate_id) {
-                    $exists = true;
-                    break;
-                }
-            }
-        }
-        
-        
-        //print_r($additional_certification);die;
-        
-        if(!empty($getedufieldsdata) && $getedufieldsdata->additional_certification != NULL && $exists==true){
-            $additional_certification = json_decode($getedufieldsdata->additional_certification);
-            $cert_img = '';
-            //print_r($additional_certification);die;
-            foreach($additional_certification as $acert){
-                if($acert->certificate_id == $certificate_id){
-                    $cert_img = Helpers::multipleFileUpload($other_certificate[$certificate_id], json_decode($acert->certificate_upload_certification));
-                    $acert->certificate_upload_certification = $cert_img;
-                }
-            }
-
-           DB::table("user_education_cerification")->where("user_id", $user_id)->update(["additional_certification"=>json_encode($additional_certification)]); 
-        }else{
-            
-            $cert_img = Helpers::multipleFileUpload($other_certificate[$certificate_id], '');
-        }
-
-        //print_r($cert_img);
-        
-        //print_r($cert_img);
-
-        // $additional_certification = json_decode($getedufieldsdata->additional_certification);
-
-        // foreach($additional_certification as $acert){
-        //     $a
-        // }
-        
-        return $cert_img;
-        //print_r($additional_certification);
-    }
-
     public function getEmployeePositions(Request $request)
     {
         
@@ -1948,8 +1926,9 @@ class HomeController extends Controller
         $skills_compantancies = $request->input('skills_compantancies', []);
         $type_of_evidence = $request->input('type_of_evidence', []);
         $level_of_exp = $request->input('exper_assistent_level', []);
-        $permanent_status = $request->input('permanent_status');
-        $temporary_status = $request->input('temporary_status');
+        // $permanent_status = $request->input('permanent_status');
+        // $temporary_status = $request->input('temporary_status');
+        $emptypelevel = $request->input('emptypelevel', []);
         $evdience = $request->input('upload_evidence');
         $sub_skills_compantancies1 = $request->input('sub_skills_compantancies-8', []);
         $sub_skills_compantancies2 = $request->input('sub_skills_compantancies-9', []);
@@ -2005,8 +1984,9 @@ class HomeController extends Controller
             $skills_compantancies1 = $skills_compantancies[$key] ?? null;
             $type_of_evidence1 = $type_of_evidence[$key] ?? null;
             $level_of_exp1 = $level_of_exp[$key] ?? null;
-            $permanent_status1 = $permanent_status[$key] ?? null;
-            $temporary_status1 = $temporary_status[$key] ?? null;
+            $emptypelevel1 = $emptypelevel[$key] ?? null;
+            // $permanent_status1 = $permanent_status[$key] ?? null;
+            // $temporary_status1 = $temporary_status[$key] ?? null;
             $sub_skills_compantancies1_1 = $sub_skills_compantancies1[$key] ?? null;
             $sub_skills_compantancies2_1 = $sub_skills_compantancies2[$key] ?? null;
             $sub_skills_compantancies3_1 = $sub_skills_compantancies3[$key] ?? null;
@@ -2016,7 +1996,7 @@ class HomeController extends Controller
             if ($exp_id_1) {
                 // echo "test";
                 // die;
-                $oldfile2 = json_decode($oldfile1, true);
+                // $oldfile2 = json_decode($oldfile1, true);
 
                 // if(!empty($evi1)){
                     
@@ -2025,7 +2005,7 @@ class HomeController extends Controller
                 //     $expimgs = Helpers::multipleFileUpload('', $oldfile2);
                 // }
 
-                // print_r($dtran);
+                
                 // die;
 
                 $run = ExperienceModel::where('experience_id', $exp_id_1)->update([
@@ -2059,8 +2039,9 @@ class HomeController extends Controller
                     'employeement_type' => $employeement_type1,
                     'skills_compantancies' => json_encode($skills_compantancies1),
                     'evidence_type' => json_encode($type_of_evidence1),
-                    'permanent_status' => $permanent_status1,
-                    'temporary_status' => $temporary_status1,
+                    'employeement_type' => json_encode($emptypelevel1),
+                    // 'permanent_status' => $permanent_status1,
+                    // 'temporary_status' => $temporary_status1,
                     'upload_evidence' => $evi1,
                     'sub_skills_compantancies' => json_encode($sub_skills_compantancies1),
                     'assistent_level' => $level_of_exp1,
@@ -2073,6 +2054,24 @@ class HomeController extends Controller
                 ]);
             } else {
                 $user_stage = update_user_stage($userId,"Experience");
+                // if (isset($evi1) && is_iterable($evi1)) {
+                //     $dtran = []; // Initialize the array to hold file names
+
+                //     foreach ($evi1 as $dtrans) {
+                //         // Check if the individual file is valid
+                //         if ($dtrans->isValid()) {
+                //             $destinationPath = public_path() . '/uploads/evidence';
+                //             $dtrans->move($destinationPath, $dtrans->getClientOriginalName());
+                //             $degree_transcript = $dtrans->getClientOriginalName();
+                //             $dtran[] = $degree_transcript; // Add the file name to the array
+                //         }
+                //     }
+                // }
+                // if(isset($ev1)){
+                //     $dtran
+                // }
+
+                // $dtran = $request->upload_evidence;
                 
                 $newExperience = new ExperienceModel();
                 $newExperience->user_id = $userId;
@@ -2103,11 +2102,11 @@ class HomeController extends Controller
                 $newExperience->employeement_end_date = $end_date1;
                 $newExperience->responsiblities = $job_responeblities1;
                 $newExperience->achievements = $achievements1;
-                $newExperience->employeement_type = $employeement_type1;
+                $newExperience->employeement_type = json_encode($emptypelevel1);
                 $newExperience->skills_compantancies = json_encode($skills_compantancies1);
                 $newExperience->evidence_type =  json_encode($type_of_evidence1);
-                $newExperience->permanent_status = $permanent_status1;
-                $newExperience->temporary_status = $temporary_status1;
+                // $newExperience->permanent_status = $permanent_status1;
+                // $newExperience->temporary_status = $temporary_status1;
                 $newExperience->upload_evidence  = $evi1;
                 $newExperience->sub_skills_compantancies = json_encode($sub_skills_compantancies1);
                 $newExperience->assistent_level = $level_of_exp1;
@@ -2405,7 +2404,7 @@ class HomeController extends Controller
         $getEducationData = DB::table("edu_fields")->where("user_id", $user_id)->first();
         $getEducationData1 = (array)$getEducationData;
         $gettransimg = (array)json_decode($getEducationData1[$img_text]);
-        $gettransimg1 = json_decode($gettransimg[$country_name]);
+        $gettransimg1 = (array)json_decode($gettransimg[$country_name]);
 
 
         $img_index = array_search($img, $gettransimg1);
@@ -2457,7 +2456,6 @@ class HomeController extends Controller
             foreach($additional_certification as $index=>$acert){
                 
                 if (isset($acert->certificate_id) && $acert->certificate_id == $certificate_id) {
-                    //print_r($acert->certificate_upload_certification);die;
                     $certificate_upload_certification = json_decode($acert->certificate_upload_certification);
                     $img_index = array_search($img, $certificate_upload_certification);
 
@@ -2470,9 +2468,9 @@ class HomeController extends Controller
             $run = DB::table("user_education_cerification")->where("user_id", $user_id)->update(["additional_certification"=>json_encode($additional_certification)]); 
         }
 
-        
+        if($run){
             return 1;
-        
+        }
 
 
 
@@ -3642,6 +3640,63 @@ class HomeController extends Controller
         return $acls_img;
     }
 
+    public function uploadAnotherImgs_cert(Request $request)
+    {
+        
+        $other_certificate = $request->other_certificate;
+        $user_id = $request->user_id;
+        $certificate_id = $request->certificate_id;
+
+        $getedufieldsdata = DB::table("user_education_cerification")->where("user_id", $user_id)->first();
+
+        
+
+        $exists = false;
+        
+        if(!empty($getedufieldsdata) && $getedufieldsdata->additional_certification != NULL){
+            $additional_certification = json_decode($getedufieldsdata->additional_certification);
+            foreach ($additional_certification as $certificate) {
+                if (isset($certificate->certificate_id) && $certificate->certificate_id == $certificate_id) {
+                    $exists = true;
+                    break;
+                }
+            }
+        }
+        
+        
+        //print_r($additional_certification);die;
+        
+        if(!empty($getedufieldsdata) && $getedufieldsdata->additional_certification != NULL && $exists==true){
+            $additional_certification = json_decode($getedufieldsdata->additional_certification);
+            $cert_img = '';
+            //print_r($additional_certification);die;
+            foreach($additional_certification as $acert){
+                if($acert->certificate_id == $certificate_id){
+                    $cert_img = Helpers::multipleFileUpload($other_certificate[$certificate_id], json_decode($acert->certificate_upload_certification));
+                    $acert->certificate_upload_certification = $cert_img;
+                }
+            }
+
+           DB::table("user_education_cerification")->where("user_id", $user_id)->update(["additional_certification"=>$additional_certification]); 
+        }else{
+            
+            $cert_img = Helpers::multipleFileUpload($other_certificate[$certificate_id], '');
+        }
+
+        //print_r($cert_img);
+        
+        //print_r($cert_img);
+
+        // $additional_certification = json_decode($getedufieldsdata->additional_certification);
+
+        // foreach($additional_certification as $acert){
+        //     $a
+        // }
+        
+        return $cert_img;
+        //print_r($additional_certification);
+    }
+
     public function deletecertification_img(Request $request)
     {
         $user_id = $request->user_id;
@@ -3777,6 +3832,7 @@ class HomeController extends Controller
         }
         return response()->json(['success' => false, 'message' => 'Vaccine not found']);
     }
+
     public function uploadExpImgs(Request $request){
         $files = $request->file('exp_evidence');
         $exp_id = $request->exp_id;
@@ -3862,6 +3918,7 @@ class HomeController extends Controller
         $update['start_job_dropdown'] = $request->start_job_dropdown;
         $update['any_help'] = json_encode($request->any_help);
         $update['updated_at'] = Carbon::now('Asia/Kolkata');
+        //print_r($update);die;
         $run = User::where('id', Auth::guard('nurse_middle')->user()->id)->update($update);
         $user_stage = update_user_stage(Auth::guard('nurse_middle')->user()->id,"Setting & Availability");
         if ($run) {
@@ -3874,5 +3931,22 @@ class HomeController extends Controller
         }
 
         echo json_encode($json);
+    }
+
+    public function getEmpData(Request $request)
+    {
+        $sub_prefer_id = $request->sub_prefer_id;
+        $circle_value = $request->circle_value;
+        $employeement_type_name = DB::table("employeement_type_preferences")->where("emp_prefer_id",$sub_prefer_id)->first();
+        
+        
+        $data['employeement_type_preferences'] = DB::table("employeement_type_preferences")->where("sub_prefer_id",$sub_prefer_id)->get();
+        
+        
+        //print_r($employeement_type_preferences);die;
+        $data['employeement_type_name'] = $employeement_type_name->emp_type;
+        $data['employeement_type_id'] = $employeement_type_name->emp_prefer_id;
+        $data['circle_value'] = $circle_value;
+        return json_encode($data);
     }
 }
