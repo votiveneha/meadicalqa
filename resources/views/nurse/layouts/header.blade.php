@@ -78,59 +78,18 @@ img, iframe, video {
                   </div>
 
                   <!-- Column 2: Browse Jobs -->
-                  <div class="mega-column">
+                  <div class="mega-column browse_by_jobs">
                     <h4>Browse Jobs by</h4>
                     <p class="helper-text">Combine these filters & more in your profile & Find Jobs</p>
                     <ul>
-                      <li class="flyout">Specialty & Patient group ▸
-                        <ul class="submenu sub_specialties">
-                          <!-- <li>Adults</li>
-                          <li>Maternity (OB/GYN & MFM)</li>
-                          <li>Paediatrics Neonatal Perinatal</li>
-                          <li>Community</li>
-                          <li>NDIS</li>
-                          <li>Home Care Nursing</li>
-                          <li>Telehealth Nursing</li>
-                          <li>+ More Specialties</li> -->
-                          @foreach($speciality_data as $key => $speciality)
-                          <li class="{{ $key > 2 ? 'hidden-speciality' : '' }}"><a href="#">{{ $speciality->name }}</a></li>
-                          @endforeach
-                          
-                          @if(count($speciality_data) > 3)
-                          <li class="toggle-specialities">+ More Specialties</li>
-                          @endif
-                        </ul>
+                      <li class="flyout" data-open="specialtyModal">Specialty & Patient group ▸
+                        
                       </li>
-                      <li class="flyout">Type of nurse ▸
-                        <ul class="submenu sub_specialties">
-                          @foreach($practitioner_data as $prac_data)
-                          <li><a href="#">{{ $prac_data->name }}</a></li>
-                          @endforeach
-                          @if(count($practitioner_data) > 3)
-                          <li>+ All Type of Nurse</li>
-                          @endif
-                        </ul>
+                      <li class="flyout" data-open="nurseModal">Type of nurse ▸
+                        
                       </li>
-                      <li class="flyout">Work Preferences & Flexibility ▸
-                        <ul class="submenu sub_specialties">
-                          <!-- <li>Work Environment</li>
-                          <li>Employment type</li>
-                          <li>Shifts</li>
-                          <li>Work-life Balance</li>
-                          <li>Near, Australia-wide, Global</li>
-                          <li>Position</li>
-                          <li>Benefits</li>
-                          <li>Salary</li>
-                          <li>Sector</li>
-                          <li>Experience</li>
-                          <li>+ Set More Preferences in Your Profile</li> -->
-                          @foreach($work_preferences_data as $key => $work_prefer_data)
-                          <li class="{{ $key > 2 ? 'hidden-speciality' : '' }}"><a href="#">{{ $work_prefer_data->env_name }}</a></li>
-                          @endforeach
-                          @if(count($work_preferences_data) > 3)
-                          <li class="toggle-specialities toggle-environment">+ Set More Preferences in Your Profile</li>
-                          @endif
-                        </ul>
+                      <li class="flyout" data-open="workPreferModal">Work Preferences & Flexibility ▸
+                        
                       </li>
                     </ul>
                   </div>
@@ -309,6 +268,55 @@ img, iframe, video {
   </header>
   
   @endif
+   <div id="modalOverlay" class="modal-overlay"></div>
+
+  <!-- Nurse Types Modal -->
+<div id="nurseModal" class="side-modal">
+  <div class="side-modal-content">
+    <span class="close-btn" data-close="nurseModal">&times;</span>
+    <h3>Nurse Types</h3>
+    <ul class="submenu">
+      @foreach($practitioner_data as $key=>$prac_data)
+      <li class="{{ $key > 14 ? 'hidden-speciality' : '' }}"><a href="#">{{ $prac_data->name }}</a></li>
+      @endforeach
+      @if(count($practitioner_data) > 15)
+      <li class="toggle_nurse more-btn"><a href="#">+ All Type of Nurse</a></li>
+      @endif
+      
+    </ul>
+  </div>
+</div>
+
+<div id="specialtyModal" class="side-modal">
+  <div class="side-modal-content">
+    <span class="close-btn" data-close="specialtyModal">&times;</span>
+    <h3>Specialty & Patient group</h3>
+    <ul class="submenu">
+      @foreach($speciality_data as $key => $speciality)
+      <li class="{{ $key > 14 ? 'hidden-speciality' : '' }}"><a href="#">{{ $speciality->name }}</a></li>
+      @endforeach
+      
+      @if(count($speciality_data) > 15)
+      <li class="toggle-specialities more-btn"><a href="#">+ More Specialties</a></li>
+      @endif
+    </ul>
+  </div>
+</div>
+
+<div id="workPreferModal" class="side-modal">
+  <div class="side-modal-content">
+    <span class="close-btn" data-close="workPreferModal">&times;</span>
+    <h3>Work Preferences & Flexibility</h3>
+    <ul class="submenu">
+      @foreach($work_preferences_data as $key => $work_prefer_data)
+      <li class="{{ $key > 14 ? 'hidden-speciality' : '' }}"><a href="#">{{ $work_prefer_data->env_name }}</a></li>
+      @endforeach
+      @if(count($work_preferences_data) > 15)
+      <li class="toggle-environment more-btn"><a href="#">+ Set More Preferences in Your Profile</a></li>
+      @endif
+    </ul>
+  </div>
+</div>
   <script>
 document.addEventListener("DOMContentLoaded", function () {
   const burger = document.querySelector(".burger-icon");
@@ -321,28 +329,51 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-  const toggleBtn = document.querySelector(".submenu .toggle-specialities");
+    const toggleBtn = document.querySelector(".submenu .toggle_nurse a");
+    if (toggleBtn) {
+      let expanded = false;
+
+      toggleBtn.addEventListener("click", function () {
+        const hiddenItems = document.querySelectorAll("#nurseModal .submenu .hidden-speciality");
+
+        if (!expanded) {
+          hiddenItems.forEach(li => li.style.display = "list-item");
+          toggleBtn.textContent = "− Show Less";
+          expanded = true;
+        } else {
+          hiddenItems.forEach(li => li.style.display = "none");
+          toggleBtn.textContent = "+ All Type of Nurse";
+          expanded = false;
+        }
+      });
+    }
+  });
+  document.addEventListener("DOMContentLoaded", function () {
+  const toggleBtn = document.querySelector("#specialtyModal .submenu .toggle-specialities a");
   if (toggleBtn) {
     let expanded = false;
 
     toggleBtn.addEventListener("click", function () {
-      const hiddenItems = document.querySelectorAll(".submenu .hidden-speciality");
+      const hiddenItems = document.querySelectorAll("#specialtyModal .submenu .hidden-speciality");
 
       if (!expanded) {
         hiddenItems.forEach(li => li.style.display = "list-item");
         toggleBtn.textContent = "− Show Less";
         expanded = true;
+        
       } else {
         hiddenItems.forEach(li => li.style.display = "none");
         toggleBtn.textContent = "+ More Specialties";
         expanded = false;
+        //$("#specialtyModal").css("overflow-y","hidden");
       }
     });
   }
 });
 
+
 document.addEventListener("DOMContentLoaded", function () {
-  const toggleBtn = document.querySelector(".submenu .toggle-environment");
+  const toggleBtn = document.querySelector(".submenu .toggle-environment a");
   if (toggleBtn) {
     let expanded = false;
 
@@ -361,4 +392,41 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 });
+
+// Open modals
+  document.querySelectorAll("[data-open]").forEach(link => {
+    link.addEventListener("click", function(e) {
+      e.preventDefault();
+      const modalId = this.getAttribute("data-open");
+      document.getElementById(modalId).style.display = "block";
+    });
+  });
+
+  // Close modals
+  document.querySelectorAll("[data-close]").forEach(btn => {
+    btn.addEventListener("click", function() {
+      const modalId = this.getAttribute("data-close");
+      document.getElementById(modalId).style.display = "none";
+    });
+  });
+
+  // Close when clicking outside content
+  window.onclick = function(e) {
+    if (e.target.classList.contains("side-modal")) {
+      e.target.style.display = "none";
+    }
+  }
+
+  const overlay = document.getElementById("modalOverlay");
+
+  // To show overlay
+  overlay.style.display = "block";
+
+  // To hide overlay
+  overlay.style.display = "none";
+
+  // Optional: close overlay by clicking it
+  overlay.addEventListener("click", () => {
+    overlay.style.display = "none";
+  });
 </script>
