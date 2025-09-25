@@ -91,9 +91,10 @@ class HomeController extends Controller
     {
         if (!Auth::guard('nurse_middle')->check()) {
             $title = "Login";
-            $practitioner_data = SpecialityModel::where("parent",0)->get();
-            $speciality_data = PractitionerTypeModel::where("parent",0)->get();
-            $work_preferences_data = WorkPreferModel::where("sub_env_id",0)->where("sub_envp_id",0)->get();
+            $practitioner_data = SpecialityModel::where("status",'1')->get();
+            //print_r($practitioner_data);die;
+            $speciality_data = PractitionerTypeModel::where("status",'1')->get();
+            $work_preferences_data = WorkPreferModel::get();
             $trendingData = $this->specialityRepository->getAll(['is_featured' => 1]);
             $trendingData2 = $this->specialityRepository->get_specialitiess(['is_featured' => 1]);
 
