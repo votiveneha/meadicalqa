@@ -1721,23 +1721,20 @@
                         </div>  
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group level-drp">
-                            <label class="form-label" for="employment_type">Employment type</label>
-                            <select
-                                    class="form-control emp_exp_type emp_exp_type-${previous_employeers_head}"
-                                    name="employeement_type[${previous_employeers_head}]"
-                                    id="employment_type_${previous_employeers_head}"
-                                    onchange="ExpEmpStatus(this.value,${previous_employeers_head})">
-                                    <option value="">select</option>
-                                    <option value="Permanent">Permanent</option>
-                                    <option value="Temporary">Temporary</option>
-                                </select>
-                            <span id="reqemptype-${previous_employeers_head}" class="reqError text-danger valley"></span>
-                        </div>
-                    </div>
-                </div>
+                <div class="form-group level-drp">
+                    <label class="form-label" for="input-1">Employment type</label>
+                    
+                    <ul id="employeement_type_experience-${previous_employeers_head}" style="display:none;">
+                    @if(!empty($employeement_type_preferences))
+                    @foreach($employeement_type_preferences as $emptype_data)
+                    <li data-value="{{ $emptype_data->emp_prefer_id }}">{{ $emptype_data->emp_type }}</li>
+                    @endforeach
+                    @endif
+                    
+                    </ul>
+                    <select class="js-example-basic-multiple${previous_employeers_head} addAll_removeAll_btn employeement_type_exp employeement_type_exp-${previous_employeers_head}" data-list-id="employeement_type_experience-${previous_employeers_head}" name="employeement_type[${previous_employeers_head}]" multiple onchange="showEmpType(this.value,${previous_employeers_head},'ap')"></select>
+                </div>  
+                <div class="show_emp_data-${previous_employeers_head}"></div>
                 <div class="exp_permanent exp_permanent-${previous_employeers_head}" style="display: none;" >
                     <div class="form-group level-drp col-md-12">
                         <label class="form-label" for="input-1">Permanent</label>

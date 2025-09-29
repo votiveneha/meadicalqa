@@ -102,7 +102,7 @@
       <div class="row m-0 profile-wrapper">
         <div class="col-lg-3 col-md-4 col-sm-12 p-0 left_menu">
 
-        @include('nurse.layouts.work_preferences_sidebar')
+        @include('nurse.layouts.career_sidebar')
         </div>
         <div class="col-lg-9 col-md-8 col-sm-12 col-12 right_content">
           <div class="content-single content_profile">

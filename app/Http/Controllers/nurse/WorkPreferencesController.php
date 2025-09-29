@@ -118,16 +118,16 @@ class WorkPreferencesController extends Controller{
         $data['work_preferences_data'] = WorkPreferencesModel::where("user_id",$user_id)->first();
 
         if(!empty($data['work_preferences_data'] && $data['work_preferences_data']->emptype_preferences != NULL)){
-            $emptype_data = (array)json_decode($data['work_preferences_data']->emptype_preferences);
-            //print_r($emptype_data);
-            $emptypeid = '';
-            foreach($emptype_data as $index=>$empdata){
-                $data['emptypeid'] = $index;
-                $data['emptypearr'] = json_encode($empdata);
-                $data['subemployeement_type_preferences'] = DB::table("employeement_type_preferences")->where("sub_prefer_id",$index)->get();
-                $subemployeement_name = DB::table("employeement_type_preferences")->where("emp_prefer_id",$index)->first();
-                $data['subemployeement_name'] = $subemployeement_name->emp_type;
-            }   
+            $data['emptypedata'] = (array)json_decode($data['work_preferences_data']->emptype_preferences);
+            
+            //$emptypeid = '';
+            // foreach($emptype_data as $index=>$empdata){
+            //     $data['emptypeid'] = $index;
+            //     $data['emptypearr'] = json_encode($empdata);
+            //     $data['subemployeement_type_preferences'] = DB::table("employeement_type_preferences")->where("sub_prefer_id",$index)->get();
+            //     $subemployeement_name = DB::table("employeement_type_preferences")->where("emp_prefer_id",$index)->first();
+            //     $data['subemployeement_name'] = $subemployeement_name->emp_type;
+            // }   
         }else{
             $data['emptypeid'] = '';
         }
@@ -148,6 +148,7 @@ class WorkPreferencesController extends Controller{
         
         //print_r($employeement_type_preferences);die;
         $data['employeement_type_name'] = $employeement_type_name->emp_type;
+        $data['employeement_type_id'] = $employeement_type_name->emp_prefer_id;
         return json_encode($data);
     }
 
@@ -929,14 +930,14 @@ class WorkPreferencesController extends Controller{
             }
         }
 
-        if(!empty($user_training_data) && $user_training_data->well_sel_data != NULL){
-            $well_sel_data = json_decode($user_training_data->well_sel_data);
+        // if(!empty($user_training_data) && $user_training_data->well_sel_data != NULL){
+        //     $well_sel_data = json_decode($user_training_data->well_sel_data);
                 
-            foreach($well_sel_data as $train){
+        //     foreach($well_sel_data as $train){
                 
-                $training_arr[] = $train->well_tra_id;
-            }
-        }
+        //         $training_arr[] = $train->well_tra_id;
+        //     }
+        // }
 
         if(!empty($user_training_data) && $user_training_data->leader_pro_data != NULL){
             $leader_pro_data = json_decode($user_training_data->leader_pro_data);
@@ -1268,14 +1269,14 @@ class WorkPreferencesController extends Controller{
         }
 
         $benefit_arr = array();
-        if(!empty($benefit_preferences)){
-            foreach($benefit_preferences as $bfit_preferences){
-                foreach($bfit_preferences as $bfit_prefer){
-                    $benefit_name = DB::table("benefits_preferences")->where("benefits_id",$bfit_prefer)->first();
-                    $benefit_arr[] = $benefit_name->benefits_name;
-                }
-            }
-        }
+        // if(!empty($benefit_preferences)){
+        //     foreach($benefit_preferences as $bfit_preferences){
+        //         foreach($bfit_preferences as $bfit_prefer){
+        //             $benefit_name = DB::table("benefits_preferences")->where("benefits_id",$bfit_prefer)->first();
+        //             $benefit_arr[] = $benefit_name->benefits_name;
+        //         }
+        //     }
+        // }
         
         
         $nurse_preferences = [

@@ -345,4 +345,78 @@ class WorkPreferencesController extends Controller{
         }
     }
 
+    public function employeement_type_list(Request $request)
+    {
+        
+        try {
+            $empTypeData  =  $this->work_prefer_repository->getAllEmpType(['sub_prefer_id'=>0]);
+            
+            
+            //print_r($enviromentData);
+            return view('admin.employeement_type_list',compact('empTypeData'));
+        } catch (\Exception $e) {
+            log::error('Error in ProfessionalMembership/countryList :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+
+    public function addEmplyeementType(WorkEnvironmentRequest $request)
+    {
+        
+        try {
+         
+            return $this->work_prefer_services->addEmployeementType($request);
+         } catch (\Exception $e) {
+             log::error('Error in DegreeController/addDegree :' . $e->getMessage() . 'in line' . $e->getLine());
+             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+         }
+    }
+
+    public function getEmployeementType(Request $request)
+    {
+        
+        try {
+           return $this->work_prefer_repository->getEmpType(['emp_prefer_id'=>$request->id]);
+        } catch (\Exception $e) {
+            log::error('Error in DegreeController/getDegree :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+
+    public function updateEmployeementType(WorkEnvironmentRequest $request)
+    {
+        
+        try {
+           return $this->work_prefer_services->updateEmployeementType($request);
+        } catch (\Exception $e) {
+            log::error('Error in DegreeController/updateDegree :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+
+    public function deleteEmployeementType(Request $request)
+    {
+        try {
+           return $this->work_prefer_services->deleteEmployeementType($request);
+        } catch (\Exception $e) {
+            log::error('Error in DegreeController/deleteDegree :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+
+    public function sub_employeement_type(Request $request)
+    {
+        
+        try {
+            $empTypeData  =  $this->work_prefer_repository->getAllEmpType(['sub_prefer_id'=>$request->id]);
+            $data['empTypeData'] = $empTypeData;
+            $data['emp_prefer_id'] = $request->id;
+            //print_r($enviromentData);
+            return view('admin.sub_emp_list')->with($data);
+        } catch (\Exception $e) {
+            log::error('Error in ProfessionalMembership/countryList :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+
 }    

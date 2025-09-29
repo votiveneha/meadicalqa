@@ -226,4 +226,59 @@ class WorkPreferServices
         }
     }
 
+    public function addEmployeementType($data)
+    {
+        try {
+            $allData['sub_prefer_id'] = $data['sub_prefer_id'];
+            $allData['emp_type'] = $data['emp_type_name'];
+            
+            $run = $this->work_prefer_repository->createEmpType($allData);
+            
+            if ($run) {
+                return response()->json(['status' => '2', 'message' => __('message.statusOne', ['parameter' => 'Employeement Type'])]);
+            } else {
+                return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+            }
+        } catch (\Exception $e) {
+            Log::error('Error in MembershipServices/addCountry(): ' . $e->getMessage());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }    
+
+    public function updateEmployeementType($data)
+    {
+        //print_r($data['env_name']);die;
+        try {
+
+            $allData['emp_type'] = $data['emp_type_name'];
+            $allData['sub_prefer_id'] = $data['sub_prefer_id'];
+            
+            $id = $data['emp_prefer_id'];
+            $run= $this->work_prefer_repository->updateEmpType(['emp_prefer_id' => $id], $allData);
+            if ($run) {
+                return response()->json(['status' => '2', 'message' => __('message.statusTwo', ['parameter' => 'Employeement Type'])]);
+            } else {
+                return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+            }
+        } catch (\Exception $e) {
+            Log::error('Error in DegreeServices/updateDegree(): ' . $e->getMessage());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+
+    public function deleteEmployeementType($request)
+    {
+        try {
+            $run = $this->work_prefer_repository->deleteEmpType(['emp_prefer_id'=>$request->id]);
+            if ($run) {
+                return response()->json(['status' => '2', 'message' => __('message.statusThree', ['parameter' => 'Employeement Type'])]);
+            } else {
+                return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+            }
+        } catch (\Exception $e) {
+            Log::error('Error in DegreeServices/deleteDegree(): ' . $e->getMessage());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
+
 }    

@@ -37,6 +37,8 @@ use File;
 use App\Services\Admins\SpecialityServices;
 
 use App\Models\SpecialityModel;
+use App\Models\PractitionerTypeModel;
+use App\Models\WorkPreferModel;
 use App\Models\EducationModel;
 use App\Models\ExperienceModel;
 use App\Models\MandatoryTrainModel;
@@ -70,7 +72,11 @@ class HomeController extends Controller
     {
         if (!Auth::guard('nurse_middle')->check()) {
             $title = "Login";
-            return view('nurse.home', compact('message'));
+            $practitioner_data = SpecialityModel::where("status",'1')->get();
+            //print_r($practitioner_data);die;
+            $speciality_data = PractitionerTypeModel::where("status",'1')->get();
+            $work_preferences_data = WorkPreferModel::get();
+            return view('nurse.home', compact('message','practitioner_data','speciality_data','work_preferences_data'));
         } else {
 
 
@@ -79,19 +85,26 @@ class HomeController extends Controller
     }
     public function contact($message = '')
     {
+        $practitioner_data = SpecialityModel::where("status",'1')->get();
+        //print_r($practitioner_data);die;
+        $speciality_data = PractitionerTypeModel::where("status",'1')->get();
+        $work_preferences_data = WorkPreferModel::get();    
         $phoneCode = CountryModel::orderBy('id', 'DESC')->get();
-        return view('nurse.contact', compact('message', 'phoneCode'));
+        return view('nurse.contact', compact('message', 'phoneCode','practitioner_data','speciality_data','work_preferences_data'));
     }
     public function index_main($message = '')
     {
         if (!Auth::guard('nurse_middle')->check()) {
             $title = "Login";
 
-
+            $practitioner_data = SpecialityModel::where("status",'1')->get();
+            //print_r($practitioner_data);die;
+            $speciality_data = PractitionerTypeModel::where("status",'1')->get();
+            $work_preferences_data = WorkPreferModel::get();
             $trendingData = $this->specialityRepository->getAll(['is_featured' => 1]);
             $trendingData2 = $this->specialityRepository->get_specialitiess(['is_featured' => 1]);
 
-            return view('nurse.main-home', compact('message', 'trendingData', 'trendingData2'));
+            return view('nurse.main-home', compact('message', 'trendingData', 'trendingData2','practitioner_data','speciality_data','work_preferences_data'));
         } else {
 
 
@@ -114,7 +127,11 @@ class HomeController extends Controller
 
         if (!Auth::guard('nurse_middle')->check()) {
             $title = "Login";
-            return view('nurse.login', compact('title', 'message'));
+            $practitioner_data = SpecialityModel::where("status",'1')->get();
+            //print_r($practitioner_data);die;
+            $speciality_data = PractitionerTypeModel::where("status",'1')->get();
+            $work_preferences_data = WorkPreferModel::get();
+            return view('nurse.login', compact('title', 'message','practitioner_data','speciality_data','work_preferences_data'));
         } else {
 
 
@@ -123,11 +140,16 @@ class HomeController extends Controller
     }
     public function nurse_register($message = '')
     {
-        return view('nurse.nurseRegister', compact('message'));
+        $practitioner_data = SpecialityModel::where("status",'1')->get();
+        //print_r($practitioner_data);die;
+        $speciality_data = PractitionerTypeModel::where("status",'1')->get();
+        $work_preferences_data = WorkPreferModel::get();
+        return view('nurse.nurseRegister', compact('message','practitioner_data','speciality_data','work_preferences_data'));
     }
     public function manage_profile($message = '')
     {
-        return view('nurse.profile', compact('message'));
+        $employeement_type_preferences = DB::table("employeement_type_preferences")->where("sub_prefer_id","0")->get();
+        return view('nurse.profile', compact('message','employeement_type_preferences'));
     }
     public function upload_profile_image(Request $request)
     {
@@ -871,6 +893,7 @@ class HomeController extends Controller
     public function dashboard()
 
     {
+        
         return view('nurse.dashboard');
     }
     public function updateProfile(UserUpdateProfile $request)
@@ -1948,6 +1971,7 @@ class HomeController extends Controller
         $skills_compantancies = $request->input('skills_compantancies', []);
         $type_of_evidence = $request->input('type_of_evidence', []);
         $level_of_exp = $request->input('exper_assistent_level', []);
+        $emptypelevel = $request->input('emptypelevel', []);
         $permanent_status = $request->input('permanent_status');
         $temporary_status = $request->input('temporary_status');
         $evdience = $request->input('upload_evidence');
@@ -2005,6 +2029,7 @@ class HomeController extends Controller
             $skills_compantancies1 = $skills_compantancies[$key] ?? null;
             $type_of_evidence1 = $type_of_evidence[$key] ?? null;
             $level_of_exp1 = $level_of_exp[$key] ?? null;
+            $emptypelevel1 = $emptypelevel[$key] ?? null;
             $permanent_status1 = $permanent_status[$key] ?? null;
             $temporary_status1 = $temporary_status[$key] ?? null;
             $sub_skills_compantancies1_1 = $sub_skills_compantancies1[$key] ?? null;
@@ -2056,7 +2081,7 @@ class HomeController extends Controller
                     'employeement_end_date' => $end_date1,
                     'responsiblities' => $job_responeblities1,
                     'achievements' => $achievements1,
-                    'employeement_type' => $employeement_type1,
+                    'employeement_type' => json_encode($emptypelevel1),
                     'skills_compantancies' => json_encode($skills_compantancies1),
                     'evidence_type' => json_encode($type_of_evidence1),
                     'permanent_status' => $permanent_status1,
@@ -2103,7 +2128,7 @@ class HomeController extends Controller
                 $newExperience->employeement_end_date = $end_date1;
                 $newExperience->responsiblities = $job_responeblities1;
                 $newExperience->achievements = $achievements1;
-                $newExperience->employeement_type = $employeement_type1;
+                $newExperience->employeement_type = json_encode($emptypelevel1);
                 $newExperience->skills_compantancies = json_encode($skills_compantancies1);
                 $newExperience->evidence_type =  json_encode($type_of_evidence1);
                 $newExperience->permanent_status = $permanent_status1;
@@ -3552,16 +3577,28 @@ class HomeController extends Controller
     
     public function term_and_condition($message = '')
     {
-        return view('nurse.term-&-condition', compact('message'));
+        $practitioner_data = SpecialityModel::where("status",'1')->get();
+        //print_r($practitioner_data);die;
+        $speciality_data = PractitionerTypeModel::where("status",'1')->get();
+        $work_preferences_data = WorkPreferModel::get();    
+        return view('nurse.term-&-condition', compact('message','practitioner_data','speciality_data','work_preferences_data'));
     }
     public function about($message = '')
     {
-        return view('nurse.about-us', compact('message'));
+        $practitioner_data = SpecialityModel::where("status",'1')->get();
+        //print_r($practitioner_data);die;
+        $speciality_data = PractitionerTypeModel::where("status",'1')->get();
+        $work_preferences_data = WorkPreferModel::get();    
+        return view('nurse.about-us', compact('message','practitioner_data','speciality_data','work_preferences_data'));
     }
 
     public function privacy($message = '')
     {
-        return view('nurse.privacy', compact('message'));
+        $practitioner_data = SpecialityModel::where("status",'1')->get();
+        //print_r($practitioner_data);die;
+        $speciality_data = PractitionerTypeModel::where("status",'1')->get();
+        $work_preferences_data = WorkPreferModel::get();    
+        return view('nurse.privacy', compact('message','practitioner_data','speciality_data','work_preferences_data'));
     }
     public function addnewsletters(AddnewsletterRequest $request)
     {
@@ -3874,5 +3911,22 @@ class HomeController extends Controller
         }
 
         echo json_encode($json);
+    }
+
+    public function getEmpData(Request $request)
+    {
+        $sub_prefer_id = $request->sub_prefer_id;
+        $circle_value = $request->circle_value;
+        $employeement_type_name = DB::table("employeement_type_preferences")->where("emp_prefer_id",$sub_prefer_id)->first();
+        
+        
+        $data['employeement_type_preferences'] = DB::table("employeement_type_preferences")->where("sub_prefer_id",$sub_prefer_id)->get();
+        
+        
+        //print_r($employeement_type_preferences);die;
+        $data['employeement_type_name'] = $employeement_type_name->emp_type;
+        $data['employeement_type_id'] = $employeement_type_name->emp_prefer_id;
+        $data['circle_value'] = $circle_value;
+        return json_encode($data);
     }
 }

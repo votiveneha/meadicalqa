@@ -106,11 +106,15 @@
 
             <div class="footer-social">
 
-              <a class="icon-socials icon-facebook" href="#"></a>
+              <a class="icon-socials icon-facebook" href="https://www.facebook.com/profile.php?id=61580019696973 "></a>
 
-              <a class="icon-socials icon-twitter" href="#"></a>
+              <a class="icon-socials icon-twitter" href="https://x.com/MediQaPlatform"></a>
 
-              <a class="icon-socials icon-linkedin" href="#"></a>
+              <a class="icon-socials icon-instagram" href="https://www.instagram.com/mediqaplatform/"></a>
+
+              <a class="icon-socials icon-linkedin" href="https://www.linkedin.com/company/mediqaplatform/"></a>
+
+              <a class="icon-socials icon-youtube" href="https://www.youtube.com/@MediQaPlatform"></a>
 
             </div>
 

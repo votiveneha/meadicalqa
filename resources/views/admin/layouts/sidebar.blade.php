@@ -368,6 +368,14 @@
               <span class="hide-menu">Benefits Preferences</span>
             </a>
           </li>
+          <li class="sidebar-item">
+            <a href="{{route('admin.employeement_type')}}" class="sidebar-link">
+              <div class="round-16 d-flex align-items-center justify-content-center">
+                <i class="ti ti-circle"></i>
+              </div>
+              <span class="hide-menu">Employeement management</span>
+            </a>
+          </li>
         </ul>
       </li>
        <li class="sidebar-item">
@@ -378,6 +386,14 @@
            <span class="hide-menu">Contact Us</span>
          </a>
        </li>
+       <li class="sidebar-item">
+            <a href="{{route('admin.add_jobs')}}" class="sidebar-link">
+              <span>
+                <i class="ti ti-aperture"></i>
+              </span>
+              <span class="hide-menu">Jobs List</span>
+            </a>
+          </li>
        <li class="sidebar-item">
          <a class="sidebar-link" href="{{route('admin.SeoList')}}" aria-expanded="false">
            <span>

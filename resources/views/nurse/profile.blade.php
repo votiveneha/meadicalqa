@@ -3475,71 +3475,75 @@
                             </div>
                           </div>
                           
-                              <div class="form-group level-drp">
-                                <label class="form-label" for="input-1">Employment type</label>
-                                <select class="form-control emp_exp_type emp_exp_type-{{$i}}" name="employeement_type[{{$i}}]" onchange="ExpEmpStatus(this.value,{{ $i }})">
-                                  <option value="">select</option>
-                                  <option value="Permanent" @if($data->employeement_type == "Permanent") selected @endif>Permanent</option>
-                                  <option value="Temporary" @if($data->employeement_type == "Temporary") selected @endif>Temporary</option>
-                                </select>
-                                <span id="reqemptype-{{$i}}" class="reqError text-danger valley"></span>
+                             <?php
+                              $employee_type_data = DB::table('employeement_type_preferences')->where("sub_prefer_id",0)->get();
+                              
+                              if(!empty($data->employeement_type)){
+                                  $emp_data = (array)json_decode($data->employeement_type);
+                              }else{
+                                  $emp_data = array();
+                              }
+                              
+                              //print_r($emp_data);
+
+                              $emparr = array();
+
+                              foreach ($emp_data as $index => $edata){
+                                  $emparr[] = $index;
+                              }
+                              
+                              
+                              $x = 1;
+                              $em_arr = json_encode($emparr);
+                          ?>
+                          <div class="form-group level-drp">
+                            <label class="form-label" for="input-1">Employment type</label>
+                            <input type="hidden" class="mainemptypedata mainemptypedata-{{ $i }}" value='<?php echo $em_arr; ?>'>
+                            <ul id="employeement_type_experience-{{ $i }}" style="display:none;">
+                              @if(!empty($employeement_type_preferences))
+                              @foreach($employeement_type_preferences as $emptype_data)
+                              <li data-value="{{ $emptype_data->emp_prefer_id }}">{{ $emptype_data->emp_type }}</li>
+                              @endforeach
+                              @endif
+                              
+                            </ul>
+                            <select class="js-example-basic-multiple addAll_removeAll_btn employeement_type_exp employeement_type_exp-{{ $i }}" data-list-id="employeement_type_experience-{{$i}}" name="employeement_type[{{$i}}]" multiple onchange="showEmpType(this.value,{{ $i }},'')"></select>
+                          </div>  
+                          
+                          <div class="show_emp_data-{{ $i }}">
+                            <?php
+                              $emptypedata = (array)json_decode($data->employeement_type);
+                            ?>
+                            @if(!empty($emptypedata))
+                            @foreach($emptypedata as $index=>$emptype)
+                            <?php
+                              $empname = DB::table("employeement_type_preferences")->where("emp_prefer_id",$index)->first();
+                              $subemptypedata = DB::table("employeement_type_preferences")->where("sub_prefer_id",$index)->get();
+                            ?>
+                            <div class="emptype_main_div emptype_main_div-{{ $index }}">
+                              <div class="emptypediv emptypediv-{{ $index }} form-group level-drp">
+                                <label class="form-label emptype_label emptype_label-{{ $index }}" for="input-1">{{ $empname->emp_type }}</label>
+                                <input type="hidden" class="subemptype-{{ $index }}" value='<?php echo json_encode($emptype); ?>'>
+                                <input type="hidden" class="subemptypeid-{{ $i }}" value='<?php echo $index; ?>'>
+                                <ul id="emptype_field-{{ $index }}" style="display:none;">
+                                  @if(!empty($subemptypedata))
+                                  @foreach($subemptypedata as $subemptype_data)
+                                  <?php
+                                    $subemptype_data_name = DB::table("employeement_type_preferences")->where("emp_prefer_id",$subemptype_data->emp_prefer_id)->first();
+                                    
+
+                                  ?>
+                                  <li data-value="{{ $subemptype_data->emp_prefer_id }}">{{ $subemptype_data_name->emp_type }}</li>  
+                                  @endforeach
+                                  @endif
+                                </ul>
+                                <select class="js-example-basic-multiple addAll_removeAll_btn emptype_valid-1" data-list-id="emptype_field-{{ $index }}" name="emptypelevel[{{ $i }}][{{ $index }}][]" multiple></select>
+                                <span id="reqemptype-1" class="reqError text-danger valley"></span>
                               </div>
-                            
-                          <div class="exp_permanent exp_permanent-{{$i}}" @if($data->employeement_type != "Permanent") style="display: none;" @endif>
-                            <div class="form-group level-drp col-md-12">
-                              <label class="form-label" for="input-1">Permanent</label>
-                              <input type="hidden" name="perfieldexp" class="perfieldexp perfieldexp-{{ $i }}" value="{{ $data->permanent_status }}">
-                              <ul id="permanent_status_experience-{{ $i }}" style="display:none;">
-                                <li data-value="">select</li>
-                                <li data-value="Full-time (Permanent)">Full-time (Permanent)</li>
-                                <li data-value="Part-time (Permanent)">Part-time (Permanent)</li>
-                                <li data-value="Agency Nurse / Midwife (Permanent)">Agency Nurse / Midwife (Permanent)</li>
-                                <li data-value="Staffing Agency Nurse (Permanent)">Staffing Agency Nurse (Permanent)</li>
-                                <li data-value="Private Healthcare Agency Nurse (Permanent)">Private Healthcare Agency Nurse (Permanent)</li>
-                                <li data-value="Freelance (Permanent)">Freelance (Permanent)</li>
-                                <li data-value="Self-Employed (Permanent)">Self-Employed (Permanent)</li>
-                                <li data-value="Private Practice (Permanent)">Private Practice (Permanent)</li>
-                                <li data-value="Volunteer (Permanent)">Volunteer (Permanent)</li>
-                                
-                              </ul>
-                              <select class="js-example-basic-multiple permanent_exp permanent_exp-{{ $i }}" data-list-id="permanent_status_experience-{{$i}}" name="permanent_status[{{$i}}]" id="permanent_status_experience"></select>
-                              <span id="reqemployeep_statusexp-{{ $i }}" class="reqError text-danger valley"></span>
                             </div>
-                            
-                          </div>
-                          <div class="exp_temporary exp_temporary-{{ $i }}" @if($data->employeement_type != "Temporary") style="display: none;" @endif>
-                            <div class="form-group level-drp col-md-12">
-                              <label class="form-label" for="input-1">Temporary</label>
-                              <input type="hidden" name="temphfield" class="temphfieldexp temphfieldexp-{{ $i }}" value="{{ $data->temporary_status }}">
-                        
-                              <ul id="temporary_status_experience-{{ $i }}" style="display:none;">
-                                <li data-value="select">select</li>
-                                <li data-value="Full-time (Temporary)">Full-time (Temporary)</li>
-                                <li data-value="Part-time (Temporary)">Part-time (Temporary)</li>
-                                <li data-value="Agency Nurse/Midwife (Temporary)">Agency Nurse/Midwife (Temporary)</li>
-                                <li data-value="Staffing Agency Nurse (Temporary)">Staffing Agency Nurse (Temporary)</li>
-                                <li data-value="Private Healthcare Agency Nurse (Temporary)">Private Healthcare Agency Nurse (Temporary)</li>
-                                <li data-value="Travel">Travel</li>
-                                <li data-value="Per Diem (Daily Basis)">Per Diem (Daily Basis)</li>
-                                <li data-value="Float Pool & Relief Nursing (Multi-Department Work)">Float Pool & Relief Nursing (Multi-Department Work)
-                                <li data-value="On-Call (Immediate Availability)">On-Call (Immediate Availability)</li>
-                                <li data-value="PRN (Pro Re Nata /As Needed)">PRN (Pro Re Nata /As Needed)</li>
-                                <li data-value="Casual">Casual</li>
-                                <li data-value="Locum tenens (temporary substitute)">Locum tenens (temporary substitute)</li>
-                                <li data-value="Seasonal (Short-Term for Peak Demand)">Seasonal (Short-Term for Peak Demand)</li>
-                                <li data-value="Freelance (Temporary)">Freelance (Temporary)</li>
-                                <li data-value="Self-Employed (Temporary)">Self-Employed (Temporary)</li>
-                                <li data-value="Private Practice (Temporary)">Private Practice (Temporary)</li>
-                                <li data-value="Internship">Internship</li>
-                                <li data-value="Apprenticeship">Apprenticeship</li>
-                                <li data-value="Residency">Residency</li>
-                                <li data-value="Volunteer (Temporary)">Volunteer (Temporary)</li>
-                              </ul>
-                              <select class="js-example-basic-multiple temporary_exp temporary_exp-{{ $i }}" data-list-id="temporary_status_experience-{{ $i }}" name="temporary_status[{{$i}}]" id="temporary_status_experience"></select>
-                              <span id="reqemployeetexp_status-{{ $i }}" class="reqError text-danger valley"></span>
-                            </div>
-                            
-                          </div>
+                            @endforeach
+                            @endif
+                          </div> 
                           <h6 class="emergency_text">
                             Detailed Job Descriptions
                           </h6>
@@ -4043,13 +4047,18 @@
                         
                         <div class="form-group level-drp">
                           <label class="form-label" for="input-1">Employment type</label>
-                          <select class="form-control emp_exp_type emp_exp_type-1" name="employeement_type[1]" onchange="ExpEmpStatus(this.value,1)">
-                            <option value="">select</option>
-                            <option value="Permanent">Permanent</option>
-                            <option value="Temporary">Temporary</option>
-                          </select>
-                          <span id="reqemptype-1" class="reqError text-danger valley"></span>
-                        </div>
+                          
+                          <ul id="employeement_type_experience-1" style="display:none;">
+                            @if(!empty($employeement_type_preferences))
+                            @foreach($employeement_type_preferences as $emptype_data)
+                            <li data-value="{{ $emptype_data->emp_prefer_id }}">{{ $emptype_data->emp_type }}</li>
+                            @endforeach
+                            @endif
+                            
+                          </ul>
+                          <select class="js-example-basic-multiple addAll_removeAll_btn employeement_type_exp employeement_type_exp-1" data-list-id="employeement_type_experience-1" name="employeement_type[1]" multiple onchange="showEmpType(this.value,1,'')"></select>
+                        </div>  
+                        <div class="show_emp_data-1"></div>  
                           
                         <div class="exp_permanent-1 exp_permanent" style="display: none;">
                           <div class="form-group level-drp col-md-12">
@@ -6253,6 +6262,29 @@ if (!empty($interviewReferenceData)) {
     u++;
   });
 
+  var x = 1; 
+  $(".mainemptypedata").each(function(){
+    var val = $(this).val();
+    if(val != ""){
+      var mainemptype = JSON.parse(val);
+      console.log("mainemptype",mainemptype);
+      $('.js-example-basic-multiple[data-list-id="employeement_type_experience-'+x+'"]').select2().val(mainemptype).trigger('change');
+    }
+
+    $(".subemptypeid-"+x).each(function(){
+      var val = $(this).val();
+      var subempdata = $(".subemptype-"+val).val();
+      if(subempdata != ""){
+        var subemptype = JSON.parse(subempdata);
+        console.log("subemptype",subemptype);
+        $('.js-example-basic-multiple[data-list-id="emptype_field-'+val+'"]').select2().val(subemptype).trigger('change');
+      }
+    });
+
+
+    x++;
+  });
+
   function ExpEmpStatus(value,i){
     if (value == "Permanent") {
         $(".exp_permanent-"+i).show();
@@ -6954,6 +6986,52 @@ if (!empty($interviewReferenceData)) {
     //     }
     // }
   });
+
+  function showEmpType(value,j,ap){
+    if(ap == ''){
+      
+      var emp_type = $('.js-example-basic-multiple[data-list-id="employeement_type_experience-'+j+'"]').val();
+    }else{
+      var emp_type = $('.js-example-basic-multiple'+j+'[data-list-id="employeement_type_experience-'+j+'"]').val();
+    }
+        //alert(value);
+    console.log("emp_type",emp_type);
+
+    for(var i=0;i<emp_type.length;i++){
+
+        if($(".show_emp_data-"+j+" .emptype_main_div-"+emp_type[i]).length < 1){
+          $.ajax({
+            type: "GET",
+            url: "{{ url('/nurse/getEmpDataExp') }}",
+            data: {sub_prefer_id:emp_type[i],circle_value:j},
+            cache: false,
+            success: function(data){
+                const emp_prefer_data = JSON.parse(data);
+                console.log("emp_prefer_data",j);
+
+                var emp_text = "";
+                for(var j=0;j<emp_prefer_data.employeement_type_preferences.length;j++){
+                
+                    emp_text += "<li data-value='"+emp_prefer_data.employeement_type_preferences[j].emp_prefer_id+"'>"+emp_prefer_data.employeement_type_preferences[j].emp_type+"</li>"; 
+                
+                }
+                
+                $(".show_emp_data-"+emp_prefer_data.circle_value).append('\<div class="emptype_main_div emptype_main_div-'+emp_prefer_data.employeement_type_id+'"><div class="emptypediv emptypediv-'+emp_prefer_data.employeement_type_id+' form-group level-drp">\
+                    <label class="form-label emptype_label emptype_label-'+emp_prefer_data.employeement_type_id+'" for="input-1">'+emp_prefer_data.employeement_type_name+'</label>\
+                    <ul id="emptype_field-'+emp_prefer_data.employeement_type_id+'" style="display:none;">'+emp_text+'</ul>\
+                    <select class="js-example-basic-multiple'+emp_prefer_data.employeement_type_id+' addAll_removeAll_btn emptype_valid-1" data-list-id="emptype_field-'+emp_prefer_data.employeement_type_id+'" name="emptypelevel['+emp_prefer_data.circle_value+']['+emp_prefer_data.employeement_type_id+'][]" multiple></select>\
+                    <span id="reqemptype-1" class="reqError text-danger valley"></span>\
+                    </div></div>');
+
+                    
+                
+                selectTwoFunction(emp_prefer_data.employeement_type_id);
+            }
+            
+          });
+        }
+      }
+  }
 
   $('.js-example-basic-multiple[data-list-id="speciality_entry_experience-1"]').on('change', function() {
     let selectedValues = $(this).val();

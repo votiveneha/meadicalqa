@@ -1524,6 +1524,7 @@ input:checked + .slider:before {
                                   ];
                                 ?>
                                 <div class="licensec-data-{{ $licence_type }}">
+                                  @if(isset($radiation_state_type[$licence_type])) 
                                 @foreach ($radiation_state_type[$licence_type] as $index=>$radiation_state)
                                 <div class="licenses_state_data licenses_state_data-{{ $index }}">
                                   <div class="licence_content licence_content-{{ $index }}">
@@ -1574,6 +1575,7 @@ input:checked + .slider:before {
                                 </div>
                                 </div>
                                 @endforeach
+                                @endif
                                 </div>
                               {{-- <div class="form-group level-drp">
                                 <label>Upload Evidence</label>

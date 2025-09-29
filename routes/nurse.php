@@ -33,17 +33,35 @@ Route::post('/getsurgicalSubSpeciality', 'App\Http\Controllers\HomeController@ge
 Route::prefix('healthcare-facilities')->name('medical-facilities.')->namespace('App\Http\Controllers\medical_facilities')->group(function () {
   Route::get('/', 'HomeController@index_main')->name('medical_facilities_home_main');
   Route::get('/medical-facilities-registraion', 'HomeController@registraion')->name('medical-facilities-registraion');
-
+  Route::post('/healthcareRegistration', 'HomeController@healthcareRegistration')->name('healthcareRegistration');
+  Route::get('/login', 'HomeController@login')->name('login');
+  Route::post('/userloginAction', 'HomeController@userloginAction')->name('userloginAction');
   Route::middleware('nurse_middle')->group(function () {});
 });
 
 Route::prefix('agencies')->name('agencies.')->namespace('App\Http\Controllers\agencies')->group(function () {
   Route::get('/', 'HomeController@index_main')->name('agencies_home_main');
   Route::get('/agencies-registraion', 'HomeController@registraion')->name('agencies-registraion');
-
+  Route::get('/login', 'HomeController@login')->name('login');
 
   Route::middleware('nurse_middle')->group(function () {});
 });
+
+Route::prefix('individuals')->name('individuals.')->namespace('App\Http\Controllers\individuals')->group(function () {
+  // Route::get('/', 'HomeController@index_main')->name('agencies_home_main');
+  Route::get('/individuals_registraion', 'HomeController@registraion')->name('individuals_registraion');
+  Route::get('/login', 'HomeController@login')->name('login');
+
+  //Route::middleware('nurse_middle')->group(function () {});
+});
+Route::prefix('cpd_providers')->name('cpd_providers.')->namespace('App\Http\Controllers\cpd_providers')->group(function () {
+  // Route::get('/', 'HomeController@index_main')->name('agencies_home_main');
+  Route::get('/cpd_providers-registraion', 'HomeController@registraion')->name('cpd_providers-registraion');
+  Route::get('/login', 'HomeController@login')->name('login');
+
+  //Route::middleware('nurse_middle')->group(function () {});
+});
+
 Route::prefix('nurse')->name('nurse.')->namespace('App\Http\Controllers\nurse')->group(function () {
 
   Route::get('/forgot-password', 'HomeController@forgotPassword')->name('forgot-password');
@@ -196,6 +214,7 @@ Route::prefix('nurse')->name('nurse.')->namespace('App\Http\Controllers\nurse')-
   Route::post('/updateWorkPreferences', 'WorkPreferencesController@updateWorkPreferences')->name('updateWorkPreferences');
   Route::get('/employeement_type_preferences', 'WorkPreferencesController@employeement_type_preferences')->name('employeement_type_preferences');
   Route::get('/getEmpData', 'WorkPreferencesController@getEmpData')->name('getEmpData');
+  Route::get('/getEmpDataExp', 'HomeController@getEmpData')->name('getEmpDataExp');
   Route::post('/updateEmpTypePreferences', 'WorkPreferencesController@updateEmpTypePreferences')->name('updateEmpTypePreferences');
   Route::get('/WorkShiftPreferences', 'WorkPreferencesController@WorkShiftPreferences')->name('WorkShiftPreferences');
   Route::post('/updateShiftPreferences', 'WorkPreferencesController@updateShiftPreferences')->name('updateShiftPreferences');
@@ -212,5 +231,18 @@ Route::prefix('nurse')->name('nurse.')->namespace('App\Http\Controllers\nurse')-
   /**************[Interview Preferences]**************/
   Route::any('/interview','ProfessionalController@interview')->name('interview');
   
+  /**************[Find Jobs]**************/
+  Route::get('/find_jobs', 'JobsController@index')->name('find_jobs');
+  Route::post('/getWorkFlexiblityData', 'JobsController@getWorkFlexiblityData')->name('getWorkFlexiblityData');  
+  Route::post('/getWorkEnvironmentData', 'JobsController@getWorkEnvironmentData')->name('getWorkEnvironmentData');  
+  Route::post('/getNurseData', 'JobsController@getNurseData')->name('getNurseData'); 
+  Route::post('/getSpecialityData', 'JobsController@getSpecialityData')->name('getSpecialityData'); 
+  Route::post('/getFilterData', 'JobsController@getFilterData')->name('getFilterData');  
+  Route::post('/getExperienceData', 'JobsController@getExperienceData')->name('getExperienceData');  
+  Route::post('/getFilterNurseData', 'JobsController@getFilterNurseData')->name('getFilterNurseData');
+  Route::post('/getFilterSpecialityData', 'JobsController@getFilterSpecialityData')->name('getFilterSpecialityData');  
+  Route::post('/updateSectorData', 'JobsController@updateSectorData')->name('updateSectorData');
+  Route::post('/getJobsSorting', 'JobsController@getJobsSorting')->name('getJobsSorting');
+  Route::post('/applyJobs', 'JobsController@applyJobs')->name('applyJobs');
   });
 });

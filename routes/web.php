@@ -311,6 +311,16 @@ Route::prefix('/admin')->name('admin.')->namespace('App\Http\Controllers\admin')
     Route::post('/updateBenefits', 'WorkPreferencesController@updateBenefits')->name('updateBenefits');
     Route::post('/deleteBenefits', 'WorkPreferencesController@deleteBenefits')->name('deleteBenefits');
     Route::get('/sub_benefits/{id}','WorkPreferencesController@sub_benefits')->name('sub_benefits');
+    Route::get('/employeement_type','WorkPreferencesController@employeement_type_list')->name('employeement_type');
+    Route::post('/addEmployeementType', 'WorkPreferencesController@addEmplyeementType')->name('addEmplyeementType');
+    Route::post('/getEmployeementType', 'WorkPreferencesController@getEmployeementType')->name('getEmployeementType');
+    Route::post('/updateEmployeementType', 'WorkPreferencesController@updateEmployeementType')->name('updateEmployeementType');
+    Route::post('/deleteEmployeementType', 'WorkPreferencesController@deleteEmployeementType')->name('deleteEmployeementType');
+    Route::get('/sub_employeement_type/{id}','WorkPreferencesController@sub_employeement_type')->name('sub_employeement_type');
+
+    /************[Job Boxes]*************/
+	  Route::get('/add_jobs','JobsController@index')->name('add_jobs');
+    Route::post('/addJobs', 'JobsController@addJobs')->name('addJobs');
   });
 
 });

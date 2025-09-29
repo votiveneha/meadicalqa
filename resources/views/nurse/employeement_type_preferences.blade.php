@@ -114,38 +114,71 @@
                         @csrf
                         <input type="hidden" name="user_id" value="{{ Auth::guard('nurse_middle')->user()->id }}">
 
-                        <div class="form-group level-drp">
-                            <label class="form-label" for="input-1">Employment type Preferences
-                            </label>
-                            <select class="form-input mr-10 select-active emptype_prefer" name="emptype_preferences" onchange="empType(this.value)">
-                              <option value="">select</option>
+                        
+                          <?php
+                              $employee_type_data = DB::table('employeement_type_preferences')->where("sub_prefer_id",0)->get();
+                              
+                              if(!empty($work_preferences_data) && $work_preferences_data->emptype_preferences != NULL){
+                                  $emp_data = (array)json_decode($work_preferences_data->emptype_preferences);
+                              }else{
+                                  $emp_data = array();
+                              }
+                              
+                              //print_r($emp_data);
+
+                              $emparr = array();
+
+                              foreach ($emp_data as $index => $edata){
+                                  $emparr[] = $index;
+                              }
+                              
+                              
+                              $x = 1;
+                              $em_arr = json_encode($emparr);
+                          ?>
+                          <div class="emptypediv form-group level-drp">
+                            <label class="form-label emptype_label" for="input-1">Employment type Preferences</label>
+                            <input type="hidden" class="mainemptypedata" value='<?php echo $em_arr; ?>'>
+                            <ul id="mainemptype_field" style="display:none;">
                               @if(!empty($employeement_type_preferences))
                               @foreach($employeement_type_preferences as $emptype_data)
-                              <option value="{{ $emptype_data->emp_prefer_id }}" @if(!empty($emptypeid) && $emptypeid == $emptype_data->emp_prefer_id) selected @endif>{{ $emptype_data->emp_type }}</option>
+                              <li data-value="{{ $emptype_data->emp_prefer_id }}">{{ $emptype_data->emp_type }}</li>  
                               @endforeach
                               @endif
-                            </select>
-                            <span id='reqemptype_prefer' class='reqError text-danger valley'></span>
-                        </div>
-                        
-                        <div class="emp_data">
-                          @if(!empty($emptypearr))
+                            </ul>
+                            <select class="js-example-basic-multiple addAll_removeAll_btn emptype_valid-1" data-list-id="mainemptype_field" name="emptype_preferences[]" onchange="empType()" multiple></select>
+                            <span id="reqemptype_prefer" class="reqError text-danger valley"></span>
+                          </div>
                           
-                          <div class="emptype_main_div emptype_main_div-{{ $emptypeid }}">
-                            <div class="emptypediv emptypediv-{{ $emptypeid }} form-group level-drp">
-                              <label class="form-label emptype_label emptype_label-{{ $emptypeid }}" for="input-1">{{ $subemployeement_name }}</label>
-                              <input type="hidden" class="subemptype" value='<?php echo $emptypearr; ?>'>
-                              <ul id="emptype_field-{{ $emptypeid }}" style="display:none;">
-                                @if(!empty($subemployeement_type_preferences))
-                                @foreach($subemployeement_type_preferences as $subemptype_data)
-                                <li data-value="{{ $subemptype_data->emp_prefer_id }}">{{ $subemptype_data->emp_type }}</li>  
+                        <div class="emp_data">
+                          @if(!empty($emptypedata))
+                          @foreach($emptypedata as $index=>$emp_type)
+                           <?php
+                              $empname = DB::table("employeement_type_preferences")->where("emp_prefer_id",$index)->first();
+                              $subemptypedata = DB::table("employeement_type_preferences")->where("sub_prefer_id",$index)->get();
+                           ?>
+                           <div class="emptype_main_div emptype_main_div-{{ $index }}">
+                            <div class="emptypediv emptypediv-{{ $index }} form-group level-drp">
+                              <label class="form-label emptype_label emptype_label-{{ $index }}" for="input-1">{{ $empname->emp_type }}</label>
+                              <input type="hidden" class="subemptype-{{ $index }}" value='<?php echo json_encode($emp_type); ?>'>
+                              <input type="hidden" class="subemptypeid" value='<?php echo $index; ?>'>
+                              <ul id="emptype_field-{{ $index }}" style="display:none;">
+                                @if(!empty($subemptypedata))
+                                @foreach($subemptypedata as $subemptype_data)
+                                <?php
+                                  $subemptype_data_name = DB::table("employeement_type_preferences")->where("emp_prefer_id",$subemptype_data->emp_prefer_id)->first();
+
+                                ?>
+                                <li data-value="{{ $subemptype_data->emp_prefer_id }}">{{ $subemptype_data_name->emp_type }}</li>  
                                 @endforeach
                                 @endif
                               </ul>
-                              <select class="js-example-basic-multiple addAll_removeAll_btn emptype_valid-1" data-list-id="emptype_field-{{ $emptypeid }}" name="emptypelevel[{{ $emptypeid }}][]" multiple></select>
+                              <select class="js-example-basic-multiple addAll_removeAll_btn emptype_valid-1" data-list-id="emptype_field-{{ $index }}" name="emptypelevel[{{ $index }}][]" multiple></select>
                               <span id="reqemptype-1" class="reqError text-danger valley"></span>
                             </div>
                           </div>
+                          
+                          @endforeach
                           @endif
                           
                         </div>
@@ -287,27 +320,45 @@
         });
     });
 
-    if ($(".subemptype").length > 0) {
+    $(".subemptypeid").each(function(){
+      var emp_id = $(this).val();
+      if ($(".subemptypeid").length > 0) {
       //console.log("reference_relationship-" + m, $(".reference_relationship-" + m).val());
-      var empid = "<?php echo $emptypeid; ?>";
-      if ($(".subemptype").val() != "") {
-        var subemptype = JSON.parse($(".subemptype").val());
+      
+      if ($(".subemptype-"+emp_id).val() != "") {
+        var subemptype = JSON.parse($(".subemptype-"+emp_id).val());
         console.log("subemptype",subemptype);
-        $('.js-example-basic-multiple[data-list-id="emptype_field-'+empid+'"]').select2().val(subemptype).trigger('change');
+        $('.js-example-basic-multiple[data-list-id="emptype_field-'+emp_id+'"]').select2().val(subemptype).trigger('change');
       }
     }
+    });
+
+    if ($(".mainemptypedata").val() != "") {
+      var mainemptypedata = JSON.parse($(".mainemptypedata").val());
+      console.log("mainemptypedata",mainemptypedata);
+      $('.js-example-basic-multiple[data-list-id="mainemptype_field"]').select2().val(mainemptypedata).trigger('change');
+    }
+
+    
+
+    
+  
+    
     
 </script>
 <script type="text/javascript">
-    function empType(value){
+    function empType(){
         
+        let emp_type = $('.js-example-basic-multiple[data-list-id="mainemptype_field"]').val();
         //alert(value);
-        //console.log("selectedValueswp",selectedValues);
-        if(value != ""){
-          $.ajax({
+        console.log("emp_type",emp_type);
+        for(var i=0;i<emp_type.length;i++){
+
+          if($(".emp_data .emptype_main_div-"+emp_type[i]).length < 1){
+            $.ajax({
               type: "GET",
               url: "{{ url('/nurse/getEmpData') }}",
-              data: {sub_prefer_id:value},
+              data: {sub_prefer_id:emp_type[i]},
               cache: false,
               success: function(data){
                   const emp_prefer_data = JSON.parse(data);
@@ -320,22 +371,21 @@
                   
                   }
                   
-                  $(".emp_data").html('\<div class="emptype_main_div emptype_main_div-'+value+'"><div class="emptypediv emptypediv-'+value+' form-group level-drp">\
-                      <label class="form-label emptype_label emptype_label-'+value+'" for="input-1">'+emp_prefer_data.employeement_type_name+'</label>\
-                      <ul id="emptype_field-'+value+'" style="display:none;">'+emp_text+'</ul>\
-                      <select class="js-example-basic-multiple'+value+' addAll_removeAll_btn emptype_valid-1" data-list-id="emptype_field-'+value+'" name="emptypelevel['+value+'][]" multiple></select>\
+                  $(".emp_data").append('\<div class="emptype_main_div emptype_main_div-'+emp_prefer_data.employeement_type_id+'"><div class="emptypediv emptypediv-'+emp_prefer_data.employeement_type_id+' form-group level-drp">\
+                      <label class="form-label emptype_label emptype_label-'+emp_prefer_data.employeement_type_id+'" for="input-1">'+emp_prefer_data.employeement_type_name+'</label>\
+                      <ul id="emptype_field-'+emp_prefer_data.employeement_type_id+'" style="display:none;">'+emp_text+'</ul>\
+                      <select class="js-example-basic-multiple'+emp_prefer_data.employeement_type_id+' addAll_removeAll_btn emptype_valid-1" data-list-id="emptype_field-'+emp_prefer_data.employeement_type_id+'" name="emptypelevel['+emp_prefer_data.employeement_type_id+'][]" multiple></select>\
                       <span id="reqemptype-1" class="reqError text-danger valley"></span>\
                       </div></div>');
 
                       
                   
-                  selectTwoFunction(value);
+                  selectTwoFunction(emp_prefer_data.employeement_type_id);
               }
+              
           });
-        }else{
-          $(".emp_data").html("");
         }
-        
+        }
     }
 
     function update_emptype_preferences() {

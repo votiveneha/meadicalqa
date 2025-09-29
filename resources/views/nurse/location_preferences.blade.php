@@ -236,8 +236,9 @@
                                 <div class="form-group level-drp">
                                   <div class="remove-btn" onclick="removeLocation('locationCard{{ $i }}')">x</div>
                                   <label class="form-label" for="input-1">Location:</label>
-                                  <input type="text" placeholder="Type location..." name="multiLocationInput[]" value="{{ $pre_loc->location }}" class="form-control multiLocationInput" data-id="{{ $i }}" autocomplete="off">
+                                  <input type="text" placeholder="Type location..." name="multiLocationInput[]" value="{{ $pre_loc->location }}" class="form-control multiLocationInput multiLocationInput-{{ $i }}" data-id="{{ $i }}" autocomplete="off">
                                   <div class="multi-suggestions" id="suggestions-{{ $i }}"></div>
+                                  <span id='reqprefered_location-{{ $i }}' class='reqError text-danger valley'></span>
                                 </div>
                                 
                                 <div class="form-group level-drp travel_distance{{ $i }}">
@@ -251,6 +252,9 @@
                                   <span class="multiDistanceValue">{{ $pre_loc->distance }}</span>
                                 </div>
                               </div>
+                              <?php
+                                $i++;
+                              ?>
                               @endforeach
                               @endif
                             </div>
@@ -744,6 +748,28 @@ function addLocation() {
 function removeLocation(id) {
   
   document.getElementById(id).remove();
+
+  // Reorder remaining cards
+  $("#locationsContainer .location-card").each(function(index) {
+      let newIndex = index + 1;
+
+      // update card id
+      $(this).attr("id", "locationCard" + newIndex);
+
+      // update remove button onclick
+      $(this).find(".remove-btn").attr("onclick", "removeLocation('locationCard" + newIndex + "')");
+
+      // update input fields (class, data-id, names, suggestion ids, error spans etc.)
+      $(this).find(".multiLocationInput")
+          .removeClass(function(i, c) {
+              return (c.match(/multiLocationInput-\d+/g) || []).join(' ');
+          })
+          .addClass("multiLocationInput-" + newIndex)
+          .attr("data-id", newIndex);
+
+      $(this).find(".multi-suggestions").attr("id", "suggestions-" + newIndex);
+      $(this).find(".reqError").attr("id", "reqprefered_location-" + newIndex);
+  });
 }
 
 // ======= Smart search & location autocomplete =======

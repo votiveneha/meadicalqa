@@ -28,6 +28,11 @@ class WorkEnvironmentRequest extends FormRequest
                 return [
                     'benefit_name' => 'required'
                 ];    
+               
+            case 'employeement_type_form':
+                return [
+                    'emp_type_name' => 'required'
+                ];          
 
             default:
                 return [];
@@ -41,6 +46,7 @@ class WorkEnvironmentRequest extends FormRequest
             'position_name.required' => 'The position name field is required.',
             'work_shift_name.required' => 'The work shift name field is required.',
             'benefit_name.required' => 'The benefit name field is required.',
+            'emp_type_name.required' => 'The employeement type field is required.'
         ];
     }
 }
