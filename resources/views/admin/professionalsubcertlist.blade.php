@@ -1,6 +1,8 @@
 @extends('admin.layouts.layout')
 @section('content')
-
+<div class="back_arrow" onclick="history.back()" title="Go Back">
+    <i class="fa fa-arrow-left"></i>
+</div>
 <x-card-component parentHeading="Sub Certificate List" childHeading="Sub Certificate List" parentUrl="{{route('admin.dashboard')}}" />
     <div class="card w-100  overflow-hidden ">
         <div class="card-header pb-0 p-4">

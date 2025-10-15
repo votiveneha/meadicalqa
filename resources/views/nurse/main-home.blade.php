@@ -43,12 +43,12 @@
     <div class="banner-hero hero-2">
       <div class="banner-inner">
         <div class="block-banner">
-          <h1 class="text-36 color-white wow animate__animated animate__fadeInUp">Revolutionizing Healthcare Recruitment</h1>
-          <div class="font-lg font-regular color-white mt-20 wow animate__animated animate__fadeInUp" data-wow-delay=".1s">Mediqa sources travel, permanent, experienced or new specialised nurses</div>
+          <h1 class="text-36 color-white wow animate__animated animate__fadeInUp" style="font-size:35px;">The AI powered job matching Platform for Nurses & Midwives</h1>
+          <div class="font-lg font-regular color-white mt-20 wow animate__animated animate__fadeInUp" data-wow-delay=".1s">Reinventing Healthcare Recruitment</div>
 
           <div class="mt-30">
-            <a href="{{ route('nurse.home') }}" class="btn btn-default mr-15">I want to get hired</a>
-            <a href="{{ route('medical-facilities.medical_facilities_home_main') }}" class="btn btn-border-brand-2">I want to hire</a>
+            <a href="{{ route('nurse.home') }}" class="btn btn-default mr-15">Find Jobs</a>
+            <a href="{{ route('medical-facilities.medical_facilities_home_main') }}" class="btn btn-border-brand-2">Hire Nurses & Midwives</a>
           </div>
 
         </div>
@@ -143,7 +143,7 @@
             </div>
           </div>
         </a>
-       
+        @endforeach
         @if($trendingData2)
         @foreach ($trendingData2 as $key => $items)
         <a href='{{ route("nurse.login") }}'>
@@ -156,7 +156,7 @@
         </a>
         @endforeach
         @endif
-        @endforeach
+        
         @else
         @if ($trendingData2)
         @foreach ($trendingData2 as $key => $item)
@@ -236,7 +236,7 @@
           <div class="col-lg-4">
             <div class="box-step">
               <h1 class="number-element">3</h1>
-              <h4 class="mb-20">“Hospitals and Agencies<br class="d-none d-lg-block">save money</h4>
+              <h4 class="mb-20">Hospitals and Agencies<br class="d-none d-lg-block">save money</h4>
               <p class="font-sm color-text-paragraph-2">
                 Hospitals Save on travel nurse, overtime, and HR expenses
               </p>
@@ -336,7 +336,7 @@
         <div class="col-lg-6 col-sm-12">
           <div class="box-image-job">
             <!-- <img class="img-job-1" alt="jobBox"  src="{{ asset('nurse/assets/imgs/page/homepage1/img-chart.png')}}"> -->
-            <img class="img-job-2" alt="jobBox" src="{{ asset('nurse/assets/imgs/page/homepage1/img-chart.png')}}">
+            {{-- <img class="img-job-2" alt="jobBox" src="{{ asset('nurse/assets/imgs/page/homepage1/img-chart.png')}}"> --}}
             <figure class="wow animate__animated animate__fadeIn"><img alt="jobBox" src="{{ asset('nurse/assets/imgs/img1.png')}}"></figure>
           </div>
         </div>
@@ -359,7 +359,7 @@
 
 
 
-  <section class="section-box overflow-visible mt-50 mb-0 bg-cat2">
+  <!-- <section class="section-box overflow-visible mt-50 mb-0 bg-cat2">
     <div class="container">
       <div class="row">
         <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
@@ -392,10 +392,10 @@
         </div>
       </div>
     </div>
-  </section>
+  </section> -->
 
 
-  <section class="section-box mt-30 mb-40">
+  <!-- <section class="section-box mt-30 mb-40">
     <div class="container">
       <h2 class="text-center mb-15 wow animate__animated animate__fadeInUp">Customer Reviews</h2>
       <div class="row mt-50">
@@ -453,7 +453,7 @@
         </div>
       </div>
     </div>
-  </section>
+  </section> -->
 
 
 
@@ -462,7 +462,7 @@
 
 
 
-  <div class="section-box mt-70">
+  <!-- <div class="section-box mt-70">
     <div class="container">
       <div class="box-trust">
         <div class="">
@@ -484,7 +484,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
   <script src="{{ asset('nurse/assets/js/plugins/counterup.js')}}"></script>
 </main>
 

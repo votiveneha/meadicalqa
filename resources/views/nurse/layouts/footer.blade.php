@@ -10,7 +10,7 @@
 
             <a href='index.php'><img alt="jobBox" src="{{ asset(env('LOGO_PATH'))}}" style="width:100px;"></a>
 
-            <div class="mt-20 mb-20 font-sm">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</div>
+            <div class="mt-20 mb-20 font-sm">Mediqa connects nurses, midwives, healthcare facilities, agencies, and families with seamless, efficient hiring and care solutions.</div>
 
           </div>
 
@@ -40,13 +40,13 @@
 
             <ul class="menu-footer">
 
-              <li><a href="{{ route('nurse.home') }}">Become a Nurse</a></li>
+              <li><a href="{{ route('nurse.home') }}">Find the best Jobs</a></li>
 
-              <li><a href='{{ route("medical-facilities.medical_facilities_home_main") }}'>Healthcare Professional</a></li>
+              <li><a href='{{ route("medical-facilities.medical_facilities_home_main") }}'>Hire the best Talent</a></li>
 
-              <li><a  href='{{ route("agencies.agencies_home_main") }}'>become a agency</a></li>
+              <li><a  href='{{ route("agencies.agencies_home_main") }}'>Agencies Workforce Hub</a></li>
 
-              <li><a  href='{{ route("nurse.login") }}'>Log In</a></li>
+              <li><a  href='{{ route("nurseCareHome") }}'>In-Home Private Nursing</a></li>
 
             </ul>
 
@@ -92,7 +92,7 @@
 
                   <img src="{{ asset('nurse/assets/imgs/template/icons/call.svg')}}" style="height: 20px;">
 
-                  <p class="m-0">+91 7894561230</p>
+                  <p class="m-0">+61(0) 426 925 259</p>
 
                 </div>
 
@@ -106,11 +106,15 @@
 
             <div class="footer-social">
 
-              <a class="icon-socials icon-facebook" href="#"></a>
+              <a class="icon-socials icon-facebook" href="https://www.facebook.com/profile.php?id=61580019696973 "></a>
 
-              <a class="icon-socials icon-twitter" href="#"></a>
+              <a class="icon-socials icon-twitter" href="https://x.com/MediQaPlatform"></a>
 
-              <a class="icon-socials icon-linkedin" href="#"></a>
+              <a class="icon-socials icon-instagram" href="https://www.instagram.com/mediqaplatform/"></a>
+
+              <a class="icon-socials icon-linkedin" href="https://www.linkedin.com/company/mediqaplatform/"></a>
+
+              <a class="icon-socials icon-youtube" href="https://www.youtube.com/@MediQaPlatform"></a>
 
             </div>
 
@@ -124,7 +128,7 @@
 
           <div class="row footer_profile_cls">
 
-            <div class="col-md-6"><span class="font-xs color-text-paragraph">Copyright &copy; {{ date('Y') }}. Mediqa all right reserved</span></div>
+            <div class="col-md-6 cpy_profile"><span class="font-xs color-text-paragraph">Copyright &copy; {{ date('Y') }}. Mediqa all right reserved</span></div>
 
             <div class="col-md-6 text-md-end text-start privacy_option">
 
@@ -154,7 +158,7 @@
 
           <div class="row footer_profile_cls">
 
-            <div class="col-md-6"><span class="font-xs color-text-paragraph">Copyright &copy; {{ date('Y') }}. Mediqa all right reserved</span></div>
+            <div class="col-md-6 cpy_profile"><span class="font-xs color-text-paragraph">Copyright &copy; {{ date('Y') }}. Mediqa all right reserved</span></div>
 
             <div class="col-md-6 text-md-end text-start privacy_option">
 

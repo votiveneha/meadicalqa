@@ -37,7 +37,16 @@
                                         <?= session('message') ?>
 
                                         @endif
-               <form class="login-register text-start mt-20" method="post" action="{{ route('nurse.userloginAction') }}">
+                                        <?php
+                                          $prefix = request()->segment(1);
+
+                                          if($prefix == "healthcare-facilities"){
+                                            $action = route('medical-facilities.userloginAction');
+                                          }else{
+                                            $action = route('nurse.userloginAction');
+                                          }
+                                        ?>
+               <form class="login-register text-start mt-20" method="post" action="{{ $action }}">
 
                                             @csrf
 
@@ -86,7 +95,31 @@
                       <!--<a class="btn btn-brand-1 hover-up w-100" href="{{ route('nurse.dashboard')}}" type="submit" name="login">Login</a>-->
                   <a href="{{ route('nurse.dashboard')}}"> <button type="submit" class="btn btn-brand-1 hover-up w-100"> Login</button></a>
                 </div>
-                <div class="text-muted text-center">Don't have an Account? <a href='{{ route("nurse.nurse-register")}}'>Sign up</a></div>
+                <div class="text-muted text-center">
+                  <?php
+                    $prefix = request()->segment(1);
+                  ?>
+                  @if($prefix == "healthcare-facilities")
+                  Don't have an Account? <a href='{{ route("medical-facilities.medical-facilities-registraion")}}'>Sign up</a></div>  
+                  
+                  @endif
+
+                  @if($prefix == "agencies")
+                  Don't have an Account? <a href='{{ route("agencies.agencies-registraion")}}'>Sign up</a></div>
+                  @endif
+
+                  @if($prefix == "individuals")
+                  Don't have an Account? <a href='{{ route("individuals.individuals_registraion")}}'>Sign up</a></div>
+                  @endif
+
+                  @if($prefix == "cpd_providers")
+                  Don't have an Account? <a href='{{ route("cpd_providers.cpd_providers-registraion")}}'>Sign up</a></div>
+                  @endif
+
+                  @if($prefix == "nurse")
+                  Don't have an Account? <a href='{{ route("nurse.nurse-register")}}'>Sign up</a>
+                  @endif
+                </div>
               </form>
             </div>
             <!-- <div class="img-1 d-none d-lg-block"><img class="shape-1" src="assets/imgs/page/login-register/img-4.svg" alt="JobBox"></div> -->

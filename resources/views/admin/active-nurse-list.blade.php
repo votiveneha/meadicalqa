@@ -1,5 +1,83 @@
 @extends('admin.layouts.layout')
 @section('content')
+<style>
+    .modal1 {
+        display: none; /* Hidden by default */
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+    }
+
+    .modal-content1 {
+        background-color: #fff;
+        margin: 10% auto;
+        padding: 30px;
+        border-radius: 10px;
+        width: 400px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+        position: relative;
+        animation: fadeIn 0.3s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .close {
+        color: #999;
+        font-size: 28px;
+        position: absolute;
+        right: 15px;
+        top: 10px;
+        cursor: pointer;
+    }
+
+    .close:hover {
+        color: #000;
+    }
+
+    h2 {
+        margin-top: 0;
+        font-size: 22px;
+        color: #333;
+        text-align: center;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .block_reason {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 16px;
+    }
+
+    .reason_submit {
+        width: 100%;
+        padding: 12px;
+        background-color: #000000;
+        border: none;
+        color: white;
+        font-size: 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .reason_submit:hover {
+        background-color: #000000;
+    }
+
+
+    </style>
     <div class="container-fluid">
         <div class="card bg-light-info shadow-none position-relative overflow-hidden">
             <div class="card-body px-4 py-3">
@@ -121,10 +199,10 @@
                                             </a>
                                         @if ($item->status == '2')
                                         <button type="button" class="btn btn-success "
-                                        onclick="changeStatusBlockUnblock({{ $item->id }},'1')">Unblock</button>
+                                        onclick="changeStatusBlockUnblock({{ $item->id }},'1','')">Unblock</button>
                                         @else
                                         <button type="button" class="btn btn-danger "
-                                            onclick="changeStatusBlockUnblock({{ $item->id }},'2')">Block
+                                            onclick="reasonModelOpen({{ $item->id }},'2')">Block
                                         </button>
                                         @endif
                                         <button type="button" class="btn btn-danger "
@@ -145,6 +223,23 @@
                 </div>
             </div>
         </div>
+        <div class="modal1" id="myModal">
+            <div class="modal-content1">
+                <span class="close" id="closeModal">&times;</span>
+                <h2>Reason for Block</h2>
+                <form method="post">
+                    @csrf <!-- for Laravel -->
+                    <div class="form-group">
+                        <label for="block_reason">Reason:</label>
+                        <textarea name="block_reason" id="block_reason" class="block_reason" placeholder="Enter reason" required></textarea>
+                        {{-- <input type="text" name="block_reason" id="block_reason" class="block_reason" placeholder="Enter reason" required> --}}
+                    </div>
+                    <div class="form-group">
+                        <input type="button" value="Submit" name="reason_submit" class="reason_submit">
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 @endsection
 @section('js')
@@ -153,7 +248,46 @@
             $('#dataTable').DataTable();
         });
 
-        function changeStatusBlockUnblock(id, status) {
+        function closeModel(id){
+            $(".modal-"+id).hide();
+        }
+
+        const modal = document.getElementsByClassName("modal1");
+        window.onclick = function (event) {
+            console.log("event",modal);
+            if (event.target == modal) {
+                
+                $(".modal1").hide();
+            }
+        }
+
+        function reasonModelOpen(id, status){
+            Swal.fire({
+                title: 'Provide a reason',
+                input: 'text',
+                inputLabel: 'Reason for Block',
+                inputPlaceholder: 'Enter your reason here...',
+                inputValidator: (value) => {
+                    if (!value) {
+                        return 'You must provide a reason for Block Nurse.';
+                    }
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    reasonData = result.value;
+                    changeStatusBlockUnblock(id, status,reasonData);
+                }
+            });
+            // $(".modal1").addClass("modal-"+id);
+            // $(".modal-"+id).show();
+            // $(".modal-"+id+" .close").attr("onclick","closeModel("+id+")");
+            // $(".reason_submit").attr("onclick","changeStatusBlockUnblock("+id+","+status+")");
+        }
+
+        function changeStatusBlockUnblock(id, status,reasonData) {
+
+            var reason_val = $(".block_reason").val();
+
             let title = 'Are you sure?';
             let text = status === '1' ? 'Do you want to unblock user?' : 'Do you want to block user?';
             Swal.fire({
@@ -171,6 +305,7 @@
                         data: {
                             id: id,
                             status: status,
+                            reason_val:reasonData,
                             _token: '{{ csrf_token() }}'
                         },
                         dataType: 'json',

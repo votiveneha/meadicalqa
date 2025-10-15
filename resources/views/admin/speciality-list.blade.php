@@ -2,6 +2,7 @@
 @section('content')
 <x-card-component parentHeading="Type of Nurse Job List" childHeading="Type Of Nurse Job List" parentUrl="{{route('admin.dashboard')}}" />
     <div class="card w-100  overflow-hidden ">
+        
         <div class="card-header pb-0 p-4">
             <div class="d-flex align-items-center justify-content-between">
                 <div>

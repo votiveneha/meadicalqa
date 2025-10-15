@@ -21,7 +21,7 @@
         <div class="col-lg-6 col-sm-12">
         <div class="box-image-job p-5">
           <!-- <img class="img-job-1" alt="jobBox" src="{{ asset('nurse/assets/imgs/page/homepage1/img-chart.png')}}"> -->
-          <img class="img-job-2" alt="jobBox" src="{{ asset('nurse/assets/imgs/page/homepage1/img-chart.png')}}">
+          {{-- <img class="img-job-2" alt="jobBox" src="{{ asset('nurse/assets/imgs/page/homepage1/img-chart.png')}}"> --}}
           <figure class="wow animate__ animate__fadeIn animated" style="visibility: visible; animation-name: fadeIn;"><img alt="jobBox" src="{{ asset('nurse/assets/imgs/img1.png')}}"></figure>
         </div>
       </div>
@@ -72,7 +72,7 @@
 
 
 
- <section class="section-box overflow-visible mt-50 mb-0 bg-cat2">
+ <!-- <section class="section-box overflow-visible mt-50 mb-0 bg-cat2">
   <div class="container">
     <div class="row">
       <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
@@ -105,7 +105,7 @@
       </div>
     </div>
   </div>
-</section>
+</section> -->
 
 <div class="banner-hero hero-1 pt-30 pb-30">
     <div class="banner-inner">

@@ -10,7 +10,7 @@
 		<meta name="MobileOptimized" content="width" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<!--  Favicon -->
-		<link rel="shortcut icon" type="image/png" href="{{ asset(env('LOGO_PATH') )}}" />
+		<link rel="shortcut icon" type="image/png" href="{{ asset('nurse/assets/imgs/template/favicon.png')}}" />
 		<!-- Core Css -->
 		<link id="themeColors" rel="stylesheet" href="{{ asset('assets/admin/dist/css/style.min.css')}}" />
 	</head>
