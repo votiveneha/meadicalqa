@@ -215,7 +215,7 @@ class HomeController extends Controller
                 ];
 
                 $randnum = rand(1111111111, 9999999999);
-                Mail::to($to)->send(new \App\Mail\DemoMail($mailData));
+                //Mail::to($to)->send(new \App\Mail\DemoMail($mailData));
 
                 $companyinsert['name'] = $request->fullname;
                 $companyinsert['lastname'] = $request->lastname;
