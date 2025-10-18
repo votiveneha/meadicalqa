@@ -1,0 +1,415 @@
+/* ---------- Mega Dropdown Styles ---------- */
+.mega-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.mega-dropdown > a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+}
+
+/* ---------- Mega Dropdown Styles ---------- */
+.mega-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.mega-dropdown > a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+}
+
+.mega-dropdown-content ul {
+    opacity: 1 !important;
+    visibility: visible !important;
+    position: unset !important;
+    border: none !important;
+    box-shadow: unset !important;
+}
+
+/* Hidden by default */
+.mega-dropdown-content {
+  display: none;
+  position: absolute;
+  left: 0;
+  top: 100%;
+  width: auto; /* wide dropdown */
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  padding: 20px;
+  z-index: 999;
+  font-family: sans-serif;
+  gap: 40px;
+  flex-wrap: nowrap;
+}
+
+/* Show on hover */
+.mega-dropdown:hover .mega-dropdown-content {
+  display: flex; /* show as flex only on hover */
+}
+
+.mega-dropdown-content ul li a::after{
+    content:unset !important;
+}
+
+.mega-column {
+  flex: 1;
+  min-width: 200px;
+}
+
+.mega-column h4 {
+  margin-bottom: 10px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.mega-column ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.mega-column ul li {
+  margin-bottom: 6px;
+  position: relative;
+}
+
+.mega-column ul li a {
+  text-decoration: none;
+  color: #333;
+}
+
+/* .mega-column ul li a:hover {
+  text-decoration: underline;
+} */
+
+.helper-text {
+  font-size: 12px;
+  font-style: italic;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+/* ---------- Fly-out submenu ---------- */
+.flyout ul.submenu {
+  display: none;
+  position: absolute !important;
+  left: 100% !important;
+  top: 0 !important;
+  background-color: #fff !important;
+  padding: 10px 15px !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1) !important;
+  min-width: 180px !important;
+}
+
+.flyout:hover ul.submenu {
+  display: block; /* show submenu on hover */
+}
+
+.icon-youtube {
+  background: url('../imgs/template/icons/youtube.svg') no-repeat center center;
+  transition-duration: 0.2s;
+}
+
+.icon-instagram {
+  background: url('../imgs/template/icons/instagram.svg') no-repeat center center;
+  transition-duration: 0.2s;
+}
+
+.hidden-speciality {
+  display: none;
+  transition: all 0.3s ease;
+}
+.toggle-specialities {
+  cursor: pointer;
+  color: #0077b6;
+  font-weight: 500;
+  user-select: none;
+}
+.toggle-specialities:hover {
+  text-decoration: underline;
+}
+
+.browse_by_jobs li{
+  cursor: pointer;
+}
+
+ .side-modal {
+  display: none;
+  position: fixed;
+  z-index: 2000;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 400px; /* adjust as needed */
+  background: #fff;
+  box-shadow: -4px 0 12px rgba(0,0,0,0.2);
+  animation: slideIn 0.3s forwards;
+  overflow-y: auto;
+}
+
+.side-modal-content {
+  padding: 20px;
+}
+
+.side-modal h3 {
+  margin-top: 0;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.side-modal ul {
+  list-style: none;
+  padding: 0;
+}
+
+.side-modal ul li {
+  margin: 8px 0;
+}
+
+.side-modal ul li a {
+  text-decoration: none;
+  color: #333;
+}
+
+.side-modal ul li a:hover {
+  color: #0077cc;
+}
+
+.close-btn {
+  float: right;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+@keyframes slideIn {
+  from { right: -400px; opacity: 0; }
+  to { right: 0; opacity: 1; }
+}
+
+.more-btn a{
+  display: inline-block; /* only as wide as content */
+  margin: 10px 0;
+  padding: 6px 14px;
+  background-color: #000; /* black */
+  color: #fff !important;
+  border: none;
+  border-radius: 20px; /* pill shape */
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+.more-btn a:hover {
+  background-color: #333; /* slightly lighter on hover */
+}
+
+.modal-overlay {
+  display: none; /* hidden by default */
+  position: fixed;
+  top: 0; 
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* semi-transparent black */
+  z-index: 999; /* behind modal */
+}
+
+.mega-column h4 a{
+    margin-bottom: 10px !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
+    text-decoration: none !important;
+    line-height: 0px !important;
+}
+
+.mega-column h4 a:hover{
+  text-decoration: none !important;
+}
+
+
+
+a.browse_by::before {
+    width: auto !important;
+}
+
+a.browse_by::before {
+    background-color: #fff !important;
+}
+
+a.get_started {
+    width: 44%;
+    padding-top: initial;
+}
+
+/**Find Jobs**/
+.jobs-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  
+}
+
+.save-search {
+    text-decoration: none;
+    background: #000000;
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+
+    input[type="text"], select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .btn-primary {
+      background: #007bff;
+      color: #fff;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .btn-primary:hover {
+      background: #0056b3;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .close {
+      position: absolute;
+      top: 10px; right: 15px;
+      font-size: 20px;
+      cursor: pointer;
+      color: #333;
+    }
+
+    .btn-primary {
+      background: #007bff;
+      color: #fff;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .btn-primary:hover {
+      background: #0056b3;
+    }
+
+    .browse_menu {
+      width:auto !important;
+    }
+
+    .browse_menu::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -4px; /* space below text */
+      width: 0;
+      height: 2px;
+      background-color: currentColor; /* underline uses li text color */
+      transition: width 0.3s ease;
+    }
+
+    .browse_menu:hover::after {
+      width: 100%;
+    }
+
+    .saved-searches {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .chip {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.4rem 0.8rem;
+      border: 1px solid #cbd5e1;
+      border-radius: 9999px;
+      background: white;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #475569;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+    .chip:hover {
+      background: #f1f5f9;
+    }
+    .chip.active {
+      background: #eff6ff;
+      color: #2563eb;
+      border-color: #2563eb;
+    }
+    .chip .dot {
+      width: 8px;
+      height: 8px;
+      background: #f97316;
+      border-radius: 50%;
+    }
+    .chip.add-new {
+      border-style: dashed;
+      color: #64748b;
+    }
+    .chip.add-new:hover {
+      color: #2563eb;
+      border-color: #2563eb;
+      background: #f0f9ff;
+    }
+
+    .tooltip {
+      position: absolute;
+      left: 50%;
+      top: 120%;
+      transform: translateX(-50%);
+      background: #1e293b;
+      color: white;
+      font-size: 0.75rem;
+      padding: 4px 8px;
+      border-radius: 4px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+      white-space: nowrap;
+      z-index: 10;
+    }
+    .chip:hover .tooltip {
+      opacity: 1;
+    }
