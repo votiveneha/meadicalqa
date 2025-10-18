@@ -778,6 +778,10 @@
     #saveSearchModal .modal-content{
         width:100%;
     }
+
+    #saveSearchModal{
+      z-index:9999 !important;
+    }
 </style>
 @endsection
 
@@ -803,7 +807,33 @@
                 ×
               </button>
             </div> -->
+            <div class="saved-searches">
+              <!-- My Preferences (Dynamic) -->
+              <div class="chip active">
+                <span>My Preferences</span>
+                <!-- Link icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" 
+                    stroke-width="1.5" stroke="currentColor" width="16" height="16" style="opacity:0.7;">
+                  <path stroke-linecap="round" stroke-linejoin="round" 
+                        d="M13.19 8.688a4.5 4.5 0 0 1 0 6.364l-1.06 1.06a4.5 4.5 0 0 1-6.364-6.364l1.06-1.06m5.657 5.657a4.5 4.5 0 0 0 0-6.364l-1.06-1.06a4.5 4.5 0 0 0-6.364 6.364l1.06 1.06" />
+                </svg>
+                <div class="tooltip">This search is always linked to your current preferences.</div>
+              </div>
 
+              <!-- Other searches -->
+              <div class="chip">
+                <span>Nearby Hospitals</span>
+                <span class="dot"></span>
+              </div>
+              <div class="chip">
+                <span>Night Shifts</span>
+              </div>
+
+              <!-- Add new -->
+              <div class="chip add-new" id="btnAddNew">
+                + Save New
+              </div>
+            </div>
             <div class="find-jobs-header d-flex justify-content-between align-items-center mb-3">
                 <h2 class="find-jobs-title mb-0 fw-bold">Find Jobs</h2>
                 <button class="btn btn-primary save-search-btn" id="openSaveSearchModal">
@@ -1055,7 +1085,7 @@
                                 
                                 $speciality_data = DB::table("speciality")->where("id",$special)->first();
                                 
-                                $speciality_arr[] = $speciality_data?->name ?? '';
+                                //$speciality_arr[] = $speciality_data?->name ?? '';
                               }
                             }
 
@@ -1200,7 +1230,7 @@
 
         <div class="mb-3">
           <label class="form-label fw-semibold">Search Name</label>
-          <input type="text" class="form-control" id="searchName" value="Sydney • Night • ICU">
+          <input type="text" class="form-control" id="searchName" value="">
         </div>
 
         <div class="mb-3">
@@ -1226,6 +1256,26 @@
 </main>
 <script>
 $(document).ready(function(){
+
+  const saveSearch = document.getElementById('createSearchBtn');
+  const modal = document.getElementById('saveSearchModal');
+
+  saveSearch.addEventListener('click', () => {
+    const nameInput = document.getElementById('searchName');
+    const name = nameInput.value.trim() || 'Saved Search';
+    const newChip = document.createElement('div');
+    newChip.className = 'chip';
+    newChip.innerHTML = `<span>${name}</span>`;
+    document.querySelector('.saved-searches').insertBefore(
+      newChip,
+      document.getElementById('btnAddNew')
+    );
+    nameInput.value = '';
+    modal.classList.remove('active');
+    $("#saveSearchModal").hide();
+    $(".modal-backdrop").hide();
+  });
+  
     
   
       
@@ -1248,13 +1298,14 @@ $(document).ready(function(){
     $('#updateSearchBtn').prop('disabled', false);
   });
 
+  
   // Simulate save
-  $('#createSearchBtn').click(function(){
-    $('#saveSearchModal').modal('hide');
-    $('#unsavedDot').addClass('d-none');
-    $('#updateSearchBtn').prop('disabled', true);
-    alert('✅ Saved search created!');
-  });
+  // $('#createSearchBtn').click(function(){
+  //   $('#saveSearchModal').modal('hide');
+  //   $('#unsavedDot').addClass('d-none');
+  //   $('#updateSearchBtn').prop('disabled', true);
+  //   alert('✅ Saved search created!');
+  // });
 
   // Prevent deleting My Preferences (example safeguard)
   $('.saved-search-chip.my-preferences').on('contextmenu', function(e){
