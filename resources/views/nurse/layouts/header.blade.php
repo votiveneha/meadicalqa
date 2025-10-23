@@ -50,7 +50,7 @@ img, iframe, video {
     <div class="container">
       <div class="main-header">
         <div class="header-left">
-          <div class="header-logo"><a class='d-flex' href='{{ route("home_main") }}'><img alt="jobBox" src="{{ asset(env('LOGO_PATH'))}}"></a></div>
+          <div class="header-logo"><a class='d-flex' href='{{ route("home_main") }}'><img alt="jobBox" src="{{ asset('nurse/assets/imgs/logo.png')}}"></a></div>
         </div>
         <div class="header-nav">
           <nav class="nav-main-menu">
@@ -67,7 +67,7 @@ img, iframe, video {
     
                   <!-- Column 1: Get Started -->
                   <div class="mega-column">
-                    <h4><a href="#" class="get_started">Get Started</a></h4>
+                    <h4><a href="{{ route('nurse.home') }}" class="get_started">Get Started</a></h4>
                     <p class="helper-text">Always free, nurse-first hiring</p>
                     <ul>
                       <li><a href="#">Matched Jobs</a></li>
@@ -79,16 +79,16 @@ img, iframe, video {
 
                   <!-- Column 2: Browse Jobs -->
                   <div class="mega-column browse_by_jobs">
-                    <h4><a href="#" class="get_started">Browse Jobs by</a></h4>
+                    <h4><a class="browse_by">Browse Jobs by</a></h4>
                     <p class="helper-text">Combine these filters & more in your profile & Find Jobs</p>
                     <ul>
-                      <li class="flyout" data-open="specialtyModal">Specialty & Patient group ▸
+                      <li class="browse_menu flyout" data-open="specialtyModal">Specialty & Patient group ▸
                         
                       </li>
-                      <li class="flyout" data-open="nurseModal">Type of nurse ▸
+                      <li class="browse_menu flyout" data-open="nurseModal">Type of nurse ▸
                         
                       </li>
-                      <li class="flyout" data-open="workPreferModal">Work Preferences & Flexibility ▸
+                      <li class="browse_menu flyout" data-open="workPreferModal">Work Preferences & Flexibility ▸
                         
                       </li>
                     </ul>
@@ -125,7 +125,7 @@ img, iframe, video {
                   </div>
                 </div>
               </li>
-              <li class="has-children mega-dropdown">
+              <!-- <li class="has-children mega-dropdown">
 
                 <a class='{{ request()->is('nurseCareHome') ?"active":"" }} hover-up' href='#'>Individuals</a>
                 <div class="mega-dropdown-content">
@@ -137,7 +137,7 @@ img, iframe, video {
                     </ul>
                   </div>
                 </div>
-              </li>
+              </li> -->
               <li class="has-children mega-dropdown">
 
                 <a class='{{ request()->is('contact') ?"active":"" }} hover-up' href='#'>CPD/CE Providers</a>
@@ -175,7 +175,14 @@ img, iframe, video {
     </div>
   </header>
  <div id="modalOverlay" class="modal-overlay"></div>
+ @php
+    $practitioner_data = DB::table("practitioner_type")->where("parent",'0')->get();
+    $sub_practitioner_data = DB::table("practitioner_type")->where("parent","!=",'0')->where("status",'1')->get();
 
+    $speciality_data = DB::table("speciality")->where("parent",'0')->get();
+    $work_preferences_data = DB::table("work_shift_preferences")->where("shift_id",'0')->get();
+    
+  @endphp
   <!-- Nurse Types Modal -->
 <div id="nurseModal" class="side-modal">
   <div class="side-modal-content">
@@ -183,11 +190,13 @@ img, iframe, video {
     <h3>Nurse Types</h3>
     <ul class="submenu">
       @foreach($practitioner_data as $key=>$prac_data)
-      <li class="{{ $key > 14 ? 'hidden-speciality' : '' }}"><a href="#">{{ $prac_data->name }}</a></li>
+      <li><a href="{{ route('nurse.nurse-register') }}">{{ $prac_data->name }}</a></li>
       @endforeach
-      @if(count($practitioner_data) > 15)
+      @foreach($sub_practitioner_data as $key=>$prac_data)
+      <li class="hidden-speciality"><a href="{{ route('nurse.nurse-register') }}">{{ $prac_data->name }}</a></li>
+      @endforeach
+      
       <li class="toggle_nurse more-btn"><a href="#">+ All Type of Nurse</a></li>
-      @endif
       
     </ul>
   </div>
@@ -199,12 +208,11 @@ img, iframe, video {
     <h3>Specialty & Patient group</h3>
     <ul class="submenu">
       @foreach($speciality_data as $key => $speciality)
-      <li class="{{ $key > 14 ? 'hidden-speciality' : '' }}"><a href="#">{{ $speciality->name }}</a></li>
+      <li><a href="{{ route('nurse.nurse-register') }}">{{ $speciality->name }}</a></li>
       @endforeach
       
-      @if(count($speciality_data) > 15)
-      <li class="toggle-specialities more-btn"><a href="#">+ More Specialties</a></li>
-      @endif
+      <li class="more-btn"><a href="{{ route('nurse.nurse-register') }}">+ All Specialties</a></li>
+      
     </ul>
   </div>
 </div>
@@ -214,12 +222,17 @@ img, iframe, video {
     <span class="close-btn" data-close="workPreferModal">&times;</span>
     <h3>Work Preferences & Flexibility</h3>
     <ul class="submenu">
-      @foreach($work_preferences_data as $key => $work_prefer_data)
-      <li class="{{ $key > 14 ? 'hidden-speciality' : '' }}"><a href="#">{{ $work_prefer_data->env_name }}</a></li>
-      @endforeach
-      @if(count($work_preferences_data) > 15)
-      <li class="toggle-environment more-btn"><a href="#">+ Set More Preferences in Your Profile</a></li>
-      @endif
+      <li><a href="{{ route('nurse.nurse-register') }}">Work Environment</a></li>
+      <li><a href="{{ route('nurse.nurse-register') }}">Employment type</a></li>
+      <li><a href="{{ route('nurse.nurse-register') }}">Shifts</a></li>
+      <li><a href="{{ route('nurse.nurse-register') }}">Work-life Balance</a></li>
+      <li><a href="{{ route('nurse.nurse-register') }}">Near, Australia-wide, Global</a></li>
+      <li><a href="{{ route('nurse.nurse-register') }}">Position</a></li>
+      <li><a href="{{ route('nurse.nurse-register') }}">Benefits</a></li>
+      <li><a href="{{ route('nurse.nurse-register') }}">Salary</a></li>
+      <li><a href="{{ route('nurse.nurse-register') }}">Sector</a></li>
+      <li><a href="{{ route('nurse.nurse-register') }}">Experience</a></li>
+      <li class="more-btn"><a href="{{ route('nurse.nurse-register') }}">+ Set More Preferences in Your Profile</a></li>
     </ul>
   </div>
 </div>

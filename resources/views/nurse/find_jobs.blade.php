@@ -774,6 +774,10 @@
       justify-content: center;
       transition: background 0.3s ease, transform 0.2s ease;
     }
+    
+    #saveSearchModal .modal-content{
+        width:100%;
+    }
 </style>
 @endsection
 
@@ -799,8 +803,39 @@
                 ×
               </button>
             </div> -->
+            <div class="saved-searches">
+              <!-- My Preferences (Dynamic) -->
+              <div class="chip active">
+                <span>My Preferences</span>
+                <!-- Link icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" 
+                    stroke-width="1.5" stroke="currentColor" width="16" height="16" style="opacity:0.7;">
+                  <path stroke-linecap="round" stroke-linejoin="round" 
+                        d="M13.19 8.688a4.5 4.5 0 0 1 0 6.364l-1.06 1.06a4.5 4.5 0 0 1-6.364-6.364l1.06-1.06m5.657 5.657a4.5 4.5 0 0 0 0-6.364l-1.06-1.06a4.5 4.5 0 0 0-6.364 6.364l1.06 1.06" />
+                </svg>
+                <div class="tooltip">This search is always linked to your current preferences.</div>
+              </div>
 
-            <h1 style="font-size: 24px; font-weight: bold;">Find Jobs</h1>
+              <!-- Other searches -->
+              <div class="chip">
+                <span>Nearby Hospitals</span>
+                <span class="dot"></span>
+              </div>
+              <div class="chip">
+                <span>Night Shifts</span>
+              </div>
+
+              <!-- Add new -->
+              <div class="chip add-new" id="btnAddNew">
+                + Save New
+              </div>
+            </div>
+            <div class="find-jobs-header d-flex justify-content-between align-items-center mb-3">
+                <h2 class="find-jobs-title mb-0 fw-bold">Find Jobs</h2>
+                <button class="btn btn-primary save-search-btn" id="openSaveSearchModal">
+                  <i class="fa fa-bookmark me-2"></i> Save Search
+                </button>
+              </div>
             <!-- Horizontal Search Bar with Labels -->
             <div class="search-bar">
            <div class="top_filter keywords_filter">
@@ -814,9 +849,11 @@
                 <div class="select-box">Select Location</div>
                 <div class="checkbox-options location_boxes">
                   @if($location_status == 'international_location' || $location_status == 'multiple_location')
+                  @if(!empty($country_name))
                   @foreach($country_name as $cname)
                   <label><input type="checkbox" class="location-checkbox" value="{{ $cname }}" checked> {{ $cname }}</label>
                   @endforeach
+                  @endif
                   @else
                   @if($location_status == 'current_location')
                   <label><input type="checkbox" class="location-checkbox" value="{{ $country_name }}" checked> {{ $country_name }}</label>
@@ -960,7 +997,7 @@
                             if(!empty($nurse_type)){
                               foreach($nurse_type as $nt){
                                 $nurse_type = DB::table("practitioner_type")->where("id",$nt)->first();
-                                $nurse_arr[] = $nurse_type->name;
+                                $nurse_arr[] = (!empty($nurse_type))?$nurse_type->name:"";
                               }
                             }
 
@@ -1044,7 +1081,7 @@
                                 
                                 $speciality_data = DB::table("speciality")->where("id",$special)->first();
                                 
-                                $speciality_arr[] = $speciality_data->name;
+                                //$speciality_arr[] = $speciality_data?->name : '';
                               }
                             }
 
@@ -1092,9 +1129,9 @@
                     </div>
                     <?php
                     
-                        $sector_percent = ($work_preferences_data->sector_preferences == $job->sector) ? 1 : 0;
-
-                        $emp_type = (array)json_decode($work_preferences_data->emptype_preferences);
+                        $sector_percent = (!empty($work_preferences_data) && $work_preferences_data->sector_preferences == $job->sector) ? 1 : 0;
+                        $emptype_preferences = (!empty($work_preferences_data))?$work_preferences_data->emptype_preferences:'';
+                        $emp_type = (array)json_decode($emptype_preferences);
                         $mainIndex = array_key_first($emp_type);
 
                         if($mainIndex != ""){
@@ -1132,7 +1169,8 @@
                         $shift_values = (array)json_decode($job->shift_type);
                         $shift_percent = '';
                         foreach ($shift_values as $shiftKey) {
-                          if (array_key_exists($shiftKey, (array)json_decode($work_preferences_data->work_shift_preferences))) {
+                          $work_shift_preferences = (!empty($work_preferences_data))?$work_preferences_data->work_shift_preferences:'';        
+                          if (array_key_exists($shiftKey, (array)json_decode($work_shift_preferences))) {
                             $shift_percent = 1;
                           } else {
                             $shift_percent = 0;
@@ -1144,8 +1182,8 @@
                         $total_percent = $match_percent_add * 100/10;
 
                         
-
-                        $workEnvPrefs = (array)json_decode($work_preferences_data->work_environment_preferences);
+                        $work_environment_preferences = (!empty($work_preferences_data))?$work_preferences_data->work_environment_preferences:'';        
+                        $workEnvPrefs = (array)json_decode($work_environment_preferences);
 
                         
                         $user_id = Auth::guard("nurse_middle")->user()->id;
@@ -1176,8 +1214,143 @@
         @include('nurse.job_modals')
         
     </section>
+    <!-- Save Search Modal -->
+<div class="modal fade" id="saveSearchModal" tabindex="-1" aria-labelledby="saveSearchLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content rounded-4">
+      <div class="modal-header">
+        <h5 class="modal-title fw-semibold" id="saveSearchLabel">Save Search</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Search Name</label>
+          <input type="text" class="form-control" id="searchName" value="Sydney • Night • ICU">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Email Alert</label>
+          <select class="form-select" id="alertFrequency">
+            <option>Off</option>
+            
+            <option selected>Daily</option>
+            <option>Weekly</option>
+            <option>Monthly</option>
+          </select>
+        </div>
+
+
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button class="btn btn-primary" id="createSearchBtn">Create</button>
+      </div>
+    </div>
+  </div>
+</div>
 </main>
 <script>
+$(document).ready(function(){
+
+  const saveSearch = document.getElementById('createSearchBtn');
+  const modal = document.getElementById('saveSearchModal');
+
+  saveSearch.addEventListener('click', () => {
+    const nameInput = document.getElementById('searchName');
+    const name = nameInput.value.trim() || 'Saved Search';
+    const newChip = document.createElement('div');
+    newChip.className = 'chip';
+    newChip.innerHTML = `<span>${name}</span>`;
+    document.querySelector('.saved-searches').insertBefore(
+      newChip,
+      document.getElementById('btnAddNew')
+    );
+    nameInput.value = '';
+    modal.classList.remove('active');
+    $("#saveSearchModal").hide();
+    $(".modal-backdrop").hide();
+  });
+  
+    
+  
+      
+  $('[data-bs-toggle="tooltip"]').tooltip();
+
+  // Open modal
+  $('#openSaveSearchModal, .add-new').click(function(){
+    $('#saveSearchModal').modal('show');
+  });
+
+  // Chip active state (except My Preferences non-clickable)
+  $('.saved-search-chip').not('.my-preferences').click(function(){
+    $('.saved-search-chip').removeClass('active');
+    $(this).addClass('active');
+  });
+
+  // Unsaved changes detection
+  $('.filter-field').on('change', function(){
+    $('#unsavedDot').removeClass('d-none');
+    $('#updateSearchBtn').prop('disabled', false);
+  });
+
+  
+  // Simulate save
+  // $('#createSearchBtn').click(function(){
+  //   $('#saveSearchModal').modal('hide');
+  //   $('#unsavedDot').addClass('d-none');
+  //   $('#updateSearchBtn').prop('disabled', true);
+  //   alert('✅ Saved search created!');
+  // });
+
+  // Prevent deleting My Preferences (example safeguard)
+  $('.saved-search-chip.my-preferences').on('contextmenu', function(e){
+    e.preventDefault();
+    alert('ℹ️ “My Preferences” search cannot be deleted.');
+  });
+});
+</script>
+<script>
+$(document).ready(function(){
+    
+  
+      
+  $('[data-bs-toggle="tooltip"]').tooltip();
+
+  // Open modal
+  $('#openSaveSearchModal, .add-new').click(function(){
+    $('#saveSearchModal').modal('show');
+  });
+
+  // Chip active state (except My Preferences non-clickable)
+  $('.saved-search-chip').not('.my-preferences').click(function(){
+    $('.saved-search-chip').removeClass('active');
+    $(this).addClass('active');
+  });
+
+  // Unsaved changes detection
+  $('.filter-field').on('change', function(){
+    $('#unsavedDot').removeClass('d-none');
+    $('#updateSearchBtn').prop('disabled', false);
+  });
+
+  // Simulate save
+  $('#createSearchBtn').click(function(){
+    $('#saveSearchModal').modal('hide');
+    $('#unsavedDot').addClass('d-none');
+    $('#updateSearchBtn').prop('disabled', true);
+    alert('✅ Saved search created!');
+  });
+
+  // Prevent deleting My Preferences (example safeguard)
+  $('.saved-search-chip.my-preferences').on('contextmenu', function(e){
+    e.preventDefault();
+    alert('ℹ️ “My Preferences” search cannot be deleted.');
+  });
+});
+</script>
+<script>
+
   // $(document).ready(function () {
   //     var $container = $('.job-listings'); // replace with your actual wrapper id/class
 

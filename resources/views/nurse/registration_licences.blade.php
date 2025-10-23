@@ -241,6 +241,9 @@ input:checked + .slider:before {
                           <label class="form-label" for="input-1">What is your current AHPRA registration status?</label>
                           <select id="registration-status" name="ahpra_registration_status" class="form-control">
                             <option value="">-- Select Registration Status --</option>
+                            <option value="EN" @if(!empty($licenses_data) && $licenses_data->ahpra_registration_status == "EN") selected @endif>Enrolled Nurse (EN)</option>
+                            <option value="EN-ME" @if(!empty($licenses_data) && $licenses_data->ahpra_registration_status == "EN-ME") selected @endif>Enrolled Nurse – Medication Endorsed (EN-ME)</option>
+                            <option value="ENN" @if(!empty($licenses_data) && $licenses_data->ahpra_registration_status == "ENN") selected @endif>Enrolled Nurse (with Notation)</option>
                             <option value="RN" @if(!empty($licenses_data) && $licenses_data->ahpra_registration_status == "RN") selected @endif>Registered Nurse (RN)</option>
                             <option value="RM" @if(!empty($licenses_data) && $licenses_data->ahpra_registration_status == "RM") selected @endif>Registered Midwife (RM)</option>
                             <option value="RN_RM" @if(!empty($licenses_data) && $licenses_data->ahpra_registration_status == "RN_RM") selected @endif>Registered Nurse and Midwife (RN/RM)</option>
@@ -293,12 +296,12 @@ input:checked + .slider:before {
 
                           <div style="margin-top: 15px;" class="mb-5 manual_entry_div">
                             <p style="margin-bottom: 10px;color: black;">
-                              <strong>Can’t find your AHPRA registration?</strong><br>
-                              You can enter your details manually below.
+                              <strong>Can’t find your AHPRA registration? Please enter your details manually below. </strong><br>
+                              
                             </p>
-                            <button type="button" id="manualEntryBtn" class="btn btn-outline-dark">
+                            <!-- <button type="button" id="manualEntryBtn" class="btn btn-outline-dark">
                               Enter AHPRA Details Manually
-                            </button>
+                            </button> -->
                           </div>
                           <div class="ahpra-lookup">
                             <input type="hidden" name="api_division" class="api_division" value="@if(!empty($licenses_data)){{ $licenses_data->register_division }}@endif">
@@ -396,7 +399,7 @@ input:checked + .slider:before {
                               </div>
                             </div>
                             </div>
-                            <div class="manual_ahpra_lookup" style="display: none;">
+                            <div class="manual_ahpra_lookup">
                               <div class="manual_reverify_error" style="display:none;background-color: #fff3cd; border-left: 5px solid #ffecb5; padding: 15px; margin-top: 20px; border-radius: 5px;">
                                 <strong>We couldn't verify your AHPRA registration automatically.</strong><br>
                                 Please complete the fields manually and upload your registration certificate as evidence of your current professional status.
@@ -2326,7 +2329,7 @@ input:checked + .slider:before {
   const ahpraotherbox = document.getElementById("overseasOtherText");
   const not_registered = document.getElementsByClassName("not_registered");
 
-  const allowedStatuses = ["RN", "RM", "RN_RM", "NP"];
+  const allowedStatuses = ["EN","EN-ME","ENN","RN", "RM", "RN_RM", "NP"];
 
   const allowedStatuses_group2 = ["Graduate_RN", "Graduate_RM", "Student_Nurse", "Student_Midwife"];
 
@@ -2804,7 +2807,7 @@ input:checked + .slider:before {
         var user_registration_data = JSON.parse(localStorage.getItem("user_registration_data"));
         //console.log("registrationNumber",user_registration_data.registrationNumber);
         $("#ahpra-lookup-result").hide();
-        $(".manual_ahpra_lookup").hide();
+        $(".manual_ahpra_lookup").show();
         
         if (!user_registration_data || user_registration_data.registrationNumber != ahpraNumber) {
           $.ajax({
@@ -2822,7 +2825,7 @@ input:checked + .slider:before {
                 $("#ahpra-lookup-result").hide();
                 $(".manual_ahpra_lookup").show();
                 $(".manual_reverify_error").show();
-                $(".manual_entry_div").hide();
+                $(".manual_entry_div").show();
                 $("#reqaphra_reg").text("No matching registration found, please check the AHPRA number and try again.");
                 $(".api_verify").val(0);
                 $(".api_division").val("");
@@ -2961,6 +2964,12 @@ input:checked + .slider:before {
       }  
       
    });
+
+   if ($('#ahpra-lookup-result').is(':visible')) {
+    $(".manual_entry_div").hide();
+  } else {
+    $(".manual_entry_div").show();
+   }
 
     $("#manualEntryBtn").click(function(){
     $(".manual_ahpra_lookup").show();

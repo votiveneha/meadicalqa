@@ -1,15 +1,15 @@
 @extends('admin.layouts.layout')
 @section('content')
-<x-card-component parentHeading="Work Preferences & Flexibility Management" childHeading="Employeement Type Preferences" parentUrl="{{route('admin.dashboard')}}" />
+<x-card-component parentHeading="Work Preferences & Flexibility Management" childHeading="Employment Type Preferences" parentUrl="{{route('admin.dashboard')}}" />
     <div class="card w-100  overflow-hidden ">
         <div class="card-header pb-0 p-4">
             <div class="d-flex align-items-center justify-content-between">
                 <div>
-                    <h5 class="card-title fw-semibold mb-0">Employeement Type List</h5>
+                    <h5 class="card-title fw-semibold mb-0">Employment Type List</h5>
                 </div>
                 <div>
                     <a href="" data-bs-toggle="modal" data-bs-target="#add_country" class="btn btn-primary text-nowrap">Add
-                         Employeement Type</a>
+                         Employment Type</a>
                 </div>
             </div>
         </div>
@@ -23,7 +23,7 @@
                                 <h6 class="fs-4 fw-semibold mb-0">Sn.</h6>
                             </th>
                             <th>
-                                <h6 class="fs-4 fw-semibold mb-0">Employeement Type</h6>
+                                <h6 class="fs-4 fw-semibold mb-0">Employment Type</h6>
                             </th>
                             <th>
                                 <h6 class="fs-4 fw-semibold ">Action</h6>
@@ -78,16 +78,16 @@
                 <form id="AddCountry"  onsubmit="return addCountry()">
                     @csrf
                     <div class="modal-header d-flex align-items-center">
-                        <h4 class="modal-title" id="myModalLabel">Add Employeement Type </h4>
+                        <h4 class="modal-title" id="myModalLabel">Add Employment Type </h4>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="category">Employeement Type </label>
+                            <label for="category">Employment Type </label>
                             <input type="hidden" name="form_type" value="employeement_type_form">
                             <input type="hidden" name="sub_prefer_id" value="{{ $emp_prefer_id }}">
                             
-                            <input type="text" class="form-control" placeholder="Write Employeement Type" name="emp_type_name"
+                            <input type="text" class="form-control" placeholder="Write Employment Type" name="emp_type_name"
                                 id="emp_type_name">
                             <span id="emp_type_nameErr" class="text-danger"></span>
                         </div>
@@ -113,17 +113,17 @@
                 <form id="EditMembership"  onsubmit="return editCountry()">
                     @csrf
                     <div class="modal-header d-flex align-items-center">
-                        <h4 class="modal-title" id="myModalLabel">Edit Benefit</h4>
+                        <h4 class="modal-title" id="myModalLabel">Edit Employment Type</h4>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="category">Employeement Type </label>
+                            <label for="category">Employment Type </label>
                             <input type="hidden" name="form_type" value="employeement_type_form">
                             <input type="hidden" name="emp_prefer_id" id="emp_prefer_id" value="0">
                             <input type="hidden" name="sub_prefer_id" id="sub_prefer_id" value="0">
                             
-                            <input type="text" class="form-control" placeholder="Write Employeement Type" name="emp_type_name"
+                            <input type="text" class="form-control" placeholder="Write Employment Type" name="emp_type_name"
                                 id="editemp_type_name">
                             <span id="editemp_type_nameErr" class="text-danger"></span>
                         </div>

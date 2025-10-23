@@ -352,6 +352,15 @@
         let emp_type = $('.js-example-basic-multiple[data-list-id="mainemptype_field"]').val();
         //alert(value);
         console.log("emp_type",emp_type);
+        
+        $(".emp_data .subrefer_list").each(function(i,val){
+            var val1 = $(val).val();
+            console.log("val",val1);
+            if(emp_type.includes(val1) == false){
+                $(".emptype_main_div-"+val1).remove();
+                
+            }
+        });
         for(var i=0;i<emp_type.length;i++){
 
           if($(".emp_data .emptype_main_div-"+emp_type[i]).length < 1){
@@ -373,6 +382,7 @@
                   
                   $(".emp_data").append('\<div class="emptype_main_div emptype_main_div-'+emp_prefer_data.employeement_type_id+'"><div class="emptypediv emptypediv-'+emp_prefer_data.employeement_type_id+' form-group level-drp">\
                       <label class="form-label emptype_label emptype_label-'+emp_prefer_data.employeement_type_id+'" for="input-1">'+emp_prefer_data.employeement_type_name+'</label>\
+                      <input type="hidden" name="subrefer_list" class="subrefer_list" value="'+emp_prefer_data.employeement_type_id+'">\
                       <ul id="emptype_field-'+emp_prefer_data.employeement_type_id+'" style="display:none;">'+emp_text+'</ul>\
                       <select class="js-example-basic-multiple'+emp_prefer_data.employeement_type_id+' addAll_removeAll_btn emptype_valid-1" data-list-id="emptype_field-'+emp_prefer_data.employeement_type_id+'" name="emptypelevel['+emp_prefer_data.employeement_type_id+'][]" multiple></select>\
                       <span id="reqemptype-1" class="reqError text-danger valley"></span>\

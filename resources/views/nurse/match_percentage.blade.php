@@ -135,7 +135,8 @@
 
                     
                     <div class="card shadow-sm border-0 p-4 mt-30">
-                      <h3 class="mt-0 color-brand-1 mb-2">Match Percentage</h3>
+                      @include('nurse.career_tooltip')
+                      <h3 class="mt-0 color-brand-1 mb-2">Overall Match</h3>
     
                       <div class="category">
                         <div class="label">1. Type of Nurse & Role (15%)</div>

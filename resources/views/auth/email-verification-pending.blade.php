@@ -9,10 +9,10 @@
     <div class="col-md-12">
       <div class="box-newsletter">
         <div class="text-center">
-          <h2 class="mb-4 text-white">Registration Successful!</h2>
+          <h2 class="mb-4 text-white">Welcome to MediQa !</h2>
           <!-- <p><i class="bi bi-check-circle-fill text-success"></i> Great, Set your password and you in</p> -->
           <p class="text-white font-md mb-4"><i class="bi bi-check-circle-fill text-success"></i> Your account has been successfully registered.</p>
-          <p class="text-white w-75 pl-50 pr-50 mx-auto" style="opacity:0.8">We kindly ask you to verify your email  {{ Auth::guard('nurse_middle')->user()->email}}  address. This simple step is essential to activate your account and grant you access to our services. Once verified, you'll be able to explore all the features and benefits our platform has to offer. Thank you for your cooperation, and we look forward to serving you!</p>
+          <p class="text-white w-75 pl-50 pr-50 mx-auto" style="opacity:0.8">We’ve sent you a verification email. Please Click the link inside to activate your account.Didn’t get the email? Please click Resend below.</p>
           <!--<a class="btn btn-border-brand-2 mt-3" href="find_work.php">Verify Account</a>-->
           <button class="btn btn-border-brand-2 mt-3" id="email_link" onclick="return resendEmailLink()"> Resend</button>
         </div>

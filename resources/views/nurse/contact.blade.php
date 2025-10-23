@@ -57,7 +57,7 @@
             <a href="#" class="btn btn-default btn-shadow hover-up">Nurses & Midwives</a>
             <a href="#" class="btn btn-default btn-shadow hover-up">Healthcare Facilities</a>
             <a href="#" class="btn btn-default btn-shadow hover-up">Agencies</a>
-            <a href="#" class="btn btn-default btn-shadow hover-up">Families & Individuals</a>
+            <a href="#" class="btn btn-default btn-shadow hover-up">CPD/CE Providers</a>
           </div>
         </div>
       </div>

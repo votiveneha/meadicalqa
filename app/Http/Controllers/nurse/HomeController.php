@@ -16,7 +16,7 @@ use App\Http\Requests\AddnewsletterRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Auth\Events\Registered;
 
 use Illuminate\Support\Facades\Log;
 use App\Services\User\AuthServices;
@@ -183,115 +183,115 @@ class HomeController extends Controller
     }
 
     public function do_nurse_register(Request $request)
-    {
-        if (User::where("email", $request->email)->doesntExist()) {
+{
+    if (User::where('email', $request->email)->doesntExist()) {
 
-            if (User::where("email", $request->email)->doesntExist()) {
+        $password   = $request->password;
+        $orderform  = rand(10000, 99999);
+        $lot        = '#' . str_pad($orderform + 1, 4, "0", STR_PAD_LEFT);
+        $randnum    = rand(1111111111, 9999999999);
 
+        $companyinsert['name']        = $request->fullname;
+        $companyinsert['lastname']    = $request->lastname;
+        $companyinsert['email']       = $request->email;
+        $companyinsert['country']     = country_id($request->countryCode);
+        $companyinsert['country_code']= $request->countryCode;
+        $companyinsert['country_iso'] = $request->countryiso;
+        $companyinsert['phone']       = $request->contact;
+        $companyinsert['post_code']   = $request->post_code;
+        $companyinsert['password']    = Hash::make($password);
+        $companyinsert['ps']          = $password;
 
-                $password = $request->password;
+        $companyinsert['nursetype']                     = json_encode($request->nurseType);
+        $companyinsert['nurseTypeJob']                  = json_encode($request->nurseTypeJob);
+        $companyinsert['nurse_practitioner_speciality'] = json_encode($request->nurse_practitioner_speciality);
+        $companyinsert['assistent_level']               = $request->assistent_level;
+        $companyinsert['specialties']                   = json_encode($request->specialties);
+        $companyinsert['subSpecialties']                = json_encode($request->subSpecialties);
+        $companyinsert['Sub-Speciality-One']            = json_encode($request->surgicalsubSpecialties);
+        $companyinsert['Sub-Speciality-Two']            = json_encode($request->surgicalsuboneSpecialties);
+        $companyinsert['degree']                        = json_encode($request->degree);
 
-                $orderform = rand(10000, 99999);
-                $lot = '#' . str_pad($orderform + 1, 4, "0", STR_PAD_LEFT);
+        $companyinsert['type']       = '1';
+        $companyinsert['created_at'] = Carbon::now('Asia/Kolkata');
 
-                $to = $request->email;
-                $emailToken = Crypt::encryptString($request->email);
+        $companyinsert['entry_level_nursing']           = json_encode($request->nursing_type_1);
+        $companyinsert['registered_nurses']             = json_encode($request->nursing_type_2);
+        $companyinsert['advanced_practioner']           = json_encode($request->nursing_type_3);
+        $companyinsert['nurse_prac']                    = json_encode($request->nurse_practitioner_menu);
+        $companyinsert['adults']                         = json_encode($request->speciality_entry_1);
+        $companyinsert['maternity']                      = json_encode($request->speciality_entry_2);
+        $companyinsert['paediatrics_neonatal']           = json_encode($request->speciality_entry_3);
+        $companyinsert['community']                      = json_encode($request->speciality_entry_4);
+        $companyinsert['surgical_preoperative']          = json_encode($request->surgical_row_box);
+        $companyinsert['operating_room']                 = json_encode($request->surgical_operative_care_1);
+        $companyinsert['operating_room_scout']           = json_encode($request->surgical_operative_care_2);
+        $companyinsert['operating_room_scrub']           = json_encode($request->surgical_operative_care_3);
+        $companyinsert['surgical_obstrics_gynacology']   = json_encode($request->surgical_obs_care);
+        $companyinsert['neonatal_care']                  = json_encode($request->neonatal_care);
+        $companyinsert['paedia_surgical_preoperative']   = json_encode($request->surgical_rowpad_box);
+        $companyinsert['pad_op_room']                    = json_encode($request->surgical_operative_carep_1);
+        $companyinsert['pad_qr_scout']                   = json_encode($request->surgical_operative_carep_2);
+        $companyinsert['pad_qr_scrub']                   = json_encode($request->surgical_operative_carep_3);
 
-                $verificationUrl = url('nurse/email-verification/' . $emailToken);
+        $run = User::insert($companyinsert);
+        $r   = User::where('email', $request->email)->first();
 
-                $mailData = [
+        // --- removed: event(new Registered($r)); (Laravel default verification)
+        Auth::guard('nurse_middle')->login($r);
+        Auth::login($r);
 
-                    'subject' => 'Registration successful!',
+        if ($run) {
+            Session::put('user_id', $r->id);
 
-                    'email' => $to,
-
-                    'verificationUrl' => $verificationUrl,
-
-                    'password' => $password,
-
-                    'body' => '<p>Hello  ' . $request->fullname . ' ' . $request->lastname . ', </p><p>Welcome and thank you for registering.</p>  <p>Click the link below to verify your account. </p><p><a href="' . $verificationUrl . '">Verify Now</a></p><p>If the above link doesn\'t work, copy and paste the link below into your browser.</p><p>' . $verificationUrl . '</p>',
-
-
-                ];
-
-                $randnum = rand(1111111111, 9999999999);
-                Mail::to($to)->send(new \App\Mail\DemoMail($mailData));
-
-                $companyinsert['name'] = $request->fullname;
-                $companyinsert['lastname'] = $request->lastname;
-                $companyinsert['email'] = $request->email;
-                $companyinsert['country'] = country_id($request->countryCode);
-                $companyinsert['country_code'] = $request->countryCode;
-                $companyinsert['country_iso'] = $request->countryiso;
-                $companyinsert['phone'] = $request->contact;
-                $companyinsert['post_code'] = $request->post_code;
-                $companyinsert['password'] = Hash::make($password);
-                $companyinsert['ps'] = $password;
-
-
-
-
-
-                $companyinsert['nursetype'] = json_encode($request->nurseType);
-                $companyinsert['nurseTypeJob'] = json_encode($request->nurseTypeJob);
-                $companyinsert['nurseTypeJob'] = json_encode($request->nurseTypeJob);
-                $companyinsert['nurse_practitioner_speciality'] = json_encode($request->nurse_practitioner_speciality);
-                $companyinsert['assistent_level'] = $request->assistent_level;
-                $companyinsert['specialties'] = json_encode($request->specialties);
-                $companyinsert['subSpecialties'] = json_encode($request->subSpecialties);
-                $companyinsert['Sub-Speciality-One'] = json_encode($request->surgicalsubSpecialties);
-                $companyinsert['Sub-Speciality-Two'] = json_encode($request->surgicalsuboneSpecialties);
-                $companyinsert['degree'] = json_encode($request->degree);
-
-
-
-                $companyinsert['emailToken'] = $emailToken;
-                $companyinsert['type'] = '1';
-                $companyinsert['created_at'] = Carbon::now('Asia/Kolkata');
-
-                $companyinsert['entry_level_nursing'] = json_encode($request->nursing_type_1);
-                $companyinsert['registered_nurses'] = json_encode($request->nursing_type_2);
-                $companyinsert['advanced_practioner'] = json_encode($request->nursing_type_3);
-                $companyinsert['nurse_prac'] = json_encode($request->nurse_practitioner_menu);
-                $companyinsert['adults'] = json_encode($request->speciality_entry_1);
-                $companyinsert['maternity'] = json_encode($request->speciality_entry_2);
-                $companyinsert['paediatrics_neonatal'] = json_encode($request->speciality_entry_3);
-                $companyinsert['community'] = json_encode($request->speciality_entry_4);
-                $companyinsert['surgical_preoperative'] = json_encode($request->surgical_row_box);
-                $companyinsert['operating_room'] = json_encode($request->surgical_operative_care_1);
-                $companyinsert['operating_room_scout'] = json_encode($request->surgical_operative_care_2);
-                $companyinsert['operating_room_scrub'] = json_encode($request->surgical_operative_care_3);
-                $companyinsert['surgical_obstrics_gynacology'] = json_encode($request->surgical_obs_care);
-                $companyinsert['neonatal_care'] = json_encode($request->neonatal_care);
-                $companyinsert['paedia_surgical_preoperative'] = json_encode($request->surgical_rowpad_box);
-                $companyinsert['pad_op_room'] = json_encode($request->surgical_operative_carep_1);
-                $companyinsert['pad_qr_scout'] = json_encode($request->surgical_operative_carep_2);
-                $companyinsert['pad_qr_scrub'] = json_encode($request->surgical_operative_carep_3);
-
-                $run = User::insert($companyinsert);
-                $r = User::where("email", $request->email)->first();
-
-                if ($run) {
-                    Session::put('user_id', $r->id);
-
-                    $json['status'] = 1;
-                    $json['url'] = url('nurse/email-verification-pending');
-                    // $json['url'] = url('nurse/my-profile');
-                    $json['message'] = 'Congratulations! Your registration was successful. Please check your email; we have sent you a verification email to your registered address!';
-                } else {
-                    $json['status'] = 0;
-                    $json['message'] = 'Please Try Again';
-                }
-            } else {
-                $json['status'] = 0;
-                $json['message'] = 'Email is already registered.!';
+            // ensure we have a token we control
+            if (empty($r->emailToken)) {
+                $r->emailToken = Crypt::encryptString($r->email);
+                $r->save();
             }
+
+            $verificationUrl = url('nurse/email-verification/' . $r->emailToken);
+
+            // --- removed: built-in MustVerifyEmail notification
+            // send our custom verification email (same design as resend)
+            $mailData = [
+                'subject'         => 'Email verification',
+                'email'           => $r->email,
+                'verificationUrl' => $verificationUrl,
+                'body' => '<p>Hello ' . e($r->name) . ', </p>
+                           <p>Welcome and thank you for registering.</p>
+                           <p>Please click the link below to verify your account:</p>
+                           <p><a href="' . e($verificationUrl) . '">Verify Now</a></p>
+                           <p>If the above link doesn\'t work, copy and paste this link into your browser:</p>
+                           <p>' . e($verificationUrl) . '</p>',
+            ];
+
+            try {
+                Mail::to($r->email)->send(new \App\Mail\DemoMail($mailData));
+                \Log::info('Sent custom initial verification', ['user_id' => $r->id]);
+            } catch (\Throwable $e) {
+                \Log::error('Initial verification send failed', ['user_id' => $r->id, 'error' => $e->getMessage()]);
+            }
+
+            return response()->json([
+                'status'  => 1,
+                'url'     => url('nurse/email-verification-pending'),
+                'message' => 'Please verify your account via email.',
+            ]);
         } else {
-            $json['status'] = 0;
-            $json['message'] = ' Email address is already registered.!';
+            return response()->json([
+                'status'  => 0,
+                'message' => 'Please Try Again',
+            ]);
         }
-        echo json_encode($json);
     }
+
+    return response()->json([
+        'status'  => 0,
+        'message' => 'Email already exists.'
+    ], 422);
+}
+
     public function emailVerificationPending()
     {
 
@@ -853,43 +853,40 @@ class HomeController extends Controller
 
 
     public function resentVerification()
-    {
-
-        $to = Auth::guard('nurse_middle')->user()->email;
-        $user = User::where('email', $to)->first();
-        // $emailToken = Crypt::encryptString( $to );
-        $emailToken = $user->emailToken;
-
-        $verificationUrl = url('nurse/email-verification/' .  $emailToken);
-        $update['emailToken'] =  $emailToken;
-
-
-        $uid = User::where('id', Auth::guard('nurse_middle')->user()->id)->update($update);
-
-        $mailData = [
-
-            'subject' => 'Email verification',
-
-            'email' => $to,
-
-            'verificationUrl' => $verificationUrl,
-
-
-            'body' => '<p>Hello  ' . Auth::guard('nurse_middle')->user()->name . ', </p>  <p>Welcome and thank you for registering.</p><p>Click the link below to verify your account. </p><p><a href="' . $verificationUrl . '">Verify Now</a></p><p>If the above link doesn\'t work, copy and paste the link below into your browser.</p><p>' . $verificationUrl . '</p>',
-
-
-        ];
-
-        Mail::to($to)->send(new \App\Mail\DemoMail($mailData));
-
-        try {
-            Mail::to($to)->send(new \App\Mail\DemoMail($mailData));
-            $output['status'] = 1;
-        } catch (\Exception $e) {
-            $output['status'] = 0;
-        }
-        echo json_encode($output);
+{
+    $user = Auth::guard('nurse_middle')->user();
+    if (!$user) {
+        return response()->json(['status' => 0, 'message' => 'Not authenticated'], 401);
     }
+
+    if (empty($user->emailToken)) {
+        $user->emailToken = Crypt::encryptString($user->email);
+        $user->save();
+    }
+
+    $verificationUrl = url('nurse/email-verification/' . $user->emailToken);
+
+    $mailData = [
+        'subject' => 'Email verification',
+        'email' => $user->email,
+        'verificationUrl' => $verificationUrl,
+        'body' => '<p>Hello ' . e($user->name) . ', </p>
+                   <p>Welcome and thank you for registering.</p>
+                   <p>Click the link below to verify your account.</p>
+                   <p><a href="' . e($verificationUrl) . '">Verify Now</a></p>
+                   <p>If the above link doesn\'t work, copy and paste the link below into your browser.</p>
+                   <p>' . e($verificationUrl) . '</p>',
+    ];
+
+    try {
+        Mail::to($user->email)->send(new \App\Mail\DemoMail($mailData));
+        return response()->json(['status' => 1]);
+    } catch (\Throwable $e) {
+        \Log::error('Resend verification failed', ['error' => $e->getMessage()]);
+        return response()->json(['status' => 0], 500);
+    }
+}
+
     public function dashboard()
 
     {

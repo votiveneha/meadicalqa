@@ -206,6 +206,14 @@
              </a>
            </li>
            <li class="sidebar-item">
+             <a href="{{route('admin.unverified-nurse-list')}}" class="sidebar-link">
+               <div class="round-16 d-flex align-items-center justify-content-center">
+                 <i class="ti ti-circle"></i>
+               </div>
+               <span class="hide-menu">Unverified Nurse List</span>
+             </a>
+           </li>
+           <li class="sidebar-item">
              <a href="{{route('admin.inprogess-nurse-nurse-list')}}" class="sidebar-link">
                <div class="round-16 d-flex align-items-center justify-content-center">
                  <i class="ti ti-circle"></i>
@@ -373,7 +381,7 @@
               <div class="round-16 d-flex align-items-center justify-content-center">
                 <i class="ti ti-circle"></i>
               </div>
-              <span class="hide-menu">Employeement management</span>
+              <span class="hide-menu">Employment management</span>
             </a>
           </li>
         </ul>

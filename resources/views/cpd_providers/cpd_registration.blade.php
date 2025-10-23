@@ -74,16 +74,6 @@
                 </div>
                 
                
-                
-                
-                
-                
-
-                <div class="login_footer form-group d-flex justify-content-between">
-                  <label class="cb-container">
-                    <input type="checkbox"><span class="text-small">Agree our terms and policy</span><span class="checkmark"></span>
-                  </label><a class='text-muted' href='#'>Lean more</a>
-                </div>
                  <div class="d-flex align-items-center justify-content-between">
                 
               <a type="button" class="btn btn-default w-100" href="#">Submit &amp; Register</a>

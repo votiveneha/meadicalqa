@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Http\Request;
+use App\Http\Controllers\nurse\HomeController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -68,6 +69,7 @@ Route::prefix('/admin')->name('admin.')->namespace('App\Http\Controllers\admin')
     // Nurse Managemenent
     Route::get('/customer-list', 'NurseController@customerList')->name('customer-list');
     Route::get('/incoming-nurse-list', 'NurseController@incommingNurseList')->name('incoming-nurse-list');
+    Route::get('/unverified-nurse-list', 'NurseController@unverified_nurse_list')->name('unverified-nurse-list');
     Route::post('/send_remainder', 'NurseController@send_remainder')->name('send_remainder');
     Route::get('/complete-profile-nurse-list', 'NurseController@completeprofileNurseList')->name('complete-nurse-nurse-list');
     Route::get('/inprogess-profile-nurse-list', 'NurseController@inProgressprofileNurseList')->name('inprogess-nurse-nurse-list');
@@ -319,8 +321,11 @@ Route::prefix('/admin')->name('admin.')->namespace('App\Http\Controllers\admin')
     Route::get('/sub_employeement_type/{id}','WorkPreferencesController@sub_employeement_type')->name('sub_employeement_type');
 
     /************[Job Boxes]*************/
-	  Route::get('/add_jobs','JobsController@index')->name('add_jobs');
+	Route::get('/add_jobs','JobsController@index')->name('add_jobs');
     Route::post('/addJobs', 'JobsController@addJobs')->name('addJobs');
+  
   });
-
+ 
+Route::get('/nurse/email-verification/{token}', [HomeController::class, 'email_verification'])
+    ->name('legacy.verify.token');
 });

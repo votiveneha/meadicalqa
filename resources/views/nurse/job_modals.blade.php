@@ -18,7 +18,8 @@
                 <p class="modal-subtext">Your saved preferences are pre-filled. You can adjust below.</p>
                 <input type="text" id="employmentSearch" placeholder="Search employment type..." onkeyup="filterAllEmployment()" class="search-box" />
                 <?php
-                  $result = (array)json_decode($work_preferences_data->work_environment_preferences,true); 
+                  $work_environment_preferences = (!empty($work_preferences_data))?$work_preferences_data->work_environment_preferences:'';
+                  $result = (array)json_decode($work_environment_preferences,true); 
                   //print_r($result);
                   $i = 0;
                 ?>
@@ -78,7 +79,8 @@
               <!-- 🔍 Global Search -->
                 <input type="text" id="" placeholder="Search employment type..." onkeyup="filterAllEmployment()" class="search-box employmentSearch" />
                 <?php
-                  $result = array_values((array)json_decode($work_preferences_data->work_shift_preferences)); 
+                  $work_shift_preferences = (!empty($work_preferences_data))?$work_preferences_data->work_shift_preferences:'';      
+                  $result = array_values((array)json_decode($work_shift_preferences)); 
                   $i = 0;      
                   
                 ?>
@@ -109,6 +111,7 @@
                                               ->where("shift_id", $work_shift->work_shift_id)
                                               ->where("sub_shift_id", $sub_works->work_shift_id)
                                               ->get();
+                      $subwork_shift_preferences = (!empty($work_preferences_data))?$work_preferences_data->work_environment_preferences:'';  
                       $subworkshiftdata = json_decode($work_preferences_data->subwork_shift_preferences, true);
                       
                       if(isset($subworkshiftdata[$work_shift->work_shift_id][$sub_works->work_shift_id])){
@@ -1308,4 +1311,4 @@ function clearAll(event, targetId) {
   }
 </script>
 
-@endsection        
+@endsection

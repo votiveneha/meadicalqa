@@ -9,6 +9,13 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"></script>
 
 <style type="text/css">
+
+  .disabled-link {
+      pointer-events: none;       /* Prevent clicking */
+      opacity: 0.5;              /* Dimmed look */
+      cursor: not-allowed;
+    }
+
   .hide_profile_image {
     display: none !important;
   }
@@ -841,6 +848,7 @@
                         <select class="form-input mr-10 select-active" name="employee_status" onchange="employeeStatus(this.value)">
                           <option value="">select</option>
                           <option value="Permanent" @if(Auth::guard('nurse_middle')->user()->current_employee_status == "Permanent") selected @endif>Permanent</option>
+                          <option value="Fixed-term" @if(Auth::guard('nurse_middle')->user()->current_employee_status == "Fixed-term") selected @endif>Fixed-term</option>
                           <option value="Temporary" @if(Auth::guard('nurse_middle')->user()->current_employee_status == "Temporary") selected @endif>Temporary</option>
                           <option value="Unemployed" @if(Auth::guard('nurse_middle')->user()->current_employee_status == "Unemployed") selected @endif>Unemployed</option>
 
@@ -3499,6 +3507,7 @@
                           <div class="form-group level-drp">
                             <label class="form-label" for="input-1">Employment type</label>
                             <input type="hidden" class="mainemptypedata mainemptypedata-{{ $i }}" value='<?php echo $em_arr; ?>'>
+                            
                             <ul id="employeement_type_experience-{{ $i }}" style="display:none;">
                               @if(!empty($employeement_type_preferences))
                               @foreach($employeement_type_preferences as $emptype_data)
@@ -3525,6 +3534,7 @@
                                 <label class="form-label emptype_label emptype_label-{{ $index }}" for="input-1">{{ $empname->emp_type }}</label>
                                 <input type="hidden" class="subemptype-{{ $index }}" value='<?php echo json_encode($emptype); ?>'>
                                 <input type="hidden" class="subemptypeid-{{ $i }}" value='<?php echo $index; ?>'>
+                                <input type="hidden" name="subrefer_list" class="subrefer_list" value="{{ $empname->emp_prefer_id }}">
                                 <ul id="emptype_field-{{ $index }}" style="display:none;">
                                   @if(!empty($subemptypedata))
                                   @foreach($subemptypedata as $subemptype_data)
@@ -4064,7 +4074,7 @@
                           <div class="form-group level-drp col-md-12">
                             <label class="form-label" for="input-1">Permanent</label>
                             <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
-                            
+                            <input type="hidden" name="subrefer_list" class="subrefer_list" value="1">\
                             <ul id="permanent_status_experience-1" style="display:none;">
                               <li data-value="">select</li>
                               <li data-value="Full-time (Permanent)">Full-time (Permanent)</li>
@@ -5819,6 +5829,7 @@ if (!empty($interviewReferenceData)) {
             toggleClearButton();
         });
     </script> -->
+    
 <script type="text/javascript">
   $('.post_code').keypress(function(e) {
 
@@ -6026,6 +6037,7 @@ if (!empty($interviewReferenceData)) {
   //   var evidence_type = JSON.parse($(".evidence_type").val());
   //   $('.js-example-basic-multiple[data-list-id="type_of_evidence"]').select2().val(evidence_type).trigger('change');
   // }
+
 
   
 
@@ -6996,6 +7008,15 @@ if (!empty($interviewReferenceData)) {
     }
         //alert(value);
     console.log("emp_type",emp_type);
+    
+     $(".show_emp_data-"+j+" .subrefer_list").each(function(i,val){
+        var val1 = $(val).val();
+        console.log("val",val1);
+        if(emp_type.includes(val1) == false){
+            $(".emptype_main_div-"+val1).remove();
+            
+        }
+    });
 
     for(var i=0;i<emp_type.length;i++){
 
@@ -7018,6 +7039,7 @@ if (!empty($interviewReferenceData)) {
                 
                 $(".show_emp_data-"+emp_prefer_data.circle_value).append('\<div class="emptype_main_div emptype_main_div-'+emp_prefer_data.employeement_type_id+'"><div class="emptypediv emptypediv-'+emp_prefer_data.employeement_type_id+' form-group level-drp">\
                     <label class="form-label emptype_label emptype_label-'+emp_prefer_data.employeement_type_id+'" for="input-1">'+emp_prefer_data.employeement_type_name+'</label>\
+                    <input type="hidden" name="subrefer_list" class="subrefer_list" value="'+emp_prefer_data.employeement_type_id+'">\
                     <ul id="emptype_field-'+emp_prefer_data.employeement_type_id+'" style="display:none;">'+emp_text+'</ul>\
                     <select class="js-example-basic-multiple'+emp_prefer_data.employeement_type_id+' addAll_removeAll_btn emptype_valid-1" data-list-id="emptype_field-'+emp_prefer_data.employeement_type_id+'" name="emptypelevel['+emp_prefer_data.circle_value+']['+emp_prefer_data.employeement_type_id+'][]" multiple></select>\
                     <span id="reqemptype-1" class="reqError text-danger valley"></span>\
@@ -9698,6 +9720,25 @@ if (!empty($interviewReferenceData)) {
 
     };
     drawNewGraph('graph1');
+    
+    setTimeout(function() {
+        var profile_percent = $("#graph1 span").text().replace('%', '');
+        console.log("profile_percent", profile_percent);
+        
+        if(profile_percent<100){
+            $(".main-menu a").each(function(){
+                var link_text = $(this).text();
+                console.log("link_text", link_text);
+                
+                if ($.trim($(this).text()) == "Find Jobs" || $.trim($(this).text()) == "Saved Jobs" || $.trim($(this).text()) == "My Career" || $.trim($(this).text()) == "Community") {
+                    $(this)
+                      .addClass("disabled-link")
+                      .attr("title", "Complete your profile to access this section");
+                  }
+            });
+            //$(".main-menu a").addClass("disabled-link").attr("title", "Complete your profile to access this section");
+        }
+      }, 100);
   });
   // let autocomplete;
   // let address1Field;

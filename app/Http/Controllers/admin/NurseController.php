@@ -62,6 +62,18 @@ class NurseController extends Controller
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
         }
     }
+    
+    public function unverified_nurse_list()
+    {
+        try {
+            $unverified_nurse_list  = $this->nurseRepository->getUnverifiedNurseList();
+            // dd($incomingNurseUsers);
+            return view('admin.unverified_nurse_list', compact('unverified_nurse_list'));
+        } catch (\Exception $e) {
+            log::error('Error in NurseController/incommingNurseList :' . $e->getMessage() . 'in line' . $e->getLine());
+            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+        }
+    }
 
     public function inProgressprofileNurseList()
     {

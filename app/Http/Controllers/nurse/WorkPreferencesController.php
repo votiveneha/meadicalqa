@@ -522,7 +522,7 @@ class WorkPreferencesController extends Controller{
             $entry_arr = array();
             foreach($entry_level_nursing as $entry_level){
                 $entry_data = DB::table("practitioner_type")->where("id",$entry_level)->first();
-                $entry_arr[] = $entry_data->name;
+                $entry_arr[] = (!empty($entry_data))?$entry_data->name:'';
             }
         }
         
@@ -530,7 +530,7 @@ class WorkPreferencesController extends Controller{
             $register_arr = array();
             foreach($registered_nurses as $reg_level){
                 $reg_data = DB::table("practitioner_type")->where("id",$reg_level)->first();
-                $register_arr[] = $reg_data->name;
+                $register_arr[] = (!empty($reg_data))?$reg_data->name:'';
             }
         }
 
@@ -538,7 +538,7 @@ class WorkPreferencesController extends Controller{
             $advanced_arr = array();
             foreach($advanced_practioner as $advanced_level){
                 $advanced_data = DB::table("practitioner_type")->where("id",$advanced_level)->first();
-                $advanced_arr[] = $advanced_data->name;
+                $advanced_arr[] = (!empty($reg_data))?$advanced_data->name:'';
             }
         }
 
@@ -583,157 +583,158 @@ class WorkPreferencesController extends Controller{
         $specialty_experience = array();
         $position_arr = array();
         $skill_arr = array();
-        foreach($user_experience_data as $user_experience){
+        // if(!empty($user_experience_data)){
+        // foreach($user_experience_data as $user_experience){
             
-            if($user_experience->adults != "null"){
-                $adults = json_decode($user_experience->adults);
+        //     if($user_experience->adults != "null"){
+        //         $adults = json_decode($user_experience->adults);
                 
-                if($user_experience->operating_room != "null" || $user_experience->operating_room_scout != "null" || $user_experience->operating_room_scrub != "null"){
-                    if($user_experience->operating_room != "null"){
-                        $operating_room = json_decode($user_experience->operating_room);
-                        foreach($operating_room as $spec){
-                            $spec_data = DB::table("speciality")->where("id",$spec)->first();
-                            $specialty_experience[$spec_data->name] = $user_experience->assistent_level;
+        //         if($user_experience->operating_room != "null" || $user_experience->operating_room_scout != "null" || $user_experience->operating_room_scrub != "null"){
+        //             if($user_experience->operating_room != "null"){
+        //                 $operating_room = json_decode($user_experience->operating_room);
+        //                 foreach($operating_room as $spec){
+        //                     $spec_data = DB::table("speciality")->where("id",$spec)->first();
+        //                     $specialty_experience[$spec_data->name] = $user_experience->assistent_level;
                             
-                        }
-                    }
+        //                 }
+        //             }
 
-                    if($user_experience->operating_room_scout != "null"){
-                        $operating_room = json_decode($user_experience->operating_room_scout);
-                        foreach($operating_room as $spec){
-                            $spec_data = DB::table("speciality")->where("id",$spec)->first();
-                            $specialty_experience[$spec_data->name] = $user_experience->assistent_level;
+        //             if($user_experience->operating_room_scout != "null"){
+        //                 $operating_room = json_decode($user_experience->operating_room_scout);
+        //                 foreach($operating_room as $spec){
+        //                     $spec_data = DB::table("speciality")->where("id",$spec)->first();
+        //                     $specialty_experience[$spec_data->name] = $user_experience->assistent_level;
                             
-                        }
-                    }
+        //                 }
+        //             }
 
-                    if($user_experience->operating_room_scrub != "null"){
-                        $operating_room = json_decode($user_experience->operating_room_scrub);
-                        foreach($operating_room as $spec){
-                            $spec_data = DB::table("speciality")->where("id",$spec)->first();
-                            $specialty_experience[$spec_data->name] = $user_experience->assistent_level;
+        //             if($user_experience->operating_room_scrub != "null"){
+        //                 $operating_room = json_decode($user_experience->operating_room_scrub);
+        //                 foreach($operating_room as $spec){
+        //                     $spec_data = DB::table("speciality")->where("id",$spec)->first();
+        //                     $specialty_experience[$spec_data->name] = $user_experience->assistent_level;
                             
-                        }
-                    }
-                }else{
-                    foreach($adults as $spec){
-                        $spec_data = DB::table("speciality")->where("id",$spec)->first();
-                        $specialty_experience[$spec_data->name] = $user_experience->assistent_level;
+        //                 }
+        //             }
+        //         }else{
+        //             foreach($adults as $spec){
+        //                 $spec_data = DB::table("speciality")->where("id",$spec)->first();
+        //                 $specialty_experience[$spec_data->name] = $user_experience->assistent_level;
                         
-                    }
-                }
+        //             }
+        //         }
                 
                 
-            }
+        //     }
 
-            if($user_experience->paediatrics_neonatal != "null"){
-                $paediatrics_neonatal = json_decode($user_experience->paediatrics_neonatal);
+        //     if($user_experience->paediatrics_neonatal != "null"){
+        //         $paediatrics_neonatal = json_decode($user_experience->paediatrics_neonatal);
 
-                if($user_experience->pad_op_room != "null" || $user_experience->pad_qr_scout != "null" || $user_experience->pad_qr_scrub != "null"){
-                    if($user_experience->pad_op_room != "null"){
-                        $pad_op_room = json_decode($user_experience->pad_op_room);
-                        foreach($pad_op_room as $spec){
-                            $spec_data = DB::table("speciality")->where("id",$spec)->first();
-                            $specialty_experience[$spec_data->name] = $user_experience->assistent_level;
+        //         if($user_experience->pad_op_room != "null" || $user_experience->pad_qr_scout != "null" || $user_experience->pad_qr_scrub != "null"){
+        //             if($user_experience->pad_op_room != "null"){
+        //                 $pad_op_room = json_decode($user_experience->pad_op_room);
+        //                 foreach($pad_op_room as $spec){
+        //                     $spec_data = DB::table("speciality")->where("id",$spec)->first();
+        //                     $specialty_experience[$spec_data->name] = $user_experience->assistent_level;
                             
-                        }
-                    }
+        //                 }
+        //             }
 
-                    if($user_experience->pad_qr_scout != "null"){
-                        $pad_op_room = json_decode($user_experience->pad_qr_scout);
-                        foreach($pad_op_room as $spec){
-                            $spec_data = DB::table("speciality")->where("id",$spec)->first();
-                            $specialty_experience[$spec_data->name] = $user_experience->assistent_level;
+        //             if($user_experience->pad_qr_scout != "null"){
+        //                 $pad_op_room = json_decode($user_experience->pad_qr_scout);
+        //                 foreach($pad_op_room as $spec){
+        //                     $spec_data = DB::table("speciality")->where("id",$spec)->first();
+        //                     $specialty_experience[$spec_data->name] = $user_experience->assistent_level;
                             
-                        }
-                    }
+        //                 }
+        //             }
 
-                    if($user_experience->pad_qr_scrub != "null"){
-                        $pad_op_room = json_decode($user_experience->pad_qr_scrub);
-                        foreach($pad_op_room as $spec){
-                            $spec_data = DB::table("speciality")->where("id",$spec)->first();
-                            $specialty_experience[$spec_data->name] = $user_experience->assistent_level;
+        //             if($user_experience->pad_qr_scrub != "null"){
+        //                 $pad_op_room = json_decode($user_experience->pad_qr_scrub);
+        //                 foreach($pad_op_room as $spec){
+        //                     $spec_data = DB::table("speciality")->where("id",$spec)->first();
+        //                     $specialty_experience[$spec_data->name] = $user_experience->assistent_level;
                             
-                        }
-                    }
-                }else{
-                    if($user_experience->neonatal_care != "null"){
-                        $neonatal_care = json_decode($user_experience->neonatal_care);
-                        foreach($neonatal_care as $spec){
-                            $spec_data = DB::table("speciality")->where("id",$spec)->first();
-                            $specialty_experience[$spec_data->name] = $user_experience->assistent_level;
+        //                 }
+        //             }
+        //         }else{
+        //             if($user_experience->neonatal_care != "null"){
+        //                 $neonatal_care = json_decode($user_experience->neonatal_care);
+        //                 foreach($neonatal_care as $spec){
+        //                     $spec_data = DB::table("speciality")->where("id",$spec)->first();
+        //                     $specialty_experience[$spec_data->name] = $user_experience->assistent_level;
                             
-                        }
-                    }else{
-                        foreach($paediatrics_neonatal as $spec){
-                            $spec_data = DB::table("speciality")->where("id",$spec)->first();
-                            $specialty_experience[$spec_data->name] = $user_experience->assistent_level;
+        //                 }
+        //             }else{
+        //                 foreach($paediatrics_neonatal as $spec){
+        //                     $spec_data = DB::table("speciality")->where("id",$spec)->first();
+        //                     $specialty_experience[$spec_data->name] = $user_experience->assistent_level;
                             
-                        }
-                    }
+        //                 }
+        //             }
                     
-                }
+        //         }
                 
                 
                 
-            }
+        //     }
 
-            if($user_experience->maternity != "null"){
-                $maternity = json_decode($user_experience->maternity);
+        //     if($user_experience->maternity != "null"){
+        //         $maternity = json_decode($user_experience->maternity);
                 
-                if($user_experience->surgical_obstrics_gynacology == "null"){
-                    foreach($maternity as $spec){
-                        $spec_data = DB::table("speciality")->where("id",$spec)->first();
-                        $specialty_experience[$spec_data->name] = $user_experience->assistent_level;
-                    }
-                }else{
-                    $surgical_obstrics_gynacology = json_decode($user_experience->surgical_obstrics_gynacology);
-                    foreach($surgical_obstrics_gynacology as $surgical_obs){
-                        $spec_data = DB::table("speciality")->where("id",$surgical_obs)->first();
-                        $specialty_experience[$spec_data->name] = $user_experience->assistent_level;
-                    }
-                }
+        //         if($user_experience->surgical_obstrics_gynacology == "null"){
+        //             foreach($maternity as $spec){
+        //                 $spec_data = DB::table("speciality")->where("id",$spec)->first();
+        //                 $specialty_experience[$spec_data->name] = $user_experience->assistent_level;
+        //             }
+        //         }else{
+        //             $surgical_obstrics_gynacology = json_decode($user_experience->surgical_obstrics_gynacology);
+        //             foreach($surgical_obstrics_gynacology as $surgical_obs){
+        //                 $spec_data = DB::table("speciality")->where("id",$surgical_obs)->first();
+        //                 $specialty_experience[$spec_data->name] = $user_experience->assistent_level;
+        //             }
+        //         }
                 
                 
-            }
+        //     }
 
-            if($user_experience->community != "null"){
-                $community = json_decode($user_experience->community);
-                foreach($community as $spec){
-                    $spec_data = DB::table("speciality")->where("id",$spec)->first();
-                    $specialty_experience[$spec_data->name] = $user_experience->assistent_level;
-                }
-            }
+        //     if($user_experience->community != "null"){
+        //         $community = json_decode($user_experience->community);
+        //         foreach($community as $spec){
+        //             $spec_data = DB::table("speciality")->where("id",$spec)->first();
+        //             $specialty_experience[$spec_data->name] = $user_experience->assistent_level;
+        //         }
+        //     }
 
-            $position_held = json_decode($user_experience->position_held);
-            //print_r($position_held);
+        //     $position_held = json_decode($user_experience->position_held);
+        //     //print_r($position_held);
             
-            foreach($position_held as $p_held){
-                foreach($p_held as $p_held1){
+        //     foreach($position_held as $p_held){
+        //         foreach($p_held as $p_held1){
                     
-                    if (is_numeric($p_held1)) {
+        //             if (is_numeric($p_held1)) {
                         
-                        $pos_data = DB::table("employee_positions")->where("position_id",$p_held1)->first();
-                        $position_arr[] = $pos_data->position_name;
-                    }else{
-                        $position_arr[] = $p_held1;
-                    }
-                }
-            }
+        //                 $pos_data = DB::table("employee_positions")->where("position_id",$p_held1)->first();
+        //                 $position_arr[] = $pos_data->position_name;
+        //             }else{
+        //                 $position_arr[] = $p_held1;
+        //             }
+        //         }
+        //     }
 
-            if($user_experience->org_and_any_skill != "null"){
-                $org_skills = json_decode($user_experience->org_and_any_skill);
+        //     if($user_experience->org_and_any_skill != "null"){
+        //         $org_skills = json_decode($user_experience->org_and_any_skill);
                 
-                foreach($org_skills as $o_skill){
-                    $spec_data = DB::table("skills")->where("id",$o_skill)->first();
-                    $skill_arr[] = $spec_data->name;
-                }
+        //         foreach($org_skills as $o_skill){
+        //             $spec_data = DB::table("skills")->where("id",$o_skill)->first();
+        //             $skill_arr[] = $spec_data->name;
+        //         }
                 
-            }
+        //     }
             
-        }
-
+        // }
         
+        // }
         
         //print_r($skill_arr);
         $jobRequirements = [
@@ -1307,18 +1308,18 @@ class WorkPreferencesController extends Controller{
 
         $speciality_arr = array();
 
-        if(!empty($speciality_data)){
-            foreach($speciality_data as $spec_data){
-                if($spec_data->parent == 0){
-                    $parent_name = '';
-                }else{
-                    $p_name = DB::table("speciality")->where("id",$spec_data->parent)->first();
-                    $parent_name = $p_name->name;
-                }
-                $speciality_arr[] = array("name"=>$spec_data->name,"parent_name"=>$parent_name);
+        // if(!empty($speciality_data)){
+        //     foreach($speciality_data as $spec_data){
+        //         if($spec_data->parent == 0){
+        //             $parent_name = '';
+        //         }else{
+        //             $p_name = DB::table("speciality")->where("id",$spec_data->parent)->first();
+        //             $parent_name = (!empty($p_name)) ? $p_name->name : '';
+        //         }
+        //         $speciality_arr[] = array("name"=>$spec_data->name,"parent_name"=>$parent_name);
                 
-            }
-        }
+        //     }
+        // }
         // echo "<pre>";
         // print_r($speciality_arr);die;
 
@@ -1466,6 +1467,8 @@ class WorkPreferencesController extends Controller{
         
         return view('nurse.match_percentage')->with($data);
     }
+        
+    
 
     public function build_specialty_hierarchy($specialties) {
         $lookup = [];

@@ -52,7 +52,9 @@ class JobsController extends Controller{
         $data['work_preferences_data'] = DB::table("work_preferences")
             ->where("user_id", $user_id)
             ->first();    
-        if($data['work_preferences_data']->location_status == "International relocation"){    
+            
+        $data['location_status'] = "";    
+        if(!empty($data['work_preferences_data']) && $data['work_preferences_data']->location_status == "International relocation"){    
             $international_location = json_decode($data['work_preferences_data']->countries);
             $country_name_arr = [];
             if(!empty($international_location)){
@@ -78,7 +80,7 @@ class JobsController extends Controller{
             $country_merge = array_merge($country_name_arr, $other_countries);
         }
 
-        if($data['work_preferences_data']->location_status == "Current Location area (not willing to relocate)"){
+        if(!empty($data['work_preferences_data']) && $data['work_preferences_data']->location_status == "Current Location area (not willing to relocate)"){
             $address = $data['work_preferences_data']->prefered_location_current;
             $parts = explode(",", $address);
             $country_merge = trim(end($parts));
@@ -87,7 +89,7 @@ class JobsController extends Controller{
 
         
 
-        if($data['work_preferences_data']->location_status == "Multiple locations area (relocation within your country)"){
+        if(!empty($data['work_preferences_data']) && $data['work_preferences_data']->location_status == "Multiple locations area (relocation within your country)"){
             $address = json_decode($data['work_preferences_data']->prefered_location);
             $country_merge = [];
             if(!empty($address)){
@@ -100,8 +102,8 @@ class JobsController extends Controller{
             
             $data['location_status'] = "multiple_location";
         }
-
-        if($data['work_preferences_data']->location_status == NULL){
+        $country_merge = '';
+        if(!empty($data['work_preferences_data']) && $data['work_preferences_data']->location_status == NULL){
             $country_merge = '';
             $data['location_status'] = "";
         }
