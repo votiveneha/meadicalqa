@@ -26,7 +26,7 @@ use Session;
 use File;
 use App\Services\Admins\SpecialityServices;
 use Illuminate\Support\Facades\Storage;
-
+use App\Models\SavedSearches;
 
 class JobsController extends Controller{
     
@@ -52,6 +52,9 @@ class JobsController extends Controller{
         $data['work_preferences_data'] = DB::table("work_preferences")
             ->where("user_id", $user_id)
             ->first();    
+        $data['saved_searches_data'] = DB::table("saved_searches")
+            ->where("user_id", $user_id)
+            ->get();            
             
         $data['location_status'] = "";    
         if(!empty($data['work_preferences_data']) && $data['work_preferences_data']->location_status == "International relocation"){    
@@ -378,6 +381,66 @@ class JobsController extends Controller{
         if($applyJobs == 1){
             return $applyJobs;
         }
+    }
+
+    public function addSavedSearches(Request $request){
+        $user_id = Auth::guard('nurse_middle')->user()->id;
+        $search_name = $request->search_name;
+        $alert_frequency = $request->alert_frequency;
+        $delivery_method = $request->delivery_method;
+        $date = date("Y-m-d H:i:s");
+
+        $saved_searches = new SavedSearches();
+        $saved_searches->user_id = $user_id;
+        $saved_searches->name = $search_name;
+        $saved_searches->alert = $alert_frequency;
+        $saved_searches->delivery = $delivery_method;
+        $saved_searches->created_at = $date;
+        $run = $saved_searches->save();
+
+        $lastInsertedId = $saved_searches->id;
+
+        if ($run) {
+            $json['status'] = 1;
+            $json['id'] = $lastInsertedId;
+        } else {
+            $json['status'] = 0;
+            
+        }
+
+        echo json_encode($json);
+    }
+
+    public function deleteSearchJobsData(Request $request){
+        $searches_id = $request->searches_id;
+        $delete_search_data = DB::table("saved_searches")->where("searches_id",$searches_id)->delete();
+
+        
+        echo $delete_search_data;
+    }
+
+    public function duplicateSearch(Request $request)
+    {
+        
+        $oldSearch = SavedSearches::where('searches_id', $request->searches_id)->first();
+        $user_id = Auth::guard('nurse_middle')->user()->id;
+
+        if (!$oldSearch) {
+            return response()->json(['success' => false, 'message' => 'Original search not found']);
+        }
+
+        $duplicate = new SavedSearches();
+        $duplicate->user_id = $user_id;
+        $duplicate->name = $request->name;
+        $duplicate->alert = $request->alert;
+        $duplicate->delivery = $request->delivery;
+        $duplicate->created_at = now();
+        $duplicate->save();
+
+        return response()->json([
+            'success' => true,
+            'new_id' => $duplicate->id
+        ]);
     }
 
 }
