@@ -1075,10 +1075,14 @@
           <div id="tab2" class="tab-content-jobs">
             
             <div class="manage-section">
-              <div class="manage-header">Manage Saved Searches</div>
+              <div class="manage-header">
+                  <h6>Manage Saved Searches</h6>          
+                  <button id="deleteSelected" style="margin-top:10px;">Delete Selected</button>
+              </div>
               <table id="savedSearchTable" class="table">
                 <thead>
                   <tr>
+                    <th><input type="checkbox" id="selectAll"></th>
                     <th>Name</th>
                     <th>Alert</th>
                     <th>Delivery</th>
@@ -1093,9 +1097,23 @@
                   @endphp
                   @foreach($saved_searches_data as $saved_searches)
                   <tr data-id="{{ $i }}" data-value="{{ $saved_searches->searches_id }}">
+                    <td>
+                      @if($i != 1)
+                      <input type="checkbox" class="select-item">
+                      @endif
+                    </td>
                     <td>{{ $saved_searches->name }}</td>
                     <td><span class="alert-pill alert-on">{{ $saved_searches->alert }}</span></td>
-                    <td>{{ $saved_searches->delivery }}</td>
+                    <td>
+                      @if($saved_searches->delivery === 'Email')
+                        <i class="fa-solid fa-envelope"></i>
+                      @elseif($saved_searches->delivery === 'In-app')
+                        <i class="fa-solid fa-laptop"></i>
+                      @elseif($saved_searches->delivery === 'SMS')
+                        <i class="fa-solid fa-comment-sms"></i>
+                      @endif
+                      <!-- {{ $saved_searches->delivery }} -->
+                    </td>
                     <td>
                     @php
                      $dateOnly = date('Y-m-d', strtotime($saved_searches->created_at));
@@ -1131,7 +1149,7 @@
       @include('nurse.saved_searches')
    </section>
    <!-- Save Search Modal -->
-  
+  <div class="toast" id="toast"></div>
 </main>
 <script>
     $(document).ready(function(){
@@ -1363,39 +1381,87 @@ $('#renameCancel').click(function() {
       
     });
     $('#delete-cancel').click(()=>$('#delete-modal').fadeOut(200));
-    $('#delete-confirm').click(function(){
-      if(deleteId){
-        //delete searches[deleteId];
-        let row = $(`#savedSearchTable tr[data-id="${deleteId}"]`).data('value');
-        $(`#savedSearchTable tr[data-id="${deleteId}"]`).remove();
-        $(`.saved-search-tab[data-id="${deleteId}"]`).remove();
+    // $('#delete-confirm').click(function(){
+    //   if(deleteId){
+    //     //delete searches[deleteId];
+    //     let row = $(`#savedSearchTable tr[data-id="${deleteId}"]`).data('value');
+    //     $(`#savedSearchTable tr[data-id="${deleteId}"]`).remove();
+    //     $(`.saved-search-tab[data-id="${deleteId}"]`).remove();
         
-        deleteId = null;
-        $.ajax({
-          type: "POST",
-          url: "{{ url('/nurse/deleteSearchJobsData') }}",
-          data: {searches_id:row,_token:"{{ csrf_token() }}"},
-          cache: false,
-          success: function(data){
-            if(data == 1){
+    //     deleteId = null;
+    //     $.ajax({
+    //       type: "POST",
+    //       url: "{{ url('/nurse/deleteSearchJobsData') }}",
+    //       data: {searches_id:row,_token:"{{ csrf_token() }}"},
+    //       cache: false,
+    //       success: function(data){
+    //         if(data == 1){
               
-              Swal.fire({
+    //           Swal.fire({
+    //           icon: 'success',
+    //           title: 'Success',
+    //           text: 'Save Search Deleted Successfully',
+    //           }).then(function() {
+                
+    //             $('#delete-modal').fadeOut(200);
+    //           //window.location.href = "{{ route('nurse.language_skills') }}?page=language_skills";
+    //           });
+              
+    //         }
+            
+    //       }
+    //     });
+        
+    //   }
+      
+    // });
+    $('#deleteSelected').on('click', function() {
+    selectedIds = [];
+
+    $('.select-item:checked').each(function() {
+      selectedIds.push($(this).closest('tr').data('value'));
+    });
+
+    if (selectedIds.length === 0) {
+      alert("Please select at least one record to delete.");
+      return;
+    }
+
+    // Open modal
+    $('#delete-modal').fadeIn(200).css('display', 'flex');
+  });
+    $('#delete-confirm').on('click', function() {
+      $('#delete-modal').fadeOut(200);
+
+      // AJAX delete request
+      $.ajax({
+        url: "{{ url('/nurse/deleteMultipleSearches') }}",
+        type: "POST",
+        data: {
+          ids: selectedIds,
+          _token: "{{ csrf_token() }}"
+        },
+        success: function(response) {
+          if (response.status === 'success') {
+            // Remove deleted rows from table
+            $('.select-item:checked').each(function() {
+              $(this).closest('tr').fadeOut(300, function() { $(this).remove(); });
+            });
+            $('#selectAll').prop('checked', false);
+            Swal.fire({
               icon: 'success',
               title: 'Success',
-              text: 'Save Search Deleted Successfully',
-              }).then(function() {
-                
-                $('#delete-modal').fadeOut(200);
-              //window.location.href = "{{ route('nurse.language_skills') }}?page=language_skills";
-              });
-              
-            }
-            
+              text: 'Save Searches Deleted Successfully',
+            })
+          } else {
+            alert("Error deleting records.");
           }
-        });
-        
-      }
-      
+        },
+        error: function(xhr) {
+          console.error(xhr.responseText);
+          alert("Something went wrong. Please try again.");
+        }
+      });
     });
 
     // Switch active tab

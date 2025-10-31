@@ -33,35 +33,17 @@ Route::post('/getsurgicalSubSpeciality', 'App\Http\Controllers\HomeController@ge
 Route::prefix('healthcare-facilities')->name('medical-facilities.')->namespace('App\Http\Controllers\medical_facilities')->group(function () {
   Route::get('/', 'HomeController@index_main')->name('medical_facilities_home_main');
   Route::get('/medical-facilities-registraion', 'HomeController@registraion')->name('medical-facilities-registraion');
-  Route::post('/healthcareRegistration', 'HomeController@healthcareRegistration')->name('healthcareRegistration');
-  Route::get('/login', 'HomeController@login')->name('login');
-  Route::post('/userloginAction', 'HomeController@userloginAction')->name('userloginAction');
+
   Route::middleware('nurse_middle')->group(function () {});
 });
 
 Route::prefix('agencies')->name('agencies.')->namespace('App\Http\Controllers\agencies')->group(function () {
   Route::get('/', 'HomeController@index_main')->name('agencies_home_main');
   Route::get('/agencies-registraion', 'HomeController@registraion')->name('agencies-registraion');
-  Route::get('/login', 'HomeController@login')->name('login');
+
 
   Route::middleware('nurse_middle')->group(function () {});
 });
-
-Route::prefix('individuals')->name('individuals.')->namespace('App\Http\Controllers\individuals')->group(function () {
-  // Route::get('/', 'HomeController@index_main')->name('agencies_home_main');
-  Route::get('/individuals_registraion', 'HomeController@registraion')->name('individuals_registraion');
-  Route::get('/login', 'HomeController@login')->name('login');
-
-  //Route::middleware('nurse_middle')->group(function () {});
-});
-Route::prefix('cpd_providers')->name('cpd_providers.')->namespace('App\Http\Controllers\cpd_providers')->group(function () {
-  // Route::get('/', 'HomeController@index_main')->name('agencies_home_main');
-  Route::get('/cpd_providers-registraion', 'HomeController@registraion')->name('cpd_providers-registraion');
-  Route::get('/login', 'HomeController@login')->name('login');
-
-  //Route::middleware('nurse_middle')->group(function () {});
-});
-
 Route::prefix('nurse')->name('nurse.')->namespace('App\Http\Controllers\nurse')->group(function () {
 
   Route::get('/forgot-password', 'HomeController@forgotPassword')->name('forgot-password');
@@ -82,7 +64,6 @@ Route::prefix('nurse')->name('nurse.')->namespace('App\Http\Controllers\nurse')-
   Route::get('/', 'HomeController@index')->name('home');
 
   Route::get('/nurse-register', 'HomeController@nurse_register')->name('nurse-register');
-  Route::post('/fetch-ahpra-details', 'AhpraLookupsController@getAhpraDetails')->name('getAhpraDetails');
   Route::get('/email-verification-pending', 'HomeController@emailVerificationPending')->name('email-verification-pending');
   Route::get('/resent-verification', 'HomeController@resentVerification')->name('resent-verification-link');
   Route::get('/email-verification/{token}', 'HomeController@email_verification')->name('email-verification');
@@ -105,11 +86,6 @@ Route::prefix('nurse')->name('nurse.')->namespace('App\Http\Controllers\nurse')-
     Route::post('/updateProfession', 'HomeController@updateProfession')->name('updateProfession');
     Route::post('/updateEducation', 'HomeController@updateEducation')->name('updateEducation');
     Route::post('/updateExperience', 'HomeController@updateExperience')->name('updateExperience');
-    Route::post('/uploadExpImgs', 'HomeController@uploadExpImgs')->name('uploadExpImgs');
-    Route::get('/getEmployeePositions', 'HomeController@getEmployeePositions')->name('getEmployeePositions');
-    Route::post('/uploadAnotherImgs_cert', 'HomeController@uploadAnotherImgs_cert')->name('uploadAnotherImgs_cert');
-    Route::get('/getWorkplaceData', 'HomeController@getWorkplaceData')->name('getWorkplaceData');
-    Route::get('/getSubWorkplaceData', 'HomeController@getSubWorkplaceData')->name('getSubWorkplaceData');
     Route::post('/updateTraining', 'HomeController@updateTraining')->name('updateTraining');
     Route::post('/updateInterview', 'HomeController@updateInterview')->name('updateInterview');
     Route::post('/updatePreferences', 'HomeController@updatePreferences')->name('updatePreferences');
@@ -126,7 +102,6 @@ Route::prefix('nurse')->name('nurse.')->namespace('App\Http\Controllers\nurse')-
     Route::post('/deleteImg', 'HomeController@deleteImg')->name('deleteImg');
     Route::post('/deleteImg1', 'HomeController@deleteImg1')->name('deleteImg1');
     Route::post('/deleteImgCert', 'HomeController@deleteImgCert')->name('deleteImgCert');
-    Route::post('/deleteanoImgcert', 'HomeController@deleteanoImgcert')->name('deleteanoImgcert');
     Route::post('/uploadImgs', 'HomeController@uploadImgs')->name('uploadImgs');
     Route::post('/uploadImgs1', 'HomeController@uploadImgs1')->name('uploadImgs1');
     Route::post('/uploadmantraImgs1', 'HomeController@uploadmantraImgs1')->name('uploadmantraImgs1');
@@ -147,15 +122,7 @@ Route::prefix('nurse')->name('nurse.')->namespace('App\Http\Controllers\nurse')-
     Route::any('/getVaccinationData', 'HomeController@getVaccinationData')->name('getVaccinationData');
     Route::any('/removeEvidanceFile','HomeController@removeEvidanceFile')->name('removeEvidanceFile');
     Route::any('/removeEvidance','HomeController@removeEvidance')->name('removeEvidance');
-
-    /**************[Registeration & Licences]**************/
-  Route::get('/registration_licences', 'LicencesContoller@registration_licences')->name('registration_licences');
-  Route::post('/ahepra_lookup', 'LicencesContoller@ahepra_lookup')->name('ahepra_lookup');
-  Route::post('/update_registration_licenses', 'LicencesContoller@update_registration_licenses')->name('update_registration_licenses');
-  Route::post('/uploadLicensesEvidenceImgs', 'LicencesContoller@uploadLicensesEvidenceImgs')->name('uploadLicensesEvidenceImgs');
-  Route::post('/deleteLicensesEvidenceImg', 'LicencesContoller@deleteLicensesEvidenceImg')->name('deleteLicensesEvidenceImg');
-	Route::get('/ahpra-lookup/{number}', 'AhpraLookupsController@lookup1')->name('lookup1');
-  
+	
 	/**************[Work Clearance]**************/
   Route::any('/workClearances','ProfessionalController@workClearances')->name('workClearances');
   Route::post('/update-profession-user-eligibility', 'ProfessionalController@update_eligibility_to_work')->name('update-profession-user-eligibility');
@@ -176,14 +143,6 @@ Route::prefix('nurse')->name('nurse.')->namespace('App\Http\Controllers\nurse')-
   Route::get('/setting_availablity', 'HomeController@setting_availablity')->name('setting_availablity');
   Route::post('/update-profession-profile-setting', 'HomeController@update_profession_profile_setting')->name('update-profession-profile-setting');
   
-  /**************[Mandatory Training]**************/
-  Route::get('/mandatory_training', 'MandatortrainingController@mandatory_training')->name('mandatory_training');
-  Route::post('/uploadTrainingEvidenceImgs', 'MandatortrainingController@uploadTrainingEvidenceImgs')->name('uploadTrainingEvidenceImgs');
-  Route::get('/getMandatoryCourses', 'MandatortrainingController@getMandatoryCourses')->name('getMandatoryCourses');
-  Route::get('/getMandatoryCoursesName', 'MandatortrainingController@getMandatoryCoursesName')->name('getMandatoryCoursesName');
-  Route::post('/deleteTrainingEvidenceImg', 'MandatortrainingController@deleteTrainingEvidenceImg')->name('deleteTrainingEvidenceImg');
-  Route::post('/updateMandatoryTraining', 'MandatortrainingController@updateMandatoryTraining')->name('updateMandatoryTraining');
-  
   /**************[Professional Membership]**************/
   Route::any('/professionalMembership','ProfessionalController@professionalMembership')->name('professionalMembership');
   Route::any('/getCountryOrgnizations','ProfessionalController@getCountryOrgnizations')->name('getCountryOrgnizations');
@@ -197,58 +156,8 @@ Route::prefix('nurse')->name('nurse.')->namespace('App\Http\Controllers\nurse')-
   Route::post('/deleteEvidenceImg', 'ProfessionalController@deleteEvidenceImg')->name('deleteEvidenceImg');
   Route::post('/deleteAwardEvidenceImg', 'ProfessionalController@deleteAwardEvidenceImg')->name('deleteAwardEvidenceImg');
   
-  /**************[Language Skills]**************/
-  Route::get('/language_skills', 'LanguageSkillsContoller@index')->name('language_skills');
-  Route::get('/getLanguagesData', 'LanguageSkillsContoller@getLanguagesData')->name('getLanguagesData');
-  Route::get('/getSubLanguagesData', 'LanguageSkillsContoller@getSubLanguagesData')->name('getSubLanguagesData');
-  Route::get('/getTestLanguagesData', 'LanguageSkillsContoller@getTestLanguagesData')->name('getTestLanguagesData');
-  Route::post('/updateLanguageSkills', 'LanguageSkillsContoller@updateLanguageSkills')->name('updateLanguageSkills');
-  Route::post('/uploadlangEvidenceImgs', 'LanguageSkillsContoller@uploadlangEvidenceImgs')->name('uploadlangEvidenceImgs');
-  Route::post('/deletelangEvidenceImg', 'LanguageSkillsContoller@deletelangEvidenceImg')->name('deletelangEvidenceImg');   
-  
-  /**************[Work Preferences & Flexibility]**************/
-  Route::get('/match_percentage', 'WorkPreferencesController@match_percentage')->name('match_percentage');
-  Route::get('/sector_preferences', 'WorkPreferencesController@index')->name('sector_preferences');
-  Route::post('/updateSectorPreferences', 'WorkPreferencesController@updateSectorPreferences')->name('updateSectorPreferences');
-  Route::get('/work_environment_preferences', 'WorkPreferencesController@work_environment_preferences')->name('work_environment_preferences');
-  Route::post('/updateWorkPreferences', 'WorkPreferencesController@updateWorkPreferences')->name('updateWorkPreferences');
-  Route::get('/employeement_type_preferences', 'WorkPreferencesController@employeement_type_preferences')->name('employeement_type_preferences');
-  Route::get('/getEmpData', 'WorkPreferencesController@getEmpData')->name('getEmpData');
-  Route::get('/getEmpDataExp', 'HomeController@getEmpData')->name('getEmpDataExp');
-  Route::post('/updateEmpTypePreferences', 'WorkPreferencesController@updateEmpTypePreferences')->name('updateEmpTypePreferences');
-  Route::get('/WorkShiftPreferences', 'WorkPreferencesController@WorkShiftPreferences')->name('WorkShiftPreferences');
-  Route::post('/updateShiftPreferences', 'WorkPreferencesController@updateShiftPreferences')->name('updateShiftPreferences');
-  Route::get('/getSubWorkData', 'WorkPreferencesController@getSubWorkData')->name('getSubWorkData');
-  Route::get('/position_preferences', 'WorkPreferencesController@position_preferences')->name('position_preferences');
-  Route::post('/updatePositionPreferences', 'WorkPreferencesController@updatePositionPreferences')->name('updatePositionPreferences');
-  Route::get('/benefitsPreferences', 'WorkPreferencesController@benefitsPreferences')->name('benefitsPreferences');
-  Route::post('/updateBenefitsPreferences', 'WorkPreferencesController@updateBenefitsPreferences')->name('updateBenefitsPreferences');
-  Route::get('/locationPreferences', 'WorkPreferencesController@locationPreferences')->name('locationPreferences');
-  Route::post('/updateLocationPreferences', 'WorkPreferencesController@updateLocationPreferences')->name('updateLocationPreferences');
-  Route::get('/salaryExpectations', 'WorkPreferencesController@salaryExpectations')->name('salaryExpectations');
-  Route::post('/updatesalaryExpectations', 'WorkPreferencesController@updatesalaryExpectations')->name('updatesalaryExpectations');
-  
   /**************[Interview Preferences]**************/
   Route::any('/interview','ProfessionalController@interview')->name('interview');
   
-  /**************[Find Jobs]**************/
-  Route::get('/find_jobs', 'JobsController@index')->name('find_jobs');
-  Route::post('/getWorkFlexiblityData', 'JobsController@getWorkFlexiblityData')->name('getWorkFlexiblityData');  
-  Route::post('/getWorkEnvironmentData', 'JobsController@getWorkEnvironmentData')->name('getWorkEnvironmentData');  
-  Route::post('/getNurseData', 'JobsController@getNurseData')->name('getNurseData'); 
-  Route::post('/getSpecialityData', 'JobsController@getSpecialityData')->name('getSpecialityData'); 
-  Route::post('/getFilterData', 'JobsController@getFilterData')->name('getFilterData');  
-  Route::post('/getExperienceData', 'JobsController@getExperienceData')->name('getExperienceData');  
-  Route::post('/getFilterNurseData', 'JobsController@getFilterNurseData')->name('getFilterNurseData');
-  Route::post('/getFilterSpecialityData', 'JobsController@getFilterSpecialityData')->name('getFilterSpecialityData');  
-  Route::post('/updateSectorData', 'JobsController@updateSectorData')->name('updateSectorData');
-  Route::post('/getJobsSorting', 'JobsController@getJobsSorting')->name('getJobsSorting');
-  Route::post('/applyJobs', 'JobsController@applyJobs')->name('applyJobs');
-  Route::post('/addSavedSearches', 'JobsController@addSavedSearches')->name('addSavedSearches');
-  Route::post('/deleteSearchJobsData', 'JobsController@deleteSearchJobsData')->name('deleteSearchJobsData');
-  Route::post('/duplicateSearch', 'JobsController@duplicateSearch')->name('duplicateSearch');
-  Route::get('/getEditSearchData', 'JobsController@getEditSearchData')->name('getEditSearchData');
-  Route::post('deleteMultipleSearches', 'JobsController@deleteMultipleSearches')->name('deleteMultipleSearches');
-  Route::get('/getEmpDataSearch', 'JobsController@getEmpDataSearch')->name('getEmpDataSearch');
   });
 });
