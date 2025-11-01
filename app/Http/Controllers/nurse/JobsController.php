@@ -387,6 +387,7 @@ class JobsController extends Controller{
     }
 
     public function addSavedSearches(Request $request){
+        
         $user_id = Auth::guard('nurse_middle')->user()->id;
         $search_id = $request->search_id;
         $filter_location = $request->edit_filter_location;
@@ -399,13 +400,15 @@ class JobsController extends Controller{
         $search_name = $request->search_name;
         $alert_frequency = $request->alert_frequency;
         $delivery_method = $request->delivery_method;
+        $filters = $request->filters;
         $date = date("Y-m-d H:i:s");
 
         if($search_id){
-            $oldSearch = SavedSearches::where('searches_id', $search_id)->first();
+            $oldSearch = SavedSearches::find($search_id);
             $oldSearch->name = $search_name;
             $oldSearch->alert = $alert_frequency;
             $oldSearch->delivery = $delivery_method;
+            $oldSearch->filters = $filters;
             $oldSearch->location = $filter_location;
             $oldSearch->shift = $filter_shift;
             $oldSearch->preview_count = $filter_preview;
@@ -422,6 +425,7 @@ class JobsController extends Controller{
             $saved_searches->name = $search_name;
             $saved_searches->alert = $alert_frequency;
             $saved_searches->delivery = $delivery_method;
+            $saved_searches->filters = $filters;
             $saved_searches->created_at = $date;
             $run = $saved_searches->save();
 
@@ -522,189 +526,262 @@ class JobsController extends Controller{
     }
 
    public function getEmpDataSearch(Request $request)
-{
-    $id = $request->sub_prefer_id;
-    $filterType = $request->filter_type;
+    {
+        $id = $request->sub_prefer_id;
+        $filterType = $request->filter_type;
 
-    $response = $this->getFilterDataRecursive($filterType, $id);
+        $response = $this->getFilterDataRecursive($filterType, $id);
 
-    return response()->json($response);
-}
+        return response()->json($response);
+    }
 
-private function getFilterDataRecursive($filterType, $parentId)
-{
-    switch ($filterType) {
-        case 'employment_type':
-            $main = DB::table('employeement_type_preferences')
-                        ->where('emp_prefer_id', $parentId)
-                        ->first();
+    private function getFilterDataRecursive($filterType, $parentId)
+    {
+        switch ($filterType) {
+            case 'employment_type':
+                $main = DB::table('employeement_type_preferences')
+                            ->where('emp_prefer_id', $parentId)
+                            ->first();
 
-            $subs = DB::table('employeement_type_preferences')
-                        ->where('sub_prefer_id', $parentId)
-                        ->get();
+                $subs = DB::table('employeement_type_preferences')
+                            ->where('sub_prefer_id', $parentId)
+                            ->get();
 
-            $subtypes = [];
-            foreach ($subs as $s) {
-                $subtypes[] = [
-                    'id' => $s->emp_prefer_id,
-                    'name' => $s->emp_type,
-                    'subtypes' => $this->getFilterDataRecursive('employment_type', $s->emp_prefer_id)['subtypes'],
+                $subtypes = [];
+                foreach ($subs as $s) {
+                    $subtypes[] = [
+                        'id' => $s->emp_prefer_id,
+                        'name' => $s->emp_type,
+                        'subtypes' => $this->getFilterDataRecursive('employment_type', $s->emp_prefer_id)['subtypes'],
+                    ];
+                }
+
+                return [
+                    'main' => [
+                        'id' => $main->emp_prefer_id,
+                        'name' => $main->emp_type,
+                    ],
+                    'subtypes' => $subtypes,
+                    'has_subtypes' => count($subtypes) > 0,
                 ];
-            }
 
-            return [
-                'main' => [
-                    'id' => $main->emp_prefer_id,
-                    'name' => $main->emp_type,
-                ],
-                'subtypes' => $subtypes,
-                'has_subtypes' => count($subtypes) > 0,
-            ];
+            case 'work_shift':
+                $main = DB::table('work_shift_preferences')
+                            ->where('work_shift_id', $parentId)
+                            ->first();
 
-        case 'work_shift':
-            $main = DB::table('work_shift_preferences')
-                        ->where('work_shift_id', $parentId)
-                        ->first();
-
-            $subs = DB::table('work_shift_preferences')
-                    ->where(function ($q) use ($parentId) {
-                        // Level 2: direct sub-shifts (no sub_shift_id)
-                        $q->where(function ($q2) use ($parentId) {
-                            $q2->where('shift_id', $parentId)
-                            ->whereNull('sub_shift_id');
-                        })
-                        // Level 3: sub-shifts under another sub-shift
-                        ->orWhere(function ($q3) use ($parentId) {
-                            $q3->where('sub_shift_id', $parentId);
-                        });
-                    })
-                    ->get();
-
-
-
-            $subtypes = [];
-            foreach ($subs as $s) {
-                $subtypes[] = [
-                    'id' => $s->work_shift_id,
-                    'name' => $s->shift_name,
-                    'subtypes' => $this->getFilterDataRecursive('work_shift', $s->work_shift_id)['subtypes'],
-                ];
-            }
-
-            return [
-                'main' => [
-                    'id' => $main->work_shift_id ?? null,
-                    'name' => $main->shift_name ?? null,
-                ],
-                'subtypes' => $subtypes,
-                'has_subtypes' => count($subtypes) > 0,
-            ];
-        case 'work_environment':
-            // Fetch the main parent record
-            $main = DB::table('work_enviornment_preferences')
-                ->where('prefer_id', $parentId)
-                ->first();
-
-            $subs = DB::table('work_enviornment_preferences')
-                    ->where(function ($q) use ($parentId) {
-                        // Level 2: direct sub-environments (sub_env_id = parentId AND sub_envp_id = 0 or null)
-                        $q->where(function ($q2) use ($parentId) {
-                            $q2->where('sub_env_id', $parentId)
-                            ->where(function ($q3) {
-                                $q3->whereNull('sub_envp_id')
-                                    ->orWhere('sub_envp_id', 0);
+                $subs = DB::table('work_shift_preferences')
+                        ->where(function ($q) use ($parentId) {
+                            // Level 2: direct sub-shifts (no sub_shift_id)
+                            $q->where(function ($q2) use ($parentId) {
+                                $q2->where('shift_id', $parentId)
+                                ->whereNull('sub_shift_id');
+                            })
+                            // Level 3: sub-shifts under another sub-shift
+                            ->orWhere(function ($q3) use ($parentId) {
+                                $q3->where('sub_shift_id', $parentId);
                             });
                         })
-                        // Level 3: deeper sub-environments (sub_envp_id = parentId)
-                        ->orWhere(function ($q4) use ($parentId) {
-                            $q4->where('sub_envp_id', $parentId);
-                        });
-                    })
-                    ->get();
-
-
-            $subtypes = [];
-            foreach ($subs as $s) {
-                $subtypes[] = [
-                    'id' => $s->prefer_id,
-                    'name' => $s->env_name,
-                    'subtypes' => $this->getFilterDataRecursive('work_environment', $s->prefer_id)['subtypes'] ?? [],
-                ];
-            }
-
-            // Final structured response
-            return [
-                'main' => [
-                    'id' => $main->prefer_id ?? null,
-                    'name' => $main->env_name ?? null,
-                ],
-                'subtypes' => $subtypes,
-                'has_subtypes' => count($subtypes) > 0,
-            ];
-
-        case 'employee_positions':
-            $main = DB::table('employee_positions')
-                        ->where('position_id', $parentId)
-                        ->first();
-
-            $subs = DB::table('employee_positions')
-                        ->where('subposition_id', $parentId)
                         ->get();
 
-            $subtypes = [];
-            foreach ($subs as $s) {
-                $subtypes[] = [
-                    'id' => $s->position_id,
-                    'name' => $s->position_name,
-                    'subtypes' => $this->getFilterDataRecursive('employee_positions', $s->position_id)['subtypes'],
+
+
+                $subtypes = [];
+                foreach ($subs as $s) {
+                    $subtypes[] = [
+                        'id' => $s->work_shift_id,
+                        'name' => $s->shift_name,
+                        'subtypes' => $this->getFilterDataRecursive('work_shift', $s->work_shift_id)['subtypes'],
+                    ];
+                }
+
+                return [
+                    'main' => [
+                        'id' => $main->work_shift_id ?? null,
+                        'name' => $main->shift_name ?? null,
+                    ],
+                    'subtypes' => $subtypes,
+                    'has_subtypes' => count($subtypes) > 0,
                 ];
-            }
+            case 'work_environment':
+                // Fetch the main parent record
+                $main = DB::table('work_enviornment_preferences')
+                    ->where('prefer_id', $parentId)
+                    ->first();
 
-            return [
-                'main' => [
-                    'id' => $main->position_id,
-                    'name' => $main->position_name,
-                ],
-                'subtypes' => $subtypes,
-                'has_subtypes' => count($subtypes) > 0,
-            ];    
-
-        case 'benefits_preferences':
-            $main = DB::table('benefits_preferences')
-                        ->where('benefits_id', $parentId)
-                        ->first();
-
-            $subs = DB::table('benefits_preferences')
-                        ->where('subbenefit_id', $parentId)
+                $subs = DB::table('work_enviornment_preferences')
+                        ->where(function ($q) use ($parentId) {
+                            // Level 2: direct sub-environments (sub_env_id = parentId AND sub_envp_id = 0 or null)
+                            $q->where(function ($q2) use ($parentId) {
+                                $q2->where('sub_env_id', $parentId)
+                                ->where(function ($q3) {
+                                    $q3->whereNull('sub_envp_id')
+                                        ->orWhere('sub_envp_id', 0);
+                                });
+                            })
+                            // Level 3: deeper sub-environments (sub_envp_id = parentId)
+                            ->orWhere(function ($q4) use ($parentId) {
+                                $q4->where('sub_envp_id', $parentId);
+                            });
+                        })
                         ->get();
 
-            $subtypes = [];
-            foreach ($subs as $s) {
-                $subtypes[] = [
-                    'id' => $s->benefits_id,
-                    'name' => $s->benefits_name,
-                    'subtypes' => $this->getFilterDataRecursive('benefits_preferences', $s->benefits_id)['subtypes'],
+
+                $subtypes = [];
+                foreach ($subs as $s) {
+                    $subtypes[] = [
+                        'id' => $s->prefer_id,
+                        'name' => $s->env_name,
+                        'subtypes' => $this->getFilterDataRecursive('work_environment', $s->prefer_id)['subtypes'] ?? [],
+                    ];
+                }
+
+                // Final structured response
+                return [
+                    'main' => [
+                        'id' => $main->prefer_id ?? null,
+                        'name' => $main->env_name ?? null,
+                    ],
+                    'subtypes' => $subtypes,
+                    'has_subtypes' => count($subtypes) > 0,
                 ];
-            }
 
-            return [
-                'main' => [
-                    'id' => $main->benefits_id,
-                    'name' => $main->benefits_name,
-                ],
-                'subtypes' => $subtypes,
-                'has_subtypes' => count($subtypes) > 0,
-            ];        
+            case 'employee_positions':
+                $main = DB::table('employee_positions')
+                            ->where('position_id', $parentId)
+                            ->first();
+
+                $subs = DB::table('employee_positions')
+                            ->where('subposition_id', $parentId)
+                            ->get();
+
+                $subtypes = [];
+                foreach ($subs as $s) {
+                    $subtypes[] = [
+                        'id' => $s->position_id,
+                        'name' => $s->position_name,
+                        'subtypes' => $this->getFilterDataRecursive('employee_positions', $s->position_id)['subtypes'],
+                    ];
+                }
+
+                return [
+                    'main' => [
+                        'id' => $main->position_id,
+                        'name' => $main->position_name,
+                    ],
+                    'subtypes' => $subtypes,
+                    'has_subtypes' => count($subtypes) > 0,
+                ];    
+
+            case 'benefits_preferences':
+                $main = DB::table('benefits_preferences')
+                            ->where('benefits_id', $parentId)
+                            ->first();
+
+                $subs = DB::table('benefits_preferences')
+                            ->where('subbenefit_id', $parentId)
+                            ->get();
+
+                $subtypes = [];
+                foreach ($subs as $s) {
+                    $subtypes[] = [
+                        'id' => $s->benefits_id,
+                        'name' => $s->benefits_name,
+                        'subtypes' => $this->getFilterDataRecursive('benefits_preferences', $s->benefits_id)['subtypes'],
+                    ];
+                }
+
+                return [
+                    'main' => [
+                        'id' => $main->benefits_id,
+                        'name' => $main->benefits_name,
+                    ],
+                    'subtypes' => $subtypes,
+                    'has_subtypes' => count($subtypes) > 0,
+                ];        
+
+            case 'nurse_type':
+                // Fetch the main parent record
+                $main = DB::table('practitioner_type')
+                    ->where('id', $parentId)
+                    ->first();
+
+                $subs = DB::table('practitioner_type')
+                                ->where('parent', $parentId)
+                                ->get();
 
 
-        default:
-            return [
-                'main' => null,
-                'subtypes' => [],
-                'has_subtypes' => false,
-            ];
+                $subtypes = [];
+                foreach ($subs as $s) {
+                    $subtypes[] = [
+                        'id' => $s->id,
+                        'name' => $s->name,
+                        'subtypes' => $this->getFilterDataRecursive('work_environment', $s->id)['subtypes'] ?? [],
+                    ];
+                }
+
+                // Final structured response
+                return [
+                    'main' => [
+                        'id' => $main->id ?? null,
+                        'name' => $main->name ?? null,
+                    ],
+                    'subtypes' => $subtypes,
+                    'has_subtypes' => count($subtypes) > 0,
+                ];    
+
+            case 'speciality':
+                // Fetch the main parent record
+                $main = DB::table('speciality')
+                    ->where('id', $parentId)
+                    ->first();
+
+                $subs = DB::table('speciality')
+                                ->where('parent', $parentId)
+                                ->get();
+
+
+                $subtypes = [];
+                foreach ($subs as $s) {
+                    $subtypes[] = [
+                        'id' => $s->id,
+                        'name' => $s->name,
+                        'subtypes' => $this->getFilterDataRecursive('speciality', $s->id)['subtypes'] ?? [],
+                    ];
+                }
+
+                // Final structured response
+                return [
+                    'main' => [
+                        'id' => $main->id ?? null,
+                        'name' => $main->name ?? null,
+                    ],
+                    'subtypes' => $subtypes,
+                    'has_subtypes' => count($subtypes) > 0,
+                ];        
+
+
+            default:
+                return [
+                    'main' => null,
+                    'subtypes' => [],
+                    'has_subtypes' => false,
+                ];
+        }
     }
-}
+
+    public function getSavedSearch(Request $request)
+    {
+        $searches_id = $request->id;
+        $search = SavedSearches::find($searches_id);
+
+        $filters = json_decode($search->filters, true); // decode JSON to array
+
+        return response()->json([
+            'search' => $search,
+            'filters' => $filters,
+        ]);
+    }
 
 
 

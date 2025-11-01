@@ -9,5 +9,6 @@ class SavedSearches extends Model
 {
     use HasFactory;
     protected $table = 'saved_searches';
+    protected $primaryKey = 'searches_id';
     protected $guarded =[];
 }

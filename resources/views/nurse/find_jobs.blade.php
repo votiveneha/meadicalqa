@@ -1135,6 +1135,46 @@
                     </td>
                   </tr>
                   @php
+                    $filters = json_decode($saved_searches->filters, true);
+                    
+                  @endphp
+
+                  @if($filters)
+                  <tr class="filter-summary-row">
+                    <td></td>
+                    <td colspan="5">
+                      <div class="filter-summary">
+                        @foreach($filters as $key => $value)
+                          @if(is_array($value) && isset($value['min']) && isset($value['max']))
+                            {{-- Salary Range --}}
+                            <div class="filter-line">
+                              <strong>{{ ucwords(str_replace('_', ' ', $key)) }}:</strong>
+                              <span class="chip">${{ number_format($value['min']) }} – ${{ number_format($value['max']) }}</span>
+                            </div>
+
+                          @elseif(is_array($value) && !empty($value))
+                            {{-- Array fields (like multiple selections) --}}
+                            <div class="filter-line">
+                              <strong>{{ ucwords(str_replace('_', ' ', $key)) }}:</strong>
+                              @foreach($value as $item)
+                                <span class="chip">{{ $item }}</span>
+                              @endforeach
+                            </div>
+
+                          @elseif(!is_array($value) && !empty($value))
+                            {{-- Simple key-value pairs --}}
+                            <div class="filter-line">
+                              <strong>{{ ucwords(str_replace('_', ' ', $key)) }}:</strong>
+                              <span class="chip">{{ $value }}</span>
+                            </div>
+                          @endif
+                        @endforeach
+
+                      </div>
+                    </td>
+                  </tr>
+                  @endif
+                  @php
                     $i++;
                   @endphp
                   @endforeach
@@ -1244,6 +1284,7 @@
 
     $(document).on('click', '.btn-edit', function(){
       editId = $(this).closest('tr').data('id');
+      var search_id = $(this).closest('tr').data('value');
       const row = $(this).closest('tr');
       $('#drawer-title').text('Edit Search');
       $('#search-name').val(row.find('td:first').text());
@@ -1256,7 +1297,11 @@
       $('#quiet-start').val('');
       $('#quiet-end').val('');
       $('#search-notes').val('');
+      $('#search_id').val(search_id);
       $('#drawer').addClass('open');
+      $(".drawer-overlay").fadeIn(200);
+      
+
     });
 
     $('#drawer-save').click(function(){
@@ -1276,7 +1321,10 @@
     });
 
     // Cancel drawer
-    $('#drawer-cancel').click(function(){ $('#drawer').removeClass('open'); });
+    $('#drawer-cancel').click(function(){ 
+      $('#drawer').removeClass('open'); 
+      $(".drawer-overlay").hide();
+    });
 
     // Duplicate
     let duplicateData = {}; // to store temporary data

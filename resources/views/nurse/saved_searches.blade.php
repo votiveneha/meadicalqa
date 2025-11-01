@@ -57,6 +57,7 @@
     </div>
   </div>
 </div>
+<div class="drawer-overlay"></div>
 <div class="edit_side_drawer">
     <!-- SIDE DRAWER -->
     <div class="drawer" id="drawer">
@@ -96,7 +97,7 @@
                         @endforeach
                         
                     </div>
-                    <div class="subpagedata">
+                    <div class="subpagedata-employment_type">
                         <!-- <div class="subpage-header">
                         <span class="back-btn">&#8249;</span><h4>Permanent</h4>
                         </div>
@@ -122,6 +123,16 @@
                         @endforeach
                         
                     </div>
+                    <div class="subpagedata-work_shift">
+                        <!-- <div class="subpage-header">
+                        <span class="back-btn">&#8249;</span><h4>Permanent</h4>
+                        </div>
+                        <div class="subpage-content">
+                        <p style="font-size:14px;color:#555;">Detailed options for <b>Permanent</b> roles can appear here.</p>
+                        <label><input type="checkbox"> Full Time</label>
+                        <label><input type="checkbox"> Part Time</label>
+                        </div> -->
+                    </div>
                 </div>
                 <div class="filter-section">
                     <div class="filter-title">
@@ -140,7 +151,7 @@
 
                         
                     </div>
-                    <div class="subpagedata">
+                    <div class="subpagedata-work_environment">
                         <!-- <div class="subpage-header">
                         <span class="back-btn">&#8249;</span><h4>Permanent</h4>
                         </div>
@@ -168,7 +179,7 @@
 
                         
                     </div>
-                    <div class="subpagedata">
+                    <div class="subpagedata-employee_positions">
                         <!-- <div class="subpage-header">
                         <span class="back-btn">&#8249;</span><h4>Permanent</h4>
                         </div>
@@ -197,7 +208,120 @@
 
                         
                     </div>
+                    <div class="subpagedata-benefits_preferences">
+                        
+                    </div>
+                </div>
+                <div class="filter-section">
+                    <div class="filter-title">
+                        <span>Location Preferences</span>
+                        <span class="icon">&#8250;</span>
+                    </div>
+                    <div class="filter-options">
+                        <label><input type="radio" class="edit_location_radio" name="edit_location" value="Current Location (Auto-detect optional)"> Current Location (Auto-detect optional) </label>
+                        <label><input type="radio" class="edit_location_radio" name="edit_location" value="Multiple Locations"> Multiple Locations </label>
+                        <label><input type="radio" class="edit_location_radio" name="edit_location" value="International"> International</label>
+                    </div>
                     <div class="subpagedata">
+                        <div class="subpage subpage-current">
+                            <div class="subpage-header">
+                                <span class="back-btn">&#8249;</span>
+                                <h4>Current Location</h4>
+                            </div>
+                            <div class="subpage-content">
+                                <div id="preferredLocationInput" class="mb-3">
+                                    <label class="form-label fw-bold">Preferred Location</label>
+                                    <input type="text" id="locationSearch" class="form-control" value="{{ $work_preferences_data->prefered_location_current }}" placeholder="Search city / postcode / hospital">
+                                    <div id="locationTags" class="mt-2"></div>
+                                </div>
+
+                                <!-- Travel Distance Slider -->
+                                <div id="travelDistanceContainer" class="mb-3">
+                                    <label class="form-label fw-bold">Maximum Travel Distance</label>
+                                    <input type="range" id="travelDistance" min="5" max="100" step="5" value="20" class="form-range">
+                                    <span id="distanceValue" class="fw-semibold">20 km</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="subpage subpage-multiple">
+                            <div class="subpage-header">
+                                <span class="back-btn">&#8249;</span>
+                                <h4>Multiple Location</h4>
+                            </div>
+                            <div class="subpage-content">
+                                <div id="preferredLocationInput" class="mb-3">
+                                    <label class="form-label fw-bold">Preferred Location</label>
+                                    <input type="text" id="locationSearch" class="form-control" value="{{ $work_preferences_data->prefered_location_current }}" placeholder="Search city / postcode / hospital">
+                                    <div id="locationTags" class="mt-2"></div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="subpage subpage-international">
+                            <div class="subpage-header">
+                                <span class="back-btn">&#8249;</span>
+                                <h4>International Location</h4>
+                            </div>
+                            <div class="subpage-content">
+                                <div class="row">
+                                    <div class="col-6 col-md-4">
+                                    <div class="form-check"><input type="checkbox" class="form-check-input"> Canada</div>
+                                    <div class="form-check"><input type="checkbox" class="form-check-input"> Hong Kong</div>
+                                    <div class="form-check"><input type="checkbox" class="form-check-input"> Ireland</div>
+                                    <div class="form-check"><input type="checkbox" class="form-check-input"> Jamaica</div>
+                                    </div>
+                                    <div class="col-6 col-md-4">
+                                    <div class="form-check"><input type="checkbox" class="form-check-input"> New Zealand</div>
+                                    <div class="form-check"><input type="checkbox" class="form-check-input"> Singapore</div>
+                                    <div class="form-check"><input type="checkbox" class="form-check-input"> South Africa</div>
+                                    </div>
+                                    <div class="col-6 col-md-4">
+                                    <div class="form-check"><input type="checkbox" class="form-check-input"> United Kingdom</div>
+                                    <div class="form-check"><input type="checkbox" class="form-check-input"> United States</div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="filter-section">
+                    <div class="filter-title">
+                        <span>Type of nurse</span>
+                        <span class="icon">&#8250;</span>
+                    </div>
+                    <div class="filter-options">
+                        @foreach($type_of_nurse as $nurse_type)
+                        <label class="sub-heading nurse-type-{{ $nurse_type->id }}" data-name="Nurse Type" data-filter="nurse_type" data-value="{{ $nurse_type->id }}"><input type="checkbox" value="{{ $nurse_type->name }}"> {{ $nurse_type->name }}</label>
+                        
+                        @endforeach
+                        
+                    </div>
+                    <div class="subpagedata-nurse_type">
+                        <!-- <div class="subpage-header">
+                        <span class="back-btn">&#8249;</span><h4>Permanent</h4>
+                        </div>
+                        <div class="subpage-content">
+                        <p style="font-size:14px;color:#555;">Detailed options for <b>Permanent</b> roles can appear here.</p>
+                        <label><input type="checkbox"> Full Time</label>
+                        <label><input type="checkbox"> Part Time</label>
+                        </div> -->
+                    </div>
+                    
+                </div>
+                <div class="filter-section">
+                    <div class="filter-title">
+                        <span>Specialty</span>
+                        <span class="icon">&#8250;</span>
+                    </div>
+                    <div class="filter-options">
+                        @foreach($speciality as $spec)
+                        <label class="sub-heading nurse-type-{{ $spec->id }}" data-name="Speciality" data-filter="speciality" data-value="{{ $spec->id }}"><input type="checkbox" value="{{ $spec->name }}"> {{ $spec->name }}</label>
+                        
+                        @endforeach
+                        
+                    </div>
+                    <div class="subpagedata-speciality">
                         <!-- <div class="subpage-header">
                         <span class="back-btn">&#8249;</span><h4>Permanent</h4>
                         </div>
@@ -210,38 +334,39 @@
                 </div>
                 <div class="filter-section">
                     <div class="filter-title">
-                        <span>Location Preferences</span>
-                        <span class="icon">&#8250;</span>
-                    </div>
-                    
-                </div>
-                <div class="filter-section">
-                    <div class="filter-title">
-                        <span>Type of nurse</span>
-                        <span class="icon">&#8250;</span>
-                    </div>
-                    
-                </div>
-                <div class="filter-section">
-                    <div class="filter-title">
-                        <span>Specialty</span>
-                        <span class="icon">&#8250;</span>
-                    </div>
-                    
-                </div>
-                <div class="filter-section">
-                    <div class="filter-title">
                         <span>Years of Experience</span>
                         <span class="icon">&#8250;</span>
                     </div>
-                    
+                    <div class="filter-options">
+                        <div class="form-group level-drp">
+                            <label>Experience(In Year)</label>
+                            <input type="number" id="year_experience" class="form-control" name="year_experience">
+                        </div>
+                        
+                    </div>
                 </div>
                 <div class="filter-section">
                     <div class="filter-title">
                         <span>Salary Range</span>
                         <span class="icon">&#8250;</span>
                     </div>
-                    
+                    <div class="filter-options">
+                        <div class="salary-range-wrapper">
+                            <label class="filter-label">Salary Range</label>
+                            <div class="range-container">
+                                <div class="slider-track"></div>
+                                <input type="range" id="minSalary1" min="0" max="200000" step="1000" value="30000">
+                                <input type="range" id="maxSalary1" min="0" max="200000" step="1000" value="120000">
+                            </div>
+                            <div class="salary-values">
+                                <span id="minSalaryValue1">₹30,000</span> - 
+                                <span id="maxSalaryValue1">₹1,20,000</span>
+                            </div>
+                        </div>
+
+
+                        
+                    </div>
                 </div>
                 
                 <!-- <div class="form-group level-drp">
@@ -314,23 +439,26 @@
         $(this).next('.filter-options').slideToggle(200);
     });
 
-    // Handle click on first-level filters
+    const subpageStack = []; // Track navigation history
+
+    // Handle first-level filter click
     $(document).on("click", ".sub-heading[data-value]", function (e) {
         const $this = $(this);
         const id = $this.data("value");
-        const filterType = $this.data("filter"); // 'employment_type' or 'work_shift'
+        const filterType = $this.data("filter");
         const filterName = $this.data("name");
 
-        // Only proceed when checkbox is checked
+        // Only trigger if checkbox is checked
         if (!$this.find('input[type="checkbox"]').prop('checked')) return;
 
+        //const uniqueKey = `${filterType}-${id}`;
         fetchAndBuildSubPage(filterName, filterType, id);
     });
 
-    /**
-     * Fetch data from Laravel and build subpage
-     */
+
     function fetchAndBuildSubPage(filterName, filterType, id) {
+        const uniqueKey = `${filterType}-${id}`; // 👈 unique per filterType + id
+
         $.ajax({
             type: "GET",
             url: "{{ url('/nurse/getEmpDataSearch') }}",
@@ -341,12 +469,11 @@
             },
             cache: false,
             success: function (data) {
-                if (!data.main) {
+                if (!data.main || !data.subtypes || data.subtypes.length === 0) {
                     showToast("No data found for this filter.");
                     return;
                 }
-
-                buildSubPage(data, filterType);
+                buildSubPage(data, filterType, uniqueKey);
             },
             error: function (xhr) {
                 console.error("Error:", xhr.responseText);
@@ -354,67 +481,69 @@
         });
     }
 
-    /**
-     * Recursively build subpages based on returned data
-     */
-    function buildSubPage(filterData, filterType) {
+    function buildSubPage(filterData, filterType, uniqueKey) {
         const mainId = filterData.main.id;
+        const mainName = filterData.main.name;
 
-        // If subpage already exists, just show it
-        if ($(".subpage-" + mainId).length) {
-            $(".subpage-" + mainId).addClass("active");
+        // Hide current active page (if any)
+        const $activePage = $(".subpage.active");
+        if ($activePage.length) {
+            subpageStack.push($activePage);
+            $activePage.removeClass("active");
+        }
+
+        // Avoid duplicates
+        if ($(".subpage-" + uniqueKey).length) {
+            $(".subpage-" + uniqueKey).addClass("active");
             return;
         }
 
+        // Build sub-options
         let subOptions = '';
-
-        if (filterData.subtypes && filterData.subtypes.length > 0) {
-            filterData.subtypes.forEach(function (sub) {
-                subOptions += `
-                    <label class="sub-heading sub-heading-${sub.id}" 
-                           data-name="${sub.name}" 
-                           data-filter="${filterType}" 
-                           data-value="${sub.id}">
-                        <input type="checkbox" value="${sub.name}"> ${sub.name}
-                    </label>
-                `;
-            });
-            
-
-            // Create new subpage dynamically
-            const subpageHTML = `
-                <div class="subpage subpage-${mainId}">
-                    <div class="subpage-header">
-                        <span class="back-btn">&#8249;</span>
-                        <h4>${filterData.main.name}</h4>
-                    </div>
-                    <div class="subpage-content">
-                        ${subOptions}
-                    </div>
-                </div>
-            `;
-
-            $(".subpagedata").append(subpageHTML);
-
-        } else {
-            subOptions = `<p class="no-options">No sub-options available.</p>`;
-        }
-        
-
-        // Activate this page
-        $(".subpage-" + mainId).addClass("active");
-
-        // Handle back navigation
-        $(".subpage-" + mainId + " .back-btn").on("click", function () {
-            $(this).closest(".subpage").removeClass("active").remove();
+        filterData.subtypes.forEach(function (sub) {
+            subOptions += `
+                <label class="sub-heading sub-heading-${filterType}-${sub.id}" 
+                    data-name="${sub.name}" 
+                    data-filter="${filterType}" 
+                    data-value="${sub.id}">
+                    <input type="checkbox" value="${sub.name}" name="${filterType}[]"> ${sub.name}
+                </label>`;
         });
 
-        // Bind event for dynamically generated nested subtypes
-        $(".subpage-" + mainId + " .sub-heading input[type='checkbox']").off('change').on('change', function () {
-            const parentLabel = $(this).closest('.sub-heading');
-            const subId = parentLabel.data("value");
-            const subName = parentLabel.data("name");
-            const subFilterType = parentLabel.data("filter");
+        // Create new subpage (with uniqueKey)
+        const subpageHTML = `
+            <div class="subpage subpage-${uniqueKey}">
+                <div class="subpage-header">
+                    <span class="back-btn">&#8249;</span>
+                    <h4>${mainName}</h4>
+                </div>
+                <div class="subpage-content">
+                    ${subOptions}
+                </div>
+            </div>`;
+
+        // Append to its specific drawer
+        $(".subpagedata-" + filterType).append(subpageHTML);
+
+        const $newPage = $(".subpage-" + uniqueKey);
+        $newPage.addClass("active");
+
+        // Back button handler
+        $newPage.find(".back-btn").on("click", function () {
+            $newPage.removeClass("active");
+
+            if (subpageStack.length > 0) {
+                const $prevPage = subpageStack.pop();
+                $prevPage.addClass("active");
+            }
+        });
+
+        // Nested checkbox subtypes
+        $newPage.find(".sub-heading input[type='checkbox']").off('change').on('change', function () {
+            const $label = $(this).closest('.sub-heading');
+            const subId = $label.data("value");
+            const subName = $label.data("name");
+            const subFilterType = $label.data("filter");
 
             if (this.checked) {
                 fetchAndBuildSubPage(subName, subFilterType, subId);
@@ -423,7 +552,59 @@
     }
 
 
-});
+        const $min = $('#minSalary1');
+        const $max = $('#maxSalary1');
+        const $minVal = $('#minSalaryValue1');
+        const $maxVal = $('#maxSalaryValue1');
+        const $track = $('.slider-track');
+
+        const minLimit = parseInt($min.attr('min'));
+        const maxLimit = parseInt($max.attr('max'));
+
+        function formatCurrency(value) {
+        return '₹' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+        function updateValues() {
+            let min = parseInt($min.val());
+            let max = parseInt($max.val());
+            
+            if (min > max - 1000) {
+                min = max - 1000;
+                $min.val(min);
+            }
+
+            const percent1 = ((min - minLimit) / (maxLimit - minLimit)) * 100;
+            const percent2 = ((max - minLimit) / (maxLimit - minLimit)) * 100;
+
+            $track.css({
+                background: `linear-gradient(to right, #ccc ${percent1}%, #e63946 ${percent1}%, #e63946 ${percent2}%, #ccc ${percent2}%)`
+            });
+
+            $minVal.text(formatCurrency(min));
+            $maxVal.text(formatCurrency(max));
+        }
+
+        $('input[type="range"]').on('input change', updateValues);
+        updateValues();
+
+        $('.edit_location_radio').on('change', function () {
+            const selected = $(this).val();
+            // Show drawer based on selected radio
+            if (selected === 'Current Location (Auto-detect optional)') {
+                $('.subpage-current').addClass("active");
+            } else if (selected === 'Multiple Locations') {
+                $('.subpage-multiple').addClass("active");
+            } else if (selected === 'International') {
+                $('.subpage-international').addClass("active");
+            }
+            
+        });
+        $(".subpage .back-btn").on("click", function () {
+            $(this).closest(".subpage").removeClass("active").remove();
+        });
+
+    });
 
     function add_saved_searches() {
         var isValid = true;
@@ -521,42 +702,137 @@
 
         // }
 
-        if (isValid == true) {
-            
+        let filterData = {};
+
+        // 1️⃣ SECTOR (radio)
+        const selectedSector = $('input[name="edit_sector"]:checked').val();
+        if (selectedSector) filterData['sector'] = selectedSector;
+
+        // 2️⃣ EMPLOYMENT TYPE (checkboxes)
+        const empTypes = [];
+        $('[data-filter="employment_type"] input[type="checkbox"]:checked, .emp-type input[type="checkbox"]').each(function () {
+            if ($(this).is(':checked')) empTypes.push($(this).val());
+        });
+        if (empTypes.length) filterData['employment_type'] = empTypes;
+
+        // 3️⃣ WORK SHIFT
+        const workShifts = [];
+        $('[data-filter="work_shift"] input[type="checkbox"]:checked').each(function () {
+            workShifts.push($(this).val());
+        });
+        if (workShifts.length) filterData['work_shift'] = workShifts;
+
+        // 4️⃣ WORK ENVIRONMENT
+        const workEnvs = [];
+        $('[data-filter="work_environment"] input[type="checkbox"]:checked').each(function () {
+            workEnvs.push($(this).val());
+        });
+        if (workEnvs.length) filterData['work_environment'] = workEnvs;
+
+        // 5️⃣ POSITION
+        const positions = [];
+        $('[data-filter="employee_positions"] input[type="checkbox"]:checked').each(function () {
+            positions.push($(this).val());
+        });
+        if (positions.length) filterData['employee_positions'] = positions;
+
+        // 6️⃣ BENEFITS
+        const benefits = [];
+        $('[data-filter="benefits_preferences"] input[type="checkbox"]:checked').each(function () {
+            benefits.push($(this).val());
+        });
+        if (benefits.length) filterData['benefits_preferences'] = benefits;
+
+        // 7️⃣ LOCATION PREFERENCE (radio)
+        const locationType = $('input[name="edit_location"]:checked').val();
+        if (locationType) {
+            filterData['location_type'] = locationType;
+
+            // Handle sub-drawers for each location type
+            if (locationType.includes('Current Location')) {
+                filterData['preferred_location'] = $('#locationSearch').val() || '';
+                filterData['max_travel_distance'] = $('#travelDistance').val() + ' km';
+            }
+            else if (locationType.includes('Multiple')) {
+                filterData['preferred_locations'] = $('#locationSearch').val() || '';
+            }
+            else if (locationType.includes('International')) {
+                const countries = [];
+                $('.subpage-international input[type="checkbox"]:checked').each(function () {
+                    countries.push($(this).parent().text().trim());
+                });
+                filterData['international_countries'] = countries;
+            }
+        }
+
+        // 8️⃣ TYPE OF NURSE
+        const nurseTypes = [];
+        $('[data-filter="nurse_type"] input[type="checkbox"]:checked').each(function () {
+            nurseTypes.push($(this).val());
+        });
+        if (nurseTypes.length) filterData['nurse_type'] = nurseTypes;
+
+        // 9️⃣ SPECIALTY
+        const specialties = [];
+        $('[data-filter="speciality"] input[type="checkbox"]:checked').each(function () {
+            specialties.push($(this).val());
+        });
+        if (specialties.length) filterData['speciality'] = specialties;
+
+        // 🔟 YEARS OF EXPERIENCE
+        const experience = $('#year_experience').val();
+        if (experience) filterData['years_of_experience'] = experience;
+
+        // 1️⃣1️⃣ SALARY RANGE
+        const minSalary = $('#minSalary1').val();
+        const maxSalary = $('#maxSalary1').val();
+        filterData['salary_range'] = {
+            min: parseInt(minSalary),
+            max: parseInt(maxSalary)
+        };
+
+        // ✅ OUTPUT JSON
+        console.log("FILTER JSON:", filterData);
+        console.log("JSON STRING:", JSON.stringify(filterData, null, 2));
+
+        let formData = new FormData($('#update_saved_searches')[0]);
+
+        // Make sure you add the filters JSON
+        formData.append('filters', JSON.stringify(filterData));
+
+        // Log all data before sending (to verify)
+        for (let pair of formData.entries()) {
+        console.log(pair[0] + ':', pair[1]);
+        }
+
+        if (isValid) {
             $.ajax({
-            url: "{{ route('nurse.addSavedSearches') }}",
-            type: "POST",
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: new FormData($('#update_saved_searches')[0]),
-            dataType: 'json',
-            beforeSend: function() {
-            $('#drawer-save').prop('disabled', true);
-            $('#drawer-save').text('Process....');
-            },
-            success: function(res) {
+                url: "{{ route('nurse.addSavedSearches') }}",
+                type: "POST",
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: formData,
+                dataType: 'json',
+                beforeSend: function() {
+                $('#drawer-save').prop('disabled', true).text('Processing...');
+                },
+                success: function(res) {
                 if (res.status == '1') {
-                    
                     showToast("Search Updated Successfully");
                 } else {
                     showToast(res.message);
-                    
                 }
-                $(".edit_side_drawer").hide();
-
-            },
-            error: function(errorss) {
-            $('#drawer-save').prop('disabled', false);
-            $('#drawer-save').text('Save Changes');
-            console.log("errorss", errorss);
-            for (var err in errorss.responseJSON.errors) {
-                $("#drawer-save").find("[name='" + err + "']").after("<div class='text-danger'>" + errorss.responseJSON.errors[err] + "</div>");
-            }
-            }
-        
+                $(".drawer-overlay, .edit_side_drawer").hide();
+                },
+                error: function(errorss) {
+                $('#drawer-save').prop('disabled', false).text('Save Changes');
+                console.log("errorss", errorss);
+                }
             });
         }
+
+
         return false;
     }
 
