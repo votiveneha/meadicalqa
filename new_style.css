@@ -1,1248 +1,1041 @@
--- Adminer 4.8.1 MySQL 10.6.23-MariaDB dump
-
-SET NAMES utf8;
-SET time_zone = '+00:00';
-SET foreign_key_checks = 0;
-SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
-
-DROP TABLE IF EXISTS `additional_information`;
-CREATE TABLE `additional_information` (
-  `info_id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `additional_info_language` text NOT NULL,
-  `volunteer_experience` text NOT NULL,
-  `hobbies_interests` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`info_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
-
-
-SET NAMES utf8mb4;
-
-DROP TABLE IF EXISTS `additional_training`;
-CREATE TABLE `additional_training` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) DEFAULT NULL,
-  `type` varchar(255) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
-DROP TABLE IF EXISTS `admin`;
-CREATE TABLE `admin` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) DEFAULT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `password` varchar(255) NOT NULL,
-  `image` varchar(255) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-
-DROP TABLE IF EXISTS `awards_recognitions`;
-CREATE TABLE `awards_recognitions` (
-  `award_id` int(11) NOT NULL AUTO_INCREMENT,
-  `award_name` text NOT NULL,
-  `sub_award_id` int(11) NOT NULL,
-  PRIMARY KEY (`award_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
-DROP TABLE IF EXISTS `awards_recognition_submission`;
-CREATE TABLE `awards_recognition_submission` (
-  `award_reg_id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) DEFAULT NULL,
-  `award_id` int(11) DEFAULT NULL,
-  `sub_award_id` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`award_reg_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
-DROP TABLE IF EXISTS `benefits_preferences`;
-CREATE TABLE `benefits_preferences` (
-  `benefits_id` int(11) NOT NULL AUTO_INCREMENT,
-  `benefits_name` text DEFAULT NULL,
-  `subbenefit_id` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`benefits_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
-DROP TABLE IF EXISTS `contact_us`;
-CREATE TABLE `contact_us` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(250) NOT NULL,
-  `lastname` varchar(255) NOT NULL,
-  `email` varchar(250) NOT NULL,
-  `phone_code_id` int(11) NOT NULL,
-  `phone_no` bigint(20) NOT NULL,
-  `message` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp(),
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
-
-
-DROP TABLE IF EXISTS `countries`;
-CREATE TABLE `countries` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `iso` char(2) NOT NULL,
-  `name` varchar(80) NOT NULL,
-  `nicename` varchar(80) NOT NULL,
-  `iso3` char(3) DEFAULT NULL,
-  `numcode` smallint(6) DEFAULT NULL,
-  `phonecode` int(5) NOT NULL,
-  `other` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
-
-DROP TABLE IF EXISTS `country`;
-CREATE TABLE `country` (
-  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL,
-  `iso3` char(3) DEFAULT NULL,
-  `numeric_code` char(3) DEFAULT NULL,
-  `iso2` char(2) DEFAULT NULL,
-  `phonecode` varchar(255) DEFAULT NULL,
-  `capital` varchar(255) DEFAULT NULL,
-  `currency` varchar(255) DEFAULT NULL,
-  `currency_name` varchar(255) DEFAULT NULL,
-  `currency_symbol` varchar(255) DEFAULT NULL,
-  `tld` varchar(255) DEFAULT NULL,
-  `native` varchar(255) DEFAULT NULL,
-  `region` varchar(255) DEFAULT NULL,
-  `subregion` varchar(255) DEFAULT NULL,
-  `nationality` varchar(255) DEFAULT NULL,
-  `timezones` text DEFAULT NULL,
-  `translations` text DEFAULT NULL,
-  `status` int(11) NOT NULL DEFAULT 1,
-  `latitude` decimal(10,8) DEFAULT NULL,
-  `longitude` decimal(11,8) DEFAULT NULL,
-  `emoji` varchar(191) DEFAULT NULL,
-  `emojiU` varchar(191) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `flag` tinyint(1) NOT NULL DEFAULT 1,
-  `wikiDataId` varchar(255) DEFAULT NULL COMMENT 'Rapid API GeoDB Cities',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-
-DROP TABLE IF EXISTS `degree`;
-CREATE TABLE `degree` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  `parent` int(11) NOT NULL DEFAULT 0,
-  `status` enum('0','1') NOT NULL DEFAULT '1',
-  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `updated_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
-DROP TABLE IF EXISTS `edu_fields`;
-CREATE TABLE `edu_fields` (
-  `edu_id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `acls_imgs` text DEFAULT NULL,
-  `bls_imgs` text DEFAULT NULL,
-  `cpr_imgs` text NOT NULL,
-  `nrp_imgs` text DEFAULT NULL,
-  `pls_imgs` text DEFAULT NULL,
-  `rn_imgs` text DEFAULT NULL,
-  `np_imgs` text DEFAULT NULL,
-  `cn_imgs` text DEFAULT NULL,
-  `lpn_imgs` text DEFAULT NULL,
-  `crna_imgs` text DEFAULT NULL,
-  `cnm_imgs` text DEFAULT NULL,
-  `ons_imgs` text DEFAULT NULL,
-  `msw_imgs` text DEFAULT NULL,
-  `ain_imgs` text DEFAULT NULL,
-  `rpn_imgs` text DEFAULT NULL,
-  `well_imgs` text DEFAULT NULL,
-  `tech_innvo_imgs` text DEFAULT NULL,
-  `leader_pro_imgs` text NOT NULL,
-  `mid_spec_imgs` text NOT NULL,
-  `clinic_skill_imgs` text DEFAULT NULL,
-  `eme_topic_imgs` text DEFAULT NULL,
-  `safety_com_imgs` text DEFAULT NULL,
-  `spec_area_imgs` text DEFAULT NULL,
-  `mid_spe_imgs` text DEFAULT NULL,
-  `core_man_imgs` text DEFAULT NULL,
-  `other_tran_img` text DEFAULT NULL,
-  `ano_education_imgs` text DEFAULT NULL,
-  `ano_certifi_imgs` text DEFAULT NULL,
-  PRIMARY KEY (`edu_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
-DROP TABLE IF EXISTS `eligibility_to_work`;
-CREATE TABLE `eligibility_to_work` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `residency` varchar(64) NOT NULL,
-  `support_document` varchar(64) NOT NULL,
-  `original_file_name` varchar(256) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `evidence_type` varchar(256) DEFAULT NULL,
-  `passport_number` varchar(255) DEFAULT NULL,
-  `country_id` int(11) NOT NULL,
-  `visa_subclass` int(11) DEFAULT NULL,
-  `other_visa_type` varchar(256) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `visa_grant_number` varchar(255) DEFAULT NULL,
-  `status` enum('0','1','2') NOT NULL DEFAULT '0',
-  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `updated_at` datetime NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
-
-
-DROP TABLE IF EXISTS `emergency_contact`;
-CREATE TABLE `emergency_contact` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `full_name` varchar(200) NOT NULL,
-  `emergency_contact` varchar(50) NOT NULL,
-  `relationship` varchar(100) NOT NULL,
-  `emergency_contact_code` varchar(10) NOT NULL,
-  `user_id` varchar(150) NOT NULL,
-  `status` enum('1','0') NOT NULL DEFAULT '1',
-  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `updated_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
-DROP TABLE IF EXISTS `employeement_type_preferences`;
-CREATE TABLE `employeement_type_preferences` (
-  `emp_prefer_id` int(11) NOT NULL AUTO_INCREMENT,
-  `emp_type` text NOT NULL,
-  `sub_prefer_id` int(11) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`emp_prefer_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
-DROP TABLE IF EXISTS `employee_positions`;
-CREATE TABLE `employee_positions` (
-  `position_id` int(11) NOT NULL AUTO_INCREMENT,
-  `position_name` text NOT NULL,
-  `subposition_id` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`position_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
-DROP TABLE IF EXISTS `evidance_file`;
-CREATE TABLE `evidance_file` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `vcc_front_id` int(11) NOT NULL,
-  `original_name` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `file_name` varchar(64) NOT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
-DROP TABLE IF EXISTS `evidence_type`;
-CREATE TABLE `evidence_type` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` text NOT NULL,
-  `status` enum('0','1') NOT NULL DEFAULT '1',
-  `type` varchar(255) DEFAULT NULL,
-  `dose` int(11) DEFAULT NULL,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `updated_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
-
-
-DROP TABLE IF EXISTS `failed_jobs`;
-CREATE TABLE `failed_jobs` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `uuid` varchar(255) NOT NULL,
-  `connection` text NOT NULL,
-  `queue` text NOT NULL,
-  `payload` longtext NOT NULL,
-  `exception` longtext NOT NULL,
-  `failed_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-
-DROP TABLE IF EXISTS `imm_status`;
-CREATE TABLE `imm_status` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` text NOT NULL,
-  `status` enum('0','1') NOT NULL DEFAULT '1',
-  `type` varchar(255) DEFAULT NULL,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `updated_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
-
-
-DROP TABLE IF EXISTS `interview_references`;
-CREATE TABLE `interview_references` (
-  `interview_id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `interview_availablity` datetime NOT NULL,
-  `reference_name` text NOT NULL,
-  `reference_email` text NOT NULL,
-  `contact_country_code` text NOT NULL,
-  `contact_country_iso` text NOT NULL,
-  `reference_contact` text NOT NULL,
-  `reference_relationship` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`interview_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
-DROP TABLE IF EXISTS `job_apply`;
-CREATE TABLE `job_apply` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `job_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
-DROP TABLE IF EXISTS `job_boxes`;
-CREATE TABLE `job_boxes` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nurse_type` text NOT NULL,
-  `typeofspeciality` text DEFAULT NULL,
-  `sector` text NOT NULL,
-  `location_name` text DEFAULT NULL,
-  `agency_name` text DEFAULT NULL,
-  `experience_level` text DEFAULT NULL,
-  `emplyeement_positions` text DEFAULT NULL,
-  `emplyeement_type` text DEFAULT NULL,
-  `shift_type` text DEFAULT NULL,
-  `work_environment` text DEFAULT NULL,
-  `benefits` text DEFAULT NULL,
-  `salary` text DEFAULT NULL,
-  `urgent_hire` int(11) DEFAULT NULL,
-  `application_submission_date` date DEFAULT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
-DROP TABLE IF EXISTS `languages`;
-CREATE TABLE `languages` (
-  `language_id` int(11) NOT NULL AUTO_INCREMENT,
-  `language_name` text NOT NULL,
-  `language_field` text NOT NULL,
-  `sub_language_id` int(11) DEFAULT NULL,
-  `test_id` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`language_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
-DROP TABLE IF EXISTS `language_skills`;
-CREATE TABLE `language_skills` (
-  `language_skills_id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) DEFAULT NULL,
-  `langprof_level` text DEFAULT NULL,
-  `english_prof_cert` text DEFAULT NULL,
-  `other_prof_cert` text DEFAULT NULL,
-  `specialized_lang_skills` text DEFAULT NULL,
-  `declare_info` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`language_skills_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
-DROP TABLE IF EXISTS `level_year`;
-CREATE TABLE `level_year` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  `status` enum('0','1') NOT NULL DEFAULT '1',
-  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `updated_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
-
-
-DROP TABLE IF EXISTS `mandatory_courses`;
-CREATE TABLE `mandatory_courses` (
-  `courses_id` int(11) NOT NULL AUTO_INCREMENT,
-  `courses_certifications` text DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`courses_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
-DROP TABLE IF EXISTS `mandatory_sub_courses`;
-CREATE TABLE `mandatory_sub_courses` (
-  `subcourses_id` int(11) NOT NULL AUTO_INCREMENT,
-  `mandatory_courses_id` int(11) DEFAULT NULL,
-  `subcourses` text DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`subcourses_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
-DROP TABLE IF EXISTS `mandatory_training`;
-CREATE TABLE `mandatory_training` (
-  `train_id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `start_date` date DEFAULT NULL,
-  `end_date` date DEFAULT NULL,
-  `institutions` text DEFAULT NULL,
-  `continuing_education` text DEFAULT NULL,
-  `man_training` text DEFAULT NULL,
-  `man_education` text DEFAULT NULL,
-  `well_sel_data` text DEFAULT NULL,
-  `tech_innvo_data` text DEFAULT NULL,
-  `leader_pro_data` text DEFAULT NULL,
-  `mid_spec_data` text DEFAULT NULL,
-  `clinic_skill_data` text DEFAULT NULL,
-  `other_tra_data` text DEFAULT NULL,
-  `emerg_topic_data` text DEFAULT NULL,
-  `safety_com_data` text DEFAULT NULL,
-  `spec_area_data` text DEFAULT NULL,
-  `mid_spe_data` text DEFAULT NULL,
-  `core_man_data` text DEFAULT NULL,
-  `other_edu_data` text DEFAULT NULL,
-  `training_data` text DEFAULT NULL,
-  `education_data` text DEFAULT NULL,
-  `declaration_status` int(11) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`train_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
-DROP TABLE IF EXISTS `man_training_category`;
-CREATE TABLE `man_training_category` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  `parent` int(11) NOT NULL DEFAULT 0,
-  `is_featured` int(11) NOT NULL DEFAULT 0,
-  `status` enum('0','1') NOT NULL DEFAULT '1',
-  `type` varchar(255) DEFAULT NULL,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `updated_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
-
-
-DROP TABLE IF EXISTS `membership_type`;
-CREATE TABLE `membership_type` (
-  `membership_id` int(11) NOT NULL AUTO_INCREMENT,
-  `membership_name` text NOT NULL,
-  `submember_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`membership_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
-DROP TABLE IF EXISTS `migrations`;
-CREATE TABLE `migrations` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `migration` varchar(255) NOT NULL,
-  `batch` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-
-DROP TABLE IF EXISTS `ndis_screening_check`;
-CREATE TABLE `ndis_screening_check` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `state_id` int(11) NOT NULL,
-  `clearance_number` varchar(256) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `expiry_date` date NOT NULL,
-  `evidence_file` varchar(64) NOT NULL,
-  `original_file_name` varchar(256) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
-DROP TABLE IF EXISTS `newsletter`;
-CREATE TABLE `newsletter` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `email` varchar(200) NOT NULL,
-  `status` int(11) NOT NULL DEFAULT 1,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `updated_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `deleted_at` date DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
-DROP TABLE IF EXISTS `other_evidance`;
-CREATE TABLE `other_evidance` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `other_vcc_id` int(11) NOT NULL,
-  `evidance_file` varchar(64) NOT NULL,
-  `original_name` varchar(256) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
-DROP TABLE IF EXISTS `other_vaccine`;
-CREATE TABLE `other_vaccine` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `vaccination_name` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `immunization_status` int(11) NOT NULL,
-  `evidence_type` text NOT NULL,
-  `evidence_file` varchar(64) NOT NULL,
-  `is_declare` tinyint(4) NOT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
-DROP TABLE IF EXISTS `password_reset_tokens`;
-CREATE TABLE `password_reset_tokens` (
-  `email` varchar(255) NOT NULL,
-  `token` varchar(255) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-
-DROP TABLE IF EXISTS `personal_access_tokens`;
-CREATE TABLE `personal_access_tokens` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `tokenable_type` varchar(255) NOT NULL,
-  `tokenable_id` bigint(20) unsigned NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `token` varchar(64) NOT NULL,
-  `abilities` text DEFAULT NULL,
-  `last_used_at` timestamp NULL DEFAULT NULL,
-  `expires_at` timestamp NULL DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `personal_access_tokens_token_unique` (`token`),
-  KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-
-DROP TABLE IF EXISTS `personal_preferences`;
-CREATE TABLE `personal_preferences` (
-  `prefer_id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `preferred_work_schedule` text NOT NULL,
-  `country` text NOT NULL,
-  `state` int(11) NOT NULL,
-  `specific_facilities` text NOT NULL,
-  `work_environment` text NOT NULL,
-  `shift_preferences` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`prefer_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
-DROP TABLE IF EXISTS `police_check`;
-CREATE TABLE `police_check` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) DEFAULT NULL,
-  `issuance_date` date DEFAULT NULL,
-  `evidence_file` varchar(64) DEFAULT NULL,
-  `original_file_name` varchar(256) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `reason` varchar(250) DEFAULT NULL,
-  `status` int(11) NOT NULL DEFAULT 0 COMMENT '1-approve/2-reject',
-  `is_declare` tinyint(4) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-
-DROP TABLE IF EXISTS `practitioner_type`;
-CREATE TABLE `practitioner_type` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) DEFAULT NULL,
-  `parent` varchar(255) NOT NULL DEFAULT '0' COMMENT 'if parent 0 speciality  else  sub speciality',
-  `is_featured` int(11) NOT NULL DEFAULT 0,
-  `status` enum('0','1') NOT NULL DEFAULT '1',
-  `nurse_level_order` int(11) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-
-DROP TABLE IF EXISTS `profession`;
-CREATE TABLE `profession` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `profession` int(11) NOT NULL,
-  `practitioner_type` int(11) NOT NULL,
-  `year_level` varchar(20) NOT NULL,
-  `evidence_type` int(11) NOT NULL,
-  `evidence_of_year_level` varchar(255) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `status` enum('2','1','0') NOT NULL DEFAULT '0',
-  `reason` varchar(250) DEFAULT NULL,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `updated_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
-
-
-DROP TABLE IF EXISTS `professional_certificate`;
-CREATE TABLE `professional_certificate` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `ordering_id` int(11) DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
-DROP TABLE IF EXISTS `professional_certificate_table`;
-CREATE TABLE `professional_certificate_table` (
-  `professionalcert_id` int(11) NOT NULL AUTO_INCREMENT,
-  `cert_id` int(11) NOT NULL,
-  `name` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`professionalcert_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
-DROP TABLE IF EXISTS `professional_membership`;
-CREATE TABLE `professional_membership` (
-  `membership_id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `membership_question` text DEFAULT NULL,
-  `award_question` text NOT NULL,
-  `award_status` text DEFAULT NULL,
-  `organization_data` text DEFAULT NULL,
-  `organization_country` int(11) DEFAULT NULL,
-  `country_organization` int(11) DEFAULT NULL,
-  `subcountry_organization` int(11) DEFAULT NULL,
-  `membership_type` int(11) DEFAULT NULL,
-  `submembership_type` int(11) DEFAULT NULL,
-  `des_profession_association` text DEFAULT NULL,
-  `date_joined` text DEFAULT NULL,
-  `membership_status` text DEFAULT NULL,
-  `award_recognitions` text DEFAULT NULL,
-  `evidence_imgs` text DEFAULT NULL,
-  `award_evidence_imgs` text DEFAULT NULL,
-  `declare_info` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`membership_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
-DROP TABLE IF EXISTS `professional_organization`;
-CREATE TABLE `professional_organization` (
-  `organization_id` int(11) NOT NULL AUTO_INCREMENT,
-  `organization_country` text NOT NULL,
-  `organization_name` text DEFAULT NULL,
-  `country_organiztions` text DEFAULT NULL,
-  `sub_organiztions` text DEFAULT NULL,
-  PRIMARY KEY (`organization_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
-DROP TABLE IF EXISTS `referee`;
-CREATE TABLE `referee` (
-  `referee_id` int(11) NOT NULL AUTO_INCREMENT,
-  `referee_no` int(11) DEFAULT NULL,
-  `user_id` int(11) NOT NULL,
-  `first_name` text NOT NULL,
-  `last_name` text NOT NULL,
-  `email` text NOT NULL,
-  `phone_no` text NOT NULL,
-  `relationship` text NOT NULL,
-  `worked_together` text DEFAULT NULL,
-  `position_with_referee` text DEFAULT NULL,
-  `start_date` date DEFAULT NULL,
-  `end_date` date DEFAULT NULL,
-  `still_working` int(11) NOT NULL,
-  `is_declare` tinyint(4) NOT NULL COMMENT '0-no/1-yes',
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`referee_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
-DROP TABLE IF EXISTS `salary_expectation`;
-CREATE TABLE `salary_expectation` (
-  `salary_id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `payment_frequency` text DEFAULT NULL,
-  `salary_range` text DEFAULT NULL,
-  `fixed_salary` float DEFAULT NULL,
-  `negotiable_salary` text DEFAULT NULL,
-  `hourly_salary` text DEFAULT NULL,
-  `weekly_salary` text DEFAULT NULL,
-  `monthly_salary` text DEFAULT NULL,
-  `annual_salary` text DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`salary_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
-DROP TABLE IF EXISTS `saved_searches`;
-CREATE TABLE `saved_searches` (
-  `searches_id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `name` text NOT NULL,
-  `type` text DEFAULT NULL,
-  `alert` text NOT NULL,
-  `delivery` text NOT NULL,
-  `filters` text DEFAULT NULL,
-  `daily_cap` text DEFAULT NULL,
-  `quite_hours_start` text DEFAULT NULL,
-  `quite_hours_end` text DEFAULT NULL,
-  `notes` text DEFAULT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`searches_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-INSERT INTO `saved_searches` (`searches_id`, `user_id`, `name`, `type`, `alert`, `delivery`, `filters`, `daily_cap`, `quite_hours_start`, `quite_hours_end`, `notes`, `created_at`, `updated_at`) VALUES
-(15,	210,	'dfd dfd',	NULL,	'Realtime',	'In-app',	NULL,	NULL,	NULL,	NULL,	NULL,	'2025-10-29 08:12:17',	'2025-10-29 08:12:17'),
-(23,	210,	'cvdert4r',	NULL,	'Realtime',	'In-app',	NULL,	NULL,	NULL,	NULL,	NULL,	'2025-10-29 09:48:07',	'2025-10-29 09:48:07'),
-(25,	210,	'ds',	NULL,	'Realtime',	'Email',	NULL,	NULL,	NULL,	NULL,	NULL,	'2025-10-29 10:10:39',	'2025-10-29 10:10:39'),
-(29,	210,	'cvdert4r Copydse',	NULL,	'Realtime',	'In-app',	NULL,	NULL,	NULL,	NULL,	NULL,	'2025-10-29 10:59:22',	'2025-10-29 10:59:22'),
-(32,	213,	'dsgdgsdg',	NULL,	'Realtime',	'SMS',	NULL,	NULL,	NULL,	NULL,	NULL,	'2025-10-30 05:53:22',	'2025-10-30 05:53:22'),
-(33,	213,	'dsgdgsdg Copy',	NULL,	'Realtime',	'SMS',	NULL,	NULL,	NULL,	NULL,	NULL,	'2025-10-30 06:47:45',	'2025-10-30 06:47:45'),
-(34,	213,	'dsgdgsdg Copy',	NULL,	'Realtime',	'SMS',	NULL,	NULL,	NULL,	NULL,	NULL,	'2025-10-30 06:47:45',	'2025-10-30 06:47:45'),
-(35,	213,	'dsgdgsdg Copy',	NULL,	'Realtime',	'SMS',	NULL,	NULL,	NULL,	NULL,	NULL,	'2025-10-30 06:48:42',	'2025-10-30 06:48:42'),
-(36,	213,	'new_add',	NULL,	'Realtime',	'SMS',	NULL,	NULL,	NULL,	NULL,	NULL,	'2025-10-30 06:49:53',	'2025-10-30 06:49:53'),
-(40,	213,	'ss',	NULL,	'Daily',	'In-app',	NULL,	NULL,	NULL,	NULL,	NULL,	'2025-10-30 08:54:00',	'2025-10-30 08:54:00'),
-(42,	212,	'My Preferences',	'dynamic',	'Off',	'',	NULL,	NULL,	NULL,	NULL,	NULL,	'2025-10-30 13:39:19',	'2025-10-30 13:39:19'),
-(43,	212,	'Educational & Training',	NULL,	'Realtime',	'Email',	NULL,	NULL,	NULL,	NULL,	NULL,	'2025-10-30 13:40:24',	'2025-10-30 13:40:24'),
-(44,	212,	'Educational & Training',	NULL,	'Off',	'Email',	'{\"sector\":\"Public Government & Private\",\"salary_range\":{\"min\":30000,\"max\":120000}}',	NULL,	NULL,	NULL,	NULL,	'2025-10-30 13:43:20',	'2025-11-01 13:31:05'),
-(45,	213,	'My Preferences',	'dynamic',	'Off',	'',	NULL,	NULL,	NULL,	NULL,	NULL,	'2025-11-01 12:34:54',	'2025-11-01 12:34:54');
-
-DROP TABLE IF EXISTS `seo`;
-CREATE TABLE `seo` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `meta_title` varchar(255) NOT NULL,
-  `meta_des` text NOT NULL,
-  `image` varchar(255) NOT NULL,
-  `status` int(11) NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `updated_at` datetime NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
-DROP TABLE IF EXISTS `skills`;
-CREATE TABLE `skills` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) DEFAULT NULL,
-  `parent_id` int(11) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-
-DROP TABLE IF EXISTS `speacilaized_clearance`;
-CREATE TABLE `speacilaized_clearance` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `clearance_state` int(11) NOT NULL,
-  `clearance_type` varchar(256) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `clearance_number` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `clearance_expiry_date` date NOT NULL,
-  `clearance_evidence` varchar(64) NOT NULL,
-  `clearance_original_name` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
-DROP TABLE IF EXISTS `speciality`;
-CREATE TABLE `speciality` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  `parent` int(11) NOT NULL DEFAULT 0,
-  `is_featured` int(11) NOT NULL DEFAULT 0,
-  `status` enum('0','1') NOT NULL DEFAULT '1',
-  `specialty_level_order` int(11) DEFAULT NULL,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `updated_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
-
-
-DROP TABLE IF EXISTS `states`;
-CREATE TABLE `states` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  `state_code` varchar(100) NOT NULL,
-  `country_code` varchar(3) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-
-DROP TABLE IF EXISTS `sub_job_specialities`;
-CREATE TABLE `sub_job_specialities` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) DEFAULT NULL,
-  `parent` varchar(255) NOT NULL DEFAULT '0' COMMENT 'if parent 0 speciality  else  sub speciality',
-  `status` enum('0','1') NOT NULL DEFAULT '1',
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-
-DROP TABLE IF EXISTS `updated_tab_name`;
-CREATE TABLE `updated_tab_name` (
-  `tab_id` int(11) NOT NULL AUTO_INCREMENT,
-  `tab_name` text NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `created_at` datetime NOT NULL,
-  PRIMARY KEY (`tab_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
-DROP TABLE IF EXISTS `users`;
-CREATE TABLE `users` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) DEFAULT NULL,
-  `lastname` varchar(255) DEFAULT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `role` text DEFAULT NULL,
-  `profile_img` varchar(255) NOT NULL DEFAULT 'nurse/assets/imgs/nurse06.png',
-  `email_verified_at` timestamp NULL DEFAULT NULL,
-  `password` varchar(255) DEFAULT NULL,
-  `remember_token` varchar(100) DEFAULT NULL,
-  `emailToken` text DEFAULT NULL,
-  `email_verify` int(11) NOT NULL DEFAULT 0,
-  `emailVerified` enum('0','1') NOT NULL DEFAULT '0',
-  `work_right` enum('0','1') NOT NULL DEFAULT '1',
-  `status` enum('0','1','2') NOT NULL DEFAULT '1',
-  `specialties` text DEFAULT NULL,
-  `nurseType` text NOT NULL,
-  `nurseTypeJob` text NOT NULL,
-  `nurse_practitioner_speciality` text DEFAULT NULL,
-  `assistent_level` varchar(255) NOT NULL,
-  `subSpecialties` text NOT NULL,
-  `Sub-Speciality-One` text DEFAULT NULL,
-  `Sub-Speciality-Two` text DEFAULT NULL,
-  `degree` text NOT NULL,
-  `post_code` varchar(255) NOT NULL,
-  `ahpra_code` varchar(10) DEFAULT NULL,
-  `ahpra_number` varchar(50) DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  `user_stage` enum('0','1','2','3','4','5') NOT NULL DEFAULT '0' COMMENT '0 : verification Done || 1 : admin || 2 : Approved || 3 : reject || 4 : complete || 5 : In Progress	',
-  `type` enum('1','2','3') NOT NULL DEFAULT '1' COMMENT '1 : merchant || 2 : ambasdor',
-  `medical_facilities` enum('Yes','No') NOT NULL DEFAULT 'No',
-  `agencies` enum('Yes','No') NOT NULL DEFAULT 'No',
-  `profile_status` enum('Yes','No') NOT NULL DEFAULT 'No',
-  `individuals` enum('Yes','No') NOT NULL DEFAULT 'No',
-  `unavailable_profile_status` enum('Yes','No') NOT NULL DEFAULT 'No',
-  `country_code` varchar(11) DEFAULT NULL,
-  `country_iso` text DEFAULT NULL,
-  `phone` varchar(255) DEFAULT NULL,
-  `ps` varchar(255) DEFAULT NULL,
-  `country` varchar(11) NOT NULL,
-  `state` int(11) DEFAULT NULL,
-  `city` varchar(255) DEFAULT NULL,
-  `bio` text DEFAULT NULL,
-  `personal_website` varchar(255) DEFAULT NULL,
-  `completed_date` timestamp NULL DEFAULT NULL,
-  `gender` text DEFAULT NULL,
-  `date_of_birth` text DEFAULT NULL,
-  `home_address` text DEFAULT NULL,
-  `emergency_conact_numeber` text DEFAULT NULL,
-  `emegency_country_code` text DEFAULT NULL,
-  `emergency_country_iso` text DEFAULT NULL,
-  `emergergency_contact_email` text DEFAULT NULL,
-  `entry_level_nursing` text DEFAULT NULL,
-  `registered_nurses` text DEFAULT NULL,
-  `advanced_practioner` text DEFAULT NULL,
-  `nurse_prac` text DEFAULT NULL,
-  `adults` text DEFAULT NULL,
-  `maternity` text DEFAULT NULL,
-  `paediatrics_neonatal` text DEFAULT NULL,
-  `community` text DEFAULT NULL,
-  `surgical_preoperative` text DEFAULT NULL,
-  `operating_room` text DEFAULT NULL,
-  `operating_room_scout` text DEFAULT NULL,
-  `operating_room_scrub` text DEFAULT NULL,
-  `surgical_obstrics_gynacology` text DEFAULT NULL,
-  `neonatal_care` text DEFAULT NULL,
-  `paedia_surgical_preoperative` text DEFAULT NULL,
-  `pad_op_room` text DEFAULT NULL,
-  `pad_qr_scout` text DEFAULT NULL,
-  `pad_qr_scrub` text DEFAULT NULL,
-  `current_employee_status` text DEFAULT NULL,
-  `permanent_status` text DEFAULT NULL,
-  `temporary_status` text DEFAULT NULL,
-  `basic_info_status` int(11) DEFAULT NULL,
-  `professional_info_status` int(11) DEFAULT NULL,
-  `nationality` text DEFAULT NULL,
-  `profile_status1` int(11) DEFAULT NULL,
-  `available_date` text DEFAULT NULL,
-  `declaration_status` int(11) DEFAULT NULL,
-  `unemployeed_status` text DEFAULT NULL,
-  `unemployeed_reason` text DEFAULT NULL,
-  `long_unemplyeed` text DEFAULT NULL,
-  `start_job_dropdown` text DEFAULT NULL,
-  `any_help` text DEFAULT NULL,
-  `career_advancement_goals` text DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-
-DROP TABLE IF EXISTS `user_education_cerification`;
-CREATE TABLE `user_education_cerification` (
-  `education_id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `degrees` text DEFAULT NULL,
-  `institution` text DEFAULT NULL,
-  `most_relevant` text DEFAULT NULL,
-  `graduate_start_date` text DEFAULT NULL,
-  `degree_transcript` text DEFAULT NULL,
-  `graduate_end_date` text DEFAULT NULL,
-  `professional_certifications` text DEFAULT NULL,
-  `licence_number` text NOT NULL,
-  `country` text DEFAULT NULL,
-  `state` int(11) NOT NULL,
-  `expiration_date` text NOT NULL,
-  `training_courses` text DEFAULT NULL,
-  `training_workshops` text DEFAULT NULL,
-  `additional_training_data` text DEFAULT NULL,
-  `complete_status` int(11) DEFAULT NULL,
-  `declaration_status` int(11) DEFAULT NULL,
-  `acls_data` text DEFAULT NULL,
-  `bls_data` text DEFAULT NULL,
-  `cpr_data` text DEFAULT NULL,
-  `nrp_data` text DEFAULT NULL,
-  `pals_data` text DEFAULT NULL,
-  `rn_data` text DEFAULT NULL,
-  `np_data` text DEFAULT NULL,
-  `cna_data` text DEFAULT NULL,
-  `lpn_data` text DEFAULT NULL,
-  `crna_data` text DEFAULT NULL,
-  `cnm_data` text DEFAULT NULL,
-  `ons_data` text DEFAULT NULL,
-  `msw_data` text DEFAULT NULL,
-  `ain_data` text DEFAULT NULL,
-  `rpn_data` text DEFAULT NULL,
-  `nl_data` text DEFAULT NULL,
-  `additional_certification` text DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`education_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
-DROP TABLE IF EXISTS `user_experience`;
-CREATE TABLE `user_experience` (
-  `experience_id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `facility_workplace_type` text NOT NULL,
-  `facility_workplace_name` text DEFAULT NULL,
-  `employer_name` text NOT NULL,
-  `position_held` text DEFAULT NULL,
-  `employeement_start_date` date NOT NULL,
-  `employeement_end_date` date NOT NULL,
-  `employeement_type` text DEFAULT NULL,
-  `present_status` int(11) DEFAULT NULL,
-  `responsiblities` text DEFAULT NULL,
-  `achievements` text DEFAULT NULL,
-  `skills_compantancies` text NOT NULL,
-  `work_experience` text DEFAULT NULL,
-  `complete_status` int(11) DEFAULT NULL,
-  `evidence_type` text DEFAULT NULL,
-  `upload_evidence` text DEFAULT NULL,
-  `entry_level_nursing` text DEFAULT NULL,
-  `nurseType` text DEFAULT NULL,
-  `nurse_prac` text DEFAULT NULL,
-  `specialties` text DEFAULT NULL,
-  `adults` text DEFAULT NULL,
-  `maternity` text DEFAULT NULL,
-  `paediatrics_neonatal` text DEFAULT NULL,
-  `community` text DEFAULT NULL,
-  `registered_nurses` text DEFAULT NULL,
-  `advanced_practioner` text DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `surgical_preoperative` text DEFAULT NULL,
-  `operating_room` text DEFAULT NULL,
-  `operating_room_scout` text DEFAULT NULL,
-  `operating_room_scrub` text DEFAULT NULL,
-  `neonatal_care` text DEFAULT NULL,
-  `paedia_surgical_preoperative` text DEFAULT NULL,
-  `pad_op_room` text DEFAULT NULL,
-  `pad_qr_scout` text DEFAULT NULL,
-  `pad_qr_scrub` text DEFAULT NULL,
-  `current_employee_status` text DEFAULT NULL,
-  `temporary_status` text DEFAULT NULL,
-  `permanent_status` text DEFAULT NULL,
-  `pre_box_status` int(11) DEFAULT NULL,
-  `sub_skills_compantancies` text DEFAULT NULL,
-  `surgical_obstrics_gynacology` text DEFAULT NULL,
-  `assistent_level` varchar(255) DEFAULT NULL,
-  `inter_and_em_skill` text DEFAULT NULL,
-  `org_and_any_skill` text DEFAULT NULL,
-  `lead_and_ment_skill` text DEFAULT NULL,
-  `tech_and_soft_pro` text DEFAULT NULL,
-  `declaration_status` int(11) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`experience_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
-DROP TABLE IF EXISTS `user_licenses_details`;
-CREATE TABLE `user_licenses_details` (
-  `licenses_id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `ahpra_registration_status` text DEFAULT NULL,
-  `aphra_registration_no` text DEFAULT NULL,
-  `aphra_verifying_checkbox` text DEFAULT NULL,
-  `api_verify` int(11) DEFAULT NULL,
-  `ahpra_reverify` int(11) DEFAULT NULL,
-  `register_division` text DEFAULT NULL,
-  `register_endorsements` text DEFAULT NULL,
-  `register_reg_type` text DEFAULT NULL,
-  `register_reg_status` text DEFAULT NULL,
-  `register_notations` text DEFAULT NULL,
-  `register_conditions` text DEFAULT NULL,
-  `register_principal_place` text DEFAULT NULL,
-  `register_other_place` text DEFAULT NULL,
-  `register_other_notation_reason` text DEFAULT NULL,
-  `register_other_condition_reason` text DEFAULT NULL,
-  `register_expiry` text DEFAULT NULL,
-  `register_upload_evidence` text DEFAULT NULL,
-  `last_verified` text DEFAULT NULL,
-  `graduate_student_reg_no` text DEFAULT NULL,
-  `graduate_division` text DEFAULT NULL,
-  `graduate_reg_type` text DEFAULT NULL,
-  `graduate_reg_status` text DEFAULT NULL,
-  `graduation_date` text DEFAULT NULL,
-  `graduation_upload_evidence` text DEFAULT NULL,
-  `overseas_qualified_specify` text DEFAULT NULL,
-  `other_overseas_qualified` text DEFAULT NULL,
-  `overseas_upload_evidence` text DEFAULT NULL,
-  `not_currently_registered_reason` text DEFAULT NULL,
-  `education_related_reason` text DEFAULT NULL,
-  `returning_practice` text DEFAULT NULL,
-  `personal_career` text DEFAULT NULL,
-  `other_not_registered_reason` text DEFAULT NULL,
-  `not_registered_evidence_file` text DEFAULT NULL,
-  `ndis_status` text DEFAULT NULL,
-  `ndis_registration_no` text DEFAULT NULL,
-  `ndis_registration_evidence` text DEFAULT NULL,
-  `medical_provider_no` text DEFAULT NULL,
-  `medical_upload_evidence` text DEFAULT NULL,
-  `pbs_type` text DEFAULT NULL,
-  `pbs_other_nursing` text DEFAULT NULL,
-  `prescribe_no` text DEFAULT NULL,
-  `prescribe_evidence` text DEFAULT NULL,
-  `immunization_state` text DEFAULT NULL,
-  `authorizing_body_program` text DEFAULT NULL,
-  `date_authorised` text DEFAULT NULL,
-  `immuzination_evidence` text DEFAULT NULL,
-  `radiation_licence_type` text DEFAULT NULL,
-  `licenses_type_other` text DEFAULT NULL,
-  `radiation_licenses_no` text DEFAULT NULL,
-  `radiation_state_issue` text DEFAULT NULL,
-  `radiation_issue_date` text DEFAULT NULL,
-  `radiation_expiry_date` text DEFAULT NULL,
-  `radiation_evidence` text DEFAULT NULL,
-  `radiation_state_data` text DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`licenses_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
-DROP TABLE IF EXISTS `vaccination`;
-CREATE TABLE `vaccination` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
-DROP TABLE IF EXISTS `vaccination_front`;
-CREATE TABLE `vaccination_front` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `vaccination_id` int(11) NOT NULL,
-  `immunization_status` int(11) NOT NULL,
-  `evidance_type` int(11) DEFAULT NULL,
-  `covid_dose` int(11) NOT NULL,
-  `is_declare` tinyint(4) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `vaccination_records` varchar(10) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
-DROP TABLE IF EXISTS `vaccine_compliances`;
-CREATE TABLE `vaccine_compliances` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `state_id` int(11) NOT NULL COMMENT 'vcc_state',
-  `vaccination_id` int(11) NOT NULL,
-  `complinace_content` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `is_active` tinyint(4) NOT NULL COMMENT '0-no /1-yes',
-  `is_deleted` tinyint(4) NOT NULL COMMENT '0-no /1-yes',
-  `created_at` datetime NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
-DROP TABLE IF EXISTS `vcc_level_req`;
-CREATE TABLE `vcc_level_req` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `level_req` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `type` tinyint(4) NOT NULL,
-  `status` tinyint(4) NOT NULL COMMENT '0-inactive/1-active',
-  `created_at` datetime NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
-DROP TABLE IF EXISTS `vcc_state`;
-CREATE TABLE `vcc_state` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `state_name` varchar(164) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `policy` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `status` tinyint(4) NOT NULL COMMENT '0-inactive/1-active',
-  `created_at` datetime NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
-DROP TABLE IF EXISTS `visa_subclas`;
-CREATE TABLE `visa_subclas` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `residence_id` int(11) NOT NULL,
-  `sublcass_text` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `subclass_head` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
-DROP TABLE IF EXISTS `working_children_check`;
-CREATE TABLE `working_children_check` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `state_id` int(11) NOT NULL,
-  `clearance_number` varchar(255) NOT NULL,
-  `expiry_date` date NOT NULL,
-  `wwcc_evidence` varchar(64) NOT NULL,
-  `evidence_original_name` varchar(256) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `status` enum('1','0','2') NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
-
-
-DROP TABLE IF EXISTS `work_enviornment_preferences`;
-CREATE TABLE `work_enviornment_preferences` (
-  `prefer_id` int(11) NOT NULL AUTO_INCREMENT,
-  `env_name` text NOT NULL,
-  `sub_env_id` int(11) NOT NULL,
-  `sub_envp_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`prefer_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
-DROP TABLE IF EXISTS `work_evidance`;
-CREATE TABLE `work_evidance` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `evidence_file` varchar(64) NOT NULL,
-  `original_name` varchar(256) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `evidance_type` tinyint(4) NOT NULL COMMENT '1-EligibilityToWork/2-NdisWorker/3-wwcc/4-PoliceCheck/5-SpecializedClearance',
-  `type_id` int(11) NOT NULL COMMENT 'this belogns to other tables',
-  `created_at` datetime NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
-DROP TABLE IF EXISTS `work_preferences`;
-CREATE TABLE `work_preferences` (
-  `work_prefer_id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `sector_preferences` text DEFAULT NULL,
-  `work_environment_preferences` text DEFAULT NULL,
-  `emptype_preferences` text DEFAULT NULL,
-  `work_shift_preferences` text DEFAULT NULL,
-  `subwork_shift_preferences` text DEFAULT NULL,
-  `position_preferences` text DEFAULT NULL,
-  `salary_expectations` text NOT NULL,
-  `benefits_preferences` text NOT NULL,
-  `location_status` text DEFAULT NULL,
-  `prefered_location_current` text DEFAULT NULL,
-  `prefered_location` text DEFAULT NULL,
-  `prefered_distance` text DEFAULT NULL,
-  `auto_detect_location` int(11) DEFAULT NULL,
-  `countries` text DEFAULT NULL,
-  `other_countries` text DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`work_prefer_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
-DROP TABLE IF EXISTS `work_shift_preferences`;
-CREATE TABLE `work_shift_preferences` (
-  `work_shift_id` int(11) NOT NULL AUTO_INCREMENT,
-  `shift_name` text DEFAULT NULL,
-  `shift_id` int(11) NOT NULL,
-  `sub_shift_id` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`work_shift_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
--- 2025-11-01 13:49:58
+/* ---------- Mega Dropdown Styles ---------- */
+.mega-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.mega-dropdown > a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+}
+
+/* ---------- Mega Dropdown Styles ---------- */
+.mega-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.mega-dropdown > a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+}
+
+.mega-dropdown-content ul {
+    opacity: 1 !important;
+    visibility: visible !important;
+    position: unset !important;
+    border: none !important;
+    box-shadow: unset !important;
+}
+
+/* Hidden by default */
+.mega-dropdown-content {
+  display: none;
+  position: absolute;
+  left: 0;
+  top: 100%;
+  width: auto; /* wide dropdown */
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  padding: 20px;
+  z-index: 999;
+  font-family: sans-serif;
+  gap: 40px;
+  flex-wrap: nowrap;
+}
+
+/* Show on hover */
+.mega-dropdown:hover .mega-dropdown-content {
+  display: flex; /* show as flex only on hover */
+}
+
+.mega-dropdown-content ul li a::after{
+    content:unset !important;
+}
+
+.mega-column {
+  flex: 1;
+  min-width: 200px;
+}
+
+.mega-column h4 {
+  margin-bottom: 10px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.mega-column ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.mega-column ul li {
+  margin-bottom: 6px;
+  position: relative;
+}
+
+.mega-column ul li a {
+  text-decoration: none;
+  color: #333;
+}
+
+.mega-column ul li a:hover {
+  text-decoration: underline;
+}
+
+.helper-text {
+  font-size: 12px;
+  font-style: italic;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+/* ---------- Fly-out submenu ---------- */
+.flyout ul.submenu {
+  display: none;
+  position: absolute !important;
+  left: 100% !important;
+  top: 0 !important;
+  background-color: #fff !important;
+  padding: 10px 15px !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1) !important;
+  min-width: 180px !important;
+}
+
+.flyout:hover ul.submenu {
+  display: block; /* show submenu on hover */
+}
+
+.icon-youtube {
+  background: url('../imgs/template/icons/youtube.svg') no-repeat center center;
+  transition-duration: 0.2s;
+}
+
+.icon-instagram {
+  background: url('../imgs/template/icons/instagram.svg') no-repeat center center;
+  transition-duration: 0.2s;
+}
+
+.mega-dropdown:hover .mega-dropdown-content li a {
+    padding-left: 0px !important;
+    padding-bottom: 0px !important;
+}
+
+.mega-dropdown:hover .mega-dropdown-content li a:hover {
+    padding-left: 0px !important;
+}
+
+
+.mega-dropdown:hover .mega-dropdown-content ul {
+    padding: 0px !important;
+}
+
+.mega-dropdown:hover .mega-dropdown-content {
+    display: flex;
+    padding-top: 0px;
+}
+
+/* ul.submenu.sub_specialties li {
+    padding-left: 14px !important;
+} */
+
+ul.submenu.sub_specialties li {
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+    padding-left: 14px !important;
+     margin-bottom: 0px;
+}
+
+ul.submenu.sub_specialties {
+    width: 100%;
+}
+
+ul.submenu.sub_specialties a {
+    padding-top: 0px !important;
+}
+
+
+ul.submenu.sub_specialties {
+    height: 180px;
+    overflow: auto;
+}
+
+.career_dropdown i{
+    font-style: normal !important;
+    font-weight: normal !important;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1 !important;
+    font-size: 18px !important;
+    opacity: 1;
+    margin-left: 4px;
+    position: absolute;
+    top: 1px;
+    right: -19px;
+    color: #a0abb8;
+}
+
+.hidden-speciality {
+  display: none;
+  transition: all 0.3s ease;
+}
+.toggle-specialities {
+  cursor: pointer;
+  color: #0077b6;
+  font-weight: 500;
+  user-select: none;
+}
+.toggle-specialities:hover {
+  text-decoration: underline;
+}
+
+.browse_by_jobs li{
+  cursor: pointer;
+}
+
+ .side-modal {
+  display: none;
+  position: fixed;
+  z-index: 2000;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 400px; /* adjust as needed */
+  background: #fff;
+  box-shadow: -4px 0 12px rgba(0,0,0,0.2);
+  animation: slideIn 0.3s forwards;
+  overflow-y: auto;
+}
+
+.side-modal-content {
+  padding: 20px;
+}
+
+.side-modal h3 {
+  margin-top: 0;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.side-modal ul {
+  list-style: none;
+  padding: 0;
+}
+
+.side-modal ul li {
+  margin: 8px 0;
+}
+
+.side-modal ul li a {
+  text-decoration: none;
+  color: #333;
+}
+
+.side-modal ul li a:hover {
+  color: #0077cc;
+}
+
+.close-btn {
+  float: right;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+@keyframes slideIn {
+  from { right: -400px; opacity: 0; }
+  to { right: 0; opacity: 1; }
+}
+
+.more-btn a{
+  display: inline-block; /* only as wide as content */
+  margin: 10px 0;
+  padding: 6px 14px;
+  background-color: #000; /* black */
+  color: #fff !important;
+  border: none;
+  border-radius: 20px; /* pill shape */
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+.more-btn a:hover {
+  background-color: #333; /* slightly lighter on hover */
+}
+
+.modal-overlay {
+  display: none; /* hidden by default */
+  position: fixed;
+  top: 0; 
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* semi-transparent black */
+  z-index: 999; /* behind modal */
+}
+
+.mega-column h4 a{
+    margin-bottom: 10px !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
+    text-decoration: none !important;
+    line-height: 0px !important;
+    padding-top: 20px !important;
+}
+
+
+a.browse_by::before {
+    width: auto !important;
+}
+
+a.browse_by::before {
+    background-color: #fff !important;
+}
+
+a.get_started {
+    width: 44%;
+    padding-top: initial;
+}
+
+.browse_menu {
+  width:auto !important;
+}
+
+.browse_menu::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px; /* space below text */
+  width: 0;
+  height: 2px;
+  background-color: currentColor; /* underline uses li text color */
+  transition: width 0.3s ease;
+}
+
+.browse_menu:hover::after {
+  width: 100%;
+}
+
+#nurseModal a:hover{
+  text-decoration: underline !important;
+}
+
+#specialtyModal a:hover{
+  text-decoration: underline !important;
+}
+
+#workPreferModal a:hover{
+  text-decoration: underline !important;
+}
+
+.saved-searches {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .chip {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.4rem 0.8rem;
+      border: 1px solid #cbd5e1;
+      border-radius: 9999px;
+      background: white;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #475569;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+    .chip:hover {
+      background: #f1f5f9;
+    }
+    .chip.active {
+      background: #eff6ff;
+      color: #2563eb;
+      border-color: #2563eb;
+    }
+    .chip .dot {
+      width: 8px;
+      height: 8px;
+      background: #f97316;
+      border-radius: 50%;
+    }
+    .chip.add-new {
+      border-style: dashed;
+      color: #64748b;
+    }
+    .chip.add-new:hover {
+      color: #2563eb;
+      border-color: #2563eb;
+      background: #f0f9ff;
+    }
+
+    .tooltip {
+      position: absolute;
+      left: 50%;
+      top: 120%;
+      transform: translateX(-50%);
+      background: #1e293b;
+      color: white;
+      font-size: 0.75rem;
+      padding: 4px 8px;
+      border-radius: 4px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+      white-space: nowrap;
+      z-index: 10;
+    }
+    .chip:hover .tooltip {
+      opacity: 1;
+    }
+
+     .find-jobs-header button {
+      background: #000000;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+/*    .find-jobs-header button:hover { background: #1d4ed8; }
+*/
+    .btn-cancel {
+      background: #f3f4f6;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .btn-save {
+      background: #2563eb;
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    /* ---------- SAVED SEARCH TABS ---------- */
+    .tabs {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    /* --- Tabs Navigation --- */
+    .tab-nav {
+      list-style: none;
+      display: flex;
+      justify-content: space-around;
+      padding: 0;
+      margin: 0;
+      border-bottom: 2px solid #ddd;
+      background: #f2f2f2;
+      border-radius: 8px 8px 0 0;
+    }
+
+    .tab-nav li {
+      flex: 1;
+      text-align: center;
+      padding: 12px 10px;
+      cursor: pointer;
+      font-size: 16px;
+      color: #444;
+      transition: all 0.3s ease;
+      border-right: 1px solid #ddd;
+    }
+
+    .tab-nav li:last-child {
+      border-right: none;
+    }
+
+    .tab-nav li.active {
+      background: #000000; /* red active color */
+      color: #fff;
+      font-weight: 600;
+    }
+
+.tab-nav-edit {
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+    padding: 0;
+    margin: 0;
+    border-bottom: 0px solid #ddd;
+    background: #f2f2f2;
+    border-radius: 8px 8px 0 0;
+    width: 100%;
+}
+
+.tab-nav-edit li {
+    flex: 1;
+    text-align: center;
+    padding: 12px 4px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #444;
+    transition: all 0.3s ease;
+    border-right: 1px solid #ddd;
+}
+
+    .tab-nav-edit li:last-child {
+      border-right: none;
+    }
+
+    .tab-nav-edit li.active {
+      background: #000000; /* red active color */
+      color: #fff;
+      font-weight: 600;
+    }
+
+    /* --- Tab Content --- */
+    .tab-content-jobs {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-top: none;
+      padding: 20px;
+      display: none;
+    }
+
+    .tab-content-jobs.active {
+      display: block;
+    }
+
+    .tab-content-edit {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-top: none;
+      padding: 20px;
+      display: none;
+    }
+
+    .tab-content-edit.active {
+      display: block;
+    }
+    .saved-searches-row {
+      display: flex;
+      gap: 8px;
+      padding: 12px 24px;
+      background: #fff;
+      border-bottom: 1px solid #e5e7eb;
+      overflow-x: auto;
+    }
+    .saved-search-tab {
+      background: #f3f4f6;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 14px;
+      cursor: pointer;
+      position: relative;
+      transition: 0.2s;
+      white-space: nowrap;
+    }
+    .saved-search-tab.active {
+      background: #000000;
+      color: #fff;
+      font-weight: 600;
+    }
+    .saved-search-tab.add-new {
+      background: #e0f2fe;
+      color: #0369a1;
+      border: 1px dashed #7dd3fc;
+      font-weight: 500;
+    }
+    .saved-search-tab .unsaved-dot {
+      position: absolute;
+      top: 4px;
+      right: 6px;
+      width: 8px;
+      height: 8px;
+      background: #facc15;
+      border-radius: 50%;
+      display: none;
+    }
+    .saved-search-tab.unsaved .unsaved-dot {
+      display: inline-block;
+    }
+    .saved-search-tab.linked::after {
+      content: "🔗";
+      font-size: 13px;
+      margin-left: 6px;
+    }
+
+    .find-jobs-header h2.find-jobs-title.mb-0.fw-bold {
+      font-size: 28px;
+    }
+
+    .filter-sidebar .filter-item:hover {
+        background: #000;
+        color: #fff;
+    }
+    .searchtabs{
+      display: flex;
+      flex-wrap: wrap; 
+      gap: 10px;  
+    }
+    .switch input:checked + .slider:hover {
+        background-color: #ccc;
+    }
+
+    div#save-search-modal h3#modal-title {
+        font-size: 25px;
+        padding-bottom: 10px;
+    }
+
+    div#save-search-modal .form-group.level-drp input {
+        font-size: 15px;
+        padding-left: 12px;
+        height: 50px;
+    }
+    div#save-search-modal .form-group.level-drp select {
+        font-size: 15px;
+        padding-left: 12px;
+    }
+      div#save-search-modal button#submitSavedSearches {
+          background: #000;
+      }
+
+      div#save-search-modal .modal-content {
+          width: 40%;
+          padding: 25px;
+          padding-top: 15px;
+      }
+      
+      input#filter-location {
+        height: 50px;
+      }
+      select#filter-shift {
+          font-size: 15px;
+          height: 50px;
+      }
+      input#filter-preview {
+          height: 50px;
+          font-size: 15px;
+      }
+
+       .tab-content-edit {
+          padding-top: 5px;
+      }
+      div#drawer select {
+          font-size: 15px;
+          height: 50px;
+      }
+      /* div#drawer input {
+          height: 50px;
+      } */
+
+div#delete-modal .modal-content {
+    width: 32%;
+}
+
+div#delete-modal button {
+    height: 50px;
+    margin-bottom: 11px;
+    border: none;
+    width: 50%;
+    margin: auto;
+    margin-bottom: 11px;
+    border-radius: 5px;
+}
+button#delete-cancel {
+    background: #000;
+    color: #fff;
+}
+
+div#delete-modal p {
+    padding: 14px 0;
+    text-align: center;
+    color: #000;
+    font-size: 15px;
+}
+
+    /* ---------- MANAGE SAVED SEARCHES ---------- */
+    .manage-section {
+      background: #fff;
+      margin: 20px 24px;
+      border-radius: 10px;
+      border: 1px solid #e5e7eb;
+      overflow: hidden;
+    }
+    .manage-header {
+      background: #f3f4f6;
+      padding: 12px 20px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+     .manage-header h6 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.manage-header #deleteSelected {
+  background: #e63946; /* red button */
+  color: #fff;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s ease;
+}
+
+.manage-header #deleteSelected:hover {
+  background: #c72d3b;
+}
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 12px 20px;
+      border-bottom: 1px solid #e5e7eb;
+      font-size: 14px;
+      text-align: left;
+    }
+    tr:hover {
+      background: #f9fafb;
+    }
+    .actions button {
+      margin-right: 6px;
+      padding: 4px 8px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+    .btn-edit { background: #dbeafe; color: #1d4ed8; }
+    .btn-duplicate { background: #fef9c3; color: #854d0e; }
+    .btn-delete { background: #fee2e2; color: #991b1b; }
+    .alert-pill {
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+    .alert-on { background: #dcfce7; color: #15803d; }
+    .alert-off { background: #fee2e2; color: #991b1b; }
+
+    .modal-cancel { background: #f3f4f6; }
+    .modal-confirm { background: #dc2626; color:#fff; }
+
+    /* ---------- SIDE DRAWER ---------- */
+.edit_side_drawer .drawer { position: fixed; top: 0; right: -400px; width: 400px; height: 100%; background: #fff; box-shadow: -2px 0 8px rgba(0,0,0,0.2); transition: right 0.3s; z-index: 100; padding: 20px; overflow-y: auto; }
+.edit_side_drawer .drawer.open { right: 0; }
+.edit_side_drawer .drawer h3 {
+    margin-top: 0;
+    font-weight: 600;
+    font-size: 20px;
+    padding-bottom: 10px;
+}
+.edit_side_drawer .drawer .tabs { display: flex; border-bottom: 1px solid #ddd; margin-bottom: 15px; }
+.drawer .tab { padding: 10px 15px; cursor: pointer; border-bottom: 2px solid transparent; }
+.edit_side_drawer .drawer .tab.active { border-bottom: 2px solid #2563eb; font-weight: bold; }
+.edit_side_drawer .tab-content { display: none; }
+.edit_side_drawer .tab-content.active { display: block; }
+.edit_side_drawer .drawer label { display: block; margin: 10px 0 5px; font-weight: 500; }
+.edit_side_drawer .drawer input[type="text"], .drawer select, .drawer input[type="number"], .drawer input[type="time"] { width: 100%; padding: 6px; margin-bottom: 10px; box-sizing: border-box; }
+.edit_side_drawer .drawer .buttons { margin-top: 20px; text-align: right; }
+.edit_side_drawer .drawer .buttons button { margin-left: 10px; padding: 8px 14px; border: none; border-radius: 6px; cursor: pointer; }
+.edit_side_drawer .drawer .btn-cancel { background: #f3f4f6; }
+.edit_side_drawer .drawer .btn-save {
+    background: #000000;
+    color: #fff;
+}
+.search-bar label {
+    font-size: 14px !important;
+    margin-bottom: 4px;
+    font-weight: 500;
+}
+
+div#renameModal .modal-content {
+    width: 40%;
+}
+div#renameModal h3 {
+    font-size: 25px;
+    padding-bottom: 10px;
+}
+div#renameModal input#renameInput {
+    height: 50px;
+    padding-left: 12px;
+}
+
+div#renameModal button#renameSave {
+    background: #000;
+}
+
+
+.job-info-details div {
+    line-height: 2.1;
+}
+
+button.swal2-confirm.swal2-styled {
+    background: #000 !important;
+}
+
+div#swal2-html-container {
+    color: #000 !important;
+    font-size: 16px;
+}
+h2#swal2-title {
+    color: #000 !important;
+}
+
+/* TOAST */
+.toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #2563eb;
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 8px;
+  display: none;
+  z-index: 3000;
+  width:auto;
+}
+.toast.error {
+  background: #dc2626;
+}
+
+/* Filter sections */
+  .filter-section {
+    border-bottom: 1px solid #eee;
+    padding: 10px 0;
+  }
+
+  .filter-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 15px;
+    color: #222;
+  }
+
+  .filter-title .icon {
+    transition: transform 0.2s ease;
+    font-size: 16px;
+    color: #999;
+  }
+
+  .filter-title.active .icon {
+    transform: rotate(90deg);
+    color: #e50914;
+  }
+
+  .filter-options {
+    display: none;
+    padding-left: 10px;
+    margin-top: 8px;
+  }
+
+  .filter-options label {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #444;
+    margin-bottom: 6px;
+    cursor: pointer;
+  }
+
+  .filter-options input[type="checkbox"] {
+    accent-color: #e50914;
+    margin-right: 8px;
+  }
+
+  .filter-options input[type="checkbox"], input[type="radio"] {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #bbb;
+    border-radius: 4px;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .filter-options input[type="checkbox"]:checked {
+    border-color: #e50914;
+    background-color: #e50914;
+  }
+
+  .filter-options input[type="checkbox"]:checked::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 5px;
+    width: 4px;
+    height: 8px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+
+  .filter-options input[type="radio"] {
+    border-radius: 50%;
+  }
+
+  .filter-options input[type="radio"]:checked {
+    border-color: #e50914;
+  }
+
+  .filter-options input[type="radio"]:checked::after {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 8px;
+    height: 8px;
+    background: #e50914;
+    border-radius: 50%;
+  }
+
+  
+
+  /* Subpage base */
+  .subpage {
+    position:absolute;top:0;right:-100%;
+    width:100%;height:100%;
+    background:#fff;
+    transition:right .3s ease;
+    display:flex;flex-direction:column;
+  }
+  .subpage.active{right:0;}
+  .subpage-header{
+    display:flex;align-items:center;gap:10px;
+    padding:16px 18px;border-bottom:1px solid #eee;
+  }
+  .back-btn{font-size:18px;cursor:pointer;color:#111;}
+  .subpage-header h4{margin:0;font-size:16px;font-weight:600;}
+  .subpage-content{flex:1;overflow-y:auto;padding:16px 18px;}
+  .subpage-content::-webkit-scrollbar{width:6px;}
+  .subpage-content::-webkit-scrollbar-thumb{background:#ccc;border-radius:3px;}
+
+  .salary-range-wrapper {
+  margin: 15px 0;
+  font-family: "Inter", sans-serif;
+}
+
+.filter-label {
+  font-weight: 600;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.range-container {
+  position: relative;
+  height: 30px;
+}
+
+.range-container input[type="range"] {
+  position: absolute;
+  width: 100%;
+  pointer-events: none;
+  -webkit-appearance: none;
+  background: transparent;
+}
+
+.range-container input[type="range"]::-webkit-slider-thumb {
+  pointer-events: all;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #e63946; /* red thumb */
+  cursor: pointer;
+  -webkit-appearance: none;
+  position: relative;
+  z-index: 2;
+}
+
+.range-container input[type="range"]::-webkit-slider-runnable-track {
+  height: 6px;
+  background: transparent;
+}
+
+.slider-track {
+  position: absolute;
+  height: 6px;
+  border-radius: 3px;
+  background: #ccc; /* grey base */
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  z-index: 1;
+}
+
+.salary-values {
+  margin-top: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+.drawer-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 1;
+}
+
+.subpage-content {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+.drawer,
+.edit_side_drawer {
+  overflow-x: hidden;
+}
+
+.subpage .row {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+.subpage .col-6,
+.subpage .col-md-4 {
+  padding-left: 8px !important;
+  padding-right: 8px !important;
+}
+
+.filter-summary-row {
+  background: #fafafa;
+  border-top: 1px solid #eee;
+}
+
+.filter-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 0;
+  font-size: 13px;
+}
+
+.filter-line {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.filter-line strong {
+  color: #333;
+  min-width: 160px;
+}
