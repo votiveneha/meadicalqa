@@ -74,6 +74,10 @@
             @csrf
             <input type="hidden" name="search_id" id="search_id">
             <div class="tab-content-edit active" id="tab3">
+                @php
+                    $filters = json_decode($saved_searches->filters, true);
+                    
+                @endphp
                 <div class="filter-section">
                     <div class="filter-title">
                         <span>Sector</span>
@@ -92,20 +96,15 @@
                     </div>
                     <div class="filter-options">
                         @foreach($employeement_type_data as $emp_data)
-                        <label class="sub-heading emp-type-{{ $emp_data->emp_prefer_id }}" data-name="Employment Type" data-filter="employment_type" data-value="{{ $emp_data->emp_prefer_id }}"><input type="checkbox" value="{{ $emp_data->emp_type }}"> {{ $emp_data->emp_type }}</label>
+                        <label class="sub-heading emp-type-{{ $emp_data->emp_prefer_id }}" data-name="Employment Type" data-filter="employment_type" data-value="{{ $emp_data->emp_prefer_id }}"><input type="checkbox" name="employment_type[]" value="{{ $emp_data->emp_type }}"> {{ $emp_data->emp_type }}</label>
                         
                         @endforeach
                         
                     </div>
                     <div class="subpagedata-employment_type">
-                        <!-- <div class="subpage-header">
-                        <span class="back-btn">&#8249;</span><h4>Permanent</h4>
-                        </div>
-                        <div class="subpage-content">
-                        <p style="font-size:14px;color:#555;">Detailed options for <b>Permanent</b> roles can appear here.</p>
-                        <label><input type="checkbox"> Full Time</label>
-                        <label><input type="checkbox"> Part Time</label>
-                        </div> -->
+                        @foreach($employeement_type_data as $emp_data)
+                        
+                        @endforeach
                     </div>
                 </div>
                 <div class="filter-section">
@@ -118,7 +117,7 @@
                         <label class="sub-heading shift-type-{{ $work_shift->work_shift_id }}" data-filter="work_shift"
                             data-value="{{ $work_shift->work_shift_id }}"
                             data-name="Shift Type">
-                            <input type="checkbox" value="{{ $work_shift->shift_name }}"> {{ $work_shift->shift_name }}</label>
+                            <input type="checkbox" name="work_shift[]" value="{{ $work_shift->shift_name }}"> {{ $work_shift->shift_name }}</label>
                         
                         @endforeach
                         
@@ -145,7 +144,7 @@
                             data-name="Work Environment" 
                             data-filter="work_environment" 
                             data-value="{{ $work_environment->prefer_id }}">
-                            <input type="checkbox" value="{{ $work_environment->env_name }}"> {{ $work_environment->env_name }}
+                            <input type="checkbox" name="work_environment[]" value="{{ $work_environment->env_name }}"> {{ $work_environment->env_name }}
                         </label>
                         @endforeach
 
@@ -173,7 +172,7 @@
                             data-name="Employee Positions" 
                             data-filter="employee_positions" 
                             data-value="{{ $emp_pos->position_id }}">
-                            <input type="checkbox" value="{{ $emp_pos->position_name }}"> {{ $emp_pos->position_name }}
+                            <input type="checkbox" name="employee_positions[]" value="{{ $emp_pos->position_name }}"> {{ $emp_pos->position_name }}
                         </label>
                         @endforeach
 
@@ -202,7 +201,7 @@
                             data-name="Benefit Preferences" 
                             data-filter="benefits_preferences" 
                             data-value="{{ $benprefer->benefits_id }}">
-                            <input type="checkbox" value="{{ $benprefer->benefits_name }}"> {{ $benprefer->benefits_name }}
+                            <input type="checkbox" name="benefits_preferences[]" value="{{ $benprefer->benefits_name }}"> {{ $benprefer->benefits_name }}
                         </label>
                         @endforeach
 
@@ -292,7 +291,7 @@
                     </div>
                     <div class="filter-options">
                         @foreach($type_of_nurse as $nurse_type)
-                        <label class="sub-heading nurse-type-{{ $nurse_type->id }}" data-name="Nurse Type" data-filter="nurse_type" data-value="{{ $nurse_type->id }}"><input type="checkbox" value="{{ $nurse_type->name }}"> {{ $nurse_type->name }}</label>
+                        <label class="sub-heading nurse-type-{{ $nurse_type->id }}" data-name="Nurse Type" data-filter="nurse_type" data-value="{{ $nurse_type->id }}"><input type="checkbox" name="nurse_type[]" value="{{ $nurse_type->name }}"> {{ $nurse_type->name }}</label>
                         
                         @endforeach
                         
@@ -316,7 +315,7 @@
                     </div>
                     <div class="filter-options">
                         @foreach($speciality as $spec)
-                        <label class="sub-heading nurse-type-{{ $spec->id }}" data-name="Speciality" data-filter="speciality" data-value="{{ $spec->id }}"><input type="checkbox" value="{{ $spec->name }}"> {{ $spec->name }}</label>
+                        <label class="sub-heading nurse-type-{{ $spec->id }}" data-name="Speciality" data-filter="speciality" data-value="{{ $spec->id }}"><input type="checkbox" name="speciality[]" value="{{ $spec->name }}"> {{ $spec->name }}</label>
                         
                         @endforeach
                         
@@ -404,10 +403,10 @@
                         <option>SMS</option>
                     </select>
                 </div>    
-                <div class="form-group level-drp">
+                <!-- <div class="form-group level-drp">
                     <label>Daily Cap</label>
                     <input type="number" id="alert-cap" class="form-control" name="edit_alert_cap" min="0">
-                </div>
+                </div> -->
                 <div class="form-group level-drp">
                     <label>Quiet Hours</label>
                     <input type="time" id="quiet-start" class="form-control" name="edit_quiet_start"> - <input type="time" id="quiet-end" class="form-control" name="edit_quiet_end">
@@ -430,9 +429,25 @@
         </form>
     </div>
 </div>
+<div id="filterModal" class="modal-overlay" style="display:none;">
+  <div class="modal-content">
+    <button id="closeModal" class="close"
+      onmouseover="this.style.background='#f2f2f2'"
+      onmouseout="this.style.background='#f8f8f8'"
+    >
+      ×
+    </button>
+    <h3>Filters summary</h3>
+    <div id="modalContent"></div>
+  </div>
+</div>
+<script>
+    // Pass PHP filters JSON safely to JavaScript
+    window.savedFilters = @json($filters ?? []);
+</script>
 <script>
    $(document).ready(function () {
-
+    $('.filter-options input[type="checkbox"]:checked').prop('disabled', true);
     // Toggle filter sections
     $('.filter-title').click(function () {
         $(this).toggleClass('active');
@@ -450,9 +465,18 @@
 
         // Only trigger if checkbox is checked
         if (!$this.find('input[type="checkbox"]').prop('checked')) return;
+        
+        // if ($('.emp-type-'+id+' input').attr('checked') == 'checked') {
+            
+        //     $('.emp-type-'+id+' input').prop('disabled', true);
+        // }
+           
+            fetchAndBuildSubPage(filterName, filterType, id);
+        
+
 
         //const uniqueKey = `${filterType}-${id}`;
-        fetchAndBuildSubPage(filterName, filterType, id);
+        //fetchAndBuildSubPage(filterName, filterType, id);
     });
 
 
@@ -482,74 +506,82 @@
     }
 
     function buildSubPage(filterData, filterType, uniqueKey) {
-        const mainId = filterData.main.id;
-        const mainName = filterData.main.name;
+    const mainId = filterData.main.id;
+    const mainName = filterData.main.name;
 
-        // Hide current active page (if any)
-        const $activePage = $(".subpage.active");
-        if ($activePage.length) {
-            subpageStack.push($activePage);
-            $activePage.removeClass("active");
-        }
+    const savedValues = savedFilters && savedFilters[filterType]
+        ? savedFilters[filterType]
+        : [];
 
-        // Avoid duplicates
-        if ($(".subpage-" + uniqueKey).length) {
-            $(".subpage-" + uniqueKey).addClass("active");
-            return;
-        }
-
-        // Build sub-options
-        let subOptions = '';
-        filterData.subtypes.forEach(function (sub) {
-            subOptions += `
-                <label class="sub-heading sub-heading-${filterType}-${sub.id}" 
-                    data-name="${sub.name}" 
-                    data-filter="${filterType}" 
-                    data-value="${sub.id}">
-                    <input type="checkbox" value="${sub.name}" name="${filterType}[]"> ${sub.name}
-                </label>`;
-        });
-
-        // Create new subpage (with uniqueKey)
-        const subpageHTML = `
-            <div class="subpage subpage-${uniqueKey}">
-                <div class="subpage-header">
-                    <span class="back-btn">&#8249;</span>
-                    <h4>${mainName}</h4>
-                </div>
-                <div class="subpage-content">
-                    ${subOptions}
-                </div>
-            </div>`;
-
-        // Append to its specific drawer
-        $(".subpagedata-" + filterType).append(subpageHTML);
-
-        const $newPage = $(".subpage-" + uniqueKey);
-        $newPage.addClass("active");
-
-        // Back button handler
-        $newPage.find(".back-btn").on("click", function () {
-            $newPage.removeClass("active");
-
-            if (subpageStack.length > 0) {
-                const $prevPage = subpageStack.pop();
-                $prevPage.addClass("active");
-            }
-        });
-
-        // Nested checkbox subtypes
-        $newPage.find(".sub-heading input[type='checkbox']").off('change').on('change', function () {
-            const $label = $(this).closest('.sub-heading');
-            const subId = $label.data("value");
-            const subName = $label.data("name");
-            const subFilterType = $label.data("filter");
-
-            if (this.checked) {
-                fetchAndBuildSubPage(subName, subFilterType, subId);
-            }
-        });
+    // Hide current active page (if any)
+    const $activePage = $(".subpage.active");
+    if ($activePage.length) {
+        subpageStack.push($activePage);
+        $activePage.removeClass("active");
     }
+
+    // Avoid duplicates
+    if ($(".subpage-" + uniqueKey).length) {
+        $(".subpage-" + uniqueKey).addClass("active");
+        return;
+    }
+
+    // Build sub-options with pre-checked state
+    let subOptions = '';
+    filterData.subtypes.forEach(function (sub) {
+        const isChecked = Array.isArray(savedValues) && savedValues.includes(sub.name)
+            ? 'checked'
+            : '';
+
+        subOptions += `
+            <label class="sub-heading sub-heading-${filterType}-${sub.id}" 
+                data-name="${sub.name}" 
+                data-filter="${filterType}" 
+                data-value="${sub.id}">
+                <input type="checkbox" value="${sub.name}" name="${filterType}[]" ${isChecked}> 
+                ${sub.name}
+            </label>`;
+    });
+
+    // Create new subpage (with uniqueKey)
+    const subpageHTML = `
+        <div class="subpage subpage-${uniqueKey}">
+            <div class="subpage-header">
+                <span class="back-btn">&#8249;</span>
+                <h4>${mainName}</h4>
+            </div>
+            <div class="subpage-content">
+                ${subOptions}
+            </div>
+        </div>`;
+
+    $(".subpagedata-" + filterType).append(subpageHTML);
+    const $newPage = $(".subpage-" + uniqueKey);
+    $newPage.addClass("active");
+
+    // Back button handler
+    $newPage.find(".back-btn").on("click", function () {
+        $newPage.removeClass("active");
+
+        if (subpageStack.length > 0) {
+            const $prevPage = subpageStack.pop();
+            $prevPage.addClass("active");
+        }
+    });
+
+    // Nested checkbox subtypes
+    $newPage.find(".sub-heading input[type='checkbox']").off('change').on('change', function () {
+        const $label = $(this).closest('.sub-heading');
+        const subId = $label.data("value");
+        const subName = $label.data("name");
+        const subFilterType = $label.data("filter");
+
+        if (this.checked) {
+            fetchAndBuildSubPage(subName, subFilterType, subId);
+        }
+    });
+}
+
 
 
         const $min = $('#minSalary1');
@@ -604,7 +636,146 @@
             $(this).closest(".subpage").removeClass("active").remove();
         });
 
-    });
+        $(document).on('click', '.btn-readmore', function(e) {
+            e.preventDefault();
+
+            const filters = $(this).data('filters');
+            const parsed = filters || {};
+            let html = "";
+
+            // Common inline styles
+            const chipStyle = `
+                display:inline-flex;
+                align-items:center;
+                gap:6px;
+                margin:4px 6px 4px 0;
+                padding:6px 12px;
+                background:#f4f4f4;
+                border-radius:999px;
+                font-size:14px;
+                color:#333;
+                line-height:1.4;
+                border:1px solid #e0e0e0;
+                font-weight:500;
+                white-space:nowrap;
+            `;
+
+            const closeStyle = `
+                background:none;
+                border:none;
+                color:#666;
+                cursor:pointer;
+                font-size:16px;
+                line-height:1;
+                margin-left:4px;
+            `;
+
+            const sectionStyle = `
+                margin-bottom:12px;
+            `;
+
+            const headingStyle = `
+                font-weight:600;
+                font-size:14px;
+                text-transform:capitalize;
+                margin-bottom:6px;
+                color:#111;
+                display:block;
+            `;
+
+            // Build chips dynamically
+            $.each(parsed, function(key, value) {
+                if (Array.isArray(value)) {
+                    html += `<div style="${sectionStyle}">
+                                <strong style="${headingStyle}">${key.replace(/_/g, ' ')}:</strong>`;
+                    value.forEach(v => {
+                        html += `
+                            <span class="chip" 
+                                data-key="${key}" 
+                                data-value="${v}" 
+                                style="${chipStyle}">
+                                ${v}
+                                <button class="chip-close" style="${closeStyle}">&times;</button>
+                            </span>`;
+                    });
+                    html += `</div>`;
+                } 
+                else if (typeof value === 'object' && value !== null && value.min !== undefined) {
+                    // Salary range object
+                    html += `<div style="${sectionStyle}">
+                                <strong style="${headingStyle}">${key.replace(/_/g, ' ')}:</strong>
+                                <span class="chip" data-key="${key}" style="${chipStyle}">
+                                    $${value.min} – $${value.max}
+                                </span>
+                            </div>`;
+                } 
+                else if (value) {
+                    // Single string or number
+                    html += `<div style="${sectionStyle}">
+                                <strong style="${headingStyle}">${key.replace(/_/g, ' ')}:</strong>
+                                <span class="chip" data-key="${key}" data-value="${value}" style="${chipStyle}">
+                                    ${value}
+                                    <button class="chip-close" style="${closeStyle}">&times;</button>
+                                </span>
+                            </div>`;
+                }
+            });
+
+            $('#modalContent').html(html);
+            $('#filterModal').fadeIn();
+        });
+        $(document).on('click', '.chip-close', function () {
+        const $chip = $(this).closest('.chip');
+        const key = $chip.data('key');
+        const value = $chip.data('value');
+
+        // Remove from UI
+        $chip.remove();
+
+        // Uncheck corresponding checkbox/radio
+        $(`input[name="${key}[]"][value="${value}"], input[name="${key}"][value="${value}"]`)
+            .prop("checked", false)
+            .trigger("change");
+
+        // Get the saved search ID (add data-id to your modal or button)
+        const searchId = $('#filterModal').data('id'); 
+
+                if (!searchId) {
+                    console.warn("No saved search ID found.");
+                    return;
+                }
+
+                // Prepare AJAX call to update DB
+                $.ajax({
+                    url: `{{ url('/nurse/saved-search/${searchId}/remove-filter') }}`,
+                    type: 'POST',
+                    data: {
+                        key: key,
+                        value: value,
+                        _token: $('meta[name="csrf-token"]').attr('content') // required in Laravel
+                    },
+                    success: function (response) {
+                        console.log('Filter removed successfully:', response);
+                    },
+                    error: function (xhr) {
+                        console.error('Error removing filter:', xhr.responseText);
+                    }
+                });
+            });
+
+
+
+
+            $(document).on('click', '.close', function() {
+            $('#filterModal').fadeOut();
+            });
+
+            $(window).on('click', function(e) {
+            if ($(e.target).is('#filterModal')) $('#filterModal').fadeOut();
+            });
+
+
+        });
 
     function add_saved_searches() {
         var isValid = true;

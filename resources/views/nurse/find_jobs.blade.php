@@ -1084,6 +1084,7 @@
                   <tr>
                     <th><input type="checkbox" id="selectAll"></th>
                     <th>Name</th>
+                    <th>Filters summary</th>
                     <th>Alert</th>
                     <th>Delivery</th>
                     <th>Created</th>
@@ -1103,6 +1104,19 @@
                       @endif
                     </td>
                     <td>{{ $saved_searches->name }}</td>
+                    <td>
+                      <div class="filter-summary">
+                        @php
+                          $filters = json_decode($saved_searches->filters, true);
+                          
+                        @endphp
+                        @if(!empty($filters['sector']))
+                          Sector:<span class="chip">{{ $filters['sector'] }}</span>
+                        @endif
+                        <a href="#" class="btn-readmore" data-id="{{ $saved_searches->searches_id }}" data-filters='{{ $saved_searches->filters }}'>Read More</a>
+
+                      </div>
+                    </td>
                     <td><span class="alert-pill alert-on">{{ $saved_searches->alert }}</span></td>
                     <td>
                       @if($saved_searches->delivery === 'Email')
@@ -1134,12 +1148,9 @@
                       @endif
                     </td>
                   </tr>
-                  @php
-                    $filters = json_decode($saved_searches->filters, true);
-                    
-                  @endphp
+                  
 
-                  @if($filters)
+                  <!-- @if($filters)
                   <tr class="filter-summary-row">
                     <td></td>
                     <td colspan="5">
@@ -1173,7 +1184,7 @@
                       </div>
                     </td>
                   </tr>
-                  @endif
+                  @endif -->
                   @php
                     $i++;
                   @endphp
@@ -1301,7 +1312,50 @@
       $('#drawer').addClass('open');
       $(".drawer-overlay").fadeIn(200);
       
-
+      $.ajax({
+        type: "GET",
+        url: "{{ url('/nurse/getEditSearchData') }}",
+        data: {id:search_id},
+        cache: false,
+        success: function(data){
+          var data1 = JSON.parse(data);
+          console.log("alert",data1.filters);
+          if(data1){
+            
+            $('#filter-location').val(data1.location);
+            $('#filter-shift').val(data1.shift);
+            $('#filter-preview').val(data1.preview_count);
+            $('#alert-cap').val(data1.daily_cap);
+            $('#quiet-start').val(data1.quite_hours_start);
+            $('#quiet-end').val(data1.quite_hours_end);
+            $('#search-notes').val(data1.notes);
+            $('#edit-alert-frequency').val(data1.alert);
+            $('#edit-alert-delivery').val(data1.delivery);
+            $('#edit-search-name').val(data1.name);
+            $('#search_id').val(data1.searches_id);
+            var data_parse = JSON.parse(data1.filters);
+            $(`input[name="edit_sector"][value="${data_parse.sector}"]`).prop("checked", true);
+            $(`input[name="edit_location"][value="${data_parse.sector}"]`).prop("checked", true);
+            $(`#year_experience`).val(data_parse.years_of_experience);
+            $(`#minSalary1`).val(data_parse.salary_range.min);
+            $(`#maxSalary1`).val(data_parse.salary_range.max);
+            $(`#minSalaryValue1`).text(data_parse.salary_range.min);
+            $(`#maxSalaryValue1`).text(data_parse.salary_range.max);
+            console.log("v",data_parse.years_of_experience);
+            // Loop through and apply dynamically
+            $.each(data_parse, function (key, values) {
+              if (Array.isArray(values)) {
+                
+                values.forEach(v => {
+                  console.log("key",key);
+                  console.log("values",v);
+                  $(`input[name="${key}[]"][value="${v}"]`).prop("checked", true);
+                });
+              }
+            });
+          }
+        }
+      });  
     });
 
     $('#drawer-save').click(function(){

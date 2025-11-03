@@ -784,6 +784,43 @@ class JobsController extends Controller{
     }
 
 
+    public function removeFilter(Request $request, $id)
+    {
+        $savedSearch = SavedSearch::findOrFail($id);
+
+        // Decode the JSON filters
+        $filters = json_decode($savedSearch->filters, true);
+
+        $key = $request->input('key');
+        $value = $request->input('value');
+
+        if (isset($filters[$key])) {
+            // If it’s an array field, remove the value
+            if (is_array($filters[$key])) {
+                $filters[$key] = array_values(array_filter($filters[$key], function($v) use ($value) {
+                    return $v !== $value;
+                }));
+
+                // If the array becomes empty, you can unset it
+                if (empty($filters[$key])) {
+                    unset($filters[$key]);
+                }
+            }
+            // If it’s a single value field
+            else {
+                unset($filters[$key]);
+            }
+
+            // Update the record
+            $savedSearch->filters = json_encode($filters, JSON_UNESCAPED_UNICODE);
+            $savedSearch->save();
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'filters' => $filters
+        ]);
+    }
 
 
 

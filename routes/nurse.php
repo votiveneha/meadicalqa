@@ -251,5 +251,7 @@ Route::prefix('nurse')->name('nurse.')->namespace('App\Http\Controllers\nurse')-
   Route::post('deleteMultipleSearches', 'JobsController@deleteMultipleSearches')->name('deleteMultipleSearches');
   Route::get('/getEmpDataSearch', 'JobsController@getEmpDataSearch')->name('getEmpDataSearch');
   Route::get('/getSavedSearch', 'JobsController@getSavedSearch')->name('getSavedSearch');
+  Route::post('/saved-search/{id}/remove-filter', 'JobsController@removeFilter');
+
   });
 });
