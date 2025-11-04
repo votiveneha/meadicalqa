@@ -447,6 +447,96 @@
 </script>
 <script>
    $(document).ready(function () {
+    
+    $(document).on('change', '#selectAll', function() {
+        const isChecked = $(this).is(':checked');
+        $('.select-item').prop('checked', isChecked);
+    });
+
+    $(document).on('click', '.btn-run', function(e) {
+        e.preventDefault();
+        const id = $(this).data('id');
+        const baseUrl = `{{ url('/nurse/run-saved-search') }}`;
+        $.ajax({
+            url: `${baseUrl}/${id}`,
+            type: 'POST',
+            data: {
+                _token: "{{ csrf_token() }}"
+            },
+            beforeSend: function() {
+                console.log("Running saved search...");
+            },
+            success: function(res) {
+                const now = new Date();
+
+                const formattedDateTime =
+                now.getFullYear() + '-' +
+                String(now.getMonth() + 1).padStart(2, '0') + '-' +
+                String(now.getDate()).padStart(2, '0') + ' ' +
+                String(now.getHours()).padStart(2, '0') + ':' +
+                String(now.getMinutes()).padStart(2, '0') + ':' +
+                String(now.getSeconds()).padStart(2, '0');
+
+                console.log(formattedDateTime);
+                $(".last_run_at-"+id).text(formattedDateTime);
+                if (res.success) {
+                    // Example: display job cards dynamically
+                    renderJobResults(res.jobs);
+                } else {
+                    alert("No jobs found.");
+                }
+            },
+            error: function(xhr) {
+                console.error("Error:", xhr.responseText);
+            }
+        });
+    });
+
+    function renderJobResults(jobs) {
+        let html = '';
+        if (jobs.length === 0) {
+            html = `<p>No matching jobs found.</p>`;
+        } else {
+            jobs.forEach(job => {
+                html += `
+                    <div class="job-card">
+                        <h4>${job.title}</h4>
+                        <p>${job.location}</p>
+                        <p>${job.pay_range}</p>
+                        <button class="apply-now">Apply Now</button>
+                    </div>
+                `;
+            });
+        }
+        $('#jobResultsContainer').html(html);
+    }
+
+    $(document).on('change', '.alert-toggle-input', function() {
+        const $this = $(this); // the toggle that changed
+        const search_id = $this.data('id'); 
+        const baseUrl = `{{ url('/nurse/updateAlert') }}`;
+
+        // Check if this specific toggle is checked
+        const frequency = $this.is(':checked') ? "Realtime" : "Off";
+
+        $.ajax({
+            type: "POST",
+            url: `${baseUrl}/${search_id}`,
+            data: {
+                search_id: search_id,
+                frequency_value: frequency,
+                _token: "{{ csrf_token() }}"
+            },
+            cache: false,
+            success: function (data) {
+                console.log("Updated alert:", frequency);
+            },
+            error: function (xhr) {
+                console.error("Error:", xhr.responseText);
+            }
+        });
+    });
+
     $('.filter-options input[type="checkbox"]:checked').prop('disabled', true);
     // Toggle filter sections
     $('.filter-title').click(function () {
@@ -638,7 +728,9 @@
 
         $(document).on('click', '.btn-readmore', function(e) {
             e.preventDefault();
-
+            var modal_id = $(this).data('id');
+            //alert(modal_id);
+            $('#filterModal').attr('data-id', modal_id);
             const filters = $(this).data('filters');
             const parsed = filters || {};
             let html = "";
@@ -725,43 +817,44 @@
             $('#filterModal').fadeIn();
         });
         $(document).on('click', '.chip-close', function () {
-        const $chip = $(this).closest('.chip');
-        const key = $chip.data('key');
-        const value = $chip.data('value');
+            const $chip = $(this).closest('.chip');
+            const key = $chip.data('key');
+            const value = $chip.data('value');
 
-        // Remove from UI
-        $chip.remove();
+            // Remove from UI
+            $chip.remove();
 
-        // Uncheck corresponding checkbox/radio
-        $(`input[name="${key}[]"][value="${value}"], input[name="${key}"][value="${value}"]`)
-            .prop("checked", false)
-            .trigger("change");
+            // Uncheck corresponding checkbox/radio
+            $(`input[name="${key}[]"][value="${value}"], input[name="${key}"][value="${value}"]`)
+                .prop("checked", false)
+                .trigger("change");
 
-        // Get the saved search ID (add data-id to your modal or button)
-        const searchId = $('#filterModal').data('id'); 
+            // Get the saved search ID (add data-id to your modal or button)
+            const searchId = $('#filterModal').data('id'); 
 
-                if (!searchId) {
-                    console.warn("No saved search ID found.");
-                    return;
+            if (!searchId) {
+                console.warn("No saved search ID found.");
+                return;
+            }
+            let baseUrl = `{{ url('/nurse/remove-filter') }}`;
+
+            // Prepare AJAX call to update DB
+            $.ajax({
+                url: `${baseUrl}/${searchId}`,
+                type: 'POST',
+                data: {
+                    key: key,
+                    value: value,
+                    _token: $('meta[name="csrf-token"]').attr('content') // required in Laravel
+                },
+                success: function (response) {
+                    console.log('Filter removed successfully:', response);
+                },
+                error: function (xhr) {
+                    console.error('Error removing filter:', xhr.responseText);
                 }
-
-                // Prepare AJAX call to update DB
-                $.ajax({
-                    url: `{{ url('/nurse/saved-search/${searchId}/remove-filter') }}`,
-                    type: 'POST',
-                    data: {
-                        key: key,
-                        value: value,
-                        _token: $('meta[name="csrf-token"]').attr('content') // required in Laravel
-                    },
-                    success: function (response) {
-                        console.log('Filter removed successfully:', response);
-                    },
-                    error: function (xhr) {
-                        console.error('Error removing filter:', xhr.responseText);
-                    }
-                });
             });
+        });
 
 
 

@@ -16,6 +16,14 @@ use Illuminate\Support\Facades\Route;
 // User Route
 // ===========
 
+Route::get('/clear-cache', function () {
+    Artisan::call('cache:clear');
+    Artisan::call('config:clear');
+    Artisan::call('view:clear');
+    Artisan::call('route:clear');
+    return "All caches cleared!";
+});
+
 Route::post('/fetch-provinces', 'App\Http\Controllers\HomeController@fetchProvinces')->name('fetch-provinces');
 Route::get('/', 'App\Http\Controllers\nurse\HomeController@index_main')->name('home_main');
 Route::get('/term-and-condition', 'App\Http\Controllers\nurse\HomeController@term_and_condition')->name('term-and-condition');
@@ -251,7 +259,10 @@ Route::prefix('nurse')->name('nurse.')->namespace('App\Http\Controllers\nurse')-
   Route::post('deleteMultipleSearches', 'JobsController@deleteMultipleSearches')->name('deleteMultipleSearches');
   Route::get('/getEmpDataSearch', 'JobsController@getEmpDataSearch')->name('getEmpDataSearch');
   Route::get('/getSavedSearch', 'JobsController@getSavedSearch')->name('getSavedSearch');
-  Route::post('/saved-search/{id}/remove-filter', 'JobsController@removeFilter');
+  Route::post('remove-filter/{id}', 'JobsController@removeFilter');
+  Route::post('updateAlert/{id}', 'JobsController@updateAlert');
+  Route::post('run-saved-search/{id}', 'JobsController@run')->name('run-saved-search');
+
 
   });
 });

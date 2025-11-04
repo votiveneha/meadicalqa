@@ -748,12 +748,7 @@ div#delete-modal p {
 .edit_side_drawer .drawer .tab.active { border-bottom: 2px solid #2563eb; font-weight: bold; }
 .edit_side_drawer .tab-content { display: none; }
 .edit_side_drawer .tab-content.active { display: block; }
-.edit_side_drawer .drawer label {
-    display: flex;
-    margin: 10px 0 5px;
-    font-weight: 500;
-    gap: 5px;
-}
+.edit_side_drawer .drawer label { display: block; margin: 10px 0 5px; font-weight: 500; }
 .edit_side_drawer .drawer input[type="text"], .drawer select, .drawer input[type="number"], .drawer input[type="time"] { width: 100%; padding: 6px; margin-bottom: 10px; box-sizing: border-box; }
 .edit_side_drawer .drawer .buttons { margin-top: 20px; text-align: right; }
 .edit_side_drawer .drawer .buttons button { margin-left: 10px; padding: 8px 14px; border: none; border-radius: 6px; cursor: pointer; }
@@ -901,36 +896,28 @@ h2#swal2-title {
     border-color: #e50914;
   }
 
-.filter-options input[type="radio"]:checked::after {
+  .filter-options input[type="radio"]:checked::after {
     content: '';
     position: absolute;
-    top: 3px;
-    left: 3px;
+    top: 4px;
+    left: 4px;
     width: 8px;
     height: 8px;
     background: #e50914;
     border-radius: 50%;
-}
+  }
 
   
 
   /* Subpage base */
-.subpage {
-    position: absolute;
-    top: 0;
-    right: -100%;
-    width: 89%;
-    height: auto;
-    background: #fff;
-    transition: right .3s ease;
-    display: flex;
-    flex-direction: column;
-}
-.subpage.active {
-    right: 21px;
-}
-
-
+  .subpage {
+    position:absolute;top:0;right:-100%;
+    width:100%;height:100%;
+    background:#fff;
+    transition:right .3s ease;
+    display:flex;flex-direction:column;
+  }
+  .subpage.active{right:0;}
   .subpage-header{
     display:flex;align-items:center;gap:10px;
     padding:16px 18px;border-bottom:1px solid #eee;
@@ -953,8 +940,8 @@ h2#swal2-title {
 }
 
 .range-container {
-    position: relative;
-    height: 18px;
+  position: relative;
+  height: 30px;
 }
 
 .range-container input[type="range"] {
@@ -1007,19 +994,12 @@ h2#swal2-title {
   background: rgba(0,0,0,0.4);
   z-index: 1;
 }
+
 .subpage-content {
-    overflow-x: hidden;
-    max-width: 100%;
-    min-height: 200vh;
-    background: #fff !important;
-    z-index: 999;
+  overflow-x: hidden;
+  max-width: 100%;
 }
 
-div#drawer::-webkit-scrollbar {
-    width: 10px;
-}
-
- 
 .drawer,
 .edit_side_drawer {
   overflow-x: hidden;
@@ -1058,99 +1038,4 @@ div#drawer::-webkit-scrollbar {
 .filter-line strong {
   color: #333;
   min-width: 160px;
-}
-
-.filter-summary-row {
-  background: #fafafa;
-  border-top: 1px solid #eee;
-}
-
-.filter-summary {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  padding: 10px 0;
-  font-size: 13px;
-}
-
-.filter-line {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.filter-line strong {
-  color: #333;
-  min-width: 160px;
-}
-
-#closeModal{
-  position:absolute;
-  top:12px;
-  right:12px;
-  background:#f8f8f8;
-  border:none;
-  color:#333;
-  font-size:16px;
-  font-weight:600;
-  border-radius:50%;
-  width:32px;
-  height:32px;
-  line-height:32px;
-  cursor:pointer;
-  transition:all 0.2s ease;
-}
-
-.alert-toggle-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-family: "Inter", sans-serif;
-  font-size: 14px;
-}
-
-.alert-toggle {
-  position: relative;
-  display: inline-block;
-  width: 46px;
-  height: 24px;
-}
-
-.alert-toggle-input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.alert-toggle-slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  transition: 0.3s;
-  border-radius: 999px;
-}
-
-.alert-toggle-slider::before {
-  content: "";
-  position: absolute;
-  height: 18px;
-  width: 18px;
-  left: 3px;
-  bottom: 3px;
-  background-color: white;
-  transition: 0.3s;
-  border-radius: 50%;
-}
-
-.alert-toggle-input:checked + .alert-toggle-slider {
-  background-color: #28a745;
-}
-
-.alert-toggle-input:checked + .alert-toggle-slider::before {
-  transform: translateX(22px);
 }

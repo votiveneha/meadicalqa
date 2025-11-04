@@ -1088,6 +1088,7 @@
                     <th>Alert</th>
                     <th>Delivery</th>
                     <th>Created</th>
+                    <th>Last run</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -1140,7 +1141,21 @@
                       {{ $dateOnly }}      
                     @endif
                     </td>
+                    <td class="last_run_at-{{ $saved_searches->searches_id }}">
+                      {{ $saved_searches->last_run_at }}
+                    </td>
                     <td class="actions">
+                      <div class="alert_box">
+                        <div class="alert-toggle-wrapper">
+                          <label class="alert-toggle">
+                            <input type="checkbox" class="alert-toggle-input" @if($saved_searches->alert != "Off") checked @endif data-id="{{ $saved_searches->searches_id }}">
+                            <span class="alert-toggle-slider"></span>
+                          </label>
+                          
+                        </div>
+
+                      </div>
+                      <button class="btn-run" data-id="{{ $saved_searches->searches_id }}">Run</button>
                       <button class="btn-edit">Edit</button>
                       <button class="btn-duplicate">Duplicate</button>
                       @if($i != 1)
@@ -1204,6 +1219,8 @@
 </main>
 <script>
     $(document).ready(function(){
+      
+
       $('.tab-nav li').click(function(){
         // Remove active classes
         $('.tab-nav li').removeClass('active');
@@ -1239,7 +1256,7 @@
      $('#save-search-modal').fadeOut(200);
    });
    
-   function addSearchToUI(id, name, alert_frequency, delivery) {
+   function addSearchToUI(id, name,filter_summury, alert_frequency, delivery) {
      let newTab = $(`<div class="saved-search-tab" data-id="${id}">${name}<div class="unsaved-dot"></div></div>`);
      
      if ($('.searchtabs').children().length === 0) {
@@ -1252,11 +1269,15 @@
       }
      
      let row = `<tr data-id="${id}">
+       <td><input type="checkbox" class="select-item"> </td> 
        <td>${name}</td>
+       <td>${filter_summury}</td>
        <td><span class="alert-pill ${alert_frequency === "Off" ? "alert-off" : "alert-on"}">${alert_frequency}</span></td>
        <td>${delivery}</td>
        <td>${new Date().toLocaleDateString()}</td>
+       <td></td>
        <td class="actions">
+         <button class="btn-run" data-id="${id}">Run</button>
          <button class="btn-edit">Edit</button>
          <button class="btn-duplicate">Duplicate</button>
          <button class="btn-delete">Delete</button>
@@ -1387,14 +1408,17 @@
 $(document).on('click', '.btn-duplicate', function() {
   const row = $(this).closest('tr');
   const id = row.data('value'); // existing saved search ID
-  const originalName = row.find('td:first').text().trim();
-  const alertFreq = row.find('td:nth-child(2)').text().trim();
-  const delivery = row.find('td:nth-child(3)').text().trim();
-
+  const originalName = row.find('td:nth-child(2)').text().trim();
+  
+  const filter = row.find('td:nth-child(3)').html();
+  const alertFreq = row.find('td:nth-child(4)').text().trim();
+  const delivery = row.find('td:nth-child(5)').text().trim();
+  
   // store current row details temporarily
   duplicateData = {
     id: id,
     name: originalName,
+    filter: filter,
     alert: alertFreq,
     delivery: delivery
   };
@@ -1434,7 +1458,7 @@ $('#renameSave').off('click').on('click', function() {
       success: function(response) {
         if (response.success) {
           // Add new row to table UI
-          addSearchToUI(response.new_id, newName, duplicateData.alert, duplicateData.delivery);
+          addSearchToUI(response.new_id, newName,duplicateData.filter, duplicateData.alert, duplicateData.delivery);
 
           // Hide modal
           $('#renameModal').fadeOut(200);
@@ -1480,7 +1504,7 @@ $('#renameCancel').click(function() {
     $(document).on('click', '.btn-delete', function() {
         deleteId = $(this).closest('tr').data('id');
         $('#delete-modal').fadeIn(200);
-      
+        $('#delete-modal .modal-confirm').attr('id', 'delete-confirm1');
     });
     $('#delete-cancel').click(()=>$('#delete-modal').fadeOut(200));
     // $('#delete-confirm').click(function(){

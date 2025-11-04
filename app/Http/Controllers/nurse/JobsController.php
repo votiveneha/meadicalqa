@@ -27,6 +27,7 @@ use File;
 use App\Services\Admins\SpecialityServices;
 use Illuminate\Support\Facades\Storage;
 use App\Models\SavedSearches;
+use App\Models\JobsModel;
 
 class JobsController extends Controller{
     
@@ -409,10 +410,10 @@ class JobsController extends Controller{
             $oldSearch->alert = $alert_frequency;
             $oldSearch->delivery = $delivery_method;
             $oldSearch->filters = $filters;
-            $oldSearch->location = $filter_location;
-            $oldSearch->shift = $filter_shift;
-            $oldSearch->preview_count = $filter_preview;
-            $oldSearch->daily_cap = $edit_alert_cap;
+            // $oldSearch->location = $filter_location;
+            // $oldSearch->shift = $filter_shift;
+            // $oldSearch->preview_count = $filter_preview;
+            // $oldSearch->daily_cap = $edit_alert_cap;
             $oldSearch->quite_hours_start = $edit_quiet_start;
             $oldSearch->quite_hours_end = $edit_quiet_end;
             $oldSearch->notes = $edit_search_notes;
@@ -786,7 +787,7 @@ class JobsController extends Controller{
 
     public function removeFilter(Request $request, $id)
     {
-        $savedSearch = SavedSearch::findOrFail($id);
+        $savedSearch = SavedSearches::findOrFail($id);
 
         // Decode the JSON filters
         $filters = json_decode($savedSearch->filters, true);
@@ -822,6 +823,97 @@ class JobsController extends Controller{
         ]);
     }
 
+    public function updateAlert(Request $request)
+    {
+        $searches_id = $request->search_id;
+        $search = SavedSearches::find($searches_id);
+        $search->alert = $request->frequency_value;
+        $run = $search->save();
+    }
+
+
+    public function run($id)
+    {
+        // Step 1: Get saved search by ID
+        $savedSearch = SavedSearches::find($id);
+
+        if (!$savedSearch) {
+            return response()->json(['error' => 'Saved search not found.'], 404);
+        }
+
+        // Step 2: Decode filters (JSON string → PHP array)
+        $filters = json_decode($savedSearch->filters, true);
+
+        if (empty($filters) || !is_array($filters)) {
+            return response()->json(['message' => 'No filters available for this search.'], 200);
+        }
+
+        // Step 3: Build the query dynamically
+        $query = DB::table('job_boxes');
+
+        // Sector (single value)
+        if (!empty($filters['sector'])) {
+            $query->where('sector', $filters['sector']);
+        }
+
+        // Employment type (multiple IDs)
+        if (!empty($filters['employment_type'])) {
+            $query->whereIn('emplyeement_type', $filters['employment_type']);
+        }
+
+        // Work shift (multiple IDs)
+        if (!empty($filters['work_shift'])) {
+            $query->whereIn('shift_type', $filters['work_shift']);
+        }
+
+        // Work environment
+        if (!empty($filters['work_environment'])) {
+            $query->whereIn('work_environment', $filters['work_environment']);
+        }
+
+        // Employee positions
+        if (!empty($filters['employee_positions'])) {
+            $query->whereIn('emplyeement_positions', $filters['employee_positions']);
+        }
+
+        // Nurse type
+        // if (!empty($filters['nurse_type'])) {
+        //     $query->whereIn('nurse_type_id', $filters['nurse_type']);
+        // }
+
+        // // Speciality
+        // if (!empty($filters['speciality'])) {
+        //     $query->whereIn('speciality_id', $filters['speciality']);
+        // }
+
+        // Salary range
+        if (!empty($filters['salary_range'])) {
+            $min = $filters['salary_range']['min'] ?? null;
+            $max = $filters['salary_range']['max'] ?? null;
+
+            if ($min && $max) {
+                $query->whereBetween('salary', [$min, $max]);
+            }
+        }
+
+        // Years of experience
+        if (!empty($filters['years_of_experience'])) {
+            $query->where('experience_level', '>=', $filters['years_of_experience']);
+        }
+
+        // Step 4: Get results
+        $results = $query->get();
+
+        // Step 5: Update "last_run_at" for tracking
+        $savedSearch->update(['last_run_at' => now()]);
+
+        // Step 6: Return response
+        return response()->json([
+            'message' => 'Search executed successfully.',
+            'filters' => $filters,
+            'results' => $results
+        ]);
+    }
 
 
 
