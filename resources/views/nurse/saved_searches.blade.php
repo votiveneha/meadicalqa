@@ -9,7 +9,17 @@
             <input type="text" id="search-name" name="search_name" class="form-control" placeholder="Enter a name"> 
             <span id='reqsearch-name' class='reqError text-danger valley'></span>
         </div>                  
-        
+        <div class="form-group level-drp">
+            <label for="search-type">Search Type</label>              
+            <select id="search-type" name="search_type" class="form-control">
+                <option value="">Select</option>
+                <option value="snapshot">Snapshot</option>
+                <option value="hybrid">Hybrid</option>
+                <option value="dynamic">Dynamic</option>
+                
+            </select>
+            <span id='reqsearch-type' class='reqError text-danger valley'></span>
+        </div>      
         <div class="form-group level-drp">
             <label for="alert-frequency">Alert Frequency</label>
             <select id="alert-frequency" name="alert_frequency" class="form-control">
@@ -53,7 +63,7 @@
     <input type="text" id="renameInput" class="form-control" placeholder="Enter new name">
     <div class="modal-actions">
       <button class="btn-cancel" id="renameCancel">Cancel</button>
-      <button class="btn-save" id="renameSave">Save</button>
+      <button class="btn-save" id="renameSave1">Save</button>
     </div>
   </div>
 </div>
@@ -849,6 +859,7 @@
                 },
                 success: function (response) {
                     console.log('Filter removed successfully:', response);
+                    showToast('Filter removed successfully');
                 },
                 error: function (xhr) {
                     console.error('Error removing filter:', xhr.responseText);
@@ -880,6 +891,13 @@
 
         }
 
+        if ($('[name="search_type"]').val() == '') {
+
+            document.getElementById("reqsearch-type").innerHTML = "* Please select the Search Type";
+            isValid = false;
+
+        }
+
         if ($('[name="alert_frequency"]').val() == '') {
 
             document.getElementById("reqalert-frequency").innerHTML = "* Please select the Alert Frequency";
@@ -899,7 +917,7 @@
             const alert_frequency = $('#alert-frequency').val();
             const delivery = $('#delivery-method').val();
             const newId = Date.now();
-            addSearchToUI(newId, name, alert_frequency, delivery);
+            addSearchToUI(newId, name,'', alert_frequency, delivery);
             $.ajax({
             url: "{{ route('nurse.addSavedSearches') }}",
             type: "POST",
@@ -913,6 +931,7 @@
             $('#submitSavedSearches').text('Process....');
             },
             success: function(res) {
+             
             if (res.status == '1') {
                 $('#savedSearchTable tr').each(function() {
                     if ($(this).is('[data-value]') == false) {

@@ -59,6 +59,51 @@ class JobsController extends Controller{
         $data['saved_searches_data'] = DB::table("saved_searches")
             ->where("user_id", $user_id)
             ->get();            
+        $today = now();    
+
+        foreach ($data['saved_searches_data'] as $search) {
+            $filters = json_decode($search->filters, true);
+
+            $query = JobsModel::query();
+
+            // Example: Apply filters dynamically
+            if (!empty($filters['sector'])) {
+                $query->where('sector', $filters['sector']);
+            }
+
+            // Employment type (multiple IDs)
+            if (!empty($filters['employment_type'])) {
+                $query->whereIn('emplyeement_type', $filters['employment_type']);
+            }
+
+            // Work shift (multiple IDs)
+            if (!empty($filters['work_shift'])) {
+                $query->whereIn('shift_type', $filters['work_shift']);
+            }
+
+            // Work environment
+            if (!empty($filters['work_environment'])) {
+                $query->whereIn('work_environment', $filters['work_environment']);
+            }
+
+            // Employee positions
+            if (!empty($filters['employee_positions'])) {
+                $query->whereIn('emplyeement_positions', $filters['employee_positions']);
+            }
+            // if (!empty($filters['nurse_type'])) {
+            //     $query->whereIn('nurse_type', (array) $filters['nurse_type']);
+            // }
+            // if (!empty($filters['speciality'])) {
+            //     $query->whereIn('speciality', (array) $filters['speciality']);
+            // }
+
+            // Only jobs added today
+            $query->whereDate('created_at', $today);
+
+            // Count matching jobs
+            $data['query_count'] = $query->count();
+        }
+    
             
         $data['location_status'] = "";    
         if(!empty($data['work_preferences_data']) && $data['work_preferences_data']->location_status == "International relocation"){    
@@ -399,10 +444,14 @@ class JobsController extends Controller{
         $edit_quiet_end = $request->edit_quiet_end;
         $edit_search_notes = $request->edit_search_notes;
         $search_name = $request->search_name;
+        $search_type = $request->search_type;
         $alert_frequency = $request->alert_frequency;
         $delivery_method = $request->delivery_method;
         $filters = $request->filters;
         $date = date("Y-m-d H:i:s");
+
+        $totalSearches = SavedSearches::where('user_id', $user_id)->count();
+
 
         if($search_id){
             $oldSearch = SavedSearches::find($search_id);
@@ -424,6 +473,7 @@ class JobsController extends Controller{
             $saved_searches = new SavedSearches();
             $saved_searches->user_id = $user_id;
             $saved_searches->name = $search_name;
+            $saved_searches->type = $search_type;
             $saved_searches->alert = $alert_frequency;
             $saved_searches->delivery = $delivery_method;
             $saved_searches->filters = $filters;
@@ -466,6 +516,7 @@ class JobsController extends Controller{
         $duplicate = new SavedSearches();
         $duplicate->user_id = $user_id;
         $duplicate->name = $request->name;
+        $duplicate->filters = $request->filter_json;
         $duplicate->alert = $request->alert;
         $duplicate->delivery = $request->delivery;
         $duplicate->created_at = now();

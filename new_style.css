@@ -244,6 +244,17 @@ ul.submenu.sub_specialties {
   cursor: pointer;
 }
 
+
+
+
+
+
+
+
+
+
+
+
 @keyframes slideIn {
   from { right: -400px; opacity: 0; }
   to { right: 0; opacity: 1; }
@@ -667,8 +678,24 @@ div#delete-modal p {
       margin: 20px 24px;
       border-radius: 10px;
       border: 1px solid #e5e7eb;
-      overflow: hidden;
+      overflow: scroll;
     }
+    a.btn-readmore {
+    margin-right: 0;
+    padding: 4px 0px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 13px;
+    background: #e8e8e8;
+    width: 80px;
+    text-align: center;
+}
+div#filterModal h3 {
+    font-size: 22px;
+    padding-bottom: 10px;
+}
+
     .manage-header {
       background: #f3f4f6;
       padding: 12px 20px;
@@ -1085,23 +1112,23 @@ div#drawer::-webkit-scrollbar {
   min-width: 160px;
 }
 
-#closeModal{
-  position:absolute;
-  top:12px;
-  right:12px;
-  background:#f8f8f8;
-  border:none;
-  color:#333;
-  font-size:16px;
-  font-weight:600;
-  border-radius:50%;
-  width:32px;
-  height:32px;
-  line-height:32px;
-  cursor:pointer;
-  transition:all 0.2s ease;
+#closeModal {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: #f8f8f8;
+    border: none;
+    color: #333;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    line-height: 0px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding-top: 0px;
 }
-
 .alert-toggle-wrapper {
   display: flex;
   align-items: center;
@@ -1153,4 +1180,16 @@ div#drawer::-webkit-scrollbar {
 
 .alert-toggle-input:checked + .alert-toggle-slider::before {
   transform: translateX(22px);
+}
+
+
+@media only screen and (max-width: 767px) {
+
+.chip {
+    min-width: 245px;
+}
+td.actions {
+    min-width: 300px;
+}
+
 }

@@ -1084,7 +1084,9 @@
                   <tr>
                     <th><input type="checkbox" id="selectAll"></th>
                     <th>Name</th>
+                    <th>Search Type</th>
                     <th>Filters summary</th>
+                    <th>Matches Today</th>
                     <th>Alert</th>
                     <th>Delivery</th>
                     <th>Created</th>
@@ -1098,13 +1100,14 @@
                     $i = 1;
                   @endphp
                   @foreach($saved_searches_data as $saved_searches)
-                  <tr data-id="{{ $i }}" data-value="{{ $saved_searches->searches_id }}">
+                  <tr data-id="{{ $i }}" data-value="{{ $saved_searches->searches_id }}" data-filters='{{ $saved_searches->filters }}' data-name='{{ $saved_searches->delivery }}'>
                     <td>
                       @if($i != 1)
                       <input type="checkbox" class="select-item">
                       @endif
                     </td>
                     <td>{{ $saved_searches->name }}</td>
+                    <td>{{ $saved_searches->type }}</td>
                     <td>
                       <div class="filter-summary">
                         @php
@@ -1117,6 +1120,11 @@
                         <a href="#" class="btn-readmore" data-id="{{ $saved_searches->searches_id }}" data-filters='{{ $saved_searches->filters }}'>Read More</a>
 
                       </div>
+                    </td>
+                    <td>
+                      <span class="match-count badge bg-info text-dark">
+                        {{ $search->matches_today ?? 0 }}
+                      </span>
                     </td>
                     <td><span class="alert-pill alert-on">{{ $saved_searches->alert }}</span></td>
                     <td>
@@ -1159,7 +1167,7 @@
                       <button class="btn-edit">Edit</button>
                       <button class="btn-duplicate">Duplicate</button>
                       @if($i != 1)
-                      <button class="btn-delete">Delete</button>
+                      <button class="btn-delete" data-name="single-delete">Delete</button>
                       @endif
                     </td>
                   </tr>
@@ -1245,7 +1253,22 @@
    let editId = null;
    let deleteId = null;
    
-   $('#add-search-btn, .add-new').on('click', function() {
+   $('#add-search-btn, .add-new').on('click', function(e) {
+      e.preventDefault();
+      // Count existing saved searches (rows)
+      const totalSearches = $('#savedSearchTable tbody tr').length;
+      
+     // Check limit
+      if (totalSearches >= 50) {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Limit Reached',
+          text: "You’ve reached the limit of saved searches. Delete one to add another.",
+          confirmButtonColor: '#c80014'
+        });
+        return; // stop further execution
+      }
+
      $('#modal-title').text('Save Search');
      $('#save-search-modal').fadeIn(200);
      editId = null;
@@ -1267,13 +1290,30 @@
       } else {
         $('#search-tabs .add-new').before(newTab);
       }
+
+      if(delivery == "SMS"){
+        var delivery_method = '<i class="fa-solid fa-comment-sms"></i>';
+      }
+
+      if(delivery == "Email"){
+        var delivery_method = '<i class="fa-solid fa-envelope"></i>';
+      }
+
+      if(delivery == "In-app"){
+        var delivery_method = '<i class="fa-solid fa-laptop"></i>';
+      }
      
      let row = `<tr data-id="${id}">
        <td><input type="checkbox" class="select-item"> </td> 
        <td>${name}</td>
        <td>${filter_summury}</td>
+       <td>
+          <span class="match-count badge bg-info text-dark">
+            0
+          </span>
+       </td>
        <td><span class="alert-pill ${alert_frequency === "Off" ? "alert-off" : "alert-on"}">${alert_frequency}</span></td>
-       <td>${delivery}</td>
+       <td>${delivery_method}</td>
        <td>${new Date().toLocaleDateString()}</td>
        <td></td>
        <td class="actions">
@@ -1407,34 +1447,49 @@
 // DUPLICATE BUTTON CLICK
 $(document).on('click', '.btn-duplicate', function() {
   const row = $(this).closest('tr');
-  const id = row.data('value'); // existing saved search ID
+  const id = row.data('value');
   const originalName = row.find('td:nth-child(2)').text().trim();
-  
-  const filter = row.find('td:nth-child(3)').html();
+  const filterSummary = row.find('td:nth-child(3)').html();
   const alertFreq = row.find('td:nth-child(4)').text().trim();
-  const delivery = row.find('td:nth-child(5)').text().trim();
   
-  // store current row details temporarily
+
+  // Get the full JSON filter from the row’s data attribute
+  const filterJson = row.data('filters');
+  const delivery = row.data('name');
+
+  const totalSearches = $('#savedSearchTable tbody tr').length;
+      
+  // Check limit
+  if (totalSearches >= 50) {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Limit Reached',
+      text: "You’ve reached the limit of saved searches. Delete one to add another.",
+      confirmButtonColor: '#c80014'
+    });
+    return; // stop further execution
+  }
+  
+  // Store temporarily
   duplicateData = {
-    id: id,
+    id,
     name: originalName,
-    filter: filter,
+    filterSummary,
+    filterJson, // ✅ store JSON
     alert: alertFreq,
-    delivery: delivery
+    delivery
   };
 
-  // Prefill modal input with “Copy” name
+  // Prefill modal
   $('#renameInput').val(originalName + " Copy");
-
-  // Show the modal
-  $('#renameModal').fadeIn(200);
-
-  // Mark modal mode as "duplicate"
-  $('#renameModal').data('mode', 'duplicate');
+  $('#renameModal').fadeIn(200).data('mode', 'duplicate');
 });
 
+
+
+
 // RENAME MODAL SAVE BUTTON CLICK
-$('#renameSave').off('click').on('click', function() {
+$('#renameSave1').off('click').on('click', function() {
   const newName = $('#renameInput').val().trim();
   if (!newName) {
     alert("⚠️ Please enter a name to duplicate.");
@@ -1443,40 +1498,40 @@ $('#renameSave').off('click').on('click', function() {
 
   const mode = $('#renameModal').data('mode');
 
-  // ========== DUPLICATE MODE ==========
   if (mode === 'duplicate') {
     $.ajax({
       type: "POST",
-      url: "{{ url('/nurse/duplicateSearch') }}", // Laravel route
+      url: "{{ url('/nurse/duplicateSearch') }}",
       data: {
         _token: "{{ csrf_token() }}",
         searches_id: duplicateData.id,
         name: newName,
+        filter_json: JSON.stringify(duplicateData.filterJson), // ✅ send full filters
         alert: duplicateData.alert,
         delivery: duplicateData.delivery
       },
       success: function(response) {
         if (response.success) {
-          // Add new row to table UI
-          addSearchToUI(response.new_id, newName,duplicateData.filter, duplicateData.alert, duplicateData.delivery);
+          addSearchToUI(
+            response.new_id,
+            newName,
+            duplicateData.filterSummary,
+            duplicateData.alert,
+            duplicateData.delivery
+          );
 
-          // Hide modal
           $('#renameModal').fadeOut(200);
           Swal.fire({
             icon: 'success',
             title: 'Success',
-            text: 'Search duplicated successfully!',
-          }).then(function() {
-            
+            text: 'Search duplicated successfully!'
           });
-          
         } else {
           Swal.fire({
             icon: 'error',
             title: 'Error',
-            text: "Something went wrong. Try again.",
-          })
-          
+            text: "Something went wrong. Try again."
+          });
         }
       },
       error: function(xhr) {
@@ -1484,13 +1539,14 @@ $('#renameSave').off('click').on('click', function() {
         Swal.fire({
           icon: 'error',
           title: 'Error',
-          text: "Error duplicating search.",
-        })
-        
+          text: "Error duplicating search."
+        });
       }
     });
   }
 });
+
+
 
 // RENAME MODAL CANCEL BUTTON
 $('#renameCancel').click(function() {
@@ -1504,10 +1560,11 @@ $('#renameCancel').click(function() {
     $(document).on('click', '.btn-delete', function() {
         deleteId = $(this).closest('tr').data('id');
         $('#delete-modal').fadeIn(200);
-        $('#delete-modal .modal-confirm').attr('id', 'delete-confirm1');
+        $('#delete-confirm').attr("data-name","single-delete");
     });
     $('#delete-cancel').click(()=>$('#delete-modal').fadeOut(200));
-    // $('#delete-confirm').click(function(){
+    // $('#delete-confirm1').click(function(){
+    //   alert("hello");
     //   if(deleteId){
     //     //delete searches[deleteId];
     //     let row = $(`#savedSearchTable tr[data-id="${deleteId}"]`).data('value');
@@ -1552,42 +1609,79 @@ $('#renameCancel').click(function() {
       alert("Please select at least one record to delete.");
       return;
     }
-
+    $('#delete-confirm').attr("data-name","multiple-delete");
     // Open modal
     $('#delete-modal').fadeIn(200).css('display', 'flex');
   });
     $('#delete-confirm').on('click', function() {
       $('#delete-modal').fadeOut(200);
-
-      // AJAX delete request
-      $.ajax({
-        url: "{{ url('/nurse/deleteMultipleSearches') }}",
-        type: "POST",
-        data: {
-          ids: selectedIds,
-          _token: "{{ csrf_token() }}"
-        },
-        success: function(response) {
-          if (response.status === 'success') {
-            // Remove deleted rows from table
-            $('.select-item:checked').each(function() {
-              $(this).closest('tr').fadeOut(300, function() { $(this).remove(); });
-            });
-            $('#selectAll').prop('checked', false);
-            Swal.fire({
+        var btn_name = $(this).data("name");
+        //alert(btn_name);
+        if(btn_name == "multiple-delete"){
+          $.ajax({
+          url: "{{ url('/nurse/deleteMultipleSearches') }}",
+          type: "POST",
+          data: {
+            ids: selectedIds,
+            _token: "{{ csrf_token() }}"
+          },
+          success: function(response) {
+            if (response.status === 'success') {
+              // Remove deleted rows from table
+              $('.select-item:checked').each(function() {
+                $(this).closest('tr').fadeOut(300, function() { $(this).remove(); });
+              });
+              $('#selectAll').prop('checked', false);
+              Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: 'Save Searches Deleted Successfully',
+              }).then(function() {
+                
+                $('#delete-modal').fadeOut(200);
+                location.reload(true);
+              //window.location.href = "{{ route('nurse.language_skills') }}?page=language_skills";
+              });
+            } else {
+              alert("Error deleting records.");
+            }
+          },
+          error: function(xhr) {
+            console.error(xhr.responseText);
+            alert("Something went wrong. Please try again.");
+          }
+        });
+      }else{
+        let row = $(`#savedSearchTable tr[data-id="${deleteId}"]`).data('value');
+        $(`#savedSearchTable tr[data-id="${deleteId}"]`).remove();
+        $(`.saved-search-tab[data-id="${deleteId}"]`).remove();
+        
+        deleteId = null;
+        $.ajax({
+          type: "POST",
+          url: "{{ url('/nurse/deleteSearchJobsData') }}",
+          data: {searches_id:row,_token:"{{ csrf_token() }}"},
+          cache: false,
+          success: function(data){
+            if(data == 1){
+              
+              Swal.fire({
               icon: 'success',
               title: 'Success',
-              text: 'Save Searches Deleted Successfully',
-            })
-          } else {
-            alert("Error deleting records.");
+              text: 'Save Search Deleted Successfully',
+              }).then(function() {
+                
+                $('#delete-modal').fadeOut(200);
+                location.reload(true);
+              //window.location.href = "{{ route('nurse.language_skills') }}?page=language_skills";
+              });
+              
+            }
+            
           }
-        },
-        error: function(xhr) {
-          console.error(xhr.responseText);
-          alert("Something went wrong. Please try again.");
-        }
-      });
+        });
+      }
+      
     });
 
     // Switch active tab
