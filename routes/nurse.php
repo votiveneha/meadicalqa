@@ -262,6 +262,8 @@ Route::prefix('nurse')->name('nurse.')->namespace('App\Http\Controllers\nurse')-
   Route::post('remove-filter/{id}', 'JobsController@removeFilter');
   Route::post('updateAlert/{id}', 'JobsController@updateAlert');
   Route::post('run-saved-search/{id}', 'JobsController@run')->name('run-saved-search');
+  Route::post('get_tags', 'JobsController@get_tags')->name('get_tags');
+  Route::post('get_filters_data', 'JobsController@get_filters_data')->name('get_filters_data');
 
 
   });

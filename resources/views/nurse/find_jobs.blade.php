@@ -692,7 +692,8 @@
               
               @foreach($saved_searches_data as $saved_searches)
               <div class="saved-search-tab" data-id="{{ $i }}">
-                {{ $saved_searches->name }}
+                <!-- {{ $saved_searches->name }} -->
+                  Saved search {{ $i }} 
                 <!-- <div class="unsaved-dot"></div> -->
               </div>
               @php
@@ -1106,18 +1107,20 @@
                       <input type="checkbox" class="select-item">
                       @endif
                     </td>
-                    <td>{{ $saved_searches->name }}</td>
+                    <td>Saved search {{ $i }}</td>
                     <td>{{ $saved_searches->type }}</td>
                     <td>
                       <div class="filter-summary">
+                        
                         @php
                           $filters = json_decode($saved_searches->filters, true);
                           
                         @endphp
-                        @if(!empty($filters['sector']))
-                          Sector:<span class="chip">{{ $filters['sector'] }}</span>
+                        @if(!empty($filters))
+                          <span class="chip">{{ $filters[0] }}</span>
+                          <a href="#" class="btn-readmore" data-id="{{ $saved_searches->searches_id }}" data-filters='{{ $saved_searches->filters }}'>Read More</a>
                         @endif
-                        <a href="#" class="btn-readmore" data-id="{{ $saved_searches->searches_id }}" data-filters='{{ $saved_searches->filters }}'>Read More</a>
+                        
 
                       </div>
                     </td>
@@ -1306,6 +1309,7 @@
      let row = `<tr data-id="${id}">
        <td><input type="checkbox" class="select-item"> </td> 
        <td>${name}</td>
+       <td></td>
        <td>${filter_summury}</td>
        <td>
           <span class="match-count badge bg-info text-dark">
@@ -1397,22 +1401,28 @@
             var data_parse = JSON.parse(data1.filters);
             $(`input[name="edit_sector"][value="${data_parse.sector}"]`).prop("checked", true);
             $(`input[name="edit_location"][value="${data_parse.sector}"]`).prop("checked", true);
-            $(`#year_experience`).val(data_parse.years_of_experience);
-            $(`#minSalary1`).val(data_parse.salary_range.min);
-            $(`#maxSalary1`).val(data_parse.salary_range.max);
-            $(`#minSalaryValue1`).text(data_parse.salary_range.min);
-            $(`#maxSalaryValue1`).text(data_parse.salary_range.max);
+            $(`#year_experience`).val(data1.experience);
+            $(`#minSalary1`).val(data1.salary_min);
+            $(`#maxSalary1`).val(data1.salary_max);
+            $(`#minSalaryValue1`).text(data1.salary_min);
+            $(`#maxSalaryValue1`).text(data1.salary_max);
             console.log("v",data_parse.years_of_experience);
             // Loop through and apply dynamically
-            $.each(data_parse, function (key, values) {
-              if (Array.isArray(values)) {
+            // $.each(data_parse, function (key, values) {
+            //   if (Array.isArray(values)) {
                 
-                values.forEach(v => {
-                  console.log("key",key);
-                  console.log("values",v);
-                  $(`input[name="${key}[]"][value="${v}"]`).prop("checked", true);
-                });
-              }
+            //     values.forEach(v => {
+            //       console.log("key",key);
+            //       console.log("values",v);
+            //       $(`input[name="${key}[]"][value="${v}"]`).prop("checked", true);
+            //     });
+            //   }
+            // });
+            data_parse.forEach(function(value) {
+                // Check checkboxes or radio buttons with matching value
+                $(".edit_side_drawer input[type='checkbox'][value='" + value + "'], .edit_side_drawer input[type='radio'][value='" + value + "']")
+                    .prop("checked", true)
+                    .trigger("change"); // optional, if you have any dependent UI logic
             });
           }
         }
@@ -1449,10 +1459,11 @@ $(document).on('click', '.btn-duplicate', function() {
   const row = $(this).closest('tr');
   const id = row.data('value');
   const originalName = row.find('td:nth-child(2)').text().trim();
-  const filterSummary = row.find('td:nth-child(3)').html();
-  const alertFreq = row.find('td:nth-child(4)').text().trim();
+  const filterSummary = row.find('td:nth-child(4)').html();
+  const alertFreq = row.find('td:nth-child(6)').text().trim();
   
-
+  console.log("alertFreq",alertFreq);
+  
   // Get the full JSON filter from the row’s data attribute
   const filterJson = row.data('filters');
   const delivery = row.data('name');

@@ -439,11 +439,14 @@ class JobsController extends Controller{
         $filter_location = $request->edit_filter_location;
         $filter_shift = $request->edit_filter_shift;
         $filter_preview = $request->edit_filter_preview;
+        $minSalary1 = $request->minSalary1;
+        $maxSalary1 = $request->maxSalary1;
+        $year_experience = $request->year_experience;
         $edit_alert_cap = $request->edit_alert_cap;
         $edit_quiet_start = $request->edit_quiet_start;
         $edit_quiet_end = $request->edit_quiet_end;
         $edit_search_notes = $request->edit_search_notes;
-        $search_name = $request->search_name;
+        $suggestion_search_name = $request->suggestion_search_name;
         $search_type = $request->search_type;
         $alert_frequency = $request->alert_frequency;
         $delivery_method = $request->delivery_method;
@@ -455,10 +458,13 @@ class JobsController extends Controller{
 
         if($search_id){
             $oldSearch = SavedSearches::find($search_id);
-            $oldSearch->name = $search_name;
+            //$oldSearch->name = $search_name;
             $oldSearch->alert = $alert_frequency;
             $oldSearch->delivery = $delivery_method;
             $oldSearch->filters = $filters;
+            $oldSearch->salary_min = $minSalary1;
+            $oldSearch->salary_max = $maxSalary1;
+            $oldSearch->experience = $year_experience;
             // $oldSearch->location = $filter_location;
             // $oldSearch->shift = $filter_shift;
             // $oldSearch->preview_count = $filter_preview;
@@ -472,11 +478,11 @@ class JobsController extends Controller{
         }else{
             $saved_searches = new SavedSearches();
             $saved_searches->user_id = $user_id;
-            $saved_searches->name = $search_name;
+            //$saved_searches->name = $search_name;
             $saved_searches->type = $search_type;
             $saved_searches->alert = $alert_frequency;
             $saved_searches->delivery = $delivery_method;
-            $saved_searches->filters = $filters;
+            $saved_searches->filters = $suggestion_search_name;
             $saved_searches->created_at = $date;
             $run = $saved_searches->save();
 
@@ -839,40 +845,25 @@ class JobsController extends Controller{
     public function removeFilter(Request $request, $id)
     {
         $savedSearch = SavedSearches::findOrFail($id);
+        $filters = json_decode($savedSearch->filters, true) ?? [];
 
-        // Decode the JSON filters
-        $filters = json_decode($savedSearch->filters, true);
-
-        $key = $request->input('key');
         $value = $request->input('value');
 
-        if (isset($filters[$key])) {
-            // If it’s an array field, remove the value
-            if (is_array($filters[$key])) {
-                $filters[$key] = array_values(array_filter($filters[$key], function($v) use ($value) {
-                    return $v !== $value;
-                }));
+        // Remove the value from the array
+        $filters = array_values(array_filter($filters, function($v) use ($value) {
+            return $v !== $value;
+        }));
 
-                // If the array becomes empty, you can unset it
-                if (empty($filters[$key])) {
-                    unset($filters[$key]);
-                }
-            }
-            // If it’s a single value field
-            else {
-                unset($filters[$key]);
-            }
-
-            // Update the record
-            $savedSearch->filters = json_encode($filters, JSON_UNESCAPED_UNICODE);
-            $savedSearch->save();
-        }
+        // Update the record
+        $savedSearch->filters = json_encode($filters, JSON_UNESCAPED_UNICODE);
+        $savedSearch->save();
 
         return response()->json([
             'status' => 'success',
             'filters' => $filters
         ]);
     }
+
 
     public function updateAlert(Request $request)
     {
@@ -964,6 +955,90 @@ class JobsController extends Controller{
             'filters' => $filters,
             'results' => $results
         ]);
+    }
+
+    public function get_tags()
+    {
+        $employeement_type = DB::table("employeement_type_preferences")->where("sub_prefer_id","!=","0")->get();
+        $shift_type = DB::table("work_shift_preferences")->where("shift_id","!=","0")->get();
+        $work_environment = DB::table("work_enviornment_preferences")->where("sub_env_id","!=","0")->get();
+        $employee_positions = DB::table("employee_positions")->where("subposition_id","!=","0")->get();
+        $benefits = DB::table("benefits_preferences")->where("subbenefit_id","!=","0")->get();
+        $practitioner_type = DB::table("practitioner_type")->where("parent","!=","0")->get();
+        $speciality = DB::table("speciality")->where("parent","!=","0")->get();
+
+        $allTags = [];
+        //print_r($employeement_type);die;
+        foreach($employeement_type as $emp_type){
+            $allTags[] = $emp_type->emp_type;
+        }
+
+        foreach($shift_type as $stype){
+            $allTags[] = $stype->shift_name;
+        }
+
+        foreach($work_environment as $wenvironment){
+            $allTags[] = $wenvironment->env_name;
+        }
+
+        foreach($employee_positions as $employee_pos){
+            $allTags[] = $employee_pos->position_name;
+        }
+
+        foreach($benefits as $bene){
+            $allTags[] = $bene->benefits_name;
+        }
+
+        foreach($practitioner_type as $practype){
+            $allTags[] = $practype->name;
+        }
+
+        foreach($speciality as $spec){
+            $allTags[] = $spec->name;
+        }
+
+        $allTags = array_merge($allTags, ['Public & Government', 'Private', 'Public Government & Private']);
+
+        return json_encode($allTags);
+    }
+
+    public function get_filters_data()
+    {
+        $user_id = Auth::guard('nurse_middle')->user()->id;
+        $work_prefer_data = DB::table("work_preferences")->where("user_id",$user_id)->first();
+
+        $sector_data = $work_prefer_data->sector_preferences;
+        $emptype_preferences = json_decode($work_prefer_data->emptype_preferences);
+        $worktype_preferences = json_decode($work_prefer_data->work_environment_preferences);
+
+        $saved_filters = [];
+        if(!empty($emptype_preferences)){
+            foreach($emptype_preferences as $emptype_prefer){
+                foreach($emptype_prefer as $emptype_prefer1){
+                    $employeement_type = DB::table("employeement_type_preferences")->where("emp_prefer_id",$emptype_prefer1)->first();
+                    $saved_filters[] = $employeement_type->emp_type;
+                }
+            }
+        }
+
+        if(!empty($worktype_preferences)){
+            foreach($worktype_preferences as $workpreferences){
+                foreach($workpreferences as $index=>$workpreferences1){
+                    $workprefertype = DB::table("work_enviornment_preferences")->where("prefer_id",$index)->first();
+                    $saved_filters[] = $workprefertype->env_name;
+                    foreach($workpreferences1 as $workpreferences2){
+                        $workprefertype1 = DB::table("work_enviornment_preferences")->where("prefer_id",$workpreferences2)->first();
+                        $saved_filters[] = $workprefertype1->env_name;
+                    }
+                }
+            }
+        }
+
+        $saved_filters = array_merge($saved_filters, [$sector_data]);
+
+        //print_r($saved_filters);
+
+        return json_encode($saved_filters);
     }
 
 

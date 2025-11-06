@@ -5,11 +5,23 @@
         <form method="post" id="add_saved_searches" method="POST" onsubmit="return add_saved_searches()">
         @csrf
         <div class="form-group level-drp">
-            <label for="search-name">Search Name</label>              
-            <input type="text" id="search-name" name="search_name" class="form-control" placeholder="Enter a name"> 
+            <label for="search-name">Search Name</label>
+
+            <div class="tag-input-wrapper">
+                <div class="smart-input" id="smartInput">
+                    <input type="text" id="search-name" name="search_name" placeholder="Type location, shift, specialty...">
+                </div>
+            </div>
+
             <span id='reqsearch-name' class='reqError text-danger valley'></span>
-        </div>                  
+        </div>
+
         <div class="form-group level-drp">
+                      
+            <input type="hidden" id="suggestion-search-name" name="suggestion_search_name" class="form-control"> 
+            <input type="hidden" id="search_type" name="search_type" class="form-control"> 
+        </div>                  
+        <!-- <div class="form-group level-drp">
             <label for="search-type">Search Type</label>              
             <select id="search-type" name="search_type" class="form-control">
                 <option value="">Select</option>
@@ -19,7 +31,7 @@
                 
             </select>
             <span id='reqsearch-type' class='reqError text-danger valley'></span>
-        </div>      
+        </div>       -->
         <div class="form-group level-drp">
             <label for="alert-frequency">Alert Frequency</label>
             <select id="alert-frequency" name="alert_frequency" class="form-control">
@@ -105,6 +117,9 @@
                         <span class="icon">&#8250;</span>
                     </div>
                     <div class="filter-options">
+                        @php
+                        $employeement_type_data = DB::table("employeement_type_preferences")->where("sub_prefer_id","!=","0")->get();
+                        @endphp
                         @foreach($employeement_type_data as $emp_data)
                         <label class="sub-heading emp-type-{{ $emp_data->emp_prefer_id }}" data-name="Employment Type" data-filter="employment_type" data-value="{{ $emp_data->emp_prefer_id }}"><input type="checkbox" name="employment_type[]" value="{{ $emp_data->emp_type }}"> {{ $emp_data->emp_type }}</label>
                         
@@ -112,9 +127,9 @@
                         
                     </div>
                     <div class="subpagedata-employment_type">
-                        @foreach($employeement_type_data as $emp_data)
+                        <!-- @foreach($employeement_type_data as $emp_data)
                         
-                        @endforeach
+                        @endforeach -->
                     </div>
                 </div>
                 <div class="filter-section">
@@ -123,6 +138,9 @@
                         <span class="icon">&#8250;</span>
                     </div>
                     <div class="filter-options">
+                        @php
+                        $work_shift_data = DB::table("work_shift_preferences")->where("shift_id","!=","0")->get();
+                        @endphp
                         @foreach($work_shift_data as $work_shift)
                         <label class="sub-heading shift-type-{{ $work_shift->work_shift_id }}" data-filter="work_shift"
                             data-value="{{ $work_shift->work_shift_id }}"
@@ -149,6 +167,9 @@
                         <span class="icon">&#8250;</span>
                     </div>
                     <div class="filter-options">
+                        @php
+                        $work_environment_data = DB::table("work_enviornment_preferences")->where("sub_env_id","!=","0")->get();
+                        @endphp
                         @foreach($work_environment_data as $work_environment)
                         <label class="sub-heading work-environment-{{ $work_environment->prefer_id }}" 
                             data-name="Work Environment" 
@@ -177,6 +198,9 @@
                         <span class="icon">&#8250;</span>
                     </div>
                     <div class="filter-options">
+                        @php
+                        $employee_positions = DB::table("employee_positions")->where("subposition_id","!=","0")->get();
+                        @endphp
                         @foreach($employee_positions as $emp_pos)
                         <label class="sub-heading work-environment-{{ $emp_pos->position_id }}" 
                             data-name="Employee Positions" 
@@ -206,6 +230,9 @@
                         <span class="icon">&#8250;</span>
                     </div>
                     <div class="filter-options">
+                        @php
+                        $benefits_preferences = DB::table("benefits_preferences")->where("subbenefit_id","!=","0")->get();
+                        @endphp
                         @foreach($benefits_preferences as $benprefer)
                         <label class="sub-heading benefits_preferences-{{ $benprefer->benefits_id }}" 
                             data-name="Benefit Preferences" 
@@ -300,6 +327,9 @@
                         <span class="icon">&#8250;</span>
                     </div>
                     <div class="filter-options">
+                        @php
+                        $type_of_nurse = DB::table("practitioner_type")->where("parent","!=","0")->get();
+                        @endphp
                         @foreach($type_of_nurse as $nurse_type)
                         <label class="sub-heading nurse-type-{{ $nurse_type->id }}" data-name="Nurse Type" data-filter="nurse_type" data-value="{{ $nurse_type->id }}"><input type="checkbox" name="nurse_type[]" value="{{ $nurse_type->name }}"> {{ $nurse_type->name }}</label>
                         
@@ -324,6 +354,9 @@
                         <span class="icon">&#8250;</span>
                     </div>
                     <div class="filter-options">
+                        @php
+                        $speciality = DB::table("speciality")->where("parent","!=","0")->get();
+                        @endphp
                         @foreach($speciality as $spec)
                         <label class="sub-heading nurse-type-{{ $spec->id }}" data-name="Speciality" data-filter="speciality" data-value="{{ $spec->id }}"><input type="checkbox" name="speciality[]" value="{{ $spec->name }}"> {{ $spec->name }}</label>
                         
@@ -364,8 +397,8 @@
                             <label class="filter-label">Salary Range</label>
                             <div class="range-container">
                                 <div class="slider-track"></div>
-                                <input type="range" id="minSalary1" min="0" max="200000" step="1000" value="30000">
-                                <input type="range" id="maxSalary1" min="0" max="200000" step="1000" value="120000">
+                                <input type="range" name="minSalary1" id="minSalary1" min="0" max="200000" step="1000" value="30000">
+                                <input type="range" name="maxSalary1" id="maxSalary1" min="0" max="200000" step="1000" value="120000">
                             </div>
                             <div class="salary-values">
                                 <span id="minSalaryValue1">₹30,000</span> - 
@@ -457,6 +490,119 @@
 </script>
 <script>
    $(document).ready(function () {
+    if ($('#toggleRegisteredPreferences').is(':checked')) {
+        console.log('Checkbox is checked');
+
+        $.ajax({
+            url: '{{ route("nurse.get_filters_data") }}',
+            type: 'POST',
+            data: {
+                _token: "{{ csrf_token() }}"
+            },
+            success: function(res) {
+                
+                var res_data = JSON.parse(res);
+                var filter_data = [];
+                for(var i=0;i<res_data.length;i++){
+                    $("#smartInput").prepend('<span class="tag">'+res_data[i]+'\
+                    <span class="remove-tag remove-tag-'+i+'">×</span>\
+                    </span>');
+                    //removeTag(res_data[i]);
+                    filter_data.push(res_data[i]);
+                }
+                
+                $("#suggestion-search-name").val(JSON.stringify(filter_data));
+                $("#search_type").val("Dynamic");
+                //console.log("res_data", res_data);
+            }
+        });     
+    }
+    let availableTags = [];
+
+    $.ajax({
+        url: '{{ route("nurse.get_tags") }}',
+        type: 'POST',
+        data: {
+            _token: "{{ csrf_token() }}"
+        },
+        success: function(res) {
+            
+            var res_data = JSON.parse(res);
+            
+            availableTags = res_data;
+            
+
+            //console.log("availableTags", availableTags);
+        }
+    });     
+
+
+
+    let selectedTags = [];
+
+    // 🔹 Autocomplete setup
+    $("#search-name").autocomplete({
+        source: function(request, response) {
+        const term = request.term.toLowerCase();
+        const filtered = availableTags.filter(tag => 
+            tag.toLowerCase().includes(term) && !selectedTags.includes(tag)
+        );
+        response(filtered);
+        },
+        select: function(event, ui) {
+        addTag(ui.item.value);
+        $(this).val('');
+        return false;
+        }
+    });
+
+    // 🔹 Add tag to UI
+    function addTag(tagText) {
+        
+        if (!selectedTags.includes(tagText)) {
+            selectedTags.push(tagText);
+            const tagEl = $('<span class="tag"></span>').text(tagText);
+            const removeBtn = $('<span class="remove-tag">&times;</span>').click(function() {
+                removeTag(tagText);
+            });
+            tagEl.append(removeBtn);
+            $("#search-name").before(tagEl);
+            //updateSuggestion();
+            updateHiddenField();
+        }
+    }
+
+    // 🔹 Remove tag
+    function removeTag(tagText) {
+        selectedTags = selectedTags.filter(tag => tag !== tagText);
+        $(".tag").filter(function() { return $(this).text().includes(tagText); }).remove();
+        //updateSuggestion();
+        updateHiddenField();
+    }
+
+    // 🔹 Update suggestion dynamically
+    // function updateSuggestion() {
+    //     if (selectedTags.length === 0) {
+    //     $("#suggestion-search-name").val("–");
+    //     } else {
+    //     $("#suggestion-search-name").val(selectedTags.join(" • "));
+    //     }
+    // }
+
+    function updateHiddenField() {
+        $("#suggestion-search-name").val(JSON.stringify(selectedTags));
+    }
+
+    // 🔹 Press Enter to add text manually
+    $("#search-name").on("keydown", function(e) {
+        if (e.key === "Enter" && this.value.trim() !== "") {
+        e.preventDefault();
+        addTag(this.value.trim());
+        this.value = "";
+        }
+    });
+
+    
     
     $(document).on('change', '#selectAll', function() {
         const isChecked = $(this).is(':checked');
@@ -550,9 +696,18 @@
     $('.filter-options input[type="checkbox"]:checked').prop('disabled', true);
     // Toggle filter sections
     $('.filter-title').click(function () {
-        $(this).toggleClass('active');
-        $(this).next('.filter-options').slideToggle(200);
+        const $current = $(this);
+        const $options = $current.next('.filter-options');
+
+        // Close all other sections
+        $('.filter-title').not($current).removeClass('active');
+        $('.filter-options').not($options).slideUp(200);
+
+        // Toggle current section
+        $current.toggleClass('active');
+        $options.slideToggle(200);
     });
+
 
     const subpageStack = []; // Track navigation history
 
@@ -788,8 +943,8 @@
             // Build chips dynamically
             $.each(parsed, function(key, value) {
                 if (Array.isArray(value)) {
-                    html += `<div style="${sectionStyle}">
-                                <strong style="${headingStyle}">${key.replace(/_/g, ' ')}:</strong>`;
+                    html += `<div style="${sectionStyle}">`
+                             
                     value.forEach(v => {
                         html += `
                             <span class="chip" 
@@ -805,7 +960,7 @@
                 else if (typeof value === 'object' && value !== null && value.min !== undefined) {
                     // Salary range object
                     html += `<div style="${sectionStyle}">
-                                <strong style="${headingStyle}">${key.replace(/_/g, ' ')}:</strong>
+                                
                                 <span class="chip" data-key="${key}" style="${chipStyle}">
                                     $${value.min} – $${value.max}
                                 </span>
@@ -814,7 +969,7 @@
                 else if (value) {
                     // Single string or number
                     html += `<div style="${sectionStyle}">
-                                <strong style="${headingStyle}">${key.replace(/_/g, ' ')}:</strong>
+                                
                                 <span class="chip" data-key="${key}" data-value="${value}" style="${chipStyle}">
                                     ${value}
                                     <button class="chip-close" style="${closeStyle}">&times;</button>
@@ -828,34 +983,31 @@
         });
         $(document).on('click', '.chip-close', function () {
             const $chip = $(this).closest('.chip');
-            const key = $chip.data('key');
-            const value = $chip.data('value');
+            const value = $chip.data('value'); // Each chip has value text
 
             // Remove from UI
             $chip.remove();
 
             // Uncheck corresponding checkbox/radio
-            $(`input[name="${key}[]"][value="${value}"], input[name="${key}"][value="${value}"]`)
-                .prop("checked", false)
-                .trigger("change");
+            $(`input[value="${value}"]`).prop("checked", false).trigger("change");
 
-            // Get the saved search ID (add data-id to your modal or button)
+            // Get the saved search ID
             const searchId = $('#filterModal').data('id'); 
 
             if (!searchId) {
                 console.warn("No saved search ID found.");
                 return;
             }
+
             let baseUrl = `{{ url('/nurse/remove-filter') }}`;
 
-            // Prepare AJAX call to update DB
+            // AJAX call to update backend
             $.ajax({
                 url: `${baseUrl}/${searchId}`,
                 type: 'POST',
                 data: {
-                    key: key,
                     value: value,
-                    _token: $('meta[name="csrf-token"]').attr('content') // required in Laravel
+                    _token: $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function (response) {
                     console.log('Filter removed successfully:', response);
@@ -866,6 +1018,7 @@
                 }
             });
         });
+
 
 
 
@@ -884,12 +1037,12 @@
     function add_saved_searches() {
         var isValid = true;
 
-        if ($('[name="search_name"]').val() == '') {
+        // if ($('[name="search_name"]').val() == '') {
 
-            document.getElementById("reqsearch-name").innerHTML = "* Please enter the Search Name";
-            isValid = false;
+        //     document.getElementById("reqsearch-name").innerHTML = "* Please enter the Search Name";
+        //     isValid = false;
 
-        }
+        // }
 
         if ($('[name="search_type"]').val() == '') {
 
@@ -985,103 +1138,125 @@
 
         // }
 
-        let filterData = {};
+        // let filterData = {};
 
-        // 1️⃣ SECTOR (radio)
-        const selectedSector = $('input[name="edit_sector"]:checked').val();
-        if (selectedSector) filterData['sector'] = selectedSector;
+        // // 1️⃣ SECTOR (radio)
+        // const selectedSector = $('input[name="edit_sector"]:checked').val();
+        // if (selectedSector) filterData['sector'] = selectedSector;
 
-        // 2️⃣ EMPLOYMENT TYPE (checkboxes)
-        const empTypes = [];
-        $('[data-filter="employment_type"] input[type="checkbox"]:checked, .emp-type input[type="checkbox"]').each(function () {
-            if ($(this).is(':checked')) empTypes.push($(this).val());
+        // // 2️⃣ EMPLOYMENT TYPE (checkboxes)
+        // const empTypes = [];
+        // $('[data-filter="employment_type"] input[type="checkbox"]:checked, .emp-type input[type="checkbox"]').each(function () {
+        //     if ($(this).is(':checked')) empTypes.push($(this).val());
+        // });
+        // if (empTypes.length) filterData['employment_type'] = empTypes;
+
+        // // 3️⃣ WORK SHIFT
+        // const workShifts = [];
+        // $('[data-filter="work_shift"] input[type="checkbox"]:checked').each(function () {
+        //     workShifts.push($(this).val());
+        // });
+        // if (workShifts.length) filterData['work_shift'] = workShifts;
+
+        // // 4️⃣ WORK ENVIRONMENT
+        // const workEnvs = [];
+        // $('[data-filter="work_environment"] input[type="checkbox"]:checked').each(function () {
+        //     workEnvs.push($(this).val());
+        // });
+        // if (workEnvs.length) filterData['work_environment'] = workEnvs;
+
+        // // 5️⃣ POSITION
+        // const positions = [];
+        // $('[data-filter="employee_positions"] input[type="checkbox"]:checked').each(function () {
+        //     positions.push($(this).val());
+        // });
+        // if (positions.length) filterData['employee_positions'] = positions;
+
+        // // 6️⃣ BENEFITS
+        // const benefits = [];
+        // $('[data-filter="benefits_preferences"] input[type="checkbox"]:checked').each(function () {
+        //     benefits.push($(this).val());
+        // });
+        // if (benefits.length) filterData['benefits_preferences'] = benefits;
+
+        // // 7️⃣ LOCATION PREFERENCE (radio)
+        // const locationType = $('input[name="edit_location"]:checked').val();
+        // if (locationType) {
+        //     filterData['location_type'] = locationType;
+
+        //     // Handle sub-drawers for each location type
+        //     if (locationType.includes('Current Location')) {
+        //         filterData['preferred_location'] = $('#locationSearch').val() || '';
+        //         filterData['max_travel_distance'] = $('#travelDistance').val() + ' km';
+        //     }
+        //     else if (locationType.includes('Multiple')) {
+        //         filterData['preferred_locations'] = $('#locationSearch').val() || '';
+        //     }
+        //     else if (locationType.includes('International')) {
+        //         const countries = [];
+        //         $('.subpage-international input[type="checkbox"]:checked').each(function () {
+        //             countries.push($(this).parent().text().trim());
+        //         });
+        //         filterData['international_countries'] = countries;
+        //     }
+        // }
+
+        // // 8️⃣ TYPE OF NURSE
+        // const nurseTypes = [];
+        // $('[data-filter="nurse_type"] input[type="checkbox"]:checked').each(function () {
+        //     nurseTypes.push($(this).val());
+        // });
+        // if (nurseTypes.length) filterData['nurse_type'] = nurseTypes;
+
+        // // 9️⃣ SPECIALTY
+        // const specialties = [];
+        // $('[data-filter="speciality"] input[type="checkbox"]:checked').each(function () {
+        //     specialties.push($(this).val());
+        // });
+        // if (specialties.length) filterData['speciality'] = specialties;
+
+        // // 🔟 YEARS OF EXPERIENCE
+        // const experience = $('#year_experience').val();
+        // if (experience) filterData['years_of_experience'] = experience;
+
+        // // 1️⃣1️⃣ SALARY RANGE
+        // const minSalary = $('#minSalary1').val();
+        // const maxSalary = $('#maxSalary1').val();
+        // filterData['salary_range'] = {
+        //     min: parseInt(minSalary),
+        //     max: parseInt(maxSalary)
+        // };
+
+        // // ✅ OUTPUT JSON
+        // console.log("FILTER JSON:", filterData);
+        // console.log("JSON STRING:", JSON.stringify(filterData, null, 2));
+
+        let selectedValues = [];
+        // 🔹 Get all checked checkboxes
+        $(".edit_side_drawer input[type='checkbox']:checked").each(function() {
+            selectedValues.push($(this).val());
         });
-        if (empTypes.length) filterData['employment_type'] = empTypes;
 
-        // 3️⃣ WORK SHIFT
-        const workShifts = [];
-        $('[data-filter="work_shift"] input[type="checkbox"]:checked').each(function () {
-            workShifts.push($(this).val());
+        // 🔹 Get all checked radios
+        $(".edit_side_drawer input[type='radio']:checked").each(function() {
+            selectedValues.push($(this).val());
         });
-        if (workShifts.length) filterData['work_shift'] = workShifts;
 
-        // 4️⃣ WORK ENVIRONMENT
-        const workEnvs = [];
-        $('[data-filter="work_environment"] input[type="checkbox"]:checked').each(function () {
-            workEnvs.push($(this).val());
-        });
-        if (workEnvs.length) filterData['work_environment'] = workEnvs;
+        // 🔹 Convert to JSON string
+        let jsonData = JSON.stringify(selectedValues);
 
-        // 5️⃣ POSITION
-        const positions = [];
-        $('[data-filter="employee_positions"] input[type="checkbox"]:checked').each(function () {
-            positions.push($(this).val());
-        });
-        if (positions.length) filterData['employee_positions'] = positions;
+        // 🔹 Store JSON in hidden field (if you want to submit it)
+        //$("#selectedData").val(jsonData);
 
-        // 6️⃣ BENEFITS
-        const benefits = [];
-        $('[data-filter="benefits_preferences"] input[type="checkbox"]:checked').each(function () {
-            benefits.push($(this).val());
-        });
-        if (benefits.length) filterData['benefits_preferences'] = benefits;
+        // 🔹 Optional: log it
+        console.log("Selected JSON:", jsonData);
 
-        // 7️⃣ LOCATION PREFERENCE (radio)
-        const locationType = $('input[name="edit_location"]:checked').val();
-        if (locationType) {
-            filterData['location_type'] = locationType;
-
-            // Handle sub-drawers for each location type
-            if (locationType.includes('Current Location')) {
-                filterData['preferred_location'] = $('#locationSearch').val() || '';
-                filterData['max_travel_distance'] = $('#travelDistance').val() + ' km';
-            }
-            else if (locationType.includes('Multiple')) {
-                filterData['preferred_locations'] = $('#locationSearch').val() || '';
-            }
-            else if (locationType.includes('International')) {
-                const countries = [];
-                $('.subpage-international input[type="checkbox"]:checked').each(function () {
-                    countries.push($(this).parent().text().trim());
-                });
-                filterData['international_countries'] = countries;
-            }
-        }
-
-        // 8️⃣ TYPE OF NURSE
-        const nurseTypes = [];
-        $('[data-filter="nurse_type"] input[type="checkbox"]:checked').each(function () {
-            nurseTypes.push($(this).val());
-        });
-        if (nurseTypes.length) filterData['nurse_type'] = nurseTypes;
-
-        // 9️⃣ SPECIALTY
-        const specialties = [];
-        $('[data-filter="speciality"] input[type="checkbox"]:checked').each(function () {
-            specialties.push($(this).val());
-        });
-        if (specialties.length) filterData['speciality'] = specialties;
-
-        // 🔟 YEARS OF EXPERIENCE
-        const experience = $('#year_experience').val();
-        if (experience) filterData['years_of_experience'] = experience;
-
-        // 1️⃣1️⃣ SALARY RANGE
-        const minSalary = $('#minSalary1').val();
-        const maxSalary = $('#maxSalary1').val();
-        filterData['salary_range'] = {
-            min: parseInt(minSalary),
-            max: parseInt(maxSalary)
-        };
-
-        // ✅ OUTPUT JSON
-        console.log("FILTER JSON:", filterData);
-        console.log("JSON STRING:", JSON.stringify(filterData, null, 2));
+        
 
         let formData = new FormData($('#update_saved_searches')[0]);
 
         // Make sure you add the filters JSON
-        formData.append('filters', JSON.stringify(filterData));
+        formData.append('filters', jsonData);
 
         // Log all data before sending (to verify)
         for (let pair of formData.entries()) {
