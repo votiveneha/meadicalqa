@@ -1258,6 +1258,7 @@
    
    $('#add-search-btn, .add-new').on('click', function(e) {
       e.preventDefault();
+      let selected = [];
       // Count existing saved searches (rows)
       const totalSearches = $('#savedSearchTable tbody tr').length;
       
@@ -1275,6 +1276,53 @@
      $('#modal-title').text('Save Search');
      $('#save-search-modal').fadeIn(200);
      editId = null;
+
+      
+      var emp_type = sessionStorage.getItem("emp_type_data-emp_type");
+      let parts = emp_type.split(",");
+      console.log(parts);
+      var emp_type_json = JSON.stringify(parts);
+      // $('#employmentModal .employee_type:checked, #employmentModal .employee_type:disabled:checked').each(function() {
+      //     selected.push($(this).val());
+      // });
+      console.log(emp_type);
+      
+
+      $.ajax({
+        type: "GET",
+        url: "{{ url('/nurse/getEmptypeData') }}",
+        data: {id_arr:emp_type_json},
+        cache: false,
+        success: function(data){
+
+          if ($('#toggleRegisteredPreferences').is(':checked') == true && $('#toggleUpdatePreferences').is(':checked') == false) {
+            var res_data = JSON.parse(data);
+            var filter_data = [];
+            $("#smartInput .tag").remove();
+            for(var i=0;i<res_data.length;i++){
+                $("#smartInput").prepend('<span class="tag">'+res_data[i]+'\
+                <span class="remove-tag remove-tag-'+i+'">×</span>\
+                </span>');
+                //removeTag(res_data[i]);
+                filter_data.push(res_data[i]);
+            }
+            
+            $("#suggestion-search-name").val(JSON.stringify(filter_data));
+            $("#search_type").val("Hybrid");
+          }
+
+          if ($('#toggleRegisteredPreferences').is(':checked') == false && $('#toggleUpdatePreferences').is(':checked') == false) {
+            
+            $("#smartInput .tag").remove();
+            //$("#suggestion-search-name").val(JSON.stringify(filter_data));
+            $("#search_type").val("snapshot");
+            
+          }
+
+          
+          
+        }
+      });  
    });
    
    // Cancel modal

@@ -81,7 +81,7 @@
 </div>
 <div class="drawer-overlay"></div>
 <div class="edit_side_drawer">
-    <!-- SIDE DRAWER -->
+    
     <div class="drawer" id="drawer">
         <h3 id="drawer-title">Edit Search</h3>
         <div class="tabs">
@@ -127,9 +127,7 @@
                         
                     </div>
                     <div class="subpagedata-employment_type">
-                        <!-- @foreach($employeement_type_data as $emp_data)
                         
-                        @endforeach -->
                     </div>
                 </div>
                 <div class="filter-section">
@@ -151,14 +149,7 @@
                         
                     </div>
                     <div class="subpagedata-work_shift">
-                        <!-- <div class="subpage-header">
-                        <span class="back-btn">&#8249;</span><h4>Permanent</h4>
-                        </div>
-                        <div class="subpage-content">
-                        <p style="font-size:14px;color:#555;">Detailed options for <b>Permanent</b> roles can appear here.</p>
-                        <label><input type="checkbox"> Full Time</label>
-                        <label><input type="checkbox"> Part Time</label>
-                        </div> -->
+                        
                     </div>
                 </div>
                 <div class="filter-section">
@@ -182,14 +173,7 @@
                         
                     </div>
                     <div class="subpagedata-work_environment">
-                        <!-- <div class="subpage-header">
-                        <span class="back-btn">&#8249;</span><h4>Permanent</h4>
-                        </div>
-                        <div class="subpage-content">
-                        <p style="font-size:14px;color:#555;">Detailed options for <b>Permanent</b> roles can appear here.</p>
-                        <label><input type="checkbox"> Full Time</label>
-                        <label><input type="checkbox"> Part Time</label>
-                        </div> -->
+                        
                     </div>
                 </div>
                 <div class="filter-section">
@@ -213,14 +197,7 @@
                         
                     </div>
                     <div class="subpagedata-employee_positions">
-                        <!-- <div class="subpage-header">
-                        <span class="back-btn">&#8249;</span><h4>Permanent</h4>
-                        </div>
-                        <div class="subpage-content">
-                        <p style="font-size:14px;color:#555;">Detailed options for <b>Permanent</b> roles can appear here.</p>
-                        <label><input type="checkbox"> Full Time</label>
-                        <label><input type="checkbox"> Part Time</label>
-                        </div> -->
+                        
                     </div>
                     
                 </div>
@@ -271,7 +248,7 @@
                                     <div id="locationTags" class="mt-2"></div>
                                 </div>
 
-                                <!-- Travel Distance Slider -->
+                                
                                 <div id="travelDistanceContainer" class="mb-3">
                                     <label class="form-label fw-bold">Maximum Travel Distance</label>
                                     <input type="range" id="travelDistance" min="5" max="100" step="5" value="20" class="form-range">
@@ -337,14 +314,7 @@
                         
                     </div>
                     <div class="subpagedata-nurse_type">
-                        <!-- <div class="subpage-header">
-                        <span class="back-btn">&#8249;</span><h4>Permanent</h4>
-                        </div>
-                        <div class="subpage-content">
-                        <p style="font-size:14px;color:#555;">Detailed options for <b>Permanent</b> roles can appear here.</p>
-                        <label><input type="checkbox"> Full Time</label>
-                        <label><input type="checkbox"> Part Time</label>
-                        </div> -->
+                        
                     </div>
                     
                 </div>
@@ -364,14 +334,7 @@
                         
                     </div>
                     <div class="subpagedata-speciality">
-                        <!-- <div class="subpage-header">
-                        <span class="back-btn">&#8249;</span><h4>Permanent</h4>
-                        </div>
-                        <div class="subpage-content">
-                        <p style="font-size:14px;color:#555;">Detailed options for <b>Permanent</b> roles can appear here.</p>
-                        <label><input type="checkbox"> Full Time</label>
-                        <label><input type="checkbox"> Part Time</label>
-                        </div> -->
+                        
                     </div>
                 </div>
                 <div class="filter-section">
@@ -411,22 +374,6 @@
                     </div>
                 </div>
                 
-                <!-- <div class="form-group level-drp">
-                    <label for="filter-location">Location</label>
-                    <input type="text" name="edit_filter_location" id="filter-location" class="form-control">
-                </div>
-                <div class="form-group level-drp">
-                    <label for="filter-shift">Shift</label>
-                    <select id="filter-shift" name="edit_filter_shift" class="form-control">
-                        <option>Day</option>
-                        <option>Evening</option>
-                        <option>Night</option>
-                    </select>
-                </div>
-                <div class="form-group level-drp">
-                    <label for="filter-preview">Preview Count</label>
-                    <input type="number" name="edit_filter_preview" id="filter-preview" class="form-control" min="0">
-                </div> -->
             </div>
             <div class="tab-content-edit" id="tab4">
                 <div class="form-group level-drp">

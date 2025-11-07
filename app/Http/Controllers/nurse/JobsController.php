@@ -1041,6 +1041,19 @@ class JobsController extends Controller{
         return json_encode($saved_filters);
     }
 
+    public function getEmptypeData(Request $request)
+    {
+        $emp_ids = json_decode($request->id_arr);
+
+        $emp_name_arr = [];    
+        foreach($emp_ids as $emp_id){
+            $emp_prefer_data = DB::table("employeement_type_preferences")->where("emp_prefer_id",$emp_id)->first();
+            $emp_name_arr[] = $emp_prefer_data->emp_type;
+        }
+
+        return json_encode($emp_name_arr);
+        
+    }
 
 
 
