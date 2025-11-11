@@ -43,7 +43,50 @@ img, iframe, video {
 
  </style>
 
+<script>
+  $(function(){
+      const $drawer = $('#drawer-mobile');
+      const $overlay = $('.drawer-overlay-mobile');
+      const $pagesContainer = $drawer.find('.drawer-pages');
+      const $pages = $drawer.find('.drawer-page-mobile');
 
+      // Open drawer
+      $('#openDrawer').on('click', function(){
+        
+        $drawer.addClass('open');
+        $overlay.addClass('open');
+        showPage('main');
+      });
+
+      // Close drawer on overlay or close button
+      $overlay.on('click', closeDrawer);
+      $drawer.on('click', '.close-btn', closeDrawer);
+
+      function closeDrawer(){
+        $drawer.removeClass('open');
+        $overlay.removeClass('open');
+      }
+
+      // Go to submenu
+      $drawer.on('click', '.menu li[data-target]', function(){
+        const target = $(this).data('target');
+        showPage(target);
+      });
+
+      // Go back
+      $drawer.on('click', '.back-btn', function(){
+        const back = $(this).data('back');
+        showPage(back);
+      });
+
+      // Slide between pages
+      function showPage(pageName){
+        const targetIndex = $pages.index($pages.filter(`[data-page="${pageName}"]`));
+        const translateX = -targetIndex * 100;
+        $pagesContainer.css('transform', `translateX(${translateX}%)`);
+      }
+    });
+</script>
 
   @if (!Auth::guard('nurse_middle')->check())
   <header class="header sticky-bar top-view-desktop-add without_login">
@@ -154,9 +197,15 @@ img, iframe, video {
               </li>
             </ul>
           </nav>
-          <div class="burger-icon burger-icon-white">
+          <!-- <div class="burger-icon burger-icon-white" id="openDrawer">
             <span class="burger-icon-top"></span><span class="burger-icon-mid"></span><span class="burger-icon-bottom"></span>
+          </div> -->
+          <div id="openDrawer">
+            <span></span>
+            <span></span>
+            <span></span>
           </div>
+          <!-- <button id="openDrawer">Open Menu</button> -->
         </div>
         <div class="header-right">
           <div class="block-signin d-flex align-items-center gap-3 justify-content-end">
@@ -172,6 +221,156 @@ img, iframe, video {
           </div>
         </div>
       </div>
+      <div class="drawer-overlay-mobile"></div>
+
+  <div class="drawer-mobile" id="drawer-mobile">
+    <div class="drawer-pages">
+
+      <!-- PAGE 1: MAIN -->
+      <div class="drawer-page-mobile" data-page="main">
+        <header>
+          <h2>Main Menu</h2>
+          <button class="close-btn">✕</button>
+        </header>
+        <ul class="menu">
+          <li data-target="nurse_midwives"><a href="#">Nurses & Midwives <i class="fa-solid fa-angle-right mobile_angle"></i></a></li>
+          <li data-target="health_care_facilities"><a href="#">Healthcare Facilities <i class="fa-solid fa-angle-right mobile_angle"></i></a></li>
+          <li data-target="agencies"><a href="#">Agencies <i class="fa-solid fa-angle-right mobile_angle"></i></a></li>
+          <li data-target="cpd_ce_providers"><a href="#">CPD/CE Providers <i class="fa-solid fa-angle-right mobile_angle"></i></a></li>
+          <li><a href='{{ route("nurse.login") }}'>Log in</a></li>
+          <li><a href='{{ route("nurse.nurse-register") }}'>Sign up</a></li>
+          
+        </ul>
+      </div>
+
+      <!-- PAGE 2: JOBS -->
+      <div class="drawer-page-mobile" data-page="nurse_midwives">
+        <header>
+          <button class="back-btn" data-back="main">←</button>
+          <h2>Nurses & Midwives</h2>
+          <button class="close-btn">✕</button>
+        </header>
+        <ul class="menu">
+          <li>Get Started</li>
+          <li>Matched Jobs</li>
+          <li>Instant Connect</li>
+          <li>Training & CPD</li>
+          <li>Forum</li>
+          <li data-target="browse_by">Browse Jobs by <i class="fa-solid fa-angle-right mobile_angle"></i></li>
+        </ul>
+      </div>
+
+      <div class="drawer-page-mobile" data-page="browse_by">
+        <header>
+          <button class="back-btn" data-back="main">←</button>
+          <h2>Browse Jobs by</h2>
+          <button class="close-btn">✕</button>
+        </header>
+        <ul class="menu">
+          <li data-target="speciality_patient">Specialty & Patient group <i class="fa-solid fa-angle-right mobile_angle"></i></li>
+          <li data-target="type_of_nurse">Type of nurse <i class="fa-solid fa-angle-right mobile_angle"></i></li>
+          <li data-target="work_preferences">Work Preferences & Flexibility <i class="fa-solid fa-angle-right mobile_angle"></i></li>
+          
+        </ul>
+      </div>
+      <div class="drawer-page-mobile" data-page="speciality_patient">
+        <header>
+          <button class="back-btn" data-back="main">←</button>
+          <h2>Specialty & Patient group</h2>
+          <button class="close-btn">✕</button>
+        </header>
+        <ul class="menu">
+          @foreach($speciality_data as $key => $speciality)
+          <li><a href="{{ route('nurse.nurse-register') }}">{{ $speciality->name }}</a></li>
+          @endforeach
+          
+        </ul>
+      </div>
+      <div class="drawer-page-mobile" data-page="type_of_nurse">
+        <header>
+          <button class="back-btn" data-back="main">←</button>
+          <h2>Type of nurse</h2>
+          <button class="close-btn">✕</button>
+        </header>
+        <ul class="menu">
+          @foreach($practitioner_data as $key=>$prac_data)
+          <li><a href="{{ route('nurse.nurse-register') }}">{{ $prac_data->name }}</a></li>
+          @endforeach
+          
+        </ul>
+      </div>
+      <div class="drawer-page-mobile" data-page="work_preferences">
+        <header>
+          <button class="back-btn" data-back="main">←</button>
+          <h2>Work Preferences & Flexibility</h2>
+          <button class="close-btn">✕</button>
+        </header>
+        <ul class="menu">
+          <ul class="submenu">
+            <li><a href="{{ route('nurse.nurse-register') }}">Work Environment</a></li>
+            <li><a href="{{ route('nurse.nurse-register') }}">Employment type</a></li>
+            <li><a href="{{ route('nurse.nurse-register') }}">Shifts</a></li>
+            <li><a href="{{ route('nurse.nurse-register') }}">Work-life Balance</a></li>
+            <li><a href="{{ route('nurse.nurse-register') }}">Near, Australia-wide, Global</a></li>
+            <li><a href="{{ route('nurse.nurse-register') }}">Position</a></li>
+            <li><a href="{{ route('nurse.nurse-register') }}">Benefits</a></li>
+            <li><a href="{{ route('nurse.nurse-register') }}">Salary</a></li>
+            <li><a href="{{ route('nurse.nurse-register') }}">Sector</a></li>
+            <li><a href="{{ route('nurse.nurse-register') }}">Experience</a></li>
+            <li class="more-btn"><a href="{{ route('nurse.nurse-register') }}">+ Set More Preferences in Your Profile</a></li>
+          </ul>
+          
+        </ul>
+      </div>
+      <div class="drawer-page-mobile" data-page="health_care_facilities">
+        <header>
+          <button class="back-btn" data-back="main">←</button>
+          <h2>Healthcare Facilities</h2>
+          <button class="close-btn">✕</button>
+        </header>
+        <ul class="menu">
+          <li><a href="#">Instant Connect</a></li>
+          <li><a href="#">Post Jobs</a></li>
+          <li><a href="#">Book a demo</a></li>
+          <li><a href="#">How it works</a></li>
+          <li><a href="#">Compliance & Screening</a></li>
+          <li><a href="{{ route('medical-facilities.login') }}">Sign in Employers</a></li>
+          
+        </ul>
+      </div>
+      <div class="drawer-page-mobile" data-page="agencies">
+        <header>
+          <button class="back-btn" data-back="main">←</button>
+          <h2>Agencies</h2>
+          <button class="close-btn">✕</button>
+        </header>
+        <ul class="menu">
+          <li><a href="#">Deploy Nurses & Midwives</a></li>
+          <li><a href="#">Post Shifts</a></li>
+          <li><a href="#">Book a demo</a></li>
+          <li><a href="#">How it works</a></li>
+          <li><a href="#">Compliance & Screening</a></li>
+          <li><a href="{{ route('agencies.login') }}">Sign in Agencies</a></li>
+          
+        </ul>
+      </div>
+      <div class="drawer-page-mobile" data-page="cpd_ce_providers">
+        <header>
+          <button class="back-btn" data-back="main">←</button>
+          <h2>CPD/CE Providers</h2>
+          <button class="close-btn">✕</button>
+        </header>
+        <ul class="menu">
+          <li><a href="#">Post a Course</a></li>
+          <li><a href="#">Pricing & Plans</a></li>
+          <li><a href="#">Benefits</a></li>
+          <li><a href="{{ route('cpd_providers.login') }}">Sign in CPD/CE Providers</a></li>
+          
+        </ul>
+      </div>
+    </div>
+  </div>
+  </div>
     </div>
   </header>
  <div id="modalOverlay" class="modal-overlay"></div>
@@ -236,6 +435,7 @@ img, iframe, video {
     </ul>
   </div>
 </div>
+
   @else
   <header class="header sticky-bar  border-bottom">
     <div class="container">
@@ -280,8 +480,13 @@ img, iframe, video {
               </li> -->
             </ul>
           </nav>
-          <div class="burger-icon burger-icon-white">
+          <!-- <div class="burger-icon burger-icon-white">
             <span class="burger-icon-top"></span><span class="burger-icon-mid"></span><span class="burger-icon-bottom"></span>
+          </div> -->
+          <div id="openDrawer">
+            <span></span>
+            <span></span>
+            <span></span>
           </div>
         </div>
         <div class="header-right">
@@ -317,6 +522,48 @@ img, iframe, video {
           </div>
         </div>
       </div>
+      <div class="drawer-overlay-mobile"></div>
+
+  <div class="drawer-mobile" id="drawer-mobile">
+    <div class="drawer-pages">
+
+      <!-- PAGE 1: MAIN -->
+      <div class="drawer-page-mobile" data-page="main">
+        <header>
+          <h2>Main Menu</h2>
+          <button class="close-btn">✕</button>
+        </header>
+        <ul class="menu">
+          <li>
+            <a class="active  hover-up " href="http://localhost/mediqa/nurse/my-profile?page=my_profile">Profile</a>
+          </li>
+          <li>
+            <a class="hover-up " href="http://localhost/mediqa/nurse/sector_preferences?page=sector_preferences">Work Preferences</a>
+          </li>
+          <li class="">
+            <a class="menu-link hover-up" href="http://localhost/mediqa/nurse/find_jobs">Find Jobs</a>
+          </li>
+          <li class="">
+            <a class="menu-link hover-up" href="#">Saved Jobs</a>
+          </li>
+          <li class="mega-dropdown career_dropdown" data-target="my_career">
+            <a class="menu-link hover-up" href="http://localhost/mediqa/nurse/match_percentage">My Career</a>
+            
+          </li>
+          
+          <li class="">
+            <a class=" hover-up" href="http://localhost/mediqa/nurse/dashboard">Community</a>
+          </li>
+          <li class="">
+            <a class="link-red font-md" href="{{ route('nurse.logout') }}"><i class="fa-solid fa-arrow-right-from-bracket me-2"></i> Log Out</a>
+          </li>
+          
+        </ul>
+      </div>
+
+
+    </div>
+  </div>
     </div>
   </header>
   
@@ -434,4 +681,6 @@ document.addEventListener("DOMContentLoaded", function () {
   overlay.addEventListener("click", () => {
     overlay.style.display = "none";
   });
+
+  
 </script>

@@ -16,14 +16,6 @@ use Illuminate\Support\Facades\Route;
 // User Route
 // ===========
 
-Route::get('/clear-cache', function () {
-    Artisan::call('cache:clear');
-    Artisan::call('config:clear');
-    Artisan::call('view:clear');
-    Artisan::call('route:clear');
-    return "All caches cleared!";
-});
-
 Route::post('/fetch-provinces', 'App\Http\Controllers\HomeController@fetchProvinces')->name('fetch-provinces');
 Route::get('/', 'App\Http\Controllers\nurse\HomeController@index_main')->name('home_main');
 Route::get('/term-and-condition', 'App\Http\Controllers\nurse\HomeController@term_and_condition')->name('term-and-condition');
@@ -265,7 +257,5 @@ Route::prefix('nurse')->name('nurse.')->namespace('App\Http\Controllers\nurse')-
   Route::post('get_tags', 'JobsController@get_tags')->name('get_tags');
   Route::post('get_filters_data', 'JobsController@get_filters_data')->name('get_filters_data');
   Route::get('getEmptypeData', 'JobsController@getEmptypeData')->name('getEmptypeData');
-
-
   });
 });
