@@ -1010,6 +1010,8 @@ class JobsController extends Controller{
         $sector_data = $work_prefer_data->sector_preferences;
         $emptype_preferences = json_decode($work_prefer_data->emptype_preferences);
         $worktype_preferences = json_decode($work_prefer_data->work_environment_preferences);
+        $benefit_preferences = json_decode($work_prefer_data->benefits_preferences);
+        $employee_positions = json_decode($work_prefer_data->employee_positions);
 
         $saved_filters = [];
         if(!empty($emptype_preferences)){
@@ -1034,6 +1036,24 @@ class JobsController extends Controller{
             }
         }
 
+        if(!empty($benefit_preferences)){
+            foreach($benefit_preferences as $benepreferences){
+                foreach($workpreferences as $index=>$workpreferences1){
+                    $benefits = DB::table("benefits_preferences")->where("benefits_id",$workpreferences1)->first();
+                    $saved_filters[] = $benefits->benefits_name;
+                }
+            }
+        }
+
+        if(!empty($employee_positions)){
+            foreach($employee_positions as $emppositions){
+                foreach($workpreferences as $index=>$workpreferences1){
+                    $benefits = DB::table("benefits_preferences")->where("benefits_id",$workpreferences1)->first();
+                    $saved_filters[] = $benefits->benefits_name;
+                }
+            }
+        }
+
         $saved_filters = array_merge($saved_filters, [$sector_data]);
 
         //print_r($saved_filters);
@@ -1054,6 +1074,9 @@ class JobsController extends Controller{
         return json_encode($emp_name_arr);
         
     }
+
+    
+
 
 
 

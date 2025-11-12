@@ -141,7 +141,7 @@
                       <div class="category">
                         <div class="label">1. Type of Nurse & Role (15%)</div>
                         <div class="progress-bar-bg">
-                          <div class="progress-bar-fill" style="width: 10.25%;">10.25%</div>
+                          <div class="progress-bar-fill" style="width: 0%;">0%</div>
                         </div>
                       </div>
                   
@@ -155,35 +155,35 @@
                       <div class="category">
                         <div class="label">3. Experience (15%)</div>
                         <div class="progress-bar-bg">
-                          <div class="progress-bar-fill" style="width: {{ $experience_score }}%;">{{ $experience_score }}%</div>
+                          <div class="progress-bar-fill" style="">5%</div>
                         </div>
                       </div>
                   
                       <div class="category">
                         <div class="label">4. Education & Certifications (15%)</div>
                         <div class="progress-bar-bg">
-                          <div class="progress-bar-fill" style="width: {{ $educationScore }}%;">{{ $educationScore }}%</div>
+                          <div class="progress-bar-fill" style="">5%</div>
                         </div>
                       </div>
                   
                       <div class="category">
                         <div class="label">5. Vaccination Records (5%)</div>
                         <div class="progress-bar-bg">
-                          <div class="progress-bar-fill" style="width: {{ $vaccinationScore }}%;">{{ $vaccinationScore }}%</div>
+                          <div class="progress-bar-fill" style="">5%</div>
                         </div>
                       </div>
 
                       <div class="category">
                         <div class="label">6. Checks & Clearances (5%)</div>
                         <div class="progress-bar-bg">
-                          <div class="progress-bar-fill" style="width: {{ $clearanceScore }}%;">{{ $clearanceScore }}%</div>
+                          <div class="progress-bar-fill" style="">5%</div>
                         </div>
                       </div>
 
                       <div class="category">
                         <div class="label">7. Work Preferences & Flexibility (30%)</div>
                         <div class="progress-bar-bg">
-                          <div class="progress-bar-fill" style="width: {{ $flexiblity_score }}%;">{{ $flexiblity_score }}%</div>
+                          <div class="progress-bar-fill" style="">5%</div>
                         </div>
                       </div>
                   

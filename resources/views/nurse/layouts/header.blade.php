@@ -233,10 +233,10 @@ img, iframe, video {
           <button class="close-btn">✕</button>
         </header>
         <ul class="menu">
-          <li data-target="nurse_midwives"><a href="#">Nurses & Midwives <i class="fa-solid fa-angle-right mobile_angle"></i></a></li>
-          <li data-target="health_care_facilities"><a href="#">Healthcare Facilities <i class="fa-solid fa-angle-right mobile_angle"></i></a></li>
-          <li data-target="agencies"><a href="#">Agencies <i class="fa-solid fa-angle-right mobile_angle"></i></a></li>
-          <li data-target="cpd_ce_providers"><a href="#">CPD/CE Providers <i class="fa-solid fa-angle-right mobile_angle"></i></a></li>
+          <li data-target="nurse_midwives"><a href="#">Nurses & Midwives ▸</a></li>
+          <li data-target="health_care_facilities"><a href="#">Healthcare Facilities ▸</a></li>
+          <li data-target="agencies"><a href="#">Agencies ▸</a></li>
+          <li data-target="cpd_ce_providers"><a href="#">CPD/CE Providers ▸</a></li>
           <li><a href='{{ route("nurse.login") }}'>Log in</a></li>
           <li><a href='{{ route("nurse.nurse-register") }}'>Sign up</a></li>
           
@@ -256,7 +256,7 @@ img, iframe, video {
           <li>Instant Connect</li>
           <li>Training & CPD</li>
           <li>Forum</li>
-          <li data-target="browse_by">Browse Jobs by <i class="fa-solid fa-angle-right mobile_angle"></i></li>
+          <li data-target="browse_by">Browse Jobs by ▸</li>
         </ul>
       </div>
 
@@ -267,9 +267,9 @@ img, iframe, video {
           <button class="close-btn">✕</button>
         </header>
         <ul class="menu">
-          <li data-target="speciality_patient">Specialty & Patient group <i class="fa-solid fa-angle-right mobile_angle"></i></li>
-          <li data-target="type_of_nurse">Type of nurse <i class="fa-solid fa-angle-right mobile_angle"></i></li>
-          <li data-target="work_preferences">Work Preferences & Flexibility <i class="fa-solid fa-angle-right mobile_angle"></i></li>
+          <li data-target="speciality_patient">Specialty & Patient group ▸</li>
+          <li data-target="type_of_nurse">Type of nurse ▸</li>
+          <li data-target="work_preferences">Work Preferences & Flexibility ▸</li>
           
         </ul>
       </div>
@@ -495,11 +495,36 @@ img, iframe, video {
             <div class="dropdown d-inline-block">
               <a class="btn btn-notify" id="dropdownNotify" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-display="static">
                 <i class="fa-regular fa-bell"></i>
+                @php
+                    $unreadCount = \App\Models\Notification::where('user_id', Auth::id())->where('is_read', false)->count();
+                @endphp
+                @if($unreadCount > 0)
+                  <span class="badge bg-danger rounded-circle notification-badge">{{ $unreadCount }}</span>
+                @endif
               </a>
-              <ul class="dropdown-menu dropdown-menu-light dropdown-menu-end" aria-labelledby="dropdownNotify">
-                <li><a class="dropdown-item active" href="#">0 notifications</a></li>
-                <li><a class="dropdown-item" href="#">0 messages</a></li>
-                <li><a class="dropdown-item" href="#">0 replies</a></li>
+              <ul class="dropdown-menu dropdown-menu-light dropdown-menu-end shadow-lg p-0" aria-labelledby="dropdownNotify" style="width: 350px; border-radius: 10px;">
+                <li class="dropdown-header d-flex justify-content-between align-items-center px-3 py-2 bg-light border-bottom">
+                  <strong>Notifications</strong>
+                  <a href="#" class="text-primary small mark-read" id="markAllRead">Mark all as read</a>
+                </li>
+
+                <div class="notification-items" style="max-height: 300px; overflow-y: auto;">
+                  @forelse($notifications = \App\Models\Notification::where('user_id', Auth::id())->latest()->take(10)->get() as $note)
+                    <li>
+                      <a class="dropdown-item py-2" href="{{ $note->link ?? '#' }}">
+                        <strong>{{ $note->title }}</strong><br>
+                        <span class="text-muted small">{{ $note->message }}</span><br>
+                        <span class="text-secondary small">{{ $note->created_at->diffForHumans() }}</span>
+                      </a>
+                    </li>
+                  @empty
+                    <li><a class="dropdown-item text-muted text-center py-3" href="#">No new notifications</a></li>
+                  @endforelse
+                </div>
+
+                <li class="dropdown-footer text-center bg-light py-2 border-top">
+                  <a href="{{ route('nurse.notifications') }}" class="text-primary small text-decoration-none">View all notifications</a>
+                </li>
               </ul>
             </div>
 
@@ -554,9 +579,6 @@ img, iframe, video {
           <li class="">
             <a class=" hover-up" href="http://localhost/mediqa/nurse/dashboard">Community</a>
           </li>
-          <li class="">
-            <a class="link-red font-md" href="{{ route('nurse.logout') }}"><i class="fa-solid fa-arrow-right-from-bracket me-2"></i> Log Out</a>
-          </li>
           
         </ul>
       </div>
@@ -574,10 +596,10 @@ document.addEventListener("DOMContentLoaded", function () {
   const burger = document.querySelector(".burger-icon");
   const navMenu = document.querySelector(".nav-main-menu");
 
-  burger.addEventListener("click", function () {
-    navMenu.classList.toggle("active");
-    burger.classList.toggle("open");
-  });
+  // burger.addEventListener("click", function () {
+  //   navMenu.classList.toggle("active");
+  //   burger.classList.toggle("open");
+  // });
 });
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -682,5 +704,21 @@ document.addEventListener("DOMContentLoaded", function () {
     overlay.style.display = "none";
   });
 
-  
+document.addEventListener("DOMContentLoaded", () => {
+  const markRead = document.getElementById("markAllRead");
+  if (markRead) {
+    markRead.addEventListener("click", (e) => {
+      e.preventDefault();
+      fetch("{{ route('nurse.notifications.markRead') }}", {
+        method: "POST",
+        headers: {
+          "X-CSRF-TOKEN": "{{ csrf_token() }}",
+          "Accept": "application/json",
+        },
+      }).then(() => {
+        document.querySelectorAll('.notification-badge').forEach(b => b.remove());
+      });
+    });
+  }
+});
 </script>
