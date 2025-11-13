@@ -222,7 +222,7 @@
                 @endforeach
                 <!-- Add more list items as needed -->
             </ul>
-        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="nursing_entry-{{ $i }}" name="nursing_type[{{ $spl->id }}][]" multiple="multiple"></select>
+        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="nursing_entry-{{ $i }}" name="nursing_type_{{ $i }}[]" multiple="multiple"></select>
 
     </div>
     <?php
