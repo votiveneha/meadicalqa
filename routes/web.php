@@ -321,9 +321,10 @@ Route::prefix('/admin')->name('admin.')->namespace('App\Http\Controllers\admin')
     Route::get('/sub_employeement_type/{id}','WorkPreferencesController@sub_employeement_type')->name('sub_employeement_type');
 
     /************[Job Boxes]*************/
-	Route::get('/add_jobs','JobsController@index')->name('add_jobs');
+	  Route::get('/add_jobs','JobsController@index')->name('add_jobs');
     Route::post('/addJobs', 'JobsController@addJobs')->name('addJobs');
-  
+    Route::get('/jobList', 'JobsController@jobList')->name('jobList');
+    Route::get('/edit_jobs/{id}','JobsController@edit_jobs')->name('edit_jobs');
   });
  
 Route::get('/nurse/email-verification/{token}', [HomeController::class, 'email_verification'])

@@ -31,15 +31,30 @@ use App\Models\JobsModel;
 
 class JobsController extends Controller
 {
+    
+    
     public function index()
     {
         return view("admin.add_jobs");
+    }
+
+    public function edit_jobs(Request $request)
+    {
+        $data['job_list'] = DB::table("job_boxes")->where("id",$request->id)->first();
+        return view("admin.edit_jobs")->with($data);
+    }
+
+    public function jobList()
+    {
+        $data['job_list'] = DB::table("job_boxes")->get();
+        return view("admin.job_list")->with($data);
     }
 
     public function addJobs(Request $request)
     {
         $nurse_type = $request->nurse_type;
         $typeofspeciality = $request->typeofspeciality;
+        $degree = $request->degree;
         $location_name = $request->location_name;
         $agency_name = $request->agency_name;
         $experience_level = $request->experience_level;
@@ -56,6 +71,7 @@ class JobsController extends Controller
         $jobs = new JobsModel;
         $jobs->nurse_type = json_encode($nurse_type);
         $jobs->typeofspeciality = json_encode($typeofspeciality);
+        $jobs->degree = json_encode($degree);
         $jobs->sector = $sector;
         $jobs->location_name = $location_name;
         $jobs->agency_name = $agency_name;

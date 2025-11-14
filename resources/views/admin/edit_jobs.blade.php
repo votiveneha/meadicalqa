@@ -13,11 +13,11 @@
         <div class="card-body px-4 py-3">
             <div class="row align-items-center">
                 <div class="col-9">
-                    <h4 class="fw-semibold mb-8">Add Jobs</h4>
+                    <h4 class="fw-semibold mb-8">Edit Jobs</h4>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a class="text-muted " href="index.html">Dashboard</a></li>
-                            <li class="breadcrumb-item" aria-current="page">Add Jobs</li>
+                            <li class="breadcrumb-item" aria-current="page">Edit Jobs</li>
                         </ol>
                     </nav>
                 </div>
@@ -37,6 +37,7 @@
                 @csrf
                 <div class="form-group">
                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Type of Nurse</strong></label>
+                    <input type="hidden" name="nurse_input" class="nurse_input" value="{{ $job_list->nurse_type }}">
                     <ul id="type-of-nurse" style="display:none;">
                         <?php
                             $nurse_type_list = DB::table("practitioner_type")->where("status","1")->get();
@@ -55,13 +56,16 @@
                 </div>
                 <div class="form-group">
                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Speciality</strong></label>
+                    <input type="hidden" name="speciality_input" class="speciality_input" value="{{ $job_list->typeofspeciality }}">
                     <ul id="type-of-speciality" style="display:none;">
                         <?php
                             $speciality = DB::table("speciality")->where("status","1")->get();
                             $j = 1;
                         ?>
                         @foreach($speciality as $nurse_speciality)
-                        <li id="nursing_menus-{{ $j }}" data-value="{{ $nurse_type->id }}">{{ $nurse_speciality->name }}</li>
+                        <li id="speciality_menus-{{ $j }}" data-value="{{ $nurse_speciality->id }}">
+                            {{ $nurse_speciality->name }}
+                        </li>
                         <?php
                             $j++;
                         ?>
@@ -76,6 +80,7 @@
                     <?php
                         $nurse_midwife_degree = DB::table("degree")->where('status', '1')->orderBy('name')->get();
                     ?>
+                    <input type="hidden" name="degree_input" class="degree_input" value="{{ $job_list->degree }}">
                     <ul id="ndegree" style="display:none;">
                         @foreach($nurse_midwife_degree as $ptl)
                         <li data-value="{{ $ptl->id }}">{{ $ptl->name }}</li>
@@ -88,12 +93,12 @@
                 <div class="form-group">
                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Location</strong></label>
                     <input type="text" class="form-control" name="location_name"
-                                id="edit_location_name">
+                                id="edit_location_name" value="{{ $job_list->location_name }}">
                 </div>
                 <div class="form-group">
                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Agency Name</strong></label>
                     <input type="text" class="form-control" name="agency_name"
-                                id="edit_agency_name">
+                                id="edit_agency_name" value="{{ $job_list->agency_name }}">
                 </div>
                 <div class="form-group">
                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Experience Required</strong></label>
@@ -129,6 +134,114 @@
 
                     </ul>
                     <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="emplyeement_positions" name="emplyeement_positions[]" multiple="multiple" id="type_nurse"></select>
+                    
+                </div>
+                <div class="form-group">
+                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Mandatory Training</strong></label>
+                    <ul id="mandatory_tarining" style="display:none;">
+                        <?php
+                            $mandatory_tarining = DB::table("man_training_category")->where("type","Training")->get();
+                            $j = 1;
+                        ?>
+                        @foreach($mandatory_tarining as $mandatory_tarin)
+                        <li id="nursing_menus-{{ $j }}" data-value="{{ $mandatory_tarin->id }}">{{ $mandatory_tarin->name }}</li>
+                        <?php
+                            $j++;
+                        ?>
+                        @endforeach
+
+                    </ul>
+                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="mandatory_tarining" name="emplyeement_positions[]" multiple="multiple" id="type_nurse"></select>
+                    
+                </div>
+                <div class="form-group">
+                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Mandatory Education</strong></label>
+                    <ul id="mandatory_education" style="display:none;">
+                        <?php
+                            $mandatory_education = DB::table("man_training_category")->where("type","Education")->get();
+                            $j = 1;
+                        ?>
+                        @foreach($mandatory_education as $mandatory_edu)
+                        <li id="nursing_menus-{{ $j }}" data-value="{{ $mandatory_edu->id }}">{{ $mandatory_edu->name }}</li>
+                        <?php
+                            $j++;
+                        ?>
+                        @endforeach
+
+                    </ul>
+                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="mandatory_education" name="emplyeement_positions[]" multiple="multiple" id="type_nurse"></select>
+                    
+                </div>
+                <div class="form-group">
+                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Professional Memberships</strong></label>
+                    <ul id="professional_membership" style="display:none;">
+                        <?php
+                            $membership_type = DB::table("membership_type")->where("submember_id","!=","0")->get();
+                            $j = 1;
+                        ?>
+                        @foreach($membership_type as $memb_type)
+                        <li id="nursing_menus-{{ $j }}" data-value="{{ $memb_type->membership_id }}">{{ $memb_type->membership_name }}</li>
+                        <?php
+                            $j++;
+                        ?>
+                        @endforeach
+
+                    </ul>
+                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="professional_membership" name="emplyeement_positions[]" multiple="multiple" id="type_nurse"></select>
+                    
+                </div>
+                <div class="form-group">
+                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Awards & Recognitions</strong></label>
+                    <ul id="award_recognition" style="display:none;">
+                        <?php
+                            $award_recognition = DB::table("awards_recognitions")->where("sub_award_id","!=","0")->get();
+                            $j = 1;
+                        ?>
+                        @foreach($award_recognition as $award_rec)
+                        <li id="nursing_menus-{{ $j }}" data-value="{{ $award_rec->award_id }}">{{ $award_rec->award_name }}</li>
+                        <?php
+                            $j++;
+                        ?>
+                        @endforeach
+
+                    </ul>
+                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="award_recognition" name="emplyeement_positions[]" multiple="multiple" id="type_nurse"></select>
+                    
+                </div>
+                <div class="form-group">
+                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Language Proficiency</strong></label>
+                    <ul id="language_proficiency" style="display:none;">
+                        <?php
+                            $language_proficiency = DB::table("languages")->where("sub_language_id","!=",NULL)->where("test_id","=",NULL)->get();
+                            $j = 1;
+                        ?>
+                        @foreach($language_proficiency as $language_prof)
+                        <li id="nursing_menus-{{ $j }}" data-value="{{ $language_prof->language_id }}">{{ $language_prof->language_name }}</li>
+                        <?php
+                            $j++;
+                        ?>
+                        @endforeach
+
+                    </ul>
+                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="language_proficiency" name="emplyeement_positions[]" multiple="multiple" id="type_nurse"></select>
+                    
+                </div>
+                <div class="form-group">
+                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Language Certification</strong></label>
+                    <ul id="language_certification" style="display:none;">
+                        <?php
+                            $language_certification = DB::table("languages")->where("sub_language_id","=",NULL)->where("test_id","!=",NULL)->get();
+                            $j = 1;
+                        ?>
+                        @foreach($language_certification as $language_cert)
+                        <li id="nursing_menus-{{ $j }}" data-value="{{ $language_cert->language_id }}">{{ $language_cert->language_name }}</li>
+                        <?php
+                            $j++;
+                        ?>
+                        @endforeach
+
+                    </ul>
+                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="language_certification" name="emplyeement_positions[]" multiple="multiple" id="type_nurse"></select>
                     
                 </div>
                 <div class="form-group">
@@ -335,6 +448,20 @@
             data: items
         });
     });
+
+    if ($(".nurse_input").val() != "") {
+      var nurse_input = JSON.parse($(".nurse_input").val());
+      console.log("nurse_input",nurse_input);
+      $('.js-example-basic-multiple[data-list-id="type-of-nurse"]').select2().val(nurse_input).trigger('change');
+      
+    }
+
+    if ($(".speciality_input").val() != "") {
+      var type_speciality = JSON.parse($(".speciality_input").val());
+      console.log("nurse_input",type_speciality);
+      $('.js-example-basic-multiple[data-list-id="type-of-speciality"]').select2().val(type_speciality).trigger('change');
+      
+    }
 
     function addJobs(){
         $.ajax({
