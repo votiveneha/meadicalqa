@@ -395,7 +395,7 @@
          </a>
        </li>
        <li class="sidebar-item">
-            <a href="{{route('admin.add_jobs')}}" class="sidebar-link">
+            <a href="{{route('admin.jobList')}}" class="sidebar-link">
               <span>
                 <i class="ti ti-aperture"></i>
               </span>

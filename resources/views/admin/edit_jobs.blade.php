@@ -33,10 +33,11 @@
     </div>
     <div class="card">
         <div class="card-body">
-            <form method="post" id="AddJobs" onsubmit="return addJobs()">
+            <form method="post" id="updateJobs" onsubmit="return updateJobs()">
                 @csrf
                 <div class="form-group">
                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Type of Nurse</strong></label>
+                    <input type="hidden" name="job_id" class="job_id" value="{{ $job_list->id }}">
                     <input type="hidden" name="nurse_input" class="nurse_input" value="{{ $job_list->nurse_type }}">
                     <ul id="type-of-nurse" style="display:none;">
                         <?php
@@ -77,6 +78,7 @@
                 </div>
                 <div class="form-group">
                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Nurse & Midwife Degrees</strong></label>
+                    <input type="hidden" name="midwife_degree" class="midwife_degree" value="{{ $job_list->degree }}">
                     <?php
                         $nurse_midwife_degree = DB::table("degree")->where('status', '1')->orderBy('name')->get();
                     ?>
@@ -88,6 +90,21 @@
                         @endforeach
                     </ul>
                     <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="ndegree" name="ndegree[]" multiple="multiple"></select>
+                    
+                </div>
+                <div class="form-group">
+                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Certifications / Licences</strong></label>
+                    <?php
+                        $certification_licenses = DB::table("degree")->where('status', '1')->orderBy('name')->get();
+                    ?>
+                    <input type="hidden" name="certification_input" class="certification_input" value="{{ $job_list->degree }}">
+                    <ul id="certification_licenses" style="display:none;">
+                        @foreach($nurse_midwife_degree as $ptl)
+                        <li data-value="{{ $ptl->id }}">{{ $ptl->name }}</li>
+
+                        @endforeach
+                    </ul>
+                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="certification_licenses" name="certification_licenses[]" multiple="multiple"></select>
                     
                 </div>
                 <div class="form-group">
@@ -104,7 +121,7 @@
                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Experience Required</strong></label>
                     <select class="form-control" name="experience_level">
                         <option value="">Please Select</option>
-                        @for($i = 1; $i <= 30; $i++) <option value="{{ $i }}">{{ $i }}{{ $i == 1 ? 'st' : ($i == 2 ? 'nd' : ($i == 3 ? 'rd' : 'th')) }} Year</option>
+                        @for($i = 1; $i <= 30; $i++) <option value="{{ $i }}" @if($job_list->experience_level == $i) selected @endif>{{ $i }}{{ $i == 1 ? 'st' : ($i == 2 ? 'nd' : ($i == 3 ? 'rd' : 'th')) }} Year</option>
                           @endfor
                     </select>
                 </div>
@@ -112,14 +129,15 @@
                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Sector</strong></label>
                     <select class="form-control" name="sector">
                         <option value="">Please Select</option>
-                        <option value="Public & Government">Public & Government</option>
-                        <option value="Private">Private</option>
-                        <option value="Public Government & Private">Public Government & Private</option>
+                        <option value="Public & Government" @if($job_list->sector == "Public & Government") selected @endif>Public & Government</option>
+                        <option value="Private" @if($job_list->sector == "Private") selected @endif>Private</option>
+                        <option value="Public Government & Private" @if($job_list->sector == "Public Government & Private") selected @endif>Public Government & Private</option>
                     </select>
                     
                 </div>
                 <div class="form-group">
                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Position</strong></label>
+                    <input type="hidden" name="position_input" class="position_input" value="{{ $job_list->emplyeement_positions }}">
                     <ul id="emplyeement_positions" style="display:none;">
                         <?php
                             $getPosition = DB::table("employee_positions")->get();
@@ -138,6 +156,7 @@
                 </div>
                 <div class="form-group">
                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Mandatory Training</strong></label>
+                    <input type="hidden" name="mandatory_training_input" class="mandatory_training_input" value="{{ $job_list->mandatory_tarining }}">
                     <ul id="mandatory_tarining" style="display:none;">
                         <?php
                             $mandatory_tarining = DB::table("man_training_category")->where("type","Training")->get();
@@ -151,11 +170,12 @@
                         @endforeach
 
                     </ul>
-                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="mandatory_tarining" name="emplyeement_positions[]" multiple="multiple" id="type_nurse"></select>
+                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="mandatory_tarining" name="mandatory_tarining[]" multiple="multiple" id="mandatory_education"></select>
                     
                 </div>
                 <div class="form-group">
                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Mandatory Education</strong></label>
+                    <input type="hidden" name="mandatory_education_input" class="mandatory_education_input" value="{{ $job_list->mandatory_education }}">
                     <ul id="mandatory_education" style="display:none;">
                         <?php
                             $mandatory_education = DB::table("man_training_category")->where("type","Education")->get();
@@ -169,11 +189,12 @@
                         @endforeach
 
                     </ul>
-                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="mandatory_education" name="emplyeement_positions[]" multiple="multiple" id="type_nurse"></select>
+                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="mandatory_education" name="mandatory_education[]" multiple="multiple" id="mandatory_education"></select>
                     
                 </div>
                 <div class="form-group">
                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Professional Memberships</strong></label>
+                    <input type="hidden" name="professional_membership_input" class="professional_membership_input" value="{{ $job_list->professional_membership }}">
                     <ul id="professional_membership" style="display:none;">
                         <?php
                             $membership_type = DB::table("membership_type")->where("submember_id","!=","0")->get();
@@ -187,11 +208,12 @@
                         @endforeach
 
                     </ul>
-                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="professional_membership" name="emplyeement_positions[]" multiple="multiple" id="type_nurse"></select>
+                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="professional_membership" name="professional_membership[]" multiple="multiple" id="professional_membership"></select>
                     
                 </div>
                 <div class="form-group">
                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Awards & Recognitions</strong></label>
+                    <input type="hidden" name="award_recognition_input" class="award_recognition_input" value="{{ $job_list->award_recognition }}">
                     <ul id="award_recognition" style="display:none;">
                         <?php
                             $award_recognition = DB::table("awards_recognitions")->where("sub_award_id","!=","0")->get();
@@ -205,11 +227,12 @@
                         @endforeach
 
                     </ul>
-                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="award_recognition" name="emplyeement_positions[]" multiple="multiple" id="type_nurse"></select>
+                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="award_recognition" name="award_recognition[]" multiple="multiple" id="award_recognition"></select>
                     
                 </div>
                 <div class="form-group">
                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Language Proficiency</strong></label>
+                    <input type="hidden" name="language_proficiency_input" class="language_proficiency_input" value="{{ $job_list->language_proficiency }}">
                     <ul id="language_proficiency" style="display:none;">
                         <?php
                             $language_proficiency = DB::table("languages")->where("sub_language_id","!=",NULL)->where("test_id","=",NULL)->get();
@@ -223,11 +246,12 @@
                         @endforeach
 
                     </ul>
-                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="language_proficiency" name="emplyeement_positions[]" multiple="multiple" id="type_nurse"></select>
+                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="language_proficiency" name="language_proficiency[]" multiple="multiple" id="language_proficiency"></select>
                     
                 </div>
                 <div class="form-group">
                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Language Certification</strong></label>
+                    <input type="hidden" name="language_certification_input" class="language_certification_input" value="{{ $job_list->language_certification }}">
                     <ul id="language_certification" style="display:none;">
                         <?php
                             $language_certification = DB::table("languages")->where("sub_language_id","=",NULL)->where("test_id","!=",NULL)->get();
@@ -241,7 +265,7 @@
                         @endforeach
 
                     </ul>
-                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="language_certification" name="emplyeement_positions[]" multiple="multiple" id="type_nurse"></select>
+                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="language_certification" name="language_certification[]" multiple="multiple" id="language_certification"></select>
                     
                 </div>
                 <div class="form-group">
@@ -463,14 +487,21 @@
       
     }
 
-    function addJobs(){
+    if ($(".midwife_degree").val() != "") {
+      var midwife_degree = JSON.parse($(".midwife_degree").val());
+      console.log("nurse_input",midwife_degree);
+      $('.js-example-basic-multiple[data-list-id="ndegree"]').select2().val(midwife_degree).trigger('change');
+      
+    }
+
+    function updateJobs(){
         $.ajax({
             url: "{{ route('admin.addJobs') }}",
             type: "POST",
             cache: false,
             contentType: false,
             processData: false,
-            data: new FormData($('#AddJobs')[0]),
+            data: new FormData($('#updateJobs')[0]),
             dataType: 'json',
             beforeSend: function() {
                 $('#job_submit_btn').prop('disabled', true);
@@ -486,7 +517,7 @@
                         title: 'Success',
                         text: res.message,
                     }).then(function() {
-                        window.location.href = '{{ route("admin.add_jobs") }}';
+                        //window.location.href = '{{ route("admin.add_jobs") }}';
                     });
                 } else {
                     Swal.fire({
