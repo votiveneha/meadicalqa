@@ -270,6 +270,7 @@
                 </div>
                 <div class="form-group">
                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Employment Type</strong></label>
+                    <input type="hidden" name="employeement_type_input" class="employeement_type_input" value="{{ $job_list->emplyeement_type }}">
                     <ul id="emplyeement_type" style="display:none;">
                         <?php
                             $getEmployeementType = DB::table("employeement_type_preferences")->get();
@@ -288,6 +289,7 @@
                 </div>
                 <div class="form-group">
                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Shift Type</strong></label>
+                    <input type="hidden" name="shift_type_input" class="shift_type_input" value="{{ $job_list->shift_type }}">
                     <ul id="shift_type" style="display:none;">
                         <?php
                             $shiftType = DB::table("work_shift_preferences")->get();
@@ -306,6 +308,7 @@
                 </div>
                 <div class="form-group">
                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Work Environment</strong></label>
+                    <input type="hidden" name="work_environment_input" class="work_environment_input" value="{{ $job_list->work_environment }}">
                     <ul id="work_environment" style="display:none;">
                         <?php
                             $getWorkEnvironment = DB::table("work_enviornment_preferences")->get();
@@ -324,6 +327,7 @@
                 </div>
                 <div class="form-group">
                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Benefits</strong></label>
+                    <input type="hidden" name="benefits_input" class="benefits_input" value="{{ $job_list->benefits }}">
                     <ul id="benefits" style="display:none;">
                         <?php
                             $benefits_preferences = DB::table("benefits_preferences")->get();
@@ -342,14 +346,14 @@
                 </div>
                 <div class="form-group">
                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Salary</strong></label>
-                    <input type="text" class="form-control" name="salary">
+                    <input type="text" class="form-control" name="salary" value="{{ $job_list->salary }}">
                 </div>    
                 <div class="form-group">
                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Application Submission Date</strong></label>
-                    <input type="date" class="form-control" name="application_submission_date">
+                    <input type="date" class="form-control" name="application_submission_date" value="{{ $job_list->application_submission_date }}">
                 </div>    
                 <div class="form-group">
-                    <input type="checkbox" name="urgent_hire_tag">Urgent Hire
+                    <input type="checkbox" name="urgent_hire_tag" @if($job_list->urgent_hire == 1) checked @endif>Urgent Hire
                 </div>
 
                 <button type="submit" class="btn btn-primary font-medium waves-effect" id="job_submit_btn">
@@ -487,10 +491,94 @@
       
     }
 
+    if ($(".position_input").val() != "") {
+      var position_input = JSON.parse($(".position_input").val());
+      console.log("position_input",position_input);
+      $('.js-example-basic-multiple[data-list-id="emplyeement_positions"]').select2().val(position_input).trigger('change');
+      
+    }
+
     if ($(".midwife_degree").val() != "") {
       var midwife_degree = JSON.parse($(".midwife_degree").val());
       console.log("nurse_input",midwife_degree);
       $('.js-example-basic-multiple[data-list-id="ndegree"]').select2().val(midwife_degree).trigger('change');
+      
+    }
+
+    if ($(".mandatory_training_input").val() != "") {
+      var mandatory_training_input = JSON.parse($(".mandatory_training_input").val());
+      console.log("mandatory_training_input",mandatory_training_input);
+      $('.js-example-basic-multiple[data-list-id="mandatory_tarining"]').select2().val(mandatory_training_input).trigger('change');
+      
+    }
+
+     if ($(".mandatory_education_input").val() != "") {
+      var mandatory_education_input = JSON.parse($(".mandatory_education_input").val());
+      console.log("mandatory_education_input",mandatory_education_input);
+      $('.js-example-basic-multiple[data-list-id="mandatory_education"]').select2().val(mandatory_education_input).trigger('change');
+      
+    }
+
+    if ($(".professional_membership_input").val() != "") {
+      var professional_membership_input = JSON.parse($(".professional_membership_input").val());
+      console.log("professional_membership_input",professional_membership_input);
+      $('.js-example-basic-multiple[data-list-id="professional_membership"]').select2().val(professional_membership_input).trigger('change');
+      
+    }
+
+    if ($(".award_recognition_input").val() != "") {
+      var award_recognition_input = JSON.parse($(".award_recognition_input").val());
+      console.log("award_recognition_input",award_recognition_input);
+      $('.js-example-basic-multiple[data-list-id="award_recognition"]').select2().val(award_recognition_input).trigger('change');
+      
+    }
+
+    if ($(".language_proficiency_input").val() != "") {
+      var language_proficiency_input = JSON.parse($(".language_proficiency_input").val());
+      console.log("language_proficiency_input",language_proficiency_input);
+      $('.js-example-basic-multiple[data-list-id="language_proficiency"]').select2().val(language_proficiency_input).trigger('change');
+      
+    }
+
+    if ($(".language_certification_input").val() != "") {
+      var language_certification_input = JSON.parse($(".language_certification_input").val());
+      console.log("language_certification_input",language_certification_input);
+      $('.js-example-basic-multiple[data-list-id="language_certification"]').select2().val(language_certification_input).trigger('change');
+      
+    }
+
+    if ($(".certification_input").val() != "") {
+      var certification_input = JSON.parse($(".certification_input").val());
+      console.log("certification_input",certification_input);
+      $('.js-example-basic-multiple[data-list-id="certification_licenses"]').select2().val(certification_input).trigger('change');
+      
+    }
+
+    if ($(".employeement_type_input").val() != "") {
+      var employeement_type_input = JSON.parse($(".employeement_type_input").val());
+      console.log("employeement_type_input",employeement_type_input);
+      $('.js-example-basic-multiple[data-list-id="emplyeement_type"]').select2().val(employeement_type_input).trigger('change');
+      
+    }
+
+    if ($(".shift_type_input").val() != "") {
+      var shift_type_input = JSON.parse($(".shift_type_input").val());
+      console.log("shift_type_input",shift_type_input);
+      $('.js-example-basic-multiple[data-list-id="shift_type"]').select2().val(shift_type_input).trigger('change');
+      
+    }
+
+    if ($(".work_environment_input").val() != "") {
+      var work_environment_input = JSON.parse($(".work_environment_input").val());
+      console.log("work_environment_input",work_environment_input);
+      $('.js-example-basic-multiple[data-list-id="work_environment"]').select2().val(work_environment_input).trigger('change');
+      
+    }
+
+    if ($(".benefits_input").val() != "") {
+      var benefits_input = JSON.parse($(".benefits_input").val());
+      console.log("benefits_input",benefits_input);
+      $('.js-example-basic-multiple[data-list-id="benefits"]').select2().val(benefits_input).trigger('change');
       
     }
 
