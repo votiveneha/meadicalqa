@@ -25,64 +25,124 @@ class MatchController extends Controller
         
         $user = Auth::guard("nurse_middle")->user();
         $jobs = JobsModel::get();
-        $nurse_type_data = [];
-        $job_degree_arr = [];
-        foreach($jobs as $job){
-            if(!empty(json_decode($job->degree))){
-                foreach(json_decode($job->nurse_type) as $ntype){
-                    $nurse_type_data[] = $ntype;
-                    
-                }
-            }
-            if(!empty(json_decode($job->degree))){
-                foreach(json_decode($job->degree) as $dtype){
-                    $job_degree_arr[] = $dtype;
-                    
-                }
-            }
-        }
-
-        $nurse_data = json_decode($user->nurse_data);
-        $nurse_data_arr = [];
-        $practitioner_data = SpecialityModel::get();
-        foreach($nurse_data as $index=>$ndata){
-            
-            foreach($ndata as $ndata1){
-                $nurse_data_arr[] = $ndata1;
-            }
-        }
         
-        //print_r($job_degree_arr);
-        $found = 0;
-        //for education
-        $user_degree = json_decode($user->degree);
-        //print_r($user_degree);
-        if (!array_diff($user_degree, $job_degree_arr)) {
-            $found = 1;
-        }
 
-        $mandatory_training = DB::table("mandatory_training")->where("user_id",$user->id)->first();
-        $training_data = json_decode($mandatory_training->training_data);
-        foreach ($training_data as $id1 => $inner) {
-            echo "First ID: " . $id1 . "<br>";        // 417
+        $data['education_certification_percent'] = $this->matchEducationPercent($jobs,$user);
+        $data['experience_certification_percent'] = $this->matchExperiencePercent($jobs,$user);
+        
 
-            foreach ($inner as $id2 => $details) {
-                echo "Second ID: " . $id2 . "<br>";   // 490
-            }
-        }
+        //print_r($training_id_arr);
 
         
 
 
         //print_r($nurse_percent);die;
-        return view('nurse.match_percentage');
+        return view('nurse.match_percentage')->with($data);
     }
 
 
-    public function calculateJobMatch(User $user, JobsModel $job)
+    public function matchEducationPercent($jobs, $user)
     {
-        // echo "<pre>";
-        
+        // -------- COLLECT ALL JOB REQUIREMENTS -------- //
+        $job_degree_arr        = [];
+        $mandatorytraining_arr = [];
+        $mandatoryeducation_arr = [];
+        $award_recognitionarr   = [];
+
+        foreach ($jobs as $job) {
+
+            $job_degree_arr         = array_merge($job_degree_arr, (array) json_decode($job->degree, true));
+            $mandatorytraining_arr  = array_merge($mandatorytraining_arr, (array) json_decode($job->mandatory_tarining, true));
+            $mandatoryeducation_arr = array_merge($mandatoryeducation_arr, (array) json_decode($job->mandatory_education, true));
+            $award_recognitionarr   = array_merge($award_recognitionarr, (array) json_decode($job->award_recognition, true));
+        }
+
+        // -------- USER DEGREE -------- //
+        $user_degree = (array) json_decode($user->degree, true);
+        $found_degree = empty(array_diff($user_degree, $job_degree_arr)) ? 1 : 0;
+
+        // -------- USER TRAINING -------- //
+        $training = DB::table("mandatory_training")->where("user_id", $user->id)->first();
+        $training_data = json_decode($training->training_data, true);
+
+        $training_id_arr = [];
+        foreach ($training_data as $parent => $childs) {
+            $training_id_arr[] = $parent;
+            $training_id_arr = array_merge($training_id_arr, array_keys($childs));
+        }
+
+        $found_training = empty(array_diff($training_id_arr, $mandatorytraining_arr)) ? 1 : 0;
+
+        // -------- USER EDUCATION -------- //
+        $education_data = json_decode($training->education_data, true);
+        $education_id_arr = [];
+        foreach ($education_data as $parent => $childs) {
+            $education_id_arr[] = $parent;
+            $education_id_arr = array_merge($education_id_arr, array_keys($childs));
+        }
+
+        $found_education = empty(array_diff($education_id_arr, $mandatoryeducation_arr)) ? 1 : 0;
+
+        // -------- USER AWARDS -------- //
+        $award = DB::table("professional_membership")->where("user_id", $user->id)->first();
+        $award_user_arr = [];
+
+        foreach ((array) json_decode($award->award_recognitions) as $group) {
+            foreach ($group as $a) {
+                $award_user_arr[] = $a;
+            }
+        }
+
+        $found_award = empty(array_diff($award_user_arr, $award_recognitionarr)) ? 1 : 0;
+
+        // -------- MATCH PERCENT -------- //
+        $match = $found_degree + $found_training + $found_education + $found_award;
+        return round(($match / 4) * 100);
     }
+
+    public function matchExperiencePercent($jobs, $user)
+    {
+        $user_experience = $user->assistent_level;
+        
+
+        $emplyeement_positionsarr = [];
+        $experience_level_arr = [];
+        foreach ($jobs as $job) {
+            $experience_level_arr[] = $job->experience_level;
+            foreach (json_decode($job->emplyeement_positions) as $emplyeement_positions) {
+                $emplyeement_positionsarr[] = $emplyeement_positions;
+            }
+        }
+
+        
+
+        $found_experience = 0;
+        if(in_array($user_experience,$experience_level_arr)){
+            $found_experience = 1;
+        }
+
+        $user_position_data = DB::table("user_experience")->where("user_id", $user->id)->get();
+        $user_positionsarr = [];
+        
+        foreach ($user_position_data as $user_position) {
+            
+            foreach (json_decode($user_position->position_held) as $position_held) {
+
+                foreach($position_held as $position){
+                    $user_positionsarr[] = $position;
+                }
+                
+            }
+        }
+
+        $found_position = empty(array_diff($user_positionsarr, $emplyeement_positionsarr)) ? 1 : 0;
+
+        //print_r($user_positionsarr);
+
+        // -------- MATCH PERCENT -------- //
+        $match = $found_experience + $found_position;
+        return round(($match / 2) * 100);
+    }
+
 
 }

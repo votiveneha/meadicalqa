@@ -155,14 +155,14 @@
                       <div class="category">
                         <div class="label">3. Experience (15%)</div>
                         <div class="progress-bar-bg">
-                          <div class="progress-bar-fill" style="">5%</div>
+                          <div class="progress-bar-fill" style="width: {{ $experience_certification_percent }}%">{{ $experience_certification_percent }}%</div>
                         </div>
                       </div>
                   
                       <div class="category">
                         <div class="label">4. Education & Certifications (15%)</div>
                         <div class="progress-bar-bg">
-                          <div class="progress-bar-fill" style="">5%</div>
+                          <div class="progress-bar-fill" style="width: {{ $education_certification_percent }}%;">{{ $education_certification_percent }}%</div>
                         </div>
                       </div>
                   

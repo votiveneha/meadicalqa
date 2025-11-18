@@ -4,6 +4,10 @@
     .select2-container{
         width:100% !important;
     }
+
+    #updateJobs .select2-selection__choice{
+        background-color:black !important;
+    }
 </style>
 <div class="container-fluid">
     <div class="back_arrow" onclick="history.back()" title="Go Back">
@@ -192,6 +196,7 @@
                     <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="mandatory_education" name="mandatory_education[]" multiple="multiple" id="mandatory_education"></select>
                     
                 </div>
+                
                 <div class="form-group">
                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Professional Memberships</strong></label>
                     <input type="hidden" name="professional_membership_input" class="professional_membership_input" value="{{ $job_list->professional_membership }}">
@@ -335,6 +340,25 @@
                         ?>
                         @foreach($benefits_preferences as $benefits)
                         <li id="nursing_menus-{{ $j }}" data-value="{{ $benefits->benefits_id }}">{{ $benefits->benefits_name }}</li>
+                        <?php
+                            $j++;
+                        ?>
+                        @endforeach
+
+                    </ul>
+                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="benefits" name="benefits[]" multiple="multiple" id="type_nurse"></select>
+                    
+                </div>
+                <div class="form-group">
+                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Skills</strong></label>
+                    <input type="hidden" name="skills_input" class="skills_input" value="{{ $job_list->benefits }}">
+                    <ul id="skill_preferences" style="display:none;">
+                        <?php
+                            $skills_preferences = DB::table("skills")->where("parent_id","!=","1")->get();
+                            $j = 1;
+                        ?>
+                        @foreach($skills_preferences as $skills)
+                        <li id="nursing_menus-{{ $j }}" data-value="{{ $skills->id }}">{{ $skills->id }}</li>
                         <?php
                             $j++;
                         ?>
