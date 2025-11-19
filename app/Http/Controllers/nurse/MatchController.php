@@ -29,6 +29,7 @@ class MatchController extends Controller
 
         $data['education_certification_percent'] = $this->matchEducationPercent($jobs,$user);
         $data['experience_certification_percent'] = $this->matchExperiencePercent($jobs,$user);
+        $data['work_environment_percent'] = $this->matchWorkEnvironmentPercent($jobs,$user);
         
 
         //print_r($training_id_arr);
@@ -97,7 +98,7 @@ class MatchController extends Controller
 
         // -------- MATCH PERCENT -------- //
         $match = $found_degree + $found_training + $found_education + $found_award;
-        return round(($match / 4) * 100);
+        return round(($match / 4) * 15 / 100);
     }
 
     public function matchExperiencePercent($jobs, $user)
@@ -143,6 +144,86 @@ class MatchController extends Controller
         $match = $found_experience + $found_position;
         return round(($match / 2) * 100);
     }
+
+    public function matchWorkEnvironmentPercent($jobs, $user){
+        $work_data = DB::table("work_preferences")->where("user_id",$user->id)->first();
+        
+        
+
+        $sector_data = $work_data->sector_preferences;
+        
+        $sector_arr = [];
+        $work_environmentarr = [];
+        if(!empty($jobs)){
+            foreach ($jobs as $job) {
+                $sector_arr[] = $job->sector;
+                foreach (json_decode($job->work_environment) as $work_environment) {
+                    $work_environmentarr[] = $work_environment;
+                    
+                }
+            }
+        }
+
+        //print_r(array_unique($work_environmentarr));
+
+        //print_r($sector_arr);
+
+        $found_sector = 0;
+
+        if(in_array($sector_data,$sector_arr)){
+            $found_sector = 1;
+        }
+
+        
+        $json = $work_data->work_environment_preferences;
+        $data = json_decode($json, true);
+
+        // Remove first-level key
+        $inner = reset($data);
+
+        $result = [];
+
+        $this->getAllNumbers($inner, $result);
+
+        $result = array_values(array_unique($result));
+
+
+
+        //print_r($result);
+
+        $found_work_environment = empty(array_diff($result, $work_environmentarr)) ? 1 : 0;
+
+        //emp_type preferences
+
+
+
+
+        $match = $found_sector + $found_work_environment;
+        return round(($match / 2) * 30/100);
+
+
+        //echo $found_sector;
+
+
+    }
+
+    // Recursive function
+    private function getAllNumbers($array, &$result)
+    {
+        foreach ($array as $key => $value) {
+
+                // add key
+                $result[] = $key;
+
+                if (is_array($value)) {
+                    // go deeper
+                    $this->getAllNumbers($value, $result);
+                } else {
+                    // add final value
+                    $result[] = $value;
+                }
+            }
+        }
 
 
 }

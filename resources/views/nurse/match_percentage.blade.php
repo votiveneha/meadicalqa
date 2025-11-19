@@ -183,7 +183,7 @@
                       <div class="category">
                         <div class="label">7. Work Preferences & Flexibility (30%)</div>
                         <div class="progress-bar-bg">
-                          <div class="progress-bar-fill" style="">5%</div>
+                          <div class="progress-bar-fill" style="width: {{ $work_environment_percent }}%;">{{ $work_environment_percent }}%</div>
                         </div>
                       </div>
                   
