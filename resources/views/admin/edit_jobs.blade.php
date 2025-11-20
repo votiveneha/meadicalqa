@@ -297,7 +297,7 @@
                     <input type="hidden" name="shift_type_input" class="shift_type_input" value="{{ $job_list->shift_type }}">
                     <ul id="shift_type" style="display:none;">
                         <?php
-                            $shiftType = DB::table("work_shift_preferences")->get();
+                            $shiftType = DB::table("work_shift_preferences")->where("shift_id",1)->get();
                             $j = 1;
                         ?>
                         @foreach($shiftType as $shiftTy)
@@ -335,7 +335,7 @@
                     <input type="hidden" name="benefits_input" class="benefits_input" value="{{ $job_list->benefits }}">
                     <ul id="benefits" style="display:none;">
                         <?php
-                            $benefits_preferences = DB::table("benefits_preferences")->get();
+                            $benefits_preferences = DB::table("benefits_preferences")->where("subbenefit_id","!=",0)->get();
                             $j = 1;
                         ?>
                         @foreach($benefits_preferences as $benefits)

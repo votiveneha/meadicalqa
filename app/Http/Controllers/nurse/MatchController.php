@@ -154,19 +154,60 @@ class MatchController extends Controller
         
         $sector_arr = [];
         $work_environmentarr = [];
+        $jobemp_typearr = [];
+        $jobshift_typearr = [];
+        $jobpositionarr = [];
+        $jobbenefitsarr = [];
         if(!empty($jobs)){
             foreach ($jobs as $job) {
                 $sector_arr[] = $job->sector;
-                foreach (json_decode($job->work_environment) as $work_environment) {
-                    $work_environmentarr[] = $work_environment;
-                    
+                if(!empty(json_decode($job->work_environment))){
+                    foreach (json_decode($job->work_environment) as $work_environment) {
+                        $work_environmentarr[] = $work_environment;
+                        
+                    }
+                }
+
+                if(!empty(json_decode($job->emplyeement_type))){
+                    foreach (json_decode($job->emplyeement_type) as $emplyeement_type) {
+                        $jobemp_typearr[] = $emplyeement_type;
+                        
+                    }
+                }
+
+                if(!empty(json_decode($job->shift_type))){
+                    foreach (json_decode($job->shift_type) as $shift_type) {
+                        $jobshift_typearr[] = $shift_type;
+                        
+                    }
+                }
+
+                if(!empty(json_decode($job->emplyeement_positions))){
+                    foreach (json_decode($job->emplyeement_positions) as $emplyeement_positions) {
+                        $jobpositionarr[] = $emplyeement_positions;
+                        
+                    }
+                }
+
+                if(!empty(json_decode($job->emplyeement_positions))){
+                    foreach (json_decode($job->emplyeement_positions) as $emplyeement_positions) {
+                        $jobpositionarr[] = $emplyeement_positions;
+                        
+                    }
+                }
+
+                if(!empty(json_decode($job->benefits))){
+                    foreach (json_decode($job->benefits) as $benefits) {
+                        $jobbenefitsarr[] = $benefits;
+                        
+                    }
                 }
             }
         }
 
-        //print_r(array_unique($work_environmentarr));
+        //print_r(array_unique($jobbenefitsarr));
 
-        //print_r($sector_arr);
+        //print_r($jobemp_typearr);
 
         $found_sector = 0;
 
@@ -195,11 +236,67 @@ class MatchController extends Controller
 
         //emp_type preferences
 
+        $jobemp = array_unique($jobemp_typearr);
+        $useremp = json_decode($work_data->emptype_preferences);
+        $useremparr = [];
+        foreach($useremp as $emp){
+            foreach($emp as $emp1){
+                $useremparr[] = $emp1;
+            }
+        }
 
+        // print_r($jobemp);
+        // print_r($useremparr);
 
+        $found_emp_preferences = !empty(array_intersect($useremparr, $jobemp)) ? 1 : 0;   
 
-        $match = $found_sector + $found_work_environment;
-        return round(($match / 2) * 30/100);
+        $jobemp = array_unique($jobshift_typearr);
+        $usershift = (array)json_decode($work_data->work_shift_preferences);
+        //print_r($usershift[1]);
+        $usershift1 = isset($usershift[1])?$usershift[1]:[];
+
+        $shift_data = [];
+
+        if(!empty($usershift1)){
+            foreach($usershift1 as $shift){
+                $shift_data[] = $shift;
+            }
+        }
+
+        $found_shift_type = empty(array_diff($shift_data, $jobshift_typearr)) ? 1 : 0;
+
+        $jobposition = array_unique($jobpositionarr);
+        $userposition = (array)json_decode($work_data->position_preferences);
+        $userposition1 = (array)$userposition[1];
+        $posdata = [];
+        if(!empty($userposition1)){
+            foreach($userposition1 as $index=>$userpos){
+                $posdata[] = $index;
+                foreach($userpos as $userpos1){
+                    $posdata[] = $userpos1;
+                }
+            }
+        }
+        
+        $found_position_type = !empty(array_intersect($posdata, $jobposition)) ? 1 : 0;
+        //print_r($posdata);
+
+        $json = $work_data->benefits_preferences;
+        $data = json_decode($json, true);
+
+        $secondArray = [];
+
+        foreach ($data as $values) {
+            foreach ($values as $v) {
+                $secondArray[] = $v;
+            }
+        }
+
+        //print_r($secondArray);
+        echo $found_position_type = !empty(array_intersect($secondArray, $jobbenefitsarr)) ? 1 : 0;
+
+        $match = $found_sector + $found_work_environment + $found_emp_preferences+$found_shift_type+$found_position_type+$found_position_type;
+        return round(($match / 5) * 30/100);
 
 
         //echo $found_sector;

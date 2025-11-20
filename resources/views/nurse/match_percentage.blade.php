@@ -141,14 +141,14 @@
                       <div class="category">
                         <div class="label">1. Type of Nurse & Role (15%)</div>
                         <div class="progress-bar-bg">
-                          <div class="progress-bar-fill" style="width: 0%;">0%</div>
+                          <div class="progress-bar-fill" style="width: 5%;">5%</div>
                         </div>
                       </div>
                   
                       <div class="category">
                         <div class="label">2. Specialties (15%)</div>
                         <div class="progress-bar-bg">
-                          <div class="progress-bar-fill" style="width: 0%;">0%</div>
+                          <div class="progress-bar-fill" style="width: 20%;">20%</div>
                         </div>
                       </div>
                   
