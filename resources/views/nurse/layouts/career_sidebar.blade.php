@@ -72,6 +72,7 @@
         <li><a class="{{ request()->is('nurse/work_environment_preferences') ?'active':'' }} btn btn-border recruitment-icon mb-20 profile_tabs" href="#"><i class="fi fi-rr-handshake"></i> Applications</a></li>
         <li><a class="{{ request()->is('nurse/employeement_type_preferences') ?'active':'' }} btn btn-border recruitment-icon mb-20 profile_tabs" href="#"><i class="fi fi-rr-briefcase"></i> Interviews</a></li>
         <li><a class="{{ request()->is('nurse/WorkShiftPreferences') ?'active':'' }} btn btn-border recruitment-icon mb-20 profile_tabs" href="#"><i class="fi fi-rr-calendar-clock"></i> My Jobs</a></li>
+        <li><a class="{{ request()->is('nurse/matchedJobs') ?'active':'' }} btn btn-border recruitment-icon mb-20 profile_tabs" href="{{ route('nurse.matchedJobs') }}"><i class="fi fi-rr-calendar-clock"></i> Matched Jobs</a></li>
         
         
         

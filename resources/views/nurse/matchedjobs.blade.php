@@ -135,61 +135,122 @@
 
                     
                     <div class="card shadow-sm border-0 p-4 mt-30">
-                      @include('nurse.career_tooltip')
-                      <h3 class="mt-0 color-brand-1 mb-2">Overall Match</h3>
+                      
+                      <h3 class="mt-0 color-brand-1 mb-2">Matched Jobs for Nurse Profile</h3>
     
-                      <div class="category">
-                        <div class="label">1. Type of Nurse & Role (15%)</div>
-                        <div class="progress-bar-bg">
-                          <div class="progress-bar-fill" style="width: 5%;">5%</div>
-                        </div>
-                      </div>
-                  
-                      <div class="category">
-                        <div class="label">2. Specialties (15%)</div>
-                        <div class="progress-bar-bg">
-                          <div class="progress-bar-fill" style="width: 20%;">20%</div>
-                        </div>
-                      </div>
-                  
-                      <div class="category">
-                        <div class="label">3. Experience (15%)</div>
-                        <div class="progress-bar-bg">
-                          <div class="progress-bar-fill" style="width: {{ $experience_certification_percent }}%">{{ $experience_certification_percent }}%</div>
-                        </div>
-                      </div>
-                  
-                      <div class="category">
-                        <div class="label">4. Education & Certifications (15%)</div>
-                        <div class="progress-bar-bg">
-                          <div class="progress-bar-fill" style="width: {{ $education_certification_percent }}%;">{{ $education_certification_percent }}%</div>
-                        </div>
-                      </div>
-                  
-                      <div class="category">
-                        <div class="label">5. Vaccination Records (5%)</div>
-                        <div class="progress-bar-bg">
-                          <div class="progress-bar-fill" style="">5%</div>
-                        </div>
-                      </div>
+                      <div class="match-grid">
+                            @foreach($jobs as $job)
+                            <!-- Card 1 -->
+                            <div class="match-card">
+                                @php
+                                    $nurse_data = (array)json_decode($job->nurse_type);
+                                    $nursearr = [];
 
-                      <div class="category">
-                        <div class="label">6. Checks & Clearances (5%)</div>
-                        <div class="progress-bar-bg">
-                          <div class="progress-bar-fill" style="">5%</div>
-                        </div>
-                      </div>
+                                    foreach($nurse_data as $ndata){
+                                        
+                                        $nurse_type = DB::table("practitioner_type")->where("id",$ndata)->first();
+                                        
+                                        $nursearr[] = $nurse_type->name ?? null;
+                                    }
+                                    //print_r($nursearr);
+                                    $user = Auth::guard("nurse_middle")->user();
+                                    $helper = new \App\Helpers\CustomHelper;
+                                    $workPercent = $helper->matchWorkPercent($job,$user);
+                                    $vaccinationRecordPercent = $helper->matchVaccinationRecord($job,$user);
+                                    $clearacesPercent = $helper->matchclearacesPercent($job,$user);
+                                    $eduCertPercent = $helper->matcheduCertPercent($job,$user);
+                                    
+                                    $total_match = $workPercent + $vaccinationRecordPercent + $clearacesPercent;
+                                    //echo $found_sector;
+                                    
+                                @endphp
+                                <h3 class="job-title">{{ $nursearr[0] }} – {{ $job->agency_name }}</h3>
 
-                      <div class="category">
-                        <div class="label">7. Work Preferences & Flexibility (30%)</div>
-                        <div class="progress-bar-bg">
-                          <div class="progress-bar-fill" style="width: {{ $work_environment_bar }}%;">{{ $work_environment_percent }}%</div>
+                                <div class="match-row">
+                                    <span>Type & Role</span>
+                                    <span>0%</span>
+                                </div>
+
+                                <div class="match-row">
+                                    <span>Specialties</span>
+                                    <span>0%</span>
+                                </div>
+
+                                <div class="match-row">
+                                    <span>Experience</span>
+                                    <span>0%</span>
+                                </div>
+
+                                <div class="match-row">
+                                    <span>Education</span>
+                                    <span>0%</span>
+                                </div>
+
+                                <div class="match-row">
+                                    <span>Vaccinations</span>
+                                    <span>{{ $vaccinationRecordPercent }}%</span>
+                                </div>
+
+                                <div class="match-row">
+                                    <span>Clearances</span>
+                                    <span>{{ $clearacesPercent }}%</span>
+                                </div>
+
+                                <div class="match-row">
+                                    <span>Preferences</span>
+                                    <span>{{ $workPercent }}%</span>
+                                </div>
+
+                                <div class="total-score">Total Match Score: <span>{{ $total_match }}%</span></div>
+                            </div>
+                            @endforeach
+                            <!-- Card 2 -->
+                            <!-- <div class="match-card">
+                                <h3 class="job-title">OR Scout Nurse – Private Center</h3>
+
+                                <div class="match-row">
+                                    <span>Type & Role</span>
+                                    <span>13%</span>
+                                </div>
+
+                                <div class="match-row">
+                                    <span>Specialties</span>
+                                    <span>12%</span>
+                                </div>
+
+                                <div class="match-row">
+                                    <span>Experience</span>
+                                    <span>14%</span>
+                                </div>
+
+                                <div class="match-row">
+                                    <span>Education</span>
+                                    <span>13%</span>
+                                </div>
+
+                                <div class="match-row">
+                                    <span>Vaccinations</span>
+                                    <span>5%</span>
+                                </div>
+
+                                <div class="match-row">
+                                    <span>Clearances</span>
+                                    <span>5%</span>
+                                </div>
+
+                                <div class="match-row">
+                                    <span>Preferences</span>
+                                    <span>26%</span>
+                                </div>
+
+                                <div class="total-score">Total Match Score: <span>88%</span></div>
+                            </div> -->
+
                         </div>
-                      </div>
                   
                     
     
-                </div>
+                    </div>
             </div>
           </div>
         </div>

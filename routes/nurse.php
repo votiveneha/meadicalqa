@@ -268,6 +268,7 @@ Route::prefix('nurse')->name('nurse.')->namespace('App\Http\Controllers\nurse')-
   Route::get('getEmptypeData', 'JobsController@getEmptypeData')->name('getEmptypeData');
   Route::get('notifications', 'NotificationController@index')->name('notifications');
   Route::post('notifications/mark-read', 'NotificationController@markAllRead')->name('notifications.markRead');  
+  Route::get('matchedJobs', 'MatchController@matchedJobs')->name('matchedJobs');
 
   });
 });

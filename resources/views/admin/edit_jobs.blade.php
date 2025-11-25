@@ -377,6 +377,41 @@
                     <input type="date" class="form-control" name="application_submission_date" value="{{ $job_list->application_submission_date }}">
                 </div>    
                 <div class="form-group">
+                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Vaccination Record</strong></label>
+                    <input type="hidden" name="vaccination_input" class="vaccination_input" value="{{ $job_list->vaccination_record }}">
+                    <ul id="vaccination_record" style="display:none;">
+                        <?php
+                            $vaccination_record = DB::table("vaccination")->get();
+                            $j = 1;
+                        ?>
+                        @foreach($vaccination_record as $vaccination)
+                        <li id="vaccination_menus-{{ $j }}" data-value="{{ $vaccination->id }}">{{ $vaccination->name }}</li>
+                        <?php
+                            $j++;
+                        ?>
+                        @endforeach
+
+                    </ul>
+                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="vaccination_record" name="vaccination_record[]" multiple="multiple" id="vaccination_record"></select>
+                    
+                </div>
+                <div class="form-group">
+                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Checks & Clearances</strong></label>
+                    <input type="hidden" name="clearance_input" class="clearance_input" value="{{ $job_list->checks_clearance }}">
+                    <ul id="checks_clearances" style="display:none;">
+                        
+                        <li id="residency_menus" data-value="Residency and Work Eligibility">Residency and Work Eligibility</li>
+                        <li id="residency_menus" data-value="Police Clearance (National/State)">Police Clearance (National/State)</li>
+                        <li id="residency_menus" data-value="NDIS Worker Screening Check">NDIS Worker Screening Check</li>
+                        <li id="residency_menus" data-value="Working With Children Check (WWCC)">Working With Children Check (WWCC)</li>
+                        <li id="residency_menus" data-value="Other Region-Specific Clearances">Other Region-Specific Clearances</li>
+                        
+
+                    </ul>
+                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="checks_clearances" name="checks_clearances[]" multiple="multiple" id="vaccination_record"></select>
+                    
+                </div>
+                <div class="form-group">
                     <input type="checkbox" name="urgent_hire_tag" @if($job_list->urgent_hire == 1) checked @endif>Urgent Hire
                 </div>
 
@@ -603,6 +638,20 @@
       var benefits_input = JSON.parse($(".benefits_input").val());
       console.log("benefits_input",benefits_input);
       $('.js-example-basic-multiple[data-list-id="benefits"]').select2().val(benefits_input).trigger('change');
+      
+    }
+
+    if ($(".vaccination_input").val() != "") {
+      var vaccination_input = JSON.parse($(".vaccination_input").val());
+      console.log("vaccination_input",vaccination_input);
+      $('.js-example-basic-multiple[data-list-id="vaccination_record"]').select2().val(vaccination_input).trigger('change');
+      
+    }
+
+    if ($(".clearance_input").val() != "") {
+      var clearance_input = JSON.parse($(".clearance_input").val());
+      console.log("clearance_input",clearance_input);
+      $('.js-example-basic-multiple[data-list-id="checks_clearances"]').select2().val(clearance_input).trigger('change');
       
     }
 

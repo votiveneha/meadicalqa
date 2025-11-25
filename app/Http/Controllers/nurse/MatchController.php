@@ -4,6 +4,7 @@ namespace App\Http\Controllers\nurse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Helpers\MatchHelper;
+
 use App\Models\User;
 use App\Models\JobsModel;
 use App\Models\SpecialityModel;
@@ -29,7 +30,10 @@ class MatchController extends Controller
 
         $data['education_certification_percent'] = $this->matchEducationPercent($jobs,$user);
         $data['experience_certification_percent'] = $this->matchExperiencePercent($jobs,$user);
-        $data['work_environment_percent'] = $this->matchWorkEnvironmentPercent($jobs,$user);
+        $workData = $this->matchWorkEnvironmentPercent($jobs,$user);
+
+        $data['work_environment_percent'] = $workData['final_percent'];
+        $data['work_environment_bar']     = $workData['bar_width'];
         
 
         //print_r($training_id_arr);
@@ -293,11 +297,17 @@ class MatchController extends Controller
         }
 
         //print_r($secondArray);
-        echo $found_position_type = !empty(array_intersect($secondArray, $jobbenefitsarr)) ? 1 : 0;
+        $found_position_type = !empty(array_intersect($secondArray, $jobbenefitsarr)) ? 1 : 0;
 
         $match = $found_sector + $found_work_environment + $found_emp_preferences+$found_shift_type+$found_position_type+$found_position_type;
-        return round(($match / 5) * 30/100);
+        
+        $final_percent = round(($match / 5) * 30);
+        $bar_width = ($match / 5) * 100;
 
+        return [
+            'final_percent' => $final_percent,
+            'bar_width'     => $bar_width
+        ];
 
         //echo $found_sector;
 
@@ -309,18 +319,58 @@ class MatchController extends Controller
     {
         foreach ($array as $key => $value) {
 
-                // add key
-                $result[] = $key;
+            // add key
+            $result[] = $key;
 
-                if (is_array($value)) {
-                    // go deeper
-                    $this->getAllNumbers($value, $result);
-                } else {
-                    // add final value
-                    $result[] = $value;
-                }
+            if (is_array($value)) {
+                // go deeper
+                $this->getAllNumbers($value, $result);
+            } else {
+                // add final value
+                $result[] = $value;
             }
         }
+    }
+
+    public function matchedJobs(){
+
+        $user = Auth::guard("nurse_middle")->user();
+        $jobs = JobsModel::get();
+        $data['jobs'] = $jobs;
+        $workData = $this->matchSingleWorkEnvironmentPercent($jobs,$user);
+
+        $data['employeement_type_data'] = DB::table("employeement_type_preferences")->where("sub_prefer_id",0)->get();
+        $data['shift_type_data'] = DB::table("work_shift_preferences")->where("shift_id",0)->where("sub_shift_id",NULL)->get();
+        $data['employee_positions'] = DB::table("employee_positions")->where("subposition_id",0)->get();
+        $data['benefits_preferences'] = DB::table("benefits_preferences")->where("subbenefit_id",0)->get();
+        $data['work_environment_data'] = DB::table("work_enviornment_preferences")
+            ->where("sub_env_id", 0)
+            ->where("sub_envp_id", 0)
+            ->get();
+        $data['work_shift_data'] = DB::table("work_shift_preferences")
+            ->where("shift_id", 0)
+            ->where("sub_shift_id", NULL)
+            ->get();    
+        $data['type_of_nurse'] = DB::table("practitioner_type")
+            ->where("parent", 0)
+            ->get();        
+        $data['speciality'] = DB::table("speciality")
+            ->where("parent", 0)
+            ->get();     
+        $user_id = Auth::guard('nurse_middle')->user()->id;    
+        $data['work_preferences_data'] = DB::table("work_preferences")
+            ->where("user_id", $user_id)
+            ->first();    
+        $data['saved_searches_data'] = DB::table("saved_searches")
+            ->where("user_id", $user_id)
+            ->get();       
+        return view("nurse.matchedjobsnew")->with($data);
+    }
+
+    public function matchSingleWorkEnvironmentPercent($jobs,$user)
+    {
+
+    }
 
 
 }
