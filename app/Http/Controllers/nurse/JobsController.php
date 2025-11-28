@@ -33,7 +33,7 @@ class JobsController extends Controller{
     
     public function index()
     {
-		echo "hello";
+        echo "hello";
         $this->ensureDefaultSearch();
         $data['employeement_type_data'] = DB::table("employeement_type_preferences")->where("sub_prefer_id",0)->get();
         $data['shift_type_data'] = DB::table("work_shift_preferences")->where("shift_id",0)->where("sub_shift_id",NULL)->get();

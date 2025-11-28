@@ -1,7 +1,6 @@
 @extends('nurse.layouts.layout')
 @section('content')
 <main class="main">
-	hello
   <div class="bg-homepage4"></div>
   <section class="section-box mb-70">
     <div class="banner-hero hero-1 banner-homepage5">

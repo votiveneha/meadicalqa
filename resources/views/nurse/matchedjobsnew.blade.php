@@ -779,7 +779,7 @@
                                     $clearacesPercent = $helper->matchclearacesPercent($job,$user);
                                     $eduCertPercent = $helper->matcheduCertPercent($job,$user);
                                     
-                                    $total_match = $workPercent + $vaccinationRecordPercent + $clearacesPercent;
+                                    $total_match = 2+3+7+5+$workPercent + $vaccinationRecordPercent + $clearacesPercent;
                                     //echo $found_sector;
                                     
                                 @endphp
@@ -787,22 +787,22 @@
 
                                 <div class="match-row">
                                     <span>Type & Role</span>
-                                    <span>0%</span>
+                                    <span>2%</span>
                                 </div>
 
                                 <div class="match-row">
                                     <span>Specialties</span>
-                                    <span>0%</span>
+                                    <span>3%</span>
                                 </div>
 
                                 <div class="match-row">
                                     <span>Experience</span>
-                                    <span>0%</span>
+                                    <span>7%</span>
                                 </div>
 
                                 <div class="match-row">
                                     <span>Education</span>
-                                    <span>0%</span>
+                                    <span>5%</span>
                                 </div>
 
                                 <div class="match-row">
