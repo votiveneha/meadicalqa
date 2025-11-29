@@ -1,6 +1,6 @@
 @extends('nurse.layouts.layout')
 @section('css')
-
+hello
 <style>
    /* Search bar */
    .search-bar {
