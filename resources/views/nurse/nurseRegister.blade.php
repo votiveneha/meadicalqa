@@ -222,7 +222,7 @@
                 @endforeach
                 <!-- Add more list items as needed -->
             </ul>
-        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="nursing_entry-{{ $i }}" name="nursing_type[{{ $spl->id }}][]" multiple="multiple"></select>
+        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="nursing_entry-{{ $i }}" name="nursing_type_{{ $i }}[]" multiple="multiple"></select>
 
     </div>
     <?php
@@ -431,7 +431,7 @@
                         @endforeach
                       </select>
                       <span id="reqdegree" class="reqError valley"></span> -->
-                      <label class="form-label" for="input-1">Nurse & Midwife degree</label>
+                      <!-- <label class="form-label" for="input-1">Nurse & Midwife degree</label>
                        <?php
                         $nurse_midwife_degree = DB::table("degree")->where('status', '1')->orderBy('name')->get();
                        ?>
@@ -442,7 +442,7 @@
                               @endforeach
                         </ul>
                     <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="nurse_degree" name="degree[]" multiple="multiple"></select>
-                    <span id="reqdegree" class="reqError valley"></span>
+                    <span id="reqdegree" class="reqError valley"></span> -->
                     </div>
 
                   </div>

@@ -124,6 +124,33 @@
 }
 
   }
+.info-icon {
+    display: inline-block;
+    margin-left: 4px;
+    /* background: #007bff; */
+    color: gray;
+    border-radius: 50%;
+    font-size: 18px;
+    /* padding: 2px 7px; */
+    cursor: pointer;
+    font-weight: bold;
+    position: relative;
+}
+
+.info-icon:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    left: 20px;
+    top: -5px;
+    background: #4d4d4dff;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    white-space: pre-line; /* allows multi-line tooltip */
+    z-index: 1000;
+    width: 360px; /* adjust width if needed */
+}
 
 
 </style>
@@ -159,7 +186,7 @@
 
               $get_myprofile_status = DB::table("updated_tab_name")->where("user_id", Auth::guard('nurse_middle')->user()->id)->get();
 
-              $get_progress_status = round(count($get_myprofile_status)/12 * 100);
+              $get_progress_status = round(count($get_myprofile_status)/15 * 100);
 
               ?>
               <div class="chart" id="graph1" data-percent="<?php echo $get_progress_status; ?>" data-color="#000"></div>
@@ -610,11 +637,7 @@
                           @foreach($specialty as $spl)
                           <?php
                           $nursing_data = DB::table("practitioner_type")->where('parent', $spl->id)->orderBy('name')->get();
-                          $nurse_data = (array)json_decode(Auth::guard('nurse_middle')->user()->nurse_data);
-                          //print_r($nurse_data);
-                          $nurse_middle_data = isset($nurse_data[$spl->id])?json_encode($nurse_data[$spl->id]):"";
                           ?>
-                          <input type="hidden" name="nurse_middle_data" class="nurse_middle_data" value="{{ $nurse_middle_data }}">
                           <input type="hidden" name="nursing_result" class="nursing_result-{{ $i }}" value="{{ $spl->id }}">
                           <div class="nursing_data form-group drp--clr col-md-4 d-none drpdown-set nursing_{{ $spl->id }}" id="nursing_level-{{ $i }}">
                             <label class="form-label" for="input-2">{{ $spl->name }}</label>
@@ -625,7 +648,7 @@
                               @endforeach
                               <!-- Add more list items as needed -->
                             </ul>
-                            <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="nursing_entry-{{ $i }}" name="nursing_type_data[{{ $spl->id }}][]" multiple="multiple"></select>
+                            <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="nursing_entry-{{ $i }}" name="nursing_type_{{ $i }}[]" multiple="multiple"></select>
                             <span id="reqnursesubcat_{{ $i }}" class="reqError text-danger valley"></span>
                           </div>
                           <?php
@@ -636,6 +659,7 @@
 
                       </div>
                     </div>
+                    
                     <div class="np_submenu d-none">
 
                       <div class="form-group drp--clr">
@@ -816,6 +840,29 @@
                       ?>
                       @endforeach
                     </div>
+<div class="form-group level-drp">
+    <label class="form-label" for="input-1">
+        Specialty Status
+        <span class="info-icon"
+              data-tooltip="Status definitions:
+Current – Actively practicing, used in present or most recent job
+Principal – Main/strongest specialty
+First – First-ever specialty after qualification
+Former – Previously practiced
+Upskilling / Transitioning / Training – Moving into this specialty">ⓘ</span>
+    </label>
+
+    <select class="form-input mr-10 select-active" name="assistent_level">
+        <option value="">Please Select</option>
+        <option value="Current">Current</option>
+        <option value="Principal">Principal</option>
+        <option value="First">First</option>
+        <option value="Former">Former</option>
+        <option value="Upskilling/Transitioning">Upskilling/Transitioning</option>
+    </select>
+</div>
+
+
                     <div class="form-group level-drp">
                       <label class="form-label" for="input-1">What is your overall level of experience in nursing/midwifery?
                       </label>
@@ -3788,7 +3835,6 @@
                               <?php
                               $nursing_data = DB::table("practitioner_type")->where('parent', $spl->id)->orderBy('name')->get();
                               ?>
-                              
                               <input type="hidden" name="nursing_result_experience2" class="nursing_result_experience-{{ $i }}" value="{{ $spl->id }}">
                               <div class="nursing_data form-group drp--clr col-md-12 d-none drpdown-set nursing_exp_{{ $spl->id }} nursing_exps_1{{ $i }}" id="nursing_level_experience-{{ $i }}">
                                 <label class="form-label nursing_type_label-1{{ $i }}" for="input-2">{{ $spl->name }}</label>
@@ -4018,7 +4064,7 @@
                           </select>
                           <span id="reqlevelexp-1" class="reqError text-danger valley"></span>
                         </div>
-                        <div class="form-group level-drp">
+                        <!-- <div class="form-group level-drp">
                           
                           <label class="form-label" for="input-1">Position Held</label>
                           <?php
@@ -4037,7 +4083,7 @@
                           <select class="js-example-basic-multiple addAll_removeAll_btn pos_held pos_held_1" data-list-id="position_held_field-1" name="positions_held[1]" id="position_held_field-1" multiple onchange="getPostions('',1)"></select>
                           <span id="reqpositionheld-1" class="reqError text-danger valley"></span>
                         
-                        </div>
+                        </div> -->
                         <div class="show_positions-1"></div>
                         <div class="row">
                           <div class="col-md-6">
@@ -6017,16 +6063,6 @@ if (!empty($interviewReferenceData)) {
     var prof_cert_new = JSON.parse($(".prof_cert_new").val());
     $('.js-example-basic-multiple[data-list-id="profess_cert"]').select2().val(prof_cert_new).trigger('change');
   }
-
-  var i = 1;
-  $(".nurse_middle_data").each(function(){
-    if ($(this).val() != "") {
-      var nurse_middle_data = JSON.parse($(this).val());
-      $('.js-example-basic-multiple[data-list-id="nursing_entry-'+i+'"]').select2().val(nurse_middle_data).trigger('change');
-    }
-    i++;
-  });
-  
 
   // if($(".training_course").val() != ""){
   //   var training_course = JSON.parse($(".training_course").val());
