@@ -208,7 +208,7 @@
                                 $p_memb_json = json_encode($p_memb_arr);
                             ?>
                             <div class="wp_main_div wp_main_div-{{ $p_arr }}"><div class="subworkdiv subworkdiv-{{ $p_arr }} form-group level-drp">
-                                <label class="form-label work_label work_label-1{{ $p_arr }}" for="input-1">@if(!empty($environment_name)){{ $environment_name->env_name }}@endif</label>
+                                <label class="form-label work_label work_label-1{{ $p_arr }}" for="input-1">{{ $environment_name->env_name }}</label>
                                 <input type="hidden" name="subwork" class="subwork subwork-{{ $p_arr }}" value="1">
                                 <input type="hidden" name="subwork_list" class="subwork_list subwork_list-1" value="{{ $p_arr }}">
                                 <input type="hidden" name="subworkjs" class="subworkjs-1 subworkjs-1{{ $p_arr }}" value="{{ $p_memb_json }}">

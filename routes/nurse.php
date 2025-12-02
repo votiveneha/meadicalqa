@@ -15,15 +15,10 @@ use Illuminate\Support\Facades\Route;
 // ===========
 // User Route
 // ===========
-
-Route::get('/clear-cache', function () {
-    Artisan::call('cache:clear');
-    Artisan::call('config:clear');
-    Artisan::call('view:clear');
+Route::get('/clear-route-cache', function () {
     Artisan::call('route:clear');
-    return "All caches cleared!";
+    return "Route cache cleared!";
 });
-
 Route::post('/fetch-provinces', 'App\Http\Controllers\HomeController@fetchProvinces')->name('fetch-provinces');
 Route::get('/', 'App\Http\Controllers\nurse\HomeController@index_main')->name('home_main');
 Route::get('/term-and-condition', 'App\Http\Controllers\nurse\HomeController@term_and_condition')->name('term-and-condition');
@@ -215,7 +210,6 @@ Route::prefix('nurse')->name('nurse.')->namespace('App\Http\Controllers\nurse')-
   Route::post('/deletelangEvidenceImg', 'LanguageSkillsContoller@deletelangEvidenceImg')->name('deletelangEvidenceImg');   
   
   /**************[Work Preferences & Flexibility]**************/
-  // Route::get('/match_percentage', 'WorkPreferencesController@match_percentage')->name('match_percentage');
   Route::get('/match_percentage', 'MatchController@match_percentage')->name('match_percentage');
   Route::get('/sector_preferences', 'WorkPreferencesController@index')->name('sector_preferences');
   Route::post('/updateSectorPreferences', 'WorkPreferencesController@updateSectorPreferences')->name('updateSectorPreferences');
@@ -266,9 +260,8 @@ Route::prefix('nurse')->name('nurse.')->namespace('App\Http\Controllers\nurse')-
   Route::post('get_tags', 'JobsController@get_tags')->name('get_tags');
   Route::post('get_filters_data', 'JobsController@get_filters_data')->name('get_filters_data');
   Route::get('getEmptypeData', 'JobsController@getEmptypeData')->name('getEmptypeData');
-  Route::get('notifications', 'NotificationController@index')->name('notifications');
-  Route::post('notifications/mark-read', 'NotificationController@markAllRead')->name('notifications.markRead');  
   Route::get('matchedJobs', 'MatchController@matchedJobs')->name('matchedJobs');
-
+  Route::get('getSpecialityDatas', 'WorkPreferencesController@getSpecialityDatas')->name('getSpecialityDatas');
+  
   });
 });

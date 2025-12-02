@@ -204,7 +204,6 @@ class HomeController extends Controller
 
         $companyinsert['nursetype']                     = json_encode($request->nurseType);
         $companyinsert['nurseTypeJob']                  = json_encode($request->nurseTypeJob);
-        $companyinsert['nurse_data']                  = json_encode($request->nursing_type);
         $companyinsert['nurse_practitioner_speciality'] = json_encode($request->nurse_practitioner_speciality);
         $companyinsert['assistent_level']               = $request->assistent_level;
         $companyinsert['specialties']                   = json_encode($request->specialties);
@@ -234,7 +233,7 @@ class HomeController extends Controller
         $companyinsert['pad_op_room']                    = json_encode($request->surgical_operative_carep_1);
         $companyinsert['pad_qr_scout']                   = json_encode($request->surgical_operative_carep_2);
         $companyinsert['pad_qr_scrub']                   = json_encode($request->surgical_operative_carep_3);
-        //print_r($companyinsert);die;
+
         $run = User::insert($companyinsert);
         $r   = User::where('email', $request->email)->first();
 
@@ -523,7 +522,8 @@ class HomeController extends Controller
                 } else {
 
 
-                    return redirect()->route('nurse.dashboard')->with([
+                    // return redirect()->route('nurse.dashboard')->with([
+                    return redirect('/nurse/my-profile?page=profession')->with([
                         'message' => $message,
                         'title' => '',
                         'status' => $status
@@ -568,7 +568,8 @@ class HomeController extends Controller
                         $message = '<h6 style="color:green">Your email address has been verified successfully. Now You can access to you account!</h6>';
                         $status = 1;
 
-                        return redirect()->route('nurse.dashboard')->with([
+                        // return redirect()->route('nurse.dashboard')->with([
+                        return redirect('/nurse/my-profile?page=profession')->with([
                             'message' => $message,
                             'title' => '',
                             'status' => $status
@@ -623,7 +624,7 @@ class HomeController extends Controller
                 setcookie("email", "");
                 setcookie("password", "");
             }
-            return redirect('/nurse/my-profile?page=my_profile')->with('success', 'You are Logged in sucessfully.');
+           return redirect('/nurse/my-profile?page=my_profile')->with('success', 'You are Logged in sucessfully.');
         } else {
             return back()->with('error', 'Invalid login details.');
         }
@@ -915,7 +916,6 @@ class HomeController extends Controller
     public function updateProfession(Request $request)
     {
         $nurse_type = json_encode($request->nurseType);
-        $nursing_type_data = json_encode($request->nursing_type_data);
         $nursing_type_1 = json_encode($request->nursing_type_1);
         $nursing_type_2 = json_encode($request->nursing_type_2);
         $nursing_type_3 = json_encode($request->nursing_type_3);
@@ -964,7 +964,6 @@ class HomeController extends Controller
 
         $post = User::find($request->user_id);
         $post->nurseType = $nurse_type;
-        $post->nurse_data = $nursing_type_data;
         $post->entry_level_nursing = $nursing_type_1;
         $post->registered_nurses = $nursing_type_2;
         $post->advanced_practioner = $nursing_type_3;

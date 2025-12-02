@@ -75,7 +75,6 @@
         <li><a class="{{ request()->is('nurse/matchedJobs') ?'active':'' }} btn btn-border recruitment-icon mb-20 profile_tabs" href="{{ route('nurse.matchedJobs') }}"><i class="fi fi-rr-calendar-clock"></i> Matched Jobs</a></li>
         
         
-        
         <div class="mt-0 mb-20 logout-line">
           <a class="link-red font-md" href="{{ route('nurse.logout') }}"><i class="fa-solid fa-arrow-right-from-bracket me-2"></i> Log Out</a>
           <a class="support-button font-md" href="{{ route('contact') }}">Need support?</a>

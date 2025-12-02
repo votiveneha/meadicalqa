@@ -156,11 +156,8 @@
                                     $user = Auth::guard("nurse_middle")->user();
                                     $helper = new \App\Helpers\CustomHelper;
                                     $workPercent = $helper->matchWorkPercent($job,$user);
-                                    $vaccinationRecordPercent = $helper->matchVaccinationRecord($job,$user);
-                                    $clearacesPercent = $helper->matchclearacesPercent($job,$user);
-                                    $eduCertPercent = $helper->matcheduCertPercent($job,$user);
                                     
-                                    $total_match = $workPercent + $vaccinationRecordPercent + $clearacesPercent;
+                                    
                                     //echo $found_sector;
                                     
                                 @endphp
@@ -168,40 +165,40 @@
 
                                 <div class="match-row">
                                     <span>Type & Role</span>
-                                    <span>0%</span>
+                                    <span>15%</span>
                                 </div>
 
                                 <div class="match-row">
                                     <span>Specialties</span>
-                                    <span>0%</span>
+                                    <span>15%</span>
                                 </div>
 
                                 <div class="match-row">
                                     <span>Experience</span>
-                                    <span>0%</span>
+                                    <span>13%</span>
                                 </div>
 
                                 <div class="match-row">
                                     <span>Education</span>
-                                    <span>0%</span>
+                                    <span>14%</span>
                                 </div>
 
                                 <div class="match-row">
                                     <span>Vaccinations</span>
-                                    <span>{{ $vaccinationRecordPercent }}%</span>
+                                    <span>5%</span>
                                 </div>
 
                                 <div class="match-row">
                                     <span>Clearances</span>
-                                    <span>{{ $clearacesPercent }}%</span>
+                                    <span>5%</span>
                                 </div>
 
                                 <div class="match-row">
                                     <span>Preferences</span>
-                                    <span>{{ $workPercent }}%</span>
+                                    <span>%</span>
                                 </div>
 
-                                <div class="total-score">Total Match Score: <span>{{ $total_match }}%</span></div>
+                                <div class="total-score">Total Match Score: <span>{{ $workPercent }}%</span></div>
                             </div>
                             @endforeach
                             <!-- Card 2 -->

@@ -72,20 +72,6 @@
                     
                 </div>
                 <div class="form-group">
-                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Nurse & Midwife Degrees</strong></label>
-                    <?php
-                        $nurse_midwife_degree = DB::table("degree")->where('status', '1')->orderBy('name')->get();
-                    ?>
-                    <ul id="ndegree" style="display:none;">
-                        @foreach($nurse_midwife_degree as $ptl)
-                        <li data-value="{{ $ptl->id }}">{{ $ptl->name }}</li>
-
-                        @endforeach
-                    </ul>
-                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="ndegree" name="ndegree[]" multiple="multiple"></select>
-                    
-                </div>
-                <div class="form-group">
                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Location</strong></label>
                     <input type="text" class="form-control" name="location_name"
                                 id="edit_location_name">

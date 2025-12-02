@@ -63,7 +63,7 @@
     <?php
       $get_myprofile_status = DB::table("updated_tab_name")->where("user_id", Auth::guard('nurse_middle')->user()->id)->get();
 
-      $get_progress_status = round(count($get_myprofile_status)/12 * 100);
+      $get_progress_status = round(count($get_myprofile_status)/15 * 100);
 
     ?>
     <div class="chart" id="graph1" data-percent="<?php echo $get_progress_status; ?>" data-color="#000"></div>

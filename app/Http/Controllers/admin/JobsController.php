@@ -75,8 +75,6 @@ class JobsController extends Controller
         $salary = $request->salary;
         $job_id = $request->job_id;
         $application_submission_date = $request->application_submission_date;
-        $vaccination_record = $request->vaccination_record;
-        $checks_clearances = $request->checks_clearances;
         $urgent_hire_tag = isset($request->urgent_hire_tag)? 1: 0;
 
         if($job_id){
@@ -101,8 +99,6 @@ class JobsController extends Controller
             $jobs->benefits = json_encode($benefits);
             $jobs->salary = $salary;
             $jobs->application_submission_date = $application_submission_date;
-            $jobs->vaccination_record = json_encode($vaccination_record);
-            $jobs->checks_clearance = json_encode($checks_clearances);
             $jobs->urgent_hire = $urgent_hire_tag;
             $run = $jobs->save();
         }else{

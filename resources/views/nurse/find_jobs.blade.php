@@ -812,10 +812,10 @@
                             <span>Work Environment</span>
                             <span class="arrow">›</span>
                           </li>
-                          <li class="filter-item" onclick="openModal('Position','employee_positions','subposition_id','position_id','position_name')">
+                          <!-- <li class="filter-item" onclick="openModal('Position','employee_positions','subposition_id','position_id','position_name')">
                             <span>Position</span>
                             <span class="arrow">›</span>
-                          </li>
+                          </li> -->
                           <li class="filter-item" onclick="openModal('Benefits','benefits_preferences','subbenefit_id','benefits_id','benefits_name')">
                             <span>Benefits</span>
                             <span class="arrow">›</span>
@@ -974,9 +974,8 @@
                             <span><strong>Position:</strong> {{ $emp_pos_arr_string }}</span>
                             <span class="salary"><strong>Salary:</strong> ${{ $job->salary }}/hr</span>
                           </div>
-                          
                           <!-- Expanded Job Details -->
-                          <div class="job-info-details job-info-details-{{ $job->id }}" style="display:none;">
+                          <div class="job-info-details">
                             <div><strong>Sector:</strong> {{ $job->sector }}</div>
                             <div><strong>Employment Type:</strong> {{ $emplyeement_type_arr_string }}</div>
                             <div><strong>Shift Type:</strong> {{ $shift_type_arr_string }}</div>
@@ -992,9 +991,6 @@
                                   echo $formattedDate = date("d M Y", strtotime($job->application_submission_date));
                                   ?>
                             </div>
-                          </div>
-                          <div class="read_more_btn read_more_btn-{{ $job->id }}" data-id="{{ $job->id }}">
-                            <a href="#">More Details</a>
                           </div>
                           <?php
                             $sector_percent = (!empty($work_preferences_data) && $work_preferences_data->sector_preferences == $job->sector) ? 1 : 0;
@@ -1060,7 +1056,7 @@
                             //print_r($names);
                             ?>        
                           <!-- Footer: Match & Apply -->
-                          <div class="job-footer job-footer-{{ $job->id }}" style="display:none;">
+                          <div class="job-footer">
                             <div class="match-score">{{ $total_percent }}% Match</div>
                             <button class="apply-btn apply-btn-{{ $job->id }} @if(!empty($apply_job_data)) applied @endif" onclick="applyNow('{{ $user_id }}','{{ $job->id }}')">
                             @if(!empty($apply_job_data))
@@ -1235,22 +1231,6 @@
 <script>
     $(document).ready(function(){
       
-      $('.read_more_btn').click(function () {
-          var btn_id = $(this).data('id');
-          var details = $(".job-info-details-" + btn_id);
-          var footer = $(".job-footer-" + btn_id);
-          var link = $(this).find("a");
-
-          details.toggle();
-          footer.toggle();
-
-          // Toggle button text
-          if (details.is(":visible")) {
-              link.text("Hide Details");
-          } else {
-              link.text("More Details");
-          }
-      });
 
       $('.tab-nav li').click(function(){
         // Remove active classes
