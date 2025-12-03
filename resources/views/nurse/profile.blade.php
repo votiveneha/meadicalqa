@@ -840,27 +840,41 @@
                       ?>
                       @endforeach
                     </div>
-<div class="form-group level-drp">
-    <label class="form-label" for="input-1">
-        Specialty Status
-        <span class="info-icon"
-              data-tooltip="Status definitions:
-Current – Actively practicing, used in present or most recent job
-Principal – Main/strongest specialty
-First – First-ever specialty after qualification
-Former – Previously practiced
-Upskilling / Transitioning / Training – Moving into this specialty">ⓘ</span>
-    </label>
+                    <div class="form-group drp--clr drpdown-set">
+                        <label class="form-label" for="input-1">
+                            Specialty Status
+                            <span class="info-icon"
+                                  data-tooltip="Status definitions:
+                                  Current – Actively practicing, used in present or most recent job
+                                  Principal – Main/strongest specialty
+                                  First – First-ever specialty after qualification
+                                  Former – Previously practiced
+                                  Upskilling / Transitioning / Training – Moving into this specialty">ⓘ</span>
+                        </label>
 
-    <select class="form-input mr-10 select-active" name="assistent_level">
-        <option value="">Please Select</option>
-        <option value="Current">Current</option>
-        <option value="Principal">Principal</option>
-        <option value="First">First</option>
-        <option value="Former">Former</option>
-        <option value="Upskilling/Transitioning">Upskilling/Transitioning</option>
-    </select>
-</div>
+                        <!-- <select class="form-input mr-10 select-active" name="assistent_level">
+                            <option value="">Please Select</option>
+                            <option value="Current">Current</option>
+                            <option value="Principal">Principal</option>
+                            <option value="First">First</option>
+                            <option value="Former">Former</option>
+                            <option value="Upskilling/Transitioning">Upskilling/Transitioning</option>
+                        </select> -->
+
+                        <?php
+                          $speciality_status = DB::table("speciality_status")->where('status', '1')->orderBy('status_name')->get();
+                        ?>
+                          <ul id="speciality_status" style="display:none;">
+                            <li data-value="">Please Select</li>
+                                @foreach($speciality_status as $ptl)
+                              
+                                <li data-value="{{ $ptl->status_id }}">{{ $ptl->status_name }}</li>
+                                
+                                @endforeach
+                          </ul>
+                          <select class="js-example-basic-multiple" data-list-id="speciality_status" name="speciality_status[]"></select>
+                          <span id="reqdegree" class="reqError text-danger valley"></span>
+                    </div>
 
 
                     <div class="form-group level-drp">
@@ -3447,7 +3461,7 @@ Upskilling / Transitioning / Training – Moving into this specialty">ⓘ</span>
                           </select>
                           <span id="reqlevelexp-{{$i}}" class="reqError text-danger valley"></span>
                         </div>
-                        <div class="form-group level-drp">
+                        <!-- <div class="form-group level-drp">
                           
                           <label class="form-label" for="input-1">Position Held</label>
                           <?php
@@ -3477,7 +3491,7 @@ Upskilling / Transitioning / Training – Moving into this specialty">ⓘ</span>
                           <select class="js-example-basic-multiple addAll_removeAll_btn pos_held pos_held_{{ $i }}" data-list-id="position_held_field-{{ $i }}" name="positions_held[{{ $i }}]" id="position_held_field-{{ $i }}" multiple onchange="getPostions('',{{ $i }})"></select>
                           <span id="reqpositionheld-{{$i}}" class="reqError text-danger valley"></span>
                         
-                        </div>
+                        </div> -->
                         <div class="show_positions-{{ $i }}">
                           @foreach ($parr as $par)
                           <?php
