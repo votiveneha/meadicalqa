@@ -1925,6 +1925,21 @@ class WorkPreferencesController extends Controller{
     
         return round($distance, 1); // distance in km
     }
+
+    public function getSpecialityDatas(Request $request){
+        
+        $speciality_id = $request->speciality_id;
+        $main_specialty_data = DB::table("speciality")->where("id",$speciality_id)->first();
+        $sub_specialty_data = DB::table("speciality")->where("parent",$speciality_id)->get();
+
+        $data['main_speciality_id'] = $speciality_id;
+        $data['main_speciality_name'] = $main_specialty_data->name;
+        $data['sub_spciality_data'] = $sub_specialty_data;
+
+        return json_encode($data);
+
+
+    }
     
     
 }

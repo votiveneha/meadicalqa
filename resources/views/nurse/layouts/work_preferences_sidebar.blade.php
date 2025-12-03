@@ -89,12 +89,13 @@
     
     <div class="box-nav-tabs nav-tavs-profile mb-5 p-0 profile-icns">
       <ul class="nav" role="tablist">
+        <li><a class="{{ request()->is('nurse/position_preferences') ?'active':'' }} btn btn-border recruitment-icon mb-20 profile_tabs" href="{{ route('nurse.position_preferences', ['page' => 'position_preferences']) }}"><i class="fi fi-rr-id-badge"></i> Specialty Preferences</a></li>
         {{-- <li><a class="btn btn-border aboutus-icon mb-20 profile_tabs" href="#"><i class="fi fi-rr-percentage"></i>Match Percentage</a></li> --}}
         <li><a class="{{ request()->is('nurse/sector_preferences') ?'active':'' }} btn btn-border recruitment-icon mb-20 profile_tabs" href="{{ route('nurse.sector_preferences', ['page' => 'sector_preferences']) }}"><i class="fi fi-rr-stethoscope"></i> Sector Preferences</a></li>
         <li><a class="{{ request()->is('nurse/work_environment_preferences') ?'active':'' }} btn btn-border recruitment-icon mb-20 profile_tabs" href="{{ route('nurse.work_environment_preferences', ['page' => 'work_environment_preferences']) }}"><i class="fi fi-rr-handshake"></i> Work Environment Preferences</a></li>
         <li><a class="{{ request()->is('nurse/employeement_type_preferences') ?'active':'' }} btn btn-border recruitment-icon mb-20 profile_tabs" href="{{ route('nurse.employeement_type_preferences', ['page' => 'employeement_type_preferences']) }}"><i class="fi fi-rr-briefcase"></i> Employment type Preferences</a></li>
         <li><a class="{{ request()->is('nurse/WorkShiftPreferences') ?'active':'' }} btn btn-border recruitment-icon mb-20 profile_tabs" href="{{ route('nurse.WorkShiftPreferences', ['page' => 'WorkShiftPreferences']) }}"><i class="fi fi-rr-calendar-clock"></i> Work-Life Balance & Shift Preferences</a></li>
-        <li><a class="{{ request()->is('nurse/position_preferences') ?'active':'' }} btn btn-border recruitment-icon mb-20 profile_tabs" href="{{ route('nurse.position_preferences', ['page' => 'position_preferences']) }}"><i class="fi fi-rr-id-badge"></i> Position Preferences</a></li>
+        
         <li><a class="{{ request()->is('nurse/benefitsPreferences') ?'active':'' }} btn btn-border recruitment-icon mb-20 profile_tabs" href="{{ route('nurse.benefitsPreferences', ['page' => 'benefitsPreferences']) }}"><i class="fi fi-rr-shield-check"></i> Benefits Preferences</a></li>
         <li><a class="{{ request()->is('nurse/locationPreferences') ?'active':'' }} btn btn-border recruitment-icon mb-20 profile_tabs" href="{{ route('nurse.locationPreferences', ['page' => 'locationPreferences']) }}"><i class="fi fi-rr-building"></i> Location Preferences</a></li>
         <li><a class="{{ request()->is('nurse/salaryExpectations') ?'active':'' }} btn btn-border recruitment-icon mb-20 profile_tabs" href="{{ route('nurse.salaryExpectations', ['page' => 'salaryExpectations']) }}"><i class="fi fi-rr-money"></i> Salary Expectation</a></li>

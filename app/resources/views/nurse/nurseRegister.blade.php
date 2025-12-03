@@ -412,7 +412,7 @@
                     <label class="form-label" for="input-1">What is your overall level of experience in nursing/midwifery?</label>
                     <!-- <input class="form-control" type="text" required="" name="fullname" placeholder="Steven Job"> -->
                     <select class="form-input mr-10 select-active" name="assistent_level">
-                      
+                      <option value="">select</option>
                       @for($i = 1; $i <= 30; $i++) <option value="{{ $i }}">{{ $i }}{{ $i == 1 ? 'st' : ($i == 2 ? 'nd' : ($i == 3 ? 'rd' : 'th')) }} Year</option>
                         @endfor
                     </select>
@@ -431,7 +431,7 @@
                         @endforeach
                       </select>
                       <span id="reqdegree" class="reqError valley"></span> -->
-                      <label class="form-label" for="input-1">Nurse & Midwife degree</label>
+                      <!-- <label class="form-label" for="input-1">Nurse & Midwife degree</label>
                        <?php
                         $nurse_midwife_degree = DB::table("degree")->where('status', '1')->orderBy('name')->get();
                        ?>
@@ -442,7 +442,7 @@
                               @endforeach
                         </ul>
                     <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="nurse_degree" name="degree[]" multiple="multiple"></select>
-                    <span id="reqdegree" class="reqError valley"></span>
+                    <span id="reqdegree" class="reqError valley"></span> -->
                     </div>
 
                   </div>

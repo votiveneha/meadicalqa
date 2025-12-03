@@ -4,10 +4,6 @@
     .select2-container{
         width:100% !important;
     }
-
-    #updateJobs .select2-selection__choice{
-        background-color:black !important;
-    }
 </style>
 <div class="container-fluid">
     <div class="back_arrow" onclick="history.back()" title="Go Back">
@@ -196,7 +192,6 @@
                     <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="mandatory_education" name="mandatory_education[]" multiple="multiple" id="mandatory_education"></select>
                     
                 </div>
-                
                 <div class="form-group">
                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Professional Memberships</strong></label>
                     <input type="hidden" name="professional_membership_input" class="professional_membership_input" value="{{ $job_list->professional_membership }}">
@@ -297,7 +292,7 @@
                     <input type="hidden" name="shift_type_input" class="shift_type_input" value="{{ $job_list->shift_type }}">
                     <ul id="shift_type" style="display:none;">
                         <?php
-                            $shiftType = DB::table("work_shift_preferences")->where("shift_id",1)->get();
+                            $shiftType = DB::table("work_shift_preferences")->get();
                             $j = 1;
                         ?>
                         @foreach($shiftType as $shiftTy)
@@ -335,30 +330,11 @@
                     <input type="hidden" name="benefits_input" class="benefits_input" value="{{ $job_list->benefits }}">
                     <ul id="benefits" style="display:none;">
                         <?php
-                            $benefits_preferences = DB::table("benefits_preferences")->where("subbenefit_id","!=",0)->get();
+                            $benefits_preferences = DB::table("benefits_preferences")->get();
                             $j = 1;
                         ?>
                         @foreach($benefits_preferences as $benefits)
                         <li id="nursing_menus-{{ $j }}" data-value="{{ $benefits->benefits_id }}">{{ $benefits->benefits_name }}</li>
-                        <?php
-                            $j++;
-                        ?>
-                        @endforeach
-
-                    </ul>
-                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="benefits" name="benefits[]" multiple="multiple" id="type_nurse"></select>
-                    
-                </div>
-                <div class="form-group">
-                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Skills</strong></label>
-                    <input type="hidden" name="skills_input" class="skills_input" value="{{ $job_list->benefits }}">
-                    <ul id="skill_preferences" style="display:none;">
-                        <?php
-                            $skills_preferences = DB::table("skills")->where("parent_id","!=","1")->get();
-                            $j = 1;
-                        ?>
-                        @foreach($skills_preferences as $skills)
-                        <li id="nursing_menus-{{ $j }}" data-value="{{ $skills->id }}">{{ $skills->id }}</li>
                         <?php
                             $j++;
                         ?>
@@ -376,41 +352,6 @@
                     <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Application Submission Date</strong></label>
                     <input type="date" class="form-control" name="application_submission_date" value="{{ $job_list->application_submission_date }}">
                 </div>    
-                <div class="form-group">
-                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Vaccination Record</strong></label>
-                    <input type="hidden" name="vaccination_input" class="vaccination_input" value="{{ $job_list->vaccination_record }}">
-                    <ul id="vaccination_record" style="display:none;">
-                        <?php
-                            $vaccination_record = DB::table("vaccination")->get();
-                            $j = 1;
-                        ?>
-                        @foreach($vaccination_record as $vaccination)
-                        <li id="vaccination_menus-{{ $j }}" data-value="{{ $vaccination->id }}">{{ $vaccination->name }}</li>
-                        <?php
-                            $j++;
-                        ?>
-                        @endforeach
-
-                    </ul>
-                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="vaccination_record" name="vaccination_record[]" multiple="multiple" id="vaccination_record"></select>
-                    
-                </div>
-                <div class="form-group">
-                    <label for="skill" class="d-flex gap-3 flex-wrap"><strong>Checks & Clearances</strong></label>
-                    <input type="hidden" name="clearance_input" class="clearance_input" value="{{ $job_list->checks_clearance }}">
-                    <ul id="checks_clearances" style="display:none;">
-                        
-                        <li id="residency_menus" data-value="Residency and Work Eligibility">Residency and Work Eligibility</li>
-                        <li id="residency_menus" data-value="Police Clearance (National/State)">Police Clearance (National/State)</li>
-                        <li id="residency_menus" data-value="NDIS Worker Screening Check">NDIS Worker Screening Check</li>
-                        <li id="residency_menus" data-value="Working With Children Check (WWCC)">Working With Children Check (WWCC)</li>
-                        <li id="residency_menus" data-value="Other Region-Specific Clearances">Other Region-Specific Clearances</li>
-                        
-
-                    </ul>
-                    <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="checks_clearances" name="checks_clearances[]" multiple="multiple" id="vaccination_record"></select>
-                    
-                </div>
                 <div class="form-group">
                     <input type="checkbox" name="urgent_hire_tag" @if($job_list->urgent_hire == 1) checked @endif>Urgent Hire
                 </div>
@@ -638,20 +579,6 @@
       var benefits_input = JSON.parse($(".benefits_input").val());
       console.log("benefits_input",benefits_input);
       $('.js-example-basic-multiple[data-list-id="benefits"]').select2().val(benefits_input).trigger('change');
-      
-    }
-
-    if ($(".vaccination_input").val() != "") {
-      var vaccination_input = JSON.parse($(".vaccination_input").val());
-      console.log("vaccination_input",vaccination_input);
-      $('.js-example-basic-multiple[data-list-id="vaccination_record"]').select2().val(vaccination_input).trigger('change');
-      
-    }
-
-    if ($(".clearance_input").val() != "") {
-      var clearance_input = JSON.parse($(".clearance_input").val());
-      console.log("clearance_input",clearance_input);
-      $('.js-example-basic-multiple[data-list-id="checks_clearances"]').select2().val(clearance_input).trigger('change');
       
     }
 

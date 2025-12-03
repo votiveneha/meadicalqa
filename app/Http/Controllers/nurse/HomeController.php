@@ -624,7 +624,7 @@ class HomeController extends Controller
                 setcookie("email", "");
                 setcookie("password", "");
             }
-            return redirect('/nurse/my-profile?page=my_profile')->with('success', 'You are Logged in sucessfully.');
+           return redirect('/nurse/my-profile?page=my_profile')->with('success', 'You are Logged in sucessfully.');
         } else {
             return back()->with('error', 'Invalid login details.');
         }

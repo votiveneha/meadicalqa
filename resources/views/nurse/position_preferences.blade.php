@@ -65,6 +65,12 @@
     border: none;
     position: relative;
   }
+
+  .custom-select-wrapper select{
+    padding: 5px;
+    border: 1px solid #dddddd;
+    height: 50px;
+  }
 </style>
 @endsection
 
@@ -108,7 +114,7 @@
 
                     
                     <div class="card shadow-sm border-0 p-4 mt-30">
-                      <h3 class="mt-0 color-brand-1 mb-2">Position Preferences</h3>
+                      <h3 class="mt-0 color-brand-1 mb-2">Specialty Preferences</h3>
     
                       <form id="position_preferences_form" method="POST" onsubmit="return update_position_preferences()">
                         @csrf
@@ -116,82 +122,38 @@
 
                         <div class="form-group level-drp">
                           
-                            <label class="form-label" for="input-1">Position Preferences</label>
+                            <label class="form-label" for="input-1">Specialty Preferences</label>
                             <?php
-                                $employee_postion_data = DB::table('employee_positions')->where("subposition_id",0)->orderBy("position_name","asc")->get();
+                                $speciality_data = DB::table('speciality')->where("parent",0)->orderBy("id","asc")->get();
                                 
-                                if(!empty($work_preferences_data) && $work_preferences_data->position_preferences != NULL){
-                                    $pos_data = (array)json_decode($work_preferences_data->position_preferences);
-                                }else{
-                                    $pos_data = array();
-                                }
                                 
-
-                                $parr = array();
-                                if (!empty($pos_data) && !in_array("35", (array)$pos_data[1])){
-                                    foreach ($pos_data[1] as $index => $pdata){
-                                        $parr[] = $index;
-                                    }
-                                }else{
-                                  if(isset($pos_data[1])){
-                                    $parr[] = $pos_data[1];
-                                  }
-                                  
-                                }
-                                
-                                $x = 1;
-                                $p_arr = json_encode($parr);
                             ?>
-                            <input type="hidden" name="pos_hide" class="pos_hide pos_hide-1" value="{{ $p_arr }}">
-                            <ul id="position_held_field-1" style="display:none;">
+                            <input type="hidden" name="subspec_list" class="subspec_list subspec_list-0" value="0">
+                            <ul id="speciality_preferences-0" style="display:none;">
                                 
-                                @if(!empty($employee_postion_data))
-                                @foreach($employee_postion_data as $emp_data)
-                                @if($emp_data->position_name != "Other")
-                                <li data-value="{{ $emp_data->position_id }}">{{ $emp_data->position_name }}</li>
-                                @endif
+                                @if(!empty($speciality_data))
+                                @foreach($speciality_data as $spec_data)
+                                
+                                <li data-value="{{ $spec_data->id }}">{{ $spec_data->name }}</li>
+                                
                                 @endforeach
                                 @endif
                             </ul>
-                            <select class="js-example-basic-multiple addAll_removeAll_btn pos_held pos_held_1" data-list-id="position_held_field-1" name="subpositions_held[1][]" id="position_held_field-1" multiple onchange="getPostions('',1)"></select>
+                            <select class="js-example-basic-multiple addAll_removeAll_btn pos_held pos_held_1" data-list-id="speciality_preferences-0" name="subpositions_held[1][]" id="position_held_field-1" multiple onchange="getSecialities('main',0)"></select>
                             <span id="reqpositionheld-1" class="reqError text-danger valley"></span>
                             
                         </div>
-                        <div class="show_positions-1">
-                            @if(isset($pos_data[1]) && !in_array("35", (array)$pos_data[1]))
-                            @foreach ($parr as $par)
-                          <?php
-                            $employee_positions = DB::table("employee_positions")->where("subposition_id",$par)->orderBy('position_name', 'ASC')->get();
-                            $position_name = DB::table("employee_positions")->where("position_id",$par)->first();
-                            $subposdata = (array)$pos_data[1];
-                            $subposdata1 = json_encode($subposdata[$par]);
+                        <div class="show_specialities-0">
                            
-                            //print_r($subposdata1);
-                          ?>
-                          
-                          <div class="subposdiv subposdiv-{{ $position_name->position_id }} form-group level-drp">
-                            <label class="form-label pos_label pos_label-1{{ $position_name->position_id }}" for="input-1">{{ $position_name->position_name }}</label>
-                            <input type="hidden" name="subpos" class="subpos subpos-{{ $position_name->position_id }}" value="1">
-                            <input type="hidden" name="subpos_list" class="subpos_list subpos_list-1 subpos_list-1{{ $x }}" value="{{ $position_name->position_id }}">
-                            <input type="hidden" name="subposdata" class="subposdata-1 subposdata-1{{ $x }}" value="{{ $subposdata1 }}">
-                            <ul id="subposition_held_field-1{{ $position_name->position_id }}" style="display:none;">
-                              @if(!empty($employee_positions))
-                              @foreach($employee_positions as $emp_pos)
-                              <li data-value="{{ $emp_pos->position_id }}">{{ $emp_pos->position_name }}</li>
-                              @endforeach
-                              @endif
-                            </ul>
-                            <select class="js-example-basic-multiple addAll_removeAll_btn position_valid-1{{ $position_name->position_id }}" data-list-id="subposition_held_field-1{{ $position_name->position_id }}" name="subpositions_held[1][{{ $position_name->position_id }}][]" multiple></select>
-                            <span id="reqsubpositionheld-1{{ $position_name->position_id }}" class="reqError text-danger valley"></span>
-                          </div>
-                          
-
-                          <?php
-                            $x++;
-                          ?>
-                          @endforeach
-                          @endif
                         </div>
+                        <div class="declaration_box">
+                          <input type="checkbox" name="professional_declare_information" class="professional_declare_information" value="1">
+                          <label for="declare_information">Willing to Upskill any specialty / Seeking any Training Opportunities</label>
+                          
+                        </div>
+                        <div class="upskill-note">
+                              (This sets the global “Willing to Upskill” flag used in Nurse Cards and Job Match boxes)
+                          </div>
                         <div class="box-button mt-15">
                           <button class="btn btn-apply-big font-md font-bold" type="submit" id="submitPositionPreferences" @if(!email_verified()) disabled  @endif>Save Changes</button>
                         </div>
@@ -351,6 +313,83 @@
     }  
 </script>
 <script type="text/javascript">
+
+    function getSecialities(level,k){
+      // alert();
+
+      if(level == "main"){
+        var selectedValues = $('.js-example-basic-multiple[data-list-id="speciality_preferences-'+k+'"]').val();
+      }else{
+        var selectedValues = $('.js-example-basic-multiple'+k+'[data-list-id="speciality_preferences-'+k+'"]').val();
+      }
+      
+      console.log("selectedValues",level);
+
+      $(".show_specialities-"+k+" .subspec_list").each(function(i,val){
+            var val1 = $(val).val();
+            console.log("val",val1);
+            if(selectedValues.includes(val1) == false){
+              $(".subspec_main_div-"+val1).remove();
+                
+            }
+        });
+
+      for(var i=0;i<selectedValues.length;i++){
+        if($(".show_specialities-"+k+" .subspec_main_div-"+selectedValues[i]).length < 1){
+          $.ajax({
+            type: "GET",
+            url: "{{ url('/nurse/getSpecialityDatas') }}",
+            data: {speciality_id:selectedValues[i]},
+            cache: false,
+            success: function(data){
+              var data1 = JSON.parse(data);
+              console.log("data1",data1);
+
+              var speciality_text = "";
+              for(var j=0;j<data1.sub_spciality_data.length;j++){
+                
+                speciality_text += "<li data-value='"+data1.sub_spciality_data[j].id+"'>"+data1.sub_spciality_data[j].name+"</li>"; 
+                
+              }
+              var sub = 'sub';
+
+              if(data1.sub_spciality_data.length > 0){
+                $(".show_specialities-"+k).append('\<div class="subspec_main_div subspec_main_div-'+data1.main_speciality_id+'">\
+                              <div class="subspec_div subspec_div-'+data1.main_speciality_id+' form-group level-drp">\
+                              <label class="form-label subspec_label subspec_label-'+data1.main_speciality_id+'" for="input-1">'+data1.main_speciality_name+'</label>\
+                              <input type="hidden" name="subspec_list" class="subspec_list subspec_list-'+data1.main_speciality_id+'" value="'+data1.main_speciality_id+'">\
+                              <ul id="speciality_preferences-'+data1.main_speciality_id+'" style="display:none;">'+speciality_text+'</ul>\
+                              <select class="js-example-basic-multiple'+data1.main_speciality_id+' subspec_valid-'+data1.main_speciality_id+' addAll_removeAll_btn" data-list-id="speciality_preferences-'+data1.main_speciality_id+'" name="subspec[]" onchange="getSecialities(\''+sub+'\',\''+data1.main_speciality_id+'\')" multiple="multiple"></select>\
+                              <span id="reqsubspecvalid-'+data1.main_speciality_id+'" class="reqError text-danger valley"></span>\
+                              </div>\
+                              <div class="subspec_level-'+data1.main_speciality_id+'"></div>\
+                              </div><div class="show_specialities-'+data1.main_speciality_id+'"></div>');
+
+                              selectTwoFunction(data1.main_speciality_id);
+              }else{
+                if($(".show_specialities-"+k+" .subspecprofdiv-"+data1.main_speciality_id).length < 1){
+                  $(".show_specialities-"+k).append('<div class="custom-select-wrapper subspecprofdiv subspecprofdiv-'+data1.main_speciality_id+' form-group level-drp" style="margin-bottom: 5px;">\
+                    <label class="form-label subspeclabel-'+data1.main_speciality_id+'" for="input-1">Specialty Status ('+data1.main_speciality_name+')</label>\
+                    <input type="hidden" name="subspecprof_list" class="subspecprof_list subspecprof_list-'+data1.main_speciality_id+'" value="'+data1.main_speciality_id+'">\
+                    <select class="custom-select form-input mr-10 select-active langprof_level_valid-'+data1.main_speciality_id+'" name="subspec_level['+data1.main_speciality_id+']">\
+                      <option value="">select</option>\
+                      <option value="Current">Current</option>\
+                      <option value="Principal">Principal</option>\
+                      <option value="First">First</option>\
+                      <option value="Former">Former</option>\
+                      <option value="Upskilling / Transitioning / Training">Upskilling / Transitioning / Training</option>\
+                    </select>\
+                    </div>\
+                    <span id="reqsubspeclevelvalid-'+data1.main_speciality_id+'" class="reqError text-danger valley"></span>\
+                    ');
+                }  
+              }
+              
+            }
+          });
+        }
+      }
+    }
     
 
     function update_position_preferences() {

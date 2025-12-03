@@ -50,7 +50,7 @@ class CustomHelper{
         $data = json_decode($json, true);
         //print_r($jobworkenv_preferences);
         // Remove first level key
-        $inner = reset($data);
+        $inner = (is_array($data) == true)?reset($data):[];
 
         $result = [];
 
@@ -89,7 +89,8 @@ class CustomHelper{
         $position_preferences = json_decode($work_preferences->position_preferences);
         $jobposition_preferences = json_decode($job->emplyeement_positions);
 
-        $inner = reset($position_preferences);
+        $inner = (is_array($position_preferences) == true)?reset($position_preferences):[];
+       
 
         $resultposition = [];
 
@@ -111,9 +112,11 @@ class CustomHelper{
         $result_benefits = [];
 
         // Loop through each key and merge values
-        foreach ($benefits_preferences as $arr) {
-            foreach ($arr as $val) {
-                $result_benefits[] = $val;
+        if(!empty($benefits_preferences)){
+            foreach ($benefits_preferences as $arr) {
+                foreach ($arr as $val) {
+                    $result_benefits[] = $val;
+                }
             }
         }
 
@@ -195,9 +198,6 @@ class CustomHelper{
     }
 
     public function matcheduCertPercent($job,$user){
-        
+
     }
-
-
-
 }

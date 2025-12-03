@@ -148,7 +148,7 @@
                       <div class="category">
                         <div class="label">2. Specialties (15%)</div>
                         <div class="progress-bar-bg">
-                          <div class="progress-bar-fill" style="width: 20%;">20%</div>
+                          <div class="progress-bar-fill" style="width: 10%;">10%</div>
                         </div>
                       </div>
                   
@@ -169,21 +169,21 @@
                       <div class="category">
                         <div class="label">5. Vaccination Records (5%)</div>
                         <div class="progress-bar-bg">
-                          <div class="progress-bar-fill" style="">5%</div>
+                          <div class="progress-bar-fill" style="width: 15%">15%</div>
                         </div>
                       </div>
 
                       <div class="category">
                         <div class="label">6. Checks & Clearances (5%)</div>
                         <div class="progress-bar-bg">
-                          <div class="progress-bar-fill" style="">5%</div>
+                          <div class="progress-bar-fill" style="width: 5%">5%</div>
                         </div>
                       </div>
 
                       <div class="category">
                         <div class="label">7. Work Preferences & Flexibility (30%)</div>
                         <div class="progress-bar-bg">
-                          <div class="progress-bar-fill" style="width: {{ $work_environment_bar }}%;">{{ $work_environment_percent }}%</div>
+                          <div class="progress-bar-fill" style="width: 7%">7%</div>
                         </div>
                       </div>
                   
