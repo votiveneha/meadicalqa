@@ -3396,7 +3396,7 @@
                           </select>
                           <span id="reqlevelexp-{{$i}}" class="reqError text-danger valley"></span>
                         </div>
-                        <div class="form-group level-drp">
+                        <!-- <div class="form-group level-drp">
                           
                           <label class="form-label" for="input-1">Position Held</label>
                           <?php
@@ -3426,7 +3426,7 @@
                           <select class="js-example-basic-multiple addAll_removeAll_btn pos_held pos_held_{{ $i }}" data-list-id="position_held_field-{{ $i }}" name="positions_held[{{ $i }}]" id="position_held_field-{{ $i }}" multiple onchange="getPostions('',{{ $i }})"></select>
                           <span id="reqpositionheld-{{$i}}" class="reqError text-danger valley"></span>
                         
-                        </div>
+                        </div> -->
                         <div class="show_positions-{{ $i }}">
                           @foreach ($parr as $par)
                           <?php
