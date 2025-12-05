@@ -252,26 +252,53 @@ class HomeController extends Controller
 
             $verificationUrl = url('nurse/email-verification/' . $r->emailToken);
 
-            // --- removed: built-in MustVerifyEmail notification
+             // --- removed: built-in MustVerifyEmail notification
             // send our custom verification email (same design as resend)
-            $mailData = [
-                'subject'         => 'Email verification',
-                'email'           => $r->email,
-                'verificationUrl' => $verificationUrl,
-                'body' => '<p>Hello ' . e($r->name) . ', </p>
-                           <p>Welcome and thank you for registering.</p>
-                           <p>Please click the link below to verify your account:</p>
-                           <p><a href="' . e($verificationUrl) . '">Verify Now</a></p>
-                           <p>If the above link doesn\'t work, copy and paste this link into your browser:</p>
-                           <p>' . e($verificationUrl) . '</p>',
-            ];
+            //smtp mail function
+            // $mailData = [
+            //     'subject'         => 'Email verification',
+            //     'email'           => $r->email,
+            //     'verificationUrl' => $verificationUrl,
+            //     'body' => '<p>Hello ' . e($r->name) . ', </p>
+            //                <p>Welcome and thank you for registering.</p>
+            //                <p>Please click the link below to verify your account:</p>
+            //                <p><a href="' . e($verificationUrl) . '">Verify Now</a></p>
+            //                <p>If the above link doesn\'t work, copy and paste this link into your browser:</p>
+            //                <p>' . e($verificationUrl) . '</p>',
+            // ];
+
+            // try {
+            //     Mail::to($r->email)->send(new \App\Mail\DemoMail($mailData));
+            //     \Log::info('Sent custom initial verification', ['user_id' => $r->id]);
+            // } catch (\Throwable $e) {
+            //     \Log::error('Initial verification send failed', ['user_id' => $r->id, 'error' => $e->getMessage()]);
+            // }
+
+            //zepto mail helper function
+            $htmlBody = "
+                <p>Hello <strong>{$r->name}</strong>,</p>
+                <p>Welcome and thank you for registering at Mediqa.</p>
+                <p>Please click the link below to verify your account:</p>
+                <p><a href='{$verificationUrl}' style='color:#0d6efd;'>Verify Now</a></p>
+                <p>If the above link does not work, copy & paste the link below:</p>
+                <p>{$verificationUrl}</p>
+            ";
 
             try {
-                Mail::to($r->email)->send(new \App\Mail\DemoMail($mailData));
-                \Log::info('Sent custom initial verification', ['user_id' => $r->id]);
-            } catch (\Throwable $e) {
-                \Log::error('Initial verification send failed', ['user_id' => $r->id, 'error' => $e->getMessage()]);
+                \App\Helpers\ZeptoMailHelper::sendMail(
+                    $r->email,
+                    "Email Verification - Mediqa",
+                    $htmlBody
+                );
+
+                \Log::info("Verification email sent", ['user_id' => $r->id]);
+            } catch (\Throwable $ex) {
+                \Log::error("Failed to send verification email", [
+                    'user_id' => $r->id,
+                    'error'   => $ex->getMessage()
+                ]);
             }
+
 
             return response()->json([
                 'status'  => 1,
@@ -646,7 +673,12 @@ class HomeController extends Controller
         // }
         $title = "forget-password";
 
-        return view('nurse.forget-password', compact('title'));
+        $practitioner_data = SpecialityModel::where("status",'1')->get();
+            //print_r($practitioner_data);die;
+        $speciality_data = PractitionerTypeModel::where("status",'1')->get();
+        $work_preferences_data = WorkPreferModel::get();
+
+        return view('nurse.forget-password', compact('title','practitioner_data','speciality_data','work_preferences_data'));
     }
     public function SendResetPasswordLink(Request $request)
     {
@@ -699,31 +731,64 @@ class HomeController extends Controller
 
             $verificationUrl = URL::to('/nurse/') . '/reset-password/' . $token . '/' . $emailToken;
 
-            $data['data'] = '<p>Hello ' . $user->name . ', </p><p>We\'ve received a password reset request for your ' . env('APP_NAME') . ' account (' . $user->email . ').</p>';
-            $data['data'] .= '<p>If you initiated this request, please click the link below to reset your password.</p>';
-            $data['data'] .= '<p><a href="' . $verificationUrl . '" target="_blank" style="font-size: 20px; font-family: Helvetica, Arial, sans-serif; color: #000000; text-decoration: none;  text-decoration: none; padding: 15px 25px; border-radius: 2px; border: 1px solid #000000; display: inline-block;">Reset Password</a></p>';
-            $to = $user->email;
-            $mailData = [
+           // $data['data'] = '<p>Hello ' . $user->name . ', </p><p>We\'ve received a password reset request for your ' . env('APP_NAME') . ' account (' . $user->email . ').</p>';
+            // $data['data'] .= '<p>If you initiated this request, please click the link below to reset your password.</p>';
+            // $data['data'] .= '<p><a href="' . $verificationUrl . '" target="_blank" style="font-size: 20px; font-family: Helvetica, Arial, sans-serif; color: #000000; text-decoration: none;  text-decoration: none; padding: 15px 25px; border-radius: 2px; border: 1px solid #000000; display: inline-block;">Reset Password</a></p>';
+            // $to = $user->email;
+            // $mailData = [
 
-                'subject' => 'Forgot password',
+            //     'subject' => 'Forgot password',
 
-                'email' =>  $user->email,
+            //     'email' =>  $user->email,
 
-                'verificationUrl' => $verificationUrl,
+            //     'verificationUrl' => $verificationUrl,
 
-                'body' => $data['data'],
-
-
-            ];
+            //     'body' => $data['data'],
 
 
+            // ];
 
 
 
+
+
+
+            // try {
+            //     Mail::to($to)->send(new \App\Mail\DemoMail($mailData));
+            // } catch (\Exception $e) {
+
+            //     return response()->json([
+            //         'status' => 0,
+            //         'message' => 'Something went wrong, try again later.'
+            //     ], 200);
+            // }
+
+            $htmlBody = '
+                <p>Hello ' . e($user->name) . ',</p>
+                <p>We\'ve received a password reset request for your ' . e(env('APP_NAME')) . ' account (' . e($user->email) . ').</p>
+                <p>If you initiated this request, click the button below to reset your password:</p>
+                <p>
+                    <a href="' . $verificationUrl . '" target="_blank" 
+                        style="font-size: 16px; padding: 12px 20px; background:#000; color:#fff; text-decoration:none; display:inline-block;">
+                        Reset Password
+                    </a>
+                </p>
+                <p>If the button doesn\'t work, copy and paste this link into your browser:</p>
+                <p>' . $verificationUrl . '</p>
+            ';
 
             try {
-                Mail::to($to)->send(new \App\Mail\DemoMail($mailData));
-            } catch (\Exception $e) {
+                // Send mail using your custom helper
+                \App\Helpers\ZeptoMailHelper::sendMail(
+                    $user->email,
+                    'Forgot password',
+                    htmlBody: $htmlBody,
+                );
+            } catch (\Throwable $e) {
+
+                \Log::error('Password reset email failed', [
+                    'error' => $e->getMessage()
+                ]);
 
                 return response()->json([
                     'status' => 0,
@@ -737,12 +802,17 @@ class HomeController extends Controller
             ], 200);
         }
     }
-    public function ResetPassword(Request $request)
+public function ResetPassword(Request $request)
     {
 
         $title = "reset-pass";
 
         $rt = $request->route('lp');
+
+        $practitioner_data = SpecialityModel::where("status",'1')->get();
+            //print_r($practitioner_data);die;
+        $speciality_data = PractitionerTypeModel::where("status",'1')->get();
+        $work_preferences_data = WorkPreferModel::get();
 
         $email =  Crypt::decryptstring($rt);
         //         $checklink = DB::table('password_resets')
@@ -765,7 +835,7 @@ class HomeController extends Controller
         if (session()->has('message') && session()->has('hide_form')) {
 
 
-            return view('nurse.reset-password', ['request' => $request, 'title' => $title, 'hide_form' => session()->get('hide_form')]);
+            return view('nurse.reset-password', ['request' => $request, 'title' => $title, 'hide_form' => session()->get('hide_form'),'practitioner_data','speciality_data','work_preferences_data']);
         }
 
         $updatePassword = DB::table('password_reset_tokens')
@@ -786,7 +856,7 @@ class HomeController extends Controller
 
             return redirect('nurse/login')->with(['hide_form' => $hide_form, 'title' => $title]);
             if (Auth::guard('user')->user()) {
-                return view('auth.verification-screen', compact('message', 'hide_form', 'title', 'status'))->with('do', '1');
+                return view('auth.verification-screen', compact('message', 'hide_form', 'title', 'status','practitioner_data','speciality_data','work_preferences_data'))->with('do', '1');
             } else {
                 return redirect('nurse/login')->with(['hide_form' => $hide_form, 'title' => $title]);
             }
@@ -800,6 +870,7 @@ class HomeController extends Controller
         //             ->update(['status'=>'0']);
         return view('nurse.reset-password', ['request' => $request, 'title' => $title]);
     }
+
     public function UpdatePassword(Request $request)
     {
         $token = $request->token;
@@ -868,23 +939,30 @@ class HomeController extends Controller
 
     $verificationUrl = url('nurse/email-verification/' . $user->emailToken);
 
-    $mailData = [
-        'subject' => 'Email verification',
-        'email' => $user->email,
-        'verificationUrl' => $verificationUrl,
-        'body' => '<p>Hello ' . e($user->name) . ', </p>
-                   <p>Welcome and thank you for registering.</p>
-                   <p>Click the link below to verify your account.</p>
-                   <p><a href="' . e($verificationUrl) . '">Verify Now</a></p>
-                   <p>If the above link doesn\'t work, copy and paste the link below into your browser.</p>
-                   <p>' . e($verificationUrl) . '</p>',
-    ];
+     $htmlBody = '
+        <p>Hello ' . e($user->name) . ',</p>
+        <p>Welcome and thank you for registering.</p>
+        <p>Click the link below to verify your account:</p>
+        <p><a href="' . e($verificationUrl) . '">Verify Now</a></p>
+        <p>If the link doesn\'t work, copy & paste into your browser:</p>
+        <p>' . e($verificationUrl) . '</p>
+    ';
 
     try {
-        Mail::to($user->email)->send(new \App\Mail\DemoMail($mailData));
+        \App\Helpers\ZeptoMailHelper::sendMail(
+            $user->email,
+            "Email Verification - Mediqa",
+            htmlBody: $htmlBody
+        );
+
         return response()->json(['status' => 1]);
+
     } catch (\Throwable $e) {
-        \Log::error('Resend verification failed', ['error' => $e->getMessage()]);
+
+        \Log::error('Resend verification failed', [
+            'error' => $e->getMessage()
+        ]);
+
         return response()->json(['status' => 0], 500);
     }
 }
@@ -963,7 +1041,7 @@ class HomeController extends Controller
         $user_stage = update_user_stage($request->user_id,"Profession");
 
         $post = User::find($request->user_id);
-        $post->nurseType = $nurse_type;
+        $post->nurse_data = $nurse_type;
         $post->entry_level_nursing = $nursing_type_1;
         $post->registered_nurses = $nursing_type_2;
         $post->advanced_practioner = $nursing_type_3;

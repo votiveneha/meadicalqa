@@ -1,3 +1,9 @@
+ <?php
+  $practitioner_data = DB::table("practitioner_type")->where("status",'1')->get();
+            //print_r($practitioner_data);die;
+        $speciality_data = DB::table("speciality")->where("status",'1')->get();
+        $work_preferences_data = DB::table("work_shift_preferences")->get();
+ ?>
  <style>
 
 html, body {

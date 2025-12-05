@@ -559,17 +559,9 @@
                     <div class="condition_set">
                       <div class="form-group drp--clr">
                         <label class="form-label" for="input-1">Type of Nurse?</label>
-                        @php
-                            $user = Auth::guard('nurse_middle')->user();
-
-                            $nurse_type = (array)json_decode($user->nurse_data);
-                            
-                            $specialities_type = (array)json_decode($user->specialties);
-
-                        @endphp
                         <input type="hidden" name="user_id" class="user_id" value="{{ Auth::guard('nurse_middle')->user()->id }}">
-                        <input type="hidden" name="ntype" class="ntype" value="{{ isset($nurse_type['type_0'])?json_encode($nurse_type['type_0']):'' }}">
-                        <ul id="type-of-nurse-0" style="display:none;">
+                        <input type="hidden" name="ntype" class="ntype" value="{{ Auth::guard('nurse_middle')->user()->nurseType }}">
+                        <ul id="type-of-nurse" style="display:none;">
                           @php $specialty = specialty();$spcl=$specialty[0]->id;@endphp
                           <?php
                           $j = 1;
@@ -582,60 +574,13 @@
                           @endforeach
                         </ul>
 
-                        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="type-of-nurse-0" name="nurseType[type_0][]" id="nurse_type" multiple="multiple" onchange="getNurseType('main',0)"></select>
+                        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="type-of-nurse" name="nurseType[]" id="nurse_type" multiple="multiple"></select>
                       </div>
                       <span id="reqnurseTypeId" class="reqError text-danger valley"></span>
                     </div>
 
-                    <div class="showNurseType-0">
 
-                      @php
-                        $nurseTypes = [];
-                        if(!empty($nurse_type)){        
-                          foreach ($nurse_type as $key => $value) {
-                              $parts = explode('_', $key); // ["type", "0"]
-                              
-                              if (isset($parts[1]) && (int)$parts[1] !== 0) {
-                                  $nurseTypes[$key] = $value;
-                              }
-                          }
-                        }
-                    @endphp
-
-                    @if(!empty($nurseTypes))
-                    @foreach($nurseTypes as $key => $ntypes)
-                      @php
-                        $parts = explode('_', $key);
-                        
-                        $n_data = json_encode($ntypes);
-                      @endphp
-                      
-                      <div class="subnurse_main_div subnurse_main_div-{{ $parts[1] }}">
-                          <?php
-                            $np_data_name = DB::table("practitioner_type")->where('id', $parts[1])->first();
-                            $np_data = DB::table("practitioner_type")->where('parent', $parts[1])->get();
-                          ?>
-                          <input type="hidden" name="subnursetype" class="subnursetype-{{ $parts[1] }}" value="{{ $n_data }}">
-                          <div class="subnurse_div subnurse_div-{{ $parts[1] }} form-group level-drp">
-                          <label class="form-label subnurse_label subnurse_label-{{ $parts[1] }}" for="input-1">{{ $np_data_name->name }}</label>
-                          <input type="hidden" name="subnurse_list" class="subnurse_list subnurse_list-{{ $parts[1] }}" value="{{ $parts[1] }}">
-                          <ul id="type-of-nurse-{{ $parts[1] }}" style="display:none;">
-                            @foreach($np_data as $nd)
-                            <li data-value="{{ $nd->id }}">{{ $nd->name }}</li>
-                            @endforeach
-                          </ul>
-                          <select class="js-example-basic-multiple subnurse_valid-{{ $parts[1] }} addAll_removeAll_btn" data-list-id="type-of-nurse-{{ $parts[1] }}" name="nurseType[type_{{ $parts[1] }}][]" onchange="getNurseType('main',{{ $parts[1] }})" multiple="multiple"></select>
-                          <span id="reqsubnursevalid-{{ $parts[1] }}" class="reqError text-danger valley"></span>
-                          </div>
-                          <div class="subnurse_level-{{ $parts[1] }}"></div>
-                      </div>
-                      <div class="show_nurse-{{ $parts[1] }}"></div>
-                    
-
-                    @endforeach
-                    @endif
-                    </div>
-                    <div class="result--show d-none">
+                    <div class="result--show ">
                       <div class="container p-0">
                         <div class="row g-2">
                           @php $specialty = specialty();$spcl=$specialty[0]->id;@endphp
@@ -666,7 +611,7 @@
                           <?php
                           $nursing_data = DB::table("practitioner_type")->where('parent', $spl->id)->orderBy('name')->get();
                           ?>
-                          
+                          <input type="hidden" name="nursing_result" class="nursing_result-{{ $i }}" value="{{ $spl->id }}">
                           <div class="nursing_data form-group drp--clr col-md-4 d-none drpdown-set nursing_{{ $spl->id }}" id="nursing_level-{{ $i }}">
                             <label class="form-label" for="input-2">{{ $spl->name }}</label>
                             <ul id="nursing_entry-{{ $i }}" style="display:none;">
@@ -708,9 +653,9 @@
                     </div>
                     <div class="condition_set">
                       <div class="form-group drp--clr">
-                        <input type="hidden" name="speciality_value" class="speciality_value" value="{{ isset($specialities_type['type_0'])?json_encode($specialities_type['type_0']):'' }}">
+                        <input type="hidden" name="sub_speciality_value" class="sub_speciality_value" value="">
                         <label class="form-label" for="input-1">Specialties</label>
-                        <ul id="speciality_preferences-0" style="display:none;">
+                        <ul id="specialties" style="display:none;">
                           @php $JobSpecialties = JobSpecialties(); @endphp
                           <?php
                           $k = 1;
@@ -723,61 +668,11 @@
                           @endforeach
 
                         </ul>
-                        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="speciality_preferences-0" name="specialties[type_0][]" multiple="multiple" onchange="getSecialities('main',0)"></select>
+                        <select class="js-example-basic-multiple addAll_removeAll_btn" data-list-id="specialties" name="specialties[]" multiple="multiple"></select>
                       </div>
                       <span id="reqspecialties" class="reqError text-danger valley"></span>
                     </div>
-                    <div class="show_specialities-0">
-                      
-
-                      @php
-                        $specialities_type = (array)json_decode($user->specialties);
-                        $specTypes = [];
-                        if(!empty($specialities_type)){        
-                          foreach ($specialities_type as $key => $value) {
-                              $parts = explode('_', $key); // ["type", "0"]
-                              
-                              if (isset($parts[1]) && (int)$parts[1] !== 0) {
-                                  $specTypes[$key] = $value;
-                              }
-                          }
-                        }
-                      @endphp
-
-                      @if(!empty($specTypes))
-                      @foreach($specTypes as $key => $stypes)
-                        @php
-                          $parts = explode('_', $key);
-                          
-                          $s_data = json_encode($stypes);
-                        @endphp
-                        <input type="hidden" name="subspectype" class="subspectype-{{ $parts[1] }}" value="{{ $s_data }}">
-                        <div class="subspec_main_div subspec_main_div-{{ $parts[1] }}">
-                          <?php
-                            $sp_data_name = DB::table("speciality")->where('id', $parts[1])->first();
-                            $sp_data = DB::table("speciality")->where('parent', $parts[1])->get();
-                          ?>
-                          <div class="subspec_div subspec_div-{{ $parts[1] }} form-group level-drp">
-                          <label class="form-label subspec_label subspec_label-{{ $parts[1] }}" for="input-1">{{ $sp_data_name->name }}</label>
-                          <input type="hidden" name="subspec_list" class="subspec_list subspec_list-{{ $parts[1] }}" value="{{ $parts[1] }}">
-                          <ul id="speciality_preferences-{{ $parts[1] }}" style="display:none;">
-                            @foreach($sp_data as $sd)
-                            <li data-value="{{ $sd->id }}">{{ $sd->name }}</li>
-                            @endforeach
-                          </ul>
-                          <select class="js-example-basic-multiple subspec_valid-{{ $parts[1] }} addAll_removeAll_btn" data-list-id="speciality_preferences-{{ $parts[1] }}" name="specialties[type_{{ $parts[1] }}][]" multiple="multiple" onchange="getSecialities('main',{{ $parts[1] }})"></select>
-                          <span id="reqsubspecvalid-{{ $parts[1] }}" class="reqError text-danger valley"></span>
-                          </div>
-                          <div class="subspec_level-{{ $parts[1] }"></div>
-                        </div>
-                        <div class="show_specialities-{{ $parts[1] }"></div>
-                      
-
-                      @endforeach
-                      @endif
-                    
-                    </div>
-                    <div class="speciality_boxes row result--show d-none">
+                    <div class="speciality_boxes row result--show">
                       <?php
                       $l = 1;
                       ?>
@@ -5992,32 +5887,6 @@ if (!empty($interviewReferenceData)) {
     $('#nurse_type').select2().val(nurse_type).trigger('change');
   }
 
-  $(".subnurse_list").each(function(){
-    var subnurse_val = $(this).val();
-    if ($(".subnursetype-"+subnurse_val).val() != "") {
-      var nurse_type = JSON.parse($(".subnursetype-"+subnurse_val).val());
-      console.log("nurse_type",nurse_type);
-      $('.js-example-basic-multiple[data-list-id="type-of-nurse-'+subnurse_val+'"]').select2().val(nurse_type).trigger('change');
-    }
-  });
-
-  if ($(".speciality_value").val() != "") {
-    var speciality_value = JSON.parse($(".speciality_value").val());
-    console.log("speciality_value",speciality_value);
-    $('.js-example-basic-multiple[data-list-id="speciality_preferences-0"]').select2().val(speciality_value).trigger('change');
-  }
-
-  $(".subspec_list").each(function(){
-    var subspec_val = $(this).val();
-    if ($(".subspectype-"+subspec_val).val() != "") {
-      var spec_type = JSON.parse($(".subspectype-"+subspec_val).val());
-      console.log("spec_type",spec_type);
-      $('.js-example-basic-multiple[data-list-id="speciality_preferences-'+subspec_val+'"]').select2().val(spec_type).trigger('change');
-    }
-  });
-
-  
-
   if ($(".nursing_result_one").val() != "") {
     var entry_level = JSON.parse($(".nursing_result_one").val());
     $('.js-example-basic-multiple[data-list-id="nursing_entry-1"]').select2().val(entry_level).trigger('change');
@@ -6054,7 +5923,10 @@ if (!empty($interviewReferenceData)) {
   //   $('.js-example-basic-multiple[data-list-id="nurse_practitioner_menu_experience"]').select2().val(nurse_prac).trigger('change');
   // }
 
-  
+  if ($(".specialties_result").val() != "") {
+    var specialties = JSON.parse($(".specialties_result").val());
+    $('.js-example-basic-multiple[data-list-id="specialties"]').select2().val(specialties).trigger('change');
+  }
 
   if ($(".adults_result").val() != "") {
     var adults = JSON.parse($(".adults_result").val());
@@ -6489,6 +6361,11 @@ if (!empty($interviewReferenceData)) {
   }
 
 
+
+  for (var y = 0; y < specialties.length; y++) {
+    $(".speciality_" + specialties[y].id).removeClass('d-none');
+  }
+
   var maternity_list = $('.js-example-basic-multiple[data-list-id="speciality_entry-2"]').select2("data");
 
   for (var b = 0; b < maternity_list.length; b++) {
@@ -6543,126 +6420,6 @@ if (!empty($interviewReferenceData)) {
   $("#tab-references").insertAfter("#tab-educert");
 
   var nurse_array = [];
-
-  function getNurseType(level,k){
-    // alert();
-
-    if(level == "main"){
-      var selectedValues = $('.js-example-basic-multiple[data-list-id="type-of-nurse-'+k+'"]').val();
-    }else{
-      var selectedValues = $('.js-example-basic-multiple'+k+'[data-list-id="type-of-nurse-'+k+'"]').val();
-    }
-    
-    console.log("selectedValues",level);
-
-    $(".showNurseType-"+k+" .subnurse_list").each(function(i,val){
-        var val1 = $(val).val();
-        console.log("val",val1);
-        if(selectedValues.includes(val1) == false){
-          $(".subnurse_main_div-"+val1).remove();
-            
-        }
-    });
-
-    for(var i=0;i<selectedValues.length;i++){
-      if($(".showNurseType-"+k+" .subnurse_main_div-"+selectedValues[i]).length < 1){
-        $.ajax({
-          type: "GET",
-          url: "{{ url('/nurse/getNurseDatas') }}",
-          data: {nurse_id:selectedValues[i]},
-          cache: false,
-          success: function(data){
-            var data1 = JSON.parse(data);
-            console.log("data1",data1);
-
-            var nurse_text = "";
-            for(var j=0;j<data1.sub_nurse_data.length;j++){
-              
-              nurse_text += "<li data-value='"+data1.sub_nurse_data[j].id+"'>"+data1.sub_nurse_data[j].name+"</li>"; 
-              
-            }
-            var sub = 'sub';
-
-            if(data1.sub_nurse_data.length > 0){
-              $(".showNurseType-"+k).append('\<div class="subnurse_main_div subnurse_main_div-'+data1.main_nurse_id+'">\
-                            <div class="subnurse_div subnurse_div-'+data1.main_nurse_id+' form-group level-drp">\
-                            <label class="form-label subnurse_label subnurse_label-'+data1.main_nurse_id+'" for="input-1">'+data1.main_nurse_name+'</label>\
-                            <input type="hidden" name="subnurse_list" class="subnurse_list subnurse_list-'+data1.main_nurse_id+'" value="'+data1.main_nurse_id+'">\
-                            <ul id="type-of-nurse-'+data1.main_nurse_id+'" style="display:none;">'+nurse_text+'</ul>\
-                            <select class="js-example-basic-multiple'+data1.main_nurse_id+' subnurse_valid-'+data1.main_nurse_id+' addAll_removeAll_btn" data-list-id="type-of-nurse-'+data1.main_nurse_id+'" name="nurseType[type_'+data1.main_nurse_id+'][]" onchange="getNurseType(\''+sub+'\',\''+data1.main_nurse_id+'\')" multiple="multiple"></select>\
-                            <span id="reqsubnursevalid-'+data1.main_nurse_id+'" class="reqError text-danger valley"></span>\
-                            </div>\
-                            <div class="subnurse_level-'+data1.main_nurse_id+'"></div>\
-                            </div><div class="show_nurse-'+data1.main_nurse_id+'"></div>');
-
-                            selectTwoFunction(data1.main_nurse_id);
-            }
-            
-          }
-        });
-      }
-    }
-  }
-
-  function getSecialities(level,k){
-      // alert();
-
-      if(level == "main"){
-        var selectedValues = $('.js-example-basic-multiple[data-list-id="speciality_preferences-'+k+'"]').val();
-      }else{
-        var selectedValues = $('.js-example-basic-multiple'+k+'[data-list-id="speciality_preferences-'+k+'"]').val();
-      }
-      
-      console.log("selectedValues",selectedValues);
-
-      $(".show_specialities-"+k+" .subspec_list").each(function(i,val){
-            var val1 = $(val).val();
-            console.log("val",val1);
-            if(selectedValues.includes(val1) == false){
-              $(".subspec_main_div-"+val1).remove();
-                
-            }
-        });
-
-      for(var i=0;i<selectedValues.length;i++){
-        if($(".show_specialities-"+k+" .subspec_main_div-"+selectedValues[i]).length < 1){
-          $.ajax({
-            type: "GET",
-            url: "{{ url('/nurse/getSpecialityDatas1') }}",
-            data: {speciality_id:selectedValues[i]},
-            cache: false,
-            success: function(data){
-              var data1 = JSON.parse(data);
-              console.log("data1",data1);
-
-              var speciality_text = "";
-              for(var j=0;j<data1.sub_spciality_data.length;j++){
-                
-                speciality_text += "<li data-value='"+data1.sub_spciality_data[j].id+"'>"+data1.sub_spciality_data[j].name+"</li>"; 
-                
-              }
-              var sub = 'sub';
-
-              if(data1.sub_spciality_data.length > 0){
-                $(".show_specialities-"+k).append('\<div class="subspec_main_div subspec_main_div-'+data1.main_speciality_id+'">\
-                              <div class="subspec_div subspec_div-'+data1.main_speciality_id+' form-group level-drp">\
-                              <label class="form-label subspec_label subspec_label-'+data1.main_speciality_id+'" for="input-1">'+data1.main_speciality_name+'</label>\
-                              <input type="hidden" name="subspec_list" class="subspec_list subspec_list-'+data1.main_speciality_id+'" value="'+data1.main_speciality_id+'">\
-                              <ul id="speciality_preferences-'+data1.main_speciality_id+'" style="display:none;">'+speciality_text+'</ul>\
-                              <select class="js-example-basic-multiple'+data1.main_speciality_id+' subspec_valid-'+data1.main_speciality_id+' addAll_removeAll_btn" data-list-id="speciality_preferences-'+data1.main_speciality_id+'" name="specialties[type_'+data1.main_speciality_id+'][]" onchange="getSecialities(\''+sub+'\',\''+data1.main_speciality_id+'\')" multiple="multiple"></select>\
-                              <span id="reqsubspecvalid-'+data1.main_speciality_id+'" class="reqError text-danger valley"></span>\
-                              </div>\
-                              <div class="subspec_level-'+data1.main_speciality_id+'"></div>\
-                              </div><div class="show_specialities-'+data1.main_speciality_id+'"></div>');
-
-                              selectTwoFunction(data1.main_speciality_id);
-              
-              }
-            }
-          });
-        }
-      }
-    }
   // $('.js-example-basic-multiple[data-list-id="mandatory_courses"]').on('change', function() {
   //       let selectedValues = $(this).val();
   //       //alert("hello");
@@ -6682,7 +6439,45 @@ if (!empty($interviewReferenceData)) {
 
   //   });
   // Show corresponding job lists when an option is selected in the first select
-  
+  $('.js-example-basic-multiple[data-list-id="type-of-nurse"]').on('change', function() {
+    let selectedValues = $(this).val();
+
+    var nurse_len = $("#type-of-nurse li").length;
+    ////console.log("nurse_len", nurse_len);
+
+    //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
+
+    ////console.log("selectedValues", selectedValues);
+    //$('.result--show .form-group').addClass('d-none');
+
+    for (var i = 1; i <= nurse_len; i++) {
+      var nurse_result_val = $(".nursing_result-" + i).val();
+      //alert(nurse_result_val);
+      if (selectedValues.includes(nurse_result_val)) {
+
+        $('#nursing_level-' + i).removeClass('d-none');
+      } else {
+        $('#nursing_level-' + i).addClass('d-none');
+        $('.js-example-basic-multiple[data-list-id="nursing_entry-' + i + '"]').select2().val(null).trigger('change');
+      }
+    }
+
+    if (selectedValues.includes("3") == false) {
+      $('.np_submenu').addClass('d-none');
+      //$('.js-example-basic-multiple[data-list-id="nursing_entry-3"]').select2().val(null).trigger('change');
+      $('.js-example-basic-multiple[data-list-id="nurse_practitioner_menu"]').select2().val(null).trigger('change');
+    }
+
+    // if (selectedValues.includes("Entry level nursing")) {
+    //     $('#elnj').removeClass('d-none');
+    // }
+    // if (selectedValues.includes("Registered Nurses (RNs)")) {
+    //     $('#rns').removeClass('d-none');
+    // }
+    // if (selectedValues.includes("Advanced Practice Registered Nurses (APRNs)")) {
+    //     $('#aprns').removeClass('d-none');
+    // }
+  });
 
   // $('.js-example-basic-multiple[data-list-id="skills_compantancies"]').on('change', function() {
 
@@ -7020,7 +6815,52 @@ if (!empty($interviewReferenceData)) {
 
   });
 
-  
+  $('.js-example-basic-multiple[data-list-id="specialties"]').on('change', function() {
+    let selectedValues = $(this).val();
+    //alert("hello");
+    var speciality_len = $("#specialties li").length;
+    ////console.log("speciality_len", speciality_len);
+
+    //alert($('.js-example-basic-multiple').find(':selected').data('custom-attribute'));
+
+    ////console.log("selectedValues", selectedValues);
+    //$('.result--show .form-group').addClass('d-none');
+
+    for (var k = 1; k <= speciality_len; k++) {
+      var speciality_result_val = $(".speciality_result-" + k).val();
+      //alert(speciality_result_val);
+      if (selectedValues.includes(speciality_result_val)) {
+
+        $('#specility_level-' + k).removeClass('d-none');
+        //$(".sub_speciality_value").val(k);
+
+      } else {
+        $('#specility_level-' + k).addClass('d-none');
+        $('.js-example-basic-multiple[data-list-id="speciality_entry-' + k + '"]').select2().val(null).trigger('change');
+      }
+    }
+
+    if (selectedValues.includes("1") == false) {
+      $('.surgical_row').addClass('d-none');
+      $('.surgical_row_data').addClass('d-none');
+      $('.js-example-basic-multiple[data-list-id="surgical_row_box"]').select2().val(null).trigger('change');
+    }
+    if (selectedValues.includes("2") == false) {
+
+      $('.surgicalobs_row').addClass('d-none');
+      $('.js-example-basic-multiple[data-list-id="surgicalobs_row_data"]').select2().val(null).trigger('change');
+    }
+
+    if (selectedValues.includes("3") == false) {
+
+      $('.surgicalpad_row_data').addClass('d-none');
+      $('.surgical_rowp_data').addClass('d-none');
+      $('.neonatal_row').addClass('d-none');
+      //$('.js-example-basic-multiple[data-list-id="surgicalobs_row_data"]').select2().val(null).trigger('change');
+    }
+
+
+  });
 
   $('.js-example-basic-multiple[data-list-id="specialties_experience"]').on('change', function() {
     let selectedValues = $(this).val();
