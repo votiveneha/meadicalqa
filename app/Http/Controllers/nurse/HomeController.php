@@ -202,7 +202,7 @@ class HomeController extends Controller
         $companyinsert['password']    = Hash::make($password);
         $companyinsert['ps']          = $password;
 
-        $companyinsert['nursetype']                     = json_encode($request->nurseType);
+        $companyinsert['nurse_data']                     = json_encode($request->nurseType);
         $companyinsert['nurseTypeJob']                  = json_encode($request->nurseTypeJob);
         $companyinsert['nurse_practitioner_speciality'] = json_encode($request->nurse_practitioner_speciality);
         $companyinsert['assistent_level']               = $request->assistent_level;
@@ -3927,5 +3927,35 @@ class HomeController extends Controller
         $data['employeement_type_id'] = $employeement_type_name->emp_prefer_id;
         $data['circle_value'] = $circle_value;
         return json_encode($data);
+    }
+
+    public function getNurseType(Request $request)
+    {
+        $nurse_id = $request->nurse_id;
+
+        $main_nurse_data = SpecialityModel::where("id",$nurse_id)->first();
+        
+        $sub_nurse_data = SpecialityModel::where("parent",$nurse_id)->get();
+        
+        $data['main_nurse_id'] = $nurse_id;
+        $data['main_nurse_name'] = $main_nurse_data->name;
+        $data['sub_nurse_data'] = $sub_nurse_data;
+
+        return json_encode($data);
+    }
+
+    public function getSpecialityDatas(Request $request){
+        
+        $speciality_id = $request->speciality_id;
+        $main_specialty_data = DB::table("speciality")->where("id",$speciality_id)->first();
+        $sub_specialty_data = DB::table("speciality")->where("parent",$speciality_id)->get();
+
+        $data['main_speciality_id'] = $speciality_id;
+        $data['main_speciality_name'] = $main_specialty_data->name;
+        $data['sub_spciality_data'] = $sub_specialty_data;
+
+        return json_encode($data);
+
+
     }
 }

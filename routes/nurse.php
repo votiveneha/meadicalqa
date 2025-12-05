@@ -66,7 +66,8 @@ Route::prefix('cpd_providers')->name('cpd_providers.')->namespace('App\Http\Cont
 });
 
 Route::prefix('nurse')->name('nurse.')->namespace('App\Http\Controllers\nurse')->group(function () {
-
+  Route::get('/getNurseDatas', 'HomeController@getNurseType')->name('getNurseType');
+  Route::get('getSpecialityDatas1', 'HomeController@getSpecialityDatas')->name('getSpecialityDatas1');
   Route::get('/forgot-password', 'HomeController@forgotPassword')->name('forgot-password');
   Route::post('/forgot-password', 'HomeController@SendResetPasswordLink')->name('send-reset-password-link');
   Route::post('/addnewsletter', 'HomeController@addnewsletters')->name('addnewsletter');
