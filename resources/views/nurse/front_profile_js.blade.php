@@ -1672,26 +1672,27 @@
                     </select>
                     <span id="reqlevelexp-${previous_employeers_head}" class="reqError text-danger valley"></span>
                 </div>
-                <div style="display:none">
-                    <div class="form-group level-drp">
-                            
-                        <label class="form-label" for="input-1">Position Held</label>
-                        <?php
-                        $employee_postion_data = DB::table('employee_positions')->where("position_id","!=","35")->where("subposition_id",0)->orderBy("position_name","asc")->get();
-                        
-                        ?>
-                        
-                        <ul id="position_held_field-${previous_employeers_head}" style="display:none;">
-                        
-                        @if(!empty($employee_postion_data))
-                        @foreach($employee_postion_data as $emp_data)
-                        <li data-value="{{ $emp_data->position_id }}">{{ $emp_data->position_name }}</li>
-                        @endforeach
-                        @endif
-                        </ul>
-                        <select class="js-example-basic-multiple${previous_employeers_head} addAll_removeAll_btn pos_held pos_held_${previous_employeers_head}" data-list-id="position_held_field-${previous_employeers_head}" name="positions_held[${previous_employeers_head}]" id="position_held_field-${previous_employeers_head}" multiple onchange="getPostions('ap',${previous_employeers_head})"></select>
-                        <span id="reqpositionheld-${previous_employeers_head}" class="reqError text-danger valley"></span>
-                    </div>
+                
+           <div style="display:none">
+                <div class="form-group level-drp">
+                          
+                    <label class="form-label" for="input-1">Position Held</label>
+                    <?php
+                    $employee_postion_data = DB::table('employee_positions')->where("position_id","!=","35")->where("subposition_id",0)->orderBy("position_name","asc")->get();
+                    
+                    ?>
+                    
+                    <ul id="position_held_field-${previous_employeers_head}" style="display:none;">
+                    
+                    @if(!empty($employee_postion_data))
+                    @foreach($employee_postion_data as $emp_data)
+                    <li data-value="{{ $emp_data->position_id }}">{{ $emp_data->position_name }}</li>
+                    @endforeach
+                    @endif
+                    </ul>
+                    <select class="js-example-basic-multiple${previous_employeers_head} addAll_removeAll_btn pos_held pos_held_${previous_employeers_head}" data-list-id="position_held_field-${previous_employeers_head}" name="positions_held[${previous_employeers_head}]" id="position_held_field-${previous_employeers_head}" multiple onchange="getPostions('ap',${previous_employeers_head})"></select>
+                    <span id="reqpositionheld-${previous_employeers_head}" class="reqError text-danger valley"></span>
+                </div>
                 </div>
                 <div class="show_positions-${previous_employeers_head}"></div>
                 <div class="row">
