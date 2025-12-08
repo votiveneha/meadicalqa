@@ -9,7 +9,7 @@ use App\Models\EligibilityToWorkModel;
 use App\Models\WorkingChildrenCheckModel;
 use App\Models\PoliceCheckModel;
 use App\Models\OtherEvidance;
-
+use App\Helpers\ZeptoMailHelper;
 
 use App\Http\Requests\AddnewsletterRequest;
 
@@ -53,7 +53,6 @@ use App\Repository\Eloquent\SpecialityRepository;
 use App\Models\OtherVaccineModel;
 use Illuminate\Support\Facades\Storage;
 use App\Models\EvidanceFileModel;
-
 class HomeController extends Controller
 {
 
@@ -202,7 +201,7 @@ class HomeController extends Controller
         $companyinsert['password']    = Hash::make($password);
         $companyinsert['ps']          = $password;
 
-        $companyinsert['nurse_data']                     = json_encode($request->nurseType);
+        $companyinsert['nursetype']                     = json_encode($request->nurseType);
         $companyinsert['nurseTypeJob']                  = json_encode($request->nurseTypeJob);
         $companyinsert['nurse_practitioner_speciality'] = json_encode($request->nurse_practitioner_speciality);
         $companyinsert['assistent_level']               = $request->assistent_level;
@@ -252,7 +251,7 @@ class HomeController extends Controller
 
             $verificationUrl = url('nurse/email-verification/' . $r->emailToken);
 
-             // --- removed: built-in MustVerifyEmail notification
+            // --- removed: built-in MustVerifyEmail notification
             // send our custom verification email (same design as resend)
             //smtp mail function
             // $mailData = [
@@ -298,7 +297,6 @@ class HomeController extends Controller
                     'error'   => $ex->getMessage()
                 ]);
             }
-
 
             return response()->json([
                 'status'  => 1,
@@ -651,7 +649,7 @@ class HomeController extends Controller
                 setcookie("email", "");
                 setcookie("password", "");
             }
-           return redirect('/nurse/my-profile?page=my_profile')->with('success', 'You are Logged in sucessfully.');
+            return redirect('/nurse/my-profile?page=my_profile')->with('success', 'You are Logged in sucessfully.');
         } else {
             return back()->with('error', 'Invalid login details.');
         }
@@ -731,7 +729,7 @@ class HomeController extends Controller
 
             $verificationUrl = URL::to('/nurse/') . '/reset-password/' . $token . '/' . $emailToken;
 
-           // $data['data'] = '<p>Hello ' . $user->name . ', </p><p>We\'ve received a password reset request for your ' . env('APP_NAME') . ' account (' . $user->email . ').</p>';
+            // $data['data'] = '<p>Hello ' . $user->name . ', </p><p>We\'ve received a password reset request for your ' . env('APP_NAME') . ' account (' . $user->email . ').</p>';
             // $data['data'] .= '<p>If you initiated this request, please click the link below to reset your password.</p>';
             // $data['data'] .= '<p><a href="' . $verificationUrl . '" target="_blank" style="font-size: 20px; font-family: Helvetica, Arial, sans-serif; color: #000000; text-decoration: none;  text-decoration: none; padding: 15px 25px; border-radius: 2px; border: 1px solid #000000; display: inline-block;">Reset Password</a></p>';
             // $to = $user->email;
@@ -1041,7 +1039,7 @@ public function ResetPassword(Request $request)
         $user_stage = update_user_stage($request->user_id,"Profession");
 
         $post = User::find($request->user_id);
-        $post->nurse_data = $nurse_type;
+        $post->nurseType = $nurse_type;
         $post->entry_level_nursing = $nursing_type_1;
         $post->registered_nurses = $nursing_type_2;
         $post->advanced_practioner = $nursing_type_3;
@@ -4005,35 +4003,5 @@ public function ResetPassword(Request $request)
         $data['employeement_type_id'] = $employeement_type_name->emp_prefer_id;
         $data['circle_value'] = $circle_value;
         return json_encode($data);
-    }
-
-    public function getNurseType(Request $request)
-    {
-        $nurse_id = $request->nurse_id;
-
-        $main_nurse_data = SpecialityModel::where("id",$nurse_id)->first();
-        
-        $sub_nurse_data = SpecialityModel::where("parent",$nurse_id)->get();
-        
-        $data['main_nurse_id'] = $nurse_id;
-        $data['main_nurse_name'] = $main_nurse_data->name;
-        $data['sub_nurse_data'] = $sub_nurse_data;
-
-        return json_encode($data);
-    }
-
-    public function getSpecialityDatas(Request $request){
-        
-        $speciality_id = $request->speciality_id;
-        $main_specialty_data = DB::table("speciality")->where("id",$speciality_id)->first();
-        $sub_specialty_data = DB::table("speciality")->where("parent",$speciality_id)->get();
-
-        $data['main_speciality_id'] = $speciality_id;
-        $data['main_speciality_name'] = $main_specialty_data->name;
-        $data['sub_spciality_data'] = $sub_specialty_data;
-
-        return json_encode($data);
-
-
     }
 }
