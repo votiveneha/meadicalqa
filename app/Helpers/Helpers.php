@@ -257,20 +257,39 @@ function update_user_stage($user_id,$tab_name)
 
                 
 
-                $mailData = [
+                // $mailData = [
 
-                        'subject' => 'In-progress Nurse Profile',
+                //         'subject' => 'In-progress Nurse Profile',
 
-                        'email' => $to,
-
-
-                        'body' => '<p>Dear Mediqa Team,</p><p>A new Nurse/Midwife has started filling their profile on Mediqa.</p><br><p>User Details:  </p><p>- Name: '.$user_data->name." ".$user_data->lastname.'</p><p>- Email: ['.$user_data->email.']</p><p>- Registration Date: '.$onlyDate.'</p><p>- Profile Progress: '.$tab_name.'</p><br><p>This is an automated notification to inform you of new user activity.</p>',
+                //         'email' => $to,
 
 
-                ];
+                //         'body' => '<p>Dear Mediqa Team,</p><p>A new Nurse/Midwife has started filling their profile on Mediqa.</p><br><p>User Details:  </p><p>- Name: '.$user_data->name." ".$user_data->lastname.'</p><p>- Email: ['.$user_data->email.']</p><p>- Registration Date: '.$onlyDate.'</p><p>- Profile Progress: '.$tab_name.'</p><br><p>This is an automated notification to inform you of new user activity.</p>',
+
+
+                // ];
 
                 
-                Mail::to($to)->send(new \App\Mail\DemoMail($mailData));
+                // Mail::to($to)->send(new \App\Mail\DemoMail($mailData));
+
+                $htmlBody = '
+                        <p>Dear Mediqa Team,</p>
+                        <p>A new Nurse/Midwife has started filling their profile on Mediqa.</p>
+                        <br>
+                        <p><strong>User Details:</strong></p>
+                        <p>- Name: ' . e($user_data->name . " " . $user_data->lastname) . '</p>
+                        <p>- Email: ' . e($user_data->email) . '</p>
+                        <p>- Registration Date: ' . $onlyDate . '</p>
+                        <p>- Profile Progress: ' . e($tab_name) . '</p>
+                        <br>
+                        <p>This is an automated notification to inform you of new user activity.</p>
+                ';
+
+                \App\Helpers\ZeptoMailHelper::sendMail(
+                        to: $to,
+                        subject: "In-progress Nurse Profile",
+                        htmlBody: $htmlBody
+                );
         }   
 
         $tab_data = DB::table("updated_tab_name")->where("user_id",$user_id)->where("tab_name",$tab_name)->first();
@@ -289,20 +308,47 @@ function update_user_stage($user_id,$tab_name)
                 $to = $user_data->email;
 
                 
-                $mailData = [
+                // $mailData = [
 
-                        'subject' => 'Your Mediqa Profile is Complete',
+                //         'subject' => 'Your Mediqa Profile is Complete',
 
-                        'email' => $to,
-
-
-                        'body' => '<p>Dear '.$user_data->name." ".$user_data->lastname.',</p><p>Congratulations! You have successfully completed your profile on Mediqa.</p><p>Your profile is now ready for review, and once approved, you will be able to:</p><p>- Apply for job opportunities.<br>- Connect with healthcare facilities and agencies.<br>- Receive interview requests and offers that match your skills and preferences.</p><p><strong>Next Steps:</strong></p><p>- Our team will review your profile for approval.<br>- You will receive an email once your profile has been approved.</p><p>If you have any questions, feel free to contact us at <a href="mailto:info@mediqa.com.au">info@mediqa.com.au</a></p><p>Thank you for being part of Mediqa. We look forward to helping you find the best nursing opportunities!</p>',
+                //         'email' => $to,
 
 
-                ];
+                //         'body' => '<p>Dear '.$user_data->name." ".$user_data->lastname.',</p><p>Congratulations! You have successfully completed your profile on Mediqa.</p><p>Your profile is now ready for review, and once approved, you will be able to:</p><p>- Apply for job opportunities.<br>- Connect with healthcare facilities and agencies.<br>- Receive interview requests and offers that match your skills and preferences.</p><p><strong>Next Steps:</strong></p><p>- Our team will review your profile for approval.<br>- You will receive an email once your profile has been approved.</p><p>If you have any questions, feel free to contact us at <a href="mailto:info@mediqa.com.au">info@mediqa.com.au</a></p><p>Thank you for being part of Mediqa. We look forward to helping you find the best nursing opportunities!</p>',
+
+
+                // ];
 
                 
-                Mail::to($to)->send(new \App\Mail\DemoMail($mailData));
+                // Mail::to($to)->send(new \App\Mail\DemoMail($mailData));
+
+                $htmlBodyUser = '
+                        <p>Dear ' . e($user_data->name . " " . $user_data->lastname) . ',</p>
+                        <p>Congratulations! You have successfully completed your profile on Mediqa.</p>
+
+                        <p>Your profile is now ready for review, and once approved, you will be able to:</p>
+                        <ul>
+                                <li>Apply for job opportunities</li>
+                                <li>Connect with healthcare facilities and agencies</li>
+                                <li>Receive interview requests and offers that match your skills</li>
+                        </ul>
+
+                        <p><strong>Next Steps:</strong></p>
+                        <p>- Our team will review your profile.<br>
+                        - You will receive an email once your profile has been approved.</p>
+
+                        <p>If you have any questions, contact us at 
+                        <a href="mailto:info@mediqa.com.au">info@mediqa.com.au</a></p>
+
+                        <p>Thank you for being part of Mediqa!</p>
+                ';
+
+                \App\Helpers\ZeptoMailHelper::sendMail(
+                        to: $to,
+                        subject: "Your Mediqa Profile is Complete",
+                        htmlBody: $htmlBodyUser
+                );
 
                 $to1 = "votivetester.vijendra@gmail.com";
 
@@ -314,20 +360,39 @@ function update_user_stage($user_id,$tab_name)
 
                 // Format to get only the date
                 $onlyDate1 = $date1->format('Y-m-d');
-                $mailData = [
+                // $mailData = [
 
-                        'subject' => 'Completed Profile – Review Required for Approval',
+                //         'subject' => 'Completed Profile – Review Required for Approval',
 
-                        'email' => $to1,
-
-
-                        'body' => '<p>Dear Mediqa Team,</p><p>A user has successfully completed and saved all 11 tabs of their profile on Mediqa and is now awaiting review for approval.</p><br><p>User Details:</p><p>- Name: '.$user_data->name." ".$user_data->lastname.'<br>- Email: '.$user_data->email.'<br>- Registration Date: '.$onlyDate.'<br>- Completion Date: '.$onlyDate1.'</p><br><p>Please review the user\'s profile and approve it as necessary.</p>',
+                //         'email' => $to1,
 
 
-                ];
+                //         'body' => '<p>Dear Mediqa Team,</p><p>A user has successfully completed and saved all 11 tabs of their profile on Mediqa and is now awaiting review for approval.</p><br><p>User Details:</p><p>- Name: '.$user_data->name." ".$user_data->lastname.'<br>- Email: '.$user_data->email.'<br>- Registration Date: '.$onlyDate.'<br>- Completion Date: '.$onlyDate1.'</p><br><p>Please review the user\'s profile and approve it as necessary.</p>',
+
+
+                // ];
 
                 
-                Mail::to($to1)->send(new \App\Mail\DemoMail($mailData));
+                // Mail::to($to1)->send(new \App\Mail\DemoMail($mailData));
+
+                $htmlBodyAdmin = '
+                        <p>Dear Mediqa Team,</p>
+                        <p>A user has successfully completed all profile sections and is now awaiting approval.</p>
+                        <br>
+                        <p><strong>User Details:</strong></p>
+                        <p>- Name: ' . e($user_data->name . " " . $user_data->lastname) . '</p>
+                        <p>- Email: ' . e($user_data->email) . '</p>
+                        <p>- Registration Date: ' . $onlyDate . '</p>
+                        <p>- Completion Date: ' . $onlyDate1 . '</p>
+                        <br>
+                        <p>Please review the user’s profile for approval.</p>
+                ';
+
+                \App\Helpers\ZeptoMailHelper::sendMail(
+                        to: $to1,
+                        subject: "Completed Profile – Review Required for Approval",
+                        htmlBody: $htmlBodyAdmin
+                );
         }
        
 }

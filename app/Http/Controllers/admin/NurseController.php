@@ -90,24 +90,48 @@ class NurseController extends Controller
     public function send_remainder(Request $request)
     {
         try {
-            $body = 'Dear ' . $request->name;
-            $body .= '<p>We hope this message finds you well.</p><p>We noticed that your profile is not yet complete. Finishing your profile will allow you to access a wide range of job opportunities from healthcare facilities, agencies, and individuals seeking nursing care at home.</p><p>To unlock these opportunities, please take a few minutes to complete your profile:</p><p>- Log in to your account:<a href="https://mediqa.com.au/nurse/login">Mediqa</a><br>- Fill in the remaining sections of your profile<br>- Submit your profile for approval.</p><p><strong>Once approved, you will be able to:</strong></p><p>- Apply for various shifts and permanent positions.<br>- Make your profile visible to potential employers.<br>- Receive interview requests and offers tailored to your preferences.</p><p>If you need any assistance, feel free to reach out to us at info@mediqa.com.au</p><p>Thank you for being part of our community. We look forward to seeing your completed profile soon.</p>';
+            // $body = 'Dear ' . $request->name;
+            // $body .= '<p>We hope this message finds you well.</p><p>We noticed that your profile is not yet complete. Finishing your profile will allow you to access a wide range of job opportunities from healthcare facilities, agencies, and individuals seeking nursing care at home.</p><p>To unlock these opportunities, please take a few minutes to complete your profile:</p><p>- Log in to your account:<a href="https://mediqa.com.au/nurse/login">Mediqa</a><br>- Fill in the remaining sections of your profile<br>- Submit your profile for approval.</p><p><strong>Once approved, you will be able to:</strong></p><p>- Apply for various shifts and permanent positions.<br>- Make your profile visible to potential employers.<br>- Receive interview requests and offers tailored to your preferences.</p><p>If you need any assistance, feel free to reach out to us at info@mediqa.com.au</p><p>Thank you for being part of our community. We look forward to seeing your completed profile soon.</p>';
             
 
 
+            // $subject = 'Complete Your Profile to Access Nursing Job Opportunities';
+
+            // $mailData = [
+            //     'subject' =>  $subject,
+            //     'email' => $request->email,
+            //     'body' => $body,
+            // ];
+
+            // $sendMail = Mail::to($request->email)->send(new \App\Mail\DemoMail($mailData));
+
+            $body  = 'Dear ' . $request->name . ',';
+            $body .= '<p>We hope this message finds you well.</p>';
+            $body .= '<p>We noticed that your profile is not yet complete. Finishing your profile will allow you to access a wide range of job opportunities from healthcare facilities, agencies, and individuals seeking nursing care at home.</p>';
+            $body .= '<p>To unlock these opportunities, please take a few minutes to complete your profile:</p>';
+            $body .= '<p>- Log in to your account: <a href="https://mediqa.com.au/nurse/login">Mediqa</a><br>- Fill in the remaining sections of your profile<br>- Submit your profile for approval.</p>';
+            $body .= '<p><strong>Once approved, you will be able to:</strong></p>';
+            $body .= '<p>- Apply for various shifts and permanent positions.<br>- Make your profile visible to potential employers.<br>- Receive interview requests and offers tailored to your preferences.</p>';
+            $body .= '<p>If you need any assistance, feel free to reach out to us at info@mediqa.com.au</p>';
+            $body .= '<p>Thank you for being part of our community. We look forward to seeing your completed profile soon.</p>';
+
             $subject = 'Complete Your Profile to Access Nursing Job Opportunities';
 
-            $mailData = [
-                'subject' =>  $subject,
-                'email' => $request->email,
-                'body' => $body,
-            ];
-
-            $sendMail = Mail::to($request->email)->send(new \App\Mail\DemoMail($mailData));
+            // --- Use ZeptoMailHelper here ---
+            $sendMail = \App\Helpers\ZeptoMailHelper::sendMail(
+                $request->email,
+                $subject,
+                htmlBody: $body
+            );
 
             if ($sendMail) {
                 return response()->json(['status' => '2', 'message' => 'Remainder has been sent successfully']);
             }
+
+            return response()->json([
+                'status' => '0',
+                'message' => 'Failed to send email'
+            ]);
         } catch (\Exception $e) {
             log::error('Error in NurseController/send_remainder :' . $e->getMessage() . 'in line' . $e->getLine());
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);

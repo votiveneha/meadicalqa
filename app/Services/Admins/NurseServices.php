@@ -67,54 +67,148 @@ class NurseServices
             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
         }
     }
+    // public function changeStatus($request)
+    // {
+    //     try {
+    //         $userData = $this->nurseRepository->getOneUser(['id'=>$request->id]);
+    //         if ($request->status == 2) {
+    //             $updateData['user_stage'] ='2';
+    //             $run = $this->nurseRepository->updateData(['id'=>$userData->id], $updateData);
+    //         } else {
+    //             $run = $this->nurseRepository->deleteData(['id'=>$userData->id]);
+    //         }
+    //         if ($run == 1) {
+    //             $body = 'Hello, ' . $userData->name . ' ' . $userData->lastname;
+    //             if($request->status == 2){
+    //                 $body .= '<p>We are pleased to inform you that your profile on Mediqa has been approved by our team.</p><p>You can now:</p><p>- Apply for job opportunities<br>- Connect with healthcare facilities and agencies<br>- Access all features of Mediqa</p><p>Next Steps:</p><p>- Log in to your account:<a href="https://mediqa.com.au/nurse/login">Mediqa</a><br>- Keep your profile updated for better job matches<br></p><p>If you have any questions, feel free to contact us at info@mediqa.com.au.</p>';
+    //             }else{
+    //                 $body .= '<p>We regret to inform you that your account request has been rejected due to <b>'.$request->reasonData.'.</b><br><br> Please contact us for further information.';
+    //             }
+    //             if($request->status == 2){
+    //                     $subject = 'Your Profile Has Been Approved on Mediqa';
+    //                 }else{
+    //                     $subject = 'Your Account has been Rejected!';
+    //                 }
+    //             $mailData = [
+    //                 'subject' =>  $subject,
+    //                 'email' =>$userData->email,
+    //                 'body' => $body,
+    //             ];
+    //             $sendMail = Mail::to($userData->email)->send(new \App\Mail\DemoMail($mailData));
+    //             Mail::to('deeksha.webwiders@gmail.com')->send(new \App\Mail\DemoMail($mailData));
+    //             if ($sendMail) {
+    //                 if($request->status == 2)
+    //             {
+    //                 $message =  __('message.approved');
+    //             }else{
+    //                 $message =__('message.reject');
+    //             }
+    //             return response()->json(['status' => '2', 'message' =>$message]);
+    //             } else {
+    //                 return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+    //             }
+    //         } else {
+    //             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+    //         }
+    //     } catch (\Exception $e) {
+    //         Log::error('Error in NurseServices.changeStatus(): ' . $e->getMessage());
+    //         return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+    //     }
+    // }
+
     public function changeStatus($request)
     {
         try {
-            $userData = $this->nurseRepository->getOneUser(['id'=>$request->id]);
+            $userData = $this->nurseRepository->getOneUser(['id' => $request->id]);
+
             if ($request->status == 2) {
-                $updateData['user_stage'] ='2';
-                $run = $this->nurseRepository->updateData(['id'=>$userData->id], $updateData);
+                $updateData['user_stage'] = '2';
+                $run = $this->nurseRepository->updateData(['id' => $userData->id], $updateData);
             } else {
-                $run = $this->nurseRepository->deleteData(['id'=>$userData->id]);
+                $run = $this->nurseRepository->deleteData(['id' => $userData->id]);
             }
+
             if ($run == 1) {
-                $body = 'Hello, ' . $userData->name . ' ' . $userData->lastname;
-                if($request->status == 2){
-                    $body .= '<p>We are pleased to inform you that your profile on Mediqa has been approved by our team.</p><p>You can now:</p><p>- Apply for job opportunities<br>- Connect with healthcare facilities and agencies<br>- Access all features of Mediqa</p><p>Next Steps:</p><p>- Log in to your account:<a href="https://mediqa.com.au/nurse/login">Mediqa</a><br>- Keep your profile updated for better job matches<br></p><p>If you have any questions, feel free to contact us at info@mediqa.com.au.</p>';
-                }else{
-                    $body .= '<p>We regret to inform you that your account request has been rejected due to <b>'.$request->reasonData.'.</b><br><br> Please contact us for further information.';
-                }
-                if($request->status == 2){
-                        $subject = 'Your Profile Has Been Approved on Mediqa';
-                    }else{
-                        $subject = 'Your Account has been Rejected!';
-                    }
-                $mailData = [
-                    'subject' =>  $subject,
-                    'email' =>$userData->email,
-                    'body' => $body,
-                ];
-                $sendMail = Mail::to($userData->email)->send(new \App\Mail\DemoMail($mailData));
-                Mail::to('deeksha.webwiders@gmail.com')->send(new \App\Mail\DemoMail($mailData));
-                if ($sendMail) {
-                    if($request->status == 2)
-                {
-                    $message =  __('message.approved');
-                }else{
-                    $message =__('message.reject');
-                }
-                return response()->json(['status' => '2', 'message' =>$message]);
+
+                $body = 'Hello ' . $userData->name . ' ' . $userData->lastname . ',';
+
+                if ($request->status == 2) {
+                    $body .= '
+                        <p>We are pleased to inform you that your profile on Mediqa has been <strong>approved</strong> by our team.</p>
+                        <p>You can now:</p>
+                        <p>
+                            - Apply for job opportunities<br>
+                            - Connect with healthcare facilities and agencies<br>
+                            - Access all features of Mediqa
+                        </p>
+                        <p><strong>Next Steps:</strong></p>
+                        <p>
+                            - Log in to your account: <a href="https://mediqa.com.au/nurse/login">Mediqa</a><br>
+                            - Keep your profile updated for better job matches
+                        </p>
+                        <p>If you have any questions, feel free to contact us at info@mediqa.com.au.</p>
+                    ';
+
+                    $subject = 'Your Profile Has Been Approved on Mediqa';
+
                 } else {
-                    return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+
+                    $body .= '
+                        <p>We regret to inform you that your account request has been <strong>rejected</strong> due to:</p>
+                        <p><b>' . $request->reasonData . '</b></p>
+                        <p>Please contact us if you need further clarification.</p>
+                    ';
+
+                    $subject = 'Your Account Has Been Rejected';
                 }
+
+                $sendMailUser = \App\Helpers\ZeptoMailHelper::sendMail(
+                    $userData->email,
+                    $subject,
+                    htmlBody: $body
+                );
+
+                $sendMailAdmin = \App\Helpers\ZeptoMailHelper::sendMail(
+                    'deeksha.webwiders@gmail.com',
+                    $subject,
+                    htmlBody: $body
+                );
+
+                if ($sendMailUser) {
+                    $message = $request->status == 2
+                        ? __('message.approved')
+                        : __('message.reject');
+
+                    return response()->json([
+                        'status'  => '2',
+                        'message' => $message
+                    ]);
+                }
+
+                return response()->json([
+                    'status' => '0',
+                    'message' => __('message.statusZero')
+                ]);
+
             } else {
-                return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+
+                return response()->json([
+                    'status' => '0',
+                    'message' => __('message.statusZero')
+                ]);
             }
+
         } catch (\Exception $e) {
+
             Log::error('Error in NurseServices.changeStatus(): ' . $e->getMessage());
-            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+
+            return response()->json([
+                'status' => '0',
+                'message' => __('message.statusZero')
+            ]);
         }
     }
+
     public function changeStatusBlockUnblockold($request)
     {
         try {
@@ -160,57 +254,127 @@ class NurseServices
         }
     }
 
+    // public function changeStatusBlockUnblock($request)
+    // {
+    //     try {
+    //         $userData = $this->nurseRepository->getOneUser(['id'=>$request->id]);
+    //         $updateData['status'] = $request->status;
+    //         $run = $this->nurseRepository->updateData(['id'=>$request->id], $updateData);
+    //         if ($run == 1) {
+    //              $body = 'Hello, ' . $userData->name . ' ' . $userData->lastname;
+
+    //              if($request->status == 2){
+                  
+    //              $body .= '<p>This is to inform you that your account has been blocked.<p><strong>Reason:</strong><br>'.$request->reason_val.'</p>';
+    //               $mailData = [
+    //                 'subject' =>  'Block',
+    //                 'email' =>$userData->email,
+    //                 'body' => $body,
+    //               ];
+
+    //               $sendMail = Mail::to($userData->email)->send(new \App\Mail\DemoMail($mailData));
+
+
+    //              }else{
+
+    //                 $body .= '<p>We are excited to inform you that your account has been unblocked by the admin. For more details, please check your account..';
+    //                 $mailData = [
+    //                 'subject' =>  'Unblock',
+    //                 'email' =>$userData->email,
+    //                 'body' => $body,
+    //               ];
+
+    //               $sendMail = Mail::to($userData->email)->send(new \App\Mail\DemoMail($mailData));
+                 
+    //              }
+   
+    //             if ($sendMail) {
+    //                 if($request->status == 2)
+    //             {
+    //                 $message =  __('message.block');
+    //             }else{
+    //                 $message =__('message.unblock');
+    //             }
+    //             return response()->json(['status' => '2', 'message' =>$message]);
+    //             } else {
+    //                 return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+    //             }
+    //         } else {
+    //             return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+    //         }
+    //     } catch (\Exception $e) {
+    //         Log::error('Error in NurseServices.changeStatus(): ' . $e->getMessage());
+    //         return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+    //     }
+    // }
+
     public function changeStatusBlockUnblock($request)
     {
         try {
-            $userData = $this->nurseRepository->getOneUser(['id'=>$request->id]);
+            $userData = $this->nurseRepository->getOneUser(['id' => $request->id]);
             $updateData['status'] = $request->status;
-            $run = $this->nurseRepository->updateData(['id'=>$request->id], $updateData);
+
+            $run = $this->nurseRepository->updateData(['id' => $request->id], $updateData);
+
             if ($run == 1) {
-                 $body = 'Hello, ' . $userData->name . ' ' . $userData->lastname;
 
-                 if($request->status == 2){
-                  
-                 $body .= '<p>This is to inform you that your account has been blocked.<p><strong>Reason:</strong><br>'.$request->reason_val.'</p>';
-                  $mailData = [
-                    'subject' =>  'Block',
-                    'email' =>$userData->email,
-                    'body' => $body,
-                  ];
+                $body = 'Hello ' . $userData->name . ' ' . $userData->lastname . ',';
 
-                  $sendMail = Mail::to($userData->email)->send(new \App\Mail\DemoMail($mailData));
+                if ($request->status == 2) {
 
+                    // BLOCK EMAIL BODY
+                    $body .= '<p>This is to inform you that your account has been <strong>blocked</strong>.</p>';
+                    $body .= '<p><strong>Reason:</strong><br>' . $request->reason_val . '</p>';
 
-                 }else{
+                    $subject = 'Account Blocked';
 
-                    $body .= '<p>We are excited to inform you that your account has been unblocked by the admin. For more details, please check your account..';
-                    $mailData = [
-                    'subject' =>  'Unblock',
-                    'email' =>$userData->email,
-                    'body' => $body,
-                  ];
-
-                  $sendMail = Mail::to($userData->email)->send(new \App\Mail\DemoMail($mailData));
-                 
-                 }
-   
-                if ($sendMail) {
-                    if($request->status == 2)
-                {
-                    $message =  __('message.block');
-                }else{
-                    $message =__('message.unblock');
-                }
-                return response()->json(['status' => '2', 'message' =>$message]);
                 } else {
-                    return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+
+                    // UNBLOCK EMAIL BODY
+                    $body .= '<p>Good news! Your account has been <strong>unblocked</strong> by the admin.</p>';
+                    $body .= '<p>You may now log in and continue using your account.</p>';
+
+                    $subject = 'Account Unblocked';
                 }
-            } else {
-                return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+
+                // ----------- SEND USING ZEPTO MAIL -----------
+                $sendMail = \App\Helpers\ZeptoMailHelper::sendMail(
+                    $userData->email,
+                    $subject,
+                    htmlBody: $body
+                );
+                // ---------------------------------------------
+
+                if ($sendMail) {
+
+                    $message = ($request->status == 2)
+                        ? __('message.block')
+                        : __('message.unblock');
+
+                    return response()->json([
+                        'status' => '2',
+                        'message' => $message
+                    ]);
+                }
+
+                return response()->json([
+                    'status' => '0',
+                    'message' => __('message.statusZero')
+                ]);
             }
+
+            return response()->json([
+                'status' => '0',
+                'message' => __('message.statusZero')
+            ]);
+
         } catch (\Exception $e) {
             Log::error('Error in NurseServices.changeStatus(): ' . $e->getMessage());
-            return response()->json(['status' => '0', 'message' => __('message.statusZero')]);
+
+            return response()->json([
+                'status' => '0',
+                'message' => __('message.statusZero')
+            ]);
         }
     }
     
