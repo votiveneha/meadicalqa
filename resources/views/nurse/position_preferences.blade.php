@@ -127,7 +127,12 @@
                                 $speciality_data = DB::table('speciality')->where("parent",0)->orderBy("id","asc")->get();
                                 
                                 //echo Auth::guard("nurse_middle")->user()->id;
-                                $specialities_type = (array)json_decode($work_preferences_data->position_preferences);
+                                if(isset($work_preferences_data->position_preferences)){
+                                  $specialities_type = (array)json_decode($work_preferences_data->position_preferences);
+                                }else{
+                                  $specialities_type = []; 
+                                }
+                                
                                 //print_r($specialities_type);
                             ?>
                             <input type="hidden" name="speciality_value" class="speciality_value" value="{{ isset($specialities_type['type_0'])?json_encode($specialities_type['type_0']):'' }}">
@@ -197,22 +202,43 @@
                               <div class="subspec_level-{{ $parts[1] }}"></div>
                             </div>
                             <div class="show_specialities-{{ $parts[1] }}">
+                              @php
+                                $speciality_status = (array)$specialities_type['speciality_status'];
+                                //print_r($specialities_type['speciality_status']);
 
-                            </div>
-                            @else
+                                
+                              @endphp
 
-                            <div class="custom-select-wrapper subspecprofdiv subspecprofdiv-'+data1.main_speciality_id+' form-group level-drp" style="margin-bottom: 5px;">
-                              <label class="form-label subspeclabel-'+data1.main_speciality_id+'" for="input-1">Specialty Status ('+data1.main_speciality_name+')</label>
-                              <input type="hidden" name="subspecprof_list" class="subspecprof_list subspecprof_list-'+data1.main_speciality_id+'" value="'+data1.main_speciality_id+'">
-                              <select class="custom-select form-input mr-10 select-active langprof_level_valid-'+data1.main_speciality_id+'" name="specialties[speciality_status][type_'+data1.main_speciality_id+']">
-                                <option value="">select</option>
-                                <option value="Current">Current</option>
-                                <option value="Principal">Principal</option>
-                                <option value="First">First</option>
-                                <option value="Former">Former</option>
-                                <option value="Upskilling / Transitioning / Training">Upskilling / Transitioning / Training</option>
-                              </select>
+                              @foreach($speciality_status as $key=>$s_status)
+
+                                  @php
+                                    $parts1 = explode('_', $key);
+                                    $sp_data_name = DB::table("speciality")->where('id', $parts1[1])->first();
+                                    $speciality_status_data = DB::table("speciality_status")->get();
+                                  @endphp
+                                  @if (in_array($parts1[1], $stypes))
+                                  <div class="custom-select-wrapper subspecprofdiv subspecprofdiv-{{ $parts1[1] }} form-group level-drp" style="margin-bottom: 5px;">
+                                    <label class="form-label subspeclabel-{{ $parts1[1] }}" for="input-1">Specialty Status ({{ $sp_data_name->name }})</label>
+                                    <input type="hidden" name="subspecprof_list" class="subspecprof_list subspecprof_list-{{ $parts1[1] }}" value="{{ $parts1[1] }}">
+                                    <select class="custom-select form-input mr-10 select-active langprof_level_valid-{{ $parts1[1] }}" name="specialties[speciality_status][type_{{ $parts1[1] }}]">
+                                      <option value="">select</option>
+                                      @foreach($speciality_status_data as $s_status_data)
+                                      <option value="{{ $s_status_data->status_name }}" @if($s_status_data->status_name == $s_status) selected @endif>{{ $s_status_data->status_name }}</option>
+                                      @endforeach
+                                      <!-- <option value="Principal">Principal</option>
+                                      <option value="First">First</option>
+                                      <option value="Former">Former</option>
+                                      <option value="Upskilling / Transitioning / Training">Upskilling / Transitioning / Training</option> -->
+                                    </select>
+                                  </div>
+                                  <span id="reqsubspeclevelvalid-{{ $parts1[1] }}" class="reqError text-danger valley"></span>
+                                  @endif
+                                  
+                                  
+
+                              @endforeach
                             </div>
+                            
                             <span id="reqsubspeclevelvalid-'+data1.main_speciality_id+'" class="reqError text-danger valley"></span>
                             @endif
 
@@ -396,7 +422,7 @@
       
       console.log("selectedValues",level);
 
-      $(".show_specialities-"+k+" .subspec_list").each(function(i,val){
+      $(".show_specialities-"+k+" .subspec_lists").each(function(i,val){
             var val1 = $(val).val();
             console.log("val",val1);
             if(selectedValues.includes(val1) == false){
@@ -430,13 +456,14 @@
                 $(".show_specialities-"+k).append('\<div class="subspec_main_div subspec_main_div-'+data1.main_speciality_id+'">\
                               <div class="subspec_div subspec_div-'+data1.main_speciality_id+' form-group level-drp">\
                               <label class="form-label subspec_label subspec_label-'+data1.main_speciality_id+'" for="input-1">'+data1.main_speciality_name+'</label>\
-                              <input type="hidden" name="subspec_list" class="subspec_list subspec_list-'+data1.main_speciality_id+'" value="'+data1.main_speciality_id+'">\
+                              <input type="hidden" name="subspec_list" class="subspec_lists subspec_list-'+data1.main_speciality_id+'" value="'+data1.main_speciality_id+'">\
                               <ul id="speciality_preferences-'+data1.main_speciality_id+'" style="display:none;">'+speciality_text+'</ul>\
                               <select class="js-example-basic-multiple'+data1.main_speciality_id+' subspec_valid-'+data1.main_speciality_id+' addAll_removeAll_btn" data-list-id="speciality_preferences-'+data1.main_speciality_id+'" name="specialties[type_'+data1.main_speciality_id+'][]" onchange="getSecialities(\''+sub+'\',\''+data1.main_speciality_id+'\')" multiple="multiple"></select>\
                               <span id="reqsubspecvalid-'+data1.main_speciality_id+'" class="reqError text-danger valley"></span>\
                               </div>\
                               <div class="subspec_level-'+data1.main_speciality_id+'"></div>\
-                              </div><div class="show_specialities-'+data1.main_speciality_id+'"></div>');
+                              <div class="show_specialities-'+data1.main_speciality_id+'"></div>\
+                              </div>');
 
                               selectTwoFunction(data1.main_speciality_id);
               }else{
