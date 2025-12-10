@@ -193,11 +193,11 @@ class HomeController extends Controller
         $companyinsert['name']        = $request->fullname;
         $companyinsert['lastname']    = $request->lastname;
         $companyinsert['email']       = $request->email;
-        $companyinsert['country']     = country_id($request->countryCode);
-        $companyinsert['country_code']= $request->countryCode;
-        $companyinsert['country_iso'] = $request->countryiso;
-        $companyinsert['phone']       = $request->contact;
-        $companyinsert['post_code']   = $request->post_code;
+        // $companyinsert['country']     = country_id($request->countryCode) ?? '';
+        // $companyinsert['country_code']= $request->countryCode;
+        // $companyinsert['country_iso'] = $request->countryiso;
+        // $companyinsert['phone']       = $request->contact;
+        // $companyinsert['post_code']   = $request->post_code;
         $companyinsert['password']    = Hash::make($password);
         $companyinsert['ps']          = $password;
 

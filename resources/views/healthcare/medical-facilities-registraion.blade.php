@@ -60,30 +60,30 @@
                   <span id="reqemailaddress" class="reqError valley"></span>
                 </div>
                   </div>
-                  <div class="col-md-6">
+                  <!-- <div class="col-md-6">
                     <div class="form-group">
                   <label class="form-label" for="mobile_no">Mobile Number *</label>
                   <input class="form-control" id="mobile_no" type="text" name="mobile_no">
                   <span id="reqmobile_no" class="reqError valley"></span>
                 </div>
-                  </div>
-                  <div class="col-md-6">
+                  </div> -->
+                  <!-- <div class="col-md-6">
                     <div class="form-group">
                   <label class="form-label" for="post_code">Post Code *</label>
                   <input class="form-control" id="post_code" type="text" name="post_code">
                   <span id="reqpost_code" class="reqError valley"></span>
                 </div>
-                  </div>
+                  </div> -->
 
 
-                  <div class="col-md-12">
+                  <!-- <div class="col-md-12">
                     <div class="form-group">
                   <label class="form-label" for="address">Address</label>
                   <textarea class="form-control" id="address" rows="2" name="address"></textarea>
-                  <span id="reqaddress" class="reqError valley"></span>
+                  <span id="reqaddress" class="reqError valley"></span> -->
                   <!-- <input class="form-control" id="input-4" type="text" required="" name="password" placeholder="123456"> -->
-                  </div>
-                </div>
+                  <!-- </div>
+                </div> -->
 
                   <div class="col-md-6">
                     <div class="form-group">
