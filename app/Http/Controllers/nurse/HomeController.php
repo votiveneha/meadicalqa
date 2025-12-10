@@ -2031,7 +2031,7 @@ public function ResetPassword(Request $request)
         $surgical_operative_carep_1 =  $request->input('surgical_operative_carep_experience_1', []);
         $surgical_operative_carep_2 = $request->input('surgical_operative_carep_experience_2', []);
         $surgical_operative_carep_3 = $request->input('surgical_operative_carep_experience_3', []);
-        $positions_held = $request->input('subpositions_held');
+        //$positions_held = $request->input('subpositions_held');
 
         $subwork = $request->input('subwork');
         
@@ -2094,7 +2094,7 @@ public function ResetPassword(Request $request)
             $surgical_operative_carep_1_1 = $surgical_operative_carep_1[$key] ?? null;
             $surgical_operative_carep_2_1 = $surgical_operative_carep_2[$key] ?? null;
             $surgical_operative_carep_3_1 = $surgical_operative_carep_3[$key] ?? null;
-            $positions_held1 = json_encode($positions_held[$key]) ?? null;
+            //$positions_held1 = json_encode($positions_held[$key]) ?? null;
             $subpwork1 = json_encode($subpwork[$key]) ?? null;
             $start_date1 = $start_date[$key] ?? '0000-00-00';
             $end_date1 = $end_date[$key] ?? '0000-00-00';
@@ -2150,7 +2150,7 @@ public function ResetPassword(Request $request)
                     'pad_qr_scrub' => json_encode($surgical_operative_carep_3_1),
                     'neonatal_care' => json_encode($neonatal_care_1),
                     'paedia_surgical_preoperative' => json_encode($surgical_rowpad_box_1),
-                    'position_held' => $positions_held1,
+                    //'position_held' => $positions_held1,
                     'facility_workplace_type' => $subpwork1,
                     'employeement_start_date' => $start_date1,
                     'employeement_end_date' => $end_date1,
@@ -2197,7 +2197,7 @@ public function ResetPassword(Request $request)
                 $newExperience->pad_qr_scrub = json_encode($surgical_operative_carep_3_1);
                 $newExperience->neonatal_care = json_encode($neonatal_care_1);
                 $newExperience->paedia_surgical_preoperative = json_encode($surgical_rowpad_box_1);
-                $newExperience->position_held = $positions_held1;
+                //$newExperience->position_held = $positions_held1;
                 $newExperience->facility_workplace_type = $subpwork1;
                 $newExperience->employeement_start_date = $start_date1;
                 $newExperience->employeement_end_date = $end_date1;
