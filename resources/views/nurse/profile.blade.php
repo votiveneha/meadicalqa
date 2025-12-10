@@ -125,7 +125,26 @@
 
   }
 
+.custom-select-wrapper select{
+    padding: 5px;
+    border: 1px solid #dddddd;
+    height: 50px;
+  }
 
+  .info { display:inline-block; width:18px; height:18px; border-radius:50%; border:1px solid #999; text-align:center; line-height:16px; cursor:help; font-size:12px; margin-left:8px; }
+  .tooltip_speciality_status {
+    display: none;
+    position: absolute;
+    top: 22px; /* adjust */
+    left: 0;   /* show exactly below icon/label */
+    background: white;
+    padding: 10px;
+    border: 1px solid #ccc;
+    width: 280px;
+    z-index: 9999;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
 </style>
 @endsection
 
@@ -770,7 +789,58 @@
                           </div>
                           <div class="subspec_level-{{ $parts[1] }"></div>
                         </div>
-                        <div class="show_specialities-{{ $parts[1] }"></div>
+                        <div class="show_specialities-{{ $parts[1] }">
+                          <?php
+                                $speciality_status = isset($specialities_type['speciality_status'])?(array)$specialities_type['speciality_status']:[];
+                                //print_r($specialities_type['speciality_status']);
+
+                                
+                              ?>
+
+                              @foreach($speciality_status as $key=>$s_status)
+
+                                  <?php
+                                    $parts1 = explode('_', $key);
+                                    $sp_data_name = DB::table("speciality")->where('id', $parts1[1])->first();
+                                    $speciality_status_data = DB::table("speciality_status")->get();
+                                  ?>
+                                  @if (in_array($parts1[1], $stypes))
+                                  <div class="custom-select-wrapper subspecprofdiv subspecprofdiv-{{ $parts1[1] }} form-group level-drp" style="margin-bottom: 5px;">
+                                    <label class="form-label subspeclabel-{{ $parts1[1] }}" for="input-1">
+                                      Specialty Status ({{ $sp_data_name->name }}) 
+                                      <span class="info tooltip-btn" tabindex="0" aria-describedby="statusTooltip">ⓘ</span>
+                                      <div id="statusTooltip" class="tooltip_speciality_status" role="tooltip">
+                                        <h3>Status definitions:</h3>
+                                        <ul style="padding-left:18px; margin:8px 0 0 0">
+                                          <li><strong>Current:</strong> Actively practicing, used in present or most recent job.</li>
+                                          <li><strong>Principal:</strong> Main/strongest specialty (only one allowed).</li>
+                                          <li><strong>First:</strong> First-ever specialty after qualification.</li>
+                                          <li><strong>Former:</strong> Previously practiced.</li>
+                                          <li><strong>Upskilling / Transitioning / Training:</strong> Moving into this specialty.</li>
+                                          <li><strong>—</strong> (No status selected — default when nurse doesn’t pick one).</li>
+                                        </ul>
+                                      </div>
+                                    </label>
+                                    <input type="hidden" name="subspecprof_list" class="subspecprof_list subspecprof_list-{{ $parts1[1] }}" value="{{ $parts1[1] }}">
+                                    <select class="custom-select form-input mr-10 select-active langprof_level_valid-{{ $parts1[1] }}" name="specialties[speciality_status][type_{{ $parts1[1] }}]">
+                                      <option value="">select</option>
+                                      @foreach($speciality_status_data as $s_status_data)
+                                      <option value="{{ $s_status_data->status_name }}" @if($s_status_data->status_name == $s_status) selected @endif>{{ $s_status_data->status_name }}</option>
+                                      @endforeach
+                                      <!-- <option value="Principal">Principal</option>
+                                      <option value="First">First</option>
+                                      <option value="Former">Former</option>
+                                      <option value="Upskilling / Transitioning / Training">Upskilling / Transitioning / Training</option> -->
+                                    </select>
+                                  </div>
+                                  
+                                  <span id="reqsubspeclevelvalid-{{ $parts1[1] }}" class="reqError text-danger valley"></span>
+                                  @endif
+                                  
+                                  
+
+                              @endforeach
+                        </div>
                       
 
                       @endforeach
@@ -6657,12 +6727,41 @@ if (!empty($interviewReferenceData)) {
 
                               selectTwoFunction(data1.main_speciality_id);
               
+              }else{
+                if($(".show_specialities-"+k+" .subspecprofdiv-"+data1.main_speciality_id).length < 1){
+                  $(".show_specialities-"+k).append('<div class="custom-select-wrapper subspecprofdiv subspecprofdiv-'+data1.main_speciality_id+' form-group level-drp" style="margin-bottom: 5px;">\
+                    <label class="form-label subspeclabel-'+data1.main_speciality_id+'" for="input-1">Specialty Status ('+data1.main_speciality_name+')</label>\
+                    <input type="hidden" name="subspecprof_list" class="subspecprof_list subspecprof_list-'+data1.main_speciality_id+'" value="'+data1.main_speciality_id+'">\
+                    <select class="custom-select form-input mr-10 select-active langprof_level_valid-'+data1.main_speciality_id+'" name="specialties[speciality_status][type_'+data1.main_speciality_id+']">\
+                      <option value="">select</option>\
+                      <option value="Current">Current</option>\
+                      <option value="Principal">Principal</option>\
+                      <option value="First">First</option>\
+                      <option value="Former">Former</option>\
+                      <option value="Upskilling / Transitioning / Training">Upskilling / Transitioning / Training</option>\
+                    </select>\
+                    </div>\
+                    <span id="reqsubspeclevelvalid-'+data1.main_speciality_id+'" class="reqError text-danger valley"></span>\
+                    ');
+                }  
               }
             }
           });
         }
       }
     }
+
+    document.querySelectorAll('.tooltip-btn').forEach(btn => {
+    const tooltip = btn.parentElement.querySelector('.tooltip_speciality_status');
+
+    btn.addEventListener('mouseenter', () => {
+        tooltip.style.display = 'block';
+    });
+
+    btn.addEventListener('mouseleave', () => {
+        tooltip.style.display = 'none';
+    });
+});
   // $('.js-example-basic-multiple[data-list-id="mandatory_courses"]').on('change', function() {
   //       let selectedValues = $(this).val();
   //       //alert("hello");
